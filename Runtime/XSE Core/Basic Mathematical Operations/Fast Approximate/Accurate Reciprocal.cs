@@ -10,14 +10,14 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 rcp23_ps(v128 a)
 		{
-            if (Architecture.IsFMASupported)
+            if (BurstArchitecture.IsFMASupported)
             {
                 v128 ONE = set1_ps(1f);
                 v128 r = rcp_ps(a);
 
                 return fnmadd_ps(fmsub_ps(r, a, ONE), r, r);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return div_ps(set1_ps(1f), a);
             }

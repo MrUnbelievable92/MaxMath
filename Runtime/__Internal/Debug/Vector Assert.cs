@@ -5,10 +5,10 @@ using DevTools;
 
 namespace MaxMath
 {
-    unsafe internal static class VectorAssert
+    unsafe public static class VectorAssert
     {
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsNonNegative<TVec, TScalar>(TVec vector, byte elements, NumericDataType dataType)
+        public static void IsNonNegative<TVec, TScalar>(TVec vector, byte elements, NumericDataType dataType)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -50,7 +50,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void AreEqual<TVec, TScalar>(TVec vector, TScalar value, byte elements)
+        public static void AreEqual<TVec, TScalar>(TVec vector, TScalar value, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -63,7 +63,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void AreNotEqual<TVec, TScalar>(TVec vector, TScalar value, byte elements)
+        public static void AreNotEqual<TVec, TScalar>(TVec vector, TScalar value, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -76,7 +76,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsGreater<TVec, TScalar>(TVec vector, TScalar value, byte elements)
+        public static void IsGreater<TVec, TScalar>(TVec vector, TScalar value, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -89,7 +89,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsNotGreater<TVec, TScalar>(TVec vector, TScalar value, byte elements)
+        public static void IsNotGreater<TVec, TScalar>(TVec vector, TScalar value, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -102,7 +102,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsSmaller<TVec, TScalar>(TVec vector, TScalar value, byte elements)
+        public static void IsSmaller<TVec, TScalar>(TVec vector, TScalar value, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -115,7 +115,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsNotSmaller<TVec, TScalar>(TVec vector, TScalar value, byte elements)
+        public static void IsNotSmaller<TVec, TScalar>(TVec vector, TScalar value, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -128,7 +128,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsBetween<TVec, TScalar>(TVec vector, TScalar min, TScalar max, byte elements)
+        public static void IsBetween<TVec, TScalar>(TVec vector, TScalar min, TScalar max, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -142,7 +142,7 @@ namespace MaxMath
 
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void AreEqual<TVec, TScalar>(TVec x, TVec y, byte elements)
+        public static void AreEqual<TVec, TScalar>(TVec x, TVec y, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -155,7 +155,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void AreNotEqual<TVec, TScalar>(TVec x, TVec y, byte elements)
+        public static void AreNotEqual<TVec, TScalar>(TVec x, TVec y, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -168,7 +168,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsGreater<TVec, TScalar>(TVec x, TVec y, byte elements)
+        public static void IsGreater<TVec, TScalar>(TVec x, TVec y, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -181,7 +181,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsNotGreater<TVec, TScalar>(TVec x, TVec y, byte elements)
+        public static void IsNotGreater<TVec, TScalar>(TVec x, TVec y, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -194,7 +194,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsSmaller<TVec, TScalar>(TVec x, TVec y, byte elements)
+        public static void IsSmaller<TVec, TScalar>(TVec x, TVec y, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -207,7 +207,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsNotSmaller<TVec, TScalar>(TVec x, TVec y, byte elements)
+        public static void IsNotSmaller<TVec, TScalar>(TVec x, TVec y, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {
@@ -220,7 +220,7 @@ namespace MaxMath
         }
 
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static void IsBetween<TVec, TScalar>(TVec vector, TVec min, TVec max, byte elements)
+        public static void IsBetween<TVec, TScalar>(TVec vector, TVec min, TVec max, byte elements)
             where TVec : unmanaged
             where TScalar : unmanaged, IEquatable<TScalar>, IComparable<TScalar>
         {

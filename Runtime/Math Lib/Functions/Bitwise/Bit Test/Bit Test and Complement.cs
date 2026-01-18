@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 btc_epi8(ref v128 a, v128 b, MaskType result = MaskType.AllOnes, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(b, 7, elements))
                     {
@@ -30,7 +30,7 @@ namespace MaxMath
                     v128 mask = cmpeq_epi8(powsOf2, and_si128(powsOf2, a));
                     a = xor_si128(a, powsOf2);
 
-                    return result == MaskType.One ? negmask_epi8(mask, elements) : mask;
+                    return result == MaskType.One ? neg_epi8(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -54,7 +54,7 @@ namespace MaxMath
                     v256 mask = Avx2.mm256_cmpeq_epi8(powsOf2, Avx2.mm256_and_si256(powsOf2, a));
                     a = Avx2.mm256_xor_si256(a, powsOf2);
 
-                    return result == MaskType.One ? mm256_negmask_epi8(mask) : mask;
+                    return result == MaskType.One ? mm256_neg_epi8(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -63,7 +63,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 btc_epi16(ref v128 a, v128 b, MaskType result = MaskType.AllOnes, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(b, 15, elements))
                     {
@@ -75,9 +75,9 @@ namespace MaxMath
 
                     v128 powsOf2 = sllv_epi16(set1_epi16(1), b, inRange: true, elements: elements);
                     v128 mask = cmpeq_epi16(powsOf2, and_si128(powsOf2, a));
-                    a = xor_si128(a, powsOf2);;
+                    a = xor_si128(a, powsOf2);
 
-                    return result == MaskType.One ? negmask_epi16(mask, elements) : mask;
+                    return result == MaskType.One ? neg_epi16(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -97,9 +97,9 @@ namespace MaxMath
 
                     v256 powsOf2 = mm256_sllv_epi16(mm256_set1_epi16(1), b);
                     v256 mask = Avx2.mm256_cmpeq_epi16(powsOf2, Avx2.mm256_and_si256(powsOf2, a));
-                    a = Avx2.mm256_xor_si256(a, powsOf2);;
+                    a = Avx2.mm256_xor_si256(a, powsOf2);
 
-                    return result == MaskType.One ? mm256_negmask_epi16(mask) : mask;
+                    return result == MaskType.One ? mm256_neg_epi16(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -108,7 +108,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 btc_epi32(ref v128 a, v128 b, MaskType result = MaskType.AllOnes, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(b, 31, elements))
                     {
@@ -120,9 +120,9 @@ namespace MaxMath
 
                     v128 powsOf2 = sllv_epi32(set1_epi32(1), b, inRange: true, elements: elements);
                     v128 mask = cmpeq_epi32(powsOf2, and_si128(powsOf2, a));
-                    a = xor_si128(a, powsOf2);;
+                    a = xor_si128(a, powsOf2);
 
-                    return result == MaskType.One ? negmask_epi32(mask, elements) : mask;
+                    return result == MaskType.One ? neg_epi32(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -142,9 +142,9 @@ namespace MaxMath
 
                     v256 powsOf2 = Avx2.mm256_sllv_epi32(mm256_set1_epi32(1), b);
                     v256 mask = Avx2.mm256_cmpeq_epi32(powsOf2, Avx2.mm256_and_si256(powsOf2, a));
-                    a = Avx2.mm256_xor_si256(a, powsOf2);;
+                    a = Avx2.mm256_xor_si256(a, powsOf2);
 
-                    return result == MaskType.One ? mm256_negmask_epi32(mask) : mask;
+                    return result == MaskType.One ? mm256_neg_epi32(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -153,7 +153,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 btc_epi64(ref v128 a, v128 b, MaskType result = MaskType.AllOnes)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI64(b, 63))
                     {
@@ -165,9 +165,9 @@ namespace MaxMath
 
                     v128 powsOf2 = sllv_epi64(set1_epi64x(1), b, inRange: true);
                     v128 mask = cmpeq_epi64(powsOf2, and_si128(powsOf2, a));
-                    a = xor_si128(a, powsOf2);;
+                    a = xor_si128(a, powsOf2);
 
-                    return result == MaskType.One ? negmask_epi64(mask) : mask;
+                    return result == MaskType.One ? neg_epi64(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -187,9 +187,9 @@ namespace MaxMath
 
                     v256 powsOf2 = Avx2.mm256_sllv_epi64(mm256_set1_epi64x(1), b);
                     v256 mask = Avx2.mm256_cmpeq_epi64(powsOf2, Avx2.mm256_and_si256(powsOf2, a));
-                    a = Avx2.mm256_xor_si256(a, powsOf2);;
+                    a = Avx2.mm256_xor_si256(a, powsOf2);
 
-                    return result == MaskType.One ? mm256_negmask_epi64(mask) : mask;
+                    return result == MaskType.One ? mm256_neg_epi64(mask) : mask;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -255,7 +255,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 testbitflip(ref byte2 x, byte2 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool2 result = RegisterConversion.ToBool2(Xse.btc_epi8(ref __ref, i, MaskType.One, 2));
@@ -273,7 +273,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 testbitflip(ref byte3 x, byte3 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool3 result = RegisterConversion.ToBool3(Xse.btc_epi8(ref __ref, i, MaskType.One, 3));
@@ -291,7 +291,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 testbitflip(ref byte4 x, byte4 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool4 result = RegisterConversion.ToBool4(Xse.btc_epi8(ref __ref, i, MaskType.One, 4));
@@ -309,7 +309,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 testbitflip(ref byte8 x, byte8 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool8 result = Xse.btc_epi8(ref __ref, i, MaskType.One, 8);
@@ -334,7 +334,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 testbitflip(ref byte16 x, byte16 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool16 result = Xse.btc_epi8(ref __ref, i, MaskType.One, 16);
@@ -402,7 +402,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 testbitflip(ref ushort2 x, ushort2 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool2 result = RegisterConversion.ToBool2(Xse.cvtepi16_epi8(Xse.btc_epi16(ref __ref, i, MaskType.One, 2), 2));
@@ -420,7 +420,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 testbitflip(ref ushort3 x, ushort3 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool3 result = RegisterConversion.ToBool3(Xse.cvtepi16_epi8(Xse.btc_epi16(ref __ref, i, MaskType.One, 3), 3));
@@ -438,7 +438,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 testbitflip(ref ushort4 x, ushort4 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool4 result = RegisterConversion.ToBool4(Xse.cvtepi16_epi8(Xse.btc_epi16(ref __ref, i, MaskType.One, 4), 4));
@@ -456,7 +456,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 testbitflip(ref ushort8 x, ushort8 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool8 result = Xse.cvtepi16_epi8(Xse.btc_epi16(ref __ref, i, MaskType.One, 8), 8);
@@ -516,7 +516,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 testbitflip(ref uint2 x, uint2 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
                 bool2 result = RegisterConversion.ToBool2(Xse.cvtepi32_epi8(Xse.btc_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 2), 2));
@@ -534,7 +534,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 testbitflip(ref uint3 x, uint3 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
                 bool3 result = RegisterConversion.ToBool3(Xse.cvtepi32_epi8(Xse.btc_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 3), 3));
@@ -552,7 +552,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 testbitflip(ref uint4 x, uint4 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = RegisterConversion.ToV128(x);
                 bool4 result = RegisterConversion.ToBool4(Xse.cvtepi32_epi8(Xse.btc_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 4), 4));
@@ -605,7 +605,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 testbitflip(ref ulong2 x, ulong2 i)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
                 bool2 result = RegisterConversion.ToBool2(Xse.cvtepi64_epi8(Xse.btc_epi64(ref __ref, i, MaskType.One)));

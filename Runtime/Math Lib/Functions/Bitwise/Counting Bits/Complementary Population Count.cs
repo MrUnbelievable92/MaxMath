@@ -16,17 +16,17 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 unpopcnt_epi8(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
+
                     if (Ssse3.IsSsse3Supported)
                     {
                         v128 LOOKUP = new v128(4, 3, 3, 2, 3, 2, 2, 1, 3, 2, 2, 1, 2, 1, 1, 0);
-                    
+
                         v128 countLo = shuffle_epi8(LOOKUP, and_si128(NIBBLE_MASK, a));
                         v128 countHi = shuffle_epi8(LOOKUP, and_si128(NIBBLE_MASK, srli_epi16(a, 4)));
-                    
+
                         result = add_epi8(countLo, countHi);
                     }
                     else
@@ -52,7 +52,7 @@ namespace MaxMath
                     v256 countHi = Avx2.mm256_shuffle_epi8(LOOKUP, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, Avx2.mm256_srli_epi16(a, 4)));
 
                     v256 result = Avx2.mm256_add_epi8(countLo, countHi);
-                    
+
                     constexpr.ASSUME_LE_EPU8(result, 8);
                     return result;
                 }
@@ -75,7 +75,7 @@ namespace MaxMath
                     v128 hi = srli_epi16(byteBits, 8);
 
                     v128 result = add_epi16(lo, hi);
-                    
+
                     constexpr.ASSUME_LE_EPU16(result, 16);
                     return result;
                 }
@@ -92,7 +92,7 @@ namespace MaxMath
                     v256 hi = Avx2.mm256_srli_epi16(byteBits, 8);
 
                     v256 result = Avx2.mm256_add_epi16(lo, hi);
-                    
+
                     constexpr.ASSUME_LE_EPU16(result, 16);
                     return result;
                 }
@@ -115,7 +115,7 @@ namespace MaxMath
                     v128 hi = srli_epi32(byteBits, 16);
 
                     v128 result = add_epi32(lo, hi);
-                    
+
                     constexpr.ASSUME_LE_EPU32(result, 32);
                     return result;
                 }
@@ -132,7 +132,7 @@ namespace MaxMath
                     v256 hi = Avx2.mm256_srli_epi32(shortBits, 16);
 
                     v256 result = Avx2.mm256_add_epi32(lo, hi);
-                    
+
                     constexpr.ASSUME_LE_EPU32(result, 32);
                     return result;
                 }
@@ -159,7 +159,7 @@ namespace MaxMath
                     {
                         result = sad_epu8(unpopcnt_epi8(a), setzero_si128());
                     }
-                    
+
                     constexpr.ASSUME_LE_EPU64(result, 64);
                     return result;
                 }
@@ -219,7 +219,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 countzerobits(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpopcnt_epi8(x);
             }
@@ -233,7 +233,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 countzerobits(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpopcnt_epi8(x);
             }
@@ -247,7 +247,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 countzerobits(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpopcnt_epi8(x);
             }
@@ -261,7 +261,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 countzerobits(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpopcnt_epi8(x);
             }
@@ -275,7 +275,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 countzerobits(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpopcnt_epi8(x);
             }
@@ -363,7 +363,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 countzerobits(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpopcnt_epi16(x);
             }
@@ -377,7 +377,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 countzerobits(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpopcnt_epi16(x);
             }
@@ -391,7 +391,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 countzerobits(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpopcnt_epi16(x);
             }
@@ -486,7 +486,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 countzerobits(uint4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.unpopcnt_epi32(RegisterConversion.ToV128(x)));
             }
@@ -500,7 +500,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 countzerobits(uint3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.unpopcnt_epi32(RegisterConversion.ToV128(x)));
             }

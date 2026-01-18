@@ -333,36 +333,48 @@ namespace MaxMath.Tests
         [Test]
         public static void op_Division()
         {
-            for (int i = 0; i < NUM_TESTS; i++)
-            {
-                int8 x = TestData_LHS[i] / TestData_RHS[i];
+            Random32 rng = Random32.New;
 
-                Assert.AreEqual(x, new int8((int)(TestData_LHS[i].x0 / TestData_RHS[i].x0),
-                                            (int)(TestData_LHS[i].x1 / TestData_RHS[i].x1),
-                                            (int)(TestData_LHS[i].x2 / TestData_RHS[i].x2),
-                                            (int)(TestData_LHS[i].x3 / TestData_RHS[i].x3),
-                                            (int)(TestData_LHS[i].x4 / TestData_RHS[i].x4),
-                                            (int)(TestData_LHS[i].x5 / TestData_RHS[i].x5),
-                                            (int)(TestData_LHS[i].x6 / TestData_RHS[i].x6),
-                                            (int)(TestData_LHS[i].x7 / TestData_RHS[i].x7)));
+            for (int i = 0; i < 128; i++)
+            {
+                int8 left = rng.NextInt();
+                int8 right = rng.NextInt();
+                right = maxmath.select(right, 1, right == 0);
+
+                int8 x = left / right;
+
+                Assert.AreEqual(x, new int8(left.x0 / right.x0,
+                                            left.x1 / right.x1,
+                                            left.x2 / right.x2,
+                                            left.x3 / right.x3,
+                                            left.x4 / right.x4,
+                                            left.x5 / right.x5,
+                                            left.x6 / right.x6,
+                                            left.x7 / right.x7));
             }
         }
 
         [Test]
         public static void op_Modulus()
         {
-            for (int i = 0; i < NUM_TESTS; i++)
-            {
-                int8 x = TestData_LHS[i] % TestData_RHS[i];
+            Random32 rng = Random32.New;
 
-                Assert.AreEqual(x, new int8((int)(TestData_LHS[i].x0 % TestData_RHS[i].x0),
-                                            (int)(TestData_LHS[i].x1 % TestData_RHS[i].x1),
-                                            (int)(TestData_LHS[i].x2 % TestData_RHS[i].x2),
-                                            (int)(TestData_LHS[i].x3 % TestData_RHS[i].x3),
-                                            (int)(TestData_LHS[i].x4 % TestData_RHS[i].x4),
-                                            (int)(TestData_LHS[i].x5 % TestData_RHS[i].x5),
-                                            (int)(TestData_LHS[i].x6 % TestData_RHS[i].x6),
-                                            (int)(TestData_LHS[i].x7 % TestData_RHS[i].x7)));
+            for (int i = 0; i < 128; i++)
+            {
+                int8 left = rng.NextInt();
+                int8 right = rng.NextInt();
+                right = maxmath.select(right, 1, right == 0);
+
+                int8 x = left % right;
+
+                Assert.AreEqual(x, new int8(left.x0 % right.x0,
+                                            left.x1 % right.x1,
+                                            left.x2 % right.x2,
+                                            left.x3 % right.x3,
+                                            left.x4 % right.x4,
+                                            left.x5 % right.x5,
+                                            left.x6 % right.x6,
+                                            left.x7 % right.x7));
             }
         }
 

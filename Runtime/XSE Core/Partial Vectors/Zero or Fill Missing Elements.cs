@@ -10,7 +10,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 zeromissing_epi8(v128 a, byte elements)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (elements)
                 {
@@ -35,7 +35,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setzero_si128(), 0b1111_1110);
                             }
@@ -88,7 +88,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setzero_si128(), 0b1111_1100);
                             }
@@ -128,7 +128,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 zeromissing_epi16(v128 a, byte elements)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (elements)
                 {
@@ -145,7 +145,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setzero_si128(), 0b1111_1100);
                             }
@@ -167,7 +167,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setzero_si128(), 0b1111_1000);
                             }
@@ -203,7 +203,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 zeromissing_epi32(v128 a, byte elements)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (elements)
                 {
@@ -227,7 +227,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setzero_si128(), 0b1100_0000);
                             }
@@ -269,7 +269,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fillmissing_epi8(v128 a, byte elements)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (elements)
                 {
@@ -294,7 +294,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setall_si128(), 0b1111_1110);
                             }
@@ -346,7 +346,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setall_si128(), 0b1111_1100);
                             }
@@ -386,7 +386,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fillmissing_epi16(v128 a, byte elements)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (elements)
                 {
@@ -403,7 +403,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setall_si128(), 0b1111_1100);
                             }
@@ -425,7 +425,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setall_si128(), 0b1111_1000);
                             }
@@ -461,7 +461,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 fillmissing_epi32(v128 a, byte elements)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (elements)
                 {
@@ -485,7 +485,7 @@ namespace MaxMath.Intrinsics
                         }
                         else
                         {
-                            if (Architecture.IsBlendSupported)
+                            if (BurstArchitecture.IsBlendSupported)
                             {
                                 return blend_epi16(a, setall_si128(), 0b1100_0000);
                             }

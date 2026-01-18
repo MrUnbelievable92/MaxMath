@@ -16,7 +16,7 @@ namespace MaxMath
             {
                 static bool __constCheck(v128 a, v128 b, int elements, out v128 result)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (constexpr.IS_CONST(a))
                         {
@@ -58,8 +58,8 @@ namespace MaxMath
                     else throw new IllegalInstructionException();
                 }
 
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (__constCheck(a, b, elements, out v128 result))
                     {
@@ -171,7 +171,7 @@ namespace MaxMath
             {
                 static bool __constCheck(v128 a, v128 b, int elements, out v128 result)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (constexpr.IS_CONST(a))
                         {
@@ -213,8 +213,8 @@ namespace MaxMath
                     else throw new IllegalInstructionException();
                 }
 
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (__constCheck(a, b, elements, out v128 result))
                     {
@@ -309,7 +309,7 @@ namespace MaxMath
             {
                 static bool __constCheck(v128 a, v128 b, int elements, out v128 result)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (constexpr.IS_CONST(a))
                         {
@@ -346,8 +346,8 @@ namespace MaxMath
                     else throw new IllegalInstructionException();
                 }
 
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (__constCheck(a, b, elements, out v128 result))
                     {
@@ -454,7 +454,7 @@ namespace MaxMath
             {
                 static bool __constCheck(v128 a, v128 b, out v128 result)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (constexpr.IS_CONST(a))
                         {
@@ -491,8 +491,8 @@ namespace MaxMath
                     else throw new IllegalInstructionException();
                 }
 
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (__constCheck(a, b, out v128 result))
                     {
@@ -583,7 +583,7 @@ namespace MaxMath
             {
                 static bool __constCheck(v128 a, v128 b, int elements, out v128 result)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (constexpr.IS_CONST(a))
                         {
@@ -610,8 +610,8 @@ namespace MaxMath
                     else throw new IllegalInstructionException();
                 }
 
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (__constCheck(a, b, elements, out v128 result))
                     {
@@ -703,7 +703,7 @@ namespace MaxMath
             {
                 static bool __constCheck(v128 a, v128 b, int elements, out v128 result)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (constexpr.IS_CONST(a))
                         {
@@ -730,8 +730,8 @@ namespace MaxMath
                     else throw new IllegalInstructionException();
                 }
 
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (__constCheck(a, b, elements, out v128 result))
                     {
@@ -825,7 +825,7 @@ namespace MaxMath
             {
                 static bool __constCheck(v128 a, v128 b, int elements, out v128 result)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (constexpr.IS_CONST(a))
                         {
@@ -854,7 +854,7 @@ namespace MaxMath
 
                 static v128 CORE_muls_epi32(v128 i64a, v128 i64b)
                 {
-                    if (Architecture.IsSIMDSupported)
+                    if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 MIN_VALUE = new long2(int.MinValue);
                         v128 MAX_VALUE = new long2(int.MaxValue);
@@ -872,8 +872,8 @@ namespace MaxMath
                     else throw new IllegalInstructionException();
                 }
 
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (__constCheck(a, b, elements, out v128 result))
                     {
@@ -996,7 +996,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (__constCheck(a, b, out v128 result))
                     {
@@ -1142,7 +1142,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 mulsaturated(byte2 x, byte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu8(x, y, 2);
             }
@@ -1157,7 +1157,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 mulsaturated(byte3 x, byte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu8(x, y, 3);
             }
@@ -1173,7 +1173,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 mulsaturated(byte4 x, byte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu8(x, y, 4);
             }
@@ -1190,7 +1190,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 mulsaturated(byte8 x, byte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu8(x, y, 8);
             }
@@ -1211,7 +1211,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 mulsaturated(byte16 x, byte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu8(x, y, 16);
             }
@@ -1272,7 +1272,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 mulsaturated(ushort2 x, ushort2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu16(x, y);
             }
@@ -1287,7 +1287,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 mulsaturated(ushort3 x, ushort3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu16(x, y);
             }
@@ -1303,7 +1303,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 mulsaturated(ushort4 x, ushort4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu16(x, y);
             }
@@ -1320,7 +1320,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 mulsaturated(ushort8 x, ushort8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu16(x, y);
             }
@@ -1373,7 +1373,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 mulsaturated(uint2 x, uint2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -1388,7 +1388,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 mulsaturated(uint3 x, uint3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -1404,7 +1404,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 mulsaturated(uint4 x, uint4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -1454,7 +1454,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 mulsaturated(ulong2 x, ulong2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epu64(x, y);
             }
@@ -1516,7 +1516,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 mulsaturated(sbyte2 x, sbyte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi8(x, y, 2);
             }
@@ -1531,7 +1531,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 mulsaturated(sbyte3 x, sbyte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi8(x, y, 3);
             }
@@ -1547,7 +1547,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 mulsaturated(sbyte4 x, sbyte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi8(x, y, 4);
             }
@@ -1564,7 +1564,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 mulsaturated(sbyte8 x, sbyte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi8(x, y, 8);
             }
@@ -1585,7 +1585,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 mulsaturated(sbyte16 x, sbyte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi8(x, y, 16);
             }
@@ -1646,7 +1646,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 mulsaturated(short2 x, short2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi16(x, y, 2);
             }
@@ -1661,7 +1661,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 mulsaturated(short3 x, short3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi16(x, y, 3);
             }
@@ -1677,7 +1677,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 mulsaturated(short4 x, short4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi16(x, y, 4);
             }
@@ -1694,7 +1694,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 mulsaturated(short8 x, short8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi16(x, y, 8);
             }
@@ -1747,7 +1747,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 mulsaturated(int2 x, int2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
@@ -1762,7 +1762,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 mulsaturated(int3 x, int3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
@@ -1777,7 +1777,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 mulsaturated(int4 x, int4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
@@ -1818,7 +1818,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 mulsaturated(long2 x, long2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.muls_epi64(x, y);
             }

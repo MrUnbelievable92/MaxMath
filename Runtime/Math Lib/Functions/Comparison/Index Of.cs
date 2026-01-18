@@ -160,7 +160,7 @@ namespace MaxMath
             {
                 return math.tzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi8(v, new byte32(x)))) / sizeof(byte);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 byte16 broadcast = x;
 
@@ -353,7 +353,7 @@ namespace MaxMath
             {
                 return math.tzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi16(v, new ushort16(x)))) / sizeof(ushort);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 ushort8 broadcast = x;
 
@@ -510,7 +510,7 @@ namespace MaxMath
             {
                 return math.tzcnt(Avx.mm256_movemask_ps(Avx2.mm256_cmpeq_epi32(v, new uint8(x))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
@@ -603,7 +603,7 @@ namespace MaxMath
             {
                 return math.tzcnt(bitmask32(3 * sizeof(ulong)) & Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(v, new ulong3(x))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
@@ -634,7 +634,7 @@ namespace MaxMath
             {
                 return math.tzcnt(Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(v, new ulong4(x))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
@@ -715,7 +715,7 @@ namespace MaxMath
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float3 v, float x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return math.tzcnt(bitmask32(3 * sizeof(float)) & Xse.movemask_ps(Xse.cmpeq_ps(RegisterConversion.ToV128(v), new v128(x))));
             }
@@ -743,7 +743,7 @@ namespace MaxMath
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float4 v, float x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return math.tzcnt(Xse.movemask_ps(Xse.cmpeq_ps(RegisterConversion.ToV128(v), new v128(x))));
             }
@@ -775,7 +775,7 @@ namespace MaxMath
             {
                 return math.tzcnt(Avx.mm256_movemask_ps(Xse.mm256_cmpeq_ps(v, new float8(x))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
@@ -803,7 +803,7 @@ namespace MaxMath
         [return: AssumeRange(0L, 32L)]
         public static long indexof(double2 v, double x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return math.tzcnt(Xse.movemask_pd(Xse.cmpeq_pd(RegisterConversion.ToV128(v), new v128(x))));
             }
@@ -835,7 +835,7 @@ namespace MaxMath
             {
                 return math.tzcnt(bitmask32(3 * sizeof(double)) & Avx.mm256_movemask_pd(Xse.mm256_cmpeq_pd(RegisterConversion.ToV256(v), new v256(x))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
@@ -866,7 +866,7 @@ namespace MaxMath
             {
                 return math.tzcnt(Avx.mm256_movemask_pd(Xse.mm256_cmpeq_pd(RegisterConversion.ToV256(v), new v256(x))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 

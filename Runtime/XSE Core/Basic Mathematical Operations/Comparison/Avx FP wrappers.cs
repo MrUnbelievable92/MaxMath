@@ -127,7 +127,7 @@ namespace MaxMath.Intrinsics
             else throw new IllegalInstructionException();
         }
 
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mm256_cmpeq_pd(v256 a, v256 b)
         {

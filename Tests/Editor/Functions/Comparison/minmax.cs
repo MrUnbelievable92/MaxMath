@@ -1037,6 +1037,40 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter16 l = new quarter16((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+                quarter16 r = new quarter16((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+
+                maxmath.minmax(l, r, out quarter16 testmin, out quarter16 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 32; i++)
+            {
+                quarter32 l = new quarter32((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+                quarter32 r = new quarter32((quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8(), (quarter8)rng.NextFloat8());
+
+                maxmath.minmax(l, r, out quarter32 testmin, out quarter32 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
 
         [Test]
         public static void _half()
@@ -1117,6 +1151,23 @@ namespace MaxMath.Tests
                 half8 r = (half8)rng.NextFloat8();
 
                 maxmath.minmax(l, r, out half8 testmin, out half8 testmax);
+
+                Assert.AreEqual(testmin, maxmath.min(l, r));
+                Assert.AreEqual(testmax, maxmath.max(l, r));
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half16 l = new half16((half8)rng.NextFloat8(), (half8)rng.NextFloat8());
+                half16 r = new half16((half8)rng.NextFloat8(), (half8)rng.NextFloat8());
+
+                maxmath.minmax(l, r, out half16 testmin, out half16 testmax);
 
                 Assert.AreEqual(testmin, maxmath.min(l, r));
                 Assert.AreEqual(testmax, maxmath.max(l, r));

@@ -16,14 +16,14 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_pow_epi8(v128 a, [NoAlias] ref v128 b, [NoAlias] out v128 y, [NoAlias] out v128 doneMask, [NoAlias] out v128 result, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi8(1);
-                    
+
                     y = blendv_si128(ONE, a, cmpeq_epi8(ONE, and_si128(b, ONE)));
                     b = srli_epi8(b, 1);
-                    
+
                     if (Sse4_1.IsSse41Supported)
                     {
                         b = zeromissing_epi8(b, elements);
@@ -38,11 +38,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_pow_epi8([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 y, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 result, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi8(1);
-                    
+
                     a = square_epi8(a, elements);
                     v128 y_times_x = mullo_epi8(y, a);
                     y = blendv_si128(y, y_times_x, cmpeq_epi8(ONE, and_si128(ONE, b)));
@@ -62,7 +62,7 @@ namespace MaxMath
                     {
                         return Hint.Likely(testz_si128(b, b) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<byte>(doneMask, elements));
                     }
@@ -70,7 +70,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI8(a, 0, elements))
                     {
@@ -116,9 +116,9 @@ namespace MaxMath
                             return mm256_cvtepi16_epi8(mm256_pow_epi16(Avx2.mm256_cvtepi8_epi16(a), Avx2.mm256_cvtepi8_epi16(b)));
                         }
                     }
-                    
+
                     PRELOOP_pow_epi8(a, ref b, out v128 y, out v128 doneMask, out v128 result, elements);
-                    
+
                     while (ContinueLoop(b, doneMask, elements))
                     {
                         LOOP_pow_epi8(ref a, ref b, ref y, ref doneMask, ref result, elements);
@@ -140,7 +140,7 @@ namespace MaxMath
 
                         return Hint.Likely(testz_si128(b, b) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -150,11 +150,11 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     PRELOOP_pow_epi8(a0, ref b0, out v128 y0, out v128 doneMask0, out r0);
                     PRELOOP_pow_epi8(a1, ref b1, out v128 y1, out v128 doneMask1, out r1);
-                    
+
                     while (ContinueLoop(b0, b1, doneMask0, doneMask1))
                     {
                         LOOP_pow_epi8(ref a0, ref b0, ref y0, ref doneMask0, ref r0);
@@ -222,11 +222,11 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_pow_epi16(v128 a, [NoAlias] ref v128 b, [NoAlias] out v128 y, [NoAlias] out v128 doneMask, [NoAlias] out v128 result, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi16(1);
@@ -238,7 +238,7 @@ namespace MaxMath
                     {
                         b = zeromissing_epi16(b, elements);
                     }
-                    
+
                     doneMask = cmpeq_epi16(ZERO, b);
                     result = and_si128(y, doneMask);
                 }
@@ -248,11 +248,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_pow_epi16([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 y, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 result, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi16(1);
-                    
+
                     a = square_epi16(a, elements);
                     v128 y_times_x = mullo_epi16(y, a);
                     y = blendv_si128(y, y_times_x, cmpeq_epi16(ONE, and_si128(ONE, b)));
@@ -272,7 +272,7 @@ namespace MaxMath
                     {
                         return Hint.Likely(testz_si128(b, b) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<ushort>(doneMask, elements));
                     }
@@ -280,7 +280,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI16(a, 0, elements))
                     {
@@ -334,7 +334,7 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void pow_epi16x2(v128 a0, v128 a1, v128 b0, v128 b1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
             {
@@ -346,7 +346,7 @@ namespace MaxMath
 
                         return Hint.Likely(testz_si128(b, b) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -356,11 +356,11 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     PRELOOP_pow_epi16(a0, ref b0, out v128 y0, out v128 doneMask0, out r0);
                     PRELOOP_pow_epi16(a1, ref b1, out v128 y1, out v128 doneMask1, out r1);
-                    
+
                     while (ContinueLoop(b0, b1, doneMask0, doneMask1))
                     {
                         LOOP_pow_epi16(ref a0, ref b0, ref y0, ref doneMask0, ref r0);
@@ -436,11 +436,11 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_pow_epi32(v128 a, [NoAlias] ref v128 b, [NoAlias] out v128 y, [NoAlias] out v128 doneMask, [NoAlias] out v128 result, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi32(1);
@@ -462,7 +462,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_pow_epi32([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 y, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 result, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi32(1);
@@ -486,7 +486,7 @@ namespace MaxMath
                     {
                         return Hint.Likely(testz_si128(b, b) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<uint>(doneMask, elements));
                     }
@@ -494,7 +494,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI32(a, 0, elements))
                     {
@@ -552,7 +552,7 @@ namespace MaxMath
                         }
                     }
 
-                    
+
                     PRELOOP_pow_epi32(a, ref b, out v128 y, out v128 doneMask, out v128 result, elements);
 
                     while (ContinueLoop(b, doneMask, elements))
@@ -576,7 +576,7 @@ namespace MaxMath
 
                         return Hint.Likely(testz_si128(b, b) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -586,11 +586,11 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     PRELOOP_pow_epi32(a0, ref b0, out v128 y0, out v128 doneMask0, out r0);
                     PRELOOP_pow_epi32(a1, ref b1, out v128 y1, out v128 doneMask1, out r1);
-                    
+
                     while (ContinueLoop(b0, b1, doneMask0, doneMask1))
                     {
                         LOOP_pow_epi32(ref a0, ref b0, ref y0, ref doneMask0, ref r0);
@@ -682,11 +682,11 @@ namespace MaxMath
                 else throw new IllegalInstructionException();
             }
 
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_pow_epi64(v128 a, [NoAlias] ref v128 b, [NoAlias] out v128 y, [NoAlias] out v128 doneMask, [NoAlias] out v128 result)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi64x(1);
@@ -703,11 +703,11 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_pow_epi64([NoAlias] ref v128 a, [NoAlias] ref v128 b, [NoAlias] ref v128 y, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 result)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi64x(1);
-                    
+
                     a = square_epi64(a);
                     v128 y_times_x = mullo_epi64(y, a);
                     y = blendv_si128(y, y_times_x, cmpeq_epi64(ONE, and_si128(b, ONE)));
@@ -727,7 +727,7 @@ namespace MaxMath
                     {
                         return Hint.Likely(testz_si128(b, b) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<ulong>(doneMask));
                     }
@@ -735,7 +735,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPI64(a, 0))
                     {
@@ -826,7 +826,7 @@ namespace MaxMath
                         }
                     }
 
-                    
+
                     PRELOOP_pow_epi64(a, ref b, out v128 y, out v128 doneMask, out v128 result);
 
                     while (ContinueLoop(b, doneMask))
@@ -850,7 +850,7 @@ namespace MaxMath
 
                         return Hint.Likely(testz_si128(b, b) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -860,11 +860,11 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     PRELOOP_pow_epi64(a0, ref b0, out v128 y0, out v128 doneMask0, out r0);
                     PRELOOP_pow_epi64(a1, ref b1, out v128 y1, out v128 doneMask1, out r1);
-                    
+
                     while (ContinueLoop(b0, b1, doneMask0, doneMask1))
                     {
                         LOOP_pow_epi64(ref a0, ref b0, ref y0, ref doneMask0, ref r0);
@@ -966,7 +966,7 @@ namespace MaxMath
                             default: break;
                         }
                     }
-                    
+
                     v256 ZERO = Avx.mm256_setzero_si256();
                     v256 ONE = mm256_set1_epi64x(1);
 
@@ -1282,7 +1282,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 intpow(long2 x, ulong2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi64(x, n);
             }
@@ -1300,7 +1300,7 @@ namespace MaxMath
             {
                 return Xse.mm256_pow_epi64(x, n, 3);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.pow_epi64x2(x.xy, x.zz, n.xy, n.zz, out v128 lo, out v128 hi);
 
@@ -1320,7 +1320,7 @@ namespace MaxMath
             {
                 return Xse.mm256_pow_epi64(x, n, 4);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.pow_epi64x2(x.xy, x.zw, n.xy, n.zw, out v128 lo, out v128 hi);
 
@@ -1442,7 +1442,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 intpow(int2 x, uint2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2));
             }
@@ -1456,7 +1456,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 intpow(int3 x, uint3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3));
             }
@@ -1470,7 +1470,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 intpow(int4 x, uint4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4));
             }
@@ -1488,7 +1488,7 @@ namespace MaxMath
             {
                 return Xse.mm256_pow_epi32(x, n);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.pow_epi32x2(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(n.v4_0), RegisterConversion.ToV128(n.v4_4), out v128 lo, out v128 hi);
 
@@ -1548,7 +1548,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 intpow(short2 x, ushort2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi16(x, n, 2);
             }
@@ -1562,7 +1562,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 intpow(short3 x, ushort3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi16(x, n, 3);
             }
@@ -1576,7 +1576,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 intpow(short4 x, ushort4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi16(x, n, 4);
             }
@@ -1590,7 +1590,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 intpow(short8 x, ushort8 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi16(x, n, 8);
             }
@@ -1615,7 +1615,7 @@ namespace MaxMath
             {
                 return Xse.mm256_pow_epi16(x, n);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.pow_epi16x2(x.v8_0, x.v8_8, n.v8_0, n.v8_8, out v128 lo, out v128 hi);
 
@@ -1682,7 +1682,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 intpow(sbyte2 x, byte2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi8(x, n, 2);
             }
@@ -1696,7 +1696,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 intpow(sbyte3 x, byte3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi8(x, n, 3);
             }
@@ -1710,7 +1710,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 intpow(sbyte4 x, byte4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi8(x, n, 4);
             }
@@ -1724,7 +1724,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 intpow(sbyte8 x, byte8 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi8(x, n, 8);
             }
@@ -1745,7 +1745,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 intpow(sbyte16 x, byte16 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.pow_epi8(x, n, 16);
             }
@@ -1778,7 +1778,7 @@ namespace MaxMath
             {
                 return Xse.mm256_pow_epi8(x, n);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.pow_epi8x2(x.v16_0, x.v16_16, n.v16_0, n.v16_16, out v128 lo, out v128 hi);
 

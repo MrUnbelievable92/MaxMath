@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epi8(v128 v, bool promise = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -81,7 +81,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epu8(v128 v, bool promise = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
                     if (elements == 16)
@@ -112,7 +112,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epi16(v128 v, bool promise = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -172,7 +172,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epu16(v128 v, bool promise = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -203,7 +203,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epi32(v128 v, bool promise = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -269,7 +269,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epu32(v128 v, bool promise = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promise)
                     {
@@ -311,7 +311,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vsum_epi64(v128 v)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return add_epi64(v, bsrli_si128(v, 1 * sizeof(long)));
                 }
@@ -492,15 +492,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte2"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 2ul * byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -518,15 +518,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte3"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 3ul * byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -544,15 +544,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte4"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 4ul * byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -574,7 +574,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vsum_epu8(c, false, 8).UShort0;
             }
@@ -589,7 +589,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte16 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vsum_epu8(c, false, 16).UShort0;
             }
@@ -618,15 +618,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte2"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(2 * sbyte.MinValue, 2 * sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -644,15 +644,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte3"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(3 * sbyte.MinValue, 3 * sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -670,15 +670,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte4"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(4 * sbyte.MinValue, 4 * sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -696,15 +696,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte8"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(8 * sbyte.MinValue, 8 * sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -722,15 +722,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte16"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(16 * sbyte.MinValue, 16 * sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte16 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -748,8 +748,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte32"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(32 * sbyte.MinValue, 32 * sbyte.MaxValue)]
@@ -779,15 +779,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short2"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(2 * short.MinValue, 2 * short.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -805,15 +805,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short3"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(3 * short.MinValue, 3 * short.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -831,15 +831,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short4"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(4 * short.MinValue, 4 * short.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -857,15 +857,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short8"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(8 * short.MinValue, 8 * short.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(short8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -883,8 +883,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short16"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(16 * short.MinValue, 16 * short.MaxValue)]
@@ -914,15 +914,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort2"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 2ul * ushort.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -940,15 +940,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort3"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 3ul * ushort.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -966,15 +966,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort4"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 4ul * ushort.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -992,15 +992,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort8"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 8ul * ushort.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(ushort8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1018,8 +1018,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort16"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 16ul * ushort.MaxValue)]
@@ -1077,7 +1077,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long csum(long2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vsum_epi64(c).SLong0;
             }

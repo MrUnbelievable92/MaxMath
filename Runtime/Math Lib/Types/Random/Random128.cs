@@ -87,9 +87,7 @@ Assert.AreNotEqual(State, (UInt128)0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NextBool()
         {
-            uint result = (uint)NextState() & 0x0101_0101u;
-
-            return *(bool*)&result;
+            return (long)NextState().hi64 < 0;
         }
 
         /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
@@ -132,7 +130,7 @@ Assert.AreNotEqual(State, (UInt128)0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 UInt128 next = NextState();
 
@@ -227,13 +225,13 @@ Assert.IsNotSmaller(max, min);
 
             return result;
         }
-        
+
         /// <summary>       Returns a uniformly random <see cref="quadruple"/> in the interval [<paramref name="min"/>, <paramref name="max"/>).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public quadruple NextQuadruple(quadruple min, quadruple max)
         {
 Assert.IsNotSmaller(max, min);
-            
+
             quadruple.ConstChecked left = asquadruple(maxmath.ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
             left.Promise |= FloatingPointPromise<quadruple>.NOT_INF;
             left.Promise |= FloatingPointPromise<quadruple>.NOT_NAN;

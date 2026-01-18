@@ -49,8 +49,8 @@ VectorAssert.IsNotGreater<byte4, byte>(tobyte(x), 1, 4);
         public static int last(bool8 x)
         {
 VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return 7 - (int)((uint)math.lzcnt(((v128)x).SLong0) / 8);
             }

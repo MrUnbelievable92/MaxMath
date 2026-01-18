@@ -68,7 +68,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 div(uint2 dividend, uint2 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.div_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 2));
             }
@@ -82,7 +82,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 div(uint3 dividend, uint3 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.div_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 3));
             }
@@ -96,7 +96,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 div(uint4 dividend, uint4 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.div_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 4));
             }
@@ -190,7 +190,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 div(int2 dividend, int2 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.div_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 2));
             }
@@ -204,7 +204,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 div(int3 dividend, int3 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.div_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 3));
             }
@@ -218,7 +218,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 div(int4 dividend, int4 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.div_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 4));
             }
@@ -244,7 +244,7 @@ namespace MaxMath
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the result.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 div(long3 dividend, long3 divisor) => dividend / divisor;
-        
+
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the result.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 div(long4 dividend, long4 divisor) => dividend / divisor;
@@ -312,7 +312,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 mod(uint2 dividend, uint2 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.rem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 2));
             }
@@ -326,7 +326,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 mod(uint3 dividend, uint3 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.rem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 3));
             }
@@ -340,7 +340,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 mod(uint4 dividend, uint4 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.rem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 4));
             }
@@ -430,7 +430,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 mod(int2 dividend, int2 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.rem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 2));
             }
@@ -444,7 +444,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 mod(int3 dividend, int3 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.rem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 3));
             }
@@ -458,7 +458,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 mod(int4 dividend, int4 divisor)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.rem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), 4));
             }
@@ -484,7 +484,7 @@ namespace MaxMath
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 mod(long3 dividend, long3 divisor) => dividend % divisor;
-        
+
         /// <summary>       Divides '<paramref name="dividend"/>' by '<paramref name="divisor"/>' and returns the remainder.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 mod(long4 dividend, long4 divisor) => dividend % divisor;

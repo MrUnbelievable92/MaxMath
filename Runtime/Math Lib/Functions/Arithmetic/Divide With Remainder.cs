@@ -19,7 +19,7 @@ namespace MaxMath
             remainder = r;
             return q;
         }
-        
+
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 divrem(UInt128 dividend, ushort divisor, out UInt128 remainder)
@@ -28,7 +28,7 @@ namespace MaxMath
             remainder = r;
             return q;
         }
-        
+
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 divrem(UInt128 dividend, uint divisor, out UInt128 remainder)
@@ -54,7 +54,7 @@ namespace MaxMath
             if (constexpr.IS_CONST(divisor))
             {
 Assert.AreNotEqual(0u, divisor);
-                
+
                 remainder = UInt128.__const.urem(dividend, divisor);
                 return UInt128.__const.udiv(dividend, divisor);
             }
@@ -85,7 +85,7 @@ Assert.AreNotEqual(0u, divisor);
             Int128 q = divrem(dividend, (long)divisor, out remainder);
             return q;
         }
-        
+
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 divrem(Int128 dividend, ushort divisor, out Int128 remainder)
@@ -93,7 +93,7 @@ Assert.AreNotEqual(0u, divisor);
             Int128 q = divrem(dividend, (long)divisor, out remainder);
             return q;
         }
-        
+
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 divrem(Int128 dividend, uint divisor, out Int128 remainder)
@@ -101,7 +101,7 @@ Assert.AreNotEqual(0u, divisor);
             Int128 q = divrem(dividend, (long)divisor, out remainder);
             return q;
         }
-        
+
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 divrem(Int128 dividend, ulong divisor, out Int128 remainder)
@@ -109,7 +109,7 @@ Assert.AreNotEqual(0u, divisor);
             Int128 q = divrem(dividend, (Int128)divisor, out remainder);
             return q;
         }
-        
+
 
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -118,7 +118,7 @@ Assert.AreNotEqual(0u, divisor);
             Int128 q = divrem(dividend, (long)divisor, out remainder);
             return q;
         }
-        
+
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 divrem(Int128 dividend, short divisor, out Int128 remainder)
@@ -126,7 +126,7 @@ Assert.AreNotEqual(0u, divisor);
             Int128 q = divrem(dividend, (long)divisor, out remainder);
             return q;
         }
-        
+
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 divrem(Int128 dividend, int divisor, out Int128 remainder)
@@ -134,7 +134,7 @@ Assert.AreNotEqual(0u, divisor);
             Int128 q = divrem(dividend, (long)divisor, out remainder);
             return q;
         }
-        
+
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 divrem(Int128 dividend, long divisor, out Int128 remainder)
@@ -142,7 +142,7 @@ Assert.AreNotEqual(0u, divisor);
             if (constexpr.IS_CONST(divisor))
             {
 Assert.AreNotEqual(0u, divisor);
-                
+
                 remainder = UInt128.__const.irem(dividend, divisor);
                 return UInt128.__const.idiv(dividend, divisor);
             }
@@ -162,7 +162,7 @@ Assert.AreNotEqual(0u, divisor);
             if (constexpr.IS_CONST(divisor))
             {
 Assert.AreNotEqual(0u, divisor);
-                
+
                 remainder = UInt128.__const.irem(dividend, divisor);
                 return UInt128.__const.idiv(dividend, divisor);
             }
@@ -208,8 +208,8 @@ Assert.AreNotEqual(0u, divisor);
                     return dividend / divisor;
                 }
             }
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epu8(dividend, divisor, out v128 remainders, 2);
                 remainder = remainders;
@@ -243,8 +243,8 @@ Assert.AreNotEqual(0u, divisor);
                     return dividend / divisor;
                 }
             }
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epu8(dividend, divisor, out v128 remainders, 3);
                 remainder = remainders;
@@ -278,8 +278,8 @@ Assert.AreNotEqual(0u, divisor);
                     return dividend / divisor;
                 }
             }
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epu8(dividend, divisor, out v128 remainders, 4);
                 remainder = remainders;
@@ -313,8 +313,8 @@ Assert.AreNotEqual(0u, divisor);
                     return dividend / divisor;
                 }
             }
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epu8(dividend, divisor, out v128 remainders, 8);
                 remainder = remainders;
@@ -348,8 +348,8 @@ Assert.AreNotEqual(0u, divisor);
                     return dividend / divisor;
                 }
             }
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 byte16 quotients = Xse.divrem_epu8(dividend, divisor, out v128 remainders);
                 remainder = remainders;
@@ -521,7 +521,7 @@ Assert.AreNotEqual(0u, divisor);
             }
             else
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 quotients = Xse.divrem_epi8(dividend, divisor, out v128 rem, 2);
                     remainder = rem;
@@ -548,7 +548,7 @@ Assert.AreNotEqual(0u, divisor);
             }
             else
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 quotients = Xse.divrem_epi8(dividend, divisor, out v128 rem, 3);
                     remainder = rem;
@@ -575,7 +575,7 @@ Assert.AreNotEqual(0u, divisor);
             }
             else
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 quotients = Xse.divrem_epi8(dividend, divisor, out v128 rem, 4);
                     remainder = rem;
@@ -602,7 +602,7 @@ Assert.AreNotEqual(0u, divisor);
             }
             else
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 quotients = Xse.divrem_epi8(dividend, divisor, out v128 rem, 8);
                     remainder = rem;
@@ -629,7 +629,7 @@ Assert.AreNotEqual(0u, divisor);
             }
             else
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 quotients = Xse.divrem_epi8(dividend, divisor, out v128 rem, 16);
                     remainder = rem;
@@ -780,7 +780,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 divrem(ushort2 dividend, ushort2 divisor, out ushort2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epu16(dividend, divisor, out v128 rem, 2);
                 remainder = rem;
@@ -799,7 +799,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 divrem(ushort3 dividend, ushort3 divisor, out ushort3 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epu16(dividend, divisor, out v128 rem, 3);
                 remainder = rem;
@@ -818,7 +818,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 divrem(ushort4 dividend, ushort4 divisor, out ushort4 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epu16(dividend, divisor, out v128 rem, 4);
                 remainder = rem;
@@ -837,7 +837,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 divrem(ushort8 dividend, ushort8 divisor, out ushort8 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epu16(dividend, divisor, out v128 rem, 8);
                 remainder = rem;
@@ -963,7 +963,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 divrem(short2 dividend, short2 divisor, out short2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epi16(dividend, divisor, out v128 rem, 2);
                 remainder = rem;
@@ -982,7 +982,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 divrem(short3 dividend, short3 divisor, out short3 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epi16(dividend, divisor, out v128 rem, 3);
                 remainder = rem;
@@ -1001,7 +1001,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 divrem(short4 dividend, short4 divisor, out short4 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epi16(dividend, divisor, out v128 rem, 4);
                 remainder = rem;
@@ -1020,7 +1020,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 divrem(short8 dividend, short8 divisor, out short8 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 quotients = Xse.divrem_epi16(dividend, divisor, out v128 rem, 8);
                 remainder = rem;
@@ -1141,7 +1141,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 divrem(int2 dividend, int2 divisor, out int2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 int2 ret = RegisterConversion.ToInt2(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 2));
                 remainder = RegisterConversion.ToInt2(rem);
@@ -1160,7 +1160,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 divrem(int3 dividend, int3 divisor, out int3 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 int3 ret = RegisterConversion.ToInt3(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 3));
                 remainder = RegisterConversion.ToInt3(rem);
@@ -1179,7 +1179,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 divrem(int4 dividend, int4 divisor, out int4 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 int4 ret = RegisterConversion.ToInt4(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 4));
                 remainder = RegisterConversion.ToInt4(rem);
@@ -1229,7 +1229,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 divrem(uint2 dividend, uint2 divisor, out uint2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 uint2 ret = RegisterConversion.ToUInt2(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 2));
                 remainder = RegisterConversion.ToUInt2(rem);
@@ -1248,7 +1248,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 divrem(uint3 dividend, uint3 divisor, out uint3 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 uint3 ret = RegisterConversion.ToUInt3(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 3));
                 remainder = RegisterConversion.ToUInt3(rem);
@@ -1267,7 +1267,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 divrem(uint4 dividend, uint4 divisor, out uint4 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 uint4 ret = RegisterConversion.ToUInt4(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 4));
                 remainder = RegisterConversion.ToUInt4(rem);
@@ -1312,11 +1312,18 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, byte divisor, out long2 remainder)
+        {
+            return divrem(dividend, (byte2)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 divrem(long2 dividend, byte2 divisor, out long2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepu8_epi64(divisor), out v128 rem, bLEu32max: true);
+                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepu8_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
@@ -1327,6 +1334,13 @@ Assert.AreNotEqual(0u, divisor);
 
                 return dividend / divisor;
             }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, byte divisor, out long3 remainder)
+        {
+            return divrem(dividend, (byte3)divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
@@ -1335,10 +1349,18 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx2.mm256_cvtepu8_epi64(divisor), out v256 rem, elements: 3, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu8_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu8_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
+
+                remainder = new long3(remLo, remHi);
+                return new long3(quotientLo, quotientHi);
             }
             else
             {
@@ -1347,6 +1369,13 @@ Assert.AreNotEqual(0u, divisor);
 
                 return quotient;
             }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, byte divisor, out long4 remainder)
+        {
+            return divrem(dividend, (byte4)divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
@@ -1355,17 +1384,17 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx2.mm256_cvtepu8_epi64(divisor), out v256 rem, elements: 4, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu8_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu8_epi64(divisor.xy), out v128 remainderLo, true, bLEu32max: true);
-                v128 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepu8_epi64(divisor.zw), out v128 remainderHi, false, bLEu32max: true);
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu8_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepu8_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false, bNonNegative: true);
 
-                remainder = new long4(remainderLo, remainderHi);
+                remainder = new long4(remLo, remHi);
                 return new long4(quotientLo, quotientHi);
             }
             else
@@ -1379,11 +1408,18 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, ushort divisor, out long2 remainder)
+        {
+            return divrem(dividend, (ushort2)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 divrem(long2 dividend, ushort2 divisor, out long2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepu16_epi64(divisor), out v128 rem, bLEu32max: true);
+                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepu16_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
@@ -1394,6 +1430,13 @@ Assert.AreNotEqual(0u, divisor);
 
                 return dividend / divisor;
             }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, ushort divisor, out long3 remainder)
+        {
+            return divrem(dividend, (ushort3)divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
@@ -1402,10 +1445,18 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx2.mm256_cvtepu16_epi64(divisor), out v256 rem, elements: 3, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu16_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu16_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
+
+                remainder = new long3(remLo, remHi);
+                return new long3(quotientLo, quotientHi);
             }
             else
             {
@@ -1418,21 +1469,28 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, ushort divisor, out long4 remainder)
+        {
+            return divrem(dividend, (ushort4)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 divrem(long4 dividend, ushort4 divisor, out long4 remainder)
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx2.mm256_cvtepu16_epi64(divisor), out v256 rem, elements: 4, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu16_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu16_epi64(divisor.xy), out v128 remainderLo, true, bLEu32max: true);
-                v128 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepu16_epi64(divisor.zw), out v128 remainderHi, false, bLEu32max: true);
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu16_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepu16_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false, bNonNegative: true);
 
-                remainder = new long4(remainderLo, remainderHi);
+                remainder = new long4(remLo, remHi);
                 return new long4(quotientLo, quotientHi);
             }
             else
@@ -1446,11 +1504,18 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, uint divisor, out long2 remainder)
+        {
+            return divrem(dividend, (uint2)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 divrem(long2 dividend, uint2 divisor, out long2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor)), out v128 rem, bLEu32max: true);
+                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
@@ -1465,14 +1530,29 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, uint divisor, out long3 remainder)
+        {
+            return divrem(dividend, (uint3)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 divrem(long3 dividend, uint3 divisor, out long3 remainder)
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 3, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
+
+                remainder = new long3(remLo, remHi);
+                return new long3(quotientLo, quotientHi);
             }
             else
             {
@@ -1485,21 +1565,316 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, uint divisor, out long4 remainder)
+        {
+            return divrem(dividend, (uint4)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 divrem(long4 dividend, uint4 divisor, out long4 remainder)
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 4, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor.xy)), out v128 remainderLo, true, bLEu32max: true);
-                v128 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor.zw)), out v128 remainderHi, false, bLEu32max: true);
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor.zw)), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false, bNonNegative: true);
 
-                remainder = new long4(remainderLo, remainderHi);
+                remainder = new long4(remLo, remHi);
+                return new long4(quotientLo, quotientHi);
+            }
+            else
+            {
+                long4 quotient = new long4(divrem(dividend.xy, divisor.xy, out long2 xyRem), divrem(dividend.zw, divisor.zw, out long2 zwRem));
+                remainder = new long4(xyRem, zwRem);
+
+                return quotient;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, sbyte divisor, out long2 remainder)
+        {
+            return divrem(dividend, (sbyte2)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, sbyte2 divisor, out long2 remainder)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepi8_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, sbyte divisor, out long3 remainder)
+        {
+            return divrem(dividend, (sbyte3)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, sbyte3 divisor, out long3 remainder)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepi8_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi8_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
+
+                remainder = new long3(remLo, remHi);
+                return new long3(quotientLo, quotientHi);
+            }
+            else
+            {
+                long3 quotient = new long3(divrem(dividend.xy, divisor.xy, out long2 xyRem), divrem(dividend.z, divisor.z, out long zRem));
+                remainder = new long3(xyRem, zRem);
+
+                return quotient;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, sbyte divisor, out long4 remainder)
+        {
+            return divrem(dividend, (sbyte4)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, sbyte4 divisor, out long4 remainder)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepi8_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi8_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepi8_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
+
+                remainder = new long4(remLo, remHi);
+                return new long4(quotientLo, quotientHi);
+            }
+            else
+            {
+                long4 quotient = new long4(divrem(dividend.xy, divisor.xy, out long2 xyRem), divrem(dividend.zw, divisor.zw, out long2 zwRem));
+                remainder = new long4(xyRem, zwRem);
+
+                return quotient;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, short divisor, out long2 remainder)
+        {
+            return divrem(dividend, (short2)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, short2 divisor, out long2 remainder)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepi16_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, short divisor, out long3 remainder)
+        {
+            return divrem(dividend, (short3)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, short3 divisor, out long3 remainder)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepi16_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi16_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
+
+                remainder = new long3(remLo, remHi);
+                return new long3(quotientLo, quotientHi);
+            }
+            else
+            {
+                long3 quotient = new long3(divrem(dividend.xy, divisor.xy, out long2 xyRem), divrem(dividend.z, divisor.z, out long zRem));
+                remainder = new long3(xyRem, zRem);
+
+                return quotient;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, short divisor, out long4 remainder)
+        {
+            return divrem(dividend, (short4)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, short4 divisor, out long4 remainder)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepi16_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi16_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepi16_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
+
+                remainder = new long4(remLo, remHi);
+                return new long4(quotientLo, quotientHi);
+            }
+            else
+            {
+                long4 quotient = new long4(divrem(dividend.xy, divisor.xy, out long2 xyRem), divrem(dividend.zw, divisor.zw, out long2 zwRem));
+                remainder = new long4(xyRem, zwRem);
+
+                return quotient;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, int divisor, out long2 remainder)
+        {
+            return divrem(dividend, (int2)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 divrem(long2 dividend, int2 divisor, out long2 remainder)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepi32_pd(RegisterConversion.ToV128(divisor)), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else
+            {
+                remainder = dividend % divisor;
+
+                return dividend / divisor;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, int divisor, out long3 remainder)
+        {
+            return divrem(dividend, (int3)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long3 divrem(long3 dividend, int3 divisor, out long3 remainder)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx.mm256_cvtepi32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi32_pd(RegisterConversion.ToV128(divisor)), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
+
+                remainder = new long3(remLo, remHi);
+                return new long3(quotientLo, quotientHi);
+            }
+            else
+            {
+                long3 quotient = new long3(divrem(dividend.xy, divisor.xy, out long2 xyRem), divrem(dividend.z, divisor.z, out long zRem));
+                remainder = new long3(xyRem, zRem);
+
+                return quotient;
+            }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, int divisor, out long4 remainder)
+        {
+            return divrem(dividend, (int4)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 divrem(long4 dividend, int4 divisor, out long4 remainder)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx.mm256_cvtepi32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
+                remainder = rem;
+
+                return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi32_pd(RegisterConversion.ToV128(divisor)),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepi32_epi64(RegisterConversion.ToV128(divisor.zw)), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
+
+                remainder = new long4(remLo, remHi);
                 return new long4(quotientLo, quotientHi);
             }
             else
@@ -1515,9 +1890,18 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 divrem(long2 dividend, long2 divisor, out long2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epi64(dividend, divisor, out v128 rem);
+                v128 quotient;
+                v128 rem;
+                if (Avx2.IsAvx2Supported)
+                {
+                    quotient = Xse.divrem_epi64(dividend, divisor, out rem, useFPU: true);
+                }
+                else
+                {
+                    quotient = Xse.divrem_epi64(dividend, divisor, out rem, useFPU: false);
+                }
                 remainder = rem;
 
                 return quotient;
@@ -1541,6 +1925,14 @@ Assert.AreNotEqual(0u, divisor);
 
                 return quotient;
             }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, divisor.xy, out v128 remLo, useFPU: true);
+                long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
+
+                remainder = new long3(remLo, remHi);
+                return new long3(quotientLo, quotientHi);
+            }
             else
             {
                 long3 quotient = new long3(divrem(dividend.xy, divisor.xy, out long2 xyRem), divrem(dividend.z, divisor.z, out long zRem));
@@ -1561,12 +1953,12 @@ Assert.AreNotEqual(0u, divisor);
 
                 return quotient;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotientLo = Xse.divrem_epi64(dividend.xy, divisor.xy, out v128 remainderLo, true);
-                v128 quotientHi = Xse.divrem_epi64(dividend.zw, divisor.zw, out v128 remainderHi, false);
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, divisor.xy, out v128 remLo, useFPU: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, divisor.zw, out v128 remHi, useFPU: false);
 
-                remainder = new long4(remainderLo, remainderHi);
+                remainder = new long4(remLo, remHi);
                 return new long4(quotientLo, quotientHi);
             }
             else
@@ -1578,23 +1970,28 @@ Assert.AreNotEqual(0u, divisor);
             }
         }
 
-
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong divrem(ulong dividend, ulong divisor, out ulong remainder)
         {
             remainder = dividend % divisor;
-
             return dividend / divisor;
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 divrem(ulong2 dividend, byte divisor, out ulong2 remainder)
+        {
+            return divrem(dividend, (byte2)divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 divrem(ulong2 dividend, byte2 divisor, out ulong2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epu64(dividend, Xse.cvtepu8_epi64(divisor), out v128 rem, bLEu32max: true);
+                v128 quotient = Xse.divrem_epu64(dividend, Xse.cvtepu8_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
@@ -1605,6 +2002,13 @@ Assert.AreNotEqual(0u, divisor);
 
                 return dividend / divisor;
             }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 divrem(ulong3 dividend, byte divisor, out ulong3 remainder)
+        {
+            return divrem(dividend, (byte3)divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
@@ -1613,10 +2017,18 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epu64(dividend, Avx2.mm256_cvtepu8_epi64(divisor), out v256 rem, elements: 3, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu8_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu8_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                ulong quotientHi = divrem(dividend.z, divisor.z, out ulong remHi);
+
+                remainder = new ulong3(remLo, remHi);
+                return new ulong3(quotientLo, quotientHi);
             }
             else
             {
@@ -1625,6 +2037,13 @@ Assert.AreNotEqual(0u, divisor);
 
                 return quotient;
             }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 divrem(ulong4 dividend, byte divisor, out ulong4 remainder)
+        {
+            return divrem(dividend, (byte4)divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
@@ -1633,17 +2052,17 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epu64(dividend, Avx2.mm256_cvtepu8_epi64(divisor), out v256 rem, elements: 4, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu8_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu8_epi64(divisor.xy), out v128 remainderLo, true, bLEu32max: true);
-                v128 quotientHi = Xse.divrem_epu64(dividend.zw, Xse.cvtepu8_epi64(divisor.zw), out v128 remainderHi, false, bLEu32max: true);
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu8_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                ulong2 quotientHi = Xse.divrem_epu64(dividend.zw, Xse.cvtepu8_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
 
-                remainder = new ulong4(remainderLo, remainderHi);
+                remainder = new ulong4(remLo, remHi);
                 return new ulong4(quotientLo, quotientHi);
             }
             else
@@ -1657,11 +2076,18 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 divrem(ulong2 dividend, ushort divisor, out ulong2 remainder)
+        {
+            return divrem(dividend, (ushort2)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 divrem(ulong2 dividend, ushort2 divisor, out ulong2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epu64(dividend, Xse.cvtepu16_epi64(divisor), out v128 rem, bLEu32max: true);
+                v128 quotient = Xse.divrem_epu64(dividend, Xse.cvtepu16_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
@@ -1672,6 +2098,13 @@ Assert.AreNotEqual(0u, divisor);
 
                 return dividend / divisor;
             }
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 divrem(ulong3 dividend, ushort divisor, out ulong3 remainder)
+        {
+            return divrem(dividend, (ushort3)divisor, out remainder);
         }
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
@@ -1680,10 +2113,18 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epu64(dividend, Avx2.mm256_cvtepu16_epi64(divisor), out v256 rem, elements: 3, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu16_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu16_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                ulong quotientHi = divrem(dividend.z, divisor.z, out ulong remHi);
+
+                remainder = new ulong3(remLo, remHi);
+                return new ulong3(quotientLo, quotientHi);
             }
             else
             {
@@ -1696,21 +2137,28 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 divrem(ulong4 dividend, ushort divisor, out ulong4 remainder)
+        {
+            return divrem(dividend, (ushort4)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 divrem(ulong4 dividend, ushort4 divisor, out ulong4 remainder)
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epu64(dividend, Avx2.mm256_cvtepu16_epi64(divisor), out v256 rem, elements: 4, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu16_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu16_epi64(divisor.xy), out v128 remainderLo, true, bLEu32max: true);
-                v128 quotientHi = Xse.divrem_epu64(dividend.zw, Xse.cvtepu16_epi64(divisor.zw), out v128 remainderHi, false, bLEu32max: true);
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu16_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                ulong2 quotientHi = Xse.divrem_epu64(dividend.zw, Xse.cvtepu16_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
 
-                remainder = new ulong4(remainderLo, remainderHi);
+                remainder = new ulong4(remLo, remHi);
                 return new ulong4(quotientLo, quotientHi);
             }
             else
@@ -1724,11 +2172,18 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2 divrem(ulong2 dividend, uint divisor, out ulong2 remainder)
+        {
+            return divrem(dividend, (uint2)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 divrem(ulong2 dividend, uint2 divisor, out ulong2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epu64(dividend, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor)), out v128 rem, bLEu32max: true);
+                v128 quotient = Xse.divrem_epu64(dividend, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
@@ -1743,14 +2198,29 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 divrem(ulong3 dividend, uint divisor, out ulong3 remainder)
+        {
+            return divrem(dividend, (uint3)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 divrem(ulong3 dividend, uint3 divisor, out ulong3 remainder)
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epu64(dividend, Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 3, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                ulong quotientHi = divrem(dividend.z, divisor.z, out ulong remHi);
+
+                remainder = new ulong3(remLo, remHi);
+                return new ulong3(quotientLo, quotientHi);
             }
             else
             {
@@ -1763,21 +2233,28 @@ Assert.AreNotEqual(0u, divisor);
 
         /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 divrem(ulong4 dividend, uint divisor, out ulong4 remainder)
+        {
+            return divrem(dividend, (uint4)divisor, out remainder);
+        }
+
+        /// <summary>       Returns the quotients of the componentwise division of the <paramref name="dividend"/> by the <paramref name="divisor"/> with the <paramref name="remainder"/>s as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 divrem(ulong4 dividend, uint4 divisor, out ulong4 remainder)
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epu64(dividend, Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 4, bLEu32max: true);
+                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor.xy)), out v128 remainderLo, true, bLEu32max: true);
-                v128 quotientHi = Xse.divrem_epu64(dividend.zw, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor.zw)), out v128 remainderHi, false, bLEu32max: true);
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                ulong2 quotientHi = Xse.divrem_epu64(dividend.zw, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor.zw)), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
 
-                remainder = new ulong4(remainderLo, remainderHi);
+                remainder = new ulong4(remLo, remHi);
                 return new ulong4(quotientLo, quotientHi);
             }
             else
@@ -1793,9 +2270,18 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 divrem(ulong2 dividend, ulong2 divisor, out ulong2 remainder)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epu64(dividend, divisor, out v128 rem);
+                v128 quotient;
+                v128 rem;
+                if (Avx2.IsAvx2Supported)
+                {
+                    quotient = Xse.divrem_epu64(dividend, divisor, out rem, useFPU: true);
+                }
+                else
+                {
+                    quotient = Xse.divrem_epu64(dividend, divisor, out rem, useFPU: false);
+                }
                 remainder = rem;
 
                 return quotient;
@@ -1819,6 +2305,14 @@ Assert.AreNotEqual(0u, divisor);
 
                 return quotient;
             }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, divisor.xy, out v128 remLo, useFPU: true);
+                ulong quotientHi = divrem(dividend.z, divisor.z, out ulong remHi);
+
+                remainder = new ulong3(remLo, remHi);
+                return new ulong3(quotientLo, quotientHi);
+            }
             else
             {
                 ulong3 quotient = new ulong3(divrem(dividend.xy, divisor.xy, out ulong2 xyRem), divrem(dividend.z, divisor.z, out ulong zRem));
@@ -1839,12 +2333,12 @@ Assert.AreNotEqual(0u, divisor);
 
                 return quotient;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotientLo = Xse.divrem_epu64(dividend.xy, divisor.xy, out v128 remainderLo, true);
-                v128 quotientHi = Xse.divrem_epu64(dividend.zw, divisor.zw, out v128 remainderHi, false);
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, divisor.xy, out v128 remLo, useFPU: true);
+                ulong2 quotientHi = Xse.divrem_epu64(dividend.zw, divisor.zw, out v128 remHi, useFPU: false);
 
-                remainder = new ulong4(remainderLo, remainderHi);
+                remainder = new ulong4(remLo, remHi);
                 return new ulong4(quotientLo, quotientHi);
             }
             else

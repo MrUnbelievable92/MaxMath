@@ -15,7 +15,7 @@ namespace MaxMath.Tests
             SelectFunctionsForType(type);
             InitReferenceCounter();
         }
-        
+
         private void ConvertAllFunctions()
         {
             MethodInfo[] globalFunctions = typeof(maxmath).GetMethods(BindingFlags.Public | BindingFlags.Static);
@@ -105,7 +105,7 @@ namespace MaxMath.Tests
         private string GenerateNativeReferences()
         {
             string result = string.Empty;
-            
+
             foreach (KeyValuePair<string, int> referenceCount in ReferenceCounter)
             {
                 for (int i = 0; i < referenceCount.Value; i++)
@@ -145,7 +145,7 @@ namespace MaxMath.Tests
             int index = code.IndexOf("(") + 1;
             string copy = code.Substring(0, index);
 
-            while (index < code.Length && code[index] != ')') 
+            while (index < code.Length && code[index] != ')')
             {
                 CopyKeywords(code, "ref ", ref copy, ref index);
                 CopyKeywords(code, "in ",  ref copy, ref index);
@@ -189,7 +189,7 @@ namespace MaxMath.Tests
 
             return result + "\n";
         }
-        
+
         private void AppendWriteBack()
         {
             foreach (KeyValuePair<string, int> referenceCount in ReferenceCounter)
@@ -205,7 +205,7 @@ namespace MaxMath.Tests
         {
             Result += "\tpublic void Execute()\n"
                    + "\t{\n";
-            
+
             int insertLocalsIndex = Result.Length;
 
             for (int i = 0; i < SourceCodeWithoutVariableNames.Length; i++)
@@ -218,14 +218,14 @@ namespace MaxMath.Tests
             Result += "\n";
 
             Result = Result.Insert(insertLocalsIndex, GenerateLocals());
-            
+
             AppendWriteBack();
 
             Result += "\t}\n";
         }
 
 
-         
+
         private void AppendJobEpilogue()
         {
             Result += "}\n";

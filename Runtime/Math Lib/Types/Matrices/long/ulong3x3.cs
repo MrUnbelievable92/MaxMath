@@ -106,8 +106,26 @@ Assert.IsWithinArrayBounds(index, 3);
         public static ulong3x3 operator * (ulong3x3 left, ulong3x3 right) => new ulong3x3(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator / (ulong3x3 left, byte3x3 right) => new ulong3x3 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator / (ulong3x3 left, ushort3x3 right) => new ulong3x3 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator / (ulong3x3 left, uint3x3 right) => new ulong3x3 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3x3 operator / (ulong3x3 left, ulong3x3 right) => new ulong3x3 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator % (ulong3x3 left, byte3x3 right) => new ulong3x3 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator % (ulong3x3 left, ushort3x3 right) => new ulong3x3 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator % (ulong3x3 left, uint3x3 right) => new ulong3x3 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3x3 operator % (ulong3x3 left, ulong3x3 right) => new ulong3x3 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2);
 
@@ -138,8 +156,26 @@ Assert.IsWithinArrayBounds(index, 3);
         public static ulong3x3 operator * (ulong left, ulong3x3 right) => new ulong3x3 (left * right.c0, left * right.c1, left * right.c2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator / (ulong3x3 left, byte right) => new ulong3x3 (left.c0 / right, left.c1 / right, left.c2 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator / (ulong3x3 left, ushort right) => new ulong3x3 (left.c0 / right, left.c1 / right, left.c2 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator / (ulong3x3 left, uint right) => new ulong3x3 (left.c0 / right, left.c1 / right, left.c2 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3x3 operator / (ulong3x3 left, ulong right) => new ulong3x3 (left.c0 / right, left.c1 / right, left.c2 / right);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator % (ulong3x3 left, byte right) => new ulong3x3 (left.c0 % right, left.c1 % right, left.c2 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator % (ulong3x3 left, ushort right) => new ulong3x3 (left.c0 % right, left.c1 % right, left.c2 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3x3 operator % (ulong3x3 left, uint right) => new ulong3x3 (left.c0 % right, left.c1 % right, left.c2 % right);
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3x3 operator % (ulong3x3 left, ulong right) => new ulong3x3 (left.c0 % right, left.c1 % right, left.c2 % right);
 

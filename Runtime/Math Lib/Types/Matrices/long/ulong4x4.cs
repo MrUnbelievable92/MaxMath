@@ -111,8 +111,26 @@ Assert.IsWithinArrayBounds(index, 4);
         public static ulong4x4 operator * (ulong4x4 left, ulong4x4 right) => new ulong4x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator / (ulong4x4 left, byte4x4 right) => new ulong4x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator / (ulong4x4 left, ushort4x4 right) => new ulong4x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator / (ulong4x4 left, uint4x4 right) => new ulong4x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4x4 operator / (ulong4x4 left, ulong4x4 right) => new ulong4x4 (left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator % (ulong4x4 left, byte4x4 right) => new ulong4x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator % (ulong4x4 left, ushort4x4 right) => new ulong4x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator % (ulong4x4 left, uint4x4 right) => new ulong4x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4x4 operator % (ulong4x4 left, ulong4x4 right) => new ulong4x4 (left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
 
@@ -143,8 +161,26 @@ Assert.IsWithinArrayBounds(index, 4);
         public static ulong4x4 operator * (ulong left, ulong4x4 right) => new ulong4x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator / (ulong4x4 left, byte right) => new ulong4x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator / (ulong4x4 left, ushort right) => new ulong4x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator / (ulong4x4 left, uint right) => new ulong4x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4x4 operator / (ulong4x4 left, ulong right) => new ulong4x4 (left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator % (ulong4x4 left, byte right) => new ulong4x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator % (ulong4x4 left, ushort right) => new ulong4x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4x4 operator % (ulong4x4 left, uint right) => new ulong4x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4x4 operator % (ulong4x4 left, ulong right) => new ulong4x4 (left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
 

@@ -12,7 +12,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shl(byte2 x, byte2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi8(x, n, inRange: true, elements: 2);
             }
@@ -26,7 +26,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shl(byte3 x, byte3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi8(x, n, inRange: true, elements: 3);
             }
@@ -40,7 +40,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shl(byte4 x, byte4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi8(x, n, inRange: true, elements: 4);
             }
@@ -54,7 +54,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 shl(byte8 x, byte8 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi8(x, n, inRange: true, elements: 8);
             }
@@ -68,7 +68,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 shl(byte16 x, byte16 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi8(x, n, inRange: true, elements: 16);
             }
@@ -182,7 +182,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 shl(short2 x, short2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi16(x, n, inRange: true, elements: 2);
             }
@@ -196,7 +196,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 shl(short3 x, short3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi16(x, n, inRange: true, elements: 3);
             }
@@ -210,7 +210,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 shl(short4 x, short4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi16(x, n, inRange: true, elements: 4);
             }
@@ -224,7 +224,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 shl(short8 x, short8 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi16(x, n, inRange: true, elements: 8);
             }
@@ -324,7 +324,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 shl(int2 x, int2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.sllv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 2));
             }
@@ -338,7 +338,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 shl(int3 x, int3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.sllv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 3));
             }
@@ -352,7 +352,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 shl(int4 x, int4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.sllv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 4));
             }
@@ -439,7 +439,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shl(long2 x, long2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sllv_epi64(x, n, inRange: true);
             }
@@ -569,7 +569,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shrl(byte2 x, byte2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi8(x, n, inRange: true, elements: 2);
             }
@@ -583,7 +583,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shrl(byte3 x, byte3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi8(x, n, inRange: true, elements: 3);
             }
@@ -597,7 +597,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shrl(byte4 x, byte4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi8(x, n, inRange: true, elements: 4);
             }
@@ -611,7 +611,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 shrl(byte8 x, byte8 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi8(x, n, inRange: true, elements: 8);
             }
@@ -625,7 +625,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 shrl(byte16 x, byte16 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi8(x, n, inRange: true, elements: 16);
             }
@@ -696,7 +696,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 shrl(short2 x, short2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi16(x, n, inRange: true, elements: 2);
             }
@@ -710,7 +710,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 shrl(short3 x, short3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi16(x, n, inRange: true, elements: 3);
             }
@@ -724,7 +724,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 shrl(short4 x, short4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi16(x, n, inRange: true, elements: 4);
             }
@@ -738,7 +738,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 shrl(short8 x, short8 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi16(x, n, inRange: true, elements: 8);
             }
@@ -830,7 +830,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 shrl(int2 x, int2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.srlv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 2));
             }
@@ -844,7 +844,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 shrl(int3 x, int3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.srlv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 3));
             }
@@ -858,7 +858,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 shrl(int4 x, int4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.srlv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 4));
             }
@@ -945,7 +945,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shrl(long2 x, long2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srlv_epi64(x, n, inRange: true);
             }
@@ -1032,7 +1032,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 shra(sbyte2 x, sbyte2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi8(x, n, inRange: true, elements: 2);
             }
@@ -1046,7 +1046,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 shra(sbyte3 x, sbyte3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi8(x, n, inRange: true, elements: 3);
             }
@@ -1060,7 +1060,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 shra(sbyte4 x, sbyte4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi8(x, n, inRange: true, elements: 4);
             }
@@ -1074,7 +1074,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 shra(sbyte8 x, sbyte8 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi8(x, n, inRange: true, elements: 8);
             }
@@ -1088,7 +1088,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 shra(sbyte16 x, sbyte16 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi8(x, n, inRange: true, elements: 16);
             }
@@ -1117,7 +1117,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 shra(short2 x, short2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi16(x, n, inRange: true, elements: 2);
             }
@@ -1131,7 +1131,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 shra(short3 x, short3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi16(x, n, inRange: true, elements: 3);
             }
@@ -1145,7 +1145,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 shra(short4 x, short4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi16(x, n, inRange: true, elements: 4);
             }
@@ -1159,7 +1159,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 shra(short8 x, short8 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi16(x, n, inRange: true, elements: 8);
             }
@@ -1188,7 +1188,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 shra(int2 x, int2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.srav_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, elements: 2));
             }
@@ -1202,7 +1202,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 shra(int3 x, int3 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.srav_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, elements: 3));
             }
@@ -1216,7 +1216,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 shra(int4 x, int4 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.srav_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, elements: 4));
             }
@@ -1245,7 +1245,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 shra(long2 x, long2 n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srav_epi64(x, n, inRange: true);
             }

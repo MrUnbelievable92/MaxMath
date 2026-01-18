@@ -72,14 +72,14 @@ namespace MaxMath.Tests
             }
             else if (function.Signature.ReturnType.Value.IsVector)
             {
-                result += (function.Signature.ReturnType.Value.IsV256 ? "\tif (Avx2.IsAvx2Supported)\n" 
-                                                                      : "\tif (Architecture.IsSIMDSupported)\n")
+                result += (function.Signature.ReturnType.Value.IsV256 ? "\tif (Avx2.IsAvx2Supported)\n"
+                                                                      : "\tif (ArchitectureInfo.IsSIMDSupported)\n")
                          + "\t{\n"
                          + "\t\t\n"
                          + "\t}\n"
                          + "\telse\n"
                          + "\t{\n"
-                         + (function.Signature.ReturnType.Value.IsV256 ? $"\t\t{ GenerateVectorFallback(function.Signature) }\n" 
+                         + (function.Signature.ReturnType.Value.IsV256 ? $"\t\t{ GenerateVectorFallback(function.Signature) }\n"
                                                                        : $"\t\t{ GenerateScalarFallback(function.Signature) }\n")
                          + "\t}\n";
             }
@@ -111,15 +111,15 @@ namespace MaxMath.Tests
 
             return CodeGen.GenerateIterated(
             "\n",
-            types.Length, 
-            i => 
+            types.Length,
+            i =>
             {
                 Parameter[] parameters = new Parameter[ParameterNames.Length];
                 for (int k = 0; k < parameters.Length; k++)
                 {
                     parameters[k] = new Parameter(ParameterNames[k], types[i], Parameter.Reference.Value);
                 }
-                
+
                 return GenerateFunction(new Function(FunctionName, new FunctionSignature(types[i], parameters)));
             });
         }

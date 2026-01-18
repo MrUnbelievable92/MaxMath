@@ -25,22 +25,22 @@ namespace MaxMath
             ulong expB = right.Value.value.hi64 & SIGNALING_EXPONENT.hi64;
             UInt128 sigA = new UInt128(left.Value.value.lo64, fracF128UI64(left.Value.value.hi64));
             UInt128 sigB = new UInt128(right.Value.value.lo64, fracF128UI64(right.Value.value.hi64));
-            
+
             bool expA0 = !(left.Promise.NonZero && left.Promise.NotSubnormal) && Hint.Unlikely(expA == 0);
             bool expB0 = !(right.Promise.NonZero && right.Promise.NotSubnormal) && Hint.Unlikely(expB == 0);
             bool expANaNInf = !(left.Promise.NotNaN && left.Promise.NotInf) && Hint.Unlikely(expA == SIGNALING_EXPONENT.hi64);
             bool expBNaNInf = !(right.Promise.NotNaN && right.Promise.NotInf) && Hint.Unlikely(expB == SIGNALING_EXPONENT.hi64);
 
-            if (expB0) 
+            if (expB0)
             {
                 if (right.Promise.NonZero
-                 || Hint.Unlikely(sigB.IsNotZero)) 
+                 || Hint.Unlikely(sigB.IsNotZero))
                 {
                     softfloat_normSubnormalF128Sig(ref expB, ref sigB);
                 }
                 else if (!expANaNInf)
                 {
-                    bool aIsZero = !left.Promise.NonZero && 
+                    bool aIsZero = !left.Promise.NonZero &&
                                    (left.Promise.NoSignedZero ? left.Value.value.IsZero : (expA | sigA.hi64 | sigA.lo64) == 0);
 
                     return new quadruple(tobyte(aIsZero), signZ | SIGNALING_EXPONENT.hi64);
@@ -50,10 +50,10 @@ namespace MaxMath
             {
                 expB >>= MANTISSA_BITS_HI64;
             }
-            if (expA0) 
+            if (expA0)
             {
                 if (left.Promise.NonZero
-                 || Hint.Unlikely(Hint.Likely(sigA.IsNotZero))) 
+                 || Hint.Unlikely(Hint.Likely(sigA.IsNotZero)))
                 {
                     softfloat_normSubnormalF128Sig(ref expA, ref sigA);
                 }
@@ -66,7 +66,7 @@ namespace MaxMath
             {
                 expA >>= MANTISSA_BITS_HI64;
             }
-            
+
             finalPromise |= FloatingPointPromise<quadruple>.NOT_NAN;
 
             sigA = new UInt128(sigA.lo64, sigA.hi64 | (1ul << MANTISSA_BITS_HI64));
@@ -76,7 +76,7 @@ namespace MaxMath
             ulong expZ = expA - expB + 0x3FFE - tobyte(aLTb);
             UInt128 rem = sigA + select(0, sigA, aLTb);
             ulong recip32 = softfloat_approxRecip32_1((uint)(sigB.hi64 >> 17));
-            
+
             if (expANaNInf)
             {
                 if ((!left.Promise.NotNaN
@@ -116,7 +116,7 @@ namespace MaxMath
                 uint* q2p = &q2;
 
                 int ix = 3;
-                while (true) 
+                while (true)
                 {
                     q64 = (uint)(rem.hi64 >> 19) * recip32;
                     q = (uint)((q64 + 0x8000_0000) >> 32);
@@ -126,7 +126,7 @@ namespace MaxMath
                     }
                     rem <<= 29;
                     rem -= q * sigB;
-                    if ((long)rem.hi64 < 0) 
+                    if ((long)rem.hi64 < 0)
                     {
                         q--;
                         rem += sigB;
@@ -148,7 +148,7 @@ namespace MaxMath
                 q = (uint)((q64 + 0x8000_0000) >> 32);
                 rem <<= 29;
                 rem -= q * sigB;
-                if ((long)rem.hi64 < 0) 
+                if ((long)rem.hi64 < 0)
                 {
                     q--;
                     rem += sigB;
@@ -158,7 +158,7 @@ namespace MaxMath
                 q = (uint)((q64 + 0x8000_0000) >> 32);
                 rem <<= 29;
                 rem -= q * sigB;
-                if ((long)rem.hi64 < 0) 
+                if ((long)rem.hi64 < 0)
                 {
                     q--;
                     rem += sigB;
@@ -168,7 +168,7 @@ namespace MaxMath
                 q = (uint)((q64 + 0x8000_0000) >> 32);
                 rem <<= 29;
                 rem -= q * sigB;
-                if ((long)rem.hi64 < 0) 
+                if ((long)rem.hi64 < 0)
                 {
                     q--;
                     rem += sigB;
@@ -179,22 +179,22 @@ namespace MaxMath
 
                 round = ((q64 + 0x0000_0001_8000_0000ul) & (7ul << 32)) < (2ul << 32);
             }
-            
-            if (round) 
+
+            if (round)
             {
                 rem <<= 29;
                 rem -= q * sigB;
-                if ((long)rem.hi64 < 0) 
+                if ((long)rem.hi64 < 0)
                 {
                     q--;
                     rem += sigB;
-                } 
-                else if (sigB <= rem) 
+                }
+                else if (sigB <= rem)
                 {
                     q++;
                     rem -= sigB;
                 }
-            
+
                 q |= tobyte(rem.IsNotZero);
             }
 

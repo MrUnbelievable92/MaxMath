@@ -77,7 +77,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 bitfield(byte2 x0, byte2 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpacklo_epi8(x0, x1);
             }
@@ -91,7 +91,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 bitfield(byte3 x0, byte3 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpacklo_epi8(x0, x1);
             }
@@ -105,7 +105,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 bitfield(byte4 x0, byte4 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpacklo_epi8(x0, x1);
             }
@@ -119,7 +119,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 bitfield(byte8 x0, byte8 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpacklo_epi8(x0, x1);
             }
@@ -133,7 +133,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 bitfield(byte16 x0, byte16 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo = Xse.unpacklo_epi8(x0, x1);
                 v128 hi = Xse.unpackhi_epi8(x0, x1);
@@ -208,7 +208,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bitfield(byte2 x0, byte2 x1, byte2 x2, byte2 x3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo0 = Xse.unpacklo_epi8(x0, x1);
                 v128 lo1 = Xse.unpacklo_epi8(x2, x3);
@@ -225,7 +225,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bitfield(byte3 x0, byte3 x1, byte3 x2, byte3 x3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo0 = Xse.unpacklo_epi8(x0, x1);
                 v128 lo1 = Xse.unpacklo_epi8(x2, x3);
@@ -242,7 +242,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bitfield(byte4 x0, byte4 x1, byte4 x2, byte4 x3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo0 = Xse.unpacklo_epi8(x0, x1);
                 v128 lo1 = Xse.unpacklo_epi8(x2, x3);
@@ -259,7 +259,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 bitfield(byte8 x0, byte8 x1, byte8 x2, byte8 x3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo0 = Xse.unpacklo_epi8(x0, x1);
                 v128 lo1 = Xse.unpacklo_epi8(x2, x3);
@@ -336,7 +336,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bitfield(ushort2 x0, ushort2 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.unpacklo_epi16(x0, x1));
             }
@@ -350,7 +350,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bitfield(ushort3 x0, ushort3 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.unpacklo_epi16(x0, x1));
             }
@@ -364,7 +364,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bitfield(ushort4 x0, ushort4 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.unpacklo_epi16(x0, x1));
             }
@@ -378,7 +378,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 bitfield(ushort8 x0, ushort8 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 resultlo = Xse.unpacklo_epi16(x0, x1);
                 v128 resulthi = Xse.unpackhi_epi16(x0, x1);
@@ -453,7 +453,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 bitfield(byte2 x0, byte2 x1, byte2 x2, byte2 x3, byte2 x4, byte2 x5, byte2 x6, byte2 x7)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 x01 = Xse.unpacklo_epi8(x0, x1);
                 v128 x23 = Xse.unpacklo_epi8(x2, x3);
@@ -476,7 +476,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 bitfield(byte3 x0, byte3 x1, byte3 x2, byte3 x3, byte3 x4, byte3 x5, byte3 x6, byte3 x7)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 x01 = Xse.unpacklo_epi8(x0, x1);
                 v128 x23 = Xse.unpacklo_epi8(x2, x3);
@@ -510,7 +510,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 bitfield(byte4 x0, byte4 x1, byte4 x2, byte4 x3, byte4 x4, byte4 x5, byte4 x6, byte4 x7)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 x01 = Xse.unpacklo_epi8(x0, x1);
                 v128 x23 = Xse.unpacklo_epi8(x2, x3);
@@ -582,7 +582,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 bitfield(ushort2 x0, ushort2 x1, ushort2 x2, ushort2 x3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 x01 = Xse.unpacklo_epi16(x0, x1);
                 v128 x23 = Xse.unpacklo_epi16(x2, x3);
@@ -599,7 +599,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 bitfield(ushort3 x0, ushort3 x1, ushort3 x2, ushort3 x3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 x01 = Xse.unpacklo_epi16(x0, x1);
                 v128 x23 = Xse.unpacklo_epi16(x2, x3);
@@ -626,7 +626,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 bitfield(ushort4 x0, ushort4 x1, ushort4 x2, ushort4 x3)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 x01 = Xse.unpacklo_epi16(x0, x1);
                 v128 x23 = Xse.unpacklo_epi16(x2, x3);
@@ -690,7 +690,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 bitfield(uint2 x0, uint2 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.unpacklo_epi32(RegisterConversion.ToV128(x0), RegisterConversion.ToV128(x1));
             }
@@ -704,7 +704,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 bitfield(uint3 x0, uint3 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _x0 = RegisterConversion.ToV128(x0);
                 v128 _x1 = RegisterConversion.ToV128(x1);
@@ -731,7 +731,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 bitfield(uint4 x0, uint4 x1)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _x0 = RegisterConversion.ToV128(x0);
                 v128 _x1 = RegisterConversion.ToV128(x1);

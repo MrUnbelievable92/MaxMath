@@ -20,13 +20,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte3 a, byte3 b)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return Xse.allfalse_epi128<byte>(Xse.cmpeq_epi8(Xse.shuffle_epi8(a, new v128(0, 1, 2, 0, 1, 2, 0, 1, 2,   -1, -1, -1, -1, -1, -1, -1)),
                                                                 Xse.shuffle_epi8(b, new v128(0, 0, 0, 1, 1, 1, 2, 2, 2,   -1, -1, -1, -1, -1, -1, -1))),
                                                                 9);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 a16 = Xse.cvtepu8_epi16(a);
                 v128 b16 = Xse.cvtepu8_epi16(b);
@@ -46,12 +46,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte4 a, byte4 b)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return Xse.allfalse_epi128<byte>(Xse.cmpeq_epi8(Xse.shuffle_epi8(a, new v128(0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3)),
                                                                 Xse.shuffle_epi8(b, new v128(0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 a16 = Xse.cvtepu8_epi16(a);
                 v128 b16 = Xse.cvtepu8_epi16(b);
@@ -72,7 +72,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte8 a, byte8 b)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 v128 dupA = Xse.unpacklo_epi64(a, a);
 
@@ -82,7 +82,7 @@ namespace MaxMath
                                                                                      Xse.cmpeq_epi8(dupA, Xse.shuffle_epi8(b, new v128(3, 3, 3, 3, 3, 3, 3, 3,   7, 7, 7, 7, 7, 7, 7, 7))),
                                                                                      TernaryOperation.OxFE));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<byte>(Xse.or_si128(Xse.or_si128(Xse.or_si128(Xse.cmpeq_epi8(a, Xse.broadcasti_epi8(b, 0, 8)),
                                                                                         Xse.cmpeq_epi8(a, Xse.broadcasti_epi8(b, 1, 8))),
@@ -129,7 +129,7 @@ namespace MaxMath
                                                                                              Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi8(dupA, Xse.mm256_bror_si128(dupB, 6 * sizeof(byte))),
                                                                                                                  Avx2.mm256_cmpeq_epi8(dupA, Xse.mm256_bror_si128(dupB, 7 * sizeof(byte)))), TernaryOperation.OxFE));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<byte>(Xse.or_si128(Xse.or_si128(Xse.or_si128(Xse.or_si128(Xse.cmpeq_epi8(a, Xse.bror_si128(b, 0  * sizeof(byte))),
                                                                                                      Xse.cmpeq_epi8(a, Xse.bror_si128(b, 1  * sizeof(byte)))),
@@ -205,7 +205,7 @@ namespace MaxMath
                                                                                                                                                                   Avx2.mm256_cmpeq_epi8(a, Xse.mm256_bror_si256(b, 31 * sizeof(byte))), TernaryOperation.OxFE)),
                                                                                                                                                                   32);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return all_dif(a.v16_0,  b.v16_0)
                     && all_dif(a.v16_16, b.v16_0)
@@ -284,7 +284,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(short3 a, short3 b)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return (Xse.extract_epi16(a, 2) != Xse.extract_epi16(b, 2)) & Xse.allfalse_epi128<short>(Xse.cmpeq_epi16(Xse.shuffle_epi16(a, new v128(0, 1, 2, 0, 1, 2, 0, 1)),
                                                                                                                          Xse.shuffle_epi16(b, new v128(0, 0, 0, 1, 1, 1, 2, 2))));
@@ -299,12 +299,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(short4 a, short4 b)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return Xse.allfalse_epi128<short>(Xse.or_si128(Xse.cmpeq_epi16(Xse.unpacklo_epi64(a, a), Xse.shuffle_epi16(b, new v128(0, 0, 0, 0, 1, 1, 1, 1))),
                                                                Xse.cmpeq_epi16(Xse.unpacklo_epi64(a, a), Xse.shuffle_epi16(b, new v128(2, 2, 2, 2, 3, 3, 3, 3)))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<short>(Xse.or_si128(Xse.cmpeq_epi16(a, Xse.shufflelo_epi16(b, Sse.SHUFFLE(0, 0, 0, 0))),
                                                   Xse.or_si128(Xse.cmpeq_epi16(a, Xse.shufflelo_epi16(b, Sse.SHUFFLE(1, 1, 1, 1))),
@@ -322,7 +322,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(short8 a, short8 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<short>(Xse.ternarylogic_si128(Xse.ternarylogic_si128(Xse.cmpeq_epi16(a, Xse.bror_si128(b, 0 * sizeof(ushort))),
                                                                                                 Xse.cmpeq_epi16(a, Xse.bror_si128(b, 1 * sizeof(ushort))),
@@ -373,7 +373,7 @@ namespace MaxMath
                                                                                                                                       Avx2.mm256_cmpeq_epi16(a, Xse.mm256_bror_si256(b, 14 * sizeof(ushort))), TernaryOperation.OxFE),
                                                                                                                                       Avx2.mm256_cmpeq_epi16(a, Xse.mm256_bror_si256(b, 15 * sizeof(ushort))), TernaryOperation.OxFE)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return all_dif(a.v8_0, b.v8_0)
                     && all_dif(a.v8_8, b.v8_0)
@@ -470,7 +470,7 @@ namespace MaxMath
                                                                                             Avx2.mm256_or_si256(Avx2.mm256_cmpeq_epi32(a, Xse.mm256_bror_si256(b, 6 * sizeof(int))),
                                                                                                                 Avx2.mm256_cmpeq_epi32(a, Xse.mm256_bror_si256(b, 7 * sizeof(int)))), TernaryOperation.OxFE));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return all_dif(a.v4_0, b.v4_0)
                      & all_dif(a.v4_4, b.v4_0)
@@ -532,7 +532,7 @@ namespace MaxMath
             {
                 return !math.any(a.xyxy == b.xxyy);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<long>(Xse.or_si128(Xse.cmpeq_epi64(a, b.xx), Xse.cmpeq_epi64(a, b.yy)));
             }
@@ -554,7 +554,7 @@ namespace MaxMath
                                                                                     TernaryOperation.OxFE),
                                                                                     3);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<long>(Xse.or_si128(Xse.or_si128(Xse.cmpeq_epi64(a.xy, b.xx),
                                                               Xse.or_si128(Xse.cmpeq_epi64(a.xy, b.yy),
@@ -580,7 +580,7 @@ namespace MaxMath
                                                                            Avx2.mm256_cmpeq_epi64(a, b.wwww),
                                                                            TernaryOperation.OxFE)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<long>(Xse.or_si128(Xse.or_si128(Xse.or_si128(Xse.cmpeq_epi64(a.xy, b.xx),
                                                                                         Xse.cmpeq_epi64(a.xy, b.yy)),
@@ -657,7 +657,7 @@ namespace MaxMath
                                                                                                 Avx.mm256_or_ps(Xse.mm256_cmpeq_ps(a, Xse.mm256_bror_si256(b, 6 * sizeof(int))),
                                                                                                                 Xse.mm256_cmpeq_ps(a, Xse.mm256_bror_si256(b, 7 * sizeof(int)))), TernaryOperation.OxFE));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return all_dif(a.v4_0, b.v4_0)
                      & all_dif(a.v4_4, b.v4_0)
@@ -730,7 +730,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<byte>(Xse.cmpeq_epi8(c, Xse.bsrli_si128(c, 1 * sizeof(byte))), 1);
             }
@@ -744,7 +744,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return !math.any(c.xxz == c.yzy);
             }
@@ -758,12 +758,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte4 c)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return Xse.allfalse_epi128<byte>(Xse.cmpeq_epi8(Xse.shuffle_epi8(c, new v128(0, 0, 0, 1, 1, 2,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0)),
                                                                 Xse.shuffle_epi8(c, new v128(1, 2, 3, 2, 3, 3,    1, 1, 1, 1, 1, 1, 1, 1, 1, 1))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return !math.any(c == c.ywxz | c == c.wzxz);
             }
@@ -789,7 +789,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte8 c)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 v128 cmp0 = Xse.cmpeq_epi8(Xse.shuffle_epi32(c, Sse.SHUFFLE(0, 0, 0, 0)), // Int0 = Byte 0, 1, 2, 3
                                            Xse.shuffle_epi8(c, new v128(4, 5, 0, 7, 1, 6, 7, 5, 6, 2, 4, 6, 3, 3, 3, 4)));
@@ -821,10 +821,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(byte16 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cShuf0;
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     cShuf0 = Xse.shuffle_epi8(c, new v128(8, 15, 15, 11, 15, 13, 14, 15, 15, 1, 2, 0, 4, 0, 1, 1));
                 }
@@ -903,7 +903,7 @@ namespace MaxMath
 
                 return Xse.mm256_allfalse_epi256<byte>(Xse.mm256_ternarylogic_si256(orHi, orLo, orLast, TernaryOperation.OxFE));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return all_dif(c.v16_0) && all_dif(c.v16_16) && all_dif(c.v16_0, c.v16_16);
             }
@@ -973,7 +973,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(short2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return 0 == Xse.cmpeq_epi16(c, Xse.bsrli_si128(c, 1 * sizeof(short))).UShort0;
             }
@@ -987,7 +987,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(short3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return !math.any(c.xxzx == c.yzyy);
             }
@@ -1013,12 +1013,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(short4 c)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return Xse.allfalse_epi128<short>(Xse.cmpeq_epi16(Xse.shuffle_epi16(c, new v128(0, 0, 0, 1, 1, 2,    0, 0)),
                                                                   Xse.shuffle_epi16(c, new v128(1, 2, 3, 2, 3, 3,    1, 1))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return !math.any(c == c.ywxz | c == c.wzxz);
             }
@@ -1044,10 +1044,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(short8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 finalCmp;
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     finalCmp = Xse.shuffle_epi16(c, new v128(4, 5, 6, 7, 7, 0, 1, 2));
                 }
@@ -1106,7 +1106,7 @@ namespace MaxMath
 
                 return Xse.mm256_allfalse_epi256<short>(Xse.mm256_ternarylogic_si256(orHi, orMid, orLo, TernaryOperation.OxFE));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return all_dif(c.v8_0) && all_dif(c.v8_8) && all_dif(c.v8_0, c.v8_8);
             }
@@ -1169,7 +1169,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(int2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _c = RegisterConversion.ToV128(c);
 
@@ -1210,7 +1210,7 @@ namespace MaxMath
 
                 return Xse.mm256_allfalse_epi256<int>(or);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 int4 lo = c.v4_0;
                 int4 hi = c.v4_4;
@@ -1332,7 +1332,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(long2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.allfalse_epi128<long>(Xse.cmpeq_epi64(c, Xse.bsrli_si128(c, 1 * sizeof(long))), 1);
             }
@@ -1382,7 +1382,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(float2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _c = RegisterConversion.ToV128(c);
 
@@ -1423,7 +1423,7 @@ namespace MaxMath
 
                 return Xse.mm256_allfalse_f256<float>(or);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 float4 lo = c.v4_0;
                 float4 hi = c.v4_4;
@@ -1516,7 +1516,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_dif(double2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 _c = RegisterConversion.ToV128(c);
 

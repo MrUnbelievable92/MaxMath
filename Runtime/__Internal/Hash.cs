@@ -18,7 +18,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v48(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.xor_si128(x, Xse.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 2, 2))).SInt0;
             }
@@ -28,7 +28,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v64(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.xor_si128(x, Xse.shufflelo_epi16(x, Sse.SHUFFLE(0, 0, 3, 2))).SInt0;
             }
@@ -38,7 +38,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static int v128(v128 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return v64(Xse.xor_si128(x, Xse.shuffle_epi32(x, Sse.SHUFFLE(0, 0, 3, 2))));
             }

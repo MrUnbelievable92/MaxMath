@@ -208,7 +208,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 normalize(float8 x)
         {
-            return x / math.sqrt(dot(x, x));
+            return x / length(x);
         }
 
         /// <summary>       Returns a safe normalized version of the <see cref="MaxMath.float8"/> <paramref name="x"/> by scaling it by 1 <see langword="/"/> length(<paramref name="x"/>). Returns the given default value when 1 <see langword="/"/> length(<paramref name="x"/>) does not produce a finite number.      </summary>

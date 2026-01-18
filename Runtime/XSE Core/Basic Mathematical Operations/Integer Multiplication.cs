@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -10,13 +11,13 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mullo_epi8(v128 a, v128 b, byte elements = 16, bool orderMatters = true)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPI8(a, b, elements))
                 {
                     return square_epi8(a, elements, orderMatters);
                 }
-                
+
                 return impl_mullo_epi8(a, b, elements, orderMatters);
             }
             else throw new IllegalInstructionException();
@@ -137,7 +138,7 @@ namespace MaxMath.Intrinsics
             else throw new IllegalInstructionException();
         }
 
-        
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mullo_epi16(v128 a, v128 b)
 		{
@@ -151,7 +152,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-        
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mulhi_epu16(v128 a, v128 b)
 		{
@@ -169,7 +170,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mulhi_epi16(v128 a, v128 b)
 		{
@@ -192,7 +193,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mullo_epi32(v128 a, v128 b, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPI32(a, b, elements))
                 {
@@ -322,7 +323,7 @@ namespace MaxMath.Intrinsics
             }
             else throw new IllegalInstructionException();
         }
-        
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mul_epu32(v128 a, v128 b)
 		{
@@ -371,8 +372,8 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
-        
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 maddubs_epi16(v128 a, v128 b)
 		{
@@ -388,7 +389,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mulhrs_epi16(v128 a, v128 b)
 		{
@@ -409,8 +410,8 @@ namespace MaxMath.Intrinsics
 			else throw new IllegalInstructionException();
 		}
 
-        
-		
+
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 mpsadbw_epu8(v128 a, v128 b, int imm8)
 		{
@@ -458,7 +459,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool constcheck_mullo_epi64(v128 a, v128 b, out v128 result, bool unsigned_A_lessequalU32Max = false, bool unsigned_B_lessequalU32Max = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if ((unsigned_A_lessequalU32Max || constexpr.ALL_LE_EPU64(a, uint.MaxValue))
                  && (unsigned_B_lessequalU32Max || constexpr.ALL_LE_EPU64(b, uint.MaxValue)))
@@ -467,7 +468,7 @@ namespace MaxMath.Intrinsics
 
                     return true;
                 }
-                if (Architecture.IsMul32Supported)
+                if (BurstArchitecture.IsMul32Supported)
                 {
                     if (constexpr.ALL_GE_EPI64(a, int.MinValue) && constexpr.ALL_LE_EPI64(a, int.MaxValue)
                      && constexpr.ALL_GE_EPI64(b, int.MinValue) && constexpr.ALL_LE_EPI64(b, int.MaxValue))
@@ -513,7 +514,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mullo_epi64(v128 a, v128 b, bool unsigned_A_lessequalU32Max = false, bool unsigned_B_lessequalU32Max = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPI64(a, b))
                 {
@@ -529,6 +530,11 @@ namespace MaxMath.Intrinsics
 
                 if (unsigned_A_lessequalU32Max || constexpr.ALL_LE_EPU64(a, uint.MaxValue))
                 {
+                    if (unsigned_B_lessequalU32Max || constexpr.ALL_LE_EPU64(b, uint.MaxValue))
+                    {
+                        return prod32;
+                    }
+
                     carry32 = slli_epi64(mul_epu32(a, srli_epi64(b, 32)), 32);
 
                     return add_epi64(prod32, carry32);
@@ -540,7 +546,7 @@ namespace MaxMath.Intrinsics
                     return add_epi64(prod32, carry32);
                 }
 
-                if (Architecture.IsMul32Supported)
+                if (BurstArchitecture.IsMul32Supported)
                 {
                     carry32 = mullo_epi32(a, shuffle_epi32(b, Sse.SHUFFLE(2, 3, 0, 1)));
                     carry32 = hadd_epi32(carry32, setzero_si128());
@@ -577,6 +583,11 @@ namespace MaxMath.Intrinsics
 
                 if (unsigned_A_lessequalU32Max || constexpr.ALL_LE_EPU64(a, uint.MaxValue, elements))
                 {
+                    if (unsigned_B_lessequalU32Max || constexpr.ALL_LE_EPU64(b, uint.MaxValue, elements))
+                    {
+                        return prod32;
+                    }
+
                     carry32 = Avx2.mm256_slli_epi64(Avx2.mm256_mul_epu32(a, Avx2.mm256_srli_epi64(b, 32)), 32);
 
                     return Avx2.mm256_add_epi64(prod32, carry32);
@@ -601,7 +612,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mulhi_epi64(v128 a, v128 b, out v128 low)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 high = mulhi_epu64(a, b, out low);
 
@@ -622,7 +633,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mulhi_epi64(v128 a, v128 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return mulhi_epi64(a, b, out _);
             }
@@ -664,7 +675,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mulhi_epu64(v128 a, v128 b, out v128 low)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 UInt128 x = UInt128.umul128(a.ULong0, b.ULong0);
                 UInt128 y = UInt128.umul128(a.ULong1, b.ULong1);
@@ -678,7 +689,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mulhi_epu64(v128 a, v128 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return mulhi_epu64(a, b, out _);
             }
@@ -703,7 +714,7 @@ namespace MaxMath.Intrinsics
                 v256 m1Lo = Avx2.mm256_blend_epi32(m1, ZERO, 0b1010_1010);
                 v256 loHi = Avx2.mm256_srli_epi64(lo, 32);
                 v256 m1Hi = Avx2.mm256_srli_epi64(m1, 32);
-                
+
                 low = mm256_mullo_epi64(a, b, elements, unsigned_A_lessequalU32Max, unsigned_B_lessequalU32Max);
                 return Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(hi, m1Hi), Avx2.mm256_srli_epi64(Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(loHi, m1Lo), m2), 32));
             }
@@ -724,9 +735,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 squarehi_epu64(v128 a, out v128 low)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return mulhi_epi64(a, a, out low);
+                return mulhi_epu64(a, a, out low);
             }
             else throw new IllegalInstructionException();
         }
@@ -734,7 +745,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 squarehi_epu64(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return squarehi_epu64(a, out _);
             }
@@ -757,7 +768,7 @@ namespace MaxMath.Intrinsics
                 v256 mLo = Avx2.mm256_blend_epi32(m, ZERO, 0b1010_1010);
                 v256 loHi = Avx2.mm256_srli_epi64(lo, 32);
                 v256 mHi = Avx2.mm256_srli_epi64(m, 32);
-                
+
                 low = mm256_square_epi64(a, elements, unsigned_A_lessequalU32Max);
                 return Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(hi, mHi), Avx2.mm256_srli_epi64(Avx2.mm256_add_epi64(Avx2.mm256_add_epi64(loHi, mLo), m), 32));
             }
@@ -776,15 +787,35 @@ namespace MaxMath.Intrinsics
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 square_epi8(v128 a, byte elements = 16, bool orderMatters = true)
+        public static v128 square_epi8(v128 a, byte elements = 16, bool orderMatters = true, bool fourBit = false)
         {
-            if (Architecture.IsSIMDSupported)
+            fourBit |= constexpr.ALL_LE_EPU8(a, 15, elements);
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
-                    if (constexpr.ALL_LE_EPU8(a, 15, elements))
+                    if (fourBit)
                     {
                         return shuffle_epi8(SQUARES_EPU4, a);
+                    }
+
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
+                        {
+                            v128 a1 = slli_epi8(a, 5, maskBefore: true);
+                            v128 a2 = slli_epi8(a, 6, maskBefore: true);
+                            a1 = blendv_epi8(setzero_si128(), a1, slli_epi16(a, 3));
+                            a2 = blendv_epi8(setzero_si128(), a2, slli_epi16(a, 2));
+
+                            v128 lo = shuffle_epi8(SQUARES_EPU4, and_si128(a, set1_epi8(0b1111)));
+
+                            v128 a4 = slli_epi8(a, 7, maskBefore: false);
+                            a4 = ternarylogic_si128(a4, lo, add_epi8(a, a), TernaryOperation.Ox6C);
+
+                            return add_epi8(a4, add_epi8(a2, a1));
+                        }
                     }
                 }
 
@@ -794,13 +825,30 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_square_epi8(v256 a, bool orderMatters = true)
+        public static v256 mm256_square_epi8(v256 a, bool orderMatters = true, bool fourBit = false)
         {
+            fourBit |= constexpr.ALL_LE_EPU8(a, 15);
+
             if (Avx2.IsAvx2Supported)
             {
-                if (constexpr.ALL_LE_EPU8(a, 15))
+                if (fourBit)
                 {
                     return Avx2.mm256_shuffle_epi8(MM256_SQUARES_EPU4, a);
+                }
+
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
+                {
+                    v256 a1 = mm256_slli_epi8(a, 5, maskBefore: true);
+                    v256 a2 = mm256_slli_epi8(a, 6, maskBefore: true);
+                    a1 = Avx2.mm256_blendv_epi8(Avx.mm256_setzero_si256(), a1, mm256_slli_epi16(a, 3));
+                    a2 = Avx2.mm256_blendv_epi8(Avx.mm256_setzero_si256(), a2, mm256_slli_epi16(a, 2));
+
+                    v256 lo = Avx2.mm256_shuffle_epi8(MM256_SQUARES_EPU4, Avx2.mm256_and_si256(a, mm256_set1_epi8(0b1111)));
+
+                    v256 a4 = mm256_slli_epi8(a, 7, maskBefore: false);
+                    a4 = mm256_ternarylogic_si256(a4, lo, Avx2.mm256_add_epi8(a, a), TernaryOperation.Ox6C);
+
+                    return Avx2.mm256_add_epi8(a4, Avx2.mm256_add_epi8(a2, a1));
                 }
 
                 return mm256_impl_mullo_epi8(a, a, orderMatters);
@@ -811,9 +859,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 square_epi16(v128 a, byte elements = 8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.ALL_LE_EPU16(a, 15, elements))
                     {
@@ -844,9 +892,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 square_epi32(v128 a, byte elements = 4)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.ALL_LE_EPU32(a, 15, elements))
                     {
@@ -877,9 +925,9 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 square_epi64(v128 a, bool unsigned_A_lessequalU32Max = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                if (Architecture.IsTableLookupSupported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (constexpr.ALL_LE_EPU64(a, 15))
                     {
@@ -995,7 +1043,7 @@ namespace MaxMath.Intrinsics
                     {
                         a = shuffle_epi32(a, Sse.SHUFFLE(0, 1, 0, 0));
                         b = shuffle_epi32(b, Sse.SHUFFLE(0, 1, 0, 0));
-            
+
                         return shuffle_epi32(mul_epu32(a, b), Sse.SHUFFLE(0, 0, 2, 0));
                     }
                     else
@@ -1003,7 +1051,7 @@ namespace MaxMath.Intrinsics
                         v128 even = mul_epu32(a, b);
                         v128 odd  = mul_epu32(bsrli_si128(a, sizeof(int)),
                                               bsrli_si128(b, sizeof(int)));
-            
+
                         return unpacklo_epi64(unpacklo_epi32(even, odd),
                                               unpackhi_epi32(even, odd));
                     }
@@ -1019,7 +1067,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mulw_epi8(v128 a, v128 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return mulw2x2_epi8(a, b, out _);
             }
@@ -1029,7 +1077,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mulw_epu8(v128 a, v128 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return mulw2x2_epu8(a, b, out _);
             }
@@ -1075,7 +1123,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mulw_epi32(v128 a, v128 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return mulw2x2_epi32(a, b, out _);
             }
@@ -1085,7 +1133,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mulw_epu32(v128 a, v128 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return mulw2x2_epu32(a, b, out _);
             }

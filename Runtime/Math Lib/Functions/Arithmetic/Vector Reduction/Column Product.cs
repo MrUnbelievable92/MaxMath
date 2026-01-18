@@ -5,7 +5,6 @@ using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using UnityEngine.AI;
 
 namespace MaxMath
 {
@@ -16,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vprod_epu8(v128 a, bool promise = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ANY_EQ_EPI8(a, 0, elements))
                     {
@@ -39,7 +38,7 @@ namespace MaxMath
                                 v128 prod16 = mullo_epi16(castLo16, castHi16);
                                 v128 castLo = cvt2x2epu16_epi32(prod16, out v128 castHi);
 
-                                if (Architecture.IsMul32Supported)
+                                if (BurstArchitecture.IsMul32Supported)
                                 {
                                     return vprod_epu32(mullo_epi32(castLo, castHi), true, 4);
                                 }
@@ -87,7 +86,7 @@ namespace MaxMath
                                     castHi = cvtepu8_epi32(bsrli_si128(a, 4 * sizeof(byte)));
                                 }
 
-                                if (Architecture.IsMul32Supported)
+                                if (BurstArchitecture.IsMul32Supported)
                                 {
                                     return vprod_epu32(mullo_epi32(castLo, castHi), true, 4);
                                 }
@@ -248,7 +247,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vprod_epi8(v128 a, bool promise = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ANY_EQ_EPI8(a, 0, elements))
                     {
@@ -271,7 +270,7 @@ namespace MaxMath
                                 v128 prod16 = mullo_epi16(castLo16, castHi16);
                                 v128 castLo = cvt2x2epi16_epi32(prod16, out v128 castHi);
 
-                                if (Architecture.IsMul32Supported)
+                                if (BurstArchitecture.IsMul32Supported)
                                 {
                                     return vprod_epu32(mullo_epi32(castLo, castHi), true, 4);
                                 }
@@ -298,7 +297,7 @@ namespace MaxMath
                                 v128 castLo = cvtepi8_epi32(a);
                                 v128 castHi = cvtepi8_epi32(bsrli_si128(a, 4 * sizeof(byte)));
 
-                                if (Architecture.IsMul32Supported)
+                                if (BurstArchitecture.IsMul32Supported)
                                 {
                                     return vprod_epu32(mullo_epi32(castLo, castHi), true, 4);
                                 }
@@ -332,7 +331,7 @@ namespace MaxMath
                                 {
                                     constexpr.ASSUME_RANGE_EPI32(result, -128 * 128 * 128,    127 * 128 * 128);
                                 }
-                                
+
                                 return result;
                             }
                         }
@@ -390,7 +389,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vprod_epu16(v128 a, bool promise = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ANY_EQ_EPI16(a, 0, elements))
                     {
@@ -427,7 +426,7 @@ namespace MaxMath
                                 v128 castLo = cvtepu16_epi32(a);
                                 v128 castHi;
 
-                                if (Architecture.IsMul32Supported)
+                                if (BurstArchitecture.IsMul32Supported)
                                 {
                                     castHi = shuffle_epi8(a, new v128(4, 5, -1, -1,    6, 7, -1, -1,    -1, -1, -1, -1, -1, -1, -1, -1));
 
@@ -538,7 +537,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vprod_epi16(v128 a, bool promise = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ANY_EQ_EPI16(a, 0, elements))
                     {
@@ -601,7 +600,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vprod_epu32(v128 a, bool promise = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ANY_EQ_EPI32(a, 0, elements))
                     {
@@ -685,7 +684,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vprod_epi32(v128 a, bool promise = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return vprod_epu32(a, promise, elements);
                 }
@@ -723,7 +722,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vprod_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ANY_EQ_EPI64(a, 0))
                     {
@@ -834,15 +833,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte2"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces an 8-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces an 8-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 255ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -860,15 +859,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte3"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 255ul * 255ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -886,7 +885,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.     </para>
         /// </remarks>
         /// </summary>
@@ -894,7 +893,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -912,14 +911,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte8"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -937,14 +936,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte16"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(byte16 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -962,8 +961,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte32"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -999,15 +998,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte2"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces an 8-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces an 8-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-127 * 128,    128 * 128)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(sbyte2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1025,15 +1024,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte3"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-128 * 128 * 128,    127 * 128 * 128)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(sbyte3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1051,15 +1050,15 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte4"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-127 * 128 * 128 * 128,    128 * 128 * 128 * 128)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(sbyte4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1077,14 +1076,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte8"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(sbyte8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1102,14 +1101,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte16"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(sbyte16 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1127,8 +1126,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte32"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1164,15 +1163,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short2"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow.        </para>    
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow.        </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(-32768L * 32767L,    32768L * 32768L)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1190,14 +1189,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short3"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1215,14 +1214,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short4"/>.
-        /// <remarks>        
+        /// <remarks>
         ///     <para>     A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1240,14 +1239,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short8"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>    
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(short8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1265,8 +1264,8 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short16"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>     
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1302,15 +1301,15 @@ namespace MaxMath
 
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort2"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow.       </para>   
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul,    65535ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1328,14 +1327,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort3"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para> 
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1353,14 +1352,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort4"/>.
-        /// <remarks>       
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para> 
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1378,14 +1377,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort8"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(ushort8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (noOverflow.Promises(Promise.NoOverflow))
                 {
@@ -1403,7 +1402,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort16"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
         /// </summary>
@@ -1443,7 +1442,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vprod_epi32(RegisterConversion.ToV128(c), true, 2).SInt0;
             }
@@ -1458,7 +1457,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vprod_epi32(RegisterConversion.ToV128(c), true, 3).SInt0;
             }
@@ -1472,7 +1471,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vprod_epi32(RegisterConversion.ToV128(c), true, 4).SInt0;
             }
@@ -1503,7 +1502,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vprod_epu32(RegisterConversion.ToV128(c), true, 2).UInt0;
             }
@@ -1517,7 +1516,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vprod_epu32(RegisterConversion.ToV128(c), true, 3).UInt0;
             }
@@ -1531,7 +1530,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vprod_epu32(RegisterConversion.ToV128(c), true, 4).UInt0;
             }

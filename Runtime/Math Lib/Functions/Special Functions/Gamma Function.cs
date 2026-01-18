@@ -12,10 +12,9 @@ namespace MaxMath
     {
         unsafe public static partial class Xse
 		{
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v128 gamma_ps(v128 a, byte elements = 4, bool promiseFinite = false, bool promiseGEzero = false)
 			{
-				if (Architecture.IsSIMDSupported)
+				if (BurstArchitecture.IsSIMDSupported)
                 {
 					v128 ZERO = setzero_si128();
 					v128 ONE = set1_ps(1f);
@@ -128,7 +127,6 @@ namespace MaxMath
 				else throw new IllegalInstructionException();
 			}
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v256 mm256_gamma_ps(v256 a, bool promiseFinite = false, bool promiseGEzero = false)
 			{
 			    if (Avx.IsAvxSupported)
@@ -291,10 +289,9 @@ namespace MaxMath
 			}
 
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v128 gamma_pd(v128 a, bool promiseFinite = false, bool promiseGEzero = false)
 			{
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 					v128 ZERO = setzero_si128();
 					v128 ONE = set1_pd(1d);
@@ -354,7 +351,7 @@ namespace MaxMath
 							v128 q1;
 							v128 q2;
 							v128 q3;
-							if (Architecture.IsCMP64Supported)
+							if (BurstArchitecture.IsCMP64Supported)
 							{
 								q1 = cmpeq_epi64(n, set1_epi64x(1));
 								q2 = cmpeq_epi64(n, set1_epi64x(2));
@@ -444,7 +441,7 @@ namespace MaxMath
 					{
 						mask3 = or_si128(mask0, mask3);
 					}
-					
+
                     if (Sse4_1.IsSse41Supported)
                     {
 						return blendv_pd(result, result3, mask3);
@@ -457,7 +454,6 @@ namespace MaxMath
 				else throw new IllegalInstructionException();
 			}
 
-			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			public static v256 mm256_gamma_pd(v256 a, byte elements = 4, bool promiseFinite = false, bool promiseGEzero = false)
 			{
 			    if (Avx.IsAvxSupported)
@@ -752,7 +748,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float2 gamma(float2 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat2(Xse.gamma_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -771,7 +767,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float3 gamma(float3 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat3(Xse.gamma_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -790,7 +786,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float4 gamma(float4 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToFloat4(Xse.gamma_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }
@@ -955,7 +951,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static double2 gamma(double2 x, Promise promises = Promise.Nothing)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				return RegisterConversion.ToDouble2(Xse.gamma_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
             }

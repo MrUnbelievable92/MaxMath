@@ -133,6 +133,66 @@ namespace MaxMath.Tests
             Assert.AreEqual(maxmath.floor((float8)q), (float8)maxmath.floor(q));
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.floor((quarter16)quarter.NaN))));
+            Assert.AreEqual((quarter16)quarter.NegativeInfinity, maxmath.floor((quarter16)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter16)quarter.PositiveInfinity, maxmath.floor((quarter16)quarter.PositiveInfinity));
+
+            quarter16 q = quarter.MinValue;
+            Assert.AreEqual((quarter16)quarter.NegativeInfinity, maxmath.floor(q));
+            q = maxmath.nextgreater(q);
+
+            while (q.x0 != quarter.MaxValue)
+            {
+                Assert.AreEqual(maxmath.floor((float8)q.v8_0), (float8)maxmath.floor(q).v8_0);
+                Assert.AreEqual(maxmath.floor((float8)q.v8_8), (float8)maxmath.floor(q).v8_8);
+
+                if (maxmath.all(q < 0f) && maxmath.all(q > -1f))
+                {
+                    Assert.IsTrue(maxmath.all((maxmath.asbyte(maxmath.floor(q)) & 0b1000_0000) == 0b1000_0000));
+                }
+
+                q = maxmath.nextgreater(q);
+            }
+
+            Assert.AreEqual(maxmath.floor((float8)q.v8_0), (float8)maxmath.floor(q).v8_0);
+            Assert.AreEqual(maxmath.floor((float8)q.v8_8), (float8)maxmath.floor(q).v8_8);
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.floor((quarter32)quarter.NaN))));
+            Assert.AreEqual((quarter32)quarter.NegativeInfinity, maxmath.floor((quarter32)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter32)quarter.PositiveInfinity, maxmath.floor((quarter32)quarter.PositiveInfinity));
+
+            quarter32 q = quarter.MinValue;
+            Assert.AreEqual((quarter32)quarter.NegativeInfinity, maxmath.floor(q));
+            q = maxmath.nextgreater(q);
+
+            while (q.x0 != quarter.MaxValue)
+            {
+                Assert.AreEqual(maxmath.floor((float8)q.v8_0),  (float8)maxmath.floor(q).v8_0);
+                Assert.AreEqual(maxmath.floor((float8)q.v8_8),  (float8)maxmath.floor(q).v8_8);
+                Assert.AreEqual(maxmath.floor((float8)q.v8_16), (float8)maxmath.floor(q).v8_16);
+                Assert.AreEqual(maxmath.floor((float8)q.v8_24), (float8)maxmath.floor(q).v8_24);
+
+                if (maxmath.all(q < 0f) && maxmath.all(q > -1f))
+                {
+                    Assert.IsTrue(maxmath.all((maxmath.asbyte(maxmath.floor(q)) & 0b1000_0000) == 0b1000_0000));
+                }
+
+                q = maxmath.nextgreater(q);
+            }
+
+            Assert.AreEqual(maxmath.floor((float8)q.v8_0),  (float8)maxmath.floor(q).v8_0);
+            Assert.AreEqual(maxmath.floor((float8)q.v8_8),  (float8)maxmath.floor(q).v8_8);
+            Assert.AreEqual(maxmath.floor((float8)q.v8_16), (float8)maxmath.floor(q).v8_16);
+            Assert.AreEqual(maxmath.floor((float8)q.v8_24), (float8)maxmath.floor(q).v8_24);
+        }
+
 
         [Test]
         public static void _half()
@@ -241,6 +301,31 @@ namespace MaxMath.Tests
                 Assert.AreEqual(maxmath.floor((float8)q), (float8)maxmath.floor(q));
 
                 if (maxmath.all((float8)q < 0f) && maxmath.all((float8)q > -1f))
+                {
+                    Assert.IsTrue(maxmath.all((maxmath.asushort(maxmath.floor(q)) & 0x8000) == 0x8000));
+                }
+
+                q = maxmath.nextgreater(q);
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.floor((half16)float.NaN))));
+            Assert.AreEqual((half16)float.NegativeInfinity, maxmath.floor((half16)float.NegativeInfinity));
+            Assert.AreEqual((half16)float.PositiveInfinity, maxmath.floor((half16)float.PositiveInfinity));
+
+            half16 q = half.MinValueAsHalf;
+            Assert.AreEqual(maxmath.floor((float8)(((half16)half.MaxValueAsHalf)).v8_0), (float8)maxmath.floor(((half16)half.MaxValueAsHalf)).v8_0);
+            Assert.AreEqual(maxmath.floor((float8)(((half16)half.MaxValueAsHalf)).v8_8), (float8)maxmath.floor(((half16)half.MaxValueAsHalf)).v8_8);
+
+            while (q.x0 != half.MaxValueAsHalf)
+            {
+                Assert.AreEqual(maxmath.floor((float8)q.v8_0), (float8)maxmath.floor(q).v8_0);
+                Assert.AreEqual(maxmath.floor((float8)q.v8_8), (float8)maxmath.floor(q).v8_8);
+
+                if ((float)q.x0 < 0f && (float)q.x0 > -1f)
                 {
                     Assert.IsTrue(maxmath.all((maxmath.asushort(maxmath.floor(q)) & 0x8000) == 0x8000));
                 }

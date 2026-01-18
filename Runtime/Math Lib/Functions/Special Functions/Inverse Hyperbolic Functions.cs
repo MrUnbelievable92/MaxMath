@@ -1,8 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
-
-using static Unity.Burst.Intrinsics.X86;
+using MaxMath.Intrinsics;
 
 namespace MaxMath
 {
@@ -84,7 +82,7 @@ namespace MaxMath
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float atanh(float x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 float2 xx = x;
                 xx = addsub(1f, xx);
@@ -102,7 +100,7 @@ namespace MaxMath
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 atanh(float2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 float4 xxyy = x.xxyy;
                 xxyy = addsub(1f, xxyy);
@@ -200,7 +198,7 @@ namespace MaxMath
     	[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double atanh(double x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 double2 xx = x;
                 xx = addsub(1d, xx);

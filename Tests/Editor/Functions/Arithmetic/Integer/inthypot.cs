@@ -8,7 +8,7 @@ namespace MaxMath.Tests
 {
     unsafe public static class f_inthypot
     {
-        private static BigInteger realhypot(BigInteger a, BigInteger b) 
+        private static BigInteger realhypot(BigInteger a, BigInteger b)
         {
             return ((a * a) + (b * b)).Sqrt();
         }
@@ -77,7 +77,7 @@ namespace MaxMath.Tests
         {
             Assert.AreEqual(realhypot(a, b), (BigInteger)test);
         }
-        
+
         [Test]
         public static void _byte()
         {
@@ -161,7 +161,7 @@ namespace MaxMath.Tests
                 TestInt(a, b, inthypot(a, b));
             }
         }
-        
+
         [Test]
         public static void _ulong()
         {
@@ -189,7 +189,7 @@ namespace MaxMath.Tests
                 TestLong(a, b, inthypot(a, b));
             }
         }
-        
+
         [Test]
         public static void _UInt128()
         {
@@ -203,7 +203,7 @@ namespace MaxMath.Tests
                 TestUInt128(a, b, inthypot(a, b));
             }
         }
-        
+
         [Test]
         public static void _Int128()
         {

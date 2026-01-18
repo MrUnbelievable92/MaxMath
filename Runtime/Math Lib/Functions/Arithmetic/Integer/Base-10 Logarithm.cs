@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 log10_epu8(v128 a, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU8(a, (byte)sbyte.MaxValue, elements))
                     {
@@ -27,7 +27,7 @@ namespace MaxMath
                         v128 HUNDRED = set1_epi8(100);
 
                         v128 result = cmpge_epu8(a, TEN, elements);
-                        result = negmask_epi8(result);
+                        result = neg_epi8(result);
                         result = sub_epi8(result, cmpge_epu8(a, HUNDRED, elements));
 
                         constexpr.ASSUME_LE_EPU8(result, 2, elements);
@@ -66,13 +66,13 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 log10_epi8(v128 a, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 NINE = set1_epi8(9);
                     v128 NINETY_NINE = set1_epi8(99);
 
                     v128 result = cmpgt_epi8(a, NINE);
-                    result = negmask_epi8(result);
+                    result = neg_epi8(result);
                     result = sub_epi8(result, cmpgt_epi8(a, NINETY_NINE));
 
                     constexpr.ASSUME_LE_EPU8(result, 2, elements);
@@ -103,7 +103,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 log10_epu16(v128 a, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU16(a, (ushort)short.MaxValue))
                     {
@@ -119,7 +119,7 @@ namespace MaxMath
 
                             v128 splat = shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 0));
                             v128 cmp_negated = cmpge_epu16(splat, cmp);
-                            result = negmask_epi16(cmp_negated);
+                            result = neg_epi16(cmp_negated);
                             result = sub_epi16(result, bsrli_si128(cmp_negated, 4 * sizeof(short)));
                             result = add_epi16(result, bsrli_si128(result, 2 * sizeof(short)));
                         }
@@ -144,7 +144,7 @@ namespace MaxMath
                                 v128 _2 = set1_epi16(999);
                                 v128 _3 = set1_epi16(9_999);
 
-                                result = negmask_epi16(cmpgt_epu16(a, _0, elements));
+                                result = neg_epi16(cmpgt_epu16(a, _0, elements));
                                 result = sub_epi16(result, cmpgt_epu16(a, _1, elements));
                                 result = sub_epi16(result, cmpgt_epu16(a, _2, elements));
                                 result = sub_epi16(result, cmpgt_epu16(a, _3, elements));
@@ -191,7 +191,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 log10_epi16(v128 a, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU16(a, byte.MaxValue, elements))
                     {
@@ -207,7 +207,7 @@ namespace MaxMath
                             v128 cmp = new v128(9, 9,   99, 99,   999, 999,   9_999, 9_999);
 
                             v128 cmp_negated = cmpgt_epi16(splat, cmp);
-                            result = negmask_epi16(cmp_negated);
+                            result = neg_epi16(cmp_negated);
                             result = sub_epi16(result, bsrli_si128(cmp_negated, 4 * sizeof(short)));
                             result = add_epi16(result, bsrli_si128(result, 2 * sizeof(short)));
                         }
@@ -219,7 +219,7 @@ namespace MaxMath
                             v128 _9_999 = set1_epi16(9_999);
 
                             result = cmpgt_epi16(a, NINE);
-                            result = negmask_epi16(result);
+                            result = neg_epi16(result);
                             result = sub_epi16(result, cmpgt_epi16(a, NINETY_NINE));
                             result = sub_epi16(result, cmpgt_epi16(a, _999));
                             result = sub_epi16(result, cmpgt_epi16(a, _9_999));
@@ -265,7 +265,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 log10_epu32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU32(a, (uint)int.MaxValue, elements))
                     {
@@ -333,10 +333,10 @@ namespace MaxMath
                                     v128 yResult = cmpgt_epu32(yyyy, MASK_SMALL);
                                     v128 zResult = cmpgt_epu32(zzzz, MASK_SMALL);
                                     v128 wResult = cmpgt_epu32(wwww, MASK_SMALL);
-                                    xResult = negmask_epi32(xResult);
-                                    yResult = negmask_epi32(yResult);
-                                    zResult = negmask_epi32(zResult);
-                                    wResult = negmask_epi32(wResult);
+                                    xResult = neg_epi32(xResult);
+                                    yResult = neg_epi32(yResult);
+                                    zResult = neg_epi32(zResult);
+                                    wResult = neg_epi32(wResult);
                                     xResult = sub_epi32(xResult, cmpgt_epu32(xxxx, MASK_LARGE));
                                     yResult = sub_epi32(yResult, cmpgt_epu32(yyyy, MASK_LARGE));
                                     zResult = sub_epi32(zResult, cmpgt_epu32(zzzz, MASK_LARGE));
@@ -443,9 +443,9 @@ namespace MaxMath
                                         v128 yResult = cmpgt_epu32(yyyy, MASK_SMALL);
                                         v128 zResult = cmpgt_epu32(zzzz, MASK_SMALL);
 
-                                        xResult = negmask_epi32(xResult);
-                                        yResult = negmask_epi32(yResult);
-                                        zResult = negmask_epi32(zResult);
+                                        xResult = neg_epi32(xResult);
+                                        yResult = neg_epi32(yResult);
+                                        zResult = neg_epi32(zResult);
                                         xResult = sub_epi32(xResult, cmpgt_epu32(xxxx, MASK_LARGE));
                                         yResult = sub_epi32(yResult, cmpgt_epu32(yyyy, MASK_LARGE));
                                         zResult = sub_epi32(zResult, cmpgt_epu32(zzzz, MASK_LARGE));
@@ -532,8 +532,8 @@ namespace MaxMath
 
                                         v128 xResult = cmpgt_epu32(xxxx, MASK_SMALL);
                                         v128 yResult = cmpgt_epu32(yyyy, MASK_SMALL);
-                                        xResult = negmask_epi32(xResult);
-                                        yResult = negmask_epi32(yResult);
+                                        xResult = neg_epi32(xResult);
+                                        yResult = neg_epi32(yResult);
                                         xResult = sub_epi32(xResult, cmpgt_epu32(xxxx, MASK_LARGE));
                                         yResult = sub_epi32(yResult, cmpgt_epu32(yyyy, MASK_LARGE));
                                         xResult = add_epi32(xResult, bsrli_si128(xResult, 2 * sizeof(uint)));
@@ -619,7 +619,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 log10_epi32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements))
                     {
@@ -653,10 +653,10 @@ namespace MaxMath
                                 v128 result_99999999 = cmpgt_epi32(a, MASK_99999999);
                                 v128 result_999999999 = cmpgt_epi32(a, MASK_999999999);
 
-                                result_9 = negmask_epi32(result_9);
-                                result_99 = negmask_epi32(result_99);
-                                result_999 = negmask_epi32(result_999);
-                                result_9999 = negmask_epi32(result_9999);
+                                result_9 = neg_epi32(result_9);
+                                result_99 = neg_epi32(result_99);
+                                result_999 = neg_epi32(result_999);
+                                result_9999 = neg_epi32(result_9999);
 
                                 result_9 = sub_epi32(result_9, result_99999);
                                 result_99 = sub_epi32(result_99, result_999999);
@@ -725,9 +725,9 @@ namespace MaxMath
                                     v128 yResult = cmpgt_epi32(yyyy, MASK_SMALL);
                                     v128 zResult = cmpgt_epi32(zzzz, MASK_SMALL);
 
-                                    xResult = negmask_epi32(xResult);
-                                    yResult = negmask_epi32(yResult);
-                                    zResult = negmask_epi32(zResult);
+                                    xResult = neg_epi32(xResult);
+                                    yResult = neg_epi32(yResult);
+                                    zResult = neg_epi32(zResult);
                                     xResult = sub_epi32(xResult, cmpgt_epi32(xxxx, MASK_LARGE));
                                     yResult = sub_epi32(yResult, cmpgt_epi32(yyyy, MASK_LARGE));
                                     zResult = sub_epi32(zResult, cmpgt_epi32(zzzz, MASK_LARGE));
@@ -790,8 +790,8 @@ namespace MaxMath
                                     v128 xResult = cmpgt_epi32(xxxx, MASK_SMALL);
                                     v128 yResult = cmpgt_epi32(yyyy, MASK_SMALL);
 
-                                    xResult = negmask_epi32(xResult);
-                                    yResult = negmask_epi32(yResult);
+                                    xResult = neg_epi32(xResult);
+                                    yResult = neg_epi32(yResult);
                                     xResult = sub_epi32(xResult, cmpgt_epi32(xxxx, MASK_LARGE));
                                     yResult = sub_epi32(yResult, cmpgt_epi32(yyyy, MASK_LARGE));
                                     xResult = add_epi32(xResult, bsrli_si128(xResult, 2 * sizeof(int)));
@@ -876,7 +876,7 @@ namespace MaxMath
             [SkipLocalsInit]
             public static v128 log10_epu64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU64(a, uint.MaxValue))
                     {
@@ -1071,7 +1071,7 @@ namespace MaxMath
             [SkipLocalsInit]
             public static v128 log10_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return log10_epu64(a);
                 }
@@ -1169,7 +1169,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 intlog10(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu8(x, 2);
             }
@@ -1183,7 +1183,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 intlog10(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu8(x, 3);
             }
@@ -1197,7 +1197,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 intlog10(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu8(x, 4);
             }
@@ -1211,7 +1211,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 intlog10(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu8(x, 8);
             }
@@ -1232,7 +1232,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 intlog10(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu8(x, 16);
             }
@@ -1285,7 +1285,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 intlog10(sbyte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi8(x, 2);
             }
@@ -1299,7 +1299,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 intlog10(sbyte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi8(x, 3);
             }
@@ -1313,7 +1313,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 intlog10(sbyte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi8(x, 4);
             }
@@ -1327,7 +1327,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 intlog10(sbyte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi8(x, 8);
             }
@@ -1348,7 +1348,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 intlog10(sbyte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi8(x);
             }
@@ -1406,7 +1406,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 intlog10(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu16(x, 2);
             }
@@ -1420,7 +1420,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 intlog10(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu16(x, 3);
             }
@@ -1434,7 +1434,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 intlog10(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu16(x, 4);
             }
@@ -1448,7 +1448,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 intlog10(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu16(x, 8);
             }
@@ -1498,7 +1498,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 intlog10(short2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi16(x, 2);
             }
@@ -1512,7 +1512,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 intlog10(short3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi16(x, 3);
             }
@@ -1526,7 +1526,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 intlog10(short4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi16(x, 4);
             }
@@ -1540,7 +1540,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 intlog10(short8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi16(x, 8);
             }
@@ -1595,7 +1595,7 @@ namespace MaxMath
 
                 return tobyte(x >= 1_000_000_000) - Xse.vsum_epi32(cmp, true, 4).UInt0;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 MASK_SMALL = new v128(9, 99, 999, 9_999);
                 v128 MASK_LARGE = new v128(99_999, 999_999, 9_999_999, 99_999_999);
@@ -1634,7 +1634,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static uint2 intlog10(uint2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.log10_epu32(RegisterConversion.ToV128(x), 2));
             }
@@ -1667,7 +1667,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static uint3 intlog10(uint3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.log10_epu32(RegisterConversion.ToV128(x), 3));
             }
@@ -1702,7 +1702,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static uint4 intlog10(uint4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.log10_epu32(RegisterConversion.ToV128(x), 4));
             }
@@ -1743,7 +1743,7 @@ namespace MaxMath
             {
                 return Xse.mm256_log10_epu32(x);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new uint8(intlog10(x.v4_0), intlog10(x.v4_4));
             }
@@ -1793,8 +1793,8 @@ namespace MaxMath
             {
                 return intlog10((short)x);
             }
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 MASK_SMALL = new v128(9, 99, 999, 9_999);
                 v128 MASK_LARGE = new v128(99_999, 999_999, 9_999_999, 99_999_999);
@@ -1818,7 +1818,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int2 intlog10(int2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.log10_epi32(RegisterConversion.ToV128(x), 2));
             }
@@ -1833,7 +1833,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int3 intlog10(int3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.log10_epi32(RegisterConversion.ToV128(x), 3));
             }
@@ -1848,7 +1848,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static int4 intlog10(int4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.log10_epi32(RegisterConversion.ToV128(x), 4));
             }
@@ -1867,7 +1867,7 @@ namespace MaxMath
             {
                 return Xse.mm256_log10_epi32(x);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new int8(intlog10(x.v4_0), intlog10(x.v4_4));
             }
@@ -1967,7 +1967,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 intlog10(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epu64(x);
             }
@@ -2024,7 +2024,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 intlog10(long2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.log10_epi64(x);
             }

@@ -83,14 +83,30 @@ Assert.AreNotEqual(State, 0ul);
             return temp;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private ulong2 NextState2()
+        {
+            return new ulong2(NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private ulong3 NextState3()
+        {
+            return new ulong3(NextState(), NextState(), NextState());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private ulong4 NextState4()
+        {
+            return new ulong4(NextState(), NextState(), NextState(), NextState());
+        }
+
 
         /// <summary>       Returns a uniformly random <see cref="bool"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool NextBool()
         {
-            uint result = (uint)NextState() & 0x0101_0101u;
-
-            return *(bool*)&result;
+            return (long)NextState() < 0;
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.bool2"/>.     </summary>
@@ -133,9 +149,9 @@ Assert.AreNotEqual(State, 0ul);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.and_si128(new v128(0x0101_0101_0101_0101ul), new v128(NextState(), NextState()));
+                return Xse.and_si128(new v128(0x0101_0101_0101_0101ul), NextState2());
             }
             else
             {
@@ -149,7 +165,7 @@ Assert.AreNotEqual(State, 0ul);
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_and_si256(new v256(0x0101_0101_0101_0101ul), new v256(NextState(), NextState(), NextState(), NextState()));
+                return Avx2.mm256_and_si256(new v256(0x0101_0101_0101_0101ul), NextState4());
             }
             else
             {
@@ -169,21 +185,21 @@ Assert.AreNotEqual(State, 0ul);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long2 NextLong2()
         {
-            return long.MinValue ^ new long2((long)NextState(), (long)NextState());
+            return long.MinValue ^ (long2)NextState2();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.long3"/> with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3 NextLong3()
         {
-            return long.MinValue ^ new long3((long)NextState(), (long)NextState(), (long)NextState());
+            return long.MinValue ^ (long3)NextState3();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.long4"/> with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long4 NextLong4()
         {
-            return long.MinValue ^ new long4((long)NextState(), (long)NextState(), (long)NextState(), (long)NextState());
+            return long.MinValue ^ (long4)NextState4();
         }
 
 
@@ -234,21 +250,12 @@ VectorAssert.IsNotSmaller<long4, long>(max, min, 4);
             ulong4 result = ulong4.zero;
             max -= min;
 
-            if (Avx2.IsAvx2Supported)
-            {
-                result = Xse.mm256_mulhi_epu64(NextULong4(), max);
-            }
-            else
-            {
-                UInt128 x = UInt128.umul128(NextState(), (ulong)(max.x));
-                UInt128 y = UInt128.umul128(NextState(), (ulong)(max.y));
-                UInt128 z = UInt128.umul128(NextState(), (ulong)(max.z));
-                UInt128 w = UInt128.umul128(NextState(), (ulong)(max.w));
+            UInt128 x = UInt128.umul128(NextState(), (ulong)(max.x));
+            UInt128 y = UInt128.umul128(NextState(), (ulong)(max.y));
+            UInt128 z = UInt128.umul128(NextState(), (ulong)(max.z));
+            UInt128 w = UInt128.umul128(NextState(), (ulong)(max.w));
 
-                return min + new long4((long)x.hi64, (long)y.hi64, (long)z.hi64, (long)w.hi64);
-            }
-
-            return min + (long4)result;
+            return min + new long4((long)x.hi64, (long)y.hi64, (long)z.hi64, (long)w.hi64);
         }
 
 
@@ -263,21 +270,21 @@ VectorAssert.IsNotSmaller<long4, long>(max, min, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2 NextULong2()
         {
-            return ulong.MaxValue + new ulong2(NextState(), NextState());
+            return ulong.MaxValue + NextState2();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong3"/> with all components in the interval [min, 18.446.744.073.709.551.614].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3()
         {
-            return ulong.MaxValue + new ulong3(NextState(), NextState(), NextState());
+            return ulong.MaxValue + NextState3();
         }
 
         /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong4"/> with all components in the interval [min, 18.446.744.073.709.551.614].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4()
         {
-            return ulong.MaxValue + new ulong4(NextState(), NextState(), NextState(), NextState());
+            return ulong.MaxValue + NextState4();
         }
 
 
@@ -313,23 +320,12 @@ VectorAssert.IsNotSmaller<long4, long>(max, min, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4(ulong4 max)
         {
-            ulong4 result = ulong4.zero;
+            UInt128 x = UInt128.umul128(NextState(), max.x);
+            UInt128 y = UInt128.umul128(NextState(), max.y);
+            UInt128 z = UInt128.umul128(NextState(), max.z);
+            UInt128 w = UInt128.umul128(NextState(), max.w);
 
-            if (Avx2.IsAvx2Supported)
-            {
-                result = Xse.mm256_mulhi_epu64(NextULong4(), max);
-            }
-            else
-            {
-                UInt128 x = UInt128.umul128(NextState(), max.x);
-                UInt128 y = UInt128.umul128(NextState(), max.y);
-                UInt128 z = UInt128.umul128(NextState(), max.z);
-                UInt128 w = UInt128.umul128(NextState(), max.w);
-
-                result = new ulong4(x.hi64, y.hi64, z.hi64, w.hi64);
-            }
-
-            return result;
+            return new ulong4(x.hi64, y.hi64, z.hi64, w.hi64);
         }
 
 
@@ -378,23 +374,12 @@ VectorAssert.IsNotSmaller<ulong3, ulong>(max, min, 3);
 VectorAssert.IsNotSmaller<ulong4, ulong>(max, min, 4);
 
             max -= min;
-            ulong4 result = ulong4.zero;
+            UInt128 x = UInt128.umul128(NextState(), max.x);
+            UInt128 y = UInt128.umul128(NextState(), max.y);
+            UInt128 z = UInt128.umul128(NextState(), max.z);
+            UInt128 w = UInt128.umul128(NextState(), max.w);
 
-            if (Avx2.IsAvx2Supported)
-            {
-                result = Xse.mm256_mulhi_epu64(NextULong4(), max);
-            }
-            else
-            {
-                UInt128 x = UInt128.umul128(NextState(), max.x);
-                UInt128 y = UInt128.umul128(NextState(), max.y);
-                UInt128 z = UInt128.umul128(NextState(), max.z);
-                UInt128 w = UInt128.umul128(NextState(), max.w);
-
-                result = new ulong4(x.hi64, y.hi64, z.hi64, w.hi64);
-            }
-
-            return min + result;
+            return min + new ulong4(x.hi64, y.hi64, z.hi64, w.hi64);
         }
 
 
@@ -409,21 +394,21 @@ VectorAssert.IsNotSmaller<ulong4, ulong>(max, min, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double2 NextDouble2()
         {
-            return -1d + asdouble(asulong(1d) | (new ulong2(NextState(), NextState()) >> (F64_EXPONENT_BITS + 1)));
+            return -1d + asdouble(asulong(1d) | (NextState2() >> (F64_EXPONENT_BITS + 1)));
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.double3"/> with all components in the interval [0, 1).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double3 NextDouble3()
         {
-            return -1d + asdouble(asulong(1d) | (new ulong3(NextState(), NextState(), NextState()) >> (F64_EXPONENT_BITS + 1)));
+            return -1d + asdouble(asulong(1d) | (NextState3() >> (F64_EXPONENT_BITS + 1)));
         }
 
         /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.double4"/> with all components in the interval [0, 1).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double4 NextDouble4()
         {
-            return -1d + asdouble(asulong(1d) | (new ulong4(NextState(), NextState(), NextState(), NextState()) >> (F64_EXPONENT_BITS + 1)));
+            return -1d + asdouble(asulong(1d) | (NextState4() >> (F64_EXPONENT_BITS + 1)));
         }
 
 

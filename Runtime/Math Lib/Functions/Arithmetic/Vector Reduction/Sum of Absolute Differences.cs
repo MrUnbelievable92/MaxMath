@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 sad_epi8(v128 a, v128 b, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 NORMALIZE = set1_epi8(sbyte.MinValue);
 
@@ -54,7 +54,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 SadHelper(v128 a, v128 b, byte elements, bool signed)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (elements < 8)
                 {
@@ -85,7 +85,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte2 a, byte2 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 2, false).UShort0;
             }
@@ -100,7 +100,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte3 a, byte3 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 3, false).UShort0;
             }
@@ -115,7 +115,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte4 a, byte4 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 4, false).UShort0;
             }
@@ -130,7 +130,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte8 a, byte8 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 8, false).UShort0;
             }
@@ -145,7 +145,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte16 a, byte16 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 16, false).UShort0;
             }
@@ -176,7 +176,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte2 a, sbyte2 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 2, true).UShort0;
             }
@@ -191,7 +191,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte3 a, sbyte3 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 3, true).UShort0;
             }
@@ -206,7 +206,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte4 a, sbyte4 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 4, true).UShort0;
             }
@@ -221,7 +221,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte8 a, sbyte8 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 8, true).UShort0;
             }
@@ -236,7 +236,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte16 a, sbyte16 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return SadHelper(a, b, 16, true).UShort0;
             }
@@ -291,7 +291,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort8 a, ushort8 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epu16_epi32(a, out v128 aHi);
                 v128 bLo = Xse.cvt2x2epu16_epi32(b, out v128 bHi);
@@ -362,7 +362,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short8 a, short8 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epi16_epi32(a, out v128 aHi);
                 v128 bLo = Xse.cvt2x2epi16_epi32(b, out v128 bHi);
@@ -415,7 +415,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint3 a, uint3 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(a), out v128 aZ);
                 v128 bLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(b), out v128 bZ);
@@ -438,7 +438,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint4 a, uint4 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(a), out v128 aHi);
                 v128 bLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(b), out v128 bHi);
@@ -486,7 +486,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int3 a, int3 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(a), out v128 aZ);
                 v128 bLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(b), out v128 bZ);
@@ -509,7 +509,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int4 a, int4 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 aLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(a), out v128 aHi);
                 v128 bLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(b), out v128 bHi);

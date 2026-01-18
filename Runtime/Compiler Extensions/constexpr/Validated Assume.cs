@@ -2,7 +2,10 @@
 
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
+
+#if TESTING
 using DevTools;
+#endif
 
 namespace MaxMath.Intrinsics
 {

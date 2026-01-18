@@ -10,7 +10,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 constrem_epi16(v128 vector, v128 divisor, byte elements = 8)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
 		    {
 				if (constexpr.ALL_SAME_EPI16(divisor, elements))
 				{

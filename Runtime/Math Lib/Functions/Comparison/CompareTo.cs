@@ -15,7 +15,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_epu8(v128 a, v128 b, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi8(cmpge_epu8(b, a, elements), cmpge_epu8(a, b, elements));
 
@@ -42,7 +42,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_epi8(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi8(cmpgt_epi8(b, a), cmpgt_epi8(a, b));
 
@@ -69,7 +69,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_epu16(v128 a, v128 b, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi16(cmpge_epu16(b, a, elements), cmpge_epu16(a, b, elements));
 
@@ -96,7 +96,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_epi16(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi16(cmpgt_epi16(b, a), cmpgt_epi16(a, b));
 
@@ -123,7 +123,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_epu32(v128 a, v128 b, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp;
 
@@ -159,7 +159,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_epi32(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi32(cmpgt_epi32(b, a), cmpgt_epi32(a, b));
 
@@ -186,7 +186,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_epu64(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi64(cmpgt_epu64(b, a), cmpgt_epu64(a, b));
 
@@ -213,7 +213,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_epi64(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi64(cmpgt_epi64(b, a), cmpgt_epi64(a, b));
 
@@ -240,9 +240,22 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_pq(v128 a, v128 b, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi8(cmpgt_pq(b, a, elements: elements), cmpgt_pq(a, b, elements: elements));
+
+                    constexpr.ASSUME_RANGE_EPI8(cmp, -1, 1);
+                    return cmp;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_pq(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 cmp = Avx2.mm256_sub_epi8(mm256_cmpgt_pq(b, a), mm256_cmpgt_pq(a, b));
 
                     constexpr.ASSUME_RANGE_EPI8(cmp, -1, 1);
                     return cmp;
@@ -254,9 +267,22 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_ph(v128 a, v128 b, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi16(cmpgt_ph(b, a, elements: elements), cmpgt_ph(a, b, elements: elements));
+
+                    constexpr.ASSUME_RANGE_EPI16(cmp, -1, 1);
+                    return cmp;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cmp_ph(v256 a, v256 b)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 cmp = Avx2.mm256_sub_epi16(mm256_cmpgt_ph(b, a), mm256_cmpgt_ph(a, b));
 
                     constexpr.ASSUME_RANGE_EPI16(cmp, -1, 1);
                     return cmp;
@@ -268,7 +294,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_ps(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi32(cmpgt_ps(b, a), cmpgt_ps(a, b));
 
@@ -295,7 +321,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cmp_pd(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cmp = sub_epi64(cmpgt_pd(b, a), cmpgt_pd(a, b));
 
@@ -445,7 +471,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 compareto(sbyte2 x, sbyte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi8(x, y);
             }
@@ -460,7 +486,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 compareto(sbyte3 x, sbyte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi8(x, y);
             }
@@ -476,7 +502,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 compareto(sbyte4 x, sbyte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi8(x, y);
             }
@@ -493,7 +519,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 compareto(sbyte8 x, sbyte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi8(x, y);
             }
@@ -514,7 +540,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 compareto(sbyte16 x, sbyte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi8(x, y);
             }
@@ -559,7 +585,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 compareto(byte2 x, byte2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu8(x, y, 2);
             }
@@ -574,7 +600,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 compareto(byte3 x, byte3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu8(x, y, 3);
             }
@@ -590,7 +616,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 compareto(byte4 x, byte4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu8(x, y, 4);
             }
@@ -607,7 +633,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 compareto(byte8 x, byte8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu8(x, y, 8);
             }
@@ -628,7 +654,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 compareto(byte16 x, byte16 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu8(x, y, 16);
             }
@@ -673,7 +699,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 compareto(short2 x, short2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi16(x, y);
             }
@@ -688,7 +714,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 compareto(short3 x, short3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi16(x, y);
             }
@@ -704,7 +730,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 compareto(short4 x, short4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi16(x, y);
             }
@@ -721,7 +747,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 compareto(short8 x, short8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi16(x, y);
             }
@@ -758,7 +784,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 compareto(ushort2 x, ushort2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu16(x, y, 2);
             }
@@ -773,7 +799,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 compareto(ushort3 x, ushort3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu16(x, y, 3);
             }
@@ -789,7 +815,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 compareto(ushort4 x, ushort4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu16(x, y, 4);
             }
@@ -806,7 +832,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 compareto(ushort8 x, ushort8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu16(x, y, 8);
             }
@@ -843,7 +869,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(int2 x, int2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -858,7 +884,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(int3 x, int3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -874,7 +900,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(int4 x, int4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -907,7 +933,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(uint2 x, uint2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
             }
@@ -922,7 +948,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(uint3 x, uint3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
             }
@@ -938,7 +964,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(uint4 x, uint4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
             }
@@ -971,7 +997,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 compareto(long2 x, long2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epi64(x, y);
             }
@@ -1017,7 +1043,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 compareto(ulong2 x, ulong2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_epu64(x, y);
             }
@@ -1063,7 +1089,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 compareto(quarter2 x, quarter2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_pq(x, y, 2);
             }
@@ -1078,7 +1104,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 compareto(quarter3 x, quarter3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_pq(x, y, 3);
             }
@@ -1094,7 +1120,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 compareto(quarter4 x, quarter4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_pq(x, y, 4);
             }
@@ -1111,7 +1137,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 compareto(quarter8 x, quarter8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_pq(x, y, 8);
             }
@@ -1128,12 +1154,55 @@ namespace MaxMath
             }
         }
 
+        /// <summary>       Returns an <see cref="MaxMath.sbyte16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 compareto(quarter16 x, quarter16 y)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.cmp_pq(x, y);
+            }
+            else
+            {
+                return new sbyte16((sbyte)compareto(x.x0,  y.x0),
+                                   (sbyte)compareto(x.x1,  y.x1),
+                                   (sbyte)compareto(x.x2,  y.x2),
+                                   (sbyte)compareto(x.x3,  y.x3),
+                                   (sbyte)compareto(x.x4,  y.x4),
+                                   (sbyte)compareto(x.x5,  y.x5),
+                                   (sbyte)compareto(x.x6,  y.x6),
+                                   (sbyte)compareto(x.x7,  y.x7),
+                                   (sbyte)compareto(x.x8,  y.x8),
+                                   (sbyte)compareto(x.x9,  y.x9),
+                                   (sbyte)compareto(x.x10, y.x10),
+                                   (sbyte)compareto(x.x11, y.x11),
+                                   (sbyte)compareto(x.x12, y.x12),
+                                   (sbyte)compareto(x.x13, y.x13),
+                                   (sbyte)compareto(x.x14, y.x14),
+                                   (sbyte)compareto(x.x15, y.x15));
+            }
+        }
+
+        /// <summary>       Returns an <see cref="MaxMath.sbyte32"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 compareto(quarter32 x, quarter32 y)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cmp_pq(x, y);
+            }
+            else
+            {
+                return new sbyte32(compareto(x.v16_0, y.v16_0), compareto(x.v16_16, y.v16_16));
+            }
+        }
+
 
         /// <summary>       Returns a <see cref="MaxMath.short2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 compareto(half2 x, half2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2);
             }
@@ -1148,7 +1217,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 compareto(half3 x, half3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3);
             }
@@ -1164,7 +1233,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 compareto(half4 x, half4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4);
             }
@@ -1181,7 +1250,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 compareto(half8 x, half8 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_ph(x, y, 8);
             }
@@ -1198,12 +1267,26 @@ namespace MaxMath
             }
         }
 
+        /// <summary>       Returns a <see cref="MaxMath.short16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 compareto(half16 x, half16 y)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cmp_ph(x, y);
+            }
+            else
+            {
+                return new short16(compareto(x.v8_0, y.v8_0), compareto(x.v8_8, y.v8_8));
+            }
+        }
+
 
         /// <summary>       Returns an <see cref="int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(float2 x, float2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -1218,7 +1301,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(float3 x, float3 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -1234,7 +1317,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(float4 x, float4 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
             }
@@ -1267,7 +1350,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 compareto(double2 x, double2 y)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cmp_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y));
             }

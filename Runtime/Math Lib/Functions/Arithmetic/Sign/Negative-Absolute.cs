@@ -15,10 +15,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 nabs_epi8(v128 a, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
+
                     if (constexpr.ALL_LE_EPI8(a, 0, elements))
                     {
                         result = a;
@@ -29,7 +29,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        if (Architecture.IsAbs32Supported)
+                        if (BurstArchitecture.IsAbs32Supported)
                         {
                             result = neg_epi8(abs_epi8(a));
                         }
@@ -51,7 +51,7 @@ namespace MaxMath
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result;
-                    
+
                     if (constexpr.ALL_LE_EPI8(a, 0))
                     {
                         result = a;
@@ -75,10 +75,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 nabs_epi16(v128 a, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
+
                     if (constexpr.ALL_LE_EPI16(a, 0, elements))
                     {
                         result = a;
@@ -89,7 +89,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        if (Architecture.IsAbs32Supported)
+                        if (BurstArchitecture.IsAbs32Supported)
                         {
                             result = neg_epi16(abs_epi16(a));
                         }
@@ -111,7 +111,7 @@ namespace MaxMath
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result;
-                    
+
                     if (constexpr.ALL_LE_EPI16(a, 0))
                     {
                         result = a;
@@ -135,10 +135,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 nabs_epi32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
+
                     if (constexpr.ALL_LE_EPI32(a, 0, elements))
                     {
                         result = a;
@@ -149,7 +149,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        if (Architecture.IsAbs32Supported)
+                        if (BurstArchitecture.IsAbs32Supported)
                         {
                             result = neg_epi32(abs_epi32(a));
                         }
@@ -171,7 +171,7 @@ namespace MaxMath
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result;
-                    
+
                     if (constexpr.ALL_LE_EPI32(a, 0))
                     {
                         result = a;
@@ -195,10 +195,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 nabs_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
+
                     if (constexpr.ALL_LE_EPI64(a, 0))
                     {
                         result = a;
@@ -209,7 +209,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        if (Architecture.IsAbs64Supported)
+                        if (BurstArchitecture.IsAbs64Supported)
                         {
                             result = neg_epi64(abs_epi64(a));
                         }
@@ -231,7 +231,7 @@ namespace MaxMath
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result;
-                    
+
                     if (constexpr.ALL_LE_EPI64(a, 0))
                     {
                         result = a;
@@ -253,12 +253,102 @@ namespace MaxMath
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 nabs_ps(v128 a, byte elements = 4)
+            public static v128 nabs_pq(v128 a, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
+
+                    if (constexpr.ALL_GE_EPU8(a, 1 << 7, elements))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = or_si128(a, set1_epi8(1 << 7));
+                    }
+
+                    //constexpr.ALL_LE_PQ(result, 0f);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_nabs_pq(v256 a)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 result;
+
+                    if (constexpr.ALL_GE_EPU8(a, 1 << 7))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = Avx2.mm256_or_si256(a, mm256_set1_epi8(1 << 7));
+                    }
+
+                    //constexpr.ALL_LE_PQ(result, 0f);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 nabs_ph(v128 a, byte elements = 8)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    v128 result;
+
+                    if (constexpr.ALL_GE_EPU16(a, 1 << 15, elements))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = or_si128(a, set1_epi16(1 << 15));
+                    }
+
+                    //constexpr.ALL_LE_PH(result, 0f);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_nabs_ph(v256 a)
+            {
+                if (Avx.IsAvxSupported)
+                {
+                    v256 result;
+
+                    if (constexpr.ALL_GE_EPU16(a, 1 << 15))
+                    {
+                        result = a;
+                    }
+                    else
+                    {
+                        result = Avx2.mm256_or_si256(a, mm256_set1_epi16(1 << 15));
+                    }
+
+                    //constexpr.ALL_LE_PQ(result, 0f);
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 nabs_ps(v128 a, byte elements = 4)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    v128 result;
+
                     if (constexpr.ALL_GE_EPU32(a, 1u << 31, elements))
                     {
                         result = a;
@@ -280,7 +370,7 @@ namespace MaxMath
                 if (Avx.IsAvxSupported)
                 {
                     v256 result;
-                    
+
                     if (constexpr.ALL_GE_EPU32(a, 1u << 31))
                     {
                         result = a;
@@ -300,10 +390,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 nabs_pd(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
-                    
+
                     if (constexpr.ALL_GE_EPU64(a, 1ul << 63))
                     {
                         result = a;
@@ -325,7 +415,7 @@ namespace MaxMath
                 if (Avx.IsAvxSupported)
                 {
                     v256 result;
-                    
+
                     if (constexpr.ALL_GE_EPU64(a, 1ul << 63, elements))
                     {
                         result = a;
@@ -373,7 +463,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 nabs(sbyte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi8(x, 2);
             }
@@ -387,7 +477,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 nabs(sbyte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi8(x, 3);
             }
@@ -401,7 +491,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 nabs(sbyte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi8(x, 4);
             }
@@ -415,7 +505,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 nabs(sbyte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi8(x, 8);
             }
@@ -429,7 +519,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 nabs(sbyte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi8(x, 16);
             }
@@ -466,7 +556,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 nabs(short2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi16(x, 2);
             }
@@ -480,7 +570,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 nabs(short3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi16(x, 3);
             }
@@ -494,7 +584,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 nabs(short4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi16(x, 4);
             }
@@ -508,7 +598,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 nabs(short8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi16(x, 8);
             }
@@ -545,7 +635,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 nabs(int2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.nabs_epi32(RegisterConversion.ToV128(x), 2));
             }
@@ -559,7 +649,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 nabs(int3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.nabs_epi32(RegisterConversion.ToV128(x), 3));
             }
@@ -573,7 +663,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 nabs(int4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.nabs_epi32(RegisterConversion.ToV128(x), 4));
             }
@@ -610,7 +700,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 nabs(long2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.nabs_epi64(x);
             }
@@ -649,7 +739,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the negative absolute value of a <see cref="quarter"/>.    </summary>
+        /// <summary>       Returns the negative absolute value of a <see cref="MaxMath.quarter"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter nabs(quarter x)
         {
@@ -667,9 +757,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 nabs(quarter2 x)
         {
-            if (constexpr.IS_TRUE(math.all((float2)x <= 0f)))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return x;
+                return Xse.nabs_pq(x, 2);
             }
             else
             {
@@ -681,9 +771,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 nabs(quarter3 x)
         {
-            if (constexpr.IS_TRUE(math.all((float3)x <= 0f)))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return x;
+                return Xse.nabs_pq(x, 3);
             }
             else
             {
@@ -695,9 +785,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 nabs(quarter4 x)
         {
-            if (constexpr.IS_TRUE(math.all((float4)x <= 0f)))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return x;
+                return Xse.nabs_pq(x, 4);
             }
             else
             {
@@ -709,13 +799,41 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 nabs(quarter8 x)
         {
-            if (constexpr.IS_TRUE(all((float8)x <= 0f)))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return x;
+                return Xse.nabs_pq(x, 8);
             }
             else
             {
                 return asquarter(asbyte(x) | 0b1000_0000);
+            }
+        }
+
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.quarter16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 nabs(quarter16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.nabs_pq(x, 16);
+            }
+            else
+            {
+                return asquarter(asbyte(x) | 0b1000_0000);
+            }
+        }
+
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.quarter32"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 nabs(quarter32 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_nabs_pq(x);
+            }
+            else
+            {
+                return new quarter32(nabs(x.v16_0), nabs(x.v16_16));
             }
         }
 
@@ -738,9 +856,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 nabs(half2 x)
         {
-            if (constexpr.IS_TRUE(math.all((float2)x <= 0f)))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return x;
+                return RegisterConversion.ToHalf2(Xse.nabs_ph(RegisterConversion.ToV128(x), 2));
             }
             else
             {
@@ -752,9 +870,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 nabs(half3 x)
         {
-            if (constexpr.IS_TRUE(math.all((float3)x <= 0f)))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return x;
+                return RegisterConversion.ToHalf3(Xse.nabs_ph(RegisterConversion.ToV128(x), 3));
             }
             else
             {
@@ -766,9 +884,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 nabs(half4 x)
         {
-            if (constexpr.IS_TRUE(math.all((float4)x <= 0f)))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return x;
+                return RegisterConversion.ToHalf4(Xse.nabs_ph(RegisterConversion.ToV128(x), 4));
             }
             else
             {
@@ -780,13 +898,27 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 nabs(half8 x)
         {
-            if (constexpr.IS_TRUE(all((float8)x <= 0f)))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return x;
+                return Xse.nabs_ph(x, 8);
             }
             else
             {
                 return ashalf(asushort(x) | 0x8000);
+            }
+        }
+
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 nabs(half16 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_nabs_ph(x);
+            }
+            else
+            {
+                return new half16(nabs(x.v8_0), nabs(x.v8_8));
             }
         }
 
@@ -809,7 +941,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 nabs(float2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.nabs_ps(RegisterConversion.ToV128(x), 2));
             }
@@ -823,7 +955,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 nabs(float3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.nabs_ps(RegisterConversion.ToV128(x), 3));
             }
@@ -837,7 +969,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 nabs(float4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.nabs_ps(RegisterConversion.ToV128(x), 4));
             }
@@ -880,7 +1012,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 nabs(double2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.nabs_pd(RegisterConversion.ToV128(x)));
             }

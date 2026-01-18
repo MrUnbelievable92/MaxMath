@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -80,12 +81,14 @@ namespace MaxMath
         public readonly long2 yy => (long2)((ulong2)this).yy;
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(long2 input) => new v128 { SLong0 = input.x, SLong1 = input.y };
-
+        public static implicit operator v128(long2 input) => RegisterConversion.ToRegister128(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator long2(v128 input) => new long2 { x = input.SLong0, y = input.SLong1 };
+        public static implicit operator long2(v128 input) => RegisterConversion.ToAbstraction128<long2>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -104,21 +107,21 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long2(half2 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cvttph_epi64(RegisterConversion.ToV128(input));
             }
             else
             {
-                return new long2(maxmath.BASE_cvtf16i32(input.x, signed: true, trunc: true),
-                                 maxmath.BASE_cvtf16i32(input.y, signed: true, trunc: true));
+                return new long2((int)maxmath.BASE_cvtf16i32(input.x, signed: true, trunc: true),
+                                 (int)maxmath.BASE_cvtf16i32(input.y, signed: true, trunc: true));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long2(float2 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cvttps_epi64(RegisterConversion.ToV128(input));
             }
@@ -131,7 +134,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long2(double2 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cvttpd_epi64(RegisterConversion.ToV128(input));
             }
@@ -149,12 +152,22 @@ namespace MaxMath
         public static explicit operator int2(long2 input) => (int2)(ulong2)input;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator half2(long2 input) => (half2)(float2)(int2)input;
+        public static explicit operator half2(long2 input)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return RegisterConversion.ToHalf2(Xse.cvtepi64_ph(input, (half)float.PositiveInfinity));
+            }
+            else
+            {
+                return (half2)(float2)input;
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float2(long2 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.cvtepi64_ps(input));
             }
@@ -167,7 +180,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double2(long2 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.cvtepi64_pd(input));
             }
@@ -206,7 +219,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator * (long2 left, uint2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.mullo_epi64(left, (long2)right, unsigned_B_lessequalU32Max: true);
             }
@@ -222,7 +235,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator * (long2 left, ushort2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.mullo_epi64(left, (long2)right, unsigned_B_lessequalU32Max: true);
             }
@@ -238,7 +251,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator * (long2 left, byte2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.mullo_epi64(left, (long2)right, unsigned_B_lessequalU32Max: true);
             }
@@ -252,11 +265,15 @@ namespace MaxMath
         public static long2 operator * (byte2 left, long2 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 operator / (long2 left, long2 right)
+        public static long2 operator / (long2 left, byte2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (Avx2.IsAvx2Supported)
             {
-                return Xse.div_epi64(left, right);
+                return Xse.div_epi64(left, Xse.cvtepu8_epi64(right), useFPU: false, bIsDbl: false, bNonNegative: true);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true);
             }
             else
             {
@@ -265,11 +282,219 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, ushort2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepu16_epi64(right), useFPU: false, bIsDbl: false, bNonNegative: true);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+            }
+            else
+            {
+                return new long2(left.x / right.x, left.y / right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, uint2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepu32_epi64(RegisterConversion.ToV128(right)), useFPU: false, bIsDbl: false, bNonNegative: true);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepu32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+            }
+            else
+            {
+                return new long2(left.x / right.x, left.y / right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, sbyte2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepi8_epi64(right), useFPU: false, bIsDbl: false);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepi8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true);
+            }
+            else
+            {
+                return new long2(left.x / right.x, left.y / right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, short2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepi16_epi64(right), useFPU: false, bIsDbl: false);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepi16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true);
+            }
+            else
+            {
+                return new long2(left.x / right.x, left.y / right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, int2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepi32_epi64(RegisterConversion.ToV128(right)), useFPU: false, bIsDbl: false);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.div_epi64(left, Xse.cvtepi32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true);
+            }
+            else
+            {
+                return new long2(left.x / right.x, left.y / right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, long2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.div_epi64(left, right, useFPU: false);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.div_epi64(left, right, useFPU: true);
+            }
+            else
+            {
+                return new long2(left.x / right.x, left.y / right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, byte2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepu8_epi64(right), useFPU: false, bIsDbl: false, bNonNegative: true);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+            }
+            else
+            {
+                return new long2(left.x % right.x, left.y % right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, ushort2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepu16_epi64(right), useFPU: false, bIsDbl: false, bNonNegative: true);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+            }
+            else
+            {
+                return new long2(left.x % right.x, left.y % right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, uint2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepu32_epi64(RegisterConversion.ToV128(right)), useFPU: false, bIsDbl: false, bNonNegative: true);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepu32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+            }
+            else
+            {
+                return new long2(left.x % right.x, left.y % right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, sbyte2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepi8_epi64(right), useFPU: false, bIsDbl: false);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepi8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true);
+            }
+            else
+            {
+                return new long2(left.x % right.x, left.y % right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, short2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepi16_epi64(right), useFPU: false, bIsDbl: false);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepi16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true);
+            }
+            else
+            {
+                return new long2(left.x % right.x, left.y % right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, int2 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepi32_epi64(RegisterConversion.ToV128(right)), useFPU: false, bIsDbl: false);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.rem_epi64(left, Xse.cvtepi32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true);
+            }
+            else
+            {
+                return new long2(left.x % right.x, left.y % right.y);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator % (long2 left, long2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (Avx2.IsAvx2Supported)
             {
-                return Xse.rem_epi64(left, right);
+                return Xse.rem_epi64(left, right, useFPU: false);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.rem_epi64(left, right, useFPU: true);
             }
             else
             {
@@ -295,9 +520,93 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, byte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (byte2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, ushort right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (ushort2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, uint right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (uint2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, sbyte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (sbyte2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, short right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (short2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator / (long2 left, int right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (int2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator / (long2 left, long right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -309,9 +618,93 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, byte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (byte2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, ushort right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (ushort2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, uint right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (uint2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, sbyte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (sbyte2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, short right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (short2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long2 operator % (long2 left, int right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (int2)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator % (long2 left, long right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -336,7 +729,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator - (long2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.neg_epi64(x);
             }
@@ -349,7 +742,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator ++ (long2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.inc_epi64(x);
             }
@@ -362,7 +755,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator -- (long2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.dec_epi64(x);
             }
@@ -382,7 +775,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 operator >> (long2 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srai_epi64(x, n, inRange: true);
             }
@@ -399,7 +792,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator < (long2 left, long2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmplt_epi64(left, right)));
             }
@@ -412,7 +805,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator > (long2 left, long2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpgt_epi64(left, right)));
             }
@@ -429,7 +822,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator <= (long2 left, long2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsFalse64(Xse.cmpgt_epi64(left, right)));
             }
@@ -442,7 +835,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 operator >= (long2 left, long2 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool2(RegisterConversion.IsFalse64(Xse.cmplt_epi64(left, right)));
             }

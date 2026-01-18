@@ -10,7 +10,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 constdiv_epu32(v128 vector, uint divisor, byte elements = 4, bool __unsafe = false)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				__unsafe |= constexpr.ALL_LE_EPU32(vector, 0x7FFF_FFFFu, elements);
 

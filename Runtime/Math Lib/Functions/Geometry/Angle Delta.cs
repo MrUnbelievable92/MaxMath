@@ -9,35 +9,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float angledelta(float a, float b)
         {
-            return repeat((b - a), math.TAU);
+            return repeat(b - a, math.TAU);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="float2"/>s in unsigned radians.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 angledelta(float2 a, float2 b)
         {
-            return repeat((b - a), math.TAU);
+            return repeat(b - a, math.TAU);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="float3"/>s in unsigned radians.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 angledelta(float3 a, float3 b)
         {
-            return repeat((b - a), math.TAU);
+            return repeat(b - a, math.TAU);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="float4"/>s in unsigned radians.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 angledelta(float4 a, float4 b)
         {
-            return repeat((b - a), math.TAU);
+            return repeat(b - a, math.TAU);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="MaxMath.float8"/>s in unsigned radians.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 angledelta(float8 a, float8 b)
         {
-            return repeat((b - a), math.TAU);
+            return repeat(b - a, math.TAU);
         }
 
 
@@ -45,28 +45,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double angledelta(double a, double b)
         {
-            return repeat((b - a), math.TAU_DBL);
+            return repeat(b - a, math.TAU_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="double2"/>s in unsigned radians.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 angledelta(double2 a, double2 b)
         {
-            return repeat((b - a), math.TAU_DBL);
+            return repeat(b - a, math.TAU_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="double3"/>s in unsigned radians.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 angledelta(double3 a, double3 b)
         {
-            return repeat((b - a), math.TAU_DBL);
+            return repeat(b - a, math.TAU_DBL);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="double4"/>s in unsigned radians.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 angledelta(double4 a, double4 b)
         {
-            return repeat((b - a), math.TAU_DBL);
+            return repeat(b - a, math.TAU_DBL);
         }
 
 
@@ -157,35 +157,35 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float angledeltadeg(float a, float b)
         {
-            return repeat((b - a), 360f);
+            return repeat(b - a, 360f);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="float2"/>s in unsigned degrees.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 angledeltadeg(float2 a, float2 b)
         {
-            return repeat((b - a), 360f);
+            return repeat(b - a, 360f);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="float3"/>s in unsigned degrees.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 angledeltadeg(float3 a, float3 b)
         {
-            return repeat((b - a), 360f);
+            return repeat(b - a, 360f);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="float4"/>s in unsigned degrees.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 angledeltadeg(float4 a, float4 b)
         {
-            return repeat((b - a), 360f);
+            return repeat(b - a, 360f);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="MaxMath.float8"/>s in unsigned degrees.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 angledeltadeg(float8 a, float8 b)
         {
-            return repeat((b - a), 360f);
+            return repeat(b - a, 360f);
         }
 
 
@@ -193,28 +193,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double angledeltadeg(double a, double b)
         {
-            return repeat((b - a), 360d);
+            return repeat(b - a, 360d);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="double2"/>s in unsigned degrees.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 angledeltadeg(double2 a, double2 b)
         {
-            return repeat((b - a), 360d);
+            return repeat(b - a, 360d);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="double3"/>s in unsigned degrees.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 angledeltadeg(double3 a, double3 b)
         {
-            return repeat((b - a), 360d);
+            return repeat(b - a, 360d);
         }
 
         /// <summary>       Returns the componentwise smallest difference of angles of two <see cref="double4"/>s in unsigned degrees.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 angledeltadeg(double4 a, double4 b)
         {
-            return repeat((b - a), 360d);
+            return repeat(b - a, 360d);
         }
 
 

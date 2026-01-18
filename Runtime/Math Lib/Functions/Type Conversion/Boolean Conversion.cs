@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -57,7 +58,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 tobytesafe(bool8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return min((byte8)(v128)x, 1);
             }
@@ -71,7 +72,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tobytesafe(bool16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return min((byte16)(v128)x, 1);
             }
@@ -89,7 +90,7 @@ namespace MaxMath
             {
                 return min((byte32)(v256)x, 1);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return min(new byte32((v128)x.v16_0, (v128)x.v16_16), 1);
             }
@@ -271,11 +272,11 @@ namespace MaxMath
             {
                 ;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new uint8((uint4)min((byte4)(v128)x, 1), (uint4)min(vshr((byte4)(v128)x, 4), 1));
             }
-            
+
             return tobytesafe(x);
         }
 
@@ -374,11 +375,11 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="bool"/> to its <see cref="quarter"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
+        /// <summary>       Converts a <see cref="bool"/> to its <see cref="MaxMath.quarter"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquartersafe(bool a)
         {
-            return new quarter((byte)(-tosbytesafe(a) & ((quarter)1f).value));
+            return asquarter((byte)(-tosbytesafe(a) & ((quarter)1f).value));
         }
         /// <summary>       Converts each value in a <see cref="bool2"/> to its floating point representation as a <see cref="MaxMath.quarter2"/>. The underlying value is being clamped to the interval [0, 1].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -406,6 +407,20 @@ namespace MaxMath
         public static quarter8 toquartersafe(bool8 x)
         {
             return asquarter(select(default(byte8), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.bool16"/> to its floating point representation as a <see cref="MaxMath.quarter16"/>. The underlying value is being clamped to the interval [0, 1].     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 toquartersafe(bool16 x)
+        {
+            return asquarter(select(default(byte16), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.bool32"/> to its floating point representation as a <see cref="MaxMath.quarter32"/>. The underlying value is being clamped to the interval [0, 1].     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 toquartersafe(bool32 x)
+        {
+            return asquarter(select(default(byte32), ((quarter)1f).value, x));
         }
 
 
@@ -442,6 +457,13 @@ namespace MaxMath
         public static half8 tohalfsafe(bool8 x)
         {
             return ashalf(select(default(ushort8), ((half)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.bool16"/> to its floating point representation as a <see cref="MaxMath.half16"/>. The underlying value is being clamped to the interval [0, 1].     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 tohalfsafe(bool16 x)
+        {
+            return ashalf(select(default(ushort16), ((half)1f).value, x));
         }
 
 
@@ -548,7 +570,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)min(x, 1);
             }
@@ -564,7 +586,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 toboolsafe(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)min(x, 1);
             }
@@ -584,7 +606,7 @@ namespace MaxMath
             {
                 return (v256)min(x, 1);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new bool32((v128)min(x.v16_0, 1), (v128)min(x.v16_16, 1));
             }
@@ -685,7 +707,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)(byte8)min(x, 1);
             }
@@ -701,7 +723,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 toboolsafe(ushort16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)(byte16)min(x, 1);
             }
@@ -795,7 +817,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(uint8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)(byte8)min(x, 1);
             }
@@ -908,7 +930,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="quarter"/> to its <see cref="bool"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
+        /// <summary>       Converts a <see cref="MaxMath.quarter"/> to its <see cref="bool"/> representation. The underlying value is being clamped to the interval [0,1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool toboolsafe(quarter a)
         {
@@ -939,6 +961,20 @@ namespace MaxMath
         /// <summary>       Converts each value in a <see cref="MaxMath.quarter8"/> to its boolean representation as a <see cref="MaxMath.bool8"/>. The underlying value is being clamped to the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 toboolsafe(quarter8 x)
+        {
+            return x != (quarter)0f;
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1].       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 toboolsafe(quarter16 x)
+        {
+            return x != (quarter)0f;
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The underlying value is being clamped to the interval [0, 1].       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 toboolsafe(quarter32 x)
         {
             return x != (quarter)0f;
         }
@@ -977,6 +1013,13 @@ namespace MaxMath
         public static bool8 toboolsafe(half8 x)
         {
             return (float8)x != 0f;
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.half16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The underlying value is being clamped to the interval [0, 1].       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 toboolsafe(half16 x)
+        {
+            return new bool16((float8)x.v8_0 != 0f, (float8)x.v8_8 != 0f);
         }
 
 

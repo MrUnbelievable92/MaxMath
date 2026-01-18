@@ -200,6 +200,100 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.trunc((quarter16)quarter.NaN))));
+            Assert.AreEqual((quarter16)quarter.NegativeInfinity, maxmath.trunc((quarter16)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter16)quarter.PositiveInfinity, maxmath.trunc((quarter16)quarter.PositiveInfinity));
+
+            quarter16 q = quarter.MinValue;
+            Assert.AreEqual(maxmath.trunc((float8)(((quarter16)quarter.MaxValue)).v8_0), (float8)maxmath.trunc(((quarter16)quarter.MaxValue)).v8_0);
+            Assert.AreEqual(maxmath.trunc((float8)(((quarter16)quarter.MaxValue)).v8_8), (float8)maxmath.trunc(((quarter16)quarter.MaxValue)).v8_8);
+
+            while (q.x0 != quarter.MaxValue)
+            {
+                Assert.AreEqual(maxmath.trunc((float8)q.v8_0), (float8)maxmath.trunc(q).v8_0);
+                Assert.AreEqual(maxmath.trunc((float8)q.v8_8), (float8)maxmath.trunc(q).v8_8);
+
+                if (maxmath.all(q < 0f) && maxmath.all(q > -1f))
+                {
+                    Assert.IsTrue(maxmath.all(maxmath.asbyte(maxmath.trunc(q)) == 0b1000_0000));
+                }
+
+                q = maxmath.nextgreater(q);
+            }
+
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 32; i++)
+            {
+                q = maxmath.asquarter(rng.NextByte16());
+                quarter16 trunced = maxmath.trunc(q);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(trunced[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual((float)trunced[j], math.trunc((float)q[j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.trunc((quarter32)quarter.NaN))));
+            Assert.AreEqual((quarter32)quarter.NegativeInfinity, maxmath.trunc((quarter32)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter32)quarter.PositiveInfinity, maxmath.trunc((quarter32)quarter.PositiveInfinity));
+
+            quarter32 q = quarter.MinValue;
+            Assert.AreEqual(maxmath.trunc((float8)(((quarter32)quarter.MaxValue)).v8_0),  (float8)maxmath.trunc(((quarter32)quarter.MaxValue)).v8_0);
+            Assert.AreEqual(maxmath.trunc((float8)(((quarter32)quarter.MaxValue)).v8_8),  (float8)maxmath.trunc(((quarter32)quarter.MaxValue)).v8_8);
+            Assert.AreEqual(maxmath.trunc((float8)(((quarter32)quarter.MaxValue)).v8_16), (float8)maxmath.trunc(((quarter32)quarter.MaxValue)).v8_16);
+            Assert.AreEqual(maxmath.trunc((float8)(((quarter32)quarter.MaxValue)).v8_24), (float8)maxmath.trunc(((quarter32)quarter.MaxValue)).v8_24);
+
+            while (q.x0 != quarter.MaxValue)
+            {
+                Assert.AreEqual(maxmath.trunc((float8)q.v8_0),  (float8)maxmath.trunc(q).v8_0);
+                Assert.AreEqual(maxmath.trunc((float8)q.v8_8),  (float8)maxmath.trunc(q).v8_8);
+                Assert.AreEqual(maxmath.trunc((float8)q.v8_16), (float8)maxmath.trunc(q).v8_16);
+                Assert.AreEqual(maxmath.trunc((float8)q.v8_24), (float8)maxmath.trunc(q).v8_24);
+
+                if (maxmath.all(q < 0f) && maxmath.all(q > -1f))
+                {
+                    Assert.IsTrue(maxmath.all(maxmath.asbyte(maxmath.trunc(q)) == 0b1000_0000));
+                }
+
+                q = maxmath.nextgreater(q);
+            }
+
+            Random8 rng = Random8.New;
+
+            for (int i = 0; i < 32; i++)
+            {
+                q = maxmath.asquarter(rng.NextByte32());
+                quarter32 trunced = maxmath.trunc(q);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(trunced[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual((float)trunced[j], math.trunc((float)q[j]));
+                    }
+                }
+            }
+        }
+
 
         [Test]
         public static void _half()
@@ -381,6 +475,51 @@ namespace MaxMath.Tests
             {
                 q = maxmath.ashalf(rng.NextUShort8());
                 half8 trunced = maxmath.trunc(q);
+
+                for (int j = 0; j < 4; j++)
+                {
+                    if (maxmath.isnan(q[j]))
+                    {
+                        Assert.IsNaN(trunced[j]);
+                    }
+                    else
+                    {
+                        Assert.AreEqual((float)trunced[j], math.trunc((float)q[j]));
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.trunc((half16)float.NaN))));
+            Assert.AreEqual((half16)float.NegativeInfinity, maxmath.trunc((half16)float.NegativeInfinity));
+            Assert.AreEqual((half16)float.PositiveInfinity, maxmath.trunc((half16)float.PositiveInfinity));
+
+            half16 q = half.MinValueAsHalf;
+            Assert.AreEqual(maxmath.trunc((float8)(((half16)half.MaxValueAsHalf)).v8_0), (float8)maxmath.trunc(((half16)half.MaxValueAsHalf)).v8_0);
+            Assert.AreEqual(maxmath.trunc((float8)(((half16)half.MaxValueAsHalf)).v8_8), (float8)maxmath.trunc(((half16)half.MaxValueAsHalf)).v8_8);
+
+            while (q.x0 != half.MaxValueAsHalf)
+            {
+                Assert.AreEqual(maxmath.trunc((float8)q.v8_0), (float8)maxmath.trunc(q).v8_0);
+                Assert.AreEqual(maxmath.trunc((float8)q.v8_8), (float8)maxmath.trunc(q).v8_8);
+
+                if ((float)q.x0 < 0f && (float)q.x0 > -1f)
+                {
+                    Assert.IsTrue(maxmath.all(maxmath.asushort(maxmath.trunc(q)) == 0x8000));
+                }
+
+                q = maxmath.nextgreater(q);
+            }
+
+            Random16 rng = Random16.New;
+
+            for (int i = 0; i < 32; i++)
+            {
+                q = maxmath.ashalf(rng.NextUShort16());
+                half16 trunced = maxmath.trunc(q);
 
                 for (int j = 0; j < 4; j++)
                 {

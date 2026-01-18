@@ -2058,7 +2058,7 @@ namespace MaxMath.Intrinsics
 					}
 				}
 			}
-			else if (Architecture.IsSIMDSupported)
+			else if (BurstArchitecture.IsSIMDSupported)
 			{
 				switch (elements)
 				{

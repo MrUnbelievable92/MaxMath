@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -433,12 +434,14 @@ namespace MaxMath
 		public readonly long2 ww => (long2)((ulong4)this).ww;
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(long4 input) => new v256 { SLong0 = input.x, SLong1 = input.y, SLong2 = input.z, SLong3 = input.w };
-
+        public static implicit operator v256(long4 input) => RegisterConversion.ToRegister256(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator long4(v256 input) => new long4 { x = input.SLong0, y = input.SLong1, z = input.SLong2, w = input.SLong3 };
+        public static implicit operator long4(v256 input) => RegisterConversion.ToAbstraction256<long4>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -501,7 +504,17 @@ namespace MaxMath
         public static explicit operator int4(long4 input) => (int4)(ulong4)input;
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator half4(long4 input) => (half4)(float4)(int4)input;
+        public static explicit operator half4(long4 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return RegisterConversion.ToHalf4(Xse.mm256_cvtepi64_ph(input, (half)float.PositiveInfinity, elements: 4));
+            }
+            else
+            {
+                return new half4((half2)input.xy, (half2)input.zw);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float4(long4 input)
@@ -606,19 +619,223 @@ namespace MaxMath
         public static long4 operator * (byte4 left, long4 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, byte4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epi64(left, Xse.mm256_cvtepu8_pd(right), elements: 4, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.div_epi64(left.xy, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true), Xse.div_epi64(left.zw, Xse.cvtepu8_epi64(right.zw), useFPU: false, bIsDbl: false, bNonNegative: true));
+			}
+			else
+			{
+				return new long4(left._xy / right.xy, left._zw / right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, ushort4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epi64(left, Xse.mm256_cvtepu16_pd(right), elements: 4, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.div_epi64(left.xy, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true), Xse.div_epi64(left.zw, Xse.cvtepu16_epi64(right.zw), useFPU: false, bIsDbl: false, bNonNegative: true));
+			}
+			else
+			{
+				return new long4(left._xy / right.xy, left._zw / right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, uint4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epi64(left, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(right)), elements: 4, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.div_epi64(left.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true), Xse.div_epi64(left.zw, Xse.cvtepi32_epi64(RegisterConversion.ToV128(right.zw)), useFPU: false, bIsDbl: false, bNonNegative: true));
+			}
+			else
+			{
+				return new long4(left._xy / right.xy, left._zw / right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, sbyte4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epi64(left, Xse.mm256_cvtepi8_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.div_epi64(left.xy, Xse.cvtepi8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epi64(left.zw, Xse.cvtepi8_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new long4(left._xy / right.xy, left._zw / right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, short4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epi64(left, Xse.mm256_cvtepi16_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.div_epi64(left.xy, Xse.cvtepi16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epi64(left.zw, Xse.cvtepi16_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new long4(left._xy / right.xy, left._zw / right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, int4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epi64(left, Avx.mm256_cvtepi32_pd(RegisterConversion.ToV128(right)), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.div_epi64(left.xy, Xse.cvtepi32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epi64(left.zw, Xse.cvtepi32_epi64(RegisterConversion.ToV128(right.zw)), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new long4(left._xy / right.xy, left._zw / right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 operator / (long4 left, long4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
                 return Xse.mm256_div_epi64(left, right, elements: 4);
 			}
-			else if (Architecture.IsSIMDSupported)
+			else if (BurstArchitecture.IsSIMDSupported)
 			{
-				return new long4(Xse.div_epi64(left.xy, right.xy, true), Xse.div_epi64(left.zw, right.zw, false));
+				return new long4(Xse.div_epi64(left.xy, right.xy, useFPU: true), Xse.div_epi64(left.zw, right.zw, useFPU: false));
 			}
 			else
 			{
 				return new long4(left._xy / right._xy, left._zw / right._zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, byte4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epi64(left, Xse.mm256_cvtepu8_pd(right), elements: 4, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.rem_epi64(left.xy, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true), Xse.rem_epi64(left.zw, Xse.cvtepu8_epi64(right.zw), useFPU: false, bIsDbl: false, bNonNegative: true));
+			}
+			else
+			{
+				return new long4(left._xy % right.xy, left._zw % right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, ushort4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epi64(left, Xse.mm256_cvtepu16_pd(right), elements: 4, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.rem_epi64(left.xy, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true), Xse.rem_epi64(left.zw, Xse.cvtepu16_epi64(right.zw), useFPU: false, bIsDbl: false, bNonNegative: true));
+			}
+			else
+			{
+				return new long4(left._xy % right.xy, left._zw % right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, uint4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epi64(left, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(right)), elements: 4, bIsDbl: true, bLEu32max: true, bNonNegative: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.rem_epi64(left.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true, bNonNegative: true), Xse.rem_epi64(left.zw, Xse.cvtepi32_epi64(RegisterConversion.ToV128(right.zw)), useFPU: false, bIsDbl: false, bNonNegative: true));
+			}
+			else
+			{
+				return new long4(left._xy % right.xy, left._zw % right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, sbyte4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epi64(left, Xse.mm256_cvtepi8_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.rem_epi64(left.xy, Xse.cvtepi8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epi64(left.zw, Xse.cvtepi8_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new long4(left._xy % right.xy, left._zw % right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, short4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epi64(left, Xse.mm256_cvtepi16_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.rem_epi64(left.xy, Xse.cvtepi16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epi64(left.zw, Xse.cvtepi16_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new long4(left._xy % right.xy, left._zw % right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, int4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epi64(left, Avx.mm256_cvtepi32_pd(RegisterConversion.ToV128(right)), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new long4(Xse.rem_epi64(left.xy, Xse.cvtepi32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epi64(left.zw, Xse.cvtepi32_epi64(RegisterConversion.ToV128(right.zw)), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new long4(left._xy % right.xy, left._zw % right.zw);
 			}
 		}
 
@@ -629,9 +846,9 @@ namespace MaxMath
 			{
                 return Xse.mm256_rem_epi64(left, right, elements: 4);
 			}
-			else if (Architecture.IsSIMDSupported)
+			else if (BurstArchitecture.IsSIMDSupported)
 			{
-				return new long4(Xse.rem_epi64(left.xy, right.xy, true), Xse.rem_epi64(left.zw, right.zw, false));
+				return new long4(Xse.rem_epi64(left.xy, right.xy, useFPU: true), Xse.rem_epi64(left.zw, right.zw, useFPU: false));
 			}
 			else
 			{
@@ -664,9 +881,93 @@ namespace MaxMath
 		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, byte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (byte4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, ushort right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (ushort4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, uint right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (uint4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, sbyte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (sbyte4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, short right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (short4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator / (long4 left, int right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (long)right;
+                }
+            }
+
+            return left / (int4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 operator / (long4 left, long right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -685,9 +986,93 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, byte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (byte4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, ushort right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (ushort4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, uint right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (uint4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, sbyte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (sbyte4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, short right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (short4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4 operator % (long4 left, int right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (long)right;
+                }
+            }
+
+            return left % (int4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 operator % (long4 left, long right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {

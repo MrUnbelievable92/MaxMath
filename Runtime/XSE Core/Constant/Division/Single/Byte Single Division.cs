@@ -10,7 +10,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 constdiv_epu8(v128 vector, byte divisor, byte elements = 16, bool __unsafe = false)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				__unsafe |= constexpr.ALL_LT_EPU8(vector, 1 << 7, elements);
 
@@ -31,14 +31,14 @@ namespace MaxMath.Intrinsics
 						cmp = cmpge_epu8(vector, set1_epi8(divisor));
 					}
 
-					return negmask_epi8(cmp);
+					return neg_epi8(cmp);
 				}
 				else if (divisor > 84)
 				{
 					v128 cmp1 = cmpge_epu8(vector, set1_epi8(divisor));
 					v128 cmp2 = cmpge_epu8(vector, set1_epi8((byte)(2 * divisor)));
 
-					cmp1 = negmask_epi8(cmp1);
+					cmp1 = neg_epi8(cmp1);
 
                     if (divisor == 85)
                     {
@@ -142,7 +142,7 @@ namespace MaxMath.Intrinsics
 						case 16: return mm256_srli_epi8(vector, 4);
 						case 32: return mm256_srli_epi8(vector, 5);
 						case 64: return mm256_srli_epi8(vector, 6);
-							
+
 						case 3:
 						{
 							if (__unsafe)

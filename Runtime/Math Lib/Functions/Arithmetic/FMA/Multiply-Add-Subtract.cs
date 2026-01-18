@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 fmsubadd_epi8(v128 a, v128 b, v128 c, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ab = mullo_epi8(a, b, elements);
                     v128 negC;
@@ -59,20 +59,20 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 fmsubadd_epi16(v128 a, v128 b, v128 c, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ab = mullo_epi16(a, b);
                     v128 negC;
 
                     if (Ssse3.IsSsse3Supported)
                     {
-                        negC = sign_epi16(c, new v128(1, ushort.MaxValue, 1, ushort.MaxValue, 1, ushort.MaxValue, 1, ushort.MaxValue));;
+                        negC = sign_epi16(c, new v128(1, ushort.MaxValue, 1, ushort.MaxValue, 1, ushort.MaxValue, 1, ushort.MaxValue));
                     }
                     else
                     {
                         negC = neg_epi16(c);
-                        
-                        if (Architecture.IsBlendSupported)
+
+                        if (BurstArchitecture.IsBlendSupported)
                         {
                             negC = blend_epi16(c, negC, 0b1010_1010);
                         }
@@ -107,20 +107,20 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 fmsubadd_epi32(v128 a, v128 b, v128 c, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ab = mullo_epi32(a, b, elements);
                     v128 negC;
 
                     if (Ssse3.IsSsse3Supported)
                     {
-                        negC = sign_epi32(c, new v128(1, uint.MaxValue, 1, uint.MaxValue));;
+                        negC = sign_epi32(c, new v128(1, uint.MaxValue, 1, uint.MaxValue));
                     }
                     else
                     {
                         negC = neg_epi32(c);
-                        
-                        if (Architecture.IsBlendSupported)
+
+                        if (BurstArchitecture.IsBlendSupported)
                         {
                             negC = blend_epi16(c, negC, 0b1100_1100);
                         }
@@ -155,12 +155,12 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 fmsubadd_epi64(v128 a, v128 b, v128 c)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ab = mullo_epi64(a, b);
                     v128 neg = neg_epi64(c);
 
-                    if (Architecture.IsBlendSupported)
+                    if (BurstArchitecture.IsBlendSupported)
                     {
                         neg = blend_epi16(c, neg, 0b1111_0000);
                     }
@@ -198,7 +198,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 madsub(float2 a, float2 b, float2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.fmsubadd_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c)));
             }
@@ -212,7 +212,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 madsub(float3 a, float3 b, float3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.fmsubadd_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c)));
             }
@@ -226,7 +226,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 madsub(float4 a, float4 b, float4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.fmsubadd_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c)));
             }
@@ -255,7 +255,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 madsub(double2 a, double2 b, double2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.fmsubadd_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c)));
             }
@@ -298,7 +298,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 madsub(byte2 a, byte2 b, byte2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi8(a, b, c, 2);
             }
@@ -312,7 +312,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 madsub(byte3 a, byte3 b, byte3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi8(a, b, c, 3);
             }
@@ -326,7 +326,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 madsub(byte4 a, byte4 b, byte4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi8(a, b, c, 4);
             }
@@ -340,7 +340,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 madsub(byte8 a, byte8 b, byte8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi8(a, b, c, 8);
             }
@@ -354,7 +354,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 madsub(byte16 a, byte16 b, byte16 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi8(a, b, c, 16);
             }
@@ -426,7 +426,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 madsub(ushort2 a, ushort2 b, ushort2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi16(a, b, c, 2);
             }
@@ -440,7 +440,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 madsub(ushort3 a, ushort3 b, ushort3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi16(a, b, c, 3);
             }
@@ -454,7 +454,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 madsub(ushort4 a, ushort4 b, ushort4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi16(a, b, c, 4);
             }
@@ -468,7 +468,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 madsub(ushort8 a, ushort8 b, ushort8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi16(a, b, c, 8);
             }
@@ -533,7 +533,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 madsub(uint2 a, uint2 b, uint2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.fmsubadd_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c), 2));
             }
@@ -547,7 +547,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 madsub(uint3 a, uint3 b, uint3 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.fmsubadd_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c), 3));
             }
@@ -561,7 +561,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 madsub(uint4 a, uint4 b, uint4 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.fmsubadd_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c), 4));
             }
@@ -619,7 +619,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 madsub(ulong2 a, ulong2 b, ulong2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.fmsubadd_epi64(a, b, c);
             }

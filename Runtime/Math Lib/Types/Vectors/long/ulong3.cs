@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
@@ -48,7 +49,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_set_epi64x(0L, (long)z, (long)y, (long)x);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 this = new ulong3 { _xy = new ulong2(x, y), z = z };
             }
@@ -65,7 +66,7 @@ namespace MaxMath
             {
                 this = Xse.mm256_set1_epi64x(xyz);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 this = new ulong3 { _xy = new ulong2(xyz), z = xyz };
             }
@@ -95,7 +96,7 @@ namespace MaxMath
             {
                 this = Avx.mm256_insert_epi64(yz.xxy, (long)x, 0);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 yz = yz.yx;
                 ulong z = yz.x;
@@ -1972,28 +1973,14 @@ namespace MaxMath
         }
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(ulong3 input)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                v256 result = Avx.mm256_undefined_si256();
-
-                result.ULong0 = input.x;
-                result.ULong1 = input.y;
-                result.ULong2 = input.z;
-
-                return result;
-            }
-            else
-            {
-                return new v256(input.x, input.y, input.z, 0);
-            }
-        }
-
+        public static implicit operator v256(ulong3 input) => RegisterConversion.ToRegister256(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ulong3(v256 input) => new ulong3 { x = input.ULong0, y = input.ULong1, z = input.ULong2 };
+        public static implicit operator ulong3(v256 input) => RegisterConversion.ToAbstraction256<ulong3>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2084,7 +2071,7 @@ namespace MaxMath
             {
                 return RegisterConversion.ToUInt3(Xse.mm256_cvtepi64_epi32(input));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 temp = Xse.cvtepi64_epi32(input._xy);
 
@@ -2103,7 +2090,7 @@ namespace MaxMath
             {
                 return RegisterConversion.ToInt3(Xse.mm256_cvtepi64_epi32(input));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 temp = Xse.cvtepi64_epi32(input._xy);
 
@@ -2116,7 +2103,17 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator half3(ulong3 input) => (half3)(float3)(uint3)input;
+        public static explicit operator half3(ulong3 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return RegisterConversion.ToHalf3(Xse.mm256_cvtepu64_ph(input, (half)float.PositiveInfinity, elements: 3));
+            }
+            else
+            {
+                return new half3((half2)input.xy, (half)input.z);
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float3(ulong3 input)
@@ -2152,13 +2149,13 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 3);
 
-                if (Avx2.IsAvx2Supported)
+                if (constexpr.IS_CONST(index))
                 {
-                    return Xse.mm256_extract_epi64(this, (byte)index);
-                }
-                else if (Architecture.IsSIMDSupported)
-                {
-                    if (constexpr.IS_CONST(index))
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return Xse.mm256_extract_epi64(this, (byte)index);
+                    }
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (index < 2)
                         {
@@ -2170,8 +2167,18 @@ Assert.IsWithinArrayBounds(index, 3);
                         }
                     }
                 }
-                
-                return this.GetField<ulong3, ulong>(index);
+
+                if (BurstArchitecture.IsBurstCompiled)
+                {
+                    fixed (ulong* ptr = &x)
+                    {
+                        return ptr[index];
+                    }
+                }
+                else
+                {
+                    return this.GetField<ulong3, ulong>(index);
+                }
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2179,15 +2186,15 @@ Assert.IsWithinArrayBounds(index, 3);
             {
 Assert.IsWithinArrayBounds(index, 3);
 
-                if (Avx2.IsAvx2Supported)
+                if (constexpr.IS_CONST(index))
                 {
-                    this = Xse.mm256_insert_epi64(this, value, (byte)index);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        this = Xse.mm256_insert_epi64(this, value, (byte)index);
 
-                    return;
-                }
-                else if (Architecture.IsSIMDSupported)
-                {
-                    if (constexpr.IS_CONST(index))
+                        return;
+                    }
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         if (index < 2)
                         {
@@ -2201,8 +2208,18 @@ Assert.IsWithinArrayBounds(index, 3);
                         return;
                     }
                 }
-                
-                this.SetField(value, index);
+
+                if (BurstArchitecture.IsBurstCompiled)
+                {
+                    fixed (ulong* ptr = &x)
+                    {
+                        ptr[index] = value;
+                    }
+                }
+                else
+                {
+                    this.SetField(value, index);
+                }
             }
         }
 
@@ -2295,15 +2312,121 @@ Assert.IsWithinArrayBounds(index, 3);
         public static ulong3 operator * (byte3 left, ulong3 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator / (ulong3 left, byte3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu8_pd(right), bIsDbl: true, bLEu32max: true, elements: 3);
+            }
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong3(Xse.div_epu64(left.xy, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), left.z / right.z);
+			}
+            else
+            {
+                return new ulong3(left.xy / right.xy, left.z / right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator / (ulong3 left, ushort3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu16_pd(right), bIsDbl: true, bLEu32max: true, elements: 3);
+            }
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong3(Xse.div_epu64(left.xy, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), left.z / right.z);
+			}
+            else
+            {
+                return new ulong3(left.xy / right.xy, left.z / right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator / (ulong3 left, uint3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(right)), bIsDbl: true, bLEu32max: true, elements: 3);
+            }
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong3(Xse.div_epu64(left.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true), left.z / right.z);
+			}
+            else
+            {
+                return new ulong3(left.xy / right.xy, left.z / right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator / (ulong3 left, ulong3 right)
         {
             if (Avx2.IsAvx2Supported)
             {
                 return Xse.mm256_div_epu64(left, right, elements: 3);
             }
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong3(Xse.div_epu64(left.xy, right.xy, useFPU: true), left.z / right.z);
+			}
             else
             {
                 return new ulong3(left.xy / right.xy, left.z / right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator % (ulong3 left, byte3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu8_pd(right), bIsDbl: true, bLEu32max: true, elements: 3);
+            }
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong3(Xse.rem_epu64(left.xy, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), left.z % right.z);
+			}
+            else
+            {
+                return new ulong3(left.xy % right.xy, left.z % right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator % (ulong3 left, ushort3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu16_pd(right), bIsDbl: true, bLEu32max: true, elements: 3);
+            }
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong3(Xse.rem_epu64(left.xy, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), left.z % right.z);
+			}
+            else
+            {
+                return new ulong3(left.xy % right.xy, left.z % right.z);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator % (ulong3 left, uint3 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(right)), bIsDbl: true, bLEu32max: true, elements: 3);
+            }
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong3(Xse.rem_epu64(left.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true), left.z % right.z);
+			}
+            else
+            {
+                return new ulong3(left.xy % right.xy, left.z % right.z);
             }
         }
 
@@ -2314,6 +2437,10 @@ Assert.IsWithinArrayBounds(index, 3);
             {
                 return Xse.mm256_rem_epu64(left, right, elements: 3);
             }
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong3(Xse.rem_epu64(left.xy, right.xy, useFPU: true), left.z % right.z);
+			}
             else
             {
                 return new ulong3(left.xy % right.xy, left.z % right.z);
@@ -2345,9 +2472,51 @@ Assert.IsWithinArrayBounds(index, 3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator / (ulong3 left, byte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (ulong)right;
+                }
+            }
+
+            return left / (byte3)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator / (ulong3 left, ushort right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (ulong)right;
+                }
+            }
+
+            return left / (ushort3)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator / (ulong3 left, uint right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (ulong)right;
+                }
+            }
+
+            return left / (uint3)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator / (ulong3 left, ulong right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -2366,9 +2535,51 @@ Assert.IsWithinArrayBounds(index, 3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator % (ulong3 left, byte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (ulong)right;
+                }
+            }
+
+            return left % (byte3)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator % (ulong3 left, ushort right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (ulong)right;
+                }
+            }
+
+            return left % (ushort3)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong3 operator % (ulong3 left, uint right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (ulong)right;
+                }
+            }
+
+            return left % (uint3)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator % (ulong3 left, ulong right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -2390,9 +2601,9 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator & (ulong3 left, ulong3 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_and_si256(left, right);
+                return Avx.mm256_and_pd(left, right);
             }
             else
             {
@@ -2403,9 +2614,9 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator | (ulong3 left, ulong3 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_or_si256(left, right);
+                return Avx.mm256_or_pd(left, right);
             }
             else
             {
@@ -2416,9 +2627,9 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator ^ (ulong3 left, ulong3 right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
-                return Avx2.mm256_xor_si256(left, right);
+                return Avx.mm256_xor_pd(left, right);
             }
             else
             {
@@ -2456,7 +2667,7 @@ Assert.IsWithinArrayBounds(index, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 operator ~ (ulong3 x)
         {
-            if (Avx2.IsAvx2Supported)
+            if (Avx.IsAvxSupported)
             {
                 return Xse.mm256_not_si256(x);
             }
@@ -2597,7 +2808,7 @@ Assert.IsWithinArrayBounds(index, 3);
             {
                 return Hash.v192(this);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Hash.v128(_xy ^ new ulong2(z));
             }

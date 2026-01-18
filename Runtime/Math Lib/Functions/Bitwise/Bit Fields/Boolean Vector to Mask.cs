@@ -14,7 +14,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 VectorAssert.IsNotGreater<byte2, byte>(tobyte(x), 1, 2);
 
@@ -31,7 +31,7 @@ VectorAssert.IsNotGreater<byte2, byte>(tobyte(x), 1, 2);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 VectorAssert.IsNotGreater<byte3, byte>(tobyte(x), 1, 3);
 
@@ -48,7 +48,7 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(x), 1, 3);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
 
@@ -65,7 +65,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 VectorAssert.IsNotGreater<byte16, byte>(tobyte(x), 1, 16);
 

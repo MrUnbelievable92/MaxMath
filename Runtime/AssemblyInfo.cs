@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MaxMath")]
-[assembly: AssemblyCopyright("Copyright © 2020 - 2024 Maximilian Kalimon")]
+[assembly: AssemblyCopyright("Copyright © 2020 - 2026 Maximilian Kalimon")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -16,9 +16,9 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: Guid("d3cc711d-084c-435c-8c84-7d624992dc10")]
 
-[assembly: AssemblyVersion("2.9.0")]
-[assembly: AssemblyFileVersion("2.9.0")]
-[assembly: AssemblyInformationalVersion("2.9.0 Release")]
+[assembly: AssemblyVersion("2.9.9")]
+[assembly: AssemblyFileVersion("2.9.9")]
+[assembly: AssemblyInformationalVersion("2.9.9 Release")]
 
 // Style
 [assembly: SuppressMessage("Style", "IDE1006: Naming Styles", Justification = "Unity.Mathematics API consistency")]

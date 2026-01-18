@@ -16,11 +16,11 @@ namespace MaxMath
             [SkipLocalsInit]
             public static v128 brol_si128(v128 a, int imm8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.IS_CONST(imm8))
                     {
-                        if (Architecture.IsTableLookupSupported)
+                        if (BurstArchitecture.IsTableLookupSupported)
                         {
                             switch ((uint)imm8 % 16)
                             {
@@ -205,7 +205,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 bror_si128(v128 a, int imm8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return brol_si128(a, 16 - imm8);
                 }
@@ -359,7 +359,7 @@ namespace MaxMath
             {
                 ;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = x;
@@ -407,7 +407,7 @@ namespace MaxMath
 
                 return Avx.mm256_loadu_si256((byte*)stack + ((uint)n % 32));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = x._v16_0;
@@ -597,7 +597,7 @@ namespace MaxMath
 
                 return Avx.mm256_loadu_si256((byte*)stack + (((uint)n % 16) * sizeof(short)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = x._v8_0;
@@ -700,7 +700,7 @@ namespace MaxMath
             {
                 ;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = RegisterConversion.ToV128(x);
@@ -736,7 +736,7 @@ namespace MaxMath
 
                 return Avx.mm256_loadu_si256((byte*)stack + (((uint)n % 8) * sizeof(int)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = RegisterConversion.ToV128(x._v4_0);
@@ -833,7 +833,7 @@ namespace MaxMath
 
                 return Avx.mm256_loadu_si256((byte*)stack + (((uint)n % 4) * sizeof(long)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = x.xy;
@@ -910,6 +910,20 @@ namespace MaxMath
             return asquarter(vror(asbyte(x), n));
         }
 
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter16"/> right by <paramref name="n"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 vror(quarter16 x, int n)
+        {
+            return asquarter(vror(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter32"/> right by <paramref name="n"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 vror(quarter32 x, int n)
+        {
+            return asquarter(vror(asbyte(x), n));
+        }
+
 
         /// <summary>       Returns the result of rotating the components within a <see cref="half2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -935,6 +949,13 @@ namespace MaxMath
         /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vror(half8 x, int n)
+        {
+            return ashalf(vror(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half16"/> right by <paramref name="n"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 vror(half16 x, int n)
         {
             return ashalf(vror(asshort(x), n));
         }
@@ -969,7 +990,7 @@ namespace MaxMath
             {
                 ;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = RegisterConversion.ToV128(x);
@@ -1007,7 +1028,7 @@ namespace MaxMath
 
                 return Avx.mm256_loadu_ps((byte*)stack + (((uint)n % 8) * sizeof(float)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = RegisterConversion.ToV128(x._v4_0);
@@ -1075,7 +1096,7 @@ namespace MaxMath
 
                 return RegisterConversion.ToDouble4(Avx.mm256_loadu_pd((byte*)stack + (((uint)n % 4) * sizeof(double))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = RegisterConversion.ToV128(x.xy);
@@ -1194,7 +1215,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte8 vrol(byte8 x, int n)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1216,7 +1237,7 @@ namespace MaxMath
                     return Xse.cvtsi64x_si128(math.rol(((v128)x).SLong0, n * 8));
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1260,7 +1281,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static byte16 vrol(byte16 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.brol_si128(x, n);
             }
@@ -1298,7 +1319,7 @@ namespace MaxMath
             {
                 return Xse.mm256_brol_si256(x, n);
             }
-            else if (Architecture.IsTableLookupSupported)
+            else if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1319,7 +1340,7 @@ namespace MaxMath
                         case 13: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  3 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)));
                         case 14: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  2 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)));
                         case 15: return new byte32(Xse.alignr_epi8(x._v16_16, x._v16_0,  1 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)));
-                        case 16: return new byte32(x._v16_16, x._v16_0);                                    
+                        case 16: return new byte32(x._v16_16, x._v16_0);
                         case 17: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 15 * sizeof(byte)));
                         case 18: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 14 * sizeof(byte)));
                         case 19: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)), Xse.alignr_epi8(x._v16_16, x._v16_0, 13 * sizeof(byte)));
@@ -1355,7 +1376,7 @@ namespace MaxMath
                     return new byte32(lo, hi);
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1576,7 +1597,7 @@ namespace MaxMath
         [SkipLocalsInit]
         public static short8 vrol(short8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.brol_si128(x, 2 * n);
             }
@@ -1606,7 +1627,7 @@ namespace MaxMath
             {
                 return Xse.mm256_brol_si256(x, 2 * n);
             }
-            else if (Architecture.IsTableLookupSupported)
+            else if (BurstArchitecture.IsTableLookupSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1619,7 +1640,7 @@ namespace MaxMath
                         case 5:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 3 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 3 * sizeof(short)));
                         case 6:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 2 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 2 * sizeof(short)));
                         case 7:  return new short16(Xse.alignr_epi8(x._v8_8, x._v8_0, 1 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 1 * sizeof(short)));
-                        case 8:  return new short16(x._v8_8, x._v8_0);                                    
+                        case 8:  return new short16(x._v8_8, x._v8_0);
                         case 9:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 7 * sizeof(short)));
                         case 10: return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 6 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 6 * sizeof(short)));
                         case 11: return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8, 5 * sizeof(short)), Xse.alignr_epi8(x._v8_8, x._v8_0, 5 * sizeof(short)));
@@ -1647,7 +1668,7 @@ namespace MaxMath
                     return new short16(lo, hi);
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1793,7 +1814,7 @@ namespace MaxMath
             {
                 ;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = RegisterConversion.ToV128(x);
@@ -1821,7 +1842,7 @@ namespace MaxMath
             {
                 return Xse.mm256_brol_si256(x, 4 * n);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -1932,7 +1953,7 @@ namespace MaxMath
 
                 return Avx.mm256_loadu_si256((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(long)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = x.xy;
@@ -2009,6 +2030,20 @@ namespace MaxMath
             return asquarter(vrol(asbyte(x), n));
         }
 
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter16"/> left by <paramref name="n"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 vrol(quarter16 x, int n)
+        {
+            return asquarter(vrol(asbyte(x), n));
+        }
+
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter32"/> left by <paramref name="n"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 vrol(quarter32 x, int n)
+        {
+            return asquarter(vrol(asbyte(x), n));
+        }
+
 
         /// <summary>       Returns the result of rotating the components within a <see cref="half2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2034,6 +2069,13 @@ namespace MaxMath
         /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vrol(half8 x, int n)
+        {
+            return ashalf(vrol(asshort(x), n));
+        }
+
+        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half16"/> left by <paramref name="n"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 vrol(half16 x, int n)
         {
             return ashalf(vrol(asshort(x), n));
         }
@@ -2068,7 +2110,7 @@ namespace MaxMath
             {
                 ;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[2];
                 stack[0] = RegisterConversion.ToV128(x);
@@ -2120,7 +2162,7 @@ namespace MaxMath
                     return Avx.mm256_loadu_ps((byte*)stack + ((8 - ((uint)n % 8)) * sizeof(float)));
                 }
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(n))
                 {
@@ -2201,7 +2243,7 @@ namespace MaxMath
 
                 return RegisterConversion.ToDouble4(Avx.mm256_loadu_pd((byte*)stack + ((4 - ((uint)n % 4)) * sizeof(double))));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128* stack = stackalloc v128[4];
                 stack[0] = RegisterConversion.ToV128(x.xy);

@@ -8,11 +8,11 @@ namespace MaxMath.Tests
 {
     unsafe public static class f_hypot
     {
-        private static double realhypot(float a, float b) 
+        private static double realhypot(float a, float b)
         {
             return sqrt(((double)a * a) + ((double)b * b));
         }
-        private static quadruple realhypot(double a, double b) 
+        private static quadruple realhypot(double a, double b)
         {
             return sqrt(((quadruple)a * a) + ((quadruple)b * b));
         }
@@ -34,7 +34,7 @@ namespace MaxMath.Tests
                 Assert.IsTrue(approx((double)realhypot(a, b), test));
             }
         }
-        
+
         private static void TestByte(byte a, byte b, float test)
         {
             if (realhypot(a, b) <= byte.MaxValue)
@@ -43,7 +43,7 @@ namespace MaxMath.Tests
                 Assert.IsTrue(approx(hypot(a, b), test));
             }
         }
-        
+
         private static void TestUShort(ushort a, ushort b, float test)
         {
             if (realhypot(a, b) <= ushort.MaxValue)
@@ -52,7 +52,7 @@ namespace MaxMath.Tests
                 Assert.IsTrue(approx(hypot(a, b), test));
             }
         }
-        
+
         private static void TestSByte(sbyte a, sbyte b, float test)
         {
             if (realhypot(a, b) <= sbyte.MaxValue)
@@ -61,7 +61,7 @@ namespace MaxMath.Tests
                 Assert.IsTrue(approx(hypot(a, b), test));
             }
         }
-        
+
         private static void TestShort(short a, short b, float test)
         {
             if (realhypot(a, b) <= short.MaxValue)
@@ -143,9 +143,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(all(asuint((float2)(+0f)) == asuint(hypot((float2)(+0f), (float2)(-0f)))));
             Assert.IsTrue(all(asuint((float2)(+0f)) == asuint(hypot((float2)(-0f), (float2)(+0f)))));
             Assert.IsTrue(all(asuint((float2)(+0f)) == asuint(hypot((float2)(-0f), (float2)(-0f)))));
-            
+
             Helper.TestFloat2(
-            (test0, test1) => 
+            (test0, test1) =>
             {
                 for (int i = 0; i < 2; i++)
                 {
@@ -188,9 +188,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(all(asuint((float3)(+0f)) == asuint(hypot((float3)(+0f), (float3)(-0f)))));
             Assert.IsTrue(all(asuint((float3)(+0f)) == asuint(hypot((float3)(-0f), (float3)(+0f)))));
             Assert.IsTrue(all(asuint((float3)(+0f)) == asuint(hypot((float3)(-0f), (float3)(-0f)))));
-            
+
             Helper.TestFloat3(
-            (test0, test1) => 
+            (test0, test1) =>
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -233,9 +233,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(all(asuint((float4)(+0f)) == asuint(hypot((float4)(+0f), (float4)(-0f)))));
             Assert.IsTrue(all(asuint((float4)(+0f)) == asuint(hypot((float4)(-0f), (float4)(+0f)))));
             Assert.IsTrue(all(asuint((float4)(+0f)) == asuint(hypot((float4)(-0f), (float4)(-0f)))));
-            
+
             Helper.TestFloat4(
-            (test0, test1) => 
+            (test0, test1) =>
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -273,14 +273,14 @@ namespace MaxMath.Tests
             Assert.IsTrue(all(float.PositiveInfinity == hypot((float8)rng.NextFloat8(), (float8)float.NegativeInfinity)));
             Assert.IsTrue(all(float.PositiveInfinity == hypot((float8)float.PositiveInfinity, (float8)float.NegativeInfinity)));
             Assert.IsTrue(all(float.PositiveInfinity == hypot((float8)float.NegativeInfinity, (float8)float.PositiveInfinity)));
-                          
+
             Assert.IsTrue(all(asuint((float8)(+0f)) == asuint(hypot((float8)(+0f), (float8)(+0f)))));
             Assert.IsTrue(all(asuint((float8)(+0f)) == asuint(hypot((float8)(+0f), (float8)(-0f)))));
             Assert.IsTrue(all(asuint((float8)(+0f)) == asuint(hypot((float8)(-0f), (float8)(+0f)))));
             Assert.IsTrue(all(asuint((float8)(+0f)) == asuint(hypot((float8)(-0f), (float8)(-0f)))));
-            
+
             Helper.TestFloat8(
-            (test0, test1) => 
+            (test0, test1) =>
             {
                 for (int i = 0; i < 8; i++)
                 {
@@ -288,7 +288,7 @@ namespace MaxMath.Tests
                 }
             });
         }
-        
+
         [Test]
         public static void _double()
         {
@@ -326,7 +326,7 @@ namespace MaxMath.Tests
 
             Helper.TestDouble((test0, test1) => TestDouble(test0, test1, hypot(test0, test1)));
         }
-        
+
         [Test]
         public static void _double2()
         {
@@ -361,9 +361,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(all(asulong((double2)(+0f)) == asulong(hypot((double2)(+0f), (double2)(-0f)))));
             Assert.IsTrue(all(asulong((double2)(+0f)) == asulong(hypot((double2)(-0f), (double2)(+0f)))));
             Assert.IsTrue(all(asulong((double2)(+0f)) == asulong(hypot((double2)(-0f), (double2)(-0f)))));
-            
+
             Helper.TestDouble2(
-            (test0, test1) => 
+            (test0, test1) =>
             {
                 for (int i = 0; i < 2; i++)
                 {
@@ -406,9 +406,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(all(asulong((double3)(+0f)) == asulong(hypot((double3)(+0f), (double3)(-0f)))));
             Assert.IsTrue(all(asulong((double3)(+0f)) == asulong(hypot((double3)(-0f), (double3)(+0f)))));
             Assert.IsTrue(all(asulong((double3)(+0f)) == asulong(hypot((double3)(-0f), (double3)(-0f)))));
-            
+
             Helper.TestDouble3(
-            (test0, test1) => 
+            (test0, test1) =>
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -451,9 +451,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(all(asulong((double4)(+0f)) == asulong(hypot((double4)(+0f), (double4)(-0f)))));
             Assert.IsTrue(all(asulong((double4)(+0f)) == asulong(hypot((double4)(-0f), (double4)(+0f)))));
             Assert.IsTrue(all(asulong((double4)(+0f)) == asulong(hypot((double4)(-0f), (double4)(-0f)))));
-            
+
             Helper.TestDouble4(
-            (test0, test1) => 
+            (test0, test1) =>
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -461,7 +461,7 @@ namespace MaxMath.Tests
                 }
             });
         }
-        
+
         [Test]
         public static void _byte()
         {
@@ -472,11 +472,11 @@ namespace MaxMath.Tests
                 byte a = rng.NextByte();
                 byte b = rng.NextByte();
                 float test = hypot(a, b);
-                
+
                 TestByte(a, b, test);
             }
         }
-        
+
         [Test]
         public static void _byte2()
         {
@@ -512,7 +512,7 @@ namespace MaxMath.Tests
                 }
             }
         }
-        
+
         [Test]
         public static void _byte4()
         {
@@ -560,11 +560,11 @@ namespace MaxMath.Tests
                 sbyte a = rng.NextSByte();
                 sbyte b = rng.NextSByte();
                 float test = hypot(a, b);
-                
+
                 TestSByte(a, b, test);
             }
         }
-        
+
         [Test]
         public static void _sbyte2()
         {
@@ -648,11 +648,11 @@ namespace MaxMath.Tests
                 ushort a = rng.NextUShort();
                 ushort b = rng.NextUShort();
                 float test = hypot(a, b);
-                
+
                 TestUShort(a, b, test);
             }
         }
-        
+
         [Test]
         public static void _ushort2()
         {
@@ -736,11 +736,11 @@ namespace MaxMath.Tests
                 short a = rng.NextShort();
                 short b = rng.NextShort();
                 float test = hypot(a, b);
-                
+
                 TestShort(a, b, test);
             }
         }
-        
+
         [Test]
         public static void _short2()
         {

@@ -6,8 +6,58 @@ namespace MaxMath.Tests
 {
     public static class Helper
     {
-        internal const ulong MAX_MONO_RUNTIME_CVT_DOUBLE_LONG = 0x7FFF_FFFF_FFFF_FE00;
+        internal static half ToHalf(int x)
+        {
+            return HalfExtensions.FromInt(x, (half)float.PositiveInfinity);
+        }
         
+        internal static half2 ToHalf(int2 x)
+        {
+            return new half2(ToHalf(x.x), ToHalf(x.y));
+        }
+        
+        internal static half3 ToHalf(int3 x)
+        {
+            return new half3(ToHalf(x.xy), ToHalf(x.z));
+        }
+        
+        internal static half4 ToHalf(int4 x)
+        {
+            return new half4(ToHalf(x.xy), ToHalf(x.zw));
+        }
+        
+        internal static half8 ToHalf(int8 x)
+        {
+            return new half8(ToHalf(x.v4_0), ToHalf(x.v4_4));
+        }
+        
+        internal static half ToHalf(uint x)
+        {
+            return HalfExtensions.FromUInt(x, (half)float.PositiveInfinity);
+        }
+        
+        internal static half2 ToHalf(uint2 x)
+        {
+            return new half2(ToHalf(x.x), ToHalf(x.y));
+        }
+        
+        internal static half3 ToHalf(uint3 x)
+        {
+            return new half3(ToHalf(x.xy), ToHalf(x.z));
+        }
+        
+        internal static half4 ToHalf(uint4 x)
+        {
+            return new half4(ToHalf(x.xy), ToHalf(x.zw));
+        }
+        
+        internal static half8 ToHalf(uint8 x)
+        {
+            return new half8(ToHalf(x.v4_0), ToHalf(x.v4_4));
+        }
+        
+        internal const ulong MAX_MONO_RUNTIME_CVT_DOUBLE_LONG = 0x7FFF_FFFF_FFFF_FE00;
+
         private static float NEXT_AFTER_MAX_SUBNORMAL_F32 => math.asfloat(1 << 23);
         private static double NEXT_AFTER_MAX_SUBNORMAL_F64 => math.asdouble(1ul << 52);
         private static quadruple NEXT_AFTER_MAX_SUBNORMAL_F128 => maxmath.asquadruple((UInt128)1 << 112);
@@ -112,7 +162,7 @@ namespace MaxMath.Tests
                 }
             }
         }
-        
+
         public static void TestDouble(Action<double> assert)
         {
             Random64 rng = Random64.New;
@@ -168,7 +218,7 @@ namespace MaxMath.Tests
                 }
             }
         }
-        
+
         public static void TestQuadruple(Action<quadruple> assert)
         {
             Random128 rng = Random128.New;
@@ -276,7 +326,7 @@ namespace MaxMath.Tests
                 }
             }
         }
-        
+
         public static void TestDouble(Action<double, double> assert)
         {
             Random64 rng = Random64.New;

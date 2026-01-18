@@ -1,3106 +1,1290 @@
+//#define TESTING
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
+using static MaxMath.maxmath;
 using static MaxMath.LUT.FLOATING_POINT;
-using static MaxMath.LUT.CVT_INT_FP;
 
-namespace MaxMath.Intrinsics
+namespace MaxMath
 {
-    unsafe public static partial class Xse
+    namespace Intrinsics
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepu8_ps(v128 a)
+        unsafe public static partial class Xse
         {
-            if (Sse4_1.IsSse41Supported)
+            private const bool QUARTER_FLOAT_CONVERSION_SHIFT_IN_RANGE =
+// if it _IS_ out of range, it gets thrown away anyway. This is needed to turn of checks
+#if TESTING
+            false;
+#else
+            true;
+#endif
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtpq_ph(v128 q, bool promiseInRange = false, bool promiseAbs = false, byte elements = 8)
             {
-                return cvtepi32_ps(cvtepu8_epi32(a));
-            }
-            else if (Architecture.IsSIMDSupported)
-            {
-                return cvtepu16_ps(cvtepu8_epi16(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepi8_ps(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (constexpr.ALL_GE_EPI8(a, 0))
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return cvtepu8_ps(a);
-                }
+                    const byte EXPONENT_OFFSET = -F16_EXPONENT_BIAS + quarter.EXPONENT_BIAS;
 
-                return cvtepi32_ps(cvtepi8_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
+                    v128 exp = and_si128(q, set1_epi8(quarter.SIGNALING_EXPONENT));
+                    v128 frac = and_si128(q, set1_epi8(bitmask8(quarter.MANTISSA_BITS)));
 
+                    v128 expIs0 = cmpeq_epi8(exp, setzero_si128());
+                    v128 fracIs0_16 = cvtepi8_epi16(cmpeq_epi8(frac, setzero_si128()));
+                    v128 isNaNinf_16 = cvtepi8_epi16(cmpeq_epi8(exp, set1_epi8(quarter.SIGNALING_EXPONENT)));
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepi16_ps(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (constexpr.ALL_GE_EPI16(a, 0))
-                {
-                    return cvtepu16_ps(a);
-                }
-
-                return cvtepi32_ps(cvtepi16_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepu16_ps(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                v128 EXP_MASK = set1_epi16(0x4B00);
-                v128 MAGIC = set1_ps(LIMIT_PRECISE_U32_F32);
-
-                return sub_ps(unpacklo_epi16(a, EXP_MASK), MAGIC);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtepi16_ps(v128 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx.mm256_cvtepi32_ps(Avx2.mm256_cvtepi16_epi32(a));
-            }
-            else if (Avx.IsAvxSupported)
-            {
-                return Avx.mm256_cvtepi32_ps(Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(cvt2x2epi16_epi32(a, out v128 hi)), hi, 1));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtepu16_ps(v128 a)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                {
-                    if (Avx2.IsAvx2Supported)
+                    v128 frac_16 = cvtepu8_epi16(frac);
+                    v128 denormalExp_16;
+                    v128 denormalFrac_16;
+                    if (BurstArchitecture.IsTableLookupSupported)
                     {
-                        return Avx.mm256_cvtepi32_ps(Avx2.mm256_cvtepu16_epi32(a));
-                    }
-                }
+                        v128 shiftDistBase = sub_epi8(new v128(8, 7, 6, 6, 5, 5, 5, 5,   4, 4, 4, 4, 4, 4, 4, 4), set1_epi8(quarter.EXPONENT_BITS));
+                        v128 shiftDist_16 = cvtepu8_epi16(shuffle_epi8(shiftDistBase, frac));
 
-                v128 EXP_MASK = set1_epi16(0x4B00);
-                v256 MAGIC = Avx.mm256_set1_ps(LIMIT_PRECISE_U32_F32);
+                        v128 expLUT = slli_epi16(sub_epi8(set1_epi8(EXPONENT_OFFSET), shiftDistBase), F16_MANTISSA_BITS - quarter.BITS);
+                        denormalExp_16 = unpacklo_epi8(setzero_si128(), shuffle_epi8(expLUT, frac));
 
-                return Avx.mm256_sub_ps(Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(unpacklo_epi16(a, EXP_MASK)), unpackhi_epi16(a, EXP_MASK), 1), MAGIC);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepu32_ps(v128 a, byte elements = 4)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (constexpr.ALL_LE_EPU32(a, int.MaxValue, elements))
-                {
-                    return cvtepi32_ps(a);
-                }
-
-                v128 aLo = and_si128(a, set1_epi32(maxmath.bitmask32(16)));
-                v128 aHi = srli_epi32(a, 16);
-
-                v128 cvtLo = cvtepi32_ps(aLo);
-                v128 cvtHi = cvtepi32_ps(aHi);
-
-                return fmadd_ps(set1_ps(1 << 16), cvtHi, cvtLo);
-            }
-            else if (Arm.Neon.IsNeonSupported)
-            {
-                return Arm.Neon.vcvtq_f32_u32(a);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtepu32_ps(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (constexpr.ALL_LE_EPU32(a, int.MaxValue))
-                {
-                    return Avx.mm256_cvtepi32_ps(a);
-                }
-
-                v256 aLo = Avx2.mm256_and_si256(a, mm256_set1_epi32(maxmath.bitmask32(16)));
-                v256 aHi = Avx2.mm256_srli_epi32(a, 16);
-
-                v256 cvtLo = Avx.mm256_cvtepi32_ps(aLo);
-                v256 cvtHi = Avx.mm256_cvtepi32_ps(aHi);
-
-                return mm256_fmadd_ps(mm256_set1_ps(1 << 16), cvtHi, cvtLo);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepu64_ps(v128 a, byte elements = 2)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (constexpr.ALL_LE_EPU64(a, uint.MaxValue, elements))
-                {
-                    if (constexpr.ALL_LE_EPU64(a, int.MaxValue, elements))
-                    {
-                        return cvtepi32_ps(cvtepi64_epi32(a));
+                        denormalExp_16 = andnot_si128(fracIs0_16, denormalExp_16);
+                        denormalFrac_16 = sllv_epi16(frac_16, shiftDist_16, inRange: true, elements: elements);
                     }
                     else
                     {
-                        return cvtepu32_ps(cvtepi64_epi32(a), 3);
+                        v128 cmpgt1 = cmpgt_epi16(frac_16, set1_epi16(1));
+                        v128 cmpgt3 = cmpgt_epi16(frac_16, set1_epi16(3));
+                        v128 cmpgt7 = cmpgt_epi16(frac_16, set1_epi16(7));
+
+                        v128 fracSHLgt7_16 = slli_epi16(frac_16, 4 - quarter.EXPONENT_BITS);
+                        v128 fracSHLgt3_16 = slli_epi16(frac_16, 5 - quarter.EXPONENT_BITS);
+                        v128 fracSHLgt1_16 = slli_epi16(frac_16, 6 - quarter.EXPONENT_BITS);
+                        v128 fracSHLgt0_16 = slli_epi16(frac_16, 7 - quarter.EXPONENT_BITS);
+                        v128 expSHLgt7_16 = set1_epi16((EXPONENT_OFFSET - (4 - quarter.EXPONENT_BITS)) << F16_MANTISSA_BITS);
+                        v128 expSHLgt3_16 = set1_epi16((EXPONENT_OFFSET - (5 - quarter.EXPONENT_BITS)) << F16_MANTISSA_BITS);
+                        v128 expSHLgt1_16 = set1_epi16((EXPONENT_OFFSET - (6 - quarter.EXPONENT_BITS)) << F16_MANTISSA_BITS);
+                        v128 expSHLgt0_16 = set1_epi16((EXPONENT_OFFSET - (7 - quarter.EXPONENT_BITS)) << F16_MANTISSA_BITS);
+
+                        v128 blend3or7 = blendv_si128(fracSHLgt3_16, fracSHLgt7_16, cmpgt7);
+                        v128 blend0or1 = blendv_si128(fracSHLgt0_16, fracSHLgt1_16, cmpgt1);
+                        denormalFrac_16 = blendv_si128(blend0or1, blend3or7, cmpgt3);
+                        blend3or7 = blendv_si128(expSHLgt3_16, expSHLgt7_16, cmpgt7);
+                        blend0or1 = blendv_si128(expSHLgt0_16, expSHLgt1_16, cmpgt1);
+                        denormalExp_16 = andnot_si128(fracIs0_16, blendv_si128(blend0or1, blend3or7, cmpgt3));
                     }
-                }
 
-                if (elements == 1)
-                {
-                    return cvtsi32_si128(math.asint((float)a.ULong0));
-                }
-                else
-                {
-                    return unpacklo_epi32(cvtsi32_si128(math.asint((float)a.ULong0)),
-                                          cvtsi32_si128(math.asint((float)a.ULong1)));
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtepu64_ps(v256 a, byte elements = 4)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (constexpr.ALL_LE_EPU64(a, uint.MaxValue, elements))
-                {
-                    if (constexpr.ALL_LE_EPU64(a, int.MaxValue, elements))
+                    v128 normalExp_16 = add_epi16(cvtepu8_epi16(exp), set1_epi16(EXPONENT_OFFSET << quarter.MANTISSA_BITS));
+                    normalExp_16 = slli_epi16(normalExp_16, F16_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                    if (!promiseInRange)
                     {
-                        return cvtepi32_ps(mm256_cvtepi64_epi32(a));
+                        normalExp_16 = blendv_si128(normalExp_16, set1_epi16(F16_SIGNALING_EXPONENT), isNaNinf_16);
+                        frac_16      = blendv_si128(frac_16,      inc_epi16(fracIs0_16),              isNaNinf_16);
+                    }
+
+                    v128 expIs0_16 = cvtepi8_epi16(expIs0);
+                    v128 result_16 = add_epi16(blendv_si128(normalExp_16, denormalExp_16, expIs0_16), slli_epi16(blendv_si128(frac_16, denormalFrac_16, expIs0_16), F16_MANTISSA_BITS - quarter.MANTISSA_BITS));
+
+                    if (promiseAbs)
+                    {
+                        return result_16;
                     }
                     else
                     {
-                        return cvtepu32_ps(mm256_cvtepi64_epi32(a));
+                        v128 sign_16 = slli_epi16(srli_epi16(cvtepu8_epi16(q), quarter.BITS - 1), F16_BITS - 1);
+
+                        return or_si128(sign_16, result_16);
                     }
                 }
-                else
-                {
-                   v256 ZERO = Avx.mm256_setzero_si256();
-                   v256 ONE = mm256_set1_epi64x(1);
-       
-                   v256 log2 = mm256_lzcnt_epi64(a);
-                   log2 = Avx2.mm256_sub_epi64(log2, mm256_set1_epi64x(33));
-       
-                   v256 posShift = Avx2.mm256_sllv_epi64(a, log2);
-                   v256 negShift = Avx2.mm256_srlv_epi64(a, mm256_neg_epi64(log2));
-                   v256 sig = Avx.mm256_blendv_pd(posShift, negShift, log2);
-                   
-                    v256 jamInv = Avx2.mm256_cmpeq_epi64(ZERO, Avx2.mm256_and_si256(a, Avx2.mm256_sub_epi64(Avx2.mm256_sllv_epi64(ONE, mm256_neg_epi64(log2)), ONE))); 
-                    v256 roundIncrement = Avx2.mm256_andnot_si256(negShift, mm256_srli_epi64(log2, 63));
-                    roundIncrement = mm256_ternarylogic_si256(mm256_set1_epi64x(0x40), roundIncrement, jamInv,                     TernaryOperation.OxF4);;
-                    v256 roundMask = mm256_ternarylogic_si256(roundIncrement,          sig,            mm256_set1_epi64x(0x7F),    TernaryOperation.Ox78);
-                    
-                    sig = Avx2.mm256_srli_epi64(Avx2.mm256_add_epi64(sig, roundIncrement), 7);
-                    sig = Avx2.mm256_and_si256(sig, Avx2.mm256_add_epi64(mm256_setall_si256(), Avx2.mm256_cmpeq_epi64(roundMask, ZERO)));
-
-                    v256 exp = Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi64(ZERO, a), Avx2.mm256_sub_epi64(mm256_set1_epi64x(0x9C), log2));
-                    v256 result64 = Avx2.mm256_add_epi64(sig, Avx2.mm256_slli_epi64(exp, F32_MANTISSA_BITS));
-
-                    return mm256_cvtepi64_epi32(result64);
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepi64_ps(v128 a, byte elements = 2)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (constexpr.ALL_LE_EPI64(a, uint.MaxValue, elements)
-                 && constexpr.ALL_GE_EPI64(a, uint.MinValue, elements))
-                {
-                    return cvtepu32_ps(cvtepi64_epi32(a), 3);
-                }
-                if (constexpr.ALL_LE_EPI64(a, int.MaxValue, elements)
-                 && constexpr.ALL_GE_EPI64(a, int.MinValue, elements))
-                {
-                    return cvtepi32_ps(cvtepi64_epi32(a));
-                }
-
-                if (elements == 1)
-                {
-                    return cvtsi32_si128(math.asint((float)a.SLong0));
-                }
-                else
-                {
-                    return unpacklo_epi32(cvtsi32_si128(math.asint((float)a.SLong0)),
-                                          cvtsi32_si128(math.asint((float)a.SLong1)));
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtepi64_ps(v256 a, byte elements = 4)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (constexpr.ALL_LE_EPI64(a, uint.MaxValue, elements)
-                 && constexpr.ALL_GE_EPI64(a, uint.MinValue, elements))
-                {
-                    return cvtepu32_ps(mm256_cvtepi64_epi32(a), 3);
-                }
-                if (constexpr.ALL_LE_EPI64(a, int.MaxValue, elements)
-                 && constexpr.ALL_GE_EPI64(a, int.MinValue, elements))
-                {
-                    return cvtepi32_ps(mm256_cvtepi64_epi32(a));
-                }
-
-                return unpacklo_epi64(cvtepi64_ps(a.Lo128),
-                                      (elements == 3) ? cvtsi32_si128(math.asint((float)a.SLong2))
-                                                      : cvtepi64_ps(a.Hi128));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepu8_pd(v128 a)
-        {
-            if (Sse4_1.IsSse41Supported)
-            {
-                return cvtepi32_pd(cvtepu8_epi32(a));
-            }
-            else if (Architecture.IsSIMDSupported)
-            {
-                return cvtepu16_pd(cvtepu8_epi16(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepi8_pd(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (constexpr.ALL_GE_EPI8(a, 0))
-                {
-                    return cvtepu8_pd(a);
-                }
-
-                return cvtepi32_pd(cvtepi8_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepu16_pd(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_pd(cvtepu16_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepi16_pd(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (constexpr.ALL_GE_EPI16(a, 0))
-                {
-                    return cvtepu16_pd(a);
-                }
-
-                return cvtepi32_pd(cvtepi16_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepu32_pd(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (constexpr.ALL_LE_EPU32(a, int.MaxValue, 2))
-                {
-                    return cvtepi32_pd(a);
-                }
-                else
-                {
-                    v128 EXP_MASK = set1_epi32(0x4330_0000);
-                    v128 MAGIC = set1_pd(LIMIT_PRECISE_U64_F64);
-
-                    return sub_pd(unpacklo_epi32(a, EXP_MASK), MAGIC);
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtepu32_pd(v128 a, byte elements = 4)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (constexpr.ALL_LE_EPU32(a, int.MaxValue, elements))
-                {
-                    return Avx.mm256_cvtepi32_pd(a);
-                }
-                else
-                {
-                    v256 EXP_MASK = mm256_set1_epi64x(0x4330_0000_0000_0000);
-                    v256 MAGIC = mm256_set1_pd(LIMIT_PRECISE_U64_F64);
-
-                    return Avx.mm256_sub_pd(Avx2.mm256_or_si256(Avx2.mm256_cvtepu32_epi64(a), EXP_MASK), MAGIC);
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepi64_pd(v128 a)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (constexpr.ALL_GE_EPI64(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT) && constexpr.ALL_LE_EPI64(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT))
-                {
-                    return usfcvtepi64_pd(a);
-                }
-
-                return new v128((double)a.SLong0, (double)a.SLong1);
-            }
-            else if (Arm.Neon.IsNeonSupported)
-            {
-                return Arm.Neon.vcvtq_f64_s64(a);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtepu64_pd(v128 a)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (constexpr.ALL_LE_EPU64(a, USF_CVT_EPU64_PD_LIMIT))
-                {
-                    return usfcvtepu64_pd(a);
-                }
-                
-                v128 magic_lo  = new v128(LIMIT_PRECISE_U64_F64);
-                v128 magic_hi  = new v128(0x4530_0000_0000_0000);
-                v128 magic_dbl = new v128(0x4530_0000_0010_0000);
-                
-                v128 hi = xor_si128(magic_hi, srli_epi64(a, 32));
-                v128 lo;
-                if (Sse4_1.IsSse41Supported)
-                {
-                    lo = blend_epi16(magic_lo, a, 0b011_0011);
-                }
-                else
-                {
-                    lo = or_si128(magic_lo, and_si128(a, set1_epi64x(uint.MaxValue)));
-                }
-
-                v128 hi_dbl = sub_pd(hi, magic_dbl);
-                v128 result = add_pd(hi_dbl, lo);
-
-                return result;
-            }
-            else if (Arm.Neon.IsNeonSupported)
-            {
-                return Arm.Neon.vcvtq_f64_u64(a);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtepi64_pd(v256 a, byte elements = 4)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (constexpr.ALL_GE_EPI64(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements) && constexpr.ALL_LE_EPI64(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements))
-                {
-                    return mm256_usfcvtepi64_pd(a);
-                }
-
-
-                v256 magic_lo  = new v256(LIMIT_PRECISE_U64_F64);
-                v256 magic_hi  = new v256(0x4530_0000_8000_0000);
-                v256 magic_dbl = new v256(0x4530_0000_8010_0000);
-
-                v256 lo = Avx2.mm256_blend_epi32(magic_lo, a, 0b0101_0101);
-                v256 hi = Avx2.mm256_xor_si256(magic_hi, Avx2.mm256_srli_epi64(a, 32));
-
-                v256 hi_dbl = Avx.mm256_sub_pd(hi, magic_dbl);
-                v256 result = Avx.mm256_add_pd(hi_dbl, lo);
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtepu64_pd(v256 a, byte elements = 4)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (constexpr.ALL_LE_EPU64(a, USF_CVT_EPU64_PD_LIMIT, elements))
-                {
-                    return mm256_usfcvtepu64_pd(a);
-                }
-
-
-                v256 magic_lo  = new v256(LIMIT_PRECISE_U64_F64);
-                v256 magic_hi  = new v256(0x4530_0000_0000_0000);
-                v256 magic_dbl = new v256(0x4530_0000_0010_0000);
-
-                v256 lo = Avx2.mm256_blend_epi32(magic_lo, a, 0b0101_0101);
-                v256 hi = Avx2.mm256_xor_si256(magic_hi, Avx2.mm256_srli_epi64(a, 32));
-
-                v256 hi_dbl = Avx.mm256_sub_pd(hi, magic_dbl);
-                v256 result = Avx.mm256_add_pd(hi_dbl, lo);
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-        
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpq_epi8(v128 a, byte elements = 16, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvttpq_epi8(a, true, elements, positive);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epi8(v128 a, byte elements = 16, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi8(BASE_cvtpq_epi32(a, signed: true, positive: positive, elements: elements));
-                }
-                else if (elements <= 8)
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi8(BASE_mm256_cvtpq_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi8(BASE_cvtpq_epi32(a,                                signed: true, positive: positive, elements: elements));
-                        v128 hi = cvtepi32_epi8(BASE_cvtpq_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, elements: elements));
-
-                        return unpacklo_epi32(lo, hi);
-                    }
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        v128 lo = mm256_cvtepi32_epi8(BASE_mm256_cvtpq_epi32(a,                                signed: true, positive: positive, trunc: false));
-                        v128 hi = mm256_cvtepi32_epi8(BASE_mm256_cvtpq_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, trunc: false));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                    else
-                    {
-                        v128 _0 = cvtepi32_epi8(BASE_cvtpq_epi32(a,                                 signed: true, positive: positive, elements: elements));
-                        v128 _1 = cvtepi32_epi8(BASE_cvtpq_epi32(bsrli_si128(a, 4  * sizeof(byte)), signed: true, positive: positive, elements: elements));
-                        v128 _2 = cvtepi32_epi8(BASE_cvtpq_epi32(bsrli_si128(a, 8  * sizeof(byte)), signed: true, positive: positive, elements: elements));
-                        v128 _3 = cvtepi32_epi8(BASE_cvtpq_epi32(bsrli_si128(a, 12 * sizeof(byte)), signed: true, positive: positive, elements: elements));
-
-                        v128 lo = unpacklo_epi32(_0, _1);
-                        v128 hi = unpacklo_epi32(_2, _3);
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpq_epu8(v128 a, byte elements = 16)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvttpq_epi8(a, false, elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epu8(v128 a, byte elements = 16, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi8(BASE_cvtpq_epi32(a, signed: false, elements: elements));
-                }
-                else if (elements <= 8)
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi8(BASE_mm256_cvtpq_epi32(a, signed: false, nonZero: nonZero, trunc: false));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi8(BASE_cvtpq_epi32(a,                                signed: false, elements: elements));
-                        v128 hi = cvtepi32_epi8(BASE_cvtpq_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, elements: elements));
-
-                        return unpacklo_epi32(lo, hi);
-                    }
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        v128 lo = mm256_cvtepi32_epi8(BASE_mm256_cvtpq_epi32(a,                                signed: false, nonZero: nonZero, trunc: false));
-                        v128 hi = mm256_cvtepi32_epi8(BASE_mm256_cvtpq_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: false));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                    else
-                    {
-                        v128 _0 = cvtepi32_epi8(BASE_cvtpq_epi32(a,                                 signed: false, elements: elements));
-                        v128 _1 = cvtepi32_epi8(BASE_cvtpq_epi32(bsrli_si128(a, 4  * sizeof(byte)), signed: false, elements: elements));
-                        v128 _2 = cvtepi32_epi8(BASE_cvtpq_epi32(bsrli_si128(a, 8  * sizeof(byte)), signed: false, elements: elements));
-                        v128 _3 = cvtepi32_epi8(BASE_cvtpq_epi32(bsrli_si128(a, 12 * sizeof(byte)), signed: false, elements: elements));
-
-                        v128 lo = unpacklo_epi32(_0, _1);
-                        v128 hi = unpacklo_epi32(_2, _3);
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpq_epi16(v128 a, byte elements = 8, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi8_epi16(cvttpq_epi8(a, elements, positive));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epi16(v128 a, byte elements = 8, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi16(BASE_cvtpq_epi32(a, signed: true, positive: positive, elements: elements));
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi16(BASE_mm256_cvtpq_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi16(BASE_cvtpq_epi32(a,                                signed: true, positive: positive, elements: elements));
-                        v128 hi = cvtepi32_epi16(BASE_cvtpq_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, elements: elements));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpq_epu16(v128 a, byte elements = 8)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepu8_epi16(cvttpq_epu8(a, elements));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epu16(v128 a, byte elements = 8, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi16(BASE_cvtpq_epi32(a, signed: false, elements: elements));
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi16(BASE_mm256_cvtpq_epi32(a, signed: false, nonZero: nonZero, trunc: false));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi16(BASE_cvtpq_epi32(a,                                signed: false, elements: elements));
-                        v128 hi = cvtepi32_epi16(BASE_cvtpq_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, elements: elements));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpq_epi32(v128 a, byte elements = 4, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi8_epi32(cvttpq_epi8(a, elements, positive));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epi32(v128 a, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtpq_epi32(a, signed: true, positive: positive, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpq_epu32(v128 a, byte elements = 4)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepu8_epi32(cvttpq_epu8(a, elements));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epu32(v128 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtpq_epi32(a, signed: false, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttpq_epi32(v128 a, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_cvtepi8_epi32(cvttpq_epi8(a, 8, positive));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtpq_epi32(v128 a, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtpq_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttpq_epu32(v128 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_cvtepu8_epi32(cvttpq_epu8(a, 8));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtpq_epu32(v128 a, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtpq_epi32(a, signed: false, nonZero: nonZero, trunc: false);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpq_epi64(v128 a, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi8_epi64(cvttpq_epi8(a, 2, positive));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epi64(v128 a, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtpq_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpq_epu64(v128 a, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepu8_epi64(cvttpq_epu8(a, 2));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epu64(v128 a, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtpq_epi64(a, signed: false, nonZero: nonZero, trunc: false);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttpq_epi64(v128 a, byte elements = 4, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_cvtepi8_epi64(cvttpq_epi8(a, elements, positive));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtpq_epi64(v128 a, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtpq_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttpq_epu64(v128 a, byte elements = 4)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Avx2.mm256_cvtepu8_epi64(cvttpq_epu8(a, elements));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtpq_epu64(v128 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtpq_epi64(a, signed: false, nonZero: nonZero, trunc: false, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttph_epi8(v128 a, byte elements = 8, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi8(BASE_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-                }
-                else if (elements <= 8)
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: true));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi8(BASE_cvtph_epi32(a,                                signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 hi = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-
-                        return unpacklo_epi32(lo, hi);
-                    }
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        v128 lo = mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(a,                                signed: true, positive: positive, nonZero: nonZero, trunc: true));
-                        v128 hi = mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: true));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                    else
-                    {
-                        v128 _0 = cvtepi32_epi8(BASE_cvtph_epi32(a,                                 signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 _1 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 4  * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 _2 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 8  * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 _3 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 12 * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-
-                        v128 lo = unpacklo_epi32(_0, _1);
-                        v128 hi = unpacklo_epi32(_2, _3);
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtph_epi8(v128 a, byte elements = 8, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi8(BASE_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-                }
-                else if (elements <= 8)
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi8(BASE_cvtph_epi32(a,                                signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 hi = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-
-                        return unpacklo_epi32(lo, hi);
-                    }
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        v128 lo = mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(a,                                signed: true, positive: positive, nonZero: nonZero, trunc: false));
-                        v128 hi = mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: false));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                    else
-                    {
-                        v128 _0 = cvtepi32_epi8(BASE_cvtph_epi32(a,                                 signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 _1 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 4  * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 _2 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 8  * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 _3 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 12 * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-
-                        v128 lo = unpacklo_epi32(_0, _1);
-                        v128 hi = unpacklo_epi32(_2, _3);
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttph_epu8(v128 a, byte elements = 8, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi8(BASE_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: true, elements: elements));
-                }
-                else if (elements <= 8)
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: true));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi8(BASE_cvtph_epi32(a,                                signed: false, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 hi = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: true, elements: elements));
-
-                        return unpacklo_epi32(lo, hi);
-                    }
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        v128 lo = mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(a,                                signed: false, nonZero: nonZero, trunc: true));
-                        v128 hi = mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: true));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                    else
-                    {
-                        v128 _0 = cvtepi32_epi8(BASE_cvtph_epi32(a,                                 signed: false, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 _1 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 4  * sizeof(byte)), signed: false, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 _2 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 8  * sizeof(byte)), signed: false, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 _3 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 12 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: true, elements: elements));
-
-                        v128 lo = unpacklo_epi32(_0, _1);
-                        v128 hi = unpacklo_epi32(_2, _3);
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtph_epu8(v128 a, byte elements = 8, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi8(BASE_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: false, elements: elements));
-                }
-                else if (elements <= 8)
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: false));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi8(BASE_cvtph_epi32(a,                                signed: false, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 hi = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: false, elements: elements));
-
-                        return unpacklo_epi32(lo, hi);
-                    }
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        v128 lo = mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(a,                                signed: false, nonZero: nonZero, trunc: false));
-                        v128 hi = mm256_cvtepi32_epi8(BASE_mm256_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: false));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                    else
-                    {
-                        v128 _0 = cvtepi32_epi8(BASE_cvtph_epi32(a,                                 signed: false, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 _1 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 4  * sizeof(byte)), signed: false, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 _2 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 8  * sizeof(byte)), signed: false, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 _3 = cvtepi32_epi8(BASE_cvtph_epi32(bsrli_si128(a, 12 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: false, elements: elements));
-
-                        v128 lo = unpacklo_epi32(_0, _1);
-                        v128 hi = unpacklo_epi32(_2, _3);
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttph_epi16(v128 a, byte elements = 8, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi16(BASE_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi16(BASE_mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: true));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi16(BASE_cvtph_epi32(a,                                signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 hi = cvtepi32_epi16(BASE_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtph_epi16(v128 a, byte elements = 8, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi16(BASE_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi16(BASE_mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi16(BASE_cvtph_epi32(a,                                signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 hi = cvtepi32_epi16(BASE_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttph_epu16(v128 a, byte elements = 8, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi16(BASE_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: true, elements: elements));
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi16(BASE_mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: true));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi16(BASE_cvtph_epi32(a,                                signed: false, nonZero: nonZero, trunc: true, elements: elements));
-                        v128 hi = cvtepi32_epi16(BASE_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: true, elements: elements));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtph_epu16(v128 a, byte elements = 8, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (elements <= 4)
-                {
-                    return cvtepi32_epi16(BASE_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: false, elements: elements));
-                }
-                else
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi16(BASE_mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: false));
-                    }
-                    else
-                    {
-                        v128 lo = cvtepi32_epi16(BASE_cvtph_epi32(a,                                signed: false, nonZero: nonZero, trunc: false, elements: elements));
-                        v128 hi = cvtepi32_epi16(BASE_cvtph_epi32(bsrli_si128(a, 4 * sizeof(byte)), signed: false, nonZero: nonZero, trunc: false, elements: elements));
-
-                        return unpacklo_epi64(lo, hi);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttph_epi32(v128 a, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtph_epi32(v128 a, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttph_epu32(v128 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtph_epu32(v128 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: false, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttph_epi32(v128 a, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtph_epi32(v128 a, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttph_epu32(v128 a, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtph_epu32(v128 a, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: false);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttph_epi64(v128 a, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtph_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtph_epi64(v128 a, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtph_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttph_epu64(v128 a, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtph_epi64(a, signed: false, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtph_epu64(v128 a, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtph_epi64(a, signed: false, nonZero: nonZero, trunc: false);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttph_epi64(v128 a, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtph_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtph_epi64(v128 a, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtph_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttph_epu64(v128 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtph_epi64(a, signed: false, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtph_epu64(v128 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtph_epi64(a, signed: false, nonZero: nonZero, trunc: false, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttps_epi8(v128 a, byte elements = 4)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi8(cvttps_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtps_epi8(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi8(cvtps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttps_epu8(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi8(cvttps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtps_epu8(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi8(cvtps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttps_epi8(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi32_epi8(Avx.mm256_cvttps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtps_epi8(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi32_epi8(Avx.mm256_cvtps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttps_epu8(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi32_epi8(Avx.mm256_cvttps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtps_epu8(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi32_epi8(Avx.mm256_cvtps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttps_epi16(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi16(cvttps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtps_epi16(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi16(cvtps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttps_epu16(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi16(cvttps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtps_epu16(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi16(cvtps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttps_epi16(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi32_epi16(Avx.mm256_cvttps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtps_epi16(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi32_epi16(Avx.mm256_cvtps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttps_epu16(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi32_epi16(Avx.mm256_cvttps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtps_epu16(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi32_epi16(Avx.mm256_cvtps_epi32(a));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtps_epu32(v128 a, byte elements = 4, bool nonZero = false, bool evenOnTie = true)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtps_epu32(a, nonZero: nonZero, trunc: false, elements: elements, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttps_epu32(v128 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtps_epu32(a, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtps_epu32(v256 a, bool evenOnTie = true, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtps_epu32(a, nonZero: nonZero, trunc: false, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttps_epu32(v256 a, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtps_epu32(a, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtps_epi64(v128 a, bool evenOnTie = true, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtps_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttps_epi64(v128 a, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtps_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtps_epu64(v128 a, bool evenOnTie = true, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtps_epi64(a, signed: false, nonZero: nonZero, trunc: false, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttps_epu64(v128 a, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtps_epi64(a, signed: false, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtps_epi64(v128 a, byte elements = 4, bool nonZero = false, bool positive = false, bool evenOnTie = true)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtps_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttps_epi64(v128 a, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtps_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtps_epu64(v128 a, byte elements = 4, bool nonZero = false, bool evenOnTie = true)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtps_epi64(a, signed: false, nonZero: nonZero, trunc: false, elements: elements, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttps_epu64(v128 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtps_epi64(a, signed: false, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpd_epi8(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi8(cvtpd_epi32(a), 2);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpd_epi8(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi8(cvttpd_epi32(a), 2);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpd_epu8(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi8(cvtpd_epi32(a), 2);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpd_epu8(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi8(cvttpd_epi32(a), 2);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtpd_epi8(v256 a, byte elements = 4)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return cvtepi32_epi8(Avx.mm256_cvtpd_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttpd_epi8(v256 a, byte elements = 4)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return cvtepi32_epi8(Avx.mm256_cvttpd_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtpd_epu8(v256 a, byte elements = 4)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return cvtepi32_epi8(Avx.mm256_cvtpd_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttpd_epu8(v256 a, byte elements = 4)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return cvtepi32_epi8(Avx.mm256_cvttpd_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpd_epi16(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi16(cvtpd_epi32(a), 2);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpd_epi16(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi16(cvttpd_epi32(a), 2);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpd_epu16(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi16(cvtpd_epi32(a), 2);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpd_epu16(v128 a)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi32_epi16(cvttpd_epi32(a), 2);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtpd_epi16(v256 a, byte elements = 4)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return cvtepi32_epi16(Avx.mm256_cvtpd_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttpd_epi16(v256 a, byte elements = 4)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return cvtepi32_epi16(Avx.mm256_cvttpd_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtpd_epu16(v256 a, byte elements = 4)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return cvtepi32_epi16(Avx.mm256_cvtpd_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttpd_epu16(v256 a, byte elements = 4)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return cvtepi32_epi16(Avx.mm256_cvttpd_epi32(a), elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpd_epu32(v128 a, bool evenOnTie = true, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi64_epi32(BASE_cvtpd_epi64(a, signed: false, nonZero: nonZero, trunc: false, evenOnTie: evenOnTie));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpd_epu32(v128 a, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return cvtepi64_epi32(BASE_cvtpd_epi64(a, signed: false, nonZero: nonZero, trunc: true));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvtpd_epu32(v256 a, byte elements = 4, bool nonZero = false, bool evenOnTie = true)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi64_epi32(BASE_mm256_cvtpd_epi64(a, signed: false, nonZero: nonZero, trunc: false, elements: elements, evenOnTie: evenOnTie));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 mm256_cvttpd_epu32(v256 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return mm256_cvtepi64_epi32(BASE_mm256_cvtpd_epi64(a, signed: false, nonZero: nonZero, trunc: true, elements: elements));
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpd_epi64(v128 a, bool evenOnTie = true, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtpd_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpd_epi64(v128 a, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtpd_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpd_epu64(v128 a, bool evenOnTie = true, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtpd_epi64(a, signed: false, nonZero: nonZero, trunc: false, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvttpd_epu64(v128 a, bool nonZero = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                return BASE_cvtpd_epi64(a, signed: false, nonZero: nonZero, trunc: true);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtpd_epi64(v256 a, byte elements = 4, bool nonZero = false, bool positive = false, bool evenOnTie = true)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtpd_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttpd_epi64(v256 a, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtpd_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtpd_epu64(v256 a, byte elements = 4, bool nonZero = false, bool evenOnTie = true)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtpd_epi64(a, signed: false, nonZero: nonZero, trunc: false, elements: elements, evenOnTie: evenOnTie);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvttpd_epu64(v256 a, byte elements = 4, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return BASE_mm256_cvtpd_epi64(a, signed: false, nonZero: nonZero, trunc: true, elements: elements);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v128 BASE_cvttpq_epi8(v128 a, bool signed, byte elements = 16, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                positive |= (constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_LT_EPU8(a, 1 << 7, elements));
-
-                v128 exp = srli_epi8(a, quarter.MANTISSA_BITS);
-                v128 mantissa = and_si128(a, set1_epi8(maxmath.bitmask8(quarter.MANTISSA_BITS)));
-                
-                v128 lo;
-                v128 hi;
-                if (Architecture.IsTableLookupSupported)
-                {
-                    v128 shr = shuffle_epi8(new v128(4, 4, 4, 4, 3, 2, 1, 0,   4, 4, 4, 4, 3, 2, 1, 0), exp);
-                    hi = shuffle_epi8(new v128(0, 0, 0, 1, 2, 4, 8, 0,   0, 0, 0,-1,-2,-4,-8, 0), exp);
-                
-                    lo = srlv_epi8(mantissa, shr, elements: elements, inRange: true);
-                    if (signed && !positive)
-                    {
-                        if (Ssse3.IsSsse3Supported)
-                        {
-                            lo = sign_epi8(lo, a);
-                        }
-                        else
-                        {
-                            v128 signMask = srai_epi8(a, 7, elements: elements);
-                            lo = sub_epi8(xor_si128(lo, signMask), signMask);
-                        }
-                    }
-                }
-                else
-                {
-                    v128 absExp = exp;
-                    if (signed && !positive)
-                    {
-                        absExp = and_si128(absExp, set1_epi8(maxmath.bitmask8(quarter.EXPONENT_BITS)));
-                    }
-                
-                    v128 expGT2 = cmpgt_epi8(absExp, set1_epi8(2));
-                    v128 expGT3 = cmpgt_epi8(absExp, set1_epi8(3));
-                    v128 expGT4 = cmpgt_epi8(absExp, set1_epi8(4));
-                    v128 expGT5 = cmpgt_epi8(absExp, set1_epi8(5));
-                
-                    hi = negmask_epi8(expGT2, elements: elements);
-                    hi = add_epi8(hi, and_si128(hi, expGT3));
-                    hi = add_epi8(hi, and_si128(hi, expGT4));
-                    hi = add_epi8(hi, and_si128(hi, expGT5));
-                
-                    v128 shr0 = mantissa;
-                    v128 shr1 = srli_epi8(mantissa, 1);
-                    v128 shr2 = srli_epi8(mantissa, 2);
-                    v128 shr3 = srli_epi8(mantissa, 3);
-
-                    lo = blendv_si128(blendv_si128(blendv_si128(shr0, shr3, expGT3), shr2, expGT4), shr1, expGT5);
-                    if (signed && !positive)
-                    {
-                        v128 signMask = srai_epi8(a, 7, elements: elements);
-                        hi = sub_epi8(xor_si128(hi, signMask), signMask);
-                        lo = sub_epi8(xor_si128(lo, signMask), signMask);
-                    }
-                }
-                
-                return add_epi8(lo, hi);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v128 BASE_cvtpq_epi32(v128 a, bool signed, bool evenOnTie = true, byte elements = 4, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                positive |= (constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_LT_EPU8(a, 1 << 7, elements));
-
-                v128 IMPLICIT_ONE = set1_epi32(1u << quarter.MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi32(maxmath.bitmask32(quarter.MANTISSA_BITS));
-                v128 EXP = set1_epi32(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS);
-                
-                v128 a32 = cvtepu8_epi32(a);
-                
-                v128 biasedExponent;
-                v128 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = srli_epi32(a32, quarter.MANTISSA_BITS);
-                    isZero = cmpgt_epi32(set1_epi32(((quarter)0.5f).value), a32);
-                }
-                else
-                {
-                    biasedExponent = srli_epi32(slli_epi32(a32, 1 + 24), quarter.MANTISSA_BITS + 1 + 24);
-                    isZero = cmpgt_epu32(slli_epi32(set1_epi32(((quarter)0.5f).value), 1 + 24), slli_epi32(a32, 1 + 24));
-                }
-                
-                v128 mantissa = ternarylogic_si128(IMPLICIT_ONE, a32, MANTISSA_MASK, TernaryOperation.OxF8);
-                v128 shift_mnt = subs_epu16(EXP, biasedExponent);
-                v128 shift_int = subs_epu16(biasedExponent, EXP);
-                
-                v128 result = sllv_epi32(mantissa, shift_int, elements: elements);
-                
-                v128 ifRound = neg_epi16(cmpgt_epi16(EXP, biasedExponent));
-                v128 round = sllv_epi32(ifRound, dec_epi32(shift_mnt), elements: elements);
-                if (evenOnTie)
-                {
-                    round = sub_epi32(round, andnot_si128(srlv_epi32(mantissa, shift_mnt, elements: elements), ifRound));
-                }
-                result = add_epi32(result, round);
-                
-                result = andnot_si128(isZero, result);
-                result = srlv_epi32(result, shift_mnt, elements: elements);
-                
-                if (signed)
-                {
-                    if (!constexpr.ALL_LT_EPU8(a, 1 << 7, elements))
-                    {
-                        v128 signMask = cmpge_epu8(a, set1_epi8(0b1000_0001));
-                
-                        if (Ssse3.IsSsse3Supported)
-                        {
-                            signMask = or_si128(signMask, neg_epi8(cmpeq_epi8(signMask, setzero_si128())));
-                            result = sign_epi32(result, cvtepi8_epi32(signMask));
-                        }
-                        else
-                        {
-                            signMask = cvtepi8_epi32(signMask);
-                
-                            result = xor_si128(result, signMask);
-                            result = sub_epi32(result, signMask);
-                        }
-                    }
-                }
-                
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v256 BASE_mm256_cvtpq_epi32(v128 a, bool signed, bool trunc, bool evenOnTie = true, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0, 8) && constexpr.ALL_NEQ_EPU8(a, 1 << 7, 8));
-                positive |= (constexpr.ALL_GT_EPU8(a, 0, 8) && constexpr.ALL_LT_EPU8(a, 1 << 7, 8));
-
-                v256 IMPLICIT_ONE = mm256_set1_epi32(1u << quarter.MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi32(maxmath.bitmask32(quarter.MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi32(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS);
-
-                v256 a32 = Avx2.mm256_cvtepu8_epi32(a);
-
-                v256 biasedExponent;
-                v256 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = Avx2.mm256_srli_epi32(a32, quarter.MANTISSA_BITS);
-                    isZero = Avx2.mm256_cmpgt_epi32(mm256_set1_epi32(((quarter)(trunc ? 1f : 0.5f)).value), a32);
-                }
-                else
-                {
-                    biasedExponent = Avx2.mm256_srli_epi32(Avx2.mm256_slli_epi32(a32, 1 + 24), quarter.MANTISSA_BITS + 1 + 24);
-                    isZero = mm256_cmpgt_epu32(Avx2.mm256_slli_epi32(mm256_set1_epi32(((quarter)(trunc ? 1f : 0.5f)).value), 1 + 24), Avx2.mm256_slli_epi32(a32, 1 + 24));
-                }
-                
-                v256 mantissa = mm256_ternarylogic_si256(IMPLICIT_ONE, a32, MANTISSA_MASK, TernaryOperation.OxF8);
-                v256 shift_mnt = Avx2.mm256_subs_epu16(EXP, biasedExponent);
-                v256 shift_int = Avx2.mm256_subs_epu16(biasedExponent, EXP);
-
-                v256 result = Avx2.mm256_sllv_epi32(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v256 ifRound = mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(EXP, biasedExponent));
-                    v256 round = Avx2.mm256_sllv_epi32(ifRound, mm256_dec_epi32(shift_mnt));
-                    if (evenOnTie)
-                    {
-                        round = Avx2.mm256_sub_epi32(round, Avx2.mm256_andnot_si256(Avx2.mm256_srlv_epi32(mantissa, shift_mnt), ifRound));
-                    }
-                    result = Avx2.mm256_add_epi32(result, round);
-                }
-                
-                result = Avx2.mm256_andnot_si256(isZero, result);
-                result = Avx2.mm256_srlv_epi32(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_LT_EPU8(a, 1 << 7, 8))
-                    {
-                        v128 signMask = cmpge_epu8(a, set1_epi8(0b1000_0001));
-                        signMask = or_si128(signMask, neg_epi8(cmpeq_epi8(signMask, setzero_si128())));
-
-                        result = Avx2.mm256_sign_epi32(result, Avx2.mm256_cvtepi8_epi32(signMask));
-                    }
-                }
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v128 BASE_cvtpq_epi64(v128 a, bool signed, bool trunc, bool evenOnTie = true, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0, 2) && constexpr.ALL_NEQ_EPU8(a, 1 << 7, 2));
-                positive |= (constexpr.ALL_GT_EPU8(a, 0, 2) && constexpr.ALL_LT_EPU8(a, 1 << 7, 2));
-
-                v128 IMPLICIT_ONE = set1_epi64x(1u << quarter.MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask32(quarter.MANTISSA_BITS));
-                v128 EXP = set1_epi64x(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS);
-
-                v128 a64 = cvtepu8_epi64(a);
-
-                v128 biasedExponent;
-                v128 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = srli_epi64(a64, quarter.MANTISSA_BITS);
-                    isZero = shuffle_epi32(cmpgt_epi32(set1_epi32(((quarter)(trunc ? 1f : 0.5f)).value), a64), Sse.SHUFFLE(2, 2, 0, 0));
-                }
-                else
-                {
-                    biasedExponent = srli_epi64(slli_epi64(a64, 1 + 56), quarter.MANTISSA_BITS + 1 + 56);
-                    isZero = shuffle_epi32(cmpgt_epu32(slli_epi64(set1_epi64x(((quarter)(trunc ? 1f : 0.5f)).value), 1 + 56 - 32), slli_epi64(a64, 1 + 56 - 32)), Sse.SHUFFLE(3, 3, 1, 1));
-                }
-                
-                v128 mantissa = ternarylogic_si128(IMPLICIT_ONE, a64, MANTISSA_MASK, TernaryOperation.OxF8);
-                v128 shift_mnt = subs_epu16(EXP, biasedExponent);
-                v128 shift_int = subs_epu16(biasedExponent, EXP);
-
-                v128 result = sllv_epi64(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v128 ifRound = neg_epi16(cmpgt_epi16(EXP, biasedExponent));
-                    v128 round = sllv_epi64(ifRound, dec_epi64(shift_mnt));
-                    if (evenOnTie)
-                    {
-                        round = sub_epi64(round, andnot_si128(srlv_epi64(mantissa, shift_mnt), ifRound));
-                    }
-                    result = add_epi64(result, round);
-                }
-                
-                result = andnot_si128(isZero, result);
-                result = srlv_epi64(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_LT_EPU8(a, 1 << 7, 2))
-                    {
-                        v128 signMask = cmpge_epu8(a, set1_epi8(0b1000_0001));
-                        signMask = cvtepi8_epi64(signMask);
-
-                        result = xor_si128(result, signMask);
-                        result = sub_epi64(result, signMask);
-                    }
-                }
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v256 BASE_mm256_cvtpq_epi64(v128 a, bool signed, bool trunc, bool evenOnTie = true, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0, elements) && constexpr.ALL_NEQ_EPU8(a, 1 << 7, elements));
-                positive |= (constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_LT_EPU8(a, 1 << 7, elements));
-
-                v256 IMPLICIT_ONE = mm256_set1_epi64x(1u << quarter.MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask32(quarter.MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi64x(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS);
-
-                v256 a64 = Avx2.mm256_cvtepu8_epi64(a);
-
-                v256 biasedExponent;
-                v256 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = Avx2.mm256_srli_epi64(a64, quarter.MANTISSA_BITS);
-                    isZero = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(mm256_set1_epi64x(((quarter)(trunc ? 1f : 0.5f)).value), a64), Sse.SHUFFLE(2, 2, 0, 0));
-                }
-                else
-                {
-                    biasedExponent = Avx2.mm256_srli_epi64(Avx2.mm256_slli_epi64(a64, 1 + 56), quarter.MANTISSA_BITS + 1 + 56);
-                    isZero = Avx2.mm256_shuffle_epi32(mm256_cmpgt_epu32(Avx2.mm256_slli_epi64(mm256_set1_epi64x(((quarter)(trunc ? 1f : 0.5f)).value), 56 + 1), Avx2.mm256_slli_epi64(a64, 56 + 1)), Sse.SHUFFLE(3, 3, 1, 1));
-                }
-                
-                v256 mantissa = mm256_ternarylogic_si256(IMPLICIT_ONE, a64, MANTISSA_MASK, TernaryOperation.OxF8);
-                v256 shift_mnt = Avx2.mm256_subs_epu16(EXP, biasedExponent);
-                v256 shift_int = Avx2.mm256_subs_epu16(biasedExponent, EXP);
-
-                v256 result = Avx2.mm256_sllv_epi64(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v256 ifRound = mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(EXP, biasedExponent));
-                    v256 round = Avx2.mm256_sllv_epi64(ifRound, mm256_dec_epi64(shift_mnt));
-                    if (evenOnTie)
-                    {
-                        round = Avx2.mm256_sub_epi64(round, Avx2.mm256_andnot_si256(Avx2.mm256_srlv_epi64(mantissa, shift_mnt), ifRound));
-                    }
-                    result = Avx2.mm256_add_epi64(result, round);
-                }
-                
-                result = Avx2.mm256_andnot_si256(isZero, result);
-                result = Avx2.mm256_srlv_epi64(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_LT_EPU8(a, 1 << 7, elements))
-                    {
-                        v128 signMask = cmpge_epu8(a, set1_epi8(0b1000_0001));
-                        v256 signMask256 = Avx2.mm256_cvtepi8_epi64(signMask);
-
-                        result = Avx2.mm256_xor_si256(result, signMask256);
-                        result = Avx2.mm256_sub_epi64(result, signMask256);
-                    }
-                }
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v128 BASE_cvtph_epi32(v128 a, bool signed, bool trunc, bool evenOnTie = true, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                nonZero |= (constexpr.ALL_NEQ_EPU16(a, 0, elements) && constexpr.ALL_NEQ_EPU16(a, 1 << 15, elements));
-                positive |= (constexpr.ALL_GT_EPU16(a, 0, elements) && constexpr.ALL_LT_EPU16(a, 1 << 15, elements));
-
-                v128 IMPLICIT_ONE = set1_epi32(1u << F16_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi32(maxmath.bitmask32(F16_MANTISSA_BITS));
-                v128 EXP = set1_epi32(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS);
-
-                v128 a32 = cvtepu16_epi32(a);
-
-                v128 biasedExponent;
-                v128 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = srli_epi32(a32, F16_MANTISSA_BITS);
-                    isZero = cmpgt_epi32(set1_epi32(((half)(trunc ? 1f : 0.5f)).value), a32);
-                }
-                else
-                {
-                    biasedExponent = srli_epi32(slli_epi32(a32, 1 + 16), F16_MANTISSA_BITS + 1 + 16);
-                    isZero = cmpgt_epu32(slli_epi32(set1_epi32(((half)(trunc ? 1f : 0.5f)).value), 1 + 16), slli_epi32(a32, 1 + 16));
-                }
-                
-                v128 mantissa = ternarylogic_si128(IMPLICIT_ONE, a32, MANTISSA_MASK, TernaryOperation.OxF8);
-                v128 shift_mnt = subs_epu16(EXP, biasedExponent);
-                v128 shift_int = subs_epu16(biasedExponent, EXP);
-
-                v128 result = sllv_epi32(mantissa, shift_int, elements: elements);
-
-                if (!trunc)
-                {
-                    v128 ifRound = neg_epi16(cmpgt_epi16(EXP, biasedExponent));
-                    v128 round = sllv_epi32(ifRound, dec_epi32(shift_mnt), elements: elements);
-                    if (evenOnTie)
-                    {
-                        round = sub_epi32(round, andnot_si128(srlv_epi32(mantissa, shift_mnt, elements: elements), ifRound));
-                    }
-                    result = add_epi32(result, round);
-                }
-                
-                result = andnot_si128(isZero, result);
-                result = srlv_epi32(result, shift_mnt, elements: elements);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_LT_EPU16(a, 1 << 15, elements))
-                    {
-                        v128 signMask = cmpge_epu16(a, set1_epi16(0x8001));
-
-                        if (Ssse3.IsSsse3Supported)
-                        {
-                            signMask = or_si128(signMask, neg_epi16(cmpeq_epi16(signMask, setzero_si128())));
-                            result = sign_epi32(result, cvtepi16_epi32(signMask));
-                        }
-                        else
-                        {
-                            signMask = cvtepi16_epi32(signMask);
-
-                            result = xor_si128(result, signMask);
-                            result = sub_epi32(result, signMask);
-                        }
-                    }
-                }
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v256 BASE_mm256_cvtph_epi32(v128 a, bool signed, bool trunc, bool evenOnTie = true, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                nonZero |= (constexpr.ALL_NEQ_EPU16(a, 0, 8) && constexpr.ALL_NEQ_EPU16(a, 1 << 15, 8));
-                positive |= (constexpr.ALL_GT_EPU16(a, 0, 8) && constexpr.ALL_LT_EPU16(a, 1 << 15, 8));
-
-                v256 IMPLICIT_ONE = mm256_set1_epi32(1u << F16_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi32(maxmath.bitmask32(F16_MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi32(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS);
-
-                v256 a32 = Avx2.mm256_cvtepu16_epi32(a);
-                
-                v256 biasedExponent;
-                v256 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = Avx2.mm256_srli_epi32(a32, F16_MANTISSA_BITS);
-                    isZero = Avx2.mm256_cmpgt_epi32(mm256_set1_epi32(((half)(trunc ? 1f : 0.5f)).value), a32);
-                }
-                else
-                {
-                    biasedExponent = Avx2.mm256_srli_epi32(Avx2.mm256_slli_epi32(a32, 1 + 16), F16_MANTISSA_BITS + 1 + 16);
-                    isZero = mm256_cmpgt_epu32(Avx2.mm256_slli_epi32(mm256_set1_epi32(((half)(trunc ? 1f : 0.5f)).value), 1 + 16), Avx2.mm256_slli_epi32(a32, 1 + 16));
-                }
-                
-                v256 mantissa = mm256_ternarylogic_si256(IMPLICIT_ONE, a32, MANTISSA_MASK, TernaryOperation.OxF8);
-                v256 shift_mnt = Avx2.mm256_subs_epu16(EXP, biasedExponent);
-                v256 shift_int = Avx2.mm256_subs_epu16(biasedExponent, EXP);
-
-                v256 result = Avx2.mm256_sllv_epi32(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v256 ifRound = mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(EXP, biasedExponent));
-                    v256 round = Avx2.mm256_sllv_epi32(ifRound, mm256_dec_epi32(shift_mnt));
-                    if (evenOnTie)
-                    {
-                        round = Avx2.mm256_sub_epi32(round, Avx2.mm256_andnot_si256(Avx2.mm256_srlv_epi32(mantissa, shift_mnt), ifRound));
-                    }
-                    result = Avx2.mm256_add_epi32(result, round);
-                }
-                
-                result = Avx2.mm256_andnot_si256(isZero, result);
-                result = Avx2.mm256_srlv_epi32(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_LT_EPU16(a, 1 << 15))
-                    {
-                        v128 signMask = cmpge_epu16(a, set1_epi16(0x8001));
-                        signMask = or_si128(signMask, neg_epi16(cmpeq_epi16(signMask, setzero_si128())));
-
-                        result = Avx2.mm256_sign_epi32(result, Avx2.mm256_cvtepi16_epi32(signMask));
-                    }
-                }
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v128 BASE_cvtph_epi64(v128 a, bool signed, bool trunc, bool evenOnTie = true, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                nonZero |= (constexpr.ALL_NEQ_EPU16(a, 0, 2) && constexpr.ALL_NEQ_EPU16(a, 1 << 15, 2));
-                positive |= (constexpr.ALL_GT_EPU16(a, 0, 2) && constexpr.ALL_LT_EPU16(a, 1 << 15, 2));
-
-                v128 IMPLICIT_ONE = set1_epi64x(1u << F16_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask32(F16_MANTISSA_BITS));
-                v128 EXP = set1_epi64x(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS);
-
-                v128 a64 = cvtepu16_epi64(a);
-
-                v128 biasedExponent;
-                v128 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = srli_epi64(a64, F16_MANTISSA_BITS);
-                    isZero = shuffle_epi32(cmpgt_epi32(set1_epi64x(((half)(trunc ? 1f : 0.5f)).value), a64), Sse.SHUFFLE(2, 2, 0, 0));
-                }
-                else
-                {
-                    biasedExponent = srli_epi64(slli_epi64(a64, 1 + 48), F16_MANTISSA_BITS + 1 + 48);
-                    isZero = shuffle_epi32(cmpgt_epu32(slli_epi64(set1_epi64x(((half)(trunc ? 1f : 0.5f)).value), 1 + 48), slli_epi64(a64, 1 + 48)), Sse.SHUFFLE(3, 3, 1, 1));
-                }
-                
-                v128 mantissa = ternarylogic_si128(IMPLICIT_ONE, a64, MANTISSA_MASK, TernaryOperation.OxF8);
-                v128 shift_mnt = subs_epu16(EXP, biasedExponent);
-                v128 shift_int = subs_epu16(biasedExponent, EXP);
-
-                v128 result = sllv_epi64(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v128 ifRound = neg_epi16(cmpgt_epi16(EXP, biasedExponent));
-                    v128 round = sllv_epi64(ifRound, dec_epi64(shift_mnt));
-                    if (evenOnTie)
-                    {
-                        round = sub_epi64(round, andnot_si128(srlv_epi64(mantissa, shift_mnt), ifRound));
-                    }
-                    result = add_epi64(result, round);
-                }
-                
-                result = andnot_si128(isZero, result);
-                result = srlv_epi64(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_LT_EPU16(a, 1 << 5, 2))
-                    {
-                        v128 signMask = cmpge_epu16(a, set1_epi16(0x8001));
-                        signMask = cvtepi16_epi64(signMask);
-
-                        result = xor_si128(result, signMask);
-                        result = sub_epi64(result, signMask);
-                    }
-                }
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v256 BASE_mm256_cvtph_epi64(v128 a, bool signed, bool trunc, bool evenOnTie = true, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                nonZero |= (constexpr.ALL_NEQ_EPU16(a, 0, elements) && constexpr.ALL_NEQ_EPU16(a, 1 << 15, elements));
-                positive |= (constexpr.ALL_GT_EPU16(a, 0, elements) && constexpr.ALL_LT_EPU16(a, 1 << 15, elements));
-
-                v256 IMPLICIT_ONE = mm256_set1_epi64x(1u << F16_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask32(F16_MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi64x(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS);
-
-                v256 a64 = Avx2.mm256_cvtepu16_epi64(a);
-
-                v256 biasedExponent;
-                v256 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = Avx2.mm256_srli_epi64(a64, F16_MANTISSA_BITS);
-                    isZero = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(mm256_set1_epi64x(((half)(trunc ? 1f : 0.5f)).value), a64), Sse.SHUFFLE(2, 2, 0, 0));
-                }
-                else
-                {
-                    biasedExponent = Avx2.mm256_srli_epi64(Avx2.mm256_slli_epi64(a64, 1 + 48), F16_MANTISSA_BITS + 1 + 48);
-                    isZero = Avx2.mm256_shuffle_epi32(mm256_cmpgt_epu32(mm256_slli_epi64(mm256_set1_epi64x(((half)(trunc ? 1f : 0.5f)).value), 1 + 48), mm256_slli_epi64(a64, 1 + 48)), Sse.SHUFFLE(3, 3, 1, 1));
-                }
-                
-                v256 mantissa = mm256_ternarylogic_si256(IMPLICIT_ONE, a64, MANTISSA_MASK, TernaryOperation.OxF8);
-                v256 shift_mnt = Avx2.mm256_subs_epu16(EXP, biasedExponent);
-                v256 shift_int = Avx2.mm256_subs_epu16(biasedExponent, EXP);
-
-                v256 result = Avx2.mm256_sllv_epi64(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v256 ifRound = mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(EXP, biasedExponent));
-                    v256 round = Avx2.mm256_sllv_epi64(ifRound, mm256_dec_epi64(shift_mnt));
-                    if (evenOnTie)
-                    {
-                        round = Avx2.mm256_sub_epi64(round, Avx2.mm256_andnot_si256(Avx2.mm256_srlv_epi64(mantissa, shift_mnt), ifRound));
-                    }
-                    result = Avx2.mm256_add_epi64(result, round);
-                }
-                
-                result = Avx2.mm256_andnot_si256(isZero, result);
-                result = Avx2.mm256_srlv_epi64(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_LT_EPU16(a, 1 << 15, elements))
-                    {
-                        v128 signMask = cmpge_epu16(a, set1_epi16(0x8001));
-                        v256 signMask256 = Avx2.mm256_cvtepi16_epi64(signMask);
-
-                        result = Avx2.mm256_xor_si256(result, signMask256);
-                        result = Avx2.mm256_sub_epi64(result, signMask256);
-                    }
-                }
-
-                return result;
+                else throw new IllegalInstructionException();
             }
-            else throw new IllegalInstructionException();
-        }
 
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v128 BASE_cvtps_epu32(v128 a, bool trunc, byte elements = 4, bool evenOnTie = true, bool nonZero = false)
-        {
-            if (Sse2.IsSse2Supported)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cvtpq_ph(v128 q, bool promiseInRange = false, bool promiseAbs = false)
             {
-                if (!trunc)
-                {
-                    if (constexpr.ALL_GE_PS(a, 0f, elements) && constexpr.ALL_LE_PS(a, int.MaxValue, elements))
-                    {
-                        return cvtps_epi32(a);
-                    }
-                }
-                
-                nonZero |= constexpr.ALL_NEQ_PS(a, 0, elements);
-
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (trunc)
-                    {
-                        v128 IMPLICIT_ONE = set1_epi32(1u << F32_MANTISSA_BITS);
-                        v128 MANTISSA_MASK = set1_epi32(maxmath.bitmask32(F32_MANTISSA_BITS));
-                        v128 EXP = set1_epi32(math.abs(F32_EXPONENT_BIAS) + F32_MANTISSA_BITS);
+                    const byte EXPONENT_OFFSET = -F16_EXPONENT_BIAS + quarter.EXPONENT_BIAS;
 
-                        v128 biasedExponent = srli_epi32(a, F32_MANTISSA_BITS);
-                        v128 isZero = cmpgt_epi32(set1_ps(1f), a);
+                    v128 exp = and_si128(q, set1_epi8(quarter.SIGNALING_EXPONENT));
+                    v128 frac = and_si128(q, set1_epi8(bitmask8(quarter.MANTISSA_BITS)));
+
+                    v128 expIs0 = cmpeq_epi8(exp, setzero_si128());
+                    v256 fracIs0_16 = Avx2.mm256_cvtepi8_epi16(cmpeq_epi8(frac, setzero_si128()));
+                    v256 isNaNinf_16 = Avx2.mm256_cvtepi8_epi16(cmpeq_epi8(exp, set1_epi8(quarter.SIGNALING_EXPONENT)));
+
+                    v256 frac_16 = Avx2.mm256_cvtepu8_epi16(frac);
+                    v128 shiftDistBase = sub_epi8(new v128(8, 7, 6, 6, 5, 5, 5, 5,   4, 4, 4, 4, 4, 4, 4, 4), set1_epi8(quarter.EXPONENT_BITS));
+                    v256 shiftDist_16 = Avx2.mm256_cvtepu8_epi16(shuffle_epi8(shiftDistBase, frac));
+
+                    v128 expLUT = slli_epi16(sub_epi8(set1_epi8(EXPONENT_OFFSET), shiftDistBase), F16_MANTISSA_BITS - quarter.BITS);
+                    v256 denormalExp_16 = Avx2.mm256_unpacklo_epi8(Avx.mm256_setzero_si256(), Avx2.mm256_permute4x64_epi64(Avx.mm256_castsi128_si256(shuffle_epi8(expLUT, frac)), Sse.SHUFFLE(1, 1, 0, 0)));
+
+                    denormalExp_16 = Avx2.mm256_andnot_si256(fracIs0_16, denormalExp_16);
+                    v256 denormalFrac_16 = mm256_sllv_epi16(frac_16, shiftDist_16);
+
+                    v256 normalExp_16 = Avx2.mm256_add_epi16(Avx2.mm256_cvtepu8_epi16(exp), mm256_set1_epi16(EXPONENT_OFFSET << quarter.MANTISSA_BITS));
+                    normalExp_16 = Avx2.mm256_slli_epi16(normalExp_16, F16_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                    if (!promiseInRange)
+                    {
+                        normalExp_16 = mm256_blendv_si256(normalExp_16, mm256_set1_epi16(F16_SIGNALING_EXPONENT), isNaNinf_16);
+                        frac_16      = mm256_blendv_si256(frac_16,      mm256_inc_epi16(fracIs0_16),              isNaNinf_16);
+                    }
+
+                    v256 expIs0_16 = Avx2.mm256_cvtepi8_epi16(expIs0);
+                    v256 result_16 = Avx2.mm256_add_epi16(mm256_blendv_si256(normalExp_16, denormalExp_16, expIs0_16), Avx2.mm256_slli_epi16(mm256_blendv_si256(frac_16, denormalFrac_16, expIs0_16), F16_MANTISSA_BITS - quarter.MANTISSA_BITS));
+
+                    if (promiseAbs)
+                    {
+                        return result_16;
+                    }
+                    else
+                    {
+                        v256 sign_16 = Avx2.mm256_slli_epi16(Avx2.mm256_srli_epi16(Avx2.mm256_cvtepu8_epi16(q), quarter.BITS - 1), F16_BITS - 1);
+
+                        return Avx2.mm256_or_si256(sign_16, result_16);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtpq_ps(v128 q, bool promiseInRange = false, bool promiseAbs = false, byte elements = 4)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    v128 F8_SIGNALING = set1_epi32(quarter.SIGNALING_EXPONENT);
+                    v128 F32_SIGNALING = set1_epi32(F32_SIGNALING_EXPONENT);
+
+                    
+                    v128 q32 = cvtepu8_epi32(q);
+                    v128 fusedExponentMantissa = promiseAbs ? slli_epi32(q32, quarter.F32_SHL_LOSE_SIGN - quarter.F32_SHR_PLACE_MANTISSA)
+                                                            : srli_epi32(slli_epi32(q32, quarter.F32_SHL_LOSE_SIGN), quarter.F32_SHR_PLACE_MANTISSA);
+
+                    if (promiseAbs)
+                    {
+                        fusedExponentMantissa = mul_ps(fusedExponentMantissa, set1_epi32(quarter.F32_MAGIC));
+
+                        if (promiseInRange)
+                        {
+                            return fusedExponentMantissa;
+                        }
+                        else
+                        {
+                            v128 NaNinf = cmpeq_epi32(and_si128(q32, F8_SIGNALING), F8_SIGNALING);
+
+                            return ternarylogic_si128(fusedExponentMantissa, NaNinf, F32_SIGNALING, TernaryOperation.OxF8);
+                        }
+                    }
+                    else
+                    {
+                        if (BurstArchitecture.IsBlendSupported)
+                        {
+                            fusedExponentMantissa = mul_ps(fusedExponentMantissa, blendv_epi8(set1_epi32(quarter.F32_MAGIC), 
+                                                                                              set1_epi32((1 << (F32_BITS - 1)) ^ quarter.F32_MAGIC), 
+                                                                                              cvtepi8_epi32(q)));
+                            if (promiseInRange)
+                            {
+                                return fusedExponentMantissa;
+                            }
+                            else
+                            {
+                                v128 NaNinf = cmpeq_epi32(and_si128(q32, F8_SIGNALING), F8_SIGNALING);
+                                
+                                return ternarylogic_si128(fusedExponentMantissa, NaNinf, F32_SIGNALING, TernaryOperation.OxF8);
+                            }
+                        }
+                        else
+                        {
+                            fusedExponentMantissa = mul_ps(fusedExponentMantissa, set1_epi32(quarter.F32_MAGIC));
+                            v128 sign = slli_epi32(srli_epi32(q32, quarter.BITS - 1), F32_BITS - 1);
+                            
+                            if (promiseInRange)
+                            {
+                                return xor_ps(sign, fusedExponentMantissa);
+                            }
+                            else
+                            {
+                                v128 NaNinf = cmpeq_epi32(and_si128(q32, F8_SIGNALING), F8_SIGNALING);
+                                sign = ternarylogic_si128(sign, NaNinf, F32_SIGNALING, TernaryOperation.OxF8);
+                                
+                                return or_ps(fusedExponentMantissa, sign);
+                            }
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cvtpq_ps(v128 q, bool promiseInRange = false, bool promiseAbs = false)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 F8_SIGNALING = mm256_set1_epi32(quarter.SIGNALING_EXPONENT);
+                    v256 F32_SIGNALING = mm256_set1_epi32(F32_SIGNALING_EXPONENT);
+
+                    
+                    v256 q32 = Avx2.mm256_cvtepu8_epi32(q);
+                    v256 fusedExponentMantissa = promiseAbs ? Avx2.mm256_slli_epi32(q32, quarter.F32_SHL_LOSE_SIGN - quarter.F32_SHR_PLACE_MANTISSA)
+                                                            : Avx2.mm256_srli_epi32(Avx2.mm256_slli_epi32(q32, quarter.F32_SHL_LOSE_SIGN), quarter.F32_SHR_PLACE_MANTISSA);
+
+                    if (promiseAbs)
+                    {
+                        fusedExponentMantissa = Avx.mm256_mul_ps(fusedExponentMantissa, mm256_set1_epi32(quarter.F32_MAGIC));
+                    }
+                    else
+                    {
+                        fusedExponentMantissa = Avx.mm256_mul_ps(fusedExponentMantissa, Avx2.mm256_blendv_epi8(mm256_set1_epi32(quarter.F32_MAGIC), 
+                                                                                                      mm256_set1_epi32((1 << (F32_BITS - 1)) ^ quarter.F32_MAGIC), 
+                                                                                                      Avx2.mm256_cvtepi8_epi32(q)));
+                    }
+
+                    if (promiseInRange)
+                    {
+                        return fusedExponentMantissa;
+                    }
+                    else
+                    {
+                        v256 NaNinf = Avx2.mm256_cmpeq_epi32(Avx2.mm256_and_si256(q32, F8_SIGNALING), F8_SIGNALING);
+                    
+                        return mm256_ternarylogic_si256(fusedExponentMantissa, NaNinf, F32_SIGNALING, TernaryOperation.OxF8);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtpq_pd(v128 q, bool promiseInRange = false, bool promiseAbs = false)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    v128 F8_SIGNALING = set1_epi64x(quarter.SIGNALING_EXPONENT);
+                    v128 F64_SIGNALING = set1_epi64x(F64_SIGNALING_EXPONENT);
+
+                    
+                    v128 q64 = cvtepu8_epi64(q);
+                    v128 fusedExponentMantissa = promiseAbs ? slli_epi64(q64, quarter.F64_SHL_LOSE_SIGN - quarter.F64_SHR_PLACE_MANTISSA)
+                                                            : srli_epi64(slli_epi64(q64, quarter.F64_SHL_LOSE_SIGN), quarter.F64_SHR_PLACE_MANTISSA);
+
+                    if (promiseAbs)
+                    {
+                        fusedExponentMantissa = mul_pd(fusedExponentMantissa, set1_epi64x(quarter.F64_MAGIC));
+
+                        if (promiseInRange)
+                        {
+                            return fusedExponentMantissa;
+                        }
+                        else
+                        {
+                            v128 NaNinf = cmpeq_epi64(and_si128(q64, F8_SIGNALING), F8_SIGNALING);
+
+                            return ternarylogic_si128(fusedExponentMantissa, NaNinf, F64_SIGNALING, TernaryOperation.OxF8);
+                        }
+                    }
+                    else
+                    {
+                        if (BurstArchitecture.IsBlendSupported)
+                        {
+                            fusedExponentMantissa = mul_pd(fusedExponentMantissa, blendv_epi8(set1_epi64x(quarter.F64_MAGIC), 
+                                                                                              set1_epi64x((1ul << (F64_BITS - 1)) ^ quarter.F64_MAGIC), 
+                                                                                              cvtepi8_epi64(q)));
+                            if (promiseInRange)
+                            {
+                                return fusedExponentMantissa;
+                            }
+                            else
+                            {
+                                v128 NaNinf = cmpeq_epi64(and_si128(q64, F8_SIGNALING), F8_SIGNALING);
+                                
+                                return ternarylogic_si128(fusedExponentMantissa, NaNinf, F64_SIGNALING, TernaryOperation.OxF8);
+                            }
+                        }
+                        else
+                        {
+                            fusedExponentMantissa = mul_pd(fusedExponentMantissa, set1_epi64x(quarter.F64_MAGIC));
+                            v128 sign = slli_epi64(srli_epi64(q64, quarter.BITS - 1), F64_BITS - 1);
+                            
+                            if (promiseInRange)
+                            {
+                                return xor_pd(sign, fusedExponentMantissa);
+                            }
+                            else
+                            {
+                                v128 NaNinf = cmpeq_epi64(and_si128(q64, F8_SIGNALING), F8_SIGNALING);
+                                sign = ternarylogic_si128(sign, NaNinf, F64_SIGNALING, TernaryOperation.OxF8);
+                                
+                                return or_pd(fusedExponentMantissa, sign);
+                            }
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cvtpq_pd(v128 q, bool promiseInRange = false, bool promiseAbs = false, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 F8_SIGNALING = mm256_set1_epi64x(quarter.SIGNALING_EXPONENT);
+                    v256 F64_SIGNALING = mm256_set1_epi64x(F64_SIGNALING_EXPONENT);
+
+                    
+                    v256 q64 = Avx2.mm256_cvtepu8_epi64(q);
+                    v256 fusedExponentMantissa = promiseAbs ? Avx2.mm256_slli_epi64(q64, quarter.F64_SHL_LOSE_SIGN - quarter.F64_SHR_PLACE_MANTISSA)
+                                                            : Avx2.mm256_srli_epi64(Avx2.mm256_slli_epi64(q64, quarter.F64_SHL_LOSE_SIGN), quarter.F64_SHR_PLACE_MANTISSA);
+
+                    if (promiseAbs)
+                    {
+                        fusedExponentMantissa = Avx.mm256_mul_pd(fusedExponentMantissa, mm256_set1_epi64x(quarter.F64_MAGIC));
+                    }
+                    else
+                    {
+                        fusedExponentMantissa = Avx.mm256_mul_pd(fusedExponentMantissa, Avx2.mm256_blendv_epi8(mm256_set1_epi64x(quarter.F64_MAGIC), 
+                                                                                                               mm256_set1_epi64x((1ul << (F64_BITS - 1)) ^ quarter.F64_MAGIC), 
+                                                                                                               Avx2.mm256_cvtepi8_epi64(q)));
+                    }
+
+                    if (promiseInRange)
+                    {
+                        return fusedExponentMantissa;
+                    }
+                    else
+                    {
+                        v256 NaNinf = Avx2.mm256_cmpeq_epi64(Avx2.mm256_and_si256(q64, F8_SIGNALING), F8_SIGNALING);
                         
-                        v128 mantissa = ternarylogic_si128(IMPLICIT_ONE, a, MANTISSA_MASK, TernaryOperation.OxF8);
-                        v128 shift_mnt = subs_epu16(EXP, biasedExponent);
-                        v128 shift_int = subs_epu16(biasedExponent, EXP);
-
-                        v128 result = sllv_epi32(mantissa, shift_int, elements: elements);
-                        result = srlv_epi32(result, shift_mnt, elements: elements);
-                        result = andnot_si128(isZero, result);
-
-                        return result;
+                        return mm256_ternarylogic_si256(fusedExponentMantissa, NaNinf, F64_SIGNALING, TernaryOperation.OxF8);
                     }
                 }
-
-                if (elements == 4)
-                {
-                    if (trunc)
-                    {
-                        v128 signedCvt = cvttps_epi32(a);
-                        v128 outsideSignedRange = srai_epi32(signedCvt, 31);
-                        v128 overflow = sub_ps(a, set1_epi32(0x4F00_0000));
-                        overflow = cvttps_epi32(overflow);
-
-                        return ternarylogic_si128(signedCvt, outsideSignedRange, overflow, TernaryOperation.OxF8);
-                    }
-                    else
-                    {
-                        v128 signedCvt = cvtps_epi32(a);
-                        v128 outsideSignedRange = srai_epi32(signedCvt, 31);
-                        v128 overflow = sub_ps(a, set1_epi32(0x4F00_0000));
-                        overflow = cvtps_epi32(overflow);
-
-                        return ternarylogic_si128(signedCvt, outsideSignedRange, overflow, TernaryOperation.OxF8);
-                    }
-                }
-                if (trunc)
-                {
-                    uint u0 = (uint)cvttss_si64(a);
-                    uint u1 = (uint)cvttss_si64(bsrli_si128(a, 1 * sizeof(float)));
-                    v128 u01 = unpacklo_epi32(cvtsi32_si128(u0), cvtsi32_si128(u1));
-
-                    if (elements > 2)
-                    {
-                        uint u2 = (uint)cvttss_si64(bsrli_si128(a, 2 * sizeof(float)));
-
-                        return unpacklo_epi64(u01, cvtsi32_si128(u2));
-                    }
-                    else
-                    {
-                        return u01;
-                    }
-                }
-                else
-                {
-                    uint u0 = (uint)cvtss_si64(a);
-                    uint u1 = (uint)cvtss_si64(bsrli_si128(a, 1 * sizeof(float)));
-                    v128 u01 = unpacklo_epi32(cvtsi32_si128(u0), cvtsi32_si128(u1));
-
-                    if (elements > 2)
-                    {
-                        uint u2 = (uint)cvtss_si64(bsrli_si128(a, 2 * sizeof(float)));
-
-                        return unpacklo_epi64(u01, cvtsi32_si128(u2));
-                    }
-                    else
-                    {
-                        return u01;
-                    }
-                }
+                else throw new IllegalInstructionException();
             }
-            else if (Arm.Neon.IsNeonSupported)
-            {
-                if (trunc)
-                {
-                    return Arm.Neon.vcvtq_u32_f32(a);
-                }
-                else
-                {
-                    return Arm.Neon.vcvtnq_u32_f32(a);
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v256 BASE_mm256_cvtps_epu32(v256 a, bool trunc, bool evenOnTie = true, bool nonZero = false)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                if (trunc)
-                {
-                    v256 IMPLICIT_ONE = mm256_set1_epi32(1u << F32_MANTISSA_BITS);
-                    v256 MANTISSA_MASK = mm256_set1_epi32(maxmath.bitmask32(F32_MANTISSA_BITS));
-                    v256 EXP = mm256_set1_epi32(math.abs(F32_EXPONENT_BIAS) + F32_MANTISSA_BITS);
 
-                    v256 biasedExponent = Avx2.mm256_srli_epi32(a, F32_MANTISSA_BITS);
-                    v256 isZero = Avx2.mm256_cmpgt_epi32(mm256_set1_ps(1f), a);
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtph_pq(v128 h, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false, byte elements = 8)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    //promiseInRange |= constexpr.ALL_GE_PH(h, quarter.MinValue, elements) & constexpr.ALL_LE_PH(h, quarter.MaxValue, elements);
+                    //promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PH(h, 0f, elements) : constexpr.ALL_GE_PH(h, 0f, elements);
+
+                    const int EXPONENT_OFFSET = -F16_EXPONENT_BIAS + quarter.EXPONENT_BIAS;
+
+                    v128 sign = slli_epi16(srli_epi16(h, F16_BITS - 1), quarter.BITS - 1);
+                    v128 exp = and_si128(h, set1_epi16(F16_SIGNALING_EXPONENT));
+                    v128 frac = and_si128(h, set1_epi16(bitmask16((uint)F16_MANTISSA_BITS)));
+                    v128 abs = and_si128(h, set1_epi16(bitmask16(F16_BITS - 1)));
+
+                    v128 denormalF8 = cmpgt_epi16(set1_epi16((EXPONENT_OFFSET << F16_MANTISSA_BITS) + 1), exp);
+                    v128 overflow = cmpgt_epi16(abs, set1_epi16(((half)quarter.MaxValue).value));
+                    v128 noUnderflow = cmpgt_epi16(exp, set1_epi16(((EXPONENT_OFFSET - quarter.MANTISSA_BITS) << F16_MANTISSA_BITS) - 1));
+
+                    exp = sub_epi16(exp, set1_epi16(EXPONENT_OFFSET << F16_MANTISSA_BITS));
                     
-                    v256 mantissa = mm256_ternarylogic_si256(IMPLICIT_ONE, a, MANTISSA_MASK, TernaryOperation.OxF8);
-                    v256 shift_mnt = Avx2.mm256_subs_epu16(EXP, biasedExponent);
-                    v256 shift_int = Avx2.mm256_subs_epu16(biasedExponent, EXP);
-
-                    v256 result = Avx2.mm256_sllv_epi32(mantissa, shift_int);
-                    result = Avx2.mm256_srlv_epi32(result, shift_mnt);
-                    result = Avx2.mm256_andnot_si256(isZero, result);
-
-                    return result;
-                }
-                else
-                {
-                    if (constexpr.ALL_GE_PS(a, 0f) && constexpr.ALL_LE_PS(a, int.MaxValue))
+                    v128 bitIndexDenormal = sub_epi16(set1_epi16(quarter.MANTISSA_BITS - 1), abs_epi16(srai_epi16(exp, F16_MANTISSA_BITS)));
+                    v128 denormalFrac = sllv_epi16(neg_epi16(noUnderflow), bitIndexDenormal);
+                    denormalFrac = or_si128(denormalFrac, srlv_epi16(and_si128(frac, noUnderflow), sub_epi16(set1_epi16(F16_MANTISSA_BITS), bitIndexDenormal)));
+                    v128 denormalRoundingBit = sllv_epi16(set1_epi16(1), sub_epi16(set1_epi16(F16_MANTISSA_BITS - 1), bitIndexDenormal));
+                    v128 roundDenormal = ternarylogic_si128(noUnderflow, cmpeq_epi16(setzero_si128(), and_si128(h, denormalRoundingBit)), srai_epi16(bitIndexDenormal, 15),  TernaryOperation.OxBO);
+                    denormalFrac = sub_epi16(denormalFrac, roundDenormal);
+                    if (!promiseAbs)
                     {
-                        return Avx.mm256_cvtps_epi32(a);
+                        denormalFrac = or_si128(denormalFrac, sign);
                     }
 
-                    v256 signedCvt = Avx.mm256_cvtps_epi32(a);
-                    v256 outsideSignedRange = mm256_srai_epi32(signedCvt, 31);
-                    v256 overflow = Avx.mm256_sub_ps(a, mm256_set1_epi32(0x4F00_0000));
-                    overflow = Avx.mm256_cvtps_epi32(overflow);
+                    exp = srli_epi16(exp, F16_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                    exp = promiseInRange ? exp : blendv_si128(exp, set1_epi16(quarter.SIGNALING_EXPONENT), overflow);
+                    v128 normalFrac = srli_epi16(frac, F16_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                    normalFrac = promiseAbs ? or_si128(normalFrac, exp)
+                                            : ternarylogic_si128(sign, normalFrac, exp, TernaryOperation.OxFE);
+                    v128 roundNormal = cmpgt_epi16(and_si128(h, set1_epi16(bitmask16(F16_MANTISSA_BITS - quarter.MANTISSA_BITS))), set1_epi16(1 << (F16_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                    normalFrac = sub_epi16(normalFrac, roundNormal);
                     
-                    return mm256_ternarylogic_si256(signedCvt, outsideSignedRange, overflow, TernaryOperation.OxF8);
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v128 BASE_cvtps_epi64(v128 a, bool signed, bool trunc, bool evenOnTie = true, bool nonZero = false, bool positive = false)
-        {
-            if (Architecture.IsSIMDSupported)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    ;
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    if (signed)
+                    if (!promiseInRange)
                     {
-                        if (trunc)
+                        if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
                         {
-                            return unpacklo_epi64(cvtsi64x_si128(cvttss_si64(a)), cvtsi64x_si128(cvttss_si64(bsrli_si128(a, sizeof(float)))));
+                            normalFrac = blendv_si128(normalFrac, or_si128(set1_epi16(quarter.PositiveInfinity.value), sign), overflow);
                         }
                         else
                         {
-                            return unpacklo_epi64(cvtsi64x_si128(cvttss_si64(a)), cvtsi64x_si128(cvttss_si64(bsrli_si128(a, sizeof(float)))));
+                            v128 NaN = cmpgt_epi16(abs, set1_epi16(F16_SIGNALING_EXPONENT));
+                            normalFrac = blendv_si128(normalFrac, ternarylogic_si128(sign, set1_epi16(quarter.PositiveInfinity.value), NaN, TernaryOperation.OxFE), overflow);
                         }
                     }
+
+                    v128 result = promiseNotSubnormal ? normalFrac : blendv_si128(normalFrac, denormalFrac, denormalF8);
+
+                    return cvtepi16_epi8(result, elements);
                 }
-
-                nonZero |= constexpr.ALL_NEQ_PS(a, 0, 2);
-                positive |= constexpr.ALL_GT_PS(a, 0, 2);
-
-                v128 IMPLICIT_ONE = set1_epi64x(1L << F32_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask64((long)F32_MANTISSA_BITS));
-                v128 EXP = set1_epi64x(math.abs(F32_EXPONENT_BIAS) + F32_MANTISSA_BITS);
-
-                v128 a64 = cvtepu32_epi64(a);
-
-                v128 biasedExponent;
-                v128 isZero;
-                if (positive || !signed)
-                {
-                    biasedExponent = srli_epi64(a64, F32_MANTISSA_BITS);
-                    isZero = cmpgt_epi32(set1_ps(trunc ? 1f : 0.5f), a);
-                }
-                else
-                {
-                    biasedExponent = srli_epi64(slli_epi64(a64, 1 + 32), F32_MANTISSA_BITS + 1 + 32);
-                    isZero = cmpgt_epu32(slli_epi32(set1_ps(trunc ? 1f : 0.5f), 1), slli_epi32(a, 1));
-                }
-
-                if (Sse4_1.IsSse41Supported)
-                {
-                    isZero = cvtepi32_epi64(isZero);
-                }
-                else
-                {
-                    isZero = shuffle_epi32(isZero, Sse.SHUFFLE(1, 1, 0, 0));
-                }
-
-                v128 mantissa = ternarylogic_si128(IMPLICIT_ONE, a64, MANTISSA_MASK, TernaryOperation.OxF8);
-                v128 shift_mnt = subs_epu16(EXP, biasedExponent);
-                v128 shift_int = subs_epu16(biasedExponent, EXP);
-
-                v128 result = sllv_epi64(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v128 ifRound = neg_epi16(cmpgt_epi16(EXP, biasedExponent));
-                    v128 round = sllv_epi64(ifRound, dec_epi64(shift_mnt));
-                    if (evenOnTie)
-                    {
-                        round = sub_epi64(round, andnot_si128(srlv_epi64(mantissa, shift_mnt), ifRound));
-                    }
-
-                    result = add_epi64(result, round);
-                }
-                
-                result = andnot_si128(isZero, result);
-                result = srlv_epi64(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_GE_PS(a, 0f, 2))
-                    {
-                        v128 signMask = cmpgt_ps(setzero_si128(), a);
-                        signMask = shuffle_epi32(signMask, Sse.SHUFFLE(1, 1, 0, 0));
-
-                        result = xor_si128(result, signMask);
-                        result = sub_epi64(result, signMask);
-                    }
-                }
-
-                return result;
+                else throw new IllegalInstructionException();
             }
-            else throw new IllegalInstructionException();
-        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v256 BASE_mm256_cvtps_epi64(v128 a, bool signed, bool trunc, bool evenOnTie = true, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 mm256_cvtph_pq(v256 h, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
             {
-                nonZero |= constexpr.ALL_NEQ_PS(a, 0, elements);
-                positive |= constexpr.ALL_GT_PS(a, 0, elements);
-
-                v256 IMPLICIT_ONE = mm256_set1_epi64x(1L << F32_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask64((long)F32_MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi64x(math.abs(F32_EXPONENT_BIAS) + F32_MANTISSA_BITS);
-
-                v256 a64 = Avx2.mm256_cvtepu32_epi64(a);
-
-                v256 biasedExponent;
-                v256 isZero;
-                if (positive || (!signed && nonZero) || (!signed && !COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO) | constexpr.ALL_LT_EPU32(a, 1u << 31, elements) || constexpr.ALL_GT_PS(a, 0f, elements))
-                {
-                    biasedExponent = Avx2.mm256_srli_epi64(a64, F32_MANTISSA_BITS);
-                    isZero = Avx2.mm256_cvtepi32_epi64(cmpgt_epi32(set1_ps(trunc ? 1f : 0.5f), a));
-                }
-                else
-                {
-                    biasedExponent = Avx2.mm256_srli_epi64(Avx2.mm256_slli_epi64(a64, 1 + 32), F32_MANTISSA_BITS + 1 + 32);
-                    isZero = Avx2.mm256_cvtepi32_epi64(cmpgt_epu32(slli_epi32(set1_ps(trunc ? 1f : 0.5f), 1), slli_epi32(a, 1)));
-                }
-                
-                v256 mantissa = mm256_ternarylogic_si256(IMPLICIT_ONE, a64, MANTISSA_MASK, TernaryOperation.OxF8);
-                v256 shift_mnt = Avx2.mm256_subs_epu16(EXP, biasedExponent);
-                v256 shift_int = Avx2.mm256_subs_epu16(biasedExponent, EXP);
-
-                v256 result = Avx2.mm256_sllv_epi64(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v256 ifRound = mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(EXP, biasedExponent));
-                    v256 round = Avx2.mm256_sllv_epi64(ifRound, mm256_dec_epi64(shift_mnt));
-                    if (evenOnTie)
-                    {
-                        round = Avx2.mm256_sub_epi64(round, Avx2.mm256_andnot_si256(Avx2.mm256_srlv_epi64(mantissa, shift_mnt), ifRound));
-                    }
-
-                    result = Avx2.mm256_add_epi64(result, round);
-                }
-                
-                result = Avx2.mm256_andnot_si256(isZero, result);
-                result = Avx2.mm256_srlv_epi64(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_GE_PS(a, 0f, elements))
-                    {
-                        v128 signMask = cmpgt_ps(setzero_si128(), a);
-                        v256 signMask256 = Avx2.mm256_cvtepi32_epi64(signMask);
-
-                        result = Avx2.mm256_xor_si256(result, signMask256);
-                        result = Avx2.mm256_sub_epi64(result, signMask256);
-                    }
-                }
-
-                return result;
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v128 BASE_cvtpd_epi64(v128 a, bool signed, bool trunc, bool evenOnTie = true, bool nonZero = false, bool positive = false)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                if (!trunc)
-                {
-                    if (signed)
-                    {
-                        if (constexpr.ALL_GE_PD(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT + 1d) && constexpr.ALL_LE_PD(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT - 1d))
-                        {
-                            return usfcvtpd_epi64(a);
-                        }
-                    }
-                    else
-                    {
-                        if (constexpr.ALL_GE_PD(a, 0d) && constexpr.ALL_LE_PD(a, USF_CVT_EPU64_PD_LIMIT - 1d))
-                        {
-                            return usfcvtpd_epu64(a);
-                        }
-                    }
-                }
                 if (Avx2.IsAvx2Supported)
                 {
-                    ;
-                }
-                else if (Sse2.IsSse2Supported)
-                {
-                    if (signed)
+                    //promiseInRange |= constexpr.ALL_GE_PH(h, quarter.MinValue) & constexpr.ALL_LE_PH(h, quarter.MaxValue);
+                    //promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PH(h, 0f) : constexpr.ALL_GE_PH(h, 0f);
+
+                    const int EXPONENT_OFFSET = -F16_EXPONENT_BIAS + quarter.EXPONENT_BIAS;
+
+                    v256 sign = Avx2.mm256_slli_epi16(Avx2.mm256_srli_epi16(h, F16_BITS - 1), quarter.BITS - 1);
+                    v256 exp = Avx2.mm256_and_si256(h, mm256_set1_epi16(F16_SIGNALING_EXPONENT));
+                    v256 frac = Avx2.mm256_and_si256(h, mm256_set1_epi16(bitmask16((uint)F16_MANTISSA_BITS)));
+                    v256 abs = Avx2.mm256_and_si256(h, mm256_set1_epi16(bitmask16(F16_BITS - 1)));
+
+                    v256 denormalF8 = Avx2.mm256_cmpgt_epi16(mm256_set1_epi16((EXPONENT_OFFSET << F16_MANTISSA_BITS) + 1), exp);
+                    v256 overflow = Avx2.mm256_cmpgt_epi16(abs, mm256_set1_epi16(((half)quarter.MaxValue).value));
+                    v256 noUnderflow = Avx2.mm256_cmpgt_epi16(exp, mm256_set1_epi16((ushort)(((EXPONENT_OFFSET - quarter.MANTISSA_BITS) << F16_MANTISSA_BITS) - 1)));
+
+                    exp = Avx2.mm256_sub_epi16(exp, mm256_set1_epi16(EXPONENT_OFFSET << F16_MANTISSA_BITS));
+                    
+                    v256 bitIndexDenormal = Avx2.mm256_sub_epi16(mm256_set1_epi16(quarter.MANTISSA_BITS - 1), mm256_abs_epi16(Avx2.mm256_srai_epi16(exp, F16_MANTISSA_BITS)));
+                    v256 denormalFrac = mm256_sllv_epi16(mm256_neg_epi16(noUnderflow), bitIndexDenormal);
+                    denormalFrac = Avx2.mm256_or_si256(denormalFrac, mm256_srlv_epi16(Avx2.mm256_and_si256(frac, noUnderflow), Avx2.mm256_sub_epi16(mm256_set1_epi16(F16_MANTISSA_BITS), bitIndexDenormal)));
+                    v256 denormalRoundingBit = mm256_sllv_epi16(mm256_set1_epi16(1), Avx2.mm256_sub_epi16(mm256_set1_epi16(F16_MANTISSA_BITS - 1), bitIndexDenormal));
+                    v256 roundDenormal = mm256_ternarylogic_si256(noUnderflow, Avx2.mm256_cmpeq_epi16(Avx.mm256_setzero_si256(), Avx2.mm256_and_si256(h, denormalRoundingBit)), Avx2.mm256_srai_epi16(bitIndexDenormal, 15),  TernaryOperation.OxBO);
+                    denormalFrac = Avx2.mm256_sub_epi16(denormalFrac, roundDenormal);
+                    if (!promiseAbs)
                     {
-                        if (trunc)
+                        denormalFrac = Avx2.mm256_or_si256(denormalFrac, sign);
+                    }
+
+                    exp = mm256_srli_epi16(exp, F16_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                    exp = promiseInRange ? exp : mm256_blendv_si256(exp, mm256_set1_epi16(quarter.SIGNALING_EXPONENT), overflow);
+                    v256 normalFrac = Avx2.mm256_srli_epi16(frac, F16_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                    normalFrac = promiseAbs ? Avx2.mm256_or_si256(normalFrac, exp)
+                                            : mm256_ternarylogic_si256(sign, normalFrac, exp, TernaryOperation.OxFE);
+                    v256 roundNormal = Avx2.mm256_cmpgt_epi16(Avx2.mm256_and_si256(h, mm256_set1_epi16(bitmask16(F16_MANTISSA_BITS - quarter.MANTISSA_BITS))), mm256_set1_epi16(1 << (F16_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                    normalFrac = Avx2.mm256_sub_epi16(normalFrac, roundNormal);
+                    
+                    if (!promiseInRange)
+                    {
+                        if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
                         {
-                            return unpacklo_epi64(cvtsi64x_si128(cvttsd_si64x(a)), cvtsi64x_si128(cvttsd_si64x(bsrli_si128(a, sizeof(double)))));
+                            normalFrac = mm256_blendv_si256(normalFrac, Avx2.mm256_or_si256(mm256_set1_epi16(quarter.PositiveInfinity.value), sign), overflow);
                         }
                         else
                         {
-                            return unpacklo_epi64(cvtsi64x_si128(cvtsd_si64x(a)), cvtsi64x_si128(cvtsd_si64x(bsrli_si128(a, sizeof(double)))));
+                            v256 NaN = Avx2.mm256_cmpgt_epi16(abs, mm256_set1_epi16(F16_SIGNALING_EXPONENT));
+                            normalFrac = mm256_blendv_si256(normalFrac, mm256_ternarylogic_si256(sign, mm256_set1_epi16(quarter.PositiveInfinity.value), NaN, TernaryOperation.OxFE), overflow);
                         }
                     }
+
+                    v256 result = promiseNotSubnormal ? normalFrac : mm256_blendv_si256(normalFrac, denormalFrac, denormalF8);
+
+                    return mm256_cvtepi16_epi8(result);
                 }
-
-                nonZero |= constexpr.ALL_NEQ_PD(a, 0, 2);
-                positive |= constexpr.ALL_GT_PD(a, 0, 2);
-
-                v128 IMPLICIT_ONE = set1_epi64x(1L << F64_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask64((long)F64_MANTISSA_BITS));
-                v128 EXP = set1_epi64x(math.abs(F64_EXPONENT_BIAS) + F64_MANTISSA_BITS);
-
-                v128 biasedExponent;
-                v128 isZero;
-                if (positive || (!signed && nonZero) || (!signed && !COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO) | constexpr.ALL_LT_EPU64(a, 1ul << 63) || constexpr.ALL_GT_PD(a, 0d))
-                {
-                    biasedExponent = srli_epi64(a, F64_MANTISSA_BITS);
-                    isZero = cmpgt_epi64(set1_pd(trunc ? 1d : 0.5d), a);
-                }
-                else
-                {
-                    biasedExponent = srli_epi64(slli_epi64(a, 1), F64_MANTISSA_BITS + 1);
-                    isZero = cmpgt_epu64(slli_epi64(set1_pd(trunc ? 1d : 0.5d), 1), slli_epi64(a, 1));
-                }
-                
-                v128 mantissa = ternarylogic_si128(IMPLICIT_ONE, a, MANTISSA_MASK, TernaryOperation.OxF8);
-                v128 shift_mnt = subs_epu16(EXP, biasedExponent);
-                v128 shift_int = subs_epu16(biasedExponent, EXP);
-
-                v128 result = sllv_epi64(mantissa, shift_int);
-
-                if (!trunc)
-                {
-                    v128 ifRound = neg_epi16(cmpgt_epi16(EXP, biasedExponent));
-                    v128 round = sllv_epi64(ifRound, dec_epi64(shift_mnt));
-
-                    if (evenOnTie)
-                    {
-                        round = sub_epi64(round, andnot_si128(srlv_epi64(mantissa, shift_mnt), ifRound));
-                    }
-
-                    result = add_epi64(result, round);
-                }
-                
-                result = andnot_si128(isZero, result);
-                result = srlv_epi64(result, shift_mnt);
-
-                if (signed)
-                {
-                    if (!constexpr.ALL_GE_PD(a, 0d))
-                    {
-                        v128 signMask = cmpgt_pd(setzero_si128(), a);
-
-                        result = xor_si128(result, signMask);
-                        result = sub_epi64(result, signMask);
-                    }
-                }
-
-                return result;
+                else throw new IllegalInstructionException();
             }
-            else if (Arm.Neon.IsNeonSupported)
-            {
-                if (signed)
-                {
-                    if (trunc)
-                    {
-                        return Arm.Neon.vcvtq_s64_f64(a);
-                    }
-                    else
-                    {
-                        return Arm.Neon.vcvtnq_s64_f64(a);
-                    }
-                }
-                else
-                {
-                    if (trunc)
-                    {
-                        return Arm.Neon.vcvtq_u64_f64(a);
-                    }
-                    else
-                    {
-                        return Arm.Neon.vcvtnq_u64_f64(a);
-                    }
-                }
-            }
-            else throw new IllegalInstructionException();
-        }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static v256 BASE_mm256_cvtpd_epi64(v256 a, bool signed, bool trunc, bool evenOnTie = true, byte elements = 4, bool nonZero = false, bool positive = false)
-        {
-            if (Avx2.IsAvx2Supported)
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtps_pq(v128 s, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false, byte elements = 4)
             {
-                if (!trunc)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    if (signed)
+                    return BASE_OVERFLOWCTRL__cvtps_pq(s, quarter.PositiveInfinity, promiseInRange, promiseAbs, promiseNotSubnormal, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 mm256_cvtps_pq(v256 s, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    promiseInRange |= constexpr.ALL_GE_PS(s, quarter.MinValue) & constexpr.ALL_LE_PS(s, quarter.MaxValue);
+                    promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PS(s, 0f) : constexpr.ALL_GE_PS(s, 0f);
+                    
+                    const int EXPONENT_OFFSET = -F32_EXPONENT_BIAS + quarter.EXPONENT_BIAS;
+                    
+                    v256 exp = Avx2.mm256_and_si256(s, mm256_set1_epi32(F32_SIGNALING_EXPONENT));
+                    v256 noUnderflow = Avx2.mm256_cmpgt_epi32(exp, mm256_set1_epi32(((EXPONENT_OFFSET - quarter.MANTISSA_BITS) << F32_MANTISSA_BITS) - 1));
+                    
+                    if (promiseInRange && promiseNotSubnormal)
                     {
-                        if (constexpr.ALL_GE_PD(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT + 1d, elements) && constexpr.ALL_LE_PD(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT - 1d, elements))
+                        v256 inRange = Avx.mm256_mul_ps(s, mm256_set1_ps(1f / math.asfloat(quarter.F32_MAGIC)));
+                        v256 aligned = mm256_srli_epi32(inRange, F32_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        if (!promiseAbs)
                         {
-                            return mm256_usfcvtpd_epi64(a);
+                            v256 sign32 = mm256_slli_epi32(mm256_srli_epi32(s, F32_BITS - 1), quarter.BITS - 1);
+                            aligned = Avx2.mm256_xor_si256(aligned, sign32);
+                        }
+                        
+                        v256 round = Avx2.mm256_cmpgt_epi32(Avx2.mm256_and_si256(s, mm256_set1_epi32(bitmask32(F32_MANTISSA_BITS - quarter.MANTISSA_BITS))), mm256_set1_epi32(1 << (F32_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                        round = Avx2.mm256_and_si256(noUnderflow, round);
+                        aligned = Avx2.mm256_sub_epi32(aligned, round);
+                        
+                        return mm256_cvtepi32_epi8(aligned);
+                    }
+                    else
+                    {
+                        v256 sign = Avx2.mm256_slli_epi32(Avx2.mm256_srli_epi32(s, F32_BITS - 1), quarter.BITS - 1);
+                        v256 frac = Avx2.mm256_and_si256(s, mm256_set1_epi32(bitmask32(F32_MANTISSA_BITS)));
+                        v256 abs = Avx2.mm256_and_si256(s, mm256_set1_epi32(bitmask32(F32_BITS - 1)));
+                        
+                        v256 denormalF8 = Avx2.mm256_cmpgt_epi32(mm256_set1_epi32((EXPONENT_OFFSET << F32_MANTISSA_BITS) + 1), exp);
+                        v256 overflow = Avx2.mm256_cmpgt_epi32(abs, mm256_set1_ps(quarter.MaxValue));
+                        
+                        exp = Avx2.mm256_sub_epi32(exp, mm256_set1_epi32(EXPONENT_OFFSET << F32_MANTISSA_BITS));
+                        
+                        v256 bitIndexDenormal = Avx2.mm256_sub_epi32(mm256_set1_epi32(quarter.MANTISSA_BITS - 1), mm256_abs_epi32(Avx2.mm256_srai_epi32(exp, F32_MANTISSA_BITS)));
+                        v256 denormalFrac = Avx2.mm256_sllv_epi32(mm256_neg_epi32(noUnderflow), bitIndexDenormal);
+                        denormalFrac = Avx2.mm256_or_si256(denormalFrac, Avx2.mm256_srlv_epi32(Avx2.mm256_and_si256(frac, noUnderflow), Avx2.mm256_sub_epi32(mm256_set1_epi32(F32_MANTISSA_BITS), bitIndexDenormal)));
+                        v256 denormalRoundingBit = Avx2.mm256_sllv_epi32(mm256_set1_epi32(1), Avx2.mm256_sub_epi32(mm256_set1_epi32(F32_MANTISSA_BITS - 1), bitIndexDenormal));
+                        v256 roundDenormal = mm256_ternarylogic_si256(noUnderflow, Avx2.mm256_cmpeq_epi32(Avx.mm256_setzero_si256(), Avx2.mm256_and_si256(s, denormalRoundingBit)), Avx2.mm256_srai_epi32(bitIndexDenormal, 31),  TernaryOperation.OxBO);
+                        denormalFrac = Avx2.mm256_sub_epi32(denormalFrac, roundDenormal);
+                        if (!promiseAbs)
+                        {
+                            denormalFrac = Avx2.mm256_or_si256(denormalFrac, sign);
+                        }
+
+                        exp = Avx2.mm256_srli_epi32(exp, F32_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        exp = promiseInRange ? exp : mm256_blendv_si256(exp, mm256_set1_epi32(quarter.SIGNALING_EXPONENT), overflow);
+                        v256 normalFrac = Avx2.mm256_srli_epi32(frac, F32_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        normalFrac = promiseAbs ? Avx2.mm256_or_si256(normalFrac, exp)
+                                                : mm256_ternarylogic_si256(sign, normalFrac, exp, TernaryOperation.OxFE);
+                        v256 roundNormal = Avx2.mm256_cmpgt_epi32(Avx2.mm256_and_si256(s, mm256_set1_epi32(bitmask32(F32_MANTISSA_BITS - quarter.MANTISSA_BITS))), mm256_set1_epi32(1 << (F32_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                        normalFrac = Avx2.mm256_sub_epi32(normalFrac, roundNormal);
+                        
+                        if (!promiseInRange)
+                        {
+                            if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
+                            {
+                                normalFrac = mm256_blendv_si256(normalFrac, Avx2.mm256_or_si256(mm256_set1_epi32(quarter.PositiveInfinity.value), sign), overflow);
+                            }
+                            else
+                            {
+                                v256 NaN = Avx2.mm256_cmpgt_epi32(abs, mm256_set1_epi32(F32_SIGNALING_EXPONENT));
+                                normalFrac = mm256_blendv_si256(normalFrac, mm256_ternarylogic_si256(sign, mm256_set1_epi32(quarter.PositiveInfinity.value), NaN, TernaryOperation.OxFE), overflow);
+                            }
+                        }
+
+                        v256 result = promiseNotSubnormal ? normalFrac : mm256_blendv_si256(normalFrac, denormalFrac, denormalF8);
+
+                        return mm256_cvtepi32_epi8(result);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtpd_pq(v128 d, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    promiseInRange |= constexpr.ALL_GE_PD(d, quarter.MinValue) & constexpr.ALL_LE_PD(d, quarter.MaxValue);
+                    promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PD(d, 0d) : constexpr.ALL_GE_PD(d, 0d);
+                    
+                    const long EXPONENT_OFFSET = -F64_EXPONENT_BIAS + quarter.EXPONENT_BIAS;
+                    
+                    v128 exp = and_si128(d, set1_epi64x(F64_SIGNALING_EXPONENT));
+                    v128 noUnderflow = cmpgt_epi64(exp, set1_epi64x(((ulong)(EXPONENT_OFFSET - quarter.MANTISSA_BITS) << F64_MANTISSA_BITS) - 1));
+                    
+                    if (promiseInRange && promiseNotSubnormal)
+                    {
+                        v128 inRange = mul_pd(d, set1_pd(1f / math.asdouble(quarter.F64_MAGIC)));
+                        v128 aligned = srli_epi64(inRange, F64_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        if (!promiseAbs)
+                        {
+                            v128 sign64 = slli_epi64(srli_epi64(d, F64_BITS - 1), quarter.BITS - 1);
+                            aligned = xor_si128(aligned, sign64);
+                        }
+                        
+                        v128 round = cmpgt_epi64(and_si128(d, set1_epi64x(bitmask64((ulong)(F64_MANTISSA_BITS - quarter.MANTISSA_BITS)))), set1_epi64x(1ul << (F64_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                        round = and_si128(noUnderflow, round);
+                        aligned = sub_epi64(aligned, round);
+                        
+                        return cvtepi64_epi8(aligned);
+                    }
+                    else
+                    {
+                        v128 sign = slli_epi64(srli_epi64(d, F64_BITS - 1), quarter.BITS - 1);
+                        v128 frac = and_si128(d, set1_epi64x(bitmask64((ulong)F64_MANTISSA_BITS)));
+                        v128 abs = and_si128(d, set1_epi64x(bitmask64((ulong)(F64_BITS - 1))));
+                        
+                        v128 denormalF8 = cmpgt_epi64(set1_epi64x(((ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS) + 1), exp);
+                        v128 overflow = cmpgt_epi64(abs, set1_pd(quarter.MaxValue));
+                        
+                        exp = sub_epi64(exp, set1_epi64x((ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS));
+                        
+                        v128 bitIndexDenormal = sub_epi64(set1_epi64x(quarter.MANTISSA_BITS - 1), abs_epi64(srai_epi64(exp, F64_MANTISSA_BITS)));
+                        v128 denormalFrac = sllv_epi64(neg_epi64(noUnderflow), bitIndexDenormal);
+                        denormalFrac = or_si128(denormalFrac, srlv_epi64(and_si128(frac, noUnderflow), sub_epi64(set1_epi64x(F64_MANTISSA_BITS), bitIndexDenormal)));
+                        v128 denormalRoundingBit = sllv_epi64(set1_epi64x(1), sub_epi64(set1_epi64x(F64_MANTISSA_BITS - 1), bitIndexDenormal));
+                        v128 roundDenormal = ternarylogic_si128(noUnderflow, cmpeq_epi64(setzero_si128(), and_si128(d, denormalRoundingBit)), srai_epi64(bitIndexDenormal, 63),  TernaryOperation.OxBO);
+                        denormalFrac = sub_epi64(denormalFrac, roundDenormal);
+                        if (!promiseAbs)
+                        {
+                            denormalFrac = or_si128(denormalFrac, sign);
+                        }
+
+                        exp = srli_epi64(exp, F64_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        exp = promiseInRange ? exp : blendv_si128(exp, set1_epi64x(quarter.SIGNALING_EXPONENT), overflow);
+                        v128 normalFrac = srli_epi64(frac, F64_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        normalFrac = promiseAbs ? or_si128(normalFrac, exp)
+                                                : ternarylogic_si128(sign, normalFrac, exp, TernaryOperation.OxFE);
+                        v128 roundNormal = cmpgt_epi64(and_si128(d, set1_epi64x(bitmask64((ulong)(F64_MANTISSA_BITS - quarter.MANTISSA_BITS)))), set1_epi64x(1ul << (F64_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                        normalFrac = sub_epi64(normalFrac, roundNormal);
+                        
+                        if (!promiseInRange)
+                        {
+                            if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
+                            {
+                                normalFrac = blendv_si128(normalFrac, or_si128(set1_epi64x(quarter.PositiveInfinity.value), sign), overflow);
+                            }
+                            else
+                            {
+                                v128 NaN = cmpgt_epi64(abs, set1_epi64x(F64_SIGNALING_EXPONENT));
+                                normalFrac = blendv_si128(normalFrac, ternarylogic_si128(sign, set1_epi64x(quarter.PositiveInfinity.value), NaN, TernaryOperation.OxFE), overflow);
+                            }
+                        }
+
+                        v128 result = promiseNotSubnormal ? normalFrac : blendv_si128(normalFrac, denormalFrac, denormalF8);
+
+                        return cvtepi64_epi8(result);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 mm256_cvtpd_pq(v256 d, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    promiseInRange |= constexpr.ALL_GE_PD(d, quarter.MinValue, elements) & constexpr.ALL_LE_PD(d, quarter.MaxValue, elements);
+                    promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PD(d, 0d, elements) : constexpr.ALL_GE_PD(d, 0d, elements);
+                    
+                    const long EXPONENT_OFFSET = -F64_EXPONENT_BIAS + quarter.EXPONENT_BIAS;
+
+                    v256 exp = Avx2.mm256_and_si256(d, mm256_set1_epi64x(F64_SIGNALING_EXPONENT));
+                    v256 noUnderflow = mm256_cmpgt_epi64(exp, mm256_set1_epi64x(((ulong)(EXPONENT_OFFSET - quarter.MANTISSA_BITS) << F64_MANTISSA_BITS) - 1));
+                    
+                    if (promiseInRange && promiseNotSubnormal)
+                    {
+                        v256 inRange = Avx.mm256_mul_pd(d, mm256_set1_pd(1d / math.asdouble(quarter.F64_MAGIC)));
+                        v256 aligned = mm256_srli_epi64(inRange, F64_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        if (!promiseAbs)
+                        {
+                            v256 sign64 = mm256_slli_epi64(mm256_srli_epi64(d, F64_BITS - 1), quarter.BITS - 1);
+                            aligned = Avx2.mm256_xor_si256(aligned, sign64);
+                        }
+                        
+                        v256 round = mm256_cmpgt_epi64(Avx2.mm256_and_si256(d, mm256_set1_epi64x(bitmask64((ulong)(F64_MANTISSA_BITS - quarter.MANTISSA_BITS)))), mm256_set1_epi64x(1 << (F64_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                        round = Avx2.mm256_and_si256(noUnderflow, round);
+                        aligned = Avx2.mm256_sub_epi64(aligned, round);
+                        
+                        return mm256_cvtepi64_epi8(aligned);
+                    }
+                    else
+                    {
+                        v256 sign = Avx2.mm256_slli_epi64(Avx2.mm256_srli_epi64(d, F64_BITS - 1), quarter.BITS - 1);
+                        v256 frac = Avx2.mm256_and_si256(d, mm256_set1_epi64x(bitmask64((ulong)F64_MANTISSA_BITS)));
+                        v256 abs = Avx2.mm256_and_si256(d, mm256_set1_epi64x(bitmask64((ulong)F64_BITS - 1)));
+                        
+                        v256 denormalF8 = mm256_cmpgt_epi64(mm256_set1_epi64x(((ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS) + 1), exp);
+                        v256 overflow = mm256_cmpgt_epi64(abs, mm256_set1_pd(quarter.MaxValue));
+                        
+                        exp = Avx2.mm256_sub_epi64(exp, mm256_set1_epi64x((ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS));
+                        
+                        v256 bitIndexDenormal = Avx2.mm256_sub_epi64(mm256_set1_epi64x(quarter.MANTISSA_BITS - 1), mm256_abs_epi64(mm256_srai_epi64(exp, F64_MANTISSA_BITS)));
+                        v256 denormalFrac = Avx2.mm256_sllv_epi64(mm256_neg_epi64(noUnderflow), bitIndexDenormal);
+                        denormalFrac = Avx2.mm256_or_si256(denormalFrac, Avx2.mm256_srlv_epi64(Avx2.mm256_and_si256(frac, noUnderflow), Avx2.mm256_sub_epi64(mm256_set1_epi64x(F64_MANTISSA_BITS), bitIndexDenormal)));
+                        v256 denormalRoundingBit = Avx2.mm256_sllv_epi64(mm256_set1_epi64x(1), Avx2.mm256_sub_epi64(mm256_set1_epi64x(F64_MANTISSA_BITS - 1), bitIndexDenormal));
+                        v256 roundDenormal = mm256_ternarylogic_si256(noUnderflow, Avx2.mm256_cmpeq_epi64(Avx.mm256_setzero_si256(), Avx2.mm256_and_si256(d, denormalRoundingBit)), mm256_srai_epi64(bitIndexDenormal, 63),  TernaryOperation.OxBO);
+                        denormalFrac = Avx2.mm256_sub_epi64(denormalFrac, roundDenormal);
+                        if (!promiseAbs)
+                        {
+                            denormalFrac = Avx2.mm256_or_si256(denormalFrac, sign);
+                        }
+
+                        exp = Avx2.mm256_srli_epi64(exp, F64_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        exp = promiseInRange ? exp : mm256_blendv_si256(exp, mm256_set1_epi64x(quarter.SIGNALING_EXPONENT), overflow);
+                        v256 normalFrac = Avx2.mm256_srli_epi64(frac, F64_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        normalFrac = promiseAbs ? Avx2.mm256_or_si256(normalFrac, exp)
+                                                : mm256_ternarylogic_si256(sign, normalFrac, exp, TernaryOperation.OxFE);
+                        v256 roundNormal = mm256_cmpgt_epi64(Avx2.mm256_and_si256(d, mm256_set1_epi64x(bitmask64((ulong)(F64_MANTISSA_BITS - quarter.MANTISSA_BITS)))), mm256_set1_epi64x(1ul << (F64_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                        normalFrac = Avx2.mm256_sub_epi64(normalFrac, roundNormal);
+                        
+                        if (!promiseInRange)
+                        {
+                            if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
+                            {
+                                normalFrac = mm256_blendv_si256(normalFrac, Avx2.mm256_or_si256(mm256_set1_epi64x(quarter.PositiveInfinity.value), sign), overflow);
+                            }
+                            else
+                            {
+                                v256 NaN = mm256_cmpgt_epi64(abs, mm256_set1_epi64x(F64_SIGNALING_EXPONENT));
+                                normalFrac = mm256_blendv_si256(normalFrac, mm256_ternarylogic_si256(sign, mm256_set1_epi64x(quarter.PositiveInfinity.value), NaN, TernaryOperation.OxFE), overflow);
+                            }
+                        }
+
+                        v256 result = promiseNotSubnormal ? normalFrac : mm256_blendv_si256(normalFrac, denormalFrac, denormalF8);
+
+                        return mm256_cvtepi64_epi8(result);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static v128 BASE_OVERFLOWCTRL__cvtps_pq(v128 s, quarter overflowValue, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false, byte elements = 4)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    promiseInRange |= constexpr.ALL_GE_PS(s, quarter.MinValue, elements) & constexpr.ALL_LE_PS(s, quarter.MaxValue, elements);
+                    promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PS(s, 0f, elements) : constexpr.ALL_GE_PS(s, 0f, elements);
+                    
+                    const int EXPONENT_OFFSET = -F32_EXPONENT_BIAS + quarter.EXPONENT_BIAS;
+                    
+                    v128 exp = and_si128(s, set1_epi32(F32_SIGNALING_EXPONENT));
+                    v128 noUnderflow = cmpgt_epi32(exp, set1_epi32(((EXPONENT_OFFSET - quarter.MANTISSA_BITS) << F32_MANTISSA_BITS) - 1));
+                    
+                    if (promiseInRange && promiseNotSubnormal)
+                    {
+                        v128 inRange = mul_ps(s, set1_ps(1f / math.asfloat(quarter.F32_MAGIC)));
+                        v128 aligned = srli_epi32(inRange, F32_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        if (!promiseAbs)
+                        {
+                            v128 sign32 = slli_epi32(srli_epi32(s, F32_BITS - 1), quarter.BITS - 1);
+                            aligned = xor_si128(aligned, sign32);
+                        }
+                        
+                        v128 round = cmpgt_epi32(and_si128(s, set1_epi32(bitmask32(F32_MANTISSA_BITS - quarter.MANTISSA_BITS))), set1_epi32(1 << (F32_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                        round = and_si128(noUnderflow, round);
+                        aligned = sub_epi32(aligned, round);
+                        
+                        return cvtepi32_epi8(aligned, elements);
+                    }
+                    else
+                    {
+                        v128 sign = slli_epi32(srli_epi32(s, F32_BITS - 1), quarter.BITS - 1);
+                        v128 frac = and_si128(s, set1_epi32(bitmask32(F32_MANTISSA_BITS)));
+                        v128 abs = and_si128(s, set1_epi32(bitmask32(F32_BITS - 1)));
+                        
+                        v128 denormalF8 = cmpgt_epi32(set1_epi32((EXPONENT_OFFSET << F32_MANTISSA_BITS) + 1), exp);
+                        v128 overflow = cmpgt_epi32(abs, set1_ps(quarter.MaxValue));
+                        
+                        exp = sub_epi32(exp, set1_epi32(EXPONENT_OFFSET << F32_MANTISSA_BITS));
+                        
+                        v128 bitIndexDenormal = sub_epi32(set1_epi32(quarter.MANTISSA_BITS - 1), abs_epi32(srai_epi32(exp, F32_MANTISSA_BITS)));
+                        v128 denormalFrac = sllv_epi32(neg_epi32(noUnderflow), bitIndexDenormal);
+                        denormalFrac = or_si128(denormalFrac, srlv_epi32(and_si128(frac, noUnderflow), sub_epi32(set1_epi32(F32_MANTISSA_BITS), bitIndexDenormal)));
+                        v128 denormalRoundingBit = sllv_epi32(set1_epi32(1), sub_epi32(set1_epi32(F32_MANTISSA_BITS - 1), bitIndexDenormal));
+                        v128 roundDenormal = ternarylogic_si128(noUnderflow, cmpeq_epi32(setzero_si128(), and_si128(s, denormalRoundingBit)), srai_epi32(bitIndexDenormal, 31),  TernaryOperation.OxBO);
+                        denormalFrac = sub_epi32(denormalFrac, roundDenormal);
+                        if (!promiseAbs)
+                        {
+                            denormalFrac = or_si128(denormalFrac, sign);
+                        }
+                        
+                        exp = srli_epi32(exp, F32_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        v128 normalFrac = srli_epi32(frac, F32_MANTISSA_BITS - quarter.MANTISSA_BITS);
+                        normalFrac = promiseAbs ? or_si128(normalFrac, exp)
+                                                : ternarylogic_si128(sign, normalFrac, exp, TernaryOperation.OxFE);
+                        v128 roundNormal = cmpgt_epi32(and_si128(s, set1_epi32(bitmask32(F32_MANTISSA_BITS - quarter.MANTISSA_BITS))), set1_epi32(1 << (F32_MANTISSA_BITS - quarter.MANTISSA_BITS - 1)));
+                        normalFrac = sub_epi32(normalFrac, roundNormal);
+                        
+                        if (!promiseInRange)
+                        {
+                            if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
+                            {
+                                normalFrac = blendv_si128(normalFrac, or_si128(set1_epi32(overflowValue.value), sign), overflow);
+                            }
+                            else
+                            {
+                                v128 NaN = cmpgt_epi32(abs, set1_epi32(F32_SIGNALING_EXPONENT));
+                                normalFrac = blendv_si128(normalFrac, ternarylogic_si128(sign, set1_epi32(overflowValue.value), NaN, TernaryOperation.OxFE), overflow);
+                            }
+                        }
+
+                        v128 result = promiseNotSubnormal ? normalFrac : blendv_si128(normalFrac, denormalFrac, denormalF8);
+                        
+                        return cvtepi32_epi8(result, elements);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtph_ps(v128 h, bool promiseInRange = false, bool promiseAbs = false, byte elements = 4)
+            {
+                if (F16C.IsF16CSupported)
+                {
+                    return F16C.cvtph_ps(h);
+                }
+                else if (BurstArchitecture.IsSIMDSupported)
+                {
+                    v128 F16_SIGNALING = set1_epi32(HalfExtensions.SIGNALING_EXPONENT);
+                    v128 F32_SIGNALING = set1_epi32(F32_SIGNALING_EXPONENT);
+
+                    
+                    v128 q32 = cvtepu16_epi32(h);
+                    v128 fusedExponentMantissa = promiseAbs ? slli_epi32(q32, HalfExtensions.F32_SHL_LOSE_SIGN - HalfExtensions.F32_SHR_PLACE_MANTISSA)
+                                                            : srli_epi32(slli_epi32(q32, HalfExtensions.F32_SHL_LOSE_SIGN), HalfExtensions.F32_SHR_PLACE_MANTISSA);
+
+                    if (promiseAbs)
+                    {
+                        fusedExponentMantissa = mul_ps(fusedExponentMantissa, set1_epi32(HalfExtensions.F32_MAGIC));
+
+                        if (promiseInRange)
+                        {
+                            return fusedExponentMantissa;
+                        }
+                        else
+                        {
+                            v128 NaNinf = cmpeq_epi32(and_si128(q32, F16_SIGNALING), F16_SIGNALING);
+
+                            return ternarylogic_si128(fusedExponentMantissa, NaNinf, F32_SIGNALING, TernaryOperation.OxF8);
                         }
                     }
                     else
                     {
-                        if (constexpr.ALL_GE_PD(a, 0d, elements) && constexpr.ALL_LE_PD(a, USF_CVT_EPU64_PD_LIMIT - 1d, elements))
+                        if (BurstArchitecture.IsBlendSupported)
                         {
-                            return mm256_usfcvtpd_epu64(a);
+                            fusedExponentMantissa = mul_ps(fusedExponentMantissa, blendv_si128(set1_epi32(HalfExtensions.F32_MAGIC), 
+                                                                                               set1_epi32((1 << (F32_BITS - 1)) ^ HalfExtensions.F32_MAGIC), 
+                                                                                               cvtepi16_epi32(srai_epi16(h, HalfExtensions.BITS - 1))));
+                            if (promiseInRange)
+                            {
+                                return fusedExponentMantissa;
+                            }
+                            else
+                            {
+                                v128 NaNinf = cmpeq_epi32(and_si128(q32, F16_SIGNALING), F16_SIGNALING);
+                                
+                                return ternarylogic_si128(fusedExponentMantissa, NaNinf, F32_SIGNALING, TernaryOperation.OxF8);
+                            }
+                        }
+                        else
+                        {
+                            fusedExponentMantissa = mul_ps(fusedExponentMantissa, set1_epi32(HalfExtensions.F32_MAGIC));
+                            v128 sign = slli_epi32(srli_epi32(q32, HalfExtensions.BITS - 1), F32_BITS - 1);
+                            
+                            if (promiseInRange)
+                            {
+                                return xor_ps(sign, fusedExponentMantissa);
+                            }
+                            else
+                            {
+                                v128 NaNinf = cmpeq_epi32(and_si128(q32, F16_SIGNALING), F16_SIGNALING);
+                                sign = ternarylogic_si128(sign, NaNinf, F32_SIGNALING, TernaryOperation.OxF8);
+                                
+                                return or_ps(fusedExponentMantissa, sign);
+                            }
                         }
                     }
                 }
-
-                nonZero |= constexpr.ALL_NEQ_PD(a, 0, elements);
-                positive |= constexpr.ALL_GT_PD(a, 0, elements);
-
-                v256 IMPLICIT_ONE = mm256_set1_epi64x(1L << F64_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask64((long)F64_MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi64x(math.abs(F64_EXPONENT_BIAS) + F64_MANTISSA_BITS);
-
-                v256 biasedExponent;
-                v256 isZero;
-                if (positive || (!signed && nonZero) || (!signed && !COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO) | constexpr.ALL_LT_EPU64(a, 1ul << 63, elements) || constexpr.ALL_GT_PD(a, 0d, elements))
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cvtph_ps(v128 h)
+            {
+                if (F16C.IsF16CSupported)
                 {
-                    biasedExponent = Avx2.mm256_srli_epi64(a, F64_MANTISSA_BITS);
-                    isZero = mm256_cmpgt_epi64(mm256_set1_pd(trunc ? 1d : 0.5d), a);
+                    return F16C.mm256_cvtph_ps(h);
                 }
-                else
-                {
-                    biasedExponent = Avx2.mm256_srli_epi64(Avx2.mm256_slli_epi64(a, 1), F64_MANTISSA_BITS + 1);
-                    isZero = mm256_cmpgt_epu64(mm256_slli_epi64(mm256_set1_pd(trunc ? 1d : 0.5d), 1), mm256_slli_epi64(a, 1));
-                }
-                
-                v256 mantissa = mm256_ternarylogic_si256(IMPLICIT_ONE, a, MANTISSA_MASK, TernaryOperation.OxF8);
-                v256 shift_mnt = Avx2.mm256_subs_epu16(EXP, biasedExponent);
-                v256 shift_int = Avx2.mm256_subs_epu16(biasedExponent, EXP);
+                else throw new IllegalInstructionException();
+            }
+            
 
-                v256 result = Avx2.mm256_sllv_epi64(mantissa, shift_int);
-
-                if (!trunc)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtph_pd(v128 h, bool promiseInRange = false, bool promiseAbs = false)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    v256 ifRound = mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(EXP, biasedExponent));
-                    v256 round = Avx2.mm256_sllv_epi64(ifRound, mm256_dec_epi64(shift_mnt));
-                    if (evenOnTie)
+                    if (Avx2.IsAvx2Supported)
                     {
-                        round = Avx2.mm256_sub_epi64(round, Avx2.mm256_andnot_si256(Avx2.mm256_srlv_epi64(mantissa, shift_mnt), ifRound));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvtps_pd(cvtph_ps(h));
+                        }
                     }
 
-                    result = Avx2.mm256_add_epi64(result, round);
-                }
-                
-                result = Avx2.mm256_andnot_si256(isZero, result);
-                result = Avx2.mm256_srlv_epi64(result, shift_mnt);
+                    v128 F16_SIGNALING = set1_epi64x(HalfExtensions.SIGNALING_EXPONENT);
+                    v128 F64_SIGNALING = set1_epi64x(F64_SIGNALING_EXPONENT);
 
-                if (signed)
-                {
-                    if (!constexpr.ALL_GE_PD(a, 0d, elements))
+                    
+                    v128 q64 = cvtepu16_epi64(h);
+                    v128 fusedExponentMantissa = promiseAbs ? slli_epi64(q64, HalfExtensions.F64_SHL_LOSE_SIGN - HalfExtensions.F64_SHR_PLACE_MANTISSA)
+                                                            : srli_epi64(slli_epi64(q64, HalfExtensions.F64_SHL_LOSE_SIGN), HalfExtensions.F64_SHR_PLACE_MANTISSA);
+
+                    if (promiseAbs)
                     {
-                        v256 signMask = mm256_cmpgt_pd(Avx.mm256_setzero_si256(), a);
+                        fusedExponentMantissa = mul_pd(fusedExponentMantissa, set1_epi64x(HalfExtensions.F64_MAGIC));
 
-                        result = Avx2.mm256_xor_si256(result, signMask);
-                        result = Avx2.mm256_sub_epi64(result, signMask);
+                        if (promiseInRange)
+                        {
+                            return fusedExponentMantissa;
+                        }
+                        else
+                        {
+                            v128 NaNinf = cmpeq_epi64(and_si128(q64, F16_SIGNALING), F16_SIGNALING);
+
+                            return ternarylogic_si128(fusedExponentMantissa, NaNinf, F64_SIGNALING, TernaryOperation.OxF8);
+                        }
+                    }
+                    else
+                    {
+                        if (BurstArchitecture.IsBlendSupported)
+                        {
+                            fusedExponentMantissa = mul_pd(fusedExponentMantissa, blendv_si128(set1_epi64x(HalfExtensions.F64_MAGIC), 
+                                                                                               set1_epi64x((1ul << (F64_BITS - 1)) ^ HalfExtensions.F64_MAGIC), 
+                                                                                               cvtepi16_epi64(srai_epi16(h, HalfExtensions.BITS - 1))));
+                            if (promiseInRange)
+                            {
+                                return fusedExponentMantissa;
+                            }
+                            else
+                            {
+                                v128 NaNinf = cmpeq_epi64(and_si128(q64, F16_SIGNALING), F16_SIGNALING);
+                                
+                                return ternarylogic_si128(fusedExponentMantissa, NaNinf, F64_SIGNALING, TernaryOperation.OxF8);
+                            }
+                        }
+                        else
+                        {
+                            fusedExponentMantissa = mul_pd(fusedExponentMantissa, set1_epi64x(HalfExtensions.F64_MAGIC));
+                            v128 sign = slli_epi64(srli_epi64(q64, HalfExtensions.BITS - 1), F64_BITS - 1);
+                            
+                            if (promiseInRange)
+                            {
+                                return xor_pd(sign, fusedExponentMantissa);
+                            }
+                            else
+                            {
+                                v128 NaNinf = cmpeq_epi64(and_si128(q64, F16_SIGNALING), F16_SIGNALING);
+                                sign = ternarylogic_si128(sign, NaNinf, F64_SIGNALING, TernaryOperation.OxF8);
+                                
+                                return or_pd(fusedExponentMantissa, sign);
+                            }
+                        }
                     }
                 }
-
-                return result;
+                else throw new IllegalInstructionException();
             }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 usfcvtpd_epu64(v128 a)
-        {
-            if (Sse2.IsSse2Supported)
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_cvtph_pd(v128 h, bool promiseInRange = false, bool promiseAbs = false, byte elements = 4)
             {
-                v128 MASK = new v128(LIMIT_PRECISE_U64_F64);
+                if (Avx2.IsAvx2Supported)
+                {
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx.mm256_cvtps_pd(cvtph_ps(h));
+                    }
 
-                return xor_pd(add_pd(a, MASK), MASK);
+                    v256 F16_SIGNALING = mm256_set1_epi64x(HalfExtensions.SIGNALING_EXPONENT);
+                    v256 F64_SIGNALING = mm256_set1_epi64x(F64_SIGNALING_EXPONENT);
+
+                    
+                    v256 q64 = Avx2.mm256_cvtepu16_epi64(h);
+                    v256 fusedExponentMantissa = promiseAbs ? mm256_slli_epi64(q64, HalfExtensions.F64_SHL_LOSE_SIGN - HalfExtensions.F64_SHR_PLACE_MANTISSA)
+                                                            : mm256_srli_epi64(mm256_slli_epi64(q64, HalfExtensions.F64_SHL_LOSE_SIGN), HalfExtensions.F64_SHR_PLACE_MANTISSA);
+
+                    if (promiseAbs)
+                    {
+                        fusedExponentMantissa = Avx.mm256_mul_pd(fusedExponentMantissa, mm256_set1_epi64x(HalfExtensions.F64_MAGIC));
+                    }
+                    else
+                    {
+                        fusedExponentMantissa = Avx.mm256_mul_pd(fusedExponentMantissa, mm256_blendv_si256(mm256_set1_epi64x(HalfExtensions.F64_MAGIC), 
+                                                                                                           mm256_set1_epi64x((1ul << (F64_BITS - 1)) ^ HalfExtensions.F64_MAGIC), 
+                                                                                                           Avx2.mm256_cvtepi16_epi64(srai_epi16(h, HalfExtensions.BITS - 1))));
+                    }
+
+                    if (promiseInRange)
+                    {
+                        return fusedExponentMantissa;
+                    }
+                    else
+                    {
+                        v256 NaNinf = Avx2.mm256_cmpeq_epi64(Avx2.mm256_and_si256(q64, F16_SIGNALING), F16_SIGNALING);
+
+                        return mm256_ternarylogic_si256(fusedExponentMantissa, NaNinf, F64_SIGNALING, TernaryOperation.OxF8);
+                    }
+                }
+                else throw new IllegalInstructionException();
             }
-            else if (Arm.Neon.IsNeonSupported)
+
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtps_ph(v128 s, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false, byte elements = 4)
             {
-                return cvtpd_epu64(a);
-            }
-            else throw new IllegalInstructionException();
-        }
+                if (F16C.IsF16CSupported)
+                {
+                    return F16C.cvtps_ph(s, (int)RoundingMode.FROUND_NINT_NOEXC);
+                }
+                else if (BurstArchitecture.IsSIMDSupported)
+                {
+                    promiseInRange |= constexpr.ALL_GE_PS(s, Unity.Mathematics.half.MinValue, elements) & constexpr.ALL_LE_PS(s, Unity.Mathematics.half.MaxValue, elements);
+                    promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PS(s, 0f, elements) : constexpr.ALL_GE_PS(s, 0f, elements);
+                    
+                    const int EXPONENT_OFFSET = -F32_EXPONENT_BIAS + HalfExtensions.EXPONENT_BIAS;
+                    
+                    v128 exp = and_si128(s, set1_epi32(F32_SIGNALING_EXPONENT));
+                    v128 noUnderflow = cmpgt_epi32(exp, set1_epi32(((EXPONENT_OFFSET - HalfExtensions.MANTISSA_BITS) << F32_MANTISSA_BITS) - 1));
+                    
+                    if (promiseInRange && promiseNotSubnormal)
+                    {
+                        v128 inRange = mul_ps(s, set1_ps(1f / math.asfloat(HalfExtensions.F32_MAGIC)));
+                        v128 aligned = srli_epi32(inRange, F32_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
+                        if (!promiseAbs)
+                        {
+                            v128 sign32 = slli_epi32(srli_epi32(s, F32_BITS - 1), HalfExtensions.BITS - 1);
+                            aligned = xor_si128(aligned, sign32);
+                        }
+                        
+                        v128 round = cmpgt_epi32(and_si128(s, set1_epi32(bitmask32(F32_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS))), set1_epi32(1 << (F32_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS - 1)));
+                        round = and_si128(noUnderflow, round);
+                        aligned = sub_epi32(aligned, round);
+                        
+                        return cvtepi32_epi16(aligned, elements);
+                    }
+                    else
+                    {
+                        v128 sign = slli_epi32(srli_epi32(s, F32_BITS - 1), HalfExtensions.BITS - 1);
+                        v128 frac = and_si128(s, set1_epi32(bitmask32(F32_MANTISSA_BITS)));
+                        v128 abs = and_si128(s, set1_epi32(bitmask32(F32_BITS - 1)));
+                        
+                        v128 denormalF8 = cmpgt_epi32(set1_epi32((EXPONENT_OFFSET << F32_MANTISSA_BITS) + 1), exp);
+                        v128 overflow = cmpgt_epi32(abs, set1_ps(Unity.Mathematics.half.MaxValue));
+                        
+                        exp = sub_epi32(exp, set1_epi32(EXPONENT_OFFSET << F32_MANTISSA_BITS));
+                        
+                        v128 bitIndexDenormal = sub_epi32(set1_epi32(HalfExtensions.MANTISSA_BITS - 1), abs_epi32(srai_epi32(exp, F32_MANTISSA_BITS)));
+                        v128 denormalFrac = sllv_epi32(neg_epi32(noUnderflow), bitIndexDenormal);
+                        denormalFrac = or_si128(denormalFrac, srlv_epi32(and_si128(frac, noUnderflow), sub_epi32(set1_epi32(F32_MANTISSA_BITS), bitIndexDenormal)));
+                        v128 denormalRoundingBit = sllv_epi32(set1_epi32(1), sub_epi32(set1_epi32(F32_MANTISSA_BITS - 1), bitIndexDenormal));
+                        v128 roundDenormal = ternarylogic_si128(noUnderflow, cmpeq_epi32(setzero_si128(), and_si128(s, denormalRoundingBit)), srai_epi32(bitIndexDenormal, 31),  TernaryOperation.OxBO);
+                        denormalFrac = sub_epi32(denormalFrac, roundDenormal);
+                        if (!promiseAbs)
+                        {
+                            denormalFrac = or_si128(denormalFrac, sign);
+                        }
+                        
+                        exp = srli_epi32(exp, F32_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
+                        exp = promiseInRange ? exp : blendv_si128(exp, set1_epi32(HalfExtensions.SIGNALING_EXPONENT), overflow);
+                        v128 normalFrac = srli_epi32(frac, F32_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_usfcvtpd_epu64(v256 a)
-        {
-            if (Avx.IsAvxSupported)
+                        normalFrac = promiseAbs ? or_si128(normalFrac, exp)
+                                                : ternarylogic_si128(sign, normalFrac, exp, TernaryOperation.OxFE);
+                        v128 roundNormal = cmpgt_epi32(and_si128(s, set1_epi32(bitmask32(F32_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS))), set1_epi32(1 << (F32_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS - 1)));
+                        normalFrac = sub_epi32(normalFrac, roundNormal);
+                        
+                        if (!promiseInRange)
+                        {
+                            if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
+                            {
+                                normalFrac = blendv_si128(normalFrac, or_si128(set1_epi32(((half)float.PositiveInfinity).value), sign), overflow);
+                            }
+                            else
+                            {
+                                v128 NaN = cmpgt_epi32(abs, set1_epi32(F32_SIGNALING_EXPONENT));
+                                normalFrac = blendv_si128(normalFrac, ternarylogic_si128(sign, set1_epi32(((half)float.PositiveInfinity).value), NaN, TernaryOperation.OxFE), overflow);
+                            }
+                        }
+
+                        v128 result = promiseNotSubnormal ? normalFrac : blendv_si128(normalFrac, denormalFrac, denormalF8);
+
+                        return cvtepi32_epi16(result, elements);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 mm256_cvtps_ph(v256 s)
             {
-                v256 MASK = new v256(LIMIT_PRECISE_U64_F64);
-
-                return Avx.mm256_xor_pd(Avx.mm256_add_pd(a, MASK), MASK);
+                if (F16C.IsF16CSupported)
+                {
+                    return F16C.mm256_cvtps_ph(s, (int)RoundingMode.FROUND_NINT_NOEXC);
+                }
+                else throw new IllegalInstructionException();
             }
-            else throw new IllegalInstructionException();
-        }
+            
 
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 usfcvtpd_epi64(v128 a)
-        {
-            if (Sse2.IsSse2Supported)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 cvtpd_ph(v128 d, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
             {
-                v128 MASK = new v128(0x4338_0000_0000_0000);
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvtps_ph(cvtpd_ps(d));
+                        }
+                    }
+                        
+                    promiseInRange |= constexpr.ALL_GE_PD(d, Unity.Mathematics.half.MinValue) & constexpr.ALL_LE_PD(d, Unity.Mathematics.half.MaxValue);
+                    promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PD(d, 0d) : constexpr.ALL_GE_PD(d, 0d);
+                    
+                    const long EXPONENT_OFFSET = -F64_EXPONENT_BIAS + HalfExtensions.EXPONENT_BIAS;
+                    
+                    v128 exp = and_si128(d, set1_epi64x(F64_SIGNALING_EXPONENT));
+                    v128 noUnderflow = cmpgt_epi64(exp, set1_epi64x(((ulong)(EXPONENT_OFFSET - HalfExtensions.MANTISSA_BITS) << F64_MANTISSA_BITS) - 1));
+                    
+                    if (promiseInRange && promiseNotSubnormal)
+                    {
+                        v128 inRange = mul_pd(d, set1_pd(1f / math.asdouble(HalfExtensions.F64_MAGIC)));
+                        v128 aligned = srli_epi64(inRange, F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
+                        if (!promiseAbs)
+                        {
+                            v128 sign64 = slli_epi64(srli_epi64(d, F64_BITS - 1), HalfExtensions.BITS - 1);
+                            aligned = xor_si128(aligned, sign64);
+                        }
+                        
+                        v128 round = cmpgt_epi64(and_si128(d, set1_epi64x(bitmask64((ulong)(F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS)))), set1_epi64x(1ul << (F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS - 1)));
+                        round = and_si128(noUnderflow, round);
+                        aligned = sub_epi64(aligned, round);
+                        
+                        return cvtepi64_epi16(aligned);
+                    }
+                    else
+                    {
+                        v128 sign = slli_epi64(srli_epi64(d, F64_BITS - 1), HalfExtensions.BITS - 1);
+                        v128 frac = and_si128(d, set1_epi64x(bitmask64((ulong)F64_MANTISSA_BITS)));
+                        v128 abs = and_si128(d, set1_epi64x(bitmask64((ulong)(F64_BITS - 1))));
+                        
+                        v128 denormalF8 = cmpgt_epi64(set1_epi64x(((ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS) + 1), exp);
+                        v128 overflow = cmpgt_epi64(abs, set1_pd(Unity.Mathematics.half.MaxValue));
+                        
+                        exp = sub_epi64(exp, set1_epi64x((ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS));
+                        
+                        v128 bitIndexDenormal = sub_epi64(set1_epi64x(HalfExtensions.MANTISSA_BITS - 1), abs_epi64(srai_epi64(exp, F64_MANTISSA_BITS)));
+                        v128 denormalFrac = sllv_epi64(neg_epi64(noUnderflow), bitIndexDenormal);
+                        denormalFrac = or_si128(denormalFrac, srlv_epi64(and_si128(frac, noUnderflow), sub_epi64(set1_epi64x(F64_MANTISSA_BITS), bitIndexDenormal)));
+                        v128 denormalRoundingBit = sllv_epi64(set1_epi64x(1), sub_epi64(set1_epi64x(F64_MANTISSA_BITS - 1), bitIndexDenormal));
+                        v128 roundDenormal = ternarylogic_si128(noUnderflow, cmpeq_epi64(setzero_si128(), and_si128(d, denormalRoundingBit)), srai_epi64(bitIndexDenormal, 63),  TernaryOperation.OxBO);
+                        denormalFrac = sub_epi64(denormalFrac, roundDenormal);
+                        if (!promiseAbs)
+                        {
+                            denormalFrac = or_si128(denormalFrac, sign);
+                        }
 
-                return sub_epi64(add_pd(a, MASK), MASK);
+                        exp = srli_epi64(exp, F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
+                        exp = promiseInRange ? exp : blendv_si128(exp, set1_epi64x(HalfExtensions.SIGNALING_EXPONENT), overflow);
+                        v128 normalFrac = srli_epi64(frac, F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
+                        normalFrac = promiseAbs ? or_si128(normalFrac, exp)
+                                                : ternarylogic_si128(sign, normalFrac, exp, TernaryOperation.OxFE);
+                        v128 roundNormal = cmpgt_epi64(and_si128(d, set1_epi64x(bitmask64((ulong)(F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS)))), set1_epi64x(1ul << (F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS - 1)));
+                        normalFrac = sub_epi64(normalFrac, roundNormal);
+                        
+                        if (!promiseInRange)
+                        {
+                            if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
+                            {
+                                normalFrac = blendv_si128(normalFrac, or_si128(set1_epi64x(((half)float.PositiveInfinity).value), sign), overflow);
+                            }
+                            else
+                            {
+                                v128 NaN = cmpgt_epi64(abs, set1_epi64x(F64_SIGNALING_EXPONENT));
+                                normalFrac = blendv_si128(normalFrac, ternarylogic_si128(sign, set1_epi64x(((half)float.PositiveInfinity).value), NaN, TernaryOperation.OxFE), overflow);
+                            }
+                        }
+
+                        v128 result = promiseNotSubnormal ? normalFrac : blendv_si128(normalFrac, denormalFrac, denormalF8);
+
+                        return cvtepi64_epi16(result);
+                    }
+                }
+                else throw new IllegalInstructionException();
             }
-            else if (Arm.Neon.IsNeonSupported)
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 mm256_cvtpd_ph(v256 d, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false, byte elements = 4)
             {
-                return cvtpd_epi64(a);
+                if (Avx2.IsAvx2Supported)
+                {
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return cvtps_ph(Avx.mm256_cvtpd_ps(d));
+                    }
+                        
+                    promiseInRange |= constexpr.ALL_GE_PD(d, Unity.Mathematics.half.MinValue, elements) & constexpr.ALL_LE_PD(d, Unity.Mathematics.half.MaxValue, elements);
+                    promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? constexpr.ALL_GT_PD(d, 0d, elements) : constexpr.ALL_GE_PD(d, 0d, elements);
+                    
+                    const long EXPONENT_OFFSET = -F64_EXPONENT_BIAS + HalfExtensions.EXPONENT_BIAS;
+
+                    v256 exp = Avx2.mm256_and_si256(d, mm256_set1_epi64x(F64_SIGNALING_EXPONENT));
+                    v256 noUnderflow = mm256_cmpgt_epi64(exp, mm256_set1_epi64x(((ulong)(EXPONENT_OFFSET - HalfExtensions.MANTISSA_BITS) << F64_MANTISSA_BITS) - 1));
+                    
+                    if (promiseInRange && promiseNotSubnormal)
+                    {
+                        v256 inRange = Avx.mm256_mul_pd(d, mm256_set1_pd(1d / math.asdouble(HalfExtensions.F64_MAGIC)));
+                        v256 aligned = mm256_srli_epi64(inRange, F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
+                        if (!promiseAbs)
+                        {
+                            v256 sign64 = mm256_slli_epi64(mm256_srli_epi64(d, F64_BITS - 1), HalfExtensions.BITS - 1);
+                            aligned = Avx2.mm256_xor_si256(aligned, sign64);
+                        }
+                        
+                        v256 round = mm256_cmpgt_epi64(Avx2.mm256_and_si256(d, mm256_set1_epi64x(bitmask64((ulong)(F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS)))), mm256_set1_epi64x(1 << (F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS - 1)));
+                        round = Avx2.mm256_and_si256(noUnderflow, round);
+                        aligned = Avx2.mm256_sub_epi64(aligned, round);
+                        
+                        return mm256_cvtepi64_epi16(aligned);
+                    }
+                    else
+                    {
+                        v256 sign = Avx2.mm256_slli_epi64(Avx2.mm256_srli_epi64(d, F64_BITS - 1), HalfExtensions.BITS - 1);
+                        v256 frac = Avx2.mm256_and_si256(d, mm256_set1_epi64x(bitmask64((ulong)F64_MANTISSA_BITS)));
+                        v256 abs = Avx2.mm256_and_si256(d, mm256_set1_epi64x(bitmask64((ulong)F64_BITS - 1)));
+                        
+                        v256 denormalF8 = mm256_cmpgt_epi64(mm256_set1_epi64x(((ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS) + 1), exp);
+                        v256 overflow = mm256_cmpgt_epi64(abs, mm256_set1_pd(Unity.Mathematics.half.MaxValue));
+                        
+                        exp = Avx2.mm256_sub_epi64(exp, mm256_set1_epi64x((ulong)EXPONENT_OFFSET << F64_MANTISSA_BITS));
+                        
+                        v256 bitIndexDenormal = Avx2.mm256_sub_epi64(mm256_set1_epi64x(HalfExtensions.MANTISSA_BITS - 1), mm256_abs_epi64(mm256_srai_epi64(exp, F64_MANTISSA_BITS)));
+                        v256 denormalFrac = Avx2.mm256_sllv_epi64(mm256_neg_epi64(noUnderflow), bitIndexDenormal);
+                        denormalFrac = Avx2.mm256_or_si256(denormalFrac, Avx2.mm256_srlv_epi64(Avx2.mm256_and_si256(frac, noUnderflow), Avx2.mm256_sub_epi64(mm256_set1_epi64x(F64_MANTISSA_BITS), bitIndexDenormal)));
+                        v256 denormalRoundingBit = Avx2.mm256_sllv_epi64(mm256_set1_epi64x(1), Avx2.mm256_sub_epi64(mm256_set1_epi64x(F64_MANTISSA_BITS - 1), bitIndexDenormal));
+                        v256 roundDenormal = mm256_ternarylogic_si256(noUnderflow, Avx2.mm256_cmpeq_epi64(Avx.mm256_setzero_si256(), Avx2.mm256_and_si256(d, denormalRoundingBit)), mm256_srai_epi64(bitIndexDenormal, 63),  TernaryOperation.OxBO);
+                        denormalFrac = Avx2.mm256_sub_epi64(denormalFrac, roundDenormal);
+                        if (!promiseAbs)
+                        {
+                            denormalFrac = Avx2.mm256_or_si256(denormalFrac, sign);
+                        }
+
+                        exp = Avx2.mm256_srli_epi64(exp, F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
+                        exp = promiseInRange ? exp : mm256_blendv_si256(exp, mm256_set1_epi64x(HalfExtensions.SIGNALING_EXPONENT), overflow);
+                        v256 normalFrac = Avx2.mm256_srli_epi64(frac, F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS);
+                        normalFrac = promiseAbs ? Avx2.mm256_or_si256(normalFrac, exp)
+                                                : mm256_ternarylogic_si256(sign, normalFrac, exp, TernaryOperation.OxFE);
+                        v256 roundNormal = mm256_cmpgt_epi64(Avx2.mm256_and_si256(d, mm256_set1_epi64x(bitmask64((ulong)(F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS)))), mm256_set1_epi64x(1ul << (F64_MANTISSA_BITS - HalfExtensions.MANTISSA_BITS - 1)));
+                        normalFrac = Avx2.mm256_sub_epi64(normalFrac, roundNormal);
+                        
+                        if (!promiseInRange)
+                        {
+                            if (COMPILATION_OPTIONS.FLOAT_NO_NAN)
+                            {
+                                normalFrac = mm256_blendv_si256(normalFrac, Avx2.mm256_or_si256(mm256_set1_epi64x(((half)float.PositiveInfinity).value), sign), overflow);
+                            }
+                            else
+                            {
+                                v256 NaN = mm256_cmpgt_epi64(abs, mm256_set1_epi64x(F64_SIGNALING_EXPONENT));
+                                normalFrac = mm256_blendv_si256(normalFrac, mm256_ternarylogic_si256(sign, mm256_set1_epi64x(((half)float.PositiveInfinity).value), NaN, TernaryOperation.OxFE), overflow);
+                            }
+                        }
+
+                        v256 result = promiseNotSubnormal ? normalFrac : mm256_blendv_si256(normalFrac, denormalFrac, denormalF8);
+
+                        return mm256_cvtepi64_epi16(result);
+                    }
+                }
+                else throw new IllegalInstructionException();
             }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_usfcvtpd_epi64(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                v256 MASK = new v256(0x4338_0000_0000_0000);
-
-                return Avx2.mm256_sub_epi64(Avx.mm256_add_pd(a, MASK), MASK);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 usfcvtepu64_pd(v128 a)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 MASK = new v128(LIMIT_PRECISE_U64_F64);
-
-                return sub_pd(or_si128(a, MASK), MASK);
-            }
-            else if (Arm.Neon.IsNeonSupported)
-            {
-                return cvtepu64_pd(a);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_usfcvtepu64_pd(v256 a)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                v256 MASK = new v256(LIMIT_PRECISE_U64_F64);
-
-                return Avx.mm256_sub_pd(Avx.mm256_or_pd(a, MASK), MASK);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 usfcvtepi64_pd(v128 a)
-        {
-            if (Sse2.IsSse2Supported)
-            {
-                v128 MASK = new v128(0x4338_0000_0000_0000);
-
-                return sub_pd(add_epi64(a, MASK), MASK);
-            }
-            else if (Arm.Neon.IsNeonSupported)
-            {
-                return cvtepi64_pd(a);
-            }
-            else throw new IllegalInstructionException();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_usfcvtepi64_pd(v256 a)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                v256 MASK = new v256(0x4338_0000_0000_0000);
-
-                return Avx.mm256_sub_pd(Avx2.mm256_add_epi64(a, MASK), MASK);
-            }
-            else throw new IllegalInstructionException();
         }
     }
 }

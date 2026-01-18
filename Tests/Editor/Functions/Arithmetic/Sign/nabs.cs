@@ -376,6 +376,32 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter16 test = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+
+                Assert.AreEqual(nabs(test), select(test, -test, test > 0));
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter32 test = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+
+                Assert.AreEqual(nabs(test), select(test, -test, test > 0));
+            }
+        }
+
 
         [Test]
         public static void _half()
@@ -439,6 +465,19 @@ namespace MaxMath.Tests
                 half8 test = (half8)rng.NextFloat8(half.MinValue, half.MaxValue);
 
                 Assert.AreEqual(nabs(test), select(test, (half8)(-(float8)test), (float8)test > 0));
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half16 test = new half16((half8)rng.NextFloat8(half.MinValue, half.MaxValue), (half8)rng.NextFloat8(half.MinValue, half.MaxValue));
+
+                Assert.AreEqual(nabs(test), select(test, new half16((half8)(-(float8)test.v8_0), (half8)(-(float8)test.v8_8)), new bool16((float8)test.v8_0 > 0, (float8)test.v8_8 > 0)));
             }
         }
 

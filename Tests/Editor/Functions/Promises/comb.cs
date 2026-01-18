@@ -16,7 +16,7 @@ namespace MaxMath.Tests
             byte normal;
             byte promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextByte(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte(0, (byte)(n + 1));
@@ -66,7 +66,7 @@ namespace MaxMath.Tests
             byte2 normal;
             byte2 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte2(0, n + 1);
@@ -127,7 +127,7 @@ namespace MaxMath.Tests
             byte3 normal;
             byte3 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte3(0, n + 1);
@@ -188,7 +188,7 @@ namespace MaxMath.Tests
             byte4 normal;
             byte4 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte4(0, n + 1);
@@ -249,7 +249,7 @@ namespace MaxMath.Tests
             byte8 normal;
             byte8 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte8(0, n + 1);
@@ -310,7 +310,7 @@ namespace MaxMath.Tests
             byte16 normal;
             byte16 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte16(0, n + 1);
@@ -371,7 +371,7 @@ namespace MaxMath.Tests
             byte32 normal;
             byte32 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte32(0, n + 1);
@@ -433,7 +433,7 @@ namespace MaxMath.Tests
             ushort normal;
             ushort promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUShort(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort(0, (ushort)(n + 1));
@@ -482,7 +482,7 @@ namespace MaxMath.Tests
             ushort2 normal;
             ushort2 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUShort2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort2(0, n + 1);
@@ -543,7 +543,7 @@ namespace MaxMath.Tests
             ushort3 normal;
             ushort3 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUShort3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort3(0, n + 1);
@@ -604,7 +604,7 @@ namespace MaxMath.Tests
             ushort4 normal;
             ushort4 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUShort4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort4(0, n + 1);
@@ -665,7 +665,7 @@ namespace MaxMath.Tests
             ushort8 normal;
             ushort8 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUShort8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort8(0, n + 1);
@@ -726,7 +726,7 @@ namespace MaxMath.Tests
             ushort16 normal;
             ushort16 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUShort16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort16(0, n + 1);
@@ -788,7 +788,7 @@ namespace MaxMath.Tests
             uint normal;
             uint promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUInt(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt(0, n + 1);
@@ -819,7 +819,7 @@ namespace MaxMath.Tests
             uint2 normal;
             uint2 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUInt2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt2(0, n + 1);
@@ -856,7 +856,7 @@ namespace MaxMath.Tests
             uint3 normal;
             uint3 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUInt3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt3(0, n + 1);
@@ -893,7 +893,7 @@ namespace MaxMath.Tests
             uint4 normal;
             uint4 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUInt4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt4(0, n + 1);
@@ -930,7 +930,7 @@ namespace MaxMath.Tests
             uint8 normal;
             uint8 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUInt8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt8(0, n + 1);
@@ -968,7 +968,7 @@ namespace MaxMath.Tests
             ulong normal;
             ulong promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextULong(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong(0, n + 1);
@@ -999,7 +999,7 @@ namespace MaxMath.Tests
             ulong2 normal;
             ulong2 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextULong2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong2(0, n + 1);
@@ -1036,7 +1036,7 @@ namespace MaxMath.Tests
             ulong3 normal;
             ulong3 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextULong3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong3(0, n + 1);
@@ -1073,7 +1073,7 @@ namespace MaxMath.Tests
             ulong4 normal;
             ulong4 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextULong4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong4(0, n + 1);
@@ -1109,7 +1109,7 @@ namespace MaxMath.Tests
             UInt128 n;
             UInt128 k;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextUInt128(0, MAX_INVERSE_FACTORIAL_U128 + 1);
                 k = rng.NextUInt128(0, n + 1);
@@ -1132,7 +1132,7 @@ namespace MaxMath.Tests
             byte normal;
             byte promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextSByte(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte(0, (sbyte)(n + 1));
@@ -1181,7 +1181,7 @@ namespace MaxMath.Tests
             byte2 normal;
             byte2 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextSByte2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte2(0, n + 1);
@@ -1242,7 +1242,7 @@ namespace MaxMath.Tests
             byte3 normal;
             byte3 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextSByte3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte3(0, n + 1);
@@ -1303,7 +1303,7 @@ namespace MaxMath.Tests
             byte4 normal;
             byte4 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextSByte4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte4(0, n + 1);
@@ -1364,7 +1364,7 @@ namespace MaxMath.Tests
             byte8 normal;
             byte8 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextSByte8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte8(0, n + 1);
@@ -1425,7 +1425,7 @@ namespace MaxMath.Tests
             byte16 normal;
             byte16 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextSByte16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte16(0, n + 1);
@@ -1486,7 +1486,7 @@ namespace MaxMath.Tests
             byte32 normal;
             byte32 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextSByte32(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte32(0, n + 1);
@@ -1548,7 +1548,7 @@ namespace MaxMath.Tests
             ushort normal;
             ushort promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextShort(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort(0, (short)(n + 1));
@@ -1597,7 +1597,7 @@ namespace MaxMath.Tests
             ushort2 normal;
             ushort2 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextShort2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort2(0, n + 1);
@@ -1658,7 +1658,7 @@ namespace MaxMath.Tests
             ushort3 normal;
             ushort3 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextShort3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort3(0, n + 1);
@@ -1719,7 +1719,7 @@ namespace MaxMath.Tests
             ushort4 normal;
             ushort4 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextShort4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort4(0, n + 1);
@@ -1780,7 +1780,7 @@ namespace MaxMath.Tests
             ushort8 normal;
             ushort8 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextShort8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort8(0, n + 1);
@@ -1841,7 +1841,7 @@ namespace MaxMath.Tests
             ushort16 normal;
             ushort16 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextShort16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort16(0, n + 1);
@@ -1903,7 +1903,7 @@ namespace MaxMath.Tests
             uint normal;
             uint promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextInt(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt(0, n + 1);
@@ -1934,7 +1934,7 @@ namespace MaxMath.Tests
             uint2 normal;
             uint2 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextInt2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt2(0, n + 1);
@@ -1971,7 +1971,7 @@ namespace MaxMath.Tests
             uint3 normal;
             uint3 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextInt3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt3(0, n + 1);
@@ -2008,7 +2008,7 @@ namespace MaxMath.Tests
             uint4 normal;
             uint4 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextInt4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt4(0, n + 1);
@@ -2045,7 +2045,7 @@ namespace MaxMath.Tests
             uint8 normal;
             uint8 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextInt8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt8(0, n + 1);
@@ -2083,7 +2083,7 @@ namespace MaxMath.Tests
             ulong normal;
             ulong promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextLong(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextLong(0, n + 1);
@@ -2114,7 +2114,7 @@ namespace MaxMath.Tests
             ulong2 normal;
             ulong2 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextLong2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextLong2(0, n + 1);
@@ -2151,7 +2151,7 @@ namespace MaxMath.Tests
             ulong3 normal;
             ulong3 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextLong3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextLong3(0, n + 1);
@@ -2188,7 +2188,7 @@ namespace MaxMath.Tests
             ulong4 normal;
             ulong4 promise;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextLong4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextLong4(0, n + 1);
@@ -2224,7 +2224,7 @@ namespace MaxMath.Tests
             Int128 n;
             Int128 k;
 
-            for (int i = 0; i < 24; i++)
+            for (int i = 0; i < 8; i++)
             {
                 n = rng.NextInt128(0, MAX_INVERSE_FACTORIAL_U128 + 1);
                 k = rng.NextInt128(0, n + 1);

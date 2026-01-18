@@ -18,7 +18,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static v128 naiveperm_epu8(v128 n, v128 k, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 nom = gamma_epu8(n, true, elements);
                     v128 denom = gamma_epu8(sub_epi8(n, k), true, elements);
@@ -47,11 +47,11 @@ namespace MaxMath
             {
                 v128 nom;
                 v128 denom;
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (epu8range || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U8, elements))
                     {
-                        if (Architecture.IsTableLookupSupported)
+                        if (BurstArchitecture.IsTableLookupSupported)
                         {
                             nom = gamma_epu16_epu8range(n);
                             denom = gamma_epu16_epu8range(sub_epi16(n, k));
@@ -95,7 +95,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static v128 naiveperm_epu32(v128 n, v128 k, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 nom = gamma_epu32(n, true, elements);
                     v128 denom = gamma_epu32(sub_epi32(n, k), true, elements);
@@ -122,12 +122,12 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static v128 naiveperm_epu64(v128 n, v128 k, bool useFPU = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 nom = gamma_epu64(n, true);
                     v128 denom = gamma_epu64(sub_epi64(n, k), true);
 
-                    return div_epu64(nom, denom, useFPU);
+                    return div_epu64(nom, denom, useFPU: useFPU);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -149,19 +149,19 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_perm_epu8([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 doneMask, [NoAlias] out v128 results, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi8(1);
-                    
+
                     doneMask = cmpeq_epi8(ZERO, k);
                     results = blendv_si128(n, ONE, doneMask);
                     k = subs_epu8(k, ONE);
                     doneMask = cmpeq_epi8(ZERO, k);
-                    
+
                     n = sub_epi8(n, ONE);
                     n = blendv_si128(n, ONE, doneMask);
-                    
+
                     if (Sse4_1.IsSse41Supported)
                     {
                         k = zeromissing_epi8(k, elements);
@@ -173,14 +173,14 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_perm_epu8([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 results, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi8(1);
-                        
+
                     k = subs_epu8(k, ONE);
                     doneMask = cmpeq_epi8(ZERO, k);
-                    
+
                     results = mullo_epi8(results, n, elements);
                     n = sub_epi8(n, ONE);
                     n = blendv_si128(n, ONE, doneMask);
@@ -197,7 +197,7 @@ namespace MaxMath
                     {
                         return Hint.Likely(testz_si128(k, k) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<byte>(doneMask, elements));
                     }
@@ -205,7 +205,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
 
@@ -435,7 +435,7 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                         }
                     }
 
-                    
+
                     // ARM has native mullo_epi8, X86 does not
                     if (Sse2.IsSse2Supported)
                     {
@@ -448,19 +448,19 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                             return mm256_cvtepi16_epi8(mm256_perm_epu16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k)));
                         }
                     }
-                    
+
                     PRELOOP_perm_epu8(ref n, ref k, out v128 doneMask, out v128 results, elements);
 
                     while (ContinueLoop(doneMask, k, elements))
                     {
                         LOOP_perm_epu8(ref n, ref k, ref doneMask, ref results, elements);
                     }
-                    
+
                     return results;
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void perm_epu8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
             {
@@ -472,7 +472,7 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
 
                         return Hint.Likely(testz_si128(k, k) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -480,12 +480,12 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                     }
                     else throw new IllegalInstructionException();
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 VectorAssert.IsNotGreater<byte16, byte>(k0, n0, 16);
 VectorAssert.IsNotGreater<byte16, byte>(k1, n1, 16);
-                    
+
                     if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU8(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU8(n1, MAX_INVERSE_FACTORIAL_U64)))
                     {
                         r0 = perm_epu8(n0, k0, unsafeLevels);
@@ -494,7 +494,7 @@ VectorAssert.IsNotGreater<byte16, byte>(k1, n1, 16);
                         return;
                     }
 
-                    
+
                     PRELOOP_perm_epu8(ref n0, ref k0, out v128 doneMask0, out r0);
                     PRELOOP_perm_epu8(ref n1, ref k1, out v128 doneMask1, out r1);
 
@@ -620,11 +620,11 @@ VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
                 else throw new IllegalInstructionException();
             }
 
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_perm_epu16([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 doneMask, [NoAlias] out v128 results, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi16(1);
@@ -648,14 +648,14 @@ VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_perm_epu16([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 results, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi16(1);
-                        
+
                     k = subs_epu16(k, ONE);
                     doneMask = cmpeq_epi16(ZERO, k);
-                    
+
                     results = mullo_epi16(results, n);
                     n = sub_epi16(n, ONE);
                     n = blendv_si128(n, ONE, doneMask);
@@ -672,7 +672,7 @@ VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
                     {
                         return Hint.Likely(testz_si128(k, k) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<short>(doneMask, elements));
                     }
@@ -680,7 +680,7 @@ VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
 
@@ -792,7 +792,7 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void perm_epu16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
             {
@@ -804,7 +804,7 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
 
                         return Hint.Likely(testz_si128(k, k) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -812,12 +812,12 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
                     }
                     else throw new IllegalInstructionException();
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 VectorAssert.IsNotGreater<ushort8, ushort>(k0, n0, 8);
 VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
-                    
+
                     if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU16(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU16(n1, MAX_INVERSE_FACTORIAL_U64)))
                     {
                         r0 = perm_epu16(n0, k0, unsafeLevels);
@@ -826,7 +826,7 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
                         return;
                     }
 
-                    
+
                     PRELOOP_perm_epu16(ref n0, ref k0, out v128 doneMask0, out r0);
                     PRELOOP_perm_epu16(ref n1, ref k1, out v128 doneMask1, out r1);
 
@@ -913,7 +913,7 @@ VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
                 else throw new IllegalInstructionException();
             }
 
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PERM_decs_epu32(ref v128 k, v128 doneMask)
             {
@@ -921,7 +921,7 @@ VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
                 {
                     k = subs_epu32(k, set1_epi32(1));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     k = sub_epi32(k, andnot_si128(doneMask, set1_epi32(1)));
                 }
@@ -931,7 +931,7 @@ VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_perm_epu32([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 doneMask, [NoAlias] out v128 results, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi32(1);
@@ -955,14 +955,14 @@ VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_perm_epu32([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 results, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi32(1);
 
                     PERM_decs_epu32(ref k, doneMask);
                     doneMask = cmpeq_epi32(ZERO, k);
-                    
+
                     results = mullo_epi32(results, n, elements);
                     n = sub_epi32(n, ONE);
                     n = blendv_si128(n, ONE, doneMask);
@@ -979,15 +979,15 @@ VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
                     {
                         return Hint.Likely(testz_si128(k, k) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<int>(doneMask, elements));
                     }
                     else throw new IllegalInstructionException();
                 }
-                
 
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterConversion.ToUInt4(n), elements);
 
@@ -1027,7 +1027,7 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
                         }
                     }
 
-                    
+
                     PRELOOP_perm_epu32(ref n, ref k, out v128 doneMask, out v128 results, elements);
 
                     while (ContinueLoop(doneMask, k, elements))
@@ -1051,7 +1051,7 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
 
                         return Hint.Likely(testz_si128(k, k) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -1059,12 +1059,12 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
                     }
                     else throw new IllegalInstructionException();
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k0), RegisterConversion.ToUInt4(n0), 4);
 VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k1), RegisterConversion.ToUInt4(n1), 4);
-                    
+
                     if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU32(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU32(n1, MAX_INVERSE_FACTORIAL_U64)))
                     {
                         r0 = perm_epu32(n0, k0, unsafeLevels);
@@ -1073,7 +1073,7 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k1), RegisterC
                         return;
                     }
 
-                    
+
                     PRELOOP_perm_epu32(ref n0, ref k0, out v128 doneMask0, out r0);
                     PRELOOP_perm_epu32(ref n1, ref k1, out v128 doneMask1, out r1);
 
@@ -1137,7 +1137,7 @@ VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PERM_decs_epu64(ref v128 k, v128 doneMask)
@@ -1146,7 +1146,7 @@ VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
                 {
                     k = subs_epu64(k, set1_epi64x(1));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     k = sub_epi64(k, andnot_si128(doneMask, set1_epi64x(1)));
                 }
@@ -1156,7 +1156,7 @@ VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_perm_epu64([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 doneMask, [NoAlias] out v128 results)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi64x(1);
@@ -1175,14 +1175,14 @@ VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_perm_epu64([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 results)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi64x(1);
 
                     PERM_decs_epu64(ref k, doneMask);
                     doneMask = cmpeq_epi64(ZERO, k);
-                    
+
                     results = mullo_epi64(results, n);
                     n = sub_epi64(n, ONE);
                     n = blendv_si128(n, ONE, doneMask);
@@ -1199,7 +1199,7 @@ VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
                     {
                         return Hint.Likely(testz_si128(k, k) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<long>(doneMask));
                     }
@@ -1207,7 +1207,7 @@ VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
 
@@ -1251,7 +1251,7 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
 
                         return Hint.Likely(testz_si128(k, k) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -1259,8 +1259,8 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
                     }
                     else throw new IllegalInstructionException();
                 }
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
 VectorAssert.IsNotGreater<ulong2, ulong>(k0, n0, 2);
 VectorAssert.IsNotGreater<ulong2, ulong>(k1, n1, 2);
@@ -1273,7 +1273,7 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k1, n1, 2);
                         return;
                     }
 
-                    
+
                     PRELOOP_perm_epu64(ref n0, ref k0, out v128 doneMask0, out r0);
                     PRELOOP_perm_epu64(ref n1, ref k1, out v128 doneMask1, out r1);
 
@@ -1453,7 +1453,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 perm(byte2 n, byte2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu8(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 2);
             }
@@ -1475,7 +1475,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 perm(byte3 n, byte3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu8(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 3);
             }
@@ -1498,7 +1498,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 perm(byte4 n, byte4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu8(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 4);
             }
@@ -1522,7 +1522,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 perm(byte8 n, byte8 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu8(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 8);
             }
@@ -1550,7 +1550,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 perm(byte16 n, byte16 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu8(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 16);
             }
@@ -1590,7 +1590,7 @@ Assert.IsNotGreater(k, n);
             {
                 return Xse.mm256_perm_epu8(n, k, unsafeLevels: useFactorial.CountUnsafeLevels());
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.perm_epu8x2(n.v16_0, n.v16_16, k.v16_0, k.v16_16, out v128 lo, out v128 hi, unsafeLevels: useFactorial.CountUnsafeLevels());
 
@@ -1769,7 +1769,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 perm(ushort2 n, ushort2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu16(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 2);
             }
@@ -1791,7 +1791,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 perm(ushort3 n, ushort3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu16(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 3);
             }
@@ -1814,7 +1814,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 perm(ushort4 n, ushort4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu16(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 4);
             }
@@ -1838,7 +1838,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 perm(ushort8 n, ushort8 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu16(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 8);
             }
@@ -1870,7 +1870,7 @@ Assert.IsNotGreater(k, n);
             {
                 return Xse.mm256_perm_epu16(n, k, unsafeLevels: useFactorial.CountUnsafeLevels());
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.perm_epu16x2(n.v8_0, n.v8_8, k.v8_0, k.v8_8, out v128 lo, out v128 hi, unsafeLevels: useFactorial.CountUnsafeLevels());
 
@@ -2035,7 +2035,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 perm(uint2 n, uint2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.perm_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 2));
             }
@@ -2055,7 +2055,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 perm(uint3 n, uint3 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.perm_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 3));
             }
@@ -2076,7 +2076,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 perm(uint4 n, uint4 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.perm_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 4));
             }
@@ -2102,7 +2102,7 @@ Assert.IsNotGreater(k, n);
             {
                 return Xse.mm256_perm_epu32(n, k, unsafeLevels: useFactorial.CountUnsafeLevels());
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.perm_epu32x2(RegisterConversion.ToV128(n.v4_0), RegisterConversion.ToV128(n.v4_4), RegisterConversion.ToV128(k.v4_0), RegisterConversion.ToV128(k.v4_4), out v128 lo, out v128 hi, unsafeLevels: useFactorial.CountUnsafeLevels());
 
@@ -2241,7 +2241,7 @@ Assert.IsNotGreater(k, n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 perm(ulong2 n, ulong2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.perm_epu64(n, k, unsafeLevels: useFactorial.CountUnsafeLevels());
             }
@@ -2265,7 +2265,7 @@ Assert.IsNotGreater(k, n);
             {
                 return Xse.mm256_perm_epu64(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 3);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.perm_epu64x2(n.xy, n.zz, k.xy, k.zz, out v128 lo, out v128 hi, unsafeLevels: useFactorial.CountUnsafeLevels());
 
@@ -2291,7 +2291,7 @@ Assert.IsNotGreater(k, n);
             {
                 return Xse.mm256_perm_epu64(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 4);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.perm_epu64x2(n.xy, n.zw, k.xy, k.zw, out v128 lo, out v128 hi, unsafeLevels: useFactorial.CountUnsafeLevels());
 
@@ -2329,7 +2329,7 @@ Assert.IsNonNegative(n);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 perm(long2 n, long2 k, Promise useFactorial = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 VectorAssert.IsNonNegative<long2, long>(n, 2, NumericDataType.Integer);
 VectorAssert.IsNonNegative<long2, long>(k, 2, NumericDataType.Integer);

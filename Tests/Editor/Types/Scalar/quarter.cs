@@ -54,9 +54,9 @@ namespace MaxMath.Tests
             Assert.IsFalse(quarter.NaN == quarter.NaN);
             Assert.IsFalse(quarter.NaN == (quarter)1f);
 
-            Assert.IsTrue(new quarter(1 << 7) == new quarter(1 << 7));
-            Assert.IsTrue(new quarter(1 << 7) == (quarter)0f);
-            Assert.IsTrue((quarter)0f == new quarter(1 << 7));
+            Assert.IsTrue(maxmath.asquarter(1 << 7) == maxmath.asquarter(1 << 7));
+            Assert.IsTrue(maxmath.asquarter(1 << 7) == (quarter)0f);
+            Assert.IsTrue((quarter)0f == maxmath.asquarter(1 << 7));
             Assert.IsTrue((quarter)0f == (quarter)0f);
 
             Assert.IsTrue((quarter)1f == (quarter)1f);
@@ -73,10 +73,10 @@ namespace MaxMath.Tests
             Assert.IsTrue((quarter)1f != (quarter)(-1f));
 
             Assert.IsFalse((quarter)1f != (quarter)1f);
-            Assert.IsFalse((quarter)new quarter((byte)(1 << 7)) != (quarter)new quarter((byte)(1 << 7)));
-            Assert.IsFalse((quarter)new quarter((byte)(1 << 7)) != new quarter(0));
-            Assert.IsFalse((quarter)new quarter(0) != (quarter)new quarter((byte)(1 << 7)));
-            Assert.IsFalse(new quarter(0) != new quarter(0));
+            Assert.IsFalse((quarter)maxmath.asquarter((byte)(1 << 7)) != (quarter)maxmath.asquarter((byte)(1 << 7)));
+            Assert.IsFalse((quarter)maxmath.asquarter((byte)(1 << 7)) != maxmath.asquarter((byte)0));
+            Assert.IsFalse((quarter)maxmath.asquarter((byte)0) != (quarter)maxmath.asquarter((byte)(1 << 7)));
+            Assert.IsFalse(maxmath.asquarter((byte)0) != maxmath.asquarter((byte)0));
         }
 
 
@@ -136,7 +136,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter q = new quarter((byte)i);
+                quarter q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q))
                 {
@@ -174,7 +174,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter q = new quarter((byte)i);
+                quarter q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q))
                 {
@@ -212,7 +212,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter q = new quarter((byte)i);
+                quarter q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q))
                 {
@@ -251,11 +251,11 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                if (!maxmath.isnan(new quarter((byte)i)) 
-                 && !maxmath.isinf(new quarter((byte)i))
-                 && 0 <= new quarter((byte)i))
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
                 {
-                    Assert.AreEqual((byte)(float)new quarter((byte)i), (byte)new quarter((byte)i));
+                    Assert.AreEqual((byte)(float)maxmath.asquarter((byte)i), (byte)maxmath.asquarter((byte)i));
                 }
             }
         }
@@ -302,10 +302,10 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                if (!maxmath.isnan(new quarter((byte)i)) 
-                 && !maxmath.isinf(new quarter((byte)i)))
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
                 {
-                    Assert.AreEqual((sbyte)(float)new quarter((byte)i), (sbyte)new quarter((byte)i));
+                    Assert.AreEqual((sbyte)(float)maxmath.asquarter((byte)i), (sbyte)maxmath.asquarter((byte)i));
                 }
             }
         }
@@ -352,7 +352,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter q = new quarter((byte)i);
+                quarter q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q))
                 {
@@ -366,11 +366,33 @@ namespace MaxMath.Tests
         }
 
         [Test]
+        public static void FromHalf_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                half f = subnormalQuarter ? (half)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                          : (half)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter q = (quarter)f;
+                quarter qm1 = maxmath.nextsmaller(q);
+                quarter qp1 = maxmath.nextgreater(q);
+
+                Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
+                Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
+            }
+        }
+
+        [Test]
         public static void FromFloat()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter q = new quarter((byte)i);
+                quarter q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q))
                 {
@@ -382,13 +404,35 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromFloat_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                float f = subnormalQuarter ? rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                           : rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter q = (quarter)f;
+                quarter qm1 = maxmath.nextsmaller(q);
+                quarter qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
+                Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
+            }
+        }
 
         [Test]
         public static void FromDouble()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter q = new quarter((byte)i);
+                quarter q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q))
                 {
@@ -396,31 +440,32 @@ namespace MaxMath.Tests
                 }
                 else
                 {
-                    try
-                    {
                     Assert.AreEqual(q, (quarter)(double)q);
-                    }
-                    catch
-                    {
-                        int j = 0;
-
-                        float f = q;
-
-                        string s = DevTools.Dump.Bits(q);
-                        string s1 = DevTools.Dump.Bits(f);
-
-                        j++;
-                        j++;
-                        j++;
-                        j++;
-                        j++;
-                        j++;
-                        j++;
-                    }
                 }
             }
         }
+        
+        [Test]
+        public static void FromDouble_RoundToNearest()
+        {
+            Random64 rng = Random64.New;
+            bool subnormalQuarter = false;
 
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                double f = subnormalQuarter ? rng.NextDouble(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                            : rng.NextDouble(quarter.MinValue, quarter.MaxValue);
+
+                quarter q = (quarter)f;
+                quarter qm1 = maxmath.nextsmaller(q);
+                quarter qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
+                Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
+            }
+        }
 
         [Test]
         public static void FromByte()
@@ -545,9 +590,9 @@ namespace MaxMath.Tests
             Assert.IsFalse(math.any((quarter2)quarter.NaN == (quarter2)quarter.NaN));
             Assert.IsFalse(math.any((quarter2)quarter.NaN == (quarter2)(quarter)1f));
 
-            Assert.IsTrue(math.all((quarter2)new quarter(1 << 7) == (quarter2)new quarter(1 << 7)));
-            Assert.IsTrue(math.all((quarter2)new quarter(1 << 7) == (quarter2)(quarter)0f));
-            Assert.IsTrue(math.all((quarter2)(quarter)0f == (quarter2)new quarter(1 << 7)));
+            Assert.IsTrue(math.all((quarter2)maxmath.asquarter(1 << 7) == (quarter2)maxmath.asquarter(1 << 7)));
+            Assert.IsTrue(math.all((quarter2)maxmath.asquarter(1 << 7) == (quarter2)(quarter)0f));
+            Assert.IsTrue(math.all((quarter2)(quarter)0f == (quarter2)maxmath.asquarter(1 << 7)));
             Assert.IsTrue(math.all((quarter2)(quarter)0f == (quarter2)(quarter)0f));
 
             Assert.IsTrue(math.all((quarter2)(quarter)1f == (quarter2)(quarter)1f));
@@ -564,9 +609,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(math.all((quarter2)(quarter)1f != (quarter)(-1f)));
 
             Assert.IsFalse(math.any((quarter2)(quarter)1f != (quarter2)(quarter)1f));
-            Assert.IsFalse(math.any((quarter2)new quarter((byte)(1 << 7)) != (quarter2)new quarter((byte)(1 << 7))));
-            Assert.IsFalse(math.any((quarter2)new quarter((byte)(1 << 7)) != (quarter2)0f));
-            Assert.IsFalse(math.any((quarter2)0f != (quarter2)new quarter((byte)(1 << 7))));
+            Assert.IsFalse(math.any((quarter2)maxmath.asquarter((byte)(1 << 7)) != (quarter2)maxmath.asquarter((byte)(1 << 7))));
+            Assert.IsFalse(math.any((quarter2)maxmath.asquarter((byte)(1 << 7)) != (quarter2)0f));
+            Assert.IsFalse(math.any((quarter2)0f != (quarter2)maxmath.asquarter((byte)(1 << 7))));
             Assert.IsFalse(math.any((quarter2)0f != (quarter2)0f));
         }
 
@@ -625,7 +670,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter2 q = new quarter((byte)i);
+                quarter2 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -648,10 +693,10 @@ namespace MaxMath.Tests
                     continue;
                 }
 
-                float2 lead = IsDenormalOrZero(q.x) ? 0f : 1f;
-                float2 mantissa = Mantissa(q.x);
+                float lead = IsDenormalOrZero(q.x) ? 0f : 1f;
+                float mantissa = Mantissa(q.x);
 
-                float2 calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
                 calculated = IsPositive(q.x) ? calculated : -calculated;
 
                 Assert.AreEqual((half2)calculated, (half2)q);
@@ -663,7 +708,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter2 q = new quarter((byte)i);
+                quarter2 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -686,10 +731,10 @@ namespace MaxMath.Tests
                     continue;
                 }
 
-                float2 lead = IsDenormalOrZero(q.x) ? 0f : 1f;
-                float2 mantissa = Mantissa(q.x);
+                float lead = IsDenormalOrZero(q.x) ? 0f : 1f;
+                float mantissa = Mantissa(q.x);
 
-                float2 calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
                 calculated = IsPositive(q.x) ? calculated : -calculated;
 
                 Assert.AreEqual((float2)calculated, (float2)q);
@@ -701,7 +746,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter2 q = new quarter((byte)i);
+                quarter2 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -738,36 +783,53 @@ namespace MaxMath.Tests
         [Test]
         public static void ToByte2()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((byte2)(byte)i, (byte2)(quarter2)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((byte2)(float2)(quarter2)maxmath.asquarter((byte)i), (byte2)(quarter2)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToShort2()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((short2)(short)i, (short2)(quarter2)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((short2)(float2)(quarter2)maxmath.asquarter((byte)i), (short2)(quarter2)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToInt2()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((int2)(int)i, (int2)(quarter2)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((int2)(float2)(quarter2)maxmath.asquarter((byte)i), (int2)(quarter2)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToLong2()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (long i = 0; i < 256; i++)
             {
-                Assert.AreEqual((long2)(long)i, (long2)(quarter2)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((long2)(float2)(quarter2)maxmath.asquarter((byte)i), (long2)(quarter2)maxmath.asquarter((byte)i));
+                }
             }
         }
 
@@ -775,36 +837,55 @@ namespace MaxMath.Tests
         [Test]
         public static void ToSByte2()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((sbyte2)(sbyte)i, (sbyte2)(quarter2)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((sbyte2)(float2)(quarter2)maxmath.asquarter((byte)i), (sbyte2)(quarter2)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToUShort2()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((ushort2)(ushort)i, (ushort2)(quarter2)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((ushort2)(float2)(quarter2)maxmath.asquarter((byte)i), (ushort2)(quarter2)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToUInt2()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((uint2)(uint)i, (uint2)(quarter2)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((uint2)(float2)(quarter2)maxmath.asquarter((byte)i), (uint2)(quarter2)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToULong2()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (long i = 0; i < 256; i++)
             {
-                Assert.AreEqual((ulong2)(ulong)i, (ulong2)(quarter2)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((ulong2)(float2)(quarter2)maxmath.asquarter((byte)i), (ulong2)(quarter2)maxmath.asquarter((byte)i));
+                }
             }
         }
 
@@ -814,7 +895,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter2 q = new quarter((byte)i);
+                quarter2 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -826,13 +907,35 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromHalf2_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                half2 f = subnormalQuarter ? (half)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                           : (half)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter2 q = (quarter2)f;
+                quarter2 qm1 = maxmath.nextsmaller(q);
+                quarter2 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs((float2)f - qm1) < math.abs((float2)f - q)));
+                Assert.IsFalse(math.any(math.abs((float2)f - qp1) < math.abs((float2)f - q)));
+            }
+        }
 
         [Test]
         public static void FromFloat2()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter2 q = new quarter((byte)i);
+                quarter2 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -844,13 +947,35 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromFloat2_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                float2 f = subnormalQuarter ? (float)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                            : (float)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter2 q = (quarter2)f;
+                quarter2 qm1 = maxmath.nextsmaller(q);
+                quarter2 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
+                Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
+            }
+        }
 
         [Test]
         public static void FromDouble2()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter2 q = new quarter((byte)i);
+                quarter2 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -860,6 +985,28 @@ namespace MaxMath.Tests
                 {
                     Assert.AreEqual(q, (quarter2)(double2)q);
                 }
+            }
+        }
+        
+        [Test]
+        public static void FromDouble2_RoundToNearest()
+        {
+            Random64 rng = Random64.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                double2 f = subnormalQuarter ? (double)rng.NextDouble(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                             : (double)rng.NextDouble(quarter.MinValue, quarter.MaxValue);
+
+                quarter2 q = (quarter2)f;
+                quarter2 qm1 = maxmath.nextsmaller(q);
+                quarter2 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
+                Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
             }
         }
 
@@ -963,10 +1110,10 @@ namespace MaxMath.Tests
         {
             Assert.IsFalse(math.any((quarter3)quarter.NaN == (quarter3)quarter.NaN));
             Assert.IsFalse(math.any((quarter3)quarter.NaN == (quarter3)(quarter)1f));
-            
-            Assert.IsTrue(math.all((quarter3)new quarter(1 << 7) == (quarter3)new quarter(1 << 7)));
-            Assert.IsTrue(math.all((quarter3)new quarter(1 << 7) == (quarter3)(quarter)0f));
-            Assert.IsTrue(math.all((quarter3)(quarter)0f == (quarter3)new quarter(1 << 7)));
+
+            Assert.IsTrue(math.all((quarter3)maxmath.asquarter(1 << 7) == (quarter3)maxmath.asquarter(1 << 7)));
+            Assert.IsTrue(math.all((quarter3)maxmath.asquarter(1 << 7) == (quarter3)(quarter)0f));
+            Assert.IsTrue(math.all((quarter3)(quarter)0f == (quarter3)maxmath.asquarter(1 << 7)));
             Assert.IsTrue(math.all((quarter3)(quarter)0f == (quarter3)(quarter)0f));
 
             Assert.IsTrue(math.all((quarter3)(quarter)1f == (quarter3)(quarter)1f));
@@ -983,9 +1130,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(math.all((quarter3)(quarter)1f != (quarter)(-1f)));
 
             Assert.IsFalse(math.any((quarter3)(quarter)1f != (quarter3)(quarter)1f));
-            Assert.IsFalse(math.any((quarter3)new quarter((byte)(1 << 7)) != (quarter3)new quarter((byte)(1 << 7))));
-            Assert.IsFalse(math.any((quarter3)new quarter((byte)(1 << 7)) != (quarter3)0f));
-            Assert.IsFalse(math.any((quarter3)0f != (quarter3)new quarter((byte)(1 << 7))));
+            Assert.IsFalse(math.any((quarter3)maxmath.asquarter((byte)(1 << 7)) != (quarter3)maxmath.asquarter((byte)(1 << 7))));
+            Assert.IsFalse(math.any((quarter3)maxmath.asquarter((byte)(1 << 7)) != (quarter3)0f));
+            Assert.IsFalse(math.any((quarter3)0f != (quarter3)maxmath.asquarter((byte)(1 << 7))));
             Assert.IsFalse(math.any((quarter3)0f != (quarter3)0f));
         }
 
@@ -1045,7 +1192,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter3 q = new quarter((byte)i);
+                quarter3 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -1068,10 +1215,10 @@ namespace MaxMath.Tests
                     continue;
                 }
 
-                float3 lead = IsDenormalOrZero(q.x) ? 0f : 1f;
-                float3 mantissa = Mantissa(q.x);
+                float lead = IsDenormalOrZero(q.x) ? 0f : 1f;
+                float mantissa = Mantissa(q.x);
 
-                float3 calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
                 calculated = IsPositive(q.x) ? calculated : -calculated;
 
                 Assert.AreEqual((half3)calculated, (half3)q);
@@ -1083,7 +1230,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter3 q = new quarter((byte)i);
+                quarter3 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -1106,10 +1253,10 @@ namespace MaxMath.Tests
                     continue;
                 }
 
-                float3 lead = IsDenormalOrZero(q.x) ? 0f : 1f;
-                float3 mantissa = Mantissa(q.x);
+                float lead = IsDenormalOrZero(q.x) ? 0f : 1f;
+                float mantissa = Mantissa(q.x);
 
-                float3 calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
                 calculated = IsPositive(q.x) ? calculated : -calculated;
 
                 Assert.AreEqual((float3)calculated, (float3)q);
@@ -1121,7 +1268,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter3 q = new quarter((byte)i);
+                quarter3 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -1155,39 +1302,57 @@ namespace MaxMath.Tests
         }
 
 
+
         [Test]
         public static void ToByte3()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((byte3)(byte)i, (byte3)(quarter3)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((byte3)(float3)(quarter3)maxmath.asquarter((byte)i), (byte3)(quarter3)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToShort3()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((short3)(short)i, (short3)(quarter3)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((short3)(float3)(quarter3)maxmath.asquarter((byte)i), (short3)(quarter3)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToInt3()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((int3)(int)i, (int3)(quarter3)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((int3)(float3)(quarter3)maxmath.asquarter((byte)i), (int3)(quarter3)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToLong3()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (long i = 0; i < 256; i++)
             {
-                Assert.AreEqual((long3)(long)i, (long3)(quarter3)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((long3)(float3)(quarter3)maxmath.asquarter((byte)i), (long3)(quarter3)maxmath.asquarter((byte)i));
+                }
             }
         }
 
@@ -1195,36 +1360,55 @@ namespace MaxMath.Tests
         [Test]
         public static void ToSByte3()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((sbyte3)(sbyte)i, (sbyte3)(quarter3)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((sbyte3)(float3)(quarter3)maxmath.asquarter((byte)i), (sbyte3)(quarter3)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToUShort3()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((ushort3)(ushort)i, (ushort3)(quarter3)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((ushort3)(float3)(quarter3)maxmath.asquarter((byte)i), (ushort3)(quarter3)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToUInt3()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((uint3)(uint)i, (uint3)(quarter3)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((uint3)(float3)(quarter3)maxmath.asquarter((byte)i), (uint3)(quarter3)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToULong3()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (long i = 0; i < 256; i++)
             {
-                Assert.AreEqual((ulong3)(ulong)i, (ulong3)(quarter3)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((ulong3)(float3)(quarter3)maxmath.asquarter((byte)i), (ulong3)(quarter3)maxmath.asquarter((byte)i));
+                }
             }
         }
 
@@ -1234,7 +1418,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter3 q = new quarter((byte)i);
+                quarter3 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -1246,13 +1430,35 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromHalf3_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 138) subnormalQuarter = true;
+
+                half3 f = subnormalQuarter ? (half)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                           : (half)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter3 q = (quarter3)f;
+                quarter3 qm1 = maxmath.nextsmaller(q);
+                quarter3 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs((float3)f - qm1) < math.abs((float3)f - q)));
+                Assert.IsFalse(math.any(math.abs((float3)f - qp1) < math.abs((float3)f - q)));
+            }
+        }
 
         [Test]
         public static void FromFloat3()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter3 q = new quarter((byte)i);
+                quarter3 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -1264,13 +1470,35 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromFloat3_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 138) subnormalQuarter = true;
+
+                float3 f = subnormalQuarter ? (float)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                            : (float)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter3 q = (quarter3)f;
+                quarter3 qm1 = maxmath.nextsmaller(q);
+                quarter3 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
+                Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
+            }
+        }
 
         [Test]
         public static void FromDouble3()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter3 q = new quarter((byte)i);
+                quarter3 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -1282,7 +1510,28 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromDouble3_RoundToNearest()
+        {
+            Random64 rng = Random64.New;
+            bool subnormalQuarter = false;
 
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 138) subnormalQuarter = true;
+
+                double3 f = subnormalQuarter ? (double)rng.NextDouble(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                             : (double)rng.NextDouble(quarter.MinValue, quarter.MaxValue);
+
+                quarter3 q = (quarter3)f;
+                quarter3 qm1 = maxmath.nextsmaller(q);
+                quarter3 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
+                Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
+            }
+        }
 
         [Test]
         public static void FromByte3()
@@ -1383,10 +1632,10 @@ namespace MaxMath.Tests
         {
             Assert.IsFalse(math.any((quarter4)quarter.NaN == (quarter4)quarter.NaN));
             Assert.IsFalse(math.any((quarter4)quarter.NaN == (quarter4)(quarter)1f));
-            
-            Assert.IsTrue(math.all((quarter4)new quarter(1 << 7) == (quarter4)new quarter(1 << 7)));
-            Assert.IsTrue(math.all((quarter4)new quarter(1 << 7) == (quarter4)(quarter)0f));
-            Assert.IsTrue(math.all((quarter4)(quarter)0f == (quarter4)new quarter(1 << 7)));
+
+            Assert.IsTrue(math.all((quarter4)maxmath.asquarter(1 << 7) == (quarter4)maxmath.asquarter(1 << 7)));
+            Assert.IsTrue(math.all((quarter4)maxmath.asquarter(1 << 7) == (quarter4)(quarter)0f));
+            Assert.IsTrue(math.all((quarter4)(quarter)0f == (quarter4)maxmath.asquarter(1 << 7)));
             Assert.IsTrue(math.all((quarter4)(quarter)0f == (quarter4)(quarter)0f));
 
             Assert.IsTrue(math.all((quarter4)(quarter)1f == (quarter4)(quarter)1f));
@@ -1403,9 +1652,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(math.all((quarter4)(quarter)1f != (quarter)(-1f)));
 
             Assert.IsFalse(math.any((quarter4)(quarter)1f != (quarter4)(quarter)1f));
-            Assert.IsFalse(math.any((quarter4)new quarter((byte)(1 << 7)) != (quarter4)new quarter((byte)(1 << 7))));
-            Assert.IsFalse(math.any((quarter4)new quarter((byte)(1 << 7)) != (quarter4)0f));
-            Assert.IsFalse(math.any((quarter4)0f != (quarter4)new quarter((byte)(1 << 7))));
+            Assert.IsFalse(math.any((quarter4)maxmath.asquarter((byte)(1 << 7)) != (quarter4)maxmath.asquarter((byte)(1 << 7))));
+            Assert.IsFalse(math.any((quarter4)maxmath.asquarter((byte)(1 << 7)) != (quarter4)0f));
+            Assert.IsFalse(math.any((quarter4)0f != (quarter4)maxmath.asquarter((byte)(1 << 7))));
             Assert.IsFalse(math.any((quarter4)0f != (quarter4)0f));
         }
 
@@ -1465,7 +1714,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter4 q = new quarter((byte)i);
+                quarter4 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -1488,10 +1737,10 @@ namespace MaxMath.Tests
                     continue;
                 }
 
-                float4 lead = IsDenormalOrZero(q.x) ? 0f : 1f;
-                float4 mantissa = Mantissa(q.x);
+                float lead = IsDenormalOrZero(q.x) ? 0f : 1f;
+                float mantissa = Mantissa(q.x);
 
-                float4 calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
                 calculated = IsPositive(q.x) ? calculated : -calculated;
 
                 Assert.AreEqual((half4)calculated, (half4)q);
@@ -1503,7 +1752,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter4 q = new quarter((byte)i);
+                quarter4 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -1526,10 +1775,10 @@ namespace MaxMath.Tests
                     continue;
                 }
 
-                float4 lead = IsDenormalOrZero(q.x) ? 0f : 1f;
-                float4 mantissa = Mantissa(q.x);
+                float lead = IsDenormalOrZero(q.x) ? 0f : 1f;
+                float mantissa = Mantissa(q.x);
 
-                float4 calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x));
                 calculated = IsPositive(q.x) ? calculated : -calculated;
 
                 Assert.AreEqual((float4)calculated, (float4)q);
@@ -1541,7 +1790,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter4 q = new quarter((byte)i);
+                quarter4 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x))
                 {
@@ -1578,36 +1827,53 @@ namespace MaxMath.Tests
         [Test]
         public static void ToByte4()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((byte4)(byte)i, (byte4)(quarter4)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((byte4)(float4)(quarter4)maxmath.asquarter((byte)i), (byte4)(quarter4)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToShort4()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((short4)(short)i, (short4)(quarter4)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((short4)(float4)(quarter4)maxmath.asquarter((byte)i), (short4)(quarter4)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToInt4()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((int4)(int)i, (int4)(quarter4)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((int4)(float4)(quarter4)maxmath.asquarter((byte)i), (int4)(quarter4)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToLong4()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (long i = 0; i < 256; i++)
             {
-                Assert.AreEqual((long4)(long)i, (long4)(quarter4)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((long4)(float4)(quarter4)maxmath.asquarter((byte)i), (long4)(quarter4)maxmath.asquarter((byte)i));
+                }
             }
         }
 
@@ -1615,36 +1881,55 @@ namespace MaxMath.Tests
         [Test]
         public static void ToSByte4()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((sbyte4)(sbyte)i, (sbyte4)(quarter4)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((sbyte4)(float4)(quarter4)maxmath.asquarter((byte)i), (sbyte4)(quarter4)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToUShort4()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((ushort4)(ushort)i, (ushort4)(quarter4)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((ushort4)(float4)(quarter4)maxmath.asquarter((byte)i), (ushort4)(quarter4)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToUInt4()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((uint4)(uint)i, (uint4)(quarter4)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((uint4)(float4)(quarter4)maxmath.asquarter((byte)i), (uint4)(quarter4)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToULong4()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (long i = 0; i < 256; i++)
             {
-                Assert.AreEqual((ulong4)(ulong)i, (ulong4)(quarter4)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((ulong4)(float4)(quarter4)maxmath.asquarter((byte)i), (ulong4)(quarter4)maxmath.asquarter((byte)i));
+                }
             }
         }
 
@@ -1654,7 +1939,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter4 q = new quarter((byte)i);
+                quarter4 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -1666,13 +1951,35 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromHalf4_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 148) subnormalQuarter = true;
+
+                half4 f = subnormalQuarter ? (half)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                           : (half)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter4 q = (quarter4)f;
+                quarter4 qm1 = maxmath.nextsmaller(q);
+                quarter4 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs((float4)f - qm1) < math.abs((float4)f - q)));
+                Assert.IsFalse(math.any(math.abs((float4)f - qp1) < math.abs((float4)f - q)));
+            }
+        }
 
         [Test]
         public static void FromFloat4()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter4 q = new quarter((byte)i);
+                quarter4 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -1684,13 +1991,35 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromFloat4_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 148) subnormalQuarter = true;
+
+                float4 f = subnormalQuarter ? (float)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                            : (float)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter4 q = (quarter4)f;
+                quarter4 qm1 = maxmath.nextsmaller(q);
+                quarter4 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
+                Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
+            }
+        }
 
         [Test]
         public static void FromDouble4()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter4 q = new quarter((byte)i);
+                quarter4 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x))
                 {
@@ -1700,6 +2029,28 @@ namespace MaxMath.Tests
                 {
                     Assert.AreEqual(q, (quarter4)(double4)q);
                 }
+            }
+        }
+        
+        [Test]
+        public static void FromDouble4_RoundToNearest()
+        {
+            Random64 rng = Random64.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 148) subnormalQuarter = true;
+
+                double4 f = subnormalQuarter ? (double)rng.NextDouble(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                             : (double)rng.NextDouble(quarter.MinValue, quarter.MaxValue);
+
+                quarter4 q = (quarter4)f;
+                quarter4 qm1 = maxmath.nextsmaller(q);
+                quarter4 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
+                Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
             }
         }
 
@@ -1803,10 +2154,10 @@ namespace MaxMath.Tests
         {
             Assert.IsFalse(maxmath.any((quarter8)quarter.NaN == (quarter8)quarter.NaN));
             Assert.IsFalse(maxmath.any((quarter8)quarter.NaN == (quarter8)(quarter)1f));
-            
-            Assert.IsTrue(maxmath.all((quarter8)new quarter(1 << 7) == (quarter8)new quarter(1 << 7)));
-            Assert.IsTrue(maxmath.all((quarter8)new quarter(1 << 7) == (quarter8)(quarter)0f));
-            Assert.IsTrue(maxmath.all((quarter8)(quarter)0f == (quarter8)new quarter(1 << 7)));
+
+            Assert.IsTrue(maxmath.all((quarter8)maxmath.asquarter(1 << 7) == (quarter8)maxmath.asquarter(1 << 7)));
+            Assert.IsTrue(maxmath.all((quarter8)maxmath.asquarter(1 << 7) == (quarter8)(quarter)0f));
+            Assert.IsTrue(maxmath.all((quarter8)(quarter)0f == (quarter8)maxmath.asquarter(1 << 7)));
             Assert.IsTrue(maxmath.all((quarter8)(quarter)0f == (quarter8)(quarter)0f));
 
             Assert.IsTrue(maxmath.all((quarter8)(quarter)1f == (quarter8)(quarter)1f));
@@ -1823,9 +2174,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(maxmath.all((quarter8)(quarter)1f != (quarter)(-1f)));
 
             Assert.IsFalse(maxmath.any((quarter8)(quarter)1f != (quarter8)(quarter)1f));
-            Assert.IsFalse(maxmath.any((quarter8)new quarter((byte)(1 << 7)) != (quarter8)new quarter((byte)(1 << 7))));
-            Assert.IsFalse(maxmath.any((quarter8)new quarter((byte)(1 << 7)) != (quarter8)0f));
-            Assert.IsFalse(maxmath.any((quarter8)0f != (quarter8)new quarter((byte)(1 << 7))));
+            Assert.IsFalse(maxmath.any((quarter8)maxmath.asquarter((byte)(1 << 7)) != (quarter8)maxmath.asquarter((byte)(1 << 7))));
+            Assert.IsFalse(maxmath.any((quarter8)maxmath.asquarter((byte)(1 << 7)) != (quarter8)0f));
+            Assert.IsFalse(maxmath.any((quarter8)0f != (quarter8)maxmath.asquarter((byte)(1 << 7))));
             Assert.IsFalse(maxmath.any((quarter8)0f != (quarter8)0f));
         }
         [Test]
@@ -1885,7 +2236,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter8 q = new quarter((byte)i);
+                quarter8 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x0))
                 {
@@ -1908,10 +2259,10 @@ namespace MaxMath.Tests
                     continue;
                 }
 
-                float8 lead = IsDenormalOrZero(q.x0) ? 0f : 1f;
-                float8 mantissa = Mantissa(q.x0);
+                float lead = IsDenormalOrZero(q.x0) ? 0f : 1f;
+                float mantissa = Mantissa(q.x0);
 
-                float8 calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x0));
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x0));
                 calculated = IsPositive(q.x0) ? calculated : -calculated;
 
                 Assert.AreEqual((half8)calculated, (half8)q);
@@ -1923,7 +2274,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter8 q = new quarter((byte)i);
+                quarter8 q = maxmath.asquarter((byte)i);
 
                 if (IsZero(q.x0))
                 {
@@ -1946,10 +2297,10 @@ namespace MaxMath.Tests
                     continue;
                 }
 
-                float8 lead = IsDenormalOrZero(q.x0) ? 0f : 1f;
-                float8 mantissa = Mantissa(q.x0);
+                float lead = IsDenormalOrZero(q.x0) ? 0f : 1f;
+                float mantissa = Mantissa(q.x0);
 
-                float8 calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x0));
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x0));
                 calculated = IsPositive(q.x0) ? calculated : -calculated;
 
                 Assert.AreEqual((float8)calculated, (float8)q);
@@ -1960,27 +2311,40 @@ namespace MaxMath.Tests
         [Test]
         public static void ToByte8()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((byte8)(byte)i, (byte8)(quarter8)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((byte8)(float8)(quarter8)maxmath.asquarter((byte)i), (byte8)(quarter8)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToShort8()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((short8)(short)i, (short8)(quarter8)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((short8)(float8)(quarter8)maxmath.asquarter((byte)i), (short8)(quarter8)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToInt8()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((int8)(int)i, (int8)(quarter8)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((int8)(float8)(quarter8)maxmath.asquarter((byte)i), (int8)(quarter8)maxmath.asquarter((byte)i));
+                }
             }
         }
 
@@ -1988,27 +2352,41 @@ namespace MaxMath.Tests
         [Test]
         public static void ToSByte8()
         {
-            for (float i = -15f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((sbyte8)(sbyte)i, (sbyte8)(quarter8)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual((sbyte8)(float8)(quarter8)maxmath.asquarter((byte)i), (sbyte8)(quarter8)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToUShort8()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((ushort8)(ushort)i, (ushort8)(quarter8)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((ushort8)(float8)(quarter8)maxmath.asquarter((byte)i), (ushort8)(quarter8)maxmath.asquarter((byte)i));
+                }
             }
         }
 
         [Test]
         public static void ToUInt8()
         {
-            for (float i = 0f; i < 16f; i++)
+            for (int i = 0; i < 256; i++)
             {
-                Assert.AreEqual((uint8)(uint)i, (uint8)(quarter8)(quarter)i);
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual((uint8)(float8)(quarter8)maxmath.asquarter((byte)i), (uint8)(quarter8)maxmath.asquarter((byte)i));
+                }
             }
         }
 
@@ -2018,7 +2396,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter8 q = new quarter((byte)i);
+                quarter8 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x0))
                 {
@@ -2030,13 +2408,35 @@ namespace MaxMath.Tests
                 }
             }
         }
+        
+        [Test]
+        public static void FromHalf8_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                half8 f = subnormalQuarter ? (half)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                           : (half)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter8 q = (quarter8)f;
+                quarter8 qm1 = maxmath.nextsmaller(q);
+                quarter8 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(maxmath.any(maxmath.abs((float8)f - qm1) < maxmath.abs((float8)f - q)));
+                Assert.IsFalse(maxmath.any(maxmath.abs((float8)f - qp1) < maxmath.abs((float8)f - q)));
+            }
+        }
 
         [Test]
         public static void FromFloat8()
         {
             for (int i = 0; i < 256; i++)
             {
-                quarter8 q = new quarter((byte)i);
+                quarter8 q = maxmath.asquarter((byte)i);
 
                 if (maxmath.isnan(q.x0))
                 {
@@ -2046,6 +2446,28 @@ namespace MaxMath.Tests
                 {
                     Assert.AreEqual(q, (quarter8)(float8)q);
                 }
+            }
+        }
+        
+        [Test]
+        public static void FromFloat8_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                float8 f = subnormalQuarter ? (float)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                            : (float)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter8 q = (quarter8)f;
+                quarter8 qm1 = maxmath.nextsmaller(q);
+                quarter8 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(maxmath.any(maxmath.abs(f - qm1) < maxmath.abs(f - q)));
+                Assert.IsFalse(maxmath.any(maxmath.abs(f - qp1) < maxmath.abs(f - q)));
             }
         }
 
@@ -2118,6 +2540,453 @@ namespace MaxMath.Tests
             }
 
             Assert.AreEqual((float8)(quarter8)quarter.PositiveInfinity, (float8)(quarter8)(uint8)16);
+        }
+
+
+        [Test]
+        public static void Equals16()
+        {
+            Assert.IsFalse(maxmath.any((quarter16)quarter.NaN == (quarter16)quarter.NaN));
+            Assert.IsFalse(maxmath.any((quarter16)quarter.NaN == (quarter16)(quarter)1f));
+
+            Assert.IsTrue(maxmath.all((quarter16)maxmath.asquarter(1 << 7) == (quarter16)maxmath.asquarter(1 << 7)));
+            Assert.IsTrue(maxmath.all((quarter16)maxmath.asquarter(1 << 7) == (quarter16)(quarter)0f));
+            Assert.IsTrue(maxmath.all((quarter16)(quarter)0f == (quarter16)maxmath.asquarter(1 << 7)));
+            Assert.IsTrue(maxmath.all((quarter16)(quarter)0f == (quarter16)(quarter)0f));
+
+            Assert.IsTrue(maxmath.all((quarter16)(quarter)1f == (quarter16)(quarter)1f));
+        }
+
+        [Test]
+        public static void NotEquals16()
+        {
+            Assert.IsTrue(maxmath.all((quarter16)quarter.NaN != quarter.NaN));
+            Assert.IsTrue(maxmath.all((quarter16)quarter.NaN != (quarter)1f));
+
+            Assert.IsTrue(maxmath.all((quarter16)(quarter)1f != (quarter)0f));
+
+            Assert.IsTrue(maxmath.all((quarter16)(quarter)1f != (quarter)(-1f)));
+
+            Assert.IsFalse(maxmath.any((quarter16)(quarter)1f != (quarter16)(quarter)1f));
+            Assert.IsFalse(maxmath.any((quarter16)maxmath.asquarter((byte)(1 << 7)) != (quarter16)maxmath.asquarter((byte)(1 << 7))));
+            Assert.IsFalse(maxmath.any((quarter16)maxmath.asquarter((byte)(1 << 7)) != (quarter16)0f));
+            Assert.IsFalse(maxmath.any((quarter16)0f != (quarter16)maxmath.asquarter((byte)(1 << 7))));
+            Assert.IsFalse(maxmath.any((quarter16)0f != (quarter16)0f));
+        }
+        [Test]
+        public static void LessThan16()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter16)quarter.NaN < (quarter16)0f).x0);
+            Assert.IsFalse(((quarter16)0f < (quarter16)quarter.NaN).x0);
+            Assert.IsFalse(((quarter16)quarter.PositiveInfinity < (quarter16)quarter.NaN).x0);
+            Assert.IsFalse(((quarter16)quarter.NegativeInfinity < (quarter16)quarter.NaN).x0);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter16 lhs = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+                quarter16 rhs = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+
+                Assert.AreEqual((lhs < rhs).v8_0, (float8)lhs.v8_0 < (float8)rhs.v8_0);
+                Assert.AreEqual((lhs < rhs).v8_8, (float8)lhs.v8_8 < (float8)rhs.v8_8);
+
+                Assert.AreEqual((lhs < lhs).v8_0, (float8)lhs.v8_0 < (float8)lhs.v8_0);
+                Assert.AreEqual((lhs < lhs).v8_8, (float8)lhs.v8_8 < (float8)lhs.v8_8);
+
+                lhs = (quarter16)0f;
+
+                Assert.AreEqual((lhs < rhs).v8_0, (float8)lhs.v8_0 < (float8)rhs.v8_0);
+                Assert.AreEqual((lhs < rhs).v8_8, (float8)lhs.v8_8 < (float8)rhs.v8_8);
+
+                Assert.AreEqual((lhs < lhs).v8_0, (float8)lhs.v8_0 < (float8)lhs.v8_0);
+                Assert.AreEqual((lhs < lhs).v8_8, (float8)lhs.v8_8 < (float8)lhs.v8_8);
+            }
+        }
+
+        [Test]
+        public static void LessEqual16()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter16)quarter.NaN <= (quarter16)0f).x0);
+            Assert.IsFalse(((quarter16)0f <= (quarter16)quarter.NaN).x0);
+            Assert.IsFalse(((quarter16)quarter.PositiveInfinity <= (quarter16)quarter.NaN).x0);
+            Assert.IsFalse(((quarter16)quarter.NegativeInfinity <= (quarter16)quarter.NaN).x0);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter16 lhs = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+                quarter16 rhs = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+
+                Assert.AreEqual((lhs <= rhs).v8_0, (float8)lhs.v8_0 <= (float8)rhs.v8_0);
+                Assert.AreEqual((lhs <= rhs).v8_8, (float8)lhs.v8_8 <= (float8)rhs.v8_8);
+
+                Assert.AreEqual((lhs <= lhs).v8_0, (float8)lhs.v8_0 <= (float8)lhs.v8_0);
+                Assert.AreEqual((lhs <= lhs).v8_8, (float8)lhs.v8_8 <= (float8)lhs.v8_8);
+
+                lhs = (quarter16)0f;
+
+                Assert.AreEqual((lhs <= rhs).v8_0, (float8)lhs.v8_0 <= (float8)rhs.v8_0);
+                Assert.AreEqual((lhs <= rhs).v8_8, (float8)lhs.v8_8 <= (float8)rhs.v8_8);
+
+                Assert.AreEqual((lhs <= lhs).v8_0, (float8)lhs.v8_0 <= (float8)lhs.v8_0);
+                Assert.AreEqual((lhs <= lhs).v8_8, (float8)lhs.v8_8 <= (float8)lhs.v8_8);
+            }
+        }
+
+
+
+        [Test]
+        public static void ToHalf16()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                quarter16 q = maxmath.asquarter((byte)i);
+
+                if (IsZero(q.x0))
+                {
+                    Assert.AreEqual((float8)0f, (float8)((half16)q).v8_0);
+                    Assert.AreEqual((float8)0f, (float8)((half16)q).v8_8);
+                    continue;
+                }
+                if (maxmath.all(maxmath.isnan(q)))
+                {
+                    Assert.IsTrue(maxmath.all(maxmath.isnan((half16)q)));
+                    continue;
+                }
+                if (maxmath.all(q == quarter.PositiveInfinity))
+                {
+                    Assert.IsTrue(maxmath.all(maxmath.isinf((half16)q)) && maxmath.all((float8)((half16)q).v8_0 > 0f) && maxmath.all((float8)((half16)q).v8_8 > 0f));
+                    continue;
+                }
+                if (maxmath.all(q == quarter.NegativeInfinity))
+                {
+                    Assert.IsTrue(maxmath.all(maxmath.isinf((half16)q)) && maxmath.all((float8)((half16)q).v8_0 < 0f) && maxmath.all((float8)((half16)q).v8_8 < 0f));
+                    continue;
+                }
+
+                float lead = IsDenormalOrZero(q.x0) ? 0f : 1f;
+                float mantissa = Mantissa(q.x0);
+
+                float calculated = (lead + mantissa) * math.pow(2f, Exponent(q.x0));
+                calculated = IsPositive(q.x0) ? calculated : -calculated;
+
+                Assert.AreEqual((half16)calculated, (half16)q);
+            }
+        }
+
+
+        [Test]
+        public static void ToByte16()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual(new byte16((byte8)(float8)(quarter8)maxmath.asquarter((byte)i), (byte8)(float8)(quarter8)maxmath.asquarter((byte)i)), (byte16)(quarter16)maxmath.asquarter((byte)i));
+                }
+            }
+        }
+
+        [Test]
+        public static void ToShort16()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual(new short16((short8)(float8)(quarter8)maxmath.asquarter((byte)i), (short8)(float8)(quarter8)maxmath.asquarter((byte)i)), (short16)(quarter16)maxmath.asquarter((byte)i));
+                }
+            }
+        }
+
+
+        [Test]
+        public static void ToSByte16()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual(new sbyte16((sbyte8)(float8)(quarter8)maxmath.asquarter((byte)i), (sbyte8)(float8)(quarter8)maxmath.asquarter((byte)i)), (sbyte16)(quarter16)maxmath.asquarter((byte)i));
+                }
+            }
+        }
+
+        [Test]
+        public static void ToUShort16()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual(new ushort16((ushort8)(float8)(quarter8)maxmath.asquarter((byte)i), (ushort8)(float8)(quarter8)maxmath.asquarter((byte)i)), (ushort16)(quarter16)maxmath.asquarter((byte)i));
+                }
+            }
+        }
+
+        
+        [Test]
+        public static void FromHalf16()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                quarter16 q = maxmath.asquarter((byte)i);
+
+                if (maxmath.isnan(q.x0))
+                {
+                    Assert.IsTrue(maxmath.all(maxmath.isnan((half16)q)));
+                }
+                else
+                {
+                    Assert.AreEqual(q, (quarter16)(half16)q);
+                }
+            }
+        }
+        
+        [Test]
+        public static void FromHalf16_RoundToNearest()
+        {
+            Random32 rng = Random32.New;
+            bool subnormalQuarter = false;
+
+            for (int i = 0; i < 256; i++)
+            {
+                if (i > 128) subnormalQuarter = true;
+
+                half16 f = subnormalQuarter ? (half)rng.NextFloat(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                                           : (half)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
+
+                quarter16 q = (quarter16)f;
+                quarter16 qm1 = maxmath.nextsmaller(q);
+                quarter16 qp1 = maxmath.nextgreater(q);
+            
+                Assert.IsFalse(maxmath.any(maxmath.abs((float8)f.v8_0 - qm1.v8_0) < maxmath.abs((float8)f.v8_0 - q.v8_0)));
+                Assert.IsFalse(maxmath.any(maxmath.abs((float8)f.v8_8 - qm1.v8_8) < maxmath.abs((float8)f.v8_8 - q.v8_8)));
+                Assert.IsFalse(maxmath.any(maxmath.abs((float8)f.v8_0 - qp1.v8_0) < maxmath.abs((float8)f.v8_0 - q.v8_0)));
+                Assert.IsFalse(maxmath.any(maxmath.abs((float8)f.v8_8 - qp1.v8_8) < maxmath.abs((float8)f.v8_8 - q.v8_8)));
+            }
+        }
+
+        [Test]
+        public static void FromByte16()
+        {
+            for (byte i = 0; i < 16; i++)
+            {
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(byte16)i).v8_0);
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(byte16)i).v8_8);
+            }
+
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_0, (float8)((quarter16)(byte16)16).v8_0);
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_8, (float8)((quarter16)(byte16)16).v8_8);
+        }
+
+        [Test]
+        public static void FromShort16()
+        {
+            for (short i = -15; i < 16; i++)
+            {
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(short16)i).v8_0);
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(short16)i).v8_8);
+            }
+
+            Assert.AreEqual((float8)((quarter16)quarter.NegativeInfinity).v8_0, (float8)((quarter16)(short16)(-16)).v8_0);
+            Assert.AreEqual((float8)((quarter16)quarter.NegativeInfinity).v8_8, (float8)((quarter16)(short16)(-16)).v8_8);
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_0, (float8)((quarter16)(short16)16).v8_0);
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_8, (float8)((quarter16)(short16)16).v8_8);
+        }
+
+
+        [Test]
+        public static void FromSByte16()
+        {
+            for (sbyte i = -15; i < 16; i++)
+            {
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(sbyte16)i).v8_0);
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(sbyte16)i).v8_8);
+            }
+
+            Assert.AreEqual((float8)((quarter16)quarter.NegativeInfinity).v8_0, (float8)((quarter16)(sbyte16)(-16)).v8_0);
+            Assert.AreEqual((float8)((quarter16)quarter.NegativeInfinity).v8_8, (float8)((quarter16)(sbyte16)(-16)).v8_8);
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_0, (float8)((quarter16)(sbyte16)16).v8_0);
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_8, (float8)((quarter16)(sbyte16)16).v8_8);
+        }
+
+        [Test]
+        public static void FromUShort16()
+        {
+            for (ushort i = 0; i < 16; i++)
+            {
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(ushort16)i).v8_0);
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(ushort16)i).v8_8);
+            }
+
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_0, (float8)((quarter16)(ushort16)16).v8_0);
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_8, (float8)((quarter16)(ushort16)16).v8_8);
+        }
+
+
+        [Test]
+        public static void Equals32()
+        {
+            Assert.IsFalse(maxmath.any((quarter32)quarter.NaN == (quarter32)quarter.NaN));
+            Assert.IsFalse(maxmath.any((quarter32)quarter.NaN == (quarter32)(quarter)1f));
+
+            Assert.IsTrue(maxmath.all((quarter32)maxmath.asquarter(1 << 7) == (quarter32)maxmath.asquarter(1 << 7)));
+            Assert.IsTrue(maxmath.all((quarter32)maxmath.asquarter(1 << 7) == (quarter32)(quarter)0f));
+            Assert.IsTrue(maxmath.all((quarter32)(quarter)0f == (quarter32)maxmath.asquarter(1 << 7)));
+            Assert.IsTrue(maxmath.all((quarter32)(quarter)0f == (quarter32)(quarter)0f));
+
+            Assert.IsTrue(maxmath.all((quarter32)(quarter)1f == (quarter32)(quarter)1f));
+        }
+
+        [Test]
+        public static void LessThan32()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter32)quarter.NaN < (quarter32)0f).x0);
+            Assert.IsFalse(((quarter32)0f < (quarter32)quarter.NaN).x0);
+            Assert.IsFalse(((quarter32)quarter.PositiveInfinity < (quarter32)quarter.NaN).x0);
+            Assert.IsFalse(((quarter32)quarter.NegativeInfinity < (quarter32)quarter.NaN).x0);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter32 lhs = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+                quarter32 rhs = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+
+                Assert.AreEqual((lhs < rhs).v8_0,  (float8)lhs.v8_0  < (float8)rhs.v8_0);
+                Assert.AreEqual((lhs < rhs).v8_8,  (float8)lhs.v8_8  < (float8)rhs.v8_8);
+                Assert.AreEqual((lhs < rhs).v8_16, (float8)lhs.v8_16 < (float8)rhs.v8_16);
+                Assert.AreEqual((lhs < rhs).v8_24, (float8)lhs.v8_24 < (float8)rhs.v8_24);
+
+                Assert.AreEqual((lhs < lhs).v8_0,  (float8)lhs.v8_0  < (float8)lhs.v8_0);
+                Assert.AreEqual((lhs < lhs).v8_8,  (float8)lhs.v8_8  < (float8)lhs.v8_8);
+                Assert.AreEqual((lhs < lhs).v8_16, (float8)lhs.v8_16 < (float8)lhs.v8_16);
+                Assert.AreEqual((lhs < lhs).v8_24, (float8)lhs.v8_24 < (float8)lhs.v8_24);
+
+                lhs = (quarter32)0f;
+
+                Assert.AreEqual((lhs < rhs).v8_0,  (float8)lhs.v8_0  < (float8)rhs.v8_0);
+                Assert.AreEqual((lhs < rhs).v8_8,  (float8)lhs.v8_8  < (float8)rhs.v8_8);
+                Assert.AreEqual((lhs < rhs).v8_16, (float8)lhs.v8_16 < (float8)rhs.v8_16);
+                Assert.AreEqual((lhs < rhs).v8_24, (float8)lhs.v8_24 < (float8)rhs.v8_24);
+
+                Assert.AreEqual((lhs < lhs).v8_0,  (float8)lhs.v8_0  < (float8)lhs.v8_0);
+                Assert.AreEqual((lhs < lhs).v8_8,  (float8)lhs.v8_8  < (float8)lhs.v8_8);
+                Assert.AreEqual((lhs < lhs).v8_16, (float8)lhs.v8_16 < (float8)lhs.v8_16);
+                Assert.AreEqual((lhs < lhs).v8_24, (float8)lhs.v8_24 < (float8)lhs.v8_24);
+            }
+        }
+
+        [Test]
+        public static void LessEqual32()
+        {
+            Random32 rng = Random32.New;
+
+            Assert.IsFalse(((quarter32)quarter.NaN <= (quarter32)0f).x0);
+            Assert.IsFalse(((quarter32)0f <= (quarter32)quarter.NaN).x0);
+            Assert.IsFalse(((quarter32)quarter.PositiveInfinity <= (quarter32)quarter.NaN).x0);
+            Assert.IsFalse(((quarter32)quarter.NegativeInfinity <= (quarter32)quarter.NaN).x0);
+
+            for (int i = 0; i < 25; i++)
+            {
+                quarter32 lhs = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+                quarter32 rhs = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+
+                Assert.AreEqual((lhs <= rhs).v8_0,  (float8)lhs.v8_0  <= (float8)rhs.v8_0);
+                Assert.AreEqual((lhs <= rhs).v8_8,  (float8)lhs.v8_8  <= (float8)rhs.v8_8);
+                Assert.AreEqual((lhs <= rhs).v8_16, (float8)lhs.v8_16 <= (float8)rhs.v8_16);
+                Assert.AreEqual((lhs <= rhs).v8_24, (float8)lhs.v8_24 <= (float8)rhs.v8_24);
+
+                Assert.AreEqual((lhs <= lhs).v8_0,  (float8)lhs.v8_0  <= (float8)lhs.v8_0);
+                Assert.AreEqual((lhs <= lhs).v8_8,  (float8)lhs.v8_8  <= (float8)lhs.v8_8);
+                Assert.AreEqual((lhs <= lhs).v8_16, (float8)lhs.v8_16 <= (float8)lhs.v8_16);
+                Assert.AreEqual((lhs <= lhs).v8_24, (float8)lhs.v8_24 <= (float8)lhs.v8_24);
+
+                lhs = (quarter32)0f;
+
+                Assert.AreEqual((lhs <= rhs).v8_0,  (float8)lhs.v8_0  <= (float8)rhs.v8_0);
+                Assert.AreEqual((lhs <= rhs).v8_8,  (float8)lhs.v8_8  <= (float8)rhs.v8_8);
+                Assert.AreEqual((lhs <= rhs).v8_16, (float8)lhs.v8_16 <= (float8)rhs.v8_16);
+                Assert.AreEqual((lhs <= rhs).v8_24, (float8)lhs.v8_24 <= (float8)rhs.v8_24);
+
+                Assert.AreEqual((lhs <= lhs).v8_0,  (float8)lhs.v8_0  <= (float8)lhs.v8_0);
+                Assert.AreEqual((lhs <= lhs).v8_8,  (float8)lhs.v8_8  <= (float8)lhs.v8_8);
+                Assert.AreEqual((lhs <= lhs).v8_16, (float8)lhs.v8_16 <= (float8)lhs.v8_16);
+                Assert.AreEqual((lhs <= lhs).v8_24, (float8)lhs.v8_24 <= (float8)lhs.v8_24);
+            }
+        }
+
+
+
+        [Test]
+        public static void ToByte32()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i))
+                 && 0 <= maxmath.asquarter((byte)i))
+                {
+                    Assert.AreEqual(new byte32((byte8)(float8)(quarter8)maxmath.asquarter((byte)i), (byte8)(float8)(quarter8)maxmath.asquarter((byte)i), (byte8)(float8)(quarter8)maxmath.asquarter((byte)i), (byte8)(float8)(quarter8)maxmath.asquarter((byte)i)), (byte32)(quarter32)maxmath.asquarter((byte)i));
+                }
+            }
+        }
+
+
+        [Test]
+        public static void ToSByte32()
+        {
+            for (int i = 0; i < 256; i++)
+            {
+                if (!maxmath.isnan(maxmath.asquarter((byte)i))
+                 && !maxmath.isinf(maxmath.asquarter((byte)i)))
+                {
+                    Assert.AreEqual(new sbyte32((sbyte8)(float8)(quarter8)maxmath.asquarter((byte)i), (sbyte8)(float8)(quarter8)maxmath.asquarter((byte)i), (sbyte8)(float8)(quarter8)maxmath.asquarter((byte)i), (sbyte8)(float8)(quarter8)maxmath.asquarter((byte)i)), (sbyte32)(quarter32)maxmath.asquarter((byte)i));
+                }
+            }
+        }
+
+
+        [Test]
+        public static void FromByte32()
+        {
+            for (byte i = 0; i < 16; i++)
+            {
+                Assert.AreEqual((float8)(float)i, (float8)((quarter32)(byte32)i).v8_0);
+                Assert.AreEqual((float8)(float)i, (float8)((quarter32)(byte32)i).v8_8);
+                Assert.AreEqual((float8)(float)i, (float8)((quarter32)(byte32)i).v8_16);
+                Assert.AreEqual((float8)(float)i, (float8)((quarter32)(byte32)i).v8_24);
+            }
+
+            Assert.AreEqual((float8)((quarter32)quarter.PositiveInfinity).v8_0, (float8)((quarter32)(byte32)32).v8_0);
+            Assert.AreEqual((float8)((quarter32)quarter.PositiveInfinity).v8_8, (float8)((quarter32)(byte32)32).v8_8);
+            Assert.AreEqual((float8)((quarter32)quarter.PositiveInfinity).v8_16, (float8)((quarter32)(byte32)32).v8_16);
+            Assert.AreEqual((float8)((quarter32)quarter.PositiveInfinity).v8_24, (float8)((quarter32)(byte32)32).v8_24);
+        }
+
+
+        [Test]
+        public static void FromSByte32()
+        {
+            for (short i = -15; i < 16; i++)
+            {
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(sbyte16)i).v8_0);
+                Assert.AreEqual((float8)(float)i, (float8)((quarter16)(sbyte16)i).v8_8);
+            }
+
+            Assert.AreEqual((float8)((quarter16)quarter.NegativeInfinity).v8_0, (float8)((quarter16)(sbyte16)(-16)).v8_0);
+            Assert.AreEqual((float8)((quarter16)quarter.NegativeInfinity).v8_8, (float8)((quarter16)(sbyte16)(-16)).v8_8);
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_0, (float8)((quarter16)(sbyte16)16).v8_0);
+            Assert.AreEqual((float8)((quarter16)quarter.PositiveInfinity).v8_8, (float8)((quarter16)(sbyte16)16).v8_8);
         }
     }
 }

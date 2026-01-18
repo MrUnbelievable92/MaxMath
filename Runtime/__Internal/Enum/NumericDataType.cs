@@ -1,6 +1,6 @@
 namespace MaxMath
 {
-    internal enum NumericDataType : byte
+    public enum NumericDataType : byte
     {
         Undefined = 0,
 

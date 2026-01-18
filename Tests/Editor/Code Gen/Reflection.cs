@@ -11,14 +11,14 @@ namespace MaxMath.Tests
         static Reflection()
         {
             List<TypeInfo> maxmathTypes = new List<TypeInfo>();
-            
+
             maxmathTypes.AddRange(TypeInfo.AllScalarTypes);
             maxmathTypes.AddRange(TypeInfo.AllVectorTypes);
             maxmathTypes.AddRange(TypeInfo.AllMatrixTypes);
-            
+
             IEnumerable<Type> cleaned = MaxMathTypes.Where(type => maxmathTypes.Any(maxmathType => maxmathType.ToString() == type.Name));
             cleaned = cleaned.Concat(UnityMathematicsTypes.Where(type => maxmathTypes.Any(maxmathType => maxmathType.ToString() == type.Name)));
-            
+
             TypeMap = new Dictionary<Type, TypeInfo>(cleaned.Select(type => maxmathTypes.Where(maxmathType => type.Name == maxmathType.ToString())
                                                                                         .Select(maxmathType => new KeyValuePair<Type, TypeInfo>(type, maxmathType)).First()));
             foreach (KeyValuePair<Type, TypeInfo> systemType in SystemTypes)
@@ -30,7 +30,7 @@ namespace MaxMath.Tests
 
         private const BindingFlags PUBLIC_GLOBAL = BindingFlags.Public | BindingFlags.Static;
         private const BindingFlags PUBLIC_MEMBER = BindingFlags.Public | BindingFlags.Instance;
-        
+
         internal static Dictionary<Type, TypeInfo> TypeMap;
 
         internal static Type[] AllTypes
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
                             result.Add(parameter.ParameterType.IsByRef ? parameter.ParameterType.GetElementType() : parameter.ParameterType);
                         }
                     }
-                }   
+                }
 
                 return result.ToArray();
             }
@@ -65,24 +65,24 @@ namespace MaxMath.Tests
             {
                 return new Dictionary<Type, TypeInfo>
                 {
-                    { typeof(bool),   new TypeInfo(sizeof(bool),   1, 1, Signedness.Unsigned, NumericDataType.Boolean) },
+                    { typeof(bool),      new TypeInfo(sizeof(bool),      1, 1, Signedness.Unsigned, NumericDataType.Boolean) },
 
-                    { typeof(byte),   new TypeInfo(sizeof(byte),   1, 1, Signedness.Unsigned, NumericDataType.Integer) },
-                    { typeof(ushort), new TypeInfo(sizeof(ushort), 1, 1, Signedness.Unsigned, NumericDataType.Integer) },
-                    { typeof(uint),   new TypeInfo(sizeof(uint),   1, 1, Signedness.Unsigned, NumericDataType.Integer) },
-                    { typeof(ulong),  new TypeInfo(sizeof(ulong),  1, 1, Signedness.Unsigned, NumericDataType.Integer) },
+                    { typeof(byte),      new TypeInfo(sizeof(byte),      1, 1, Signedness.Unsigned, NumericDataType.Integer) },
+                    { typeof(ushort),    new TypeInfo(sizeof(ushort),    1, 1, Signedness.Unsigned, NumericDataType.Integer) },
+                    { typeof(uint),      new TypeInfo(sizeof(uint),      1, 1, Signedness.Unsigned, NumericDataType.Integer) },
+                    { typeof(ulong),     new TypeInfo(sizeof(ulong),     1, 1, Signedness.Unsigned, NumericDataType.Integer) },
 
-                    { typeof(sbyte),  new TypeInfo(sizeof(sbyte),  1, 1, Signedness.Signed, NumericDataType.Integer) },
-                    { typeof(short),  new TypeInfo(sizeof(short),  1, 1, Signedness.Signed, NumericDataType.Integer) },
-                    { typeof(int),    new TypeInfo(sizeof(int),    1, 1, Signedness.Signed, NumericDataType.Integer) },
-                    { typeof(long),   new TypeInfo(sizeof(long),   1, 1, Signedness.Signed, NumericDataType.Integer) },
+                    { typeof(sbyte),     new TypeInfo(sizeof(sbyte),     1, 1, Signedness.Signed, NumericDataType.Integer) },
+                    { typeof(short),     new TypeInfo(sizeof(short),     1, 1, Signedness.Signed, NumericDataType.Integer) },
+                    { typeof(int),       new TypeInfo(sizeof(int),       1, 1, Signedness.Signed, NumericDataType.Integer) },
+                    { typeof(long),      new TypeInfo(sizeof(long),      1, 1, Signedness.Signed, NumericDataType.Integer) },
 
-                    { typeof(float),  new TypeInfo(sizeof(float),  1, 1, Signedness.Signed, NumericDataType.FloatingPoint) },
-                    { typeof(double), new TypeInfo(sizeof(double), 1, 1, Signedness.Signed, NumericDataType.FloatingPoint) },
+                    { typeof(float),     new TypeInfo(sizeof(float),     1, 1, Signedness.Signed, NumericDataType.FloatingPoint) },
+                    { typeof(double),    new TypeInfo(sizeof(double),    1, 1, Signedness.Signed, NumericDataType.FloatingPoint) },
                 };
             }
         }
-        
+
         internal static IEnumerable<Type> UnityMathematicsTypes
         {
             get
@@ -90,7 +90,7 @@ namespace MaxMath.Tests
                 return typeof(math).Assembly.GetExportedTypes().Where(t => t.IsValueType);
             }
         }
-        
+
         internal static IEnumerable<Type> MaxMathTypes
         {
             get
@@ -172,12 +172,12 @@ namespace MaxMath.Tests
             typeNames = ps.Select(p => GetTypeName(p.ParameterType)).ToArray();
 
             return CodeGen.GenerateIterated(
-            ", ", 
-            ps.Length, 
-            i => 
+            ", ",
+            ps.Length,
+            i =>
             {
                 return (ps[i].IsIn ? "in " : ps[i].IsOut ? "out " : ps[i].ParameterType.IsByRef ? "ref " : string.Empty)
-                     + GetTypeName(ps[i].ParameterType) 
+                     + GetTypeName(ps[i].ParameterType)
                      + (names ? " " + ps[i].Name : string.Empty);
             });
         }

@@ -77,7 +77,7 @@ namespace MaxMath
         {
 VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<bool>(Xse.neg_epi8(x), 8);
             }
@@ -91,7 +91,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<bool>(Xse.neg_epi8(x));
             }
@@ -120,7 +120,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<byte>(x, 2);
             }
@@ -134,7 +134,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<byte>(x, 3);
             }
@@ -148,7 +148,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<byte>(x, 4);
             }
@@ -162,7 +162,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<byte>(x, 8);
             }
@@ -176,7 +176,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte16 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notalltrue_epi128<byte>(Xse.cmpeq_epi8(x, Xse.setzero_si128()));
             }
@@ -248,7 +248,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(short2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<short>(x, 2);
             }
@@ -262,7 +262,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(short3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<short>(x, 3);
             }
@@ -276,7 +276,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(short4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<short>(x, 4);
             }
@@ -290,7 +290,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(short8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notallfalse_epi128<short>(Xse.cmpeq_epi16(x, Xse.setzero_si128()));
             }
@@ -377,7 +377,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(long2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.notalltrue_epi128<long>(Xse.cmpeq_epi64(x, Xse.setzero_si128()));
             }

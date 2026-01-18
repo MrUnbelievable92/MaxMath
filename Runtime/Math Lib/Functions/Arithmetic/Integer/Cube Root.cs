@@ -16,7 +16,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static v128 cbrt_epu8_takingAndReturning_epu16(v128 a, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LT_EPU16(a, 6 * 6 * 6, elements))
                     {
@@ -30,7 +30,7 @@ namespace MaxMath
                     v128 cb5 = set1_epi16(5 * 5 * 5 - 1);
                     v128 cb6 = set1_epi16(6 * 6 * 6 - 1);
 
-                    v128 result = sub_epi16(    negmask_epi16(cmpgt_epi16(a, cb1)),cmpgt_epi16(a, cb2));
+                    v128 result = sub_epi16(    neg_epi16(cmpgt_epi16(a, cb1)),cmpgt_epi16(a, cb2));
                     result      = sub_epi16(result, add_epi16(cmpgt_epi16(a, cb3), cmpgt_epi16(a, cb4)));
                     result      = sub_epi16(result, add_epi16(cmpgt_epi16(a, cb5), cmpgt_epi16(a, cb6)));
 
@@ -57,10 +57,10 @@ namespace MaxMath
                     v256 cb5 = mm256_set1_epi16(5 * 5 * 5 - 1);
                     v256 cb6 = mm256_set1_epi16(6 * 6 * 6 - 1);
 
-                    v256 result = Avx2.mm256_sub_epi16(    mm256_negmask_epi16(Avx2.mm256_cmpgt_epi16(a, cb1)),Avx2.mm256_cmpgt_epi16(a, cb2));
+                    v256 result = Avx2.mm256_sub_epi16(    mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(a, cb1)),Avx2.mm256_cmpgt_epi16(a, cb2));
                     result = Avx2.mm256_sub_epi16(result, Avx2.mm256_add_epi16(Avx2.mm256_cmpgt_epi16(a, cb3), Avx2.mm256_cmpgt_epi16(a, cb4)));
                     result = Avx2.mm256_sub_epi16(result, Avx2.mm256_add_epi16(Avx2.mm256_cmpgt_epi16(a, cb5), Avx2.mm256_cmpgt_epi16(a, cb6)));
-                    
+
                     constexpr.ASSUME_LE_EPU16(result, 6);
                     return result;
                 }
@@ -70,7 +70,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static v128 cbrt_absepi8_takingAndReturning_epu16(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 cb1 = set1_epi16(1 * 1 * 1 - 1);
                     v128 cb2 = set1_epi16(2 * 2 * 2 - 1);
@@ -78,10 +78,10 @@ namespace MaxMath
                     v128 cb4 = set1_epi16(4 * 4 * 4 - 1);
                     v128 cb5 = set1_epi16(5 * 5 * 5 - 1);
 
-                    v128 result = sub_epi16(    negmask_epi16(cmpgt_epi16(a, cb1)),cmpgt_epi16(a, cb2));
+                    v128 result = sub_epi16(    neg_epi16(cmpgt_epi16(a, cb1)),cmpgt_epi16(a, cb2));
                     result      = sub_epi16(result, add_epi16(cmpgt_epi16(a, cb3), cmpgt_epi16(a, cb4)));
                     result      = sub_epi16(result, cmpgt_epi16(a, cb5));
-                    
+
                     constexpr.ASSUME_LE_EPU16(result, 5);
                     return result;
                 }
@@ -99,10 +99,10 @@ namespace MaxMath
                     v256 cb4 = mm256_set1_epi16(4 * 4 * 4 - 1);
                     v256 cb5 = mm256_set1_epi16(5 * 5 * 5 - 1);
 
-                    v256 result = Avx2.mm256_sub_epi16(    mm256_negmask_epi16(Avx2.mm256_cmpgt_epi16(a, cb1)),Avx2.mm256_cmpgt_epi16(a, cb2));
+                    v256 result = Avx2.mm256_sub_epi16(    mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(a, cb1)),Avx2.mm256_cmpgt_epi16(a, cb2));
                     result = Avx2.mm256_sub_epi16(result, Avx2.mm256_add_epi16(Avx2.mm256_cmpgt_epi16(a, cb3), Avx2.mm256_cmpgt_epi16(a, cb4)));
                     result = Avx2.mm256_sub_epi16(result, Avx2.mm256_cmpgt_epi16(a, cb5));
-                    
+
                     constexpr.ASSUME_LE_EPU16(result, 5);
                     return result;
                 }
@@ -113,7 +113,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cbrt_epu8(v128 a, bool promiseEPI8range = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
 
@@ -131,7 +131,7 @@ namespace MaxMath
                         v128 cb5 = set1_epi8(5 * 5 * 5);
                         v128 cb6 = set1_epi8(6 * 6 * 6);
 
-                        result = sub_epi8(    negmask_epi8(cmpge_epu8(a, cb1)),cmpge_epu8(a, cb2));
+                        result = sub_epi8(    neg_epi8(cmpge_epu8(a, cb1)),cmpge_epu8(a, cb2));
                         result = sub_epi8(result, add_epi8(cmpge_epu8(a, cb3), cmpge_epu8(a, cb4)));
                         result = sub_epi8(result, add_epi8(cmpge_epu8(a, cb5), cmpge_epu8(a, cb6)));
                     }
@@ -140,7 +140,7 @@ namespace MaxMath
                         v128 x = cbrt_epu8_takingAndReturning_epu16(cvtepu8_epi16(a), elements);
                         result = packus_epi16(x, x);
                     }
-                        
+
                     constexpr.ASSUME_LE_EPU8(result, 6);
                     return result;
                 }
@@ -164,10 +164,10 @@ namespace MaxMath
                     v256 cb5 = mm256_set1_epi8(5 * 5 * 5);
                     v256 cb6 = mm256_set1_epi8(6 * 6 * 6);
 
-                    v256 result = Avx2.mm256_sub_epi8(    mm256_negmask_epi8(mm256_cmpge_epu8(a, cb1)),mm256_cmpge_epu8(a, cb2));
+                    v256 result = Avx2.mm256_sub_epi8(    mm256_neg_epi8(mm256_cmpge_epu8(a, cb1)),mm256_cmpge_epu8(a, cb2));
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_add_epi8(mm256_cmpge_epu8(a, cb3), mm256_cmpge_epu8(a, cb4)));
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_add_epi8(mm256_cmpge_epu8(a, cb5), mm256_cmpge_epu8(a, cb6)));
-                    
+
                     constexpr.ASSUME_LE_EPU8(result, 6);
                     return result;
                 }
@@ -177,7 +177,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cbrt_epi8(v128 a, bool promisePositive = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 negative = a;
                     bool NEED_TO_SAVE_SIGN = !(promisePositive || constexpr.ALL_GE_EPI8(a, 0, elements));
@@ -193,7 +193,7 @@ namespace MaxMath
                     v128 cb4 = set1_epi8(4 * 4 * 4 - 1);
                     v128 cb5 = set1_epi8(5 * 5 * 5 - 1);
 
-                    v128 result = sub_epi8(    negmask_epi8(cmpgt_epi8(a, cb1)),cmpgt_epi8(a, cb2));
+                    v128 result = sub_epi8(    neg_epi8(cmpgt_epi8(a, cb1)),cmpgt_epi8(a, cb2));
                     result      = sub_epi8(result, add_epi8(cmpgt_epi8(a, cb3), cmpgt_epi8(a, cb4)));
                     result      = sub_epi8(result, cmpgt_epi8(a, cb5));
 
@@ -210,7 +210,7 @@ namespace MaxMath
                             result = xor_si128(add_epi8(result, negative), negative);
                         }
                     }
-                    
+
                     constexpr.ASSUME_RANGE_EPI8(result, NEED_TO_SAVE_SIGN ? -5 : 0, 5);
                     return result;
                 }
@@ -236,7 +236,7 @@ namespace MaxMath
                     v256 cb4 = mm256_set1_epi8(4 * 4 * 4 - 1);
                     v256 cb5 = mm256_set1_epi8(5 * 5 * 5 - 1);
 
-                    v256 result = Avx2.mm256_sub_epi8(    mm256_negmask_epi8(Avx2.mm256_cmpgt_epi8(a, cb1)),Avx2.mm256_cmpgt_epi8(a, cb2));
+                    v256 result = Avx2.mm256_sub_epi8(    mm256_neg_epi8(Avx2.mm256_cmpgt_epi8(a, cb1)),Avx2.mm256_cmpgt_epi8(a, cb2));
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_add_epi8(Avx2.mm256_cmpgt_epi8(a, cb3), Avx2.mm256_cmpgt_epi8(a, cb4)));
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_cmpgt_epi8(a, cb5));
 
@@ -244,7 +244,7 @@ namespace MaxMath
                     {
                         result = Avx2.mm256_sign_epi8(result, negative);
                     }
-                    
+
                     constexpr.ASSUME_RANGE_EPI8(result, NEED_TO_SAVE_SIGN ? -5 : 0, 5);
                     return result;
                 }
@@ -255,7 +255,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cbrt_epu16(v128 a, bool promiseByteRange = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (promiseByteRange || constexpr.ALL_LE_EPU16(a, byte.MaxValue, elements))
                     {
@@ -269,12 +269,12 @@ namespace MaxMath
                         {
                             y = setzero_si128();
 
-                            for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3) 
+                            for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
                                 y = add_epi16(y, y);
                                 v128 y3 = add_epi16(y, slli_epi16(y, 1));
                                 b = inc_epi16(mullo_epi16(y3, inc_epi16(y)));
-                            
+
                                 v128 greaterEqualMask = cmpgt_epi16(b, srli_epi16(a, c, inRange: true));
                                 v128 subFromX = andnot_si128(greaterEqualMask, slli_epi16(b, c, inRange: true));
                                 v128 addToY = inc_epi16(greaterEqualMask);
@@ -357,12 +357,12 @@ namespace MaxMath
                         {
                             y = Avx.mm256_setzero_si256();
 
-                            for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3) 
+                            for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
                                 y = Avx2.mm256_add_epi16(y, y);
                                 v256 y3 = Avx2.mm256_add_epi16(y, mm256_slli_epi16(y, 1));
                                 b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(y3, mm256_inc_epi16(y)));
-                            
+
                                 v256 greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, mm256_srli_epi16(a, c));
                                 v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, mm256_slli_epi16(b, c));
                                 v256 addToY = mm256_inc_epi16(greaterEqualMask);
@@ -420,7 +420,7 @@ namespace MaxMath
                             addToY = mm256_inc_epi16(greaterEqualMask);
                             y = Avx2.mm256_add_epi16(y, addToY);
                         }
-                        
+
                         constexpr.ASSUME_LE_EPU16(y, 40);
                         return y;
                     }
@@ -429,13 +429,13 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 cbrt_epi16(v128 a, bool promiseAbsolute = false, bool promise8BitRange = false, byte elements = 8)
+            public static v128 cbrt_epi16(v128 a, bool promiseAbs = false, bool promise8BitRange = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
 
-                    if (promiseAbsolute || constexpr.ALL_GE_EPI16(a, 0, elements))
+                    if (promiseAbs || constexpr.ALL_GE_EPI16(a, 0, elements))
                     {
                         result = cbrt_epu16(a, promise8BitRange, elements);
 
@@ -457,20 +457,20 @@ namespace MaxMath
 
                         constexpr.ASSUME_RANGE_EPI16(result, -32, 32);
                     }
-                        
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_cbrt_epi16(v256 a, bool promiseAbsolute = false, bool promise8BitRange = false)
+            public static v256 mm256_cbrt_epi16(v256 a, bool promiseAbs = false, bool promise8BitRange = false)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result;
 
-                    if (promiseAbsolute || constexpr.ALL_GE_EPI16(a, 0))
+                    if (promiseAbs || constexpr.ALL_GE_EPI16(a, 0))
                     {
                         result = mm256_cbrt_epu16(a, promise8BitRange);
 
@@ -482,7 +482,7 @@ namespace MaxMath
 
                         constexpr.ASSUME_RANGE_EPI16(result, -32, 32);
                     }
-                        
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -492,7 +492,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cbrt_epu32(v128 a, byte rangePromiseLevel = 0, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements))
                     {
@@ -508,12 +508,12 @@ namespace MaxMath
                             {
                                 y = setzero_si128();
 
-                                for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3) 
+                                for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                                 {
                                     y = add_epi32(y, y);
                                     v128 y3 = add_epi32(y, slli_epi32(y, 1));
                                     b = inc_epi32(mullo_epi32(y3, inc_epi32(y)));
-                                
+
                                     v128 greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, c, inRange: true));
                                     v128 subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, c, inRange: true));
                                     v128 addToY = inc_epi32(greaterEqualMask);
@@ -574,7 +574,7 @@ namespace MaxMath
                                 addToY = inc_epi32(greaterEqualMask);
                                 y = add_epi32(y, addToY);
                             }
-                            
+
                             constexpr.ASSUME_LE_EPU32(y, 40);
                             return y;
                         }
@@ -586,13 +586,13 @@ namespace MaxMath
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
                             y = setzero_si128();
-                        
-                            for (int c = sizeof(uint) * 8 / 3 * 3; c >= 0; c -= 3) 
+
+                            for (int c = sizeof(uint) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
                                 y = add_epi32(y, y);
                                 v128 y3 = add_epi32(y, slli_epi32(y, 1));
                                 b = inc_epi32(mullo_epi32(y3, inc_epi32(y)));
-                            
+
                                 v128 greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, c, inRange: true));
                                 v128 subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, c, inRange: true));
                                 v128 addToY = inc_epi32(greaterEqualMask);
@@ -698,7 +698,7 @@ namespace MaxMath
                             addToY = inc_epi32(greaterEqualMask);
                             y = add_epi32(y, addToY);
                         }
-                        
+
                         constexpr.ASSUME_LE_EPU32(y, 1_625);
                         return y;
                     }
@@ -725,12 +725,12 @@ namespace MaxMath
                             {
                                 y = Avx.mm256_setzero_si256();
 
-                                for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3) 
+                                for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                                 {
                                     y = Avx2.mm256_add_epi32(y, y);
                                     v256 y3 = Avx2.mm256_add_epi32(y, mm256_slli_epi32(y, 1));
                                     b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(y3, mm256_inc_epi32(y)));
-                                
+
                                     v256 greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, mm256_srli_epi32(a, c));
                                     v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, mm256_slli_epi32(b, c));
                                     v256 addToY = mm256_inc_epi32(greaterEqualMask);
@@ -791,7 +791,7 @@ namespace MaxMath
                                 addToY = mm256_inc_epi32(greaterEqualMask);
                                 y = Avx2.mm256_add_epi32(y, addToY);
                             }
-                            
+
                             constexpr.ASSUME_LE_EPU32(y, 40);
                             return y;
                         }
@@ -803,13 +803,13 @@ namespace MaxMath
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
                             y = Avx.mm256_setzero_si256();
-                        
-                            for (int c = sizeof(uint) * 8 / 3 * 3; c >= 0; c -= 3) 
+
+                            for (int c = sizeof(uint) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
                                 y = Avx2.mm256_add_epi32(y, y);
                                 v256 y3 = Avx2.mm256_add_epi32(y, mm256_slli_epi32(y, 1));
                                 b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(y3, mm256_inc_epi32(y)));
-                            
+
                                 v256 greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, mm256_srli_epi32(a, c));
                                 v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, mm256_slli_epi32(b, c));
                                 v256 addToY = mm256_inc_epi32(greaterEqualMask);
@@ -915,7 +915,7 @@ namespace MaxMath
                             addToY = mm256_inc_epi32(greaterEqualMask);
                             y = Avx2.mm256_add_epi32(y, addToY);
                         }
-                        
+
                         constexpr.ASSUME_LE_EPU32(y, 1_625);
                         return y;
                     }
@@ -924,13 +924,13 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 cbrt_epi32(v128 a, bool promiseAbsolute = false, byte rangePromiseLevel = 0, byte elements = 4)
+            public static v128 cbrt_epi32(v128 a, bool promiseAbs = false, byte rangePromiseLevel = 0, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
 
-                    if (promiseAbsolute || constexpr.ALL_GE_EPI32(a, 0, elements))
+                    if (promiseAbs || constexpr.ALL_GE_EPI32(a, 0, elements))
                     {
                         result = cbrt_epu32(a, rangePromiseLevel, elements);
 
@@ -959,13 +959,13 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_cbrt_epi32(v256 a, bool promiseAbsolute = false, byte rangePromiseLevel = 0)
+            public static v256 mm256_cbrt_epi32(v256 a, bool promiseAbs = false, byte rangePromiseLevel = 0)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 result;
-                    
-                    if (promiseAbsolute || constexpr.ALL_GE_EPI32(a, 0))
+
+                    if (promiseAbs || constexpr.ALL_GE_EPI32(a, 0))
                     {
                         result = mm256_cbrt_epu32(a);
 
@@ -977,7 +977,7 @@ namespace MaxMath
 
                         constexpr.ASSUME_RANGE_EPI32(result, -1_290, 1_290);
                     }
-                        
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -987,7 +987,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cbrt_epu64(v128 a, byte rangePromiseLevel = 0)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU64(a, 1ul << 48))
                     {
@@ -1025,13 +1025,13 @@ namespace MaxMath
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
                             y = setzero_si128();
-                        
-                            for (int c = sizeof(ulong) * 8 / 3 * 3; c >= 0; c -= 3) 
+
+                            for (int c = sizeof(ulong) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
                                 y = add_epi64(y, y);
                                 v128 y3 = add_epi64(y, slli_epi64(y, 1));
                                 b = inc_epi64(mul_epu32(y3, inc_epi64(y)));
-                            
+
                                 v128 greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, c, inRange: true));
                                 v128 subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, c, inRange: true));
                                 v128 addToY = inc_epi64(greaterEqualMask);
@@ -1284,13 +1284,13 @@ namespace MaxMath
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
                             y = Avx.mm256_setzero_si256();
-                        
-                            for (int c = sizeof(ulong) * 8 / 3 * 3; c >= 0; c -= 3) 
+
+                            for (int c = sizeof(ulong) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
                                 y = Avx2.mm256_add_epi64(y, y);
                                 v256 y3 = Avx2.mm256_add_epi64(y, mm256_slli_epi64(y, 1));
                                 b = mm256_inc_epi64(Avx2.mm256_mul_epu32(y3, mm256_inc_epi64(y)));
-                            
+
                                 v256 greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, mm256_srli_epi64(a, c));
                                 v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, mm256_slli_epi64(b, c));
                                 v256 addToY = mm256_inc_epi64(greaterEqualMask);
@@ -1494,7 +1494,7 @@ namespace MaxMath
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
                             y = Avx2.mm256_add_epi64(y, addToY);
                         }
-                        
+
                         constexpr.ASSUME_LE_EPU64(y, 2_642_245);
                         return y;
                     }
@@ -1505,7 +1505,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 cbrt_epi64(v128 a, bool promiseAbs = false, byte rangePromiseLevel = 0)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 result;
 
@@ -1586,13 +1586,13 @@ namespace MaxMath
             UInt128 b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
-                for (int c = sizeof(UInt128) * 8 / 3 * 3; c >= 0; c -= 3) 
+                for (int c = sizeof(UInt128) * 8 / 3 * 3; c >= 0; c -= 3)
                 {
                     y += y;
                     b = ((UInt128)(3 * y) * (y + 1)) + 1;
                     if (x >> c >= b)
                     {
-                        x -= b << c; 
+                        x -= b << c;
                         y++;
                     }
                 }
@@ -2026,13 +2026,13 @@ namespace MaxMath
             uint b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
-                for (int c = sizeof(byte) * 8 / 3 * 3; c >= 0; c -= 3) 
+                for (int c = sizeof(byte) * 8 / 3 * 3; c >= 0; c -= 3)
                 {
                     y += y;
                     b = ((3 * y) * (y + 1)) + 1;
                     if (_x >> c >= b)
                     {
-                        _x -= b << c; 
+                        _x -= b << c;
                         y++;
                     }
                 }
@@ -2065,14 +2065,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte2"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 intcbrt(byte2 x, Promise absSByteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu8(x, absSByteRange.Promises(Promise.Unsafe0), 2);
             }
@@ -2083,14 +2083,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte3"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 intcbrt(byte3 x, Promise absSByteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu8(x, absSByteRange.Promises(Promise.Unsafe0), 3);
             }
@@ -2101,14 +2101,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte4"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 intcbrt(byte4 x, Promise absSByteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu8(x, absSByteRange.Promises(Promise.Unsafe0), 4);
             }
@@ -2119,14 +2119,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte8"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 intcbrt(byte8 x, Promise absSByteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu8(x, absSByteRange.Promises(Promise.Unsafe0), 8);
             }
@@ -2144,14 +2144,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte16"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 intcbrt(byte16 x, Promise absSByteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu8(x, absSByteRange.Promises(Promise.Unsafe0), 16);
             }
@@ -2177,7 +2177,7 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte32"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
@@ -2196,7 +2196,7 @@ namespace MaxMath
 
 
         /// <summary>       Computes the integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="sbyte"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
         /// </summary>
@@ -2218,14 +2218,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte2"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 intcbrt(sbyte2 x, Promise nonNegative = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi8(x, nonNegative.Promises(Promise.ZeroOrGreater), 2);
             }
@@ -2236,14 +2236,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte3"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 intcbrt(sbyte3 x, Promise nonNegative = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi8(x, nonNegative.Promises(Promise.ZeroOrGreater), 3);
             }
@@ -2254,14 +2254,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte4"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 intcbrt(sbyte4 x, Promise nonNegative = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi8(x, nonNegative.Promises(Promise.ZeroOrGreater), 4);
             }
@@ -2272,14 +2272,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte8"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 intcbrt(sbyte8 x, Promise nonNegative = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi8(x, nonNegative.Promises(Promise.ZeroOrGreater), 8);
             }
@@ -2297,14 +2297,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte16"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 intcbrt(sbyte16 x, Promise nonNegative = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi8(x, nonNegative.Promises(Promise.ZeroOrGreater), 16);
             }
@@ -2330,7 +2330,7 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte32"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
         /// </summary>
@@ -2349,7 +2349,7 @@ namespace MaxMath
 
 
         /// <summary>       Computes the integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ushort"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
@@ -2361,7 +2361,7 @@ namespace MaxMath
             {
                 return intcbrt((byte)x);
             }
-            
+
             uint _x = x;
             uint y;
             uint b;
@@ -2369,13 +2369,13 @@ namespace MaxMath
             {
                 y = 0;
 
-                for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3) 
+                for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                 {
                     y += y;
                     b = ((3 * y) * (y + 1)) + 1;
                     if (_x >> c >= b)
                     {
-                        _x -= b << c; 
+                        _x -= b << c;
                         y++;
                     }
                 }
@@ -2430,14 +2430,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort2"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 intcbrt(ushort2 x, Promise byteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu16(x, byteRange.Promises(Promise.Unsafe0), 2);
             }
@@ -2448,14 +2448,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort3"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 intcbrt(ushort3 x, Promise byteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu16(x, byteRange.Promises(Promise.Unsafe0), 3);
             }
@@ -2466,14 +2466,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort4"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 intcbrt(ushort4 x, Promise byteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu16(x, byteRange.Promises(Promise.Unsafe0), 4);
             }
@@ -2484,14 +2484,14 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort8"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 intcbrt(ushort8 x, Promise byteRange = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu16(x, byteRange.Promises(Promise.Unsafe0), 8);
             }
@@ -2509,7 +2509,7 @@ namespace MaxMath
         }
 
         /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort16"/>.
-        /// <remarks>       
+        /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
         /// </summary>
@@ -2559,7 +2559,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 intcbrt(short2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi16(x, promises.Promises(Promise.ZeroOrGreater), promises.Promises(Promise.Unsafe0), 2);
             }
@@ -2578,7 +2578,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 intcbrt(short3 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi16(x, promises.Promises(Promise.ZeroOrGreater), promises.Promises(Promise.Unsafe0), 3);
             }
@@ -2597,7 +2597,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 intcbrt(short4 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi16(x, promises.Promises(Promise.ZeroOrGreater), promises.Promises(Promise.Unsafe0), 4);
             }
@@ -2616,7 +2616,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 intcbrt(short8 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi16(x, promises.Promises(Promise.ZeroOrGreater), promises.Promises(Promise.Unsafe0), 8);
             }
@@ -2674,13 +2674,13 @@ namespace MaxMath
             uint b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
-                for (int c = sizeof(uint) * 8 / 3 * 3; c >= 0; c -= 3) 
+                for (int c = sizeof(uint) * 8 / 3 * 3; c >= 0; c -= 3)
                 {
                     y += y;
                     b = ((3 * y) * (y + 1)) + 1;
                     if (x >> c >= b)
                     {
-                        x -= b << c; 
+                        x -= b << c;
                         y++;
                     }
                 }
@@ -2793,7 +2793,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 intcbrt(uint2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.cbrt_epu32(RegisterConversion.ToV128(x), promises.CountUnsafeLevels(), 2));
             }
@@ -2812,7 +2812,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 intcbrt(uint3 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.cbrt_epu32(RegisterConversion.ToV128(x), promises.CountUnsafeLevels(), 3));
             }
@@ -2831,7 +2831,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 intcbrt(uint4 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.cbrt_epu32(RegisterConversion.ToV128(x), promises.CountUnsafeLevels(), 4));
             }
@@ -2895,7 +2895,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 intcbrt(int2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.cbrt_epi32(RegisterConversion.ToV128(x), promises.Promises(Promise.ZeroOrGreater), promises.CountUnsafeLevels(), 2));
             }
@@ -2915,7 +2915,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 intcbrt(int3 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.cbrt_epi32(RegisterConversion.ToV128(x), promises.Promises(Promise.ZeroOrGreater), promises.CountUnsafeLevels(), 3));
             }
@@ -2935,7 +2935,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 intcbrt(int4 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.cbrt_epi32(RegisterConversion.ToV128(x), promises.Promises(Promise.ZeroOrGreater), promises.CountUnsafeLevels(), 4));
             }
@@ -2983,19 +2983,19 @@ namespace MaxMath
 
                 return intcbrt((uint)x, promises);
             }
-            
+
             ulong y;
             ulong b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
                 y = 0;
-                for (int c = sizeof(ulong) * 8 / 3 * 3; c >= 0; c -= 3) 
+                for (int c = sizeof(ulong) * 8 / 3 * 3; c >= 0; c -= 3)
                 {
                     y += y;
                     b = ((3 * y) * (y + 1)) + 1;
                     if (x >> c >= b)
                     {
-                        x -= b << c; 
+                        x -= b << c;
                         y++;
                     }
                 }
@@ -3204,7 +3204,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 intcbrt(ulong2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epu64(x, promises.CountUnsafeLevels());
             }
@@ -3302,7 +3302,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 intcbrt(long2 x, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cbrt_epi64(x, promises.Promises(Promise.ZeroOrGreater), promises.CountUnsafeLevels());
             }

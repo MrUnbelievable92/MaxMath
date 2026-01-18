@@ -95,7 +95,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 umul(UInt128 left, uint right)
         {
-            if (Architecture.IsBurstCompiled)
+            if (BurstArchitecture.IsBurstCompiled)
             {
                 return left * (ulong)right;
             }

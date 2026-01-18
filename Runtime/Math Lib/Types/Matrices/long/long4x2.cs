@@ -99,10 +99,46 @@ Assert.IsWithinArrayBounds(index, 2);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x2 operator * (long4x2 left, long4x2 right) => new long4x2(left.c0 * right.c0, left.c1 * right.c1);
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, byte4x2 right) => new long4x2 (left.c0 / right.c0, left.c1 / right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, ushort4x2 right) => new long4x2 (left.c0 / right.c0, left.c1 / right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, uint4x2 right) => new long4x2 (left.c0 / right.c0, left.c1 / right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, sbyte4x2 right) => new long4x2 (left.c0 / right.c0, left.c1 / right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, short4x2 right) => new long4x2 (left.c0 / right.c0, left.c1 / right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, int4x2 right) => new long4x2 (left.c0 / right.c0, left.c1 / right.c1);
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x2 operator / (long4x2 left, long4x2 right) => new long4x2 (left.c0 / right.c0, left.c1 / right.c1);
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, byte4x2 right) => new long4x2 (left.c0 % right.c0, left.c1 % right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, ushort4x2 right) => new long4x2 (left.c0 % right.c0, left.c1 % right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, uint4x2 right) => new long4x2 (left.c0 % right.c0, left.c1 % right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, sbyte4x2 right) => new long4x2 (left.c0 % right.c0, left.c1 % right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, short4x2 right) => new long4x2 (left.c0 % right.c0, left.c1 % right.c1);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, int4x2 right) => new long4x2 (left.c0 % right.c0, left.c1 % right.c1);
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x2 operator % (long4x2 left, long4x2 right) => new long4x2 (left.c0 % right.c0, left.c1 % right.c1);
 
@@ -133,8 +169,44 @@ Assert.IsWithinArrayBounds(index, 2);
         public static long4x2 operator * (long left, long4x2 right) => new long4x2 (left * right.c0, left * right.c1);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, byte right) => new long4x2 (left.c0 / right, left.c1 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, ushort right) => new long4x2 (left.c0 / right, left.c1 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, uint right) => new long4x2 (left.c0 / right, left.c1 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, sbyte right) => new long4x2 (left.c0 / right, left.c1 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, short right) => new long4x2 (left.c0 / right, left.c1 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator / (long4x2 left, int right) => new long4x2 (left.c0 / right, left.c1 / right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x2 operator / (long4x2 left, long right) => new long4x2 (left.c0 / right, left.c1 / right);
-
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, byte right) => new long4x2 (left.c0 % right, left.c1 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, ushort right) => new long4x2 (left.c0 % right, left.c1 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, uint right) => new long4x2 (left.c0 % right, left.c1 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, sbyte right) => new long4x2 (left.c0 % right, left.c1 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, short right) => new long4x2 (left.c0 % right, left.c1 % right);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long4x2 operator % (long4x2 left, int right) => new long4x2 (left.c0 % right, left.c1 % right);
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x2 operator % (long4x2 left, long right) => new long4x2 (left.c0 % right, left.c1 % right);
 

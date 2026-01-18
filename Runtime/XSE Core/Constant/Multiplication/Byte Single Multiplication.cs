@@ -10,7 +10,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 constmullo_epu8(v128 a, byte b, byte elements = 16)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 				switch (b)
 				{
@@ -139,30 +139,30 @@ namespace MaxMath.Intrinsics
 					}
 					case 23:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _16 = slli_epi8(a, 4, maskBefore: false);
 						v128 _24 = add_epi8(_16, _8);
 						return sub_epi8(_24, a);
 					}
 					case 24:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _16 = slli_epi8(a, 4, maskBefore: false);
 						return add_epi8(_16, _8);
 					}
 					case 25:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _16 = slli_epi8(a, 4, maskBefore: false);
 						v128 _24 = add_epi8(_16, _8);
 						return add_epi8(_24, a);
 					}
 					case 26:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _10 = add_epi8(_2, _8);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: false);
 						return add_epi8(_16, _10);
 					}
 					case 27:
@@ -245,29 +245,29 @@ namespace MaxMath.Intrinsics
 					}
 					case 39:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _40 = add_epi8(_32, _8);
 						return sub_epi8(_40, a);
 					}
 					case 40:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						return add_epi8(_32, _8);
 					}
 					case 41:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _40 = add_epi8(_32, _8);
 						return add_epi8(_40, a);
 					}
 					case 42:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _8 = slli_epi8(a, 3);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _40 = add_epi8(_32, _8);
 						return add_epi8(_40, _2);
 					}
@@ -275,8 +275,8 @@ namespace MaxMath.Intrinsics
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _3 = add_epi8(_2, a);
-						v128 _8 = slli_epi8(a, 3);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _40 = add_epi8(_32, _8);
 						return add_epi8(_40, _3);
 					}
@@ -284,8 +284,8 @@ namespace MaxMath.Intrinsics
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _8 = slli_epi8(a, 3);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _40 = add_epi8(_32, _8);
 						return add_epi8(_40, _4);
 					}
@@ -293,44 +293,44 @@ namespace MaxMath.Intrinsics
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _3 = add_epi8(_2, a);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _48 = add_epi8(_32, _16);
 						return sub_epi8(_48, _3);
 					}
 					case 46:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _48 = add_epi8(_32, _16);
 						return sub_epi8(_48, _2);
 					}
 					case 47:
 					{
-						v128 _16 = slli_epi8(a, 4);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _48 = add_epi8(_32, _16);
 						return sub_epi8(_48, a);
 					}
 					case 48:
 					{
-						v128 _16 = slli_epi8(a, 4);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						return add_epi8(_32, _16);
 					}
 					case 49:
 					{
-						v128 _16 = slli_epi8(a, 4);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _48 = add_epi8(_32, _16);
 						return add_epi8(_48, a);
 					}
 					case 50:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _48 = add_epi8(_32, _16);
 						return add_epi8(_48, _2);
 					}
@@ -338,7 +338,7 @@ namespace MaxMath.Intrinsics
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _3 = add_epi8(_2, a);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _32 = slli_epi8(a, 5);
 						v128 _48 = add_epi8(_32, _16);
 						return add_epi8(_48, _3);
@@ -347,46 +347,46 @@ namespace MaxMath.Intrinsics
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _32 = slli_epi8(a, 5);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: false);
 						v128 _48 = add_epi8(_32, _16);
 						return add_epi8(_48, _4);
 					}
 					case 53:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _10 = add_epi8(_8, _2);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _63 = sub_epi8(_64, a);
 						return sub_epi8(_63, _10);
 					}
 					case 54:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _10 = add_epi8(_8, _2);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return sub_epi8(_64, _10);
 					}
 					case 55:
 					{
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _9 = add_epi8(_8, a);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return sub_epi8(_64, _9);
 					}
 					case 56:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return sub_epi8(_64, _8);
 					}
 					case 57:
 					{
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _7 = sub_epi8(_8, a);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return sub_epi8(_64, _7);
 					}
 					case 58:
@@ -477,38 +477,38 @@ namespace MaxMath.Intrinsics
 					}
 					case 71:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _72 = add_epi8(_64, _8);
 						return sub_epi8(_72, a);
 					}
 					case 72:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _8);
 					}
 					case 73:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _72 = add_epi8(_64, _8);
 						return add_epi8(_72, a);
 					}
 					case 74:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _10 = add_epi8(_2, _8);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _10);
 					}
 					case 75:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _10 = add_epi8(_2, _8);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _65 = add_epi8(a, _64);
 						return add_epi8(_65, _10);
 					}
@@ -516,18 +516,18 @@ namespace MaxMath.Intrinsics
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _12 = add_epi8(_4, _8);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _12);
 					}
 					case 77:
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _12 = add_epi8(_4, _8);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _65 = add_epi8(a, _64);
 						return add_epi8(_65, _12);
 					}
@@ -535,65 +535,65 @@ namespace MaxMath.Intrinsics
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _12 = add_epi8(_4, _8);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _66 = add_epi8(_2, _64);
 						return add_epi8(_66, _12);
 					}
 					case 79:
 					{
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _15 = sub_epi8(_16, a);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _15);
 					}
 					case 80:
 					{
-						v128 _16 = slli_epi8(a, 4);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _16);
 					}
 					case 81:
 					{
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _17 = add_epi8(_16, a);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _17);
 					}
 					case 82:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _18 = add_epi8(_16, _2);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _18);
 					}
 					case 83:
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _3 = add_epi8(_2, a);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _19 = add_epi8(_16, _3);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _19);
 					}
 					case 84:
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _20 = add_epi8(_16, _4);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						return add_epi8(_64, _20);
 					}
 					case 85:
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _20 = add_epi8(_16, _4);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _65 = add_epi8(_64, a);
 						return add_epi8(_65, _20);
 					}
@@ -601,9 +601,9 @@ namespace MaxMath.Intrinsics
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _20 = add_epi8(_16, _4);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _66 = add_epi8(_64, _2);
 						return add_epi8(_66, _20);
 					}
@@ -612,63 +612,315 @@ namespace MaxMath.Intrinsics
 						v128 _2 = add_epi8(a, a);
 						v128 _3 = add_epi8(_2, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _16 = slli_epi8(a, 4);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
 						v128 _20 = add_epi8(_16, _4);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _67 = add_epi8(_64, _3);
 						return add_epi8(_67, _20);
 					}
 					case 88:
 					{
-						v128 _8 = slli_epi8(a, 3);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _80 = add_epi8(_64, _16);
 						return add_epi8(_80, _8);
 					}
 					case 89:
 					{
-						v128 _8 = slli_epi8(a, 3);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
 						v128 _9 = add_epi8(_8, a);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _64 = slli_epi8(a, 6);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
 						v128 _80 = add_epi8(_64, _16);
 						return add_epi8(_80, _9);
 					}
 					case 90:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _8 = slli_epi8(a, 3);
-						v128 _10 = add_epi8(_8, _2);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _64 = slli_epi8(a, 6);
-						v128 _80 = add_epi8(_64, _16);
-						return add_epi8(_80, _10);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _6 = add_epi8(_4, _2);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return sub_epi8(_96, _6);
 					}
 					case 91:
 					{
 						v128 _2 = add_epi8(a, a);
-						v128 _3 = add_epi8(a, _2);
-						v128 _8 = slli_epi8(a, 3);
-						v128 _11 = add_epi8(_8, _3);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _64 = slli_epi8(a, 6);
-						v128 _80 = add_epi8(_64, _16);
-						return add_epi8(_80, _11);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _5 = add_epi8(_4, a);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return sub_epi8(_96, _5);
 					}
 					case 92:
 					{
 						v128 _2 = add_epi8(a, a);
 						v128 _4 = add_epi8(_2, _2);
-						v128 _8 = slli_epi8(a, 3);
-						v128 _12 = add_epi8(_8, _4);
-						v128 _16 = slli_epi8(a, 4);
-						v128 _64 = slli_epi8(a, 6);
-						v128 _80 = add_epi8(_64, _16);
-						return add_epi8(_80, _12);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return sub_epi8(_96, _4);
 					}
-
-
+					case 93:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _3 = add_epi8(_2, a);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return sub_epi8(_96, _3);
+					}
+					case 94:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return sub_epi8(_96, _2);
+					}
+					case 95:
+					{
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return sub_epi8(_96, a);
+					}
+					case 96:
+					{
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						return add_epi8(_64, _32);
+					}
+					case 97:
+					{
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6);
+						v128 _96 = add_epi8(_64, _32);
+						return add_epi8(_96, a);
+					}
+					case 98:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return add_epi8(_96, _2);
+					}
+					case 99:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _3 = add_epi8(_2, a);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return add_epi8(_96, _3);
+					}
+					case 100:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return add_epi8(_96, _4);
+					}
+					case 101:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _5 = add_epi8(_4, a);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return add_epi8(_96, _5);
+					}
+					case 102:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _6 = add_epi8(_4, _2);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return add_epi8(_96, _6);
+					}
+					case 103:
+					{
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _7 = sub_epi8(_8, a);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return add_epi8(_96, _7);
+					}
+					case 104:
+					{
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _32 = slli_epi8(a, 5, maskBefore: true);
+						v128 _64 = slli_epi8(a, 6, maskBefore: false);
+						v128 _96 = add_epi8(_64, _32);
+						return add_epi8(_96, _8);
+					}
+					case 105:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _3 = add_epi8(_2, a);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _7 = add_epi8(_4, _3);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return sub_epi8(_112, _7);
+					}
+					case 106:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _6 = add_epi8(_4, _2);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return sub_epi8(_112, _6);
+					}
+					case 107:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _5 = add_epi8(_4, a);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return sub_epi8(_112, _5);
+					}
+					case 108:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return sub_epi8(_112, _4);
+					}
+					case 109:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _3 = add_epi8(_2, a);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return sub_epi8(_112, _3);
+					}
+					case 110:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return sub_epi8(_112, _2);
+					}
+					case 111:
+					{
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return sub_epi8(_112, a);
+					}
+					case 112:
+					{
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						return sub_epi8(_128, _16);
+					}
+					case 113:
+					{
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return add_epi8(_112, a);
+					}
+					case 114:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return add_epi8(_112, _2);
+					}
+					case 115:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _3 = add_epi8(_2, a);
+						v128 _16 = slli_epi8(a, 4, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _112 = sub_epi8(_128, _16);
+						return add_epi8(_112, _3);
+					}
+					case 116:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _4 = add_epi8(_2, _2);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _12 = add_epi8(_8, _4);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						return sub_epi8(_128, _12);
+					}
+					case 117:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _3 = add_epi8(_2, a);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _11 = add_epi8(_8, _3);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						return sub_epi8(_128, _11);
+					}
+					case 118:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _10 = add_epi8(_8, _2);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						return sub_epi8(_128, _10);
+					}
+					case 119:
+					{
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _9 = add_epi8(_8, a);
+						v128 _128 = slli_epi8(a, 7);
+						return sub_epi8(_128, _9);
+					}
+					case 120:
+					{
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						return sub_epi8(_128, _8);
+					}
+					case 121:
+					{
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _120 = sub_epi8(_128, _8);
+						return add_epi8(_120, a);
+					}
+					case 122:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _120 = sub_epi8(_128, _8);
+						return add_epi8(_120, _2);
+					}
+					case 123:
+					{
+						v128 _2 = add_epi8(a, a);
+						v128 _3 = add_epi8(_2, a);
+						v128 _8 = slli_epi8(a, 3, maskBefore: true);
+						v128 _128 = slli_epi8(a, 7, maskBefore: false);
+						v128 _120 = sub_epi8(_128, _8);
+						return add_epi8(_120, _3);
+					}
 					case 124:
 					{
 						v128 _2 = add_epi8(a, a);
@@ -724,7 +976,10 @@ namespace MaxMath.Intrinsics
 						return add_epi8(_128, _4);
 					}
 
-					case 255: return neg_epi8(a);
+					case 255:
+					{
+						return neg_epi8(a);
+					}
 
 					default:
 					{
@@ -888,30 +1143,30 @@ namespace MaxMath.Intrinsics
 					}
 					case 23:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: false);
 						v256 _24 = Avx2.mm256_add_epi8(_16, _8);
 						return Avx2.mm256_sub_epi8(_24, a);
 					}
 					case 24:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: false);
 						return Avx2.mm256_add_epi8(_16, _8);
 					}
 					case 25:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: false);
 						v256 _24 = Avx2.mm256_add_epi8(_16, _8);
 						return Avx2.mm256_add_epi8(_24, a);
 					}
 					case 26:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _10 = Avx2.mm256_add_epi8(_2, _8);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: false);
 						return Avx2.mm256_add_epi8(_16, _10);
 					}
 					case 27:
@@ -994,29 +1249,29 @@ namespace MaxMath.Intrinsics
 					}
 					case 39:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _40 = Avx2.mm256_add_epi8(_32, _8);
 						return Avx2.mm256_sub_epi8(_40, a);
 					}
 					case 40:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						return Avx2.mm256_add_epi8(_32, _8);
 					}
 					case 41:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _40 = Avx2.mm256_add_epi8(_32, _8);
 						return Avx2.mm256_add_epi8(_40, a);
 					}
 					case 42:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _40 = Avx2.mm256_add_epi8(_32, _8);
 						return Avx2.mm256_add_epi8(_40, _2);
 					}
@@ -1024,8 +1279,8 @@ namespace MaxMath.Intrinsics
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _3 = Avx2.mm256_add_epi8(_2, a);
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _40 = Avx2.mm256_add_epi8(_32, _8);
 						return Avx2.mm256_add_epi8(_40, _3);
 					}
@@ -1033,8 +1288,8 @@ namespace MaxMath.Intrinsics
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _40 = Avx2.mm256_add_epi8(_32, _8);
 						return Avx2.mm256_add_epi8(_40, _4);
 					}
@@ -1042,44 +1297,44 @@ namespace MaxMath.Intrinsics
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _3 = Avx2.mm256_add_epi8(_2, a);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _48 = Avx2.mm256_add_epi8(_32, _16);
 						return Avx2.mm256_sub_epi8(_48, _3);
 					}
 					case 46:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _48 = Avx2.mm256_add_epi8(_32, _16);
 						return Avx2.mm256_sub_epi8(_48, _2);
 					}
 					case 47:
 					{
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _48 = Avx2.mm256_add_epi8(_32, _16);
 						return Avx2.mm256_sub_epi8(_48, a);
 					}
 					case 48:
 					{
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						return Avx2.mm256_add_epi8(_32, _16);
 					}
 					case 49:
 					{
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _48 = Avx2.mm256_add_epi8(_32, _16);
 						return Avx2.mm256_add_epi8(_48, a);
 					}
 					case 50:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _48 = Avx2.mm256_add_epi8(_32, _16);
 						return Avx2.mm256_add_epi8(_48, _2);
 					}
@@ -1087,7 +1342,7 @@ namespace MaxMath.Intrinsics
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _3 = Avx2.mm256_add_epi8(_2, a);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _32 = mm256_slli_epi8(a, 5);
 						v256 _48 = Avx2.mm256_add_epi8(_32, _16);
 						return Avx2.mm256_add_epi8(_48, _3);
@@ -1096,46 +1351,46 @@ namespace MaxMath.Intrinsics
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _32 = mm256_slli_epi8(a, 5);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: false);
 						v256 _48 = Avx2.mm256_add_epi8(_32, _16);
 						return Avx2.mm256_add_epi8(_48, _4);
 					}
 					case 53:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _10 = Avx2.mm256_add_epi8(_8, _2);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _63 = Avx2.mm256_sub_epi8(_64, a);
 						return Avx2.mm256_sub_epi8(_63, _10);
 					}
 					case 54:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _10 = Avx2.mm256_add_epi8(_8, _2);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_sub_epi8(_64, _10);
 					}
 					case 55:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _9 = Avx2.mm256_add_epi8(_8, a);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_sub_epi8(_64, _9);
 					}
 					case 56:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_sub_epi8(_64, _8);
 					}
 					case 57:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _7 = Avx2.mm256_sub_epi8(_8, a);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_sub_epi8(_64, _7);
 					}
 					case 58:
@@ -1226,38 +1481,38 @@ namespace MaxMath.Intrinsics
 					}
 					case 71:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _72 = Avx2.mm256_add_epi8(_64, _8);
 						return Avx2.mm256_sub_epi8(_72, a);
 					}
 					case 72:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _8);
 					}
 					case 73:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _72 = Avx2.mm256_add_epi8(_64, _8);
 						return Avx2.mm256_add_epi8(_72, a);
 					}
 					case 74:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _10 = Avx2.mm256_add_epi8(_2, _8);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _10);
 					}
 					case 75:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _10 = Avx2.mm256_add_epi8(_2, _8);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _65 = Avx2.mm256_add_epi8(a, _64);
 						return Avx2.mm256_add_epi8(_65, _10);
 					}
@@ -1265,18 +1520,18 @@ namespace MaxMath.Intrinsics
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _12 = Avx2.mm256_add_epi8(_4, _8);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _12);
 					}
 					case 77:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _12 = Avx2.mm256_add_epi8(_4, _8);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _65 = Avx2.mm256_add_epi8(a, _64);
 						return Avx2.mm256_add_epi8(_65, _12);
 					}
@@ -1284,65 +1539,65 @@ namespace MaxMath.Intrinsics
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _12 = Avx2.mm256_add_epi8(_4, _8);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _66 = Avx2.mm256_add_epi8(_2, _64);
 						return Avx2.mm256_add_epi8(_66, _12);
 					}
 					case 79:
 					{
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _15 = Avx2.mm256_sub_epi8(_16, a);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _15);
 					}
 					case 80:
 					{
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _16);
 					}
 					case 81:
 					{
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _17 = Avx2.mm256_add_epi8(_16, a);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _17);
 					}
 					case 82:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _18 = Avx2.mm256_add_epi8(_16, _2);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _18);
 					}
 					case 83:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _3 = Avx2.mm256_add_epi8(_2, a);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _19 = Avx2.mm256_add_epi8(_16, _3);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _19);
 					}
 					case 84:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _20 = Avx2.mm256_add_epi8(_16, _4);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						return Avx2.mm256_add_epi8(_64, _20);
 					}
 					case 85:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _20 = Avx2.mm256_add_epi8(_16, _4);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _65 = Avx2.mm256_add_epi8(_64, a);
 						return Avx2.mm256_add_epi8(_65, _20);
 					}
@@ -1350,9 +1605,9 @@ namespace MaxMath.Intrinsics
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _20 = Avx2.mm256_add_epi8(_16, _4);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _66 = Avx2.mm256_add_epi8(_64, _2);
 						return Avx2.mm256_add_epi8(_66, _20);
 					}
@@ -1361,63 +1616,315 @@ namespace MaxMath.Intrinsics
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _3 = Avx2.mm256_add_epi8(_2, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _16 = mm256_slli_epi8(a, 4);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
 						v256 _20 = Avx2.mm256_add_epi8(_16, _4);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _67 = Avx2.mm256_add_epi8(_64, _3);
 						return Avx2.mm256_add_epi8(_67, _20);
 					}
 					case 88:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _80 = Avx2.mm256_add_epi8(_64, _16);
 						return Avx2.mm256_add_epi8(_80, _8);
 					}
 					case 89:
 					{
-						v256 _8 = mm256_slli_epi8(a, 3);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
 						v256 _9 = Avx2.mm256_add_epi8(_8, a);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
 						v256 _80 = Avx2.mm256_add_epi8(_64, _16);
 						return Avx2.mm256_add_epi8(_80, _9);
 					}
 					case 90:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _10 = Avx2.mm256_add_epi8(_8, _2);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _64 = mm256_slli_epi8(a, 6);
-						v256 _80 = Avx2.mm256_add_epi8(_64, _16);
-						return Avx2.mm256_add_epi8(_80, _10);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _6 = Avx2.mm256_add_epi8(_4, _2);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_sub_epi8(_96, _6);
 					}
 					case 91:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
-						v256 _3 = Avx2.mm256_add_epi8(a, _2);
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _11 = Avx2.mm256_add_epi8(_8, _3);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _64 = mm256_slli_epi8(a, 6);
-						v256 _80 = Avx2.mm256_add_epi8(_64, _16);
-						return Avx2.mm256_add_epi8(_80, _11);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _5 = Avx2.mm256_add_epi8(_4, a);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_sub_epi8(_96, _5);
 					}
 					case 92:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
 						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
-						v256 _8 = mm256_slli_epi8(a, 3);
-						v256 _12 = Avx2.mm256_add_epi8(_8, _4);
-						v256 _16 = mm256_slli_epi8(a, 4);
-						v256 _64 = mm256_slli_epi8(a, 6);
-						v256 _80 = Avx2.mm256_add_epi8(_64, _16);
-						return Avx2.mm256_add_epi8(_80, _12);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_sub_epi8(_96, _4);
 					}
-
-
+					case 93:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _3 = Avx2.mm256_add_epi8(_2, a);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_sub_epi8(_96, _3);
+					}
+					case 94:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_sub_epi8(_96, _2);
+					}
+					case 95:
+					{
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_sub_epi8(_96, a);
+					}
+					case 96:
+					{
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						return Avx2.mm256_add_epi8(_64, _32);
+					}
+					case 97:
+					{
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_add_epi8(_96, a);
+					}
+					case 98:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_add_epi8(_96, _2);
+					}
+					case 99:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _3 = Avx2.mm256_add_epi8(_2, a);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_add_epi8(_96, _3);
+					}
+					case 100:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_add_epi8(_96, _4);
+					}
+					case 101:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _5 = Avx2.mm256_add_epi8(_4, a);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_add_epi8(_96, _5);
+					}
+					case 102:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _6 = Avx2.mm256_add_epi8(_4, _2);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_add_epi8(_96, _6);
+					}
+					case 103:
+					{
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _7 = Avx2.mm256_sub_epi8(_8, a);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_add_epi8(_96, _7);
+					}
+					case 104:
+					{
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _32 = mm256_slli_epi8(a, 5, maskBefore: true);
+						v256 _64 = mm256_slli_epi8(a, 6, maskBefore: false);
+						v256 _96 = Avx2.mm256_add_epi8(_64, _32);
+						return Avx2.mm256_add_epi8(_96, _8);
+					}
+					case 105:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _3 = Avx2.mm256_add_epi8(_2, a);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _7 = Avx2.mm256_add_epi8(_4, _3);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_sub_epi8(_112, _7);
+					}
+					case 106:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _6 = Avx2.mm256_add_epi8(_4, _2);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_sub_epi8(_112, _6);
+					}
+					case 107:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _5 = Avx2.mm256_add_epi8(_4, a);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_sub_epi8(_112, _5);
+					}
+					case 108:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_sub_epi8(_112, _4);
+					}
+					case 109:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _3 = Avx2.mm256_add_epi8(_2, a);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_sub_epi8(_112, _3);
+					}
+					case 110:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_sub_epi8(_112, _2);
+					}
+					case 111:
+					{
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_sub_epi8(_112, a);
+					}
+					case 112:
+					{
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						return Avx2.mm256_sub_epi8(_128, _16);
+					}
+					case 113:
+					{
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_add_epi8(_112, a);
+					}
+					case 114:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_add_epi8(_112, _2);
+					}
+					case 115:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _3 = Avx2.mm256_add_epi8(_2, a);
+						v256 _16 = mm256_slli_epi8(a, 4, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _112 = Avx2.mm256_sub_epi8(_128, _16);
+						return Avx2.mm256_add_epi8(_112, _3);
+					}
+					case 116:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _4 = Avx2.mm256_add_epi8(_2, _2);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _12 = Avx2.mm256_add_epi8(_8, _4);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						return Avx2.mm256_sub_epi8(_128, _12);
+					}
+					case 117:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _3 = Avx2.mm256_add_epi8(_2, a);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _11 = Avx2.mm256_add_epi8(_8, _3);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						return Avx2.mm256_sub_epi8(_128, _11);
+					}
+					case 118:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _10 = Avx2.mm256_add_epi8(_8, _2);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						return Avx2.mm256_sub_epi8(_128, _10);
+					}
+					case 119:
+					{
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _9 = Avx2.mm256_add_epi8(_8, a);
+						v256 _128 = mm256_slli_epi8(a, 7);
+						return Avx2.mm256_sub_epi8(_128, _9);
+					}
+					case 120:
+					{
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						return Avx2.mm256_sub_epi8(_128, _8);
+					}
+					case 121:
+					{
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _120 = Avx2.mm256_sub_epi8(_128, _8);
+						return Avx2.mm256_add_epi8(_120, a);
+					}
+					case 122:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _120 = Avx2.mm256_sub_epi8(_128, _8);
+						return Avx2.mm256_add_epi8(_120, _2);
+					}
+					case 123:
+					{
+						v256 _2 = Avx2.mm256_add_epi8(a, a);
+						v256 _3 = Avx2.mm256_add_epi8(_2, a);
+						v256 _8 = mm256_slli_epi8(a, 3, maskBefore: true);
+						v256 _128 = mm256_slli_epi8(a, 7, maskBefore: false);
+						v256 _120 = Avx2.mm256_sub_epi8(_128, _8);
+						return Avx2.mm256_add_epi8(_120, _3);
+					}
 					case 124:
 					{
 						v256 _2 = Avx2.mm256_add_epi8(a, a);
@@ -1473,7 +1980,10 @@ namespace MaxMath.Intrinsics
 						return Avx2.mm256_add_epi8(_128, _4);
 					}
 
-					case 255: return mm256_neg_epi8(a);
+					case 255:
+					{
+						return mm256_neg_epi8(a);
+					}
 
 					default:
 					{

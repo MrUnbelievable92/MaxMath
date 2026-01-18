@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 minmag_epi8(v128 a, v128 b, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPI8(a, 0, elements) && constexpr.ALL_LE_EPI8(b, 0, elements))
                     {
@@ -37,7 +37,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 minmag_epi16(v128 a, v128 b, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPI16(a, 0, elements) && constexpr.ALL_LE_EPI16(b, 0, elements))
                     {
@@ -60,7 +60,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 minmag_epi32(v128 a, v128 b, bool promiseNoOverflow = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPI32(a, 0, elements) && constexpr.ALL_LE_EPI32(b, 0, elements))
                     {
@@ -90,7 +90,7 @@ namespace MaxMath
                             v128 minAbs = abs_epi32(min, elements);
                             v128 maxAbs = abs_epi32(max, elements);
 
-                            return blendv_si128(max, min, cmpgt_epi32(maxAbs, minAbs));
+                            return blendv_si128(min, max, or_si128(cmpgt_epi32(minAbs, maxAbs), srai_epi32(minAbs, 31)));
                         }
                         else
                         {
@@ -120,7 +120,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 minmag_epi64(v128 a, v128 b, bool promiseNoOverflow = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPI64(a, 0) && constexpr.ALL_LE_EPI64(b, 0))
                     {
@@ -144,7 +144,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 minmag_ps(v128 a, v128 b, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_PS(a, 0, elements) && constexpr.ALL_LE_PS(b, 0, elements))
                     {
@@ -167,7 +167,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 minmag_pd(v128 a, v128 b)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_PD(a, 0) && constexpr.ALL_LE_PD(b, 0))
                     {
@@ -248,7 +248,7 @@ namespace MaxMath
                         return Avx2.mm256_min_epi32(a, b);
                     }
 
-
+                    
                     mm256_minmax_epi32(a, b, out v256 min, out v256 max);
 
                     if (promiseNoOverflow)
@@ -262,7 +262,7 @@ namespace MaxMath
                         v256 minAbs = mm256_abs_epi32(min);
                         v256 maxAbs = mm256_abs_epi32(max);
 
-                        return mm256_blendv_si256(max, min, Avx2.mm256_cmpgt_epi32(maxAbs, minAbs));
+                        return mm256_blendv_si256(min, max, Avx2.mm256_or_si256(Avx2.mm256_cmpgt_epi32(minAbs, maxAbs), Avx2.mm256_srai_epi32(minAbs, 31)));
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -347,7 +347,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 minmag(Int128 a, Int128 b)
         {
-            return select(a, b, (UInt128)abs(a) > (UInt128)abs(b));
+            minmax(a, b, out Int128 min, out Int128 max);
+
+            return ((long)abs(min).hi64 < 0) | (abs(max) < abs(min)) ? max : min;
         }
 
 
@@ -355,14 +357,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte minmag(sbyte a, sbyte b)
         {
-            return abs(a) > abs(b) ? b : a;
+            return math.abs((int)a) > math.abs((int)b) ? b : a;
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 minmag(sbyte2 a, sbyte2 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi8(a, b, 2);
             }
@@ -376,7 +378,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 minmag(sbyte3 a, sbyte3 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi8(a, b, 3);
             }
@@ -390,7 +392,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 minmag(sbyte4 a, sbyte4 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi8(a, b, 4);
             }
@@ -404,7 +406,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 minmag(sbyte8 a, sbyte8 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi8(a, b, 8);
             }
@@ -418,7 +420,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 minmag(sbyte16 a, sbyte16 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi8(a, b, 16);
             }
@@ -447,14 +449,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short minmag(short a, short b)
         {
-            return abs(a) > abs(b) ? b : a;
+            return math.abs((int)a) > math.abs((int)b) ? b : a;
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 minmag(short2 a, short2 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi16(a, b, 2);
             }
@@ -468,7 +470,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 minmag(short3 a, short3 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi16(a, b, 3);
             }
@@ -482,7 +484,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 minmag(short4 a, short4 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi16(a, b, 4);
             }
@@ -496,7 +498,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 minmag(short8 a, short8 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi16(a, b, 8);
             }
@@ -525,18 +527,25 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int minmag(int a, int b)
         {
-            return math.abs(a) > math.abs(b) ? b : a;
+            if (constexpr.IS_TRUE(a > int.MaxValue && b > int.MaxValue))
+            {
+                return math.abs(a) > math.abs(b) ? b : a;
+            }
+            else
+            {
+                return math.abs((long)a) > math.abs((long)b) ? b : a;
+            }
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 minmag(int2 a, int2 b, Promise noOverFlow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 2));
             }
@@ -547,14 +556,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 minmag(int3 a, int3 b, Promise noOverFlow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 3));
             }
@@ -565,14 +574,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 minmag(int4 a, int4 b, Promise noOverFlow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.minmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 4));
             }
@@ -583,7 +592,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
         /// </summary>
@@ -605,18 +614,20 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long minmag(long a, long b)
         {
-            return math.abs(a) > math.abs(b) ? b : a;
+            minmax(a, b, out long min, out long max);
+
+            return (math.abs(min) < 0) | (math.abs(max) < math.abs(min)) ? max : min;
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 minmag(long2 a, long2 b, Promise noOverFlow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_epi64(a, b, noOverFlow.Promises(Promise.NoOverflow));
             }
@@ -627,7 +638,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
         /// </summary>
@@ -645,7 +656,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
         /// </summary>
@@ -667,7 +678,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float minmag(float a, float b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 1).Float0;
             }
@@ -681,7 +692,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 minmag(float2 a, float2 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat2(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 2));
             }
@@ -695,7 +706,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 minmag(float3 a, float3 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat3(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 3));
             }
@@ -709,7 +720,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 minmag(float4 a, float4 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToFloat4(Xse.minmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 4));
             }
@@ -738,7 +749,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double minmag(double a, double b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.minmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)).Double0;
             }
@@ -752,7 +763,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 minmag(double2 a, double2 b)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToDouble2(Xse.minmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
             }

@@ -10,7 +10,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 constdiv_epu16(v128 vector, ushort divisor, byte elements = 8, bool __unsafe = false)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
 			{
 				__unsafe |= constexpr.ALL_LT_EPU16(vector, 1 << 15, elements);
 
@@ -54,7 +54,7 @@ namespace MaxMath.Intrinsics
 			if (Avx2.IsAvx2Supported)
 			{
 				__unsafe |= constexpr.ALL_LT_EPU16(vector, 1 << 15);
-				
+
 				switch (divisor)
 				{
 					case 3:

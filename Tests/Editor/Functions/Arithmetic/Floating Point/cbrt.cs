@@ -27,7 +27,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(maxmath.cbrt((float2)float.PositiveInfinity), (float2)float.PositiveInfinity);
             Assert.AreEqual(maxmath.cbrt((float2)float.NegativeInfinity), (float2)float.NegativeInfinity);
-            
+
             Helper.TestFloat2(test => Assert.IsTrue(math.all(maxmath.approx(maxmath.cbrt(test) * maxmath.cbrt(test) * maxmath.cbrt(test), test))));
         }
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(maxmath.cbrt((float3)float.PositiveInfinity), (float3)float.PositiveInfinity);
             Assert.AreEqual(maxmath.cbrt((float3)float.NegativeInfinity), (float3)float.NegativeInfinity);
-            
+
             Helper.TestFloat3(test => Assert.IsTrue(math.all(maxmath.approx(maxmath.cbrt(test) * maxmath.cbrt(test) * maxmath.cbrt(test), test))));
         }
 
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(maxmath.cbrt((float4)float.PositiveInfinity), (float4)float.PositiveInfinity);
             Assert.AreEqual(maxmath.cbrt((float4)float.NegativeInfinity), (float4)float.NegativeInfinity);
-            
+
             Helper.TestFloat4(test => Assert.IsTrue(math.all(maxmath.approx(maxmath.cbrt(test) * maxmath.cbrt(test) * maxmath.cbrt(test), test))));
         }
 
@@ -66,7 +66,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(maxmath.cbrt((float8)float.PositiveInfinity), (float8)float.PositiveInfinity);
             Assert.AreEqual(maxmath.cbrt((float8)float.NegativeInfinity), (float8)float.NegativeInfinity);
-            
+
             Helper.TestFloat8(test => Assert.IsTrue(maxmath.all(maxmath.approx(maxmath.cbrt(test) * maxmath.cbrt(test) * maxmath.cbrt(test), test))));
         }
 
@@ -80,7 +80,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(maxmath.cbrt(double.PositiveInfinity), double.PositiveInfinity);
             Assert.AreEqual(maxmath.cbrt(double.NegativeInfinity), double.NegativeInfinity);
-            
+
             Helper.TestDouble(test => Assert.IsTrue(maxmath.approx(maxmath.cbrt(test) * maxmath.cbrt(test) * maxmath.cbrt(test), test)));
         }
 
@@ -93,7 +93,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(maxmath.cbrt((double2)double.PositiveInfinity), (double2)double.PositiveInfinity);
             Assert.AreEqual(maxmath.cbrt((double2)double.NegativeInfinity), (double2)double.NegativeInfinity);
-            
+
             Helper.TestDouble2(test => Assert.IsTrue(math.all(maxmath.approx(maxmath.cbrt(test) * maxmath.cbrt(test) * maxmath.cbrt(test), test))));
         }
 
@@ -106,7 +106,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(maxmath.cbrt((double3)double.PositiveInfinity), (double3)double.PositiveInfinity);
             Assert.AreEqual(maxmath.cbrt((double3)double.NegativeInfinity), (double3)double.NegativeInfinity);
-            
+
             Helper.TestDouble3(test => Assert.IsTrue(math.all(maxmath.approx(maxmath.cbrt(test) * maxmath.cbrt(test) * maxmath.cbrt(test), test))));
         }
 
@@ -119,7 +119,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(maxmath.cbrt((double4)double.PositiveInfinity), (double4)double.PositiveInfinity);
             Assert.AreEqual(maxmath.cbrt((double4)double.NegativeInfinity), (double4)double.NegativeInfinity);
-            
+
             Helper.TestDouble4(test => Assert.IsTrue(math.all(maxmath.approx(maxmath.cbrt(test) * maxmath.cbrt(test) * maxmath.cbrt(test), test))));
         }
     }

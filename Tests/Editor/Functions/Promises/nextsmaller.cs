@@ -70,6 +70,32 @@ namespace MaxMath.Tests
             Assert.AreEqual(maxmath.nextsmaller((quarter8)(-1.747f)), maxmath.nextsmaller((quarter8)(-1.747f), Promise.Negative | Promise.Unsafe0));
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(1.747f)),  maxmath.nextsmaller((quarter16)(1.747f), Promise.NonZero));
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(1.747f)),  maxmath.nextsmaller((quarter16)(1.747f), Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(1.747f)),  maxmath.nextsmaller((quarter16)(1.747f), Promise.Positive));
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(-1.747f)), maxmath.nextsmaller((quarter16)(-1.747f), Promise.Negative));
+
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(1.747f)),  maxmath.nextsmaller((quarter16)(1.747f), Promise.NonZero | Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(1.747f)),  maxmath.nextsmaller((quarter16)(1.747f), Promise.Positive | Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((quarter16)(-1.747f)), maxmath.nextsmaller((quarter16)(-1.747f), Promise.Negative | Promise.Unsafe0));
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(1.747f)),  maxmath.nextsmaller((quarter32)(1.747f), Promise.NonZero));
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(1.747f)),  maxmath.nextsmaller((quarter32)(1.747f), Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(1.747f)),  maxmath.nextsmaller((quarter32)(1.747f), Promise.Positive));
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(-1.747f)), maxmath.nextsmaller((quarter32)(-1.747f), Promise.Negative));
+
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(1.747f)),  maxmath.nextsmaller((quarter32)(1.747f), Promise.NonZero | Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(1.747f)),  maxmath.nextsmaller((quarter32)(1.747f), Promise.Positive | Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((quarter32)(-1.747f)), maxmath.nextsmaller((quarter32)(-1.747f), Promise.Negative | Promise.Unsafe0));
+        }
+
 
         [Test]
         public static void _half()
@@ -134,6 +160,19 @@ namespace MaxMath.Tests
             Assert.AreEqual(maxmath.nextsmaller((half8)(1747f)),  maxmath.nextsmaller((half8)(1747f), Promise.NonZero | Promise.Unsafe0));
             Assert.AreEqual(maxmath.nextsmaller((half8)(1747f)),  maxmath.nextsmaller((half8)(1747f), Promise.Positive | Promise.Unsafe0));
             Assert.AreEqual(maxmath.nextsmaller((half8)(-1747f)), maxmath.nextsmaller((half8)(-1747f), Promise.Negative | Promise.Unsafe0));
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Assert.AreEqual(maxmath.nextsmaller((half16)(1747f)),  maxmath.nextsmaller((half16)(1747f), Promise.NonZero));
+            Assert.AreEqual(maxmath.nextsmaller((half16)(1747f)),  maxmath.nextsmaller((half16)(1747f), Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((half16)(1747f)),  maxmath.nextsmaller((half16)(1747f), Promise.Positive));
+            Assert.AreEqual(maxmath.nextsmaller((half16)(-1747f)), maxmath.nextsmaller((half16)(-1747f), Promise.Negative));
+
+            Assert.AreEqual(maxmath.nextsmaller((half16)(1747f)),  maxmath.nextsmaller((half16)(1747f), Promise.NonZero | Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((half16)(1747f)),  maxmath.nextsmaller((half16)(1747f), Promise.Positive | Promise.Unsafe0));
+            Assert.AreEqual(maxmath.nextsmaller((half16)(-1747f)), maxmath.nextsmaller((half16)(-1747f), Promise.Negative | Promise.Unsafe0));
         }
 
 

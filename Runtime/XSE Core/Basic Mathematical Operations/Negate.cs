@@ -108,7 +108,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 neg_pq(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return xor_ps(a, new v128((byte)(1 << 7)));
             }
@@ -118,7 +118,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 neg_ph(v128 a)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return xor_ps(a, new v128((ushort)(1 << 15)));
             }

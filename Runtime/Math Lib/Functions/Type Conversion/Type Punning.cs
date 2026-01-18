@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -8,7 +9,7 @@ namespace MaxMath
 {
     unsafe public static partial class maxmath
     {
-        /// <summary>       Returns the bit pattern of an <see cref="byte"/> as a <see cref="quarter"/>.    </summary>
+        /// <summary>       Returns the bit pattern of an <see cref="byte"/> as a <see cref="MaxMath.quarter"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter asquarter(sbyte x)
         {
@@ -19,7 +20,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 asquarter(sbyte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -33,7 +34,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 asquarter(sbyte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -47,7 +48,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 asquarter(sbyte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -61,7 +62,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 asquarter(sbyte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -71,8 +72,36 @@ namespace MaxMath
             }
         }
 
+        /// <summary>       Returns the bit pattern of an <see cref="MaxMath.sbyte16"/> as a <see cref="MaxMath.quarter16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 asquarter(sbyte16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter16*)&x;
+            }
+        }
 
-        /// <summary>       Returns the bit pattern of a <see cref="byte"/> as a <see cref="quarter"/>.    </summary>
+        /// <summary>       Returns the bit pattern of an <see cref="MaxMath.sbyte32"/> as a <see cref="MaxMath.quarter32"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 asquarter(sbyte32 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(quarter32*)&x;
+            }
+        }
+
+
+        /// <summary>       Returns the bit pattern of a <see cref="byte"/> as a <see cref="MaxMath.quarter"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter asquarter(byte x)
         {
@@ -83,7 +112,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 asquarter(byte2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -97,7 +126,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 asquarter(byte3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -111,7 +140,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 asquarter(byte4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -125,13 +154,41 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 asquarter(byte8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
             else
             {
                 return *(quarter8*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.byte16"/> as a <see cref="MaxMath.quarter16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 asquarter(byte16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(quarter16*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.byte32"/> as a <see cref="MaxMath.quarter32"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 asquarter(byte32 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(quarter32*)&x;
             }
         }
 
@@ -186,7 +243,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the bit pattern of a <see cref="quarter"/> as an <see cref="sbyte"/>.    </summary>
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.quarter"/> as an <see cref="sbyte"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte assbyte(quarter x)
         {
@@ -197,7 +254,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 assbyte(quarter2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -211,7 +268,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 assbyte(quarter3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -225,7 +282,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 assbyte(quarter4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -239,13 +296,41 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 assbyte(quarter8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
             else
             {
                 return *(sbyte8*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.quarter16"/> as an <see cref="MaxMath.sbyte16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 assbyte(quarter16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(sbyte16*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.quarter32"/> as an <see cref="MaxMath.sbyte32"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte32 assbyte(quarter32 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(sbyte32*)&x;
             }
         }
 
@@ -300,7 +385,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the bit pattern of a <see cref="quarter"/> as a <see cref="byte"/>.    </summary>
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.quarter"/> as a <see cref="byte"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte asbyte(quarter x)
         {
@@ -311,7 +396,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 asbyte(quarter2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -325,7 +410,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 asbyte(quarter3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -339,7 +424,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 asbyte(quarter4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -353,13 +438,41 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 asbyte(quarter8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
             else
             {
                 return *(byte8*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.quarter16"/> as a <see cref="MaxMath.byte16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte16 asbyte(quarter16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (v128)x;
+            }
+            else
+            {
+                return *(byte16*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.quarter32"/> as a <see cref="MaxMath.byte32"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte32 asbyte(quarter32 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(byte32*)&x;
             }
         }
 
@@ -396,13 +509,27 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 ashalf(short8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
             else
             {
                 return *(half8*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.short16"/> as a <see cref="MaxMath.half16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 ashalf(short16 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(half16*)&x;
             }
         }
 
@@ -439,13 +566,27 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 ashalf(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
             else
             {
                 return *(half8*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.ushort16"/> as a <see cref="MaxMath.half16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 ashalf(ushort16 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(half16*)&x;
             }
         }
 
@@ -525,13 +666,26 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 asshort(half8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
             else
             {
                 return *(short8*)&x;
+            }
+        }
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.half16"/> as a <see cref="MaxMath.short16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short16 asshort(half16 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(short16*)&x;
             }
         }
 
@@ -611,13 +765,27 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 asushort(half8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
             else
             {
                 return *(ushort8*)&x;
+            }
+        }
+
+        /// <summary>       Returns the bit pattern of a <see cref="MaxMath.half16"/> as a <see cref="MaxMath.ushort16"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort16 asushort(half16 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return (v256)x;
+            }
+            else
+            {
+                return *(ushort16*)&x;
             }
         }
 

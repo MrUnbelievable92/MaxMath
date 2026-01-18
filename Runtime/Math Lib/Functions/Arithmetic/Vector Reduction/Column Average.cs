@@ -14,7 +14,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vavg_epu8(v128 a, bool promiseNoOverflow = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (elements == 2)
                     {
@@ -40,7 +40,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vavg_epu16(v128 a, bool promiseNoOverflow = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (elements == 2)
                     {
@@ -67,7 +67,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vavg_epi8(v128 a, bool promiseNoOverflow = false, byte elements = 16)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (Ssse3.IsSsse3Supported)
                     {
@@ -121,7 +121,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vavg_epi16(v128 a, bool promiseNoOverflow = false, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (Ssse3.IsSsse3Supported)
                     {
@@ -175,7 +175,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vavg_epi32(v128 a, bool promiseNoOverflow = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (Ssse3.IsSsse3Supported)
                     {
@@ -228,7 +228,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cavg(byte2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu8(c, true, 2).Byte0;
             }
@@ -239,14 +239,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.byte3"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 3 overflows.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cavg(byte3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu8(c, promiseNoOverflow : noOverflow.Promises(Promise.NoOverflow), 3).Byte0;
             }
@@ -257,14 +257,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.byte4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="promises"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> 3 that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> 3 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cavg(byte4 c, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu8(c, promiseNoOverflow: promises.Promises(Promise.NoOverflow), 4).Byte0;
             }
@@ -278,7 +278,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cavg(byte8 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu8(c, true /*sad_epu*/, 8).Byte0;
             }
@@ -292,7 +292,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cavg(byte16 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu8(c, true /*sad_epu*/, 16).Byte0;
             }
@@ -306,7 +306,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cavg(byte32 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 OFFSET = Xse.cvtsi32_si128(31);
                 v128 total;
@@ -333,14 +333,14 @@ namespace MaxMath
 
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.sbyte2"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cavg(sbyte2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi8(c, noOverflow.Promises(Promise.NoOverflow), 2).SByte0;
             }
@@ -351,14 +351,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.sbyte3"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cavg(sbyte3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi8(c, noOverflow.Promises(Promise.NoOverflow), 3).SByte0;
             }
@@ -371,14 +371,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.sbyte4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cavg(sbyte4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi8(c, noOverflow.Promises(Promise.NoOverflow), 4).SByte0;
             }
@@ -391,14 +391,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.sbyte8"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 7 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 7 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cavg(sbyte8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi8(c, noOverflow.Promises(Promise.NoOverflow), 8).SByte0;
             }
@@ -411,14 +411,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.sbyte16"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 15 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 15 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cavg(sbyte16 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi8(c, noOverflow.Promises(Promise.NoOverflow), 16).SByte0;
             }
@@ -431,14 +431,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.sbyte32"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 31 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 31 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cavg(sbyte32 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 OFFSET128 = Xse.cvtsi32_si128(31);
                 v128 lo;
@@ -510,7 +510,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cavg(ushort2 c)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu16(c, false, 2).UShort0;
             }
@@ -521,14 +521,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.ushort3"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> 2 that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> 2 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cavg(ushort3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu16(c, noOverflow.Promises(Promise.NoOverflow), 3).UShort0;
             }
@@ -539,14 +539,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.ushort4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="promises"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> 3 that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> 3 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cavg(ushort4 c, Promise promises = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu16(c, promises.Promises(Promise.NoOverflow), 4).UShort0;
             }
@@ -557,14 +557,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.ushort8"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> 7 that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> 7 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cavg(ushort8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epu16(c, noOverflow.Promises(Promise.NoOverflow), 8).UShort0;
             }
@@ -575,14 +575,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.ushort16"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> 7 that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> 7 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cavg(ushort16 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 OFFSET = Xse.cvtsi32_si128(15);
                 v128 lo;
@@ -623,14 +623,14 @@ namespace MaxMath
 
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.short2"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cavg(short2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi16(c, noOverflow.Promises(Promise.NoOverflow), 2).SShort0;
             }
@@ -641,14 +641,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.short3"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cavg(short3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi16(c, noOverflow.Promises(Promise.NoOverflow), 3).SShort0;
             }
@@ -661,14 +661,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.short4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cavg(short4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi16(c, noOverflow.Promises(Promise.NoOverflow), 4).SShort0;
             }
@@ -681,14 +681,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.short8"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 7 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 7 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cavg(short8 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi16(c, noOverflow.Promises(Promise.NoOverflow), 8).SShort0;
             }
@@ -701,14 +701,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.short16"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 15 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 15 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cavg(short16 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 OFFSET128 = Xse.cvtsi32_si128(15);
                 v128 lo;
@@ -777,7 +777,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="uint2"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 1 overflows.       </para>
         /// </remarks>
         /// </summary>
@@ -795,7 +795,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="uint3"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 2 overflows.       </para>
         /// </remarks>
         /// </summary>
@@ -813,7 +813,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="uint4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 3 overflows.       </para>
         /// </remarks>
         /// </summary>
@@ -827,8 +827,8 @@ namespace MaxMath
             else
             {
                 ulong __csum;
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 c64Lo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(c), out v128 c64Hi);
                     v128 sum = Xse.add_epi64(c64Lo, c64Hi);
@@ -844,7 +844,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.uint8"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 7 overflows.       </para>
         /// </remarks>
         /// </summary>
@@ -865,7 +865,7 @@ namespace MaxMath
 
                     __csum = csum((ulong4)Avx2.mm256_add_epi64(c64Lo, c64Hi));
                 }
-                else if (Architecture.IsSIMDSupported)
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 c64LoLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(c.v4_0), out v128 c64LoHi);
                     v128 c64HiLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(c.v4_4), out v128 c64HiHi);
@@ -889,14 +889,14 @@ namespace MaxMath
 
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="int2"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cavg(int2 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi32(RegisterConversion.ToV128(c), noOverflow.Promises(Promise.NoOverflow), 2).SInt0;
             }
@@ -907,14 +907,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="int3"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cavg(int3 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi32(RegisterConversion.ToV128(c), noOverflow.Promises(Promise.NoOverflow), 3).SInt0;
             }
@@ -927,14 +927,14 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="int4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cavg(int4 c, Promise noOverflow = Promise.Nothing)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.vavg_epi32(RegisterConversion.ToV128(c), noOverflow.Promises(Promise.NoOverflow), 4).SInt0;
             }
@@ -947,7 +947,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.int8"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 7 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 7 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
@@ -958,7 +958,7 @@ namespace MaxMath
 
             if (noOverflow.Promises(Promise.NoOverflow))
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 OFFSET128 = Xse.cvtsi32_si128(OFFSET);
                     v128 csum;
@@ -998,8 +998,8 @@ namespace MaxMath
             else
             {
                 long intermediate;
-                
-                if (Architecture.IsSIMDSupported)
+
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 csum;
 
@@ -1032,7 +1032,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.ulong2"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 1 overflows.       </para>
         /// </remarks>
         /// </summary>
@@ -1050,7 +1050,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.ulong3"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 2 overflows.       </para>
         /// </remarks>
         /// </summary>
@@ -1073,7 +1073,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.ulong4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 3 overflows.       </para>
         /// </remarks>
         /// </summary>
@@ -1098,7 +1098,7 @@ namespace MaxMath
 
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.long2"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
@@ -1118,7 +1118,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.long3"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>
@@ -1142,7 +1142,7 @@ namespace MaxMath
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.long4"/>.
-        /// <remarks>       
+        /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 is guaranteed not to overflow.       </para>
         /// </remarks>
         /// </summary>

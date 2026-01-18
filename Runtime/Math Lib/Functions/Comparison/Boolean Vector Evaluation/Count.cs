@@ -17,7 +17,7 @@ namespace MaxMath
         {
 VectorAssert.IsNotGreater<byte2, byte>(tobyte(x), 1, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (uint)math.countbits((uint)RegisterConversion.ToV128(x).UShort0);
             }
@@ -47,7 +47,7 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(x), 1, 3);
         {
 VectorAssert.IsNotGreater<byte4, byte>(tobyte(x), 1, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (uint)math.countbits(RegisterConversion.ToV128(x).UInt0);
             }
@@ -64,7 +64,7 @@ VectorAssert.IsNotGreater<byte4, byte>(tobyte(x), 1, 4);
         {
 VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (uint)math.countbits(((v128)x).ULong0);
             }
@@ -81,7 +81,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         {
 VectorAssert.IsNotGreater<byte16, byte>(tobyte(x), 1, 16);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (uint)math.countbits(Xse.movemask_epi8(Xse.neg_epi8(x)));
             }

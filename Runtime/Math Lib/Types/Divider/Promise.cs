@@ -189,7 +189,7 @@ namespace MaxMath
                 }
             }
 
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static implicit operator DividerPromise(Promise p) => new DividerPromise{ _promises = p };
 

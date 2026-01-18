@@ -12,7 +12,7 @@ namespace MaxMath.Intrinsics
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return set1_epi8(0x0F);
                 }
@@ -39,7 +39,7 @@ namespace MaxMath.Intrinsics
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return new v128(0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225);
                 }

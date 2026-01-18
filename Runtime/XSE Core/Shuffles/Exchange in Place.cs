@@ -11,7 +11,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void xchg_si128([NoAlias] ref v128 a, [NoAlias] ref v128 b, v128 mask)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 cpy = a;
 
@@ -38,11 +38,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void xchg_si128([NoAlias] ref v128 a, [NoAlias] ref v128 b)
         {
-            if (Architecture.IsBlendSupported)
+            if (BurstArchitecture.IsBlendSupported)
             {
                 xchg_si128(ref a, ref b, setall_si128());
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 a = add_epi32(a, b);
                 b = sub_epi32(a, b);

@@ -7,7 +7,7 @@ namespace MaxMath.Tests
             ReturnType = returnType;
             Parameters = parameters;
         }
-    
+
         internal TypeInfo? ReturnType;
         internal Parameter[] Parameters;
     }

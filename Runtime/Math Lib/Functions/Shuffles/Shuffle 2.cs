@@ -5,8 +5,6 @@ using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
 
-using static Unity.Burst.Intrinsics.X86;
-
 namespace MaxMath
 {
     unsafe public static partial class maxmath
@@ -64,7 +62,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte shuffle(byte2 a, byte2 b, math.ShuffleComponent x)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
@@ -83,7 +81,7 @@ Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shuffle(byte2 a, byte2 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
@@ -107,7 +105,7 @@ Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shuffle(byte2 a, byte2 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
@@ -136,7 +134,7 @@ Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shuffle(byte2 a, byte2 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
@@ -171,7 +169,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte shuffle(byte3 a, byte3 b, math.ShuffleComponent x)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
@@ -188,7 +186,7 @@ Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shuffle(byte3 a, byte3 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
@@ -208,7 +206,7 @@ Assert.AreNotEqual((byte)y, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shuffle(byte3 a, byte3 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
@@ -231,7 +229,7 @@ Assert.AreNotEqual((byte)z, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shuffle(byte3 a, byte3 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((byte)x, (byte)math.ShuffleComponent.RightW);
@@ -258,7 +256,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte shuffle(byte4 a, byte4 b, math.ShuffleComponent x)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte2((byte)x, 0)).Byte0;
             }
@@ -272,7 +270,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 shuffle(byte4 a, byte4 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte2((byte)x, (byte)y));
             }
@@ -287,7 +285,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 shuffle(byte4 a, byte4 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, 0));
             }
@@ -303,7 +301,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 shuffle(byte4 a, byte4 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.shuffle_epi8(Xse.unpacklo_epi32(a, b), new byte4((byte)x, (byte)y, (byte)z, (byte)w));
             }
@@ -404,7 +402,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         }
 
 
-        /// <summary>       Returns the result of specified shuffling of the components from two <see cref="MaxMath.quarter2"/>s into a <see cref="quarter"/>.       </summary>
+        /// <summary>       Returns the result of specified shuffling of the components from two <see cref="MaxMath.quarter2"/>s into a <see cref="MaxMath.quarter"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter shuffle(quarter2 a, quarter2 b, math.ShuffleComponent x)
         {
@@ -433,7 +431,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         }
 
 
-        /// <summary>       Returns the result of specified shuffling of the components from two <see cref="MaxMath.quarter3"/>s into a <see cref="quarter"/>.       </summary>
+        /// <summary>       Returns the result of specified shuffling of the components from two <see cref="MaxMath.quarter3"/>s into a <see cref="MaxMath.quarter"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter shuffle(quarter3 a, quarter3 b, math.ShuffleComponent x)
         {
@@ -462,7 +460,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         }
 
 
-        /// <summary>       Returns the result of specified shuffling of the components from two <see cref="MaxMath.quarter4"/>s into a <see cref="quarter"/>.       </summary>
+        /// <summary>       Returns the result of specified shuffling of the components from two <see cref="MaxMath.quarter4"/>s into a <see cref="MaxMath.quarter"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter shuffle(quarter4 a, quarter4 b, math.ShuffleComponent x)
         {
@@ -544,7 +542,7 @@ Assert.AreNotEqual((byte)w, (byte)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort shuffle(ushort2 a, ushort2 b, math.ShuffleComponent x)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
@@ -568,7 +566,7 @@ Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shuffle(ushort2 a, ushort2 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
@@ -597,7 +595,7 @@ Assert.AreNotEqual((ushort)y, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shuffle(ushort2 a, ushort2 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
@@ -631,7 +629,7 @@ Assert.AreNotEqual((ushort)z, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shuffle(ushort2 a, ushort2 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftZ);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
@@ -671,7 +669,7 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort shuffle(ushort3 a, ushort3 b, math.ShuffleComponent x)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
@@ -693,7 +691,7 @@ Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shuffle(ushort3 a, ushort3 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
@@ -718,7 +716,7 @@ Assert.AreNotEqual((ushort)y, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shuffle(ushort3 a, ushort3 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
@@ -746,7 +744,7 @@ Assert.AreNotEqual((ushort)z, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shuffle(ushort3 a, ushort3 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.LeftW);
 Assert.AreNotEqual((ushort)x, (ushort)math.ShuffleComponent.RightW);
@@ -778,7 +776,7 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort shuffle(ushort4 a, ushort4 b, math.ShuffleComponent x)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 byte4 shuffleMask = new byte4((byte)x, 0, 0, 0);
                 shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
@@ -797,7 +795,7 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 shuffle(ushort4 a, ushort4 b, math.ShuffleComponent x, math.ShuffleComponent y)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, 0, 0);
                 shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
@@ -817,7 +815,7 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 shuffle(ushort4 a, ushort4 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, (byte)z, 0);
                 shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);
@@ -838,7 +836,7 @@ Assert.AreNotEqual((ushort)w, (ushort)math.ShuffleComponent.RightW);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 shuffle(ushort4 a, ushort4 b, math.ShuffleComponent x, math.ShuffleComponent y, math.ShuffleComponent z, math.ShuffleComponent w)
         {
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 byte4 shuffleMask = new byte4((byte)x, (byte)y, (byte)z, (byte)w);
                 shuffleMask = Xse.add_epi8(shuffleMask, shuffleMask);

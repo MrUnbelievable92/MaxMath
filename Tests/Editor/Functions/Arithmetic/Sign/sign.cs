@@ -262,7 +262,7 @@ namespace MaxMath.Tests
             {
                 int value = rng.NextInt();
 
-                Assert.AreEqual(maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
+                Assert.AreEqual(maxmath.sign(value, Promise.Nothing), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
         }
 
@@ -342,7 +342,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _long()
         {
-            Assert.AreEqual(0, maxmath.sign((long)0));
+            Assert.AreEqual(0, maxmath.sign((long)0, Promise.Nothing));
 
             Random64 rng = Random64.New;
 
@@ -350,7 +350,7 @@ namespace MaxMath.Tests
             {
                 long value = rng.NextLong();
 
-                Assert.AreEqual(maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
+                Assert.AreEqual(maxmath.sign(value, Promise.Nothing), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
         }
 
@@ -501,6 +501,44 @@ namespace MaxMath.Tests
             }
         }
 
+        [Test]
+        public static void _quarter16()
+        {
+            Assert.AreEqual((quarter16)0f, maxmath.sign((quarter16)0));
+            Assert.AreEqual((quarter16)0f, maxmath.sign(maxmath.asquarter((byte16)(1 << 7))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                quarter16 value = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+
+                for (int j = 0; j < 16; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+        [Test]
+        public static void _quarter32()
+        {
+            Assert.AreEqual((quarter32)0f, maxmath.sign((quarter32)0));
+            Assert.AreEqual((quarter32)0f, maxmath.sign(maxmath.asquarter((byte32)(1 << 7))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 32; i++)
+            {
+                quarter32 value = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue), (quarter8)rng.NextFloat8(quarter.MinValue, quarter.MaxValue));
+
+                for (int j = 0; j < 32; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
 
         [Test]
         public static void _half()
@@ -588,6 +626,25 @@ namespace MaxMath.Tests
                 half8 value = (half8)rng.NextFloat8(half.MinValue, half.MaxValue);
 
                 for (int j = 0; j < 8; j++)
+                {
+                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                }
+            }
+        }
+
+        [Test]
+        public static void _half16()
+        {
+            Assert.AreEqual((half16)0f, maxmath.sign((half16)0));
+            Assert.AreEqual((half16)0f, maxmath.sign(maxmath.ashalf((ushort16)(1 << 15))));
+
+            Random32 rng = Random32.New;
+
+            for (int i = 0; i < 16; i++)
+            {
+                half16 value = new half16((half8)rng.NextFloat8(half.MinValue, half.MaxValue), (half8)rng.NextFloat8(half.MinValue, half.MaxValue));
+
+                for (int j = 0; j < 16; j++)
                 {
                     Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }

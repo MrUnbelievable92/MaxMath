@@ -1,3 +1,5 @@
+//#define TESTING
+
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
@@ -16,7 +18,42 @@ namespace MaxMath
         unsafe public static partial class Xse
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_epi8(v128 a, byte elements = 16)
+            public static v128 sqrt_binsearch_epi8(v128 a, byte elements = 16)
+            {
+                if (BurstArchitecture.IsTableLookupSupported)
+                {
+                    v128 CMP_VALUES0 = new v128(4 * 4 - 1, 0, 3 * 3 - 1, 0, 6 * 6 - 1, 0, 7 * 7 - 1, 0, 127, 0, 11 * 11 - 1, 0, 127, 0, 127, 0);
+                    v128 CMP_VALUES1 = new v128(2 * 2 - 1, 0, 0, 0, 0, 0, 0, 0, 10 * 10 - 1, 0, 0, 0, 0, 0, 0, 0);
+                    v128 CMP_VALUES2 = new v128(1 * 1 - 1, 0, 0, 0, 5 * 5 - 1, 0, 0, 0, 9 * 9 - 1, 0, 0, 0, 127, 0, 0, 0);
+                    
+                    v128 cmp0 = cmpgt_epi8(a, set1_epi8(8 * 8 - 1, elements));
+
+                    v128 result = and_si128(set1_epi8(8, elements), cmp0);
+                    
+                    v128 cmp1 = shuffle_epi8(CMP_VALUES0, result);
+                    cmp1 = cmpgt_epi8(a, cmp1);
+                    result = add_epi8(result, and_si128(set1_epi8(4, elements), cmp1));
+                    
+                    v128 cmp2 = blendv_si128(CMP_VALUES1, CMP_VALUES0, cmp1);
+                    cmp2 = shuffle_epi8(cmp2, result);
+                    cmp2 = cmpgt_epi8(a, cmp2);
+                    result = sub_epi8(result, cmp2);
+                    result = sub_epi8(result, cmp2);
+
+                    v128 cmp3 = blendv_si128(CMP_VALUES2, CMP_VALUES0, cmp2);
+                    cmp3 = shuffle_epi8(cmp3, result);
+                    cmp3 = cmpgt_epi8(a, cmp3);
+                    result = sub_epi8(result, cmp3);
+
+                    constexpr.ASSUME_LE_EPU8(result, 11);
+
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 sqrt_f32rcprsqrt_epi8(v128 a, byte elements = 16)
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -64,34 +101,42 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_sqrt_epi8(v256 a)
+            public static v128 sqrt_binsearch_epu8(v128 a, byte elements = 16)
             {
-                if (Avx2.IsAvx2Supported)
+                if (BurstArchitecture.IsTableLookupSupported)
                 {
-                    v256 shortsLo = mm256_cvt2x2epu8_epi16(a, out v256 shortsHi);
-                    v256 floats_0_1_2_3___16_17_18_19 = mm256_cvt2x2epu16_ps(shortsLo, out v256 floats_4_5_6_7___20_21_22_23);
-                    v256 floats_8_9_10_11___24_25_26_27 = mm256_cvt2x2epu16_ps(shortsHi, out v256 floats_12_13_14_15___28_29_30_31);
+                    v128 CMP_VALUES0 = new v128(4 * 4, 0, 3 * 3, 0, 6 * 6, 0, 7 * 7, 0, 12 * 12, 0, 11 * 11, 0, 14 * 14, 0, 15 * 15, 0);
+                    v128 CMP_VALUES1 = new v128(2 * 2, 0, 0, 0, 0, 0, 0, 0, 10 * 10, 0, 0, 0, 0, 0, 0, 0);
+                    v128 CMP_VALUES2 = new v128(1 * 1, 0, 0, 0, 5 * 5, 0, 0, 0, 9 * 9, 0, 0, 0, 13 * 13, 0, 0, 0);
+                    
+                    v128 cmp0 = cmpge_epu8(a, set1_epi8(8 * 8, elements), elements);
 
-                    v256 sqrt_lo  = Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(floats_0_1_2_3___16_17_18_19));
-                    v256 sqrt_hi  = Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(floats_4_5_6_7___20_21_22_23));
-                    v256 sqrt_lo2 = Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(floats_8_9_10_11___24_25_26_27));
-                    v256 sqrt_hi2 = Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(floats_12_13_14_15___28_29_30_31));
+                    v128 result = and_si128(set1_epi8(8, elements), cmp0);
+                    
+                    v128 cmp1 = shuffle_epi8(CMP_VALUES0, result);
+                    cmp1 = cmpge_epu8(a, cmp1, elements);
+                    result = add_epi8(result, and_si128(set1_epi8(4, elements), cmp1));
+                    
+                    v128 cmp2 = blendv_si128(CMP_VALUES1, CMP_VALUES0, cmp1);
+                    cmp2 = shuffle_epi8(cmp2, result);
+                    cmp2 = cmpge_epu8(a, cmp2, elements);
+                    result = sub_epi8(result, cmp2);
+                    result = sub_epi8(result, cmp2);
 
-                    shortsLo = Avx2.mm256_packus_epi32(Avx.mm256_cvttps_epi32(sqrt_lo),  Avx.mm256_cvttps_epi32(sqrt_hi));
-                    shortsHi = Avx2.mm256_packus_epi32(Avx.mm256_cvttps_epi32(sqrt_lo2), Avx.mm256_cvttps_epi32(sqrt_hi2));
+                    v128 cmp3 = blendv_si128(CMP_VALUES2, CMP_VALUES0, cmp2);
+                    cmp3 = shuffle_epi8(cmp3, result);
+                    cmp3 = cmpge_epu8(a, cmp3, elements);
+                    result = sub_epi8(result, cmp3);
 
-                    a = Avx2.mm256_packus_epi16(shortsLo, shortsHi);
+                    constexpr.ASSUME_LE_EPU8(result, 15);
 
-                    constexpr.ASSUME_LE_EPU8(a, 15);
-
-                    return a;
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
-
-
+            
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_epu8(v128 a, byte elements = 16)
+            public static v128 sqrt_f32rcprsqrt_epu8(v128 a, byte elements = 16)
             {
                 if (Sse2.IsSse2Supported)
                 {
@@ -110,20 +155,136 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 sqrt_epi8(v128 a, byte elements = 16)
+            {
+                if (BurstArchitecture.IsTableLookupSupported)
+                {
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        if (Arm.Neon.IsNeonSupported)
+                        {
+                            return sqrt_binsearch_epi8(a, elements);
+                        }
+                        else
+                        {
+                            if (elements <= 8)
+                            {
+                                return sqrt_f32rcprsqrt_epi8(a, elements);
+                            }
+                        }
+                    }
+
+                    return sqrt_binsearch_epi8(a, elements);
+                }
+                else if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return sqrt_f32rcprsqrt_epi8(a, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_sqrt_epi8(v256 a)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 CMP_VALUES0 = new v256(4 * 4 - 1, 0, 3 * 3 - 1, 0, 6 * 6 - 1, 0, 7 * 7 - 1, 0, 127, 0, 11 * 11 - 1, 0, 127, 0, 127, 0,
+                                                4 * 4 - 1, 0, 3 * 3 - 1, 0, 6 * 6 - 1, 0, 7 * 7 - 1, 0, 127, 0, 11 * 11 - 1, 0, 127, 0, 127, 0);
+                    v256 CMP_VALUES1 = new v256(2 * 2 - 1, 0, 0, 0, 0, 0, 0, 0, 10 * 10 - 1, 0, 0, 0, 0, 0, 0, 0,
+                                                2 * 2 - 1, 0, 0, 0, 0, 0, 0, 0, 10 * 10 - 1, 0, 0, 0, 0, 0, 0, 0);
+                    v256 CMP_VALUES2 = new v256(1 * 1 - 1, 0, 0, 0, 5 * 5 - 1, 0, 0, 0, 9 * 9 - 1, 0, 0, 0, 127, 0, 0, 0,
+                                                1 * 1 - 1, 0, 0, 0, 5 * 5 - 1, 0, 0, 0, 9 * 9 - 1, 0, 0, 0, 127, 0, 0, 0);
+                    
+                    v256 cmp0 = Avx2.mm256_cmpgt_epi8(a, mm256_set1_epi8(8 * 8 - 1));
+
+                    v256 result = Avx2.mm256_and_si256(mm256_set1_epi8(8), cmp0);
+                    
+                    v256 cmp1 = Avx2.mm256_shuffle_epi8(CMP_VALUES0, result);
+                    cmp1 = Avx2.mm256_cmpgt_epi8(a, cmp1);
+                    result = Avx2.mm256_add_epi8(result, Avx2.mm256_and_si256(mm256_set1_epi8(4), cmp1));
+                    
+                    v256 cmp2 = mm256_blendv_si256(CMP_VALUES1, CMP_VALUES0, cmp1);
+                    cmp2 = Avx2.mm256_shuffle_epi8(cmp2, result);
+                    cmp2 = Avx2.mm256_cmpgt_epi8(a, cmp2);
+                    result = Avx2.mm256_sub_epi8(result, cmp2);
+                    result = Avx2.mm256_sub_epi8(result, cmp2);
+
+                    v256 cmp3 = mm256_blendv_si256(CMP_VALUES2, CMP_VALUES0, cmp2);
+                    cmp3 = Avx2.mm256_shuffle_epi8(cmp3, result);
+                    cmp3 = Avx2.mm256_cmpgt_epi8(a, cmp3);
+                    result = Avx2.mm256_sub_epi8(result, cmp3);
+
+                    constexpr.ASSUME_LE_EPU8(result, 11);
+
+                    return result;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 sqrt_epu8(v128 a, byte elements = 16)
+            {
+                if (BurstArchitecture.IsTableLookupSupported)
+                {
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        if (Arm.Neon.IsNeonSupported)
+                        {
+                            return sqrt_binsearch_epu8(a, elements);
+                        }
+                        else
+                        {
+                            if (elements <= 8)
+                            {
+                                return sqrt_f32rcprsqrt_epu8(a, elements);
+                            }
+                        }
+                    }
+
+                    return sqrt_binsearch_epu8(a, elements);
+                }
+                else if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return sqrt_f32rcprsqrt_epu8(a, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_sqrt_epu8(v256 a)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 sqrt = mm256_sqrt_epi8(a);
+                    v256 CMP_VALUES0 = new v256(4 * 4, 0, 3 * 3, 0, 6 * 6, 0, 7 * 7, 0, 12 * 12, 0, 11 * 11, 0, 14 * 14, 0, 15 * 15, 0,
+                                                4 * 4, 0, 3 * 3, 0, 6 * 6, 0, 7 * 7, 0, 12 * 12, 0, 11 * 11, 0, 14 * 14, 0, 15 * 15, 0);
+                    v256 CMP_VALUES1 = new v256(2 * 2, 0, 0, 0, 0, 0, 0, 0, 10 * 10, 0, 0, 0, 0, 0, 0, 0,
+                                                2 * 2, 0, 0, 0, 0, 0, 0, 0, 10 * 10, 0, 0, 0, 0, 0, 0, 0);
+                    v256 CMP_VALUES2 = new v256(1 * 1, 0, 0, 0, 5 * 5, 0, 0, 0, 9 * 9, 0, 0, 0, 13 * 13, 0, 0, 0,
+                                                1 * 1, 0, 0, 0, 5 * 5, 0, 0, 0, 9 * 9, 0, 0, 0, 13 * 13, 0, 0, 0);
+                    
+                    v256 cmp0 = mm256_cmpge_epu8(a, mm256_set1_epi8(8 * 8));
 
-                    if (!(constexpr.ALL_NEQ_EPU8(a, 225) || constexpr.ALL_LT_EPU8(a, 225) || constexpr.ALL_GT_EPU8(a, 225)))
-                    {
-                        sqrt = Avx2.mm256_sub_epi8(sqrt, Avx2.mm256_cmpeq_epi8(a, mm256_set1_epi8(225)));
-                    }
+                    v256 result = Avx2.mm256_and_si256(mm256_set1_epi8(8), cmp0);
+                    
+                    v256 cmp1 = Avx2.mm256_shuffle_epi8(CMP_VALUES0, result);
+                    cmp1 = mm256_cmpge_epu8(a, cmp1);
+                    result = Avx2.mm256_add_epi8(result, Avx2.mm256_and_si256(mm256_set1_epi8(4), cmp1));
+                    
+                    v256 cmp2 = mm256_blendv_si256(CMP_VALUES1, CMP_VALUES0, cmp1);
+                    cmp2 = Avx2.mm256_shuffle_epi8(cmp2, result);
+                    cmp2 = mm256_cmpge_epu8(a, cmp2);
+                    result = Avx2.mm256_sub_epi8(result, cmp2);
+                    result = Avx2.mm256_sub_epi8(result, cmp2);
 
-                    constexpr.ASSUME_LE_EPU8(sqrt, 15);
+                    v256 cmp3 = mm256_blendv_si256(CMP_VALUES2, CMP_VALUES0, cmp2);
+                    cmp3 = Avx2.mm256_shuffle_epi8(cmp3, result);
+                    cmp3 = mm256_cmpge_epu8(a, cmp3);
+                    result = Avx2.mm256_sub_epi8(result, cmp3);
 
-                    return sqrt;
+                    constexpr.ASSUME_LE_EPU8(result, 15);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -132,7 +293,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 sqrt_epi16(v128 a, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (elements <= 4)
                     {
@@ -244,7 +405,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 sqrt_epu16(v128 a, byte elements = 8)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return sqrt_epi16(a, elements);
                 }
@@ -265,7 +426,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 sqrt_epi32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU32(a, MAX_ACCURATE_INT_SQRT_F32, elements))
                     {
@@ -290,7 +451,7 @@ namespace MaxMath
 
                         ints = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
                         constexpr.ASSUME_LE_EPU32(ints, constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-                        
+
                         return ints;
                     }
                     else
@@ -348,12 +509,12 @@ namespace MaxMath
                     }
                     else
                     {
-                        v256 doublesLo = mm256_cvt2x2epi32_pd(a, out v256 doublesHi);
+                        v256 doublesLo = mm256_cvt2x2epu32_pd(a, out v256 doublesHi);
 
-                        v128 sqrtLo = Avx.mm256_cvttpd_epi32(Avx.mm256_sqrt_pd(doublesLo));
-                        v128 sqrtHi = Avx.mm256_cvttpd_epi32(Avx.mm256_sqrt_pd(doublesHi));
+                        v256 sqrtLo = Avx.mm256_sqrt_pd(doublesLo);
+                        v256 sqrtHi = Avx.mm256_sqrt_pd(doublesHi);
 
-                        a = Avx2.mm256_inserti128_si256(Avx.mm256_castsi128_si256(sqrtLo), sqrtHi, 1);
+                        a = mm256_cvtt2x2pd_epu32(sqrtLo, sqrtHi, positive: true, nonZero: constexpr.ALL_NEQ_EPI32(a, 0));
 
                         constexpr.ASSUME_LE_EPU32(a, ushort.MaxValue);
 
@@ -367,7 +528,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 sqrt_epu32(v128 a, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU32(a, MAX_ACCURATE_INT_SQRT_F32, elements))
                     {
@@ -389,7 +550,7 @@ namespace MaxMath
                                 return ints;
                             }
                         }
-                            
+
                         ints = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
                         constexpr.ASSUME_LE_EPU32(ints, constexpr.ALL_LE_EPU32(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
 
@@ -468,9 +629,16 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 sqrt_epi64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return sqrt_ep64(a, signed: true);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return sqrt_ep64(a, signed: true, useFPU: false);
+                    }
+                    else
+                    {
+                        return sqrt_ep64(a, signed: true, useFPU: true);
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -478,9 +646,16 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 sqrt_epu64(v128 a)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return sqrt_ep64(a, signed: false);
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return sqrt_ep64(a, signed: false, useFPU: false);
+                    }
+                    else
+                    {
+                        return sqrt_ep64(a, signed: false, useFPU: true);
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -488,7 +663,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void sqrt_epi64x2(v128 a0, v128 a1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     sqrt_ep64x2(a0, a1, out r0, out r1, signed: true);
                 }
@@ -498,7 +673,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void sqrt_epu64x2(v128 a0, v128 a1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     sqrt_ep64x2(a0, a1, out r0, out r1, signed: false);
                 }
@@ -508,7 +683,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void sqrt_epi64x4(v128 a0, v128 a1, v128 a2, v128 a3, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     sqrt_ep64x4(a0, a1, a2, a3, out r0, out r1, out r2, out r3, signed: true);
                 }
@@ -518,7 +693,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void sqrt_epu64x4(v128 a0, v128 a1, v128 a2, v128 a3, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     sqrt_ep64x4(a0, a1, a2, a3, out r0, out r1, out r2, out r3, signed: false);
                 }
@@ -544,7 +719,7 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void mm256_sqrt_epi64x2(v256 a0, v256 a1, [NoAlias] out v256 r0, [NoAlias] out v256 r1, byte elements = 4)
             {
@@ -568,20 +743,20 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_sqrt_ep64([NoAlias] ref v128 a, [NoAlias] out v128 mask, [NoAlias] out v128 result, bool signed)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi64x(1L);
                     v128 TWO = set1_epi64x(2L);
-                    
+
                     mask = new v128(1ul << 62);
                     mask = srlv_epi64(mask, andnot_si128(ONE, lzcnt_epi64(a)), inRange: constexpr.ALL_GT_EPU64(a, 0));
                     mask = srlv_epi64(mask, and_si128(TWO, signed ? cmpgt_epi64(mask, a) : cmpgt_epu64(mask, a)), inRange: true);
-                    
+
                     result = mask;
                     a = sub_epi64(a, andnot_si128(signed ? cmpgt_epi64(mask, a) : cmpgt_epu64(mask, a), mask));
                     mask = srli_epi64(mask, 2);
-                    
+
                     v128 doneMask;
                     //if (Avx512.IsAvx512Supported)
                     //{
@@ -597,15 +772,15 @@ namespace MaxMath
                         if (!signed && COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                         {
                             doneMask = cmpeq_epi64(mask, ZERO);
-                    
+
                             v128 resultAdded = or_si128(result, mask);
                             v128 tempResult = srli_epi64(result, 1);
                             v128 cmp = cmpgt_epu64(resultAdded, a);
-                            
+
                             a = sub_epi64(a, andnot_si128(cmp, resultAdded));
                             tempResult = ternarylogic_si128(cmp, mask, tempResult, TernaryOperation.OxAE);
                             result = blendv_si128(tempResult, result, doneMask);
-                            
+
                             mask = srli_epi64(mask, 2);
                         }
                     }
@@ -616,7 +791,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_sqrt_ep64([NoAlias] ref v128 a, [NoAlias] ref v128 result, [NoAlias] ref v128 mask, v128 doneMask, bool signed)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 resultAdded = or_si128(result, mask);
                     v128 cmp;
@@ -630,20 +805,20 @@ namespace MaxMath
                         //{
                         //    cmp = cmpgt_epu64(resultAdded, a);
                         //}
-                        //else 
+                        //else
                         if (Arm.Neon.IsNeonSupported)
                         {
                             cmp = cmpgt_epu64(resultAdded, a);
                         }
                         else
                         {
-                            cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size 
+                            cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size
                                 ? cmpgt_epu64(resultAdded, a)
                                 : cmpgt_epi64(resultAdded, a);
                         }
                     }
-                    
-                    if (Architecture.IsVectorShiftSupported)
+
+                    if (BurstArchitecture.IsVectorShiftSupported)
                     {
                         result = srlv_epi64(result, andnot_si128(doneMask, set1_epi64x(1L)), inRange: true);
                     }
@@ -651,7 +826,7 @@ namespace MaxMath
                     {
                         result = blendv_si128(srli_epi64(result, 1), result, doneMask);
                     }
-                    
+
                     a = sub_epi64(a, andnot_si128(cmp, resultAdded));
                     result = ternarylogic_si128(cmp, mask, result, TernaryOperation.OxAE);
                     mask = srli_epi64(mask, 2);
@@ -660,7 +835,7 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 sqrt_ep64(v128 a, bool signed)
+            private static v128 sqrt_ep64(v128 a, bool signed, bool useFPU = false)
             {
                 static bool ContinueLoop(v128 doneMask, v128 mask)
                 {
@@ -668,7 +843,7 @@ namespace MaxMath
                     {
                         return Hint.Likely(testz_si128(mask, mask) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<long>(doneMask));
                     }
@@ -676,8 +851,10 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
+                    signed |= constexpr.ALL_LT_EPU64(a, 1ul << 63);
+
                     if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F64))
                     {
                         if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F32))
@@ -700,7 +877,7 @@ namespace MaxMath
                                     return ints;
                                 }
                             }
-                            
+
                             ints = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
                             constexpr.ASSUME_LE_EPU64(ints, constexpr.ALL_LE_EPU64(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
 
@@ -715,17 +892,36 @@ namespace MaxMath
                         }
                     }
 
-                    
-                    PRELOOP_sqrt_ep64(ref a, out v128 mask, out v128 result, signed);
-                    v128 doneMask;
-                    
-                    while (ContinueLoop(doneMask = cmpeq_epi64(mask, setzero_si128()), mask))
+
+                    v128 result;
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        LOOP_sqrt_ep64(ref a, ref result, ref mask, doneMask, signed);
+                        v128 sqrtDbl = sqrt_pd(cvtepu64_pd(a));
+                        v128 cvtt = cvttpd_epu64(sqrtDbl);
+
+                        // 64bit division by itself is worse than a pipeline flush
+                        // branch evaluation runs in parallel to cvt + sqrt + cvtt (~28 cycles), minimizing branch misprediction penalty
+                        if (allfalse_epi128<ulong>(signed ? cmpgt_epi64(a, set1_epi64x(MAX_ACCURATE_INT_SQRT_F64)) : cmpgt_epu64(a, set1_epi64x(MAX_ACCURATE_INT_SQRT_F64)), 2))
+                        {
+                            return cvtt;
+                        }
+
+                        result = srli_epi64(add_epi64(cvtt, div_epu64(a, useFPU ? trunc_pd(sqrtDbl) : cvtt, useFPU: useFPU, bIsDbl: useFPU)), 1);
+                        result = add_epi64(result, signed ? cmpgt_epi64(square_epi64(result), a) : cmpgt_epu64(square_epi64(result), a));
                     }
-                    
+                    else
+                    {
+                        PRELOOP_sqrt_ep64(ref a, out v128 mask, out result, signed);
+                        v128 doneMask;
+
+                        while (ContinueLoop(doneMask = cmpeq_epi64(mask, setzero_si128()), mask))
+                        {
+                            LOOP_sqrt_ep64(ref a, ref result, ref mask, doneMask, signed);
+                        }
+                    }
+
                     constexpr.ASSUME_LE_EPU64(result, uint.MaxValue);
-                    
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -742,7 +938,7 @@ namespace MaxMath
 
                         return Hint.Likely(testz_si128(mask, mask) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(doneMask0, doneMask1);
 
@@ -752,7 +948,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F64))
                     {
@@ -764,7 +960,7 @@ namespace MaxMath
                                 {
                                     r0 = cvttps_epi32(rcp_ps(rsqrt_ps(cvtepi32_ps(a0))));
                                     r1 = cvttps_epi32(rcp_ps(rsqrt_ps(cvtepi32_ps(a1))));
-                    
+
                                     if (!(constexpr.ALL_NEQ_EPU64(a0, 225) || constexpr.ALL_LT_EPU64(a0, 225) || constexpr.ALL_GT_EPU64(a0, 225)))
                                     {
                                         r0 = sub_epi64(r0, cmpeq_epi64(a0, set1_epi64x(225)));
@@ -773,19 +969,19 @@ namespace MaxMath
                                     {
                                         r1 = sub_epi64(r1, cmpeq_epi64(a1, set1_epi64x(225)));
                                     }
-                    
+
                                     constexpr.ASSUME_LE_EPU64(r0, 15);
                                     constexpr.ASSUME_LE_EPU64(r1, 15);
-                    
+
                                     return;
                                 }
                             }
-                            
+
                             r0 = cvttps_epi32(sqrt_ps(cvtepi32_ps(a0)));
                             r1 = cvttps_epi32(sqrt_ps(cvtepi32_ps(a1)));
                             constexpr.ASSUME_LE_EPU64(r0, constexpr.ALL_LE_EPU64(a0, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
                             constexpr.ASSUME_LE_EPU64(r1, constexpr.ALL_LE_EPU64(a1, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-                    
+
                             return;
                         }
                         else
@@ -794,31 +990,38 @@ namespace MaxMath
                             r1 = cvttpd_epu64(sqrt_pd(usfcvtepu64_pd(a1)));
                             constexpr.ASSUME_LE_EPU64(r0, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
                             constexpr.ASSUME_LE_EPU64(r1, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
-                    
+
                             return;
                         }
                     }
 
-                    
-                    PRELOOP_sqrt_ep64(ref a0, out v128 mask0, out r0, signed);
-                    PRELOOP_sqrt_ep64(ref a1, out v128 mask1, out r1, signed);
-                    v128 doneMask0 = cmpeq_epi64(mask0, setzero_si128());
-                    v128 doneMask1 = cmpeq_epi64(mask1, setzero_si128());
-                    
-                    while (ContinueLoop(doneMask0, doneMask1, mask0, mask1))
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, doneMask0, signed);
-                        LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, doneMask1, signed);
-                        doneMask0 = cmpeq_epi64(mask0, setzero_si128());
-                        doneMask1 = cmpeq_epi64(mask1, setzero_si128());
+                        r0 = sqrt_ep64(a0, signed, true);
+                        r1 = sqrt_ep64(a1, signed, false);
                     }
-                    
+                    else
+                    {
+                        PRELOOP_sqrt_ep64(ref a0, out v128 mask0, out r0, signed);
+                        PRELOOP_sqrt_ep64(ref a1, out v128 mask1, out r1, signed);
+                        v128 doneMask0 = cmpeq_epi64(mask0, setzero_si128());
+                        v128 doneMask1 = cmpeq_epi64(mask1, setzero_si128());
+
+                        while (ContinueLoop(doneMask0, doneMask1, mask0, mask1))
+                        {
+                            LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, doneMask0, signed);
+                            LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, doneMask1, signed);
+                            doneMask0 = cmpeq_epi64(mask0, setzero_si128());
+                            doneMask1 = cmpeq_epi64(mask1, setzero_si128());
+                        }
+                    }
+
                     constexpr.ASSUME_LE_EPU64(r0, uint.MaxValue);
                     constexpr.ASSUME_LE_EPU64(r1, uint.MaxValue);
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void sqrt_ep64x4(v128 a0, v128 a1, v128 a2, v128 a3, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3, bool signed)
             {
@@ -830,7 +1033,7 @@ namespace MaxMath
 
                         return Hint.Likely(testz_si128(mask, mask) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         v128 doneMask = and_si128(and_si128(doneMask0, doneMask1), and_si128(doneMask2, doneMask3));
 
@@ -840,7 +1043,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a2, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a3, MAX_ACCURATE_INT_SQRT_F64))
                     {
@@ -880,7 +1083,7 @@ namespace MaxMath
                                     return;
                                 }
                             }
-                            
+
                             r0 = cvttps_epi32(sqrt_ps(cvtepi32_ps(a0)));
                             r1 = cvttps_epi32(sqrt_ps(cvtepi32_ps(a1)));
                             r2 = cvttps_epi32(sqrt_ps(cvtepi32_ps(a2)));
@@ -907,28 +1110,37 @@ namespace MaxMath
                         }
                     }
 
-                    
-                    PRELOOP_sqrt_ep64(ref a0, out v128 mask0, out r0, signed);
-                    PRELOOP_sqrt_ep64(ref a1, out v128 mask1, out r1, signed);
-                    PRELOOP_sqrt_ep64(ref a2, out v128 mask2, out r2, signed);
-                    PRELOOP_sqrt_ep64(ref a3, out v128 mask3, out r3, signed);
-                    v128 doneMask0 = cmpeq_epi64(mask0, setzero_si128());
-                    v128 doneMask1 = cmpeq_epi64(mask1, setzero_si128());
-                    v128 doneMask2 = cmpeq_epi64(mask2, setzero_si128());
-                    v128 doneMask3 = cmpeq_epi64(mask3, setzero_si128());
-                    
-                    while (ContinueLoop(doneMask0, doneMask1, doneMask2, doneMask3, mask0, mask1, mask2, mask3))
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, doneMask0, signed);
-                        LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, doneMask1, signed);
-                        LOOP_sqrt_ep64(ref a2, ref r2, ref mask2, doneMask2, signed);
-                        LOOP_sqrt_ep64(ref a3, ref r3, ref mask3, doneMask3, signed);
-                        doneMask0 = cmpeq_epi64(mask0, setzero_si128());
-                        doneMask1 = cmpeq_epi64(mask1, setzero_si128());
-                        doneMask2 = cmpeq_epi64(mask2, setzero_si128());
-                        doneMask3 = cmpeq_epi64(mask3, setzero_si128());
+                        r0 = sqrt_ep64(a0, signed, true);
+                        r1 = sqrt_ep64(a1, signed, true);
+                        r2 = sqrt_ep64(a2, signed, false);
+                        r3 = sqrt_ep64(a3, signed, false);
                     }
-                    
+                    else
+                    {
+                        PRELOOP_sqrt_ep64(ref a0, out v128 mask0, out r0, signed);
+                        PRELOOP_sqrt_ep64(ref a1, out v128 mask1, out r1, signed);
+                        PRELOOP_sqrt_ep64(ref a2, out v128 mask2, out r2, signed);
+                        PRELOOP_sqrt_ep64(ref a3, out v128 mask3, out r3, signed);
+                        v128 doneMask0 = cmpeq_epi64(mask0, setzero_si128());
+                        v128 doneMask1 = cmpeq_epi64(mask1, setzero_si128());
+                        v128 doneMask2 = cmpeq_epi64(mask2, setzero_si128());
+                        v128 doneMask3 = cmpeq_epi64(mask3, setzero_si128());
+
+                        while (ContinueLoop(doneMask0, doneMask1, doneMask2, doneMask3, mask0, mask1, mask2, mask3))
+                        {
+                            LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, doneMask0, signed);
+                            LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, doneMask1, signed);
+                            LOOP_sqrt_ep64(ref a2, ref r2, ref mask2, doneMask2, signed);
+                            LOOP_sqrt_ep64(ref a3, ref r3, ref mask3, doneMask3, signed);
+                            doneMask0 = cmpeq_epi64(mask0, setzero_si128());
+                            doneMask1 = cmpeq_epi64(mask1, setzero_si128());
+                            doneMask2 = cmpeq_epi64(mask2, setzero_si128());
+                            doneMask3 = cmpeq_epi64(mask3, setzero_si128());
+                        }
+                    }
+
                     constexpr.ASSUME_LE_EPU64(r0, uint.MaxValue);
                     constexpr.ASSUME_LE_EPU64(r1, uint.MaxValue);
                     constexpr.ASSUME_LE_EPU64(r2, uint.MaxValue);
@@ -936,7 +1148,7 @@ namespace MaxMath
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_sqrt_ep64([NoAlias] ref v256 a, [NoAlias] out v256 mask, [NoAlias] out v256 result, bool signed, byte elements = 4)
             {
@@ -945,16 +1157,16 @@ namespace MaxMath
                     v256 ZERO = Avx.mm256_setzero_si256();
                     v256 ONE = mm256_set1_epi64x(1L);
                     v256 TWO = mm256_set1_epi64x(2L);
-                    
+
                     mask = new v256(1ul << 62);
                     mask = mm256_zeromissing_epi64(mask, elements);
                     mask = Avx2.mm256_srlv_epi64(mask, Avx2.mm256_andnot_si256(ONE, mm256_lzcnt_epi64(a)));
                     mask = Avx2.mm256_srlv_epi64(mask, Avx2.mm256_and_si256(TWO, signed ? mm256_cmpgt_epi64(mask, a, elements) : mm256_cmpgt_epu64(mask, a, elements)));
-                    
+
                     result = mask;
                     a = Avx2.mm256_sub_epi64(a, Avx2.mm256_andnot_si256(signed ? mm256_cmpgt_epi64(mask, a, elements) : mm256_cmpgt_epu64(mask, a, elements), mask));
                     mask = Avx2.mm256_srli_epi64(mask, 2);
-                    
+
                     //if (Avx512.IsAvx512Supported)
                     //{
                     //    ;
@@ -965,7 +1177,7 @@ namespace MaxMath
                         v256 resultAdded = Avx2.mm256_or_si256(result, mask);
                         v256 cmp = mm256_cmpgt_epu64(resultAdded, a, elements);
                         v256 tempResult = Avx2.mm256_srli_epi64(result, 1);
-                        
+
                         a = Avx2.mm256_sub_epi64(a, Avx2.mm256_andnot_si256(cmp, resultAdded));
                         tempResult = mm256_ternarylogic_si256(cmp, mask, tempResult, TernaryOperation.OxAE);
                         result = mm256_blendv_si256(tempResult, result, Avx2.mm256_cmpeq_epi64(mask, ZERO));
@@ -995,15 +1207,15 @@ namespace MaxMath
                         //{
                         //    cmp = mm256_cmpgt_epu64(resultAdded, a, elements);
                         //}
-                        //else 
+                        //else
                         {
-                            cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size 
+                            cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size
                                 ? mm256_cmpgt_epu64(resultAdded, a)
                                 : mm256_cmpgt_epi64(resultAdded, a);
                         }
                     }
                     result = Avx2.mm256_srlv_epi64(result, Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi64(mask, ZERO), ONE));
-                    
+
                     a = Avx2.mm256_sub_epi64(a, Avx2.mm256_andnot_si256(cmp, resultAdded));
                     result = mm256_ternarylogic_si256(cmp, mask, result, TernaryOperation.OxAE);
                     mask = Avx2.mm256_srli_epi64(mask, 2);
@@ -1016,6 +1228,8 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    signed |= constexpr.ALL_LT_EPU64(a, 1ul << 63, elements);
+
                     if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F64, elements))
                     {
                         if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F32, elements))
@@ -1052,18 +1266,36 @@ namespace MaxMath
                         }
                     }
 
-                    signed |= constexpr.ALL_LT_EPU64(a, 1ul << 63, elements);
+                    v256 result;
 
-                    PRELOOP_sqrt_ep64(ref a, out v256 mask, out v256 result, signed, elements);
-                    mask = mm256_zeromissing_epi64(mask, elements);
-
-                    while (Hint.Likely(Avx.mm256_testz_si256(mask, mask) == 0))
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        LOOP_sqrt_ep64(ref a, ref result, ref mask, signed, elements);
+                        v256 sqrtDbl = Avx.mm256_sqrt_pd(mm256_cvtepu64_pd(a, elements));
+                        v256 truncSqrtDbl = mm256_trunc_pd(sqrtDbl);
+                        v256 cvtt = mm256_cvttpd_epu64(sqrtDbl, elements);
+
+                        //// 64bit division by itself is worse than a pipeline flush
+                        //// branch evaluation runs in parallel to cvt + sqrt + cvtt (~28 cycles), minimizing branch misprediction penalty
+                        if (mm256_allfalse_epi256<ulong>(signed ? mm256_cmpgt_epi64(a, mm256_set1_epi64x(MAX_ACCURATE_INT_SQRT_F64)) : mm256_cmpgt_epu64(a, mm256_set1_epi64x(MAX_ACCURATE_INT_SQRT_F64)), elements))
+                        {
+                            return cvtt;
+                        }
+
+                        result = mm256_srli_epi64(Avx2.mm256_add_epi64(cvtt, mm256_div_epu64(a, truncSqrtDbl, bIsDbl: true, elements: elements)), 1);
+                        result = Avx2.mm256_add_epi64(result, signed ? mm256_cmpgt_epi64(mm256_square_epi64(result, elements), a, elements) : mm256_cmpgt_epu64(mm256_square_epi64(result, elements), a, elements));
                     }
-                    
-                    constexpr.ASSUME_LE_EPU64(result, uint.MaxValue);
-                    
+                    else
+                    {
+                        PRELOOP_sqrt_ep64(ref a, out v256 mask, out result, signed, elements);
+                        mask = mm256_zeromissing_epi64(mask, elements);
+
+                        while (Hint.Likely(Avx.mm256_testz_si256(mask, mask) == 0))
+                        {
+                            LOOP_sqrt_ep64(ref a, ref result, ref mask, signed, elements);
+                        }
+                    }
+
+                    constexpr.ASSUME_LE_EPU64(result, uint.MaxValue, elements);
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -1120,111 +1352,119 @@ namespace MaxMath
                         }
                     }
 
-                    bool signed0 = signed | constexpr.ALL_LT_EPU64(a0, 1ul << 63);
-                    bool signed1 = signed | constexpr.ALL_LT_EPU64(a1, 1ul << 63);
-
-                    PRELOOP_sqrt_ep64(ref a0, out v256 mask0, out r0, signed0, 4);
-                    PRELOOP_sqrt_ep64(ref a1, out v256 mask1, out r1, signed1, 4);
-
-                    mask1 = mm256_zeromissing_epi64(mask1, elements);
-                    v256 mask = Avx2.mm256_or_si256(mask0, mask1);
-
-                    while (Hint.Likely(Avx.mm256_testz_si256(mask, mask) == 0))
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, signed0, 4);
-                        LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, signed1, 4);
-
-                        mask = Avx2.mm256_or_si256(mask0, mask1);
+                        r0 = mm256_sqrt_ep64(a0, signed, elements);
+                        r1 = mm256_sqrt_ep64(a1, signed, elements);
                     }
-                    
+                    else
+                    {
+                        bool signed0 = signed | constexpr.ALL_LT_EPU64(a0, 1ul << 63);
+                        bool signed1 = signed | constexpr.ALL_LT_EPU64(a1, 1ul << 63);
+
+                        PRELOOP_sqrt_ep64(ref a0, out v256 mask0, out r0, signed0, 4);
+                        PRELOOP_sqrt_ep64(ref a1, out v256 mask1, out r1, signed1, 4);
+
+                        mask1 = mm256_zeromissing_epi64(mask1, elements);
+                        v256 mask = Avx2.mm256_or_si256(mask0, mask1);
+
+                        while (Hint.Likely(Avx.mm256_testz_si256(mask, mask) == 0))
+                        {
+                            LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, signed0, 4);
+                            LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, signed1, 4);
+
+                            mask = Avx2.mm256_or_si256(mask0, mask1);
+                        }
+                    }
+
                     constexpr.ASSUME_LE_EPU64(r0, uint.MaxValue);
                     constexpr.ASSUME_LE_EPU64(r1, uint.MaxValue);
                 }
                 else throw new IllegalInstructionException();
             }
-            
-            
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_epi128(v128 aLo, v128 aHi)
+            public static v128 sqrt_epi128(v128 aLo, v128 aHi, bool nonZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return sqrt_ep128(aLo, aHi, signed: true);
+                    return sqrt_ep128(aLo, aHi, signed: true, nonZero);
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_epu128(v128 aLo, v128 aHi)
+            public static v128 sqrt_epu128(v128 aLo, v128 aHi, bool nonZero = false)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return sqrt_ep128(aLo, aHi, signed: false);
-                }
-                else throw new IllegalInstructionException();
-            }
-            
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void sqrt_epi128x2(v128 aLo, v128 aHi, v128 bLo, v128 bHi, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte elements = 4)
-            {
-                if (Architecture.IsSIMDSupported)
-                {
-                    sqrt_ep128x2(aLo, aHi, bLo, bHi, out r0, out r1, signed: true, elements);
+                    return sqrt_ep128(aLo, aHi, signed: false, nonZero);
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void sqrt_epu128x2(v128 aLo, v128 aHi, v128 bLo, v128 bHi, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte elements = 4)
+            public static void sqrt_epi128x2(v128 aLo, v128 aHi, v128 bLo, v128 bHi, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool nonZero = false, byte elements = 4)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    sqrt_ep128x2(aLo, aHi, bLo, bHi, out r0, out r1, signed: false, elements);
+                    sqrt_ep128x2(aLo, aHi, bLo, bHi, out r0, out r1, signed: true, nonZero, elements);
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_sqrt_epi128(v256 aLo, v256 aHi, byte elements = 4)
+            public static void sqrt_epu128x2(v128 aLo, v128 aHi, v128 bLo, v128 bHi, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool nonZero = false, byte elements = 4)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    sqrt_ep128x2(aLo, aHi, bLo, bHi, out r0, out r1, signed: false, nonZero, elements);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_sqrt_epi128(v256 aLo, v256 aHi, bool nonZero = false, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_sqrt_ep128(aLo, aHi, signed: true, elements);
+                    return mm256_sqrt_ep128(aLo, aHi, signed: true, nonZero, elements);
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_sqrt_epu128(v256 aLo, v256 aHi, byte elements = 4)
+            public static v256 mm256_sqrt_epu128(v256 aLo, v256 aHi, bool nonZero = false, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_sqrt_ep128(aLo, aHi, signed: false, elements);
+                    return mm256_sqrt_ep128(aLo, aHi, signed: false, nonZero, elements);
                 }
                 else throw new IllegalInstructionException();
             }
-            
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_sqrt_ep128([NoAlias] ref v128 aLo, [NoAlias] ref v128 aHi, [NoAlias] out v128 maskLo, [NoAlias] out v128 maskHi, [NoAlias] out v128 resultLo, [NoAlias] out v128 resultHi, bool signed)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ZERO = setzero_si128();
                     v128 ONE = set1_epi64x(1L);
                     v128 TWO = set1_epi64x(2L);
-                    
+
                     maskLo = set1_epi64x(((UInt128)1 << 126).lo64);
                     maskHi = set1_epi64x(((UInt128)1 << 126).hi64);
                     srlv_epi128(maskLo, maskHi, andnot_si128(ONE, lzcnt_epi128(aLo, aHi)), out maskLo, out maskHi, inRange: constexpr.ALL_NEQ_EPU64(or_si128(aLo, aHi), 0));
                     srlv_epi128(maskLo, maskHi, and_si128(TWO, signed ? cmpgt_epi128(maskLo, maskHi, aLo, aHi) : cmpgt_epu128(maskLo, maskHi, aLo, aHi)), out maskLo, out maskHi, inRange: true);
-                    
+
                     resultLo = maskLo;
                     resultHi = maskHi;
                     v128 subLo = andnot_si128(signed ? cmpgt_epi128(maskLo, maskHi, aLo, aHi) : cmpgt_epu128(maskLo, maskHi, aLo, aHi), maskLo);
                     v128 subHi = andnot_si128(signed ? cmpgt_epi128(maskLo, maskHi, aLo, aHi) : cmpgt_epu128(maskLo, maskHi, aLo, aHi), maskHi);
                     sub_epi128(aLo, aHi, subLo, subHi, out aLo, out aHi);
                     srli_epi128(maskLo, maskHi, 2, out maskLo, out maskHi);
-                    
+
                     v128 doneMask;
                     //if (Avx512.IsAvx512Supported)
                     //{
@@ -1240,18 +1480,18 @@ namespace MaxMath
                         if (!signed && COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                         {
                             doneMask = cmpeq_epi128(maskLo, maskHi, ZERO, ZERO);
-                    
+
                             v128 resultAddedLo = or_si128(resultLo, maskLo);
                             v128 resultAddedHi = or_si128(resultHi, maskHi);
                             srli_epi128(resultLo, resultHi, 1, out v128 tempResultLo, out v128 tempResultHi);
                             v128 cmp = cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi);
-                            
+
                             sub_epi128(aLo, aHi, andnot_si128(cmp, resultAddedLo), andnot_si128(cmp, resultAddedHi), out aLo, out aHi);
                             tempResultLo = ternarylogic_si128(cmp, maskLo, tempResultLo, TernaryOperation.OxAE);
                             tempResultHi = ternarylogic_si128(cmp, maskHi, tempResultHi, TernaryOperation.OxAE);
                             resultLo = blendv_si128(tempResultLo, resultLo, doneMask);
                             resultHi = blendv_si128(tempResultHi, resultHi, doneMask);
-                            
+
                             srli_epi128(maskLo, maskHi, 2, out maskLo, out maskHi);
                         }
                     }
@@ -1262,7 +1502,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void LOOP_sqrt_ep128([NoAlias] ref v128 aLo, [NoAlias] ref v128 aHi, [NoAlias] ref v128 resultLo, [NoAlias] ref v128 resultHi, [NoAlias] ref v128 maskLo, [NoAlias] ref v128 maskHi, v128 doneMask, bool signed)
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 resultAddedLo = or_si128(resultLo, maskLo);
                     v128 resultAddedHi = or_si128(resultHi, maskHi);
@@ -1277,20 +1517,20 @@ namespace MaxMath
                         //{
                         //    cmp = cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi);
                         //}
-                        //else 
+                        //else
                         if (Arm.Neon.IsNeonSupported)
                         {
                             cmp = cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi);
                         }
                         else
                         {
-                            cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size 
+                            cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size
                                 ? cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi)
                                 : cmpgt_epi128(resultAddedLo, resultAddedHi, aLo, aHi);
                         }
                     }
-                    
-                    if (Architecture.IsVectorShiftSupported)
+
+                    if (BurstArchitecture.IsVectorShiftSupported)
                     {
                         srlv_epi128(resultLo, resultHi, andnot_si128(doneMask, set1_epi64x(1L)), out resultLo, out resultHi, inRange: true);
                     }
@@ -1301,7 +1541,7 @@ namespace MaxMath
                         resultLo = blendv_si128(shiftedLo, resultLo, doneMask);
                         resultHi = blendv_si128(shiftedHi, resultHi, doneMask);
                     }
-                    
+
                     sub_epi128(aLo, aHi, andnot_si128(cmp, resultAddedLo), andnot_si128(cmp, resultAddedHi), out aLo, out aHi);
                     resultLo = ternarylogic_si128(cmp, maskLo, resultLo, TernaryOperation.OxAE);
                     resultHi = ternarylogic_si128(cmp, maskHi, resultHi, TernaryOperation.OxAE);
@@ -1311,7 +1551,7 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 sqrt_ep128(v128 aLo, v128 aHi, bool signed)
+            private static v128 sqrt_ep128(v128 aLo, v128 aHi, bool signed, bool nonZero = false, bool useFPU = false)
             {
                 static bool ContinueLoop(v128 doneMask, v128 maskLo, v128 maskHi)
                 {
@@ -1321,7 +1561,7 @@ namespace MaxMath
 
                         return Hint.Likely(testz_si128(mask, mask) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<long>(doneMask));
                     }
@@ -1329,29 +1569,120 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPU64(aHi, 0))
                     {
-                        return sqrt_ep64(aLo, signed);
+                        if (Avx2.IsAvx2Supported)
+                        {
+                            return sqrt_ep64(aLo, signed, useFPU: false);
+                        }
+                        else
+                        {
+                            return sqrt_ep64(aLo, signed, useFPU: true);
+                        }
                     }
-                    
 
-                    PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v128 maskLo, out v128 maskHi, out v128 resultLo, out v128 resultHi, signed);
-                    v128 doneMask;
-                    
-                    while (ContinueLoop(doneMask = cmpeq_epi128(maskLo, maskHi, setzero_si128(), setzero_si128()), maskLo, maskHi))
+                    v128 result;
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        LOOP_sqrt_ep128(ref aLo, ref aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed);
+                        v128 sqrtDbl = sqrt_pd(cvtepu128_pd(aLo, aHi));
+                        v128 vLo;
+                        v128 vHi;
+                        if (signed)
+                        {
+                            vLo = cvttpd_epu64(sqrtDbl);
+                            vHi = setzero_si128();
+                        }
+                        else
+                        {
+                            cvttpd_epu128(sqrtDbl, out vLo, out vHi);
+                        }
+
+                        v128 qLo;
+                        v128 qHi;
+                        if (useFPU)
+                        {
+                            if (!constexpr.ALL_NEQ_EPU64(aHi, 0))
+                            {
+                                sqrtDbl = trunc_pd(sqrtDbl);
+                            }
+
+                            if (!nonZero)
+                            {
+                                v128 isZero = cmpeq_epi64(or_si128(aLo, aHi), setzero_si128());
+                                sqrtDbl = or_si128(sqrtDbl, isZero);
+                            }
+
+                            divremepu128_epu64(aLo, aHi, sqrtDbl, out qLo, out qHi, out _, useFPU: true, bIsDbl: true, clampbDblToMaxValue: !signed);
+                        }
+                        else
+                        {
+                            v128 cvtt = cvttpd_epu64(sqrtDbl);
+                            cvtt = or_si128(cvtt, cmpge_pd(sqrtDbl, set1_pd(ulong.MaxValue)));
+                            UInt128 x = new UInt128(aLo.ULong0, aHi.ULong0);
+                            UInt128 y = new UInt128(aLo.ULong1, aHi.ULong1);
+
+                            if (!nonZero)
+                            {
+                                v128 isZero = cmpeq_epi64(or_si128(aLo, aHi), setzero_si128());
+                                cvtt = or_si128(cvtt, isZero);
+
+                                x /= cvtt.ULong0;
+                                y /= cvtt.ULong1;
+                            }
+                            else
+                            {
+                                x /= cvtt.ULong0;
+                                y /= cvtt.ULong1;
+                            }
+
+                            qLo = new v128(x.lo64, y.lo64);
+                            qHi = new v128(x.hi64, y.hi64);
+                        }
+
+                        add_epi128(vLo, vHi, qLo, qHi, out vLo, out vHi);
+                        srli_epi128(vLo, vHi, 1, out vLo, out vHi);
+
+                        square_epi128(vLo, vHi, out v128 sqTestLo, out v128 sqTestHi);
+                        v128 overshoot = cmpgt_epu128(sqTestLo, sqTestHi, aLo, aHi);
+                        vLo = add_epi64(vLo, overshoot);
+
+                        if (signed)
+                        {
+                            result = vLo;
+                        }
+                        else
+                        {
+                            v128 noOvershoot = cmpeq_epi64(vHi, setzero_si128());
+                            result = ornot_si128(noOvershoot, vLo);
+                        }
                     }
-                    
-                    return resultLo;
+                    else
+                    {
+                        PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v128 maskLo, out v128 maskHi, out v128 resultLo, out v128 resultHi, signed);
+                        v128 doneMask;
+
+                        while (ContinueLoop(doneMask = cmpeq_epi128(maskLo, maskHi, setzero_si128(), setzero_si128()), maskLo, maskHi))
+                        {
+                            LOOP_sqrt_ep128(ref aLo, ref aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed);
+                        }
+
+                        result = resultLo;
+                    }
+
+                    if (signed)
+                    {
+                        constexpr.ASSUME_LE_EPU64(result, 13_043_817_825_332_782_212ul);
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void sqrt_ep128x2(v128 aLo, v128 aHi, v128 bLo, v128 bHi, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte elements = 4)
+            private static void sqrt_ep128x2(v128 aLo, v128 aHi, v128 bLo, v128 bHi, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, bool nonZero = false, byte elements = 4)
             {
                 static bool ContinueLoop(v128 doneMaskA, v128 doneMaskB, v128 maskALo, v128 maskAHi, v128 maskBLo, v128 maskBHi)
                 {
@@ -1363,7 +1694,7 @@ namespace MaxMath
 
                         return Hint.Likely(testz_si128(mask, mask) == 0);
                     }
-                    else if (Architecture.IsSIMDSupported)
+                    else if (BurstArchitecture.IsSIMDSupported)
                     {
                         return Hint.Likely(notalltrue_epi128<long>(and_si128(doneMaskA, doneMaskB)));
                     }
@@ -1371,7 +1702,7 @@ namespace MaxMath
                 }
 
 
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (constexpr.ALL_EQ_EPU64(aHi, 0) && constexpr.ALL_EQ_EPU64(bHi, 0))
                     {
@@ -1379,51 +1710,65 @@ namespace MaxMath
 
                         return;
                     }
-                    
-                    
-                    PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v128 maskALo, out v128 maskAHi, out r0, out v128 resultAHi, signed);
-                    PRELOOP_sqrt_ep128(ref bLo, ref bHi, out v128 maskBLo, out v128 maskBHi, out r1, out v128 resultBHi, signed);
-                    v128 doneMaskA;
-                    v128 doneMaskB;
-                    
-                    if (Sse4_1.IsSse41Supported)
+
+
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        maskBHi = zeromissing_epi32(maskBHi, (byte)(elements == 3 ? 2 : 4));
+                        r0 = sqrt_ep128(aLo, aHi, signed, nonZero, useFPU: true);
+                        r1 = sqrt_ep128(bLo, bHi, signed, nonZero, useFPU: false);
+                    }
+                    else
+                    {
+                        PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v128 maskALo, out v128 maskAHi, out r0, out v128 resultAHi, signed);
+                        PRELOOP_sqrt_ep128(ref bLo, ref bHi, out v128 maskBLo, out v128 maskBHi, out r1, out v128 resultBHi, signed);
+                        v128 doneMaskA;
+                        v128 doneMaskB;
+
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            maskBHi = zeromissing_epi32(maskBHi, (byte)(elements == 3 ? 2 : 4));
+                        }
+
+                        while (ContinueLoop(doneMaskA = cmpeq_epi128(maskALo, maskAHi, setzero_si128(), setzero_si128()),
+                                            doneMaskB = cmpeq_epi128(maskBLo, maskBHi, setzero_si128(), setzero_si128()),
+                                            maskALo, maskAHi,
+                                            maskBLo, maskBHi))
+                        {
+                            LOOP_sqrt_ep128(ref aLo, ref aHi, ref r0, ref resultAHi, ref maskALo, ref maskAHi, doneMaskA, signed);
+                            LOOP_sqrt_ep128(ref bLo, ref bHi, ref r1, ref resultBHi, ref maskBLo, ref maskBHi, doneMaskB, signed);
+                        }
                     }
 
-                    while (ContinueLoop(doneMaskA = cmpeq_epi128(maskALo, maskAHi, setzero_si128(), setzero_si128()), 
-                                        doneMaskB = cmpeq_epi128(maskBLo, maskBHi, setzero_si128(), setzero_si128()), 
-                                        maskALo, maskAHi,
-                                        maskBLo, maskBHi))
+                    if (signed)
                     {
-                        LOOP_sqrt_ep128(ref aLo, ref aHi, ref r0, ref resultAHi, ref maskALo, ref maskAHi, doneMaskA, signed);
-                        LOOP_sqrt_ep128(ref bLo, ref bHi, ref r1, ref resultBHi, ref maskBLo, ref maskBHi, doneMaskB, signed);
+                        constexpr.ASSUME_LE_EPU64(r0, 13_043_817_825_332_782_212ul);
+                        constexpr.ASSUME_LE_EPU64(r1, 13_043_817_825_332_782_212ul, (byte)(elements - 2));
                     }
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void PRELOOP_sqrt_ep128([NoAlias] ref v256 aLo, [NoAlias] ref v256 aHi, [NoAlias] out v256 maskLo, [NoAlias] out v256 maskHi, [NoAlias] out v256 resultLo, [NoAlias] out v256 resultHi, bool signed)
+            private static void PRELOOP_sqrt_ep128([NoAlias] ref v256 aLo, [NoAlias] ref v256 aHi, [NoAlias] out v256 maskLo, [NoAlias] out v256 maskHi, [NoAlias] out v256 resultLo, [NoAlias] out v256 resultHi, bool signed, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 ZERO = Avx.mm256_setzero_si256();
                     v256 ONE = mm256_set1_epi64x(1L);
                     v256 TWO = mm256_set1_epi64x(2L);
-                    
+
                     maskLo = mm256_set1_epi64x(((UInt128)1 << 126).lo64);
                     maskHi = mm256_set1_epi64x(((UInt128)1 << 126).hi64);
-                    mm256_srlv_epi128(maskLo, maskHi, Avx2.mm256_andnot_si256(ONE, mm256_lzcnt_epi128(aLo, aHi)), out maskLo, out maskHi);
-                    mm256_srlv_epi128(maskLo, maskHi, Avx2.mm256_and_si256(TWO, signed ? mm256_cmpgt_epi128(maskLo, maskHi, aLo, aHi) : mm256_cmpgt_epu128(maskLo, maskHi, aLo, aHi)), out maskLo, out maskHi);
-                    
+                    mm256_srlv_epi128(maskLo, maskHi, Avx2.mm256_andnot_si256(ONE, mm256_lzcnt_epi128(aLo, aHi)), out maskLo, out maskHi, elements: elements);
+                    mm256_srlv_epi128(maskLo, maskHi, Avx2.mm256_and_si256(TWO, signed ? mm256_cmpgt_epi128(maskLo, maskHi, aLo, aHi, elements: elements) : mm256_cmpgt_epu128(maskLo, maskHi, aLo, aHi, elements: elements)), out maskLo, out maskHi, elements: elements);
+
                     resultLo = maskLo;
                     resultHi = maskHi;
-                    v256 subLo = Avx2.mm256_andnot_si256(signed ? mm256_cmpgt_epi128(maskLo, maskHi, aLo, aHi) : mm256_cmpgt_epu128(maskLo, maskHi, aLo, aHi), maskLo);
-                    v256 subHi = Avx2.mm256_andnot_si256(signed ? mm256_cmpgt_epi128(maskLo, maskHi, aLo, aHi) : mm256_cmpgt_epu128(maskLo, maskHi, aLo, aHi), maskHi);
-                    mm256_sub_epi128(aLo, aHi, subLo, subHi, out aLo, out aHi);
-                    mm256_srli_epi128(maskLo, maskHi, 2, out maskLo, out maskHi);
-                    
+                    v256 subLo = Avx2.mm256_andnot_si256(signed ? mm256_cmpgt_epi128(maskLo, maskHi, aLo, aHi, elements: elements) : mm256_cmpgt_epu128(maskLo, maskHi, aLo, aHi), maskLo);
+                    v256 subHi = Avx2.mm256_andnot_si256(signed ? mm256_cmpgt_epi128(maskLo, maskHi, aLo, aHi, elements: elements) : mm256_cmpgt_epu128(maskLo, maskHi, aLo, aHi), maskHi);
+                    mm256_sub_epi128(aLo, aHi, subLo, subHi, out aLo, out aHi, elements: elements);
+                    mm256_srli_epi128(maskLo, maskHi, 2, out maskLo, out maskHi, elements: elements);
+
                     v256 doneMask;
                     //if (Avx512.IsAvx512Supported)
                     //{
@@ -1432,27 +1777,27 @@ namespace MaxMath
                     //else
                     if (!signed && COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                     {
-                        doneMask = mm256_cmpeq_epi128(maskLo, maskHi, ZERO, ZERO);
-                    
+                        doneMask = mm256_cmpeq_epi128(maskLo, maskHi, ZERO, ZERO, elements: elements);
+
                         v256 resultAddedLo = Avx2.mm256_or_si256(resultLo, maskLo);
                         v256 resultAddedHi = Avx2.mm256_or_si256(resultHi, maskHi);
-                        mm256_srli_epi128(resultLo, resultHi, 1, out v256 tempResultLo, out v256 tempResultHi);
-                        v256 cmp = mm256_cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi);
-                        
-                        mm256_sub_epi128(aLo, aHi, Avx2.mm256_andnot_si256(cmp, resultAddedLo), Avx2.mm256_andnot_si256(cmp, resultAddedHi), out aLo, out aHi);
+                        mm256_srli_epi128(resultLo, resultHi, 1, out v256 tempResultLo, out v256 tempResultHi, elements: elements);
+                        v256 cmp = mm256_cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi, elements: elements);
+
+                        mm256_sub_epi128(aLo, aHi, Avx2.mm256_andnot_si256(cmp, resultAddedLo), Avx2.mm256_andnot_si256(cmp, resultAddedHi), out aLo, out aHi, elements: elements);
                         tempResultLo = mm256_ternarylogic_si256(cmp, maskLo, tempResultLo, TernaryOperation.OxAE);
                         tempResultHi = mm256_ternarylogic_si256(cmp, maskHi, tempResultHi, TernaryOperation.OxAE);
                         resultLo = mm256_blendv_si256(tempResultLo, resultLo, doneMask);
                         resultHi = mm256_blendv_si256(tempResultHi, resultHi, doneMask);
-                        
-                        mm256_srli_epi128(maskLo, maskHi, 2, out maskLo, out maskHi);
+
+                        mm256_srli_epi128(maskLo, maskHi, 2, out maskLo, out maskHi, elements: elements);
                     }
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void LOOP_sqrt_ep128([NoAlias] ref v256 aLo, [NoAlias] ref v256 aHi, [NoAlias] ref v256 resultLo, [NoAlias] ref v256 resultHi, [NoAlias] ref v256 maskLo, [NoAlias] ref v256 maskHi, v256 doneMask, bool signed)
+            private static void LOOP_sqrt_ep128([NoAlias] ref v256 aLo, [NoAlias] ref v256 aHi, [NoAlias] ref v256 resultLo, [NoAlias] ref v256 resultHi, [NoAlias] ref v256 maskLo, [NoAlias] ref v256 maskHi, v256 doneMask, bool signed, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1461,7 +1806,7 @@ namespace MaxMath
                     v256 cmp;
                     if (signed)
                     {
-                        cmp = mm256_cmpgt_epi128(resultAddedLo, resultAddedHi, aLo, aHi);
+                        cmp = mm256_cmpgt_epi128(resultAddedLo, resultAddedHi, aLo, aHi, elements: elements);
                     }
                     else
                     {
@@ -1469,25 +1814,25 @@ namespace MaxMath
                         //{
                         //    cmp = mm256_cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi);
                         //}
-                        //else 
+                        //else
                         {
-                            cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size 
-                                ? mm256_cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi)
-                                : mm256_cmpgt_epi128(resultAddedLo, resultAddedHi, aLo, aHi);
+                            cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size
+                                ? mm256_cmpgt_epu128(resultAddedLo, resultAddedHi, aLo, aHi, elements: elements)
+                                : mm256_cmpgt_epi128(resultAddedLo, resultAddedHi, aLo, aHi, elements: elements);
                         }
                     }
-                    
-                    mm256_srlv_epi128(resultLo, resultHi, Avx2.mm256_andnot_si256(doneMask, mm256_set1_epi64x(1L)), out resultLo, out resultHi);
-                    mm256_sub_epi128(aLo, aHi, Avx2.mm256_andnot_si256(cmp, resultAddedLo), Avx2.mm256_andnot_si256(cmp, resultAddedHi), out aLo, out aHi);
+
+                    mm256_srlv_epi128(resultLo, resultHi, Avx2.mm256_andnot_si256(doneMask, mm256_set1_epi64x(1L)), out resultLo, out resultHi, elements: elements);
+                    mm256_sub_epi128(aLo, aHi, Avx2.mm256_andnot_si256(cmp, resultAddedLo), Avx2.mm256_andnot_si256(cmp, resultAddedHi), out aLo, out aHi, elements: elements);
                     resultLo = mm256_ternarylogic_si256(cmp, maskLo, resultLo, TernaryOperation.OxAE);
                     resultHi = mm256_ternarylogic_si256(cmp, maskHi, resultHi, TernaryOperation.OxAE);
-                    mm256_srli_epi128(maskLo, maskHi, 2, out maskLo, out maskHi);
+                    mm256_srli_epi128(maskLo, maskHi, 2, out maskLo, out maskHi, elements: elements);
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v256 mm256_sqrt_ep128(v256 aLo, v256 aHi, bool signed, byte elements = 4)
+            private static v256 mm256_sqrt_ep128(v256 aLo, v256 aHi, bool signed, bool nonZero = false, byte elements = 4)
             {
                 static bool ContinueLoop(v256 doneMask, v256 maskLo, v256 maskHi)
                 {
@@ -1507,18 +1852,72 @@ namespace MaxMath
                     {
                         return mm256_sqrt_ep64(aLo, signed, elements);
                     }
-                    
 
-                    PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v256 maskLo, out v256 maskHi, out v256 resultLo, out v256 resultHi, signed);
-                    v256 doneMask;
-                    maskHi = mm256_zeromissing_epi64(maskHi, elements);
-
-                    while (ContinueLoop(doneMask = mm256_cmpeq_epi128(maskLo, maskHi, Avx.mm256_setzero_si256(), Avx.mm256_setzero_si256()), maskLo, maskHi))
+                    v256 result;
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        LOOP_sqrt_ep128(ref aLo, ref aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed);
+                        v256 sqrtDbl = Avx.mm256_sqrt_pd(mm256_cvtepu128_pd(aLo, aHi, elements));
+                        v256 vLo;
+                        v256 vHi;
+                        if (signed)
+                        {
+                            vLo = mm256_cvttpd_epu64(sqrtDbl, elements);
+                            vHi = Avx.mm256_setzero_si256();
+                        }
+                        else
+                        {
+                            mm256_cvttpd_epu128(sqrtDbl, out vLo, out vHi, elements);
+                        }
+
+                        if (!constexpr.ALL_NEQ_EPU64(aHi, 0, elements))
+                        {
+                            sqrtDbl = mm256_trunc_pd(sqrtDbl);
+                        }
+
+                        if (!nonZero)
+                        {
+                            v256 isZero = Avx2.mm256_cmpeq_epi64(Avx2.mm256_or_si256(aLo, aHi), Avx.mm256_setzero_si256());
+                            sqrtDbl = Avx2.mm256_or_si256(sqrtDbl, isZero);
+                        }
+
+                        mm256_divremepu128_epu64(aLo, aHi, sqrtDbl, out v256 qLo, out v256 qHi, out _, bIsDbl: true, clampbDblToMaxValue: !signed, elements: elements);
+                        mm256_add_epi128(vLo, vHi, qLo, qHi, out vLo, out vHi, elements: elements);
+                        mm256_srli_epi128(vLo, vHi, 1, out vLo, out vHi, elements: elements);
+
+                        mm256_square_epi128(vLo, vHi, out v256 sqTestLo, out v256 sqTestHi, elements: elements);
+                        v256 overshoot = mm256_cmpgt_epu128(sqTestLo, sqTestHi, aLo, aHi, elements: elements);
+                        vLo = Avx2.mm256_add_epi64(vLo, overshoot);
+
+                        if (signed)
+                        {
+                            result = vLo;
+                        }
+                        else
+                        {
+                            v256 noOvershoot = Avx2.mm256_cmpeq_epi64(vHi, Avx.mm256_setzero_si256());
+                            result = mm256_ornot_si256(noOvershoot, vLo);
+                        }
                     }
-                    
-                    return resultLo;
+                    else
+                    {
+                        PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v256 maskLo, out v256 maskHi, out v256 resultLo, out v256 resultHi, signed, elements);
+                        v256 doneMask;
+                        maskHi = mm256_zeromissing_epi64(maskHi, elements);
+
+                        while (ContinueLoop(doneMask = mm256_cmpeq_epi128(maskLo, maskHi, Avx.mm256_setzero_si256(), Avx.mm256_setzero_si256(), elements), maskLo, maskHi))
+                        {
+                            LOOP_sqrt_ep128(ref aLo, ref aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed, elements);
+                        }
+
+                        result = resultLo;
+                    }
+
+                    if (signed)
+                    {
+                        constexpr.ASSUME_LE_EPU64(result, 13_043_817_825_332_782_212ul, elements);
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1531,12 +1930,23 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte bytesqrt(byte x, bool unsigned)
         {
+#if !TESTING
             if (Sse2.IsSse2Supported)
             {
                 v128 mov = Xse.cvtsi32_si128(x);
+
+                if (BurstArchitecture.IsTableLookupSupported)
+                {
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
+                    {
+                        return unsigned ? Xse.sqrt_binsearch_epu8(mov, 16).Byte0
+                                        : Xse.sqrt_binsearch_epi8(mov, 16).Byte0;
+                    }
+                }
+
                 v128 sqrt = Xse.rcp_ss(Xse.rsqrt_ss(Xse.cvtepi32_ps(mov)));
                 v128 toInt = Xse.cvttps_epi32(sqrt);
-
+                
                 if (unsigned)
                 {
                     return (byte)(Xse.cvtsi128_si32(toInt) + tobyte(x == 225));
@@ -1547,16 +1957,50 @@ namespace MaxMath
                 }
             }
             else
+#endif
             {
                 return (byte)math.sqrt(x);
             }
         }
 
 
-        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="UInt128"/>.    </summary>
+        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="UInt128"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> will <see langword="throw"/> an Exception for any <paramref name="x"/> equal to 0.        </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong intsqrt(UInt128 x)
+        public static ulong intsqrt(UInt128 x, Promise nonZero = Promise.Nothing)
         {
+            if (constexpr.IS_TRUE(x.hi64 == 0))
+            {
+                return intsqrt(x.lo64);
+            }
+
+            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
+            {
+                if (BurstArchitecture.IsX86Win64Supported)
+                {
+                    double sqrtDbl = math.sqrt((double)x);
+
+                    if (!(nonZero.Promises(Promise.NonZero) || x.IsNotZero))
+                    {
+                        if (x.IsZero)
+                        {
+                            return 0;
+                        }
+                    }
+
+                    UInt128 v = (UInt128)sqrtDbl;
+                    ulong v64 = math.select(v.lo64, ulong.MaxValue, sqrtDbl >= ulong.MaxValue);
+
+                    v = (v + (x / v64)) >> 1;
+                    bool overshoot = v.hi64 != 0;
+
+                    return math.select(v.lo64 - tobyte(square(v) > x), ulong.MaxValue, overshoot);
+                }
+            }
+
             UInt128 result = 0;
             UInt128 mask = (UInt128)1 << 126;
 
@@ -1591,12 +2035,38 @@ namespace MaxMath
             return result.lo64;
         }
 
-        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="Int128"/>.    </summary>
+        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="Int128"/>.
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> will <see langword="throw"/> an Exception for any <paramref name="x"/> equal to 0.        </para>
+        /// </remarks>
+        /// </summary>
         [return: AssumeRange(0ul, 13_043_817_825_332_782_212ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong intsqrt(Int128 x)
+        public static ulong intsqrt(Int128 x, Promise nonZero = Promise.Nothing)
         {
 Assert.IsNotSmaller(x, 0);
+
+            if (constexpr.IS_TRUE(x.hi64 == 0))
+            {
+                return intsqrt(x.lo64);
+            }
+
+            if (BurstArchitecture.IsX86Win64Supported)
+            {
+                ulong v = (ulong)sqrt((double)(UInt128)x);
+
+                if (!(nonZero.Promises(Promise.NonZero) || x.IsNotZero))
+                {
+                    if (x.IsZero)
+                    {
+                        return 0;
+                    }
+                }
+
+                v = ((v + ((UInt128)x / v)) >> 1).lo64;
+
+                return v - tobyte(square((UInt128)v) > (UInt128)x);
+            }
 
             return intsqrt((UInt128)x);
         }
@@ -1614,7 +2084,7 @@ Assert.IsNotSmaller(x, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 intsqrt(byte2 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu8(x, 2);
             }
@@ -1628,7 +2098,7 @@ Assert.IsNotSmaller(x, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 intsqrt(byte3 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu8(x, 3);
             }
@@ -1642,7 +2112,7 @@ Assert.IsNotSmaller(x, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 intsqrt(byte4 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu8(x, 4);
             }
@@ -1656,7 +2126,7 @@ Assert.IsNotSmaller(x, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 intsqrt(byte8 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu8(x, 8);
             }
@@ -1670,7 +2140,7 @@ Assert.IsNotSmaller(x, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 intsqrt(byte16 x)
         {
-            if (Sse2.IsSse2Supported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu8(x, 16);
             }
@@ -1688,7 +2158,7 @@ Assert.IsNotSmaller(x, 0);
             {
                 return Xse.mm256_sqrt_epu8(x);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new byte32(Xse.sqrt_epu8(x.v16_0, 16), Xse.sqrt_epu8(x.v16_16, 16));
             }
@@ -1714,8 +2184,8 @@ Assert.IsNonNegative(x);
         public static sbyte2 intsqrt(sbyte2 x)
         {
 VectorAssert.IsNotSmaller<sbyte2, sbyte>(x, 0, 2);
-
-            if (Sse2.IsSse2Supported)
+            
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi8(x, 2);
             }
@@ -1730,8 +2200,8 @@ VectorAssert.IsNotSmaller<sbyte2, sbyte>(x, 0, 2);
         public static sbyte3 intsqrt(sbyte3 x)
         {
 VectorAssert.IsNotSmaller<sbyte3, sbyte>(x, 0, 3);
-
-            if (Sse2.IsSse2Supported)
+            
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi8(x, 3);
             }
@@ -1746,8 +2216,8 @@ VectorAssert.IsNotSmaller<sbyte3, sbyte>(x, 0, 3);
         public static sbyte4 intsqrt(sbyte4 x)
         {
 VectorAssert.IsNotSmaller<sbyte4, sbyte>(x, 0, 4);
-
-            if (Sse2.IsSse2Supported)
+            
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi8(x, 4);
             }
@@ -1762,8 +2232,8 @@ VectorAssert.IsNotSmaller<sbyte4, sbyte>(x, 0, 4);
         public static sbyte8 intsqrt(sbyte8 x)
         {
 VectorAssert.IsNotSmaller<sbyte8, sbyte>(x, 0, 8);
-
-            if (Sse2.IsSse2Supported)
+            
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi8(x, 8);
             }
@@ -1778,8 +2248,8 @@ VectorAssert.IsNotSmaller<sbyte8, sbyte>(x, 0, 8);
         public static sbyte16 intsqrt(sbyte16 x)
         {
 VectorAssert.IsNotSmaller<sbyte16, sbyte>(x, 0, 16);
-
-            if (Sse2.IsSse2Supported)
+            
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi8(x, 16);
             }
@@ -1799,7 +2269,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             {
                 return Xse.mm256_sqrt_epi8(x);
             }
-            else if (Sse2.IsSse2Supported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new sbyte32(Xse.sqrt_epi8(x.v16_0, 16), Xse.sqrt_epi8(x.v16_16, 16));
             }
@@ -1829,7 +2299,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 intsqrt(ushort2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu16(x, 2);
             }
@@ -1843,7 +2313,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 intsqrt(ushort3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu16(x, 3);
             }
@@ -1857,7 +2327,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 intsqrt(ushort4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu16(x, 4);
             }
@@ -1871,7 +2341,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 intsqrt(ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu16(x, 8);
             }
@@ -1918,8 +2388,8 @@ Assert.IsNonNegative(x);
         public static short2 intsqrt(short2 x)
         {
 VectorAssert.IsNotSmaller<short2, short>(x, 0, 2);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi16(x, 2);
             }
@@ -1934,8 +2404,8 @@ VectorAssert.IsNotSmaller<short2, short>(x, 0, 2);
         public static short3 intsqrt(short3 x)
         {
 VectorAssert.IsNotSmaller<short3, short>(x, 0, 3);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi16(x, 3);
             }
@@ -1951,7 +2421,7 @@ VectorAssert.IsNotSmaller<short3, short>(x, 0, 3);
         {
 VectorAssert.IsNotSmaller<short4, short>(x, 0, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi16(x, 4);
             }
@@ -1966,8 +2436,8 @@ VectorAssert.IsNotSmaller<short4, short>(x, 0, 4);
         public static short8 intsqrt(short8 x)
         {
 VectorAssert.IsNotSmaller<short8, short>(x, 0, 8);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi16(x, 8);
             }
@@ -2003,7 +2473,7 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
             {
                 return intsqrt((ushort)x);
             }
-            else 
+            else
             {
                 if (constexpr.IS_TRUE(x <= MAX_ACCURATE_INT_SQRT_F32))
                 {
@@ -2024,7 +2494,7 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 intsqrt(uint2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt2(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 2));
             }
@@ -2038,7 +2508,7 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 intsqrt(uint3 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt3(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 3));
             }
@@ -2052,7 +2522,7 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 intsqrt(uint4 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToUInt4(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 4));
             }
@@ -2099,8 +2569,8 @@ Assert.IsNonNegative(x);
         public static int2 intsqrt(int2 x)
         {
 VectorAssert.IsNotSmaller<int2, int>(x, 0, 2);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt2(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 2));
             }
@@ -2115,8 +2585,8 @@ VectorAssert.IsNotSmaller<int2, int>(x, 0, 2);
         public static int3 intsqrt(int3 x)
         {
 VectorAssert.IsNotSmaller<int3, int>(x, 0, 3);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt3(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 3));
             }
@@ -2131,8 +2601,8 @@ VectorAssert.IsNotSmaller<int3, int>(x, 0, 3);
         public static int4 intsqrt(int4 x)
         {
 VectorAssert.IsNotSmaller<int4, int>(x, 0, 4);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToInt4(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 4));
             }
@@ -2168,63 +2638,25 @@ VectorAssert.IsNotSmaller<int8, int>(x, 0, 8);
             {
                 return intsqrt((uint)x);
             }
-            else if (constexpr.IS_TRUE(x <= MAX_ACCURATE_INT_SQRT_F64))
-            {
-                return (ulong)math.sqrt((double)x);
-            }
-            
-            // loop-free, yet tests say the loop version is 25-50% faster; 
-            // heavily optimized vectorized loop free version up to 200% slower than loop (unbelievable)
-            //
-            //ulong vInt = (ulong)sqrt((double)x);
-            //
-            //if (x == 0)
-            //{
-            //    return 0;
-            //}
-            //
-            //ulong v = (vInt + (x / vInt)) / 2;
-            //return v - tobyte(v * v > x);
 
-            ulong mask = 1ul << 62;
-            ulong result = 0;
-            
-            mask >>= math.lzcnt(x) & (-1 << 1);
-            if (Hint.Likely(mask > x))
+            double sqrtDbl = math.sqrt((double)x);
+            ulong cvtt = (ulong)(long)sqrtDbl;
+            // 64bit division by itself is worse than a pipeline flush
+            // branch evaluation runs in parallel to cvt + sqrt + cvtt (~28 cycles), minimizing branch misprediction penalty
+            if (x <= MAX_ACCURATE_INT_SQRT_F64)
             {
-                mask >>= 2;
+                return cvtt;
             }
-            
-            if (x >= mask)
-            {
-                x -= mask;
-                result = mask;
-            }
-            
-            mask >>= 2;
-            
-            while (mask != 0)
-            {
-                ulong resultAdded = result | mask;
-                result >>= 1;
-            
-                if (x >= resultAdded)
-                {
-                    x -= resultAdded;
-                    result |= mask;
-                }
-            
-                mask >>= 2;
-            }
-            
-            return result;
+            ulong result = (cvtt + (x / cvtt)) >> 1;
+
+            return result - tobyte(square(result) > x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 intsqrt(ulong2 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epu64(x);
             }
@@ -2242,7 +2674,7 @@ VectorAssert.IsNotSmaller<int8, int>(x, 0, 8);
             {
                 return Xse.mm256_sqrt_epu64(x, 3);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.sqrt_epu64x2(x.xy, x.zz, out v128 lo, out v128 hi);
 
@@ -2262,7 +2694,7 @@ VectorAssert.IsNotSmaller<int8, int>(x, 0, 8);
             {
                 return Xse.mm256_sqrt_epu64(x, 4);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.sqrt_epu64x2(x.xy, x.zw, out v128 lo, out v128 hi);
 
@@ -2286,10 +2718,18 @@ Assert.IsNonNegative(x);
             {
                 return intsqrt((uint)x);
             }
-            else
+
+            double sqrtDbl = math.sqrt((double)x);
+            ulong cvtt = (ulong)(long)sqrtDbl;
+            // 64bit division by itself is worse than a pipeline flush
+            // branch evaluation runs in parallel to cvt + sqrt + cvtt (~28 cycles), minimizing branch misprediction penalty
+            if ((ulong)x <= MAX_ACCURATE_INT_SQRT_F64)
             {
-                return (long)intsqrt((ulong)x);
+                return (long)cvtt;
             }
+            ulong result = (cvtt + ((ulong)x / cvtt)) / 2;
+
+            return (long)result - tobyte(square(result) > (ulong)x);
         }
 
         /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.long2"/>.    </summary>
@@ -2297,8 +2737,8 @@ Assert.IsNonNegative(x);
         public static long2 intsqrt(long2 x)
         {
 VectorAssert.IsNotSmaller<long2, long>(x, 0, 2);
-            
-            if (Architecture.IsSIMDSupported)
+
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sqrt_epi64(x);
             }
@@ -2318,7 +2758,7 @@ VectorAssert.IsNotSmaller<long3, long>(x, 0, 3);
             {
                 return Xse.mm256_sqrt_epi64(x, 3);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.sqrt_epi64x2(x.xy, x.zz, out v128 lo, out v128 hi);
 
@@ -2340,7 +2780,7 @@ VectorAssert.IsNotSmaller<long4, long>(x, 0, 4);
             {
                 return Xse.mm256_sqrt_epi64(x, 4);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 Xse.sqrt_epi64x2(x.xy, x.zw, out v128 lo, out v128 hi);
 

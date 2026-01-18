@@ -5,11 +5,12 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
-using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
+using static MaxMath.maxmath;
 
 namespace MaxMath
 {
@@ -138,12 +139,14 @@ namespace MaxMath
         public half2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_5 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
         public half2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => maxmath.ashalf(maxmath.asushort(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { ushort8 temp = maxmath.asushort(this); temp.v2_6 = maxmath.asushort(value); this = maxmath.ashalf(temp); } }
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(half8 input) => new v128 { UShort0 = input.x0.value, UShort1 = input.x1.value, UShort2 = input.x2.value, UShort3 = input.x3.value, UShort4 = input.x4.value, UShort5 = input.x5.value, UShort6 = input.x6.value, UShort7 = input.x7.value };
-
+        public static implicit operator v128(half8 input) => RegisterConversion.ToRegister128(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half8(v128 input) => new half8 { x0 = maxmath.ashalf(input.UShort0), x1 = maxmath.ashalf(input.UShort1), x2 = maxmath.ashalf(input.UShort2), x3 = maxmath.ashalf(input.UShort3), x4 = maxmath.ashalf(input.UShort4), x5 = maxmath.ashalf(input.UShort5), x6 = maxmath.ashalf(input.UShort6), x7 = maxmath.ashalf(input.UShort7) };
+        public static implicit operator half8(v128 input) => RegisterConversion.ToAbstraction128<half8>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -161,7 +164,7 @@ namespace MaxMath
         {
             if (F16C.IsF16CSupported)
             {
-                return F16C.mm256_cvtps_ph(input, (int)RoundingMode.FROUND_NINT_NOEXC);
+                return Xse.mm256_cvtps_ph(input);
             }
             else
             {
@@ -175,7 +178,7 @@ namespace MaxMath
 #if !TESTING
             if (F16C.IsF16CSupported)
             {
-                return F16C.mm256_cvtph_ps(input);
+                return Xse.mm256_cvtph_ps(input);
             }
             else
 #endif
@@ -190,31 +193,15 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-Assert.IsWithinArrayBounds(index, 8);
-
-                if (Architecture.IsSIMDSupported)
-                {
-                    return maxmath.ashalf(Xse.extract_epi16(this, (byte)index));
-                }
-                else
-                {
-                    return this.GetField<half8, half>(index);
-                }
+                return ashalf(asushort(this)[index]);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-Assert.IsWithinArrayBounds(index, 8);
-
-                if (Architecture.IsSIMDSupported)
-                {
-                    this = Xse.insert_epi16(this, maxmath.asushort(value), (byte)index);
-                }
-                else
-                {
-                    this.SetField(value, index);
-                }
+                ushort8 cpy = asushort(this);
+                cpy[index] = asushort(value);
+                this = ashalf(cpy);
             }
         }
 
@@ -222,7 +209,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (half8 left, half8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmpeq_epi16(left, right));
             }
@@ -235,7 +222,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (half8 left, half8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsFalse16(Xse.cmpeq_epi16(left, right));
             }
@@ -249,7 +236,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals(half8 other)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return ulong.MaxValue == Xse.cmpeq_epi16(this, other).ULong0;
             }
@@ -265,7 +252,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode()
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Hash.v128(this);
             }

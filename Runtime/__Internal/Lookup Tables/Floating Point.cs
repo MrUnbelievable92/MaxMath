@@ -6,13 +6,21 @@ namespace MaxMath
         {
             internal const byte MANTISSA_ROUNDING_BITS = 3;
 
-            internal const int F16_BITS                   = F32_BITS / 2;
-            internal const int F16_EXPONENT_BITS          = 5;
-            internal const int F16_MANTISSA_BITS          = 10;
-            internal const int F16_EXPONENT_BIAS          = -(int)(((1L << F16_BITS) - 1) >> (F16_BITS - (F16_EXPONENT_BITS - 1)));
-            internal const int F16_MAX_UNBIASED_EXPONENT  = -F16_EXPONENT_BIAS;
-            internal const int F16_MIN_UNBIASED_EXPONENT  = F16_EXPONENT_BIAS + 1;
-            internal const int F16_SIGNALING_EXPONENT     = (F16_MAX_UNBIASED_EXPONENT - F16_EXPONENT_BIAS + 1) << F16_MANTISSA_BITS;
+            internal const int   F16_BITS                   = F32_BITS / 2;
+            internal const int   F16_EXPONENT_BITS          = 5;
+            internal const int   F16_MANTISSA_BITS          = 10;
+            internal const int   F16_EXPONENT_BIAS          = -(int)(((1L << F16_BITS) - 1) >> (F16_BITS - (F16_EXPONENT_BITS - 1)));
+            internal const int   F16_MAX_UNBIASED_EXPONENT  = -F16_EXPONENT_BIAS;
+            internal const int   F16_MIN_UNBIASED_EXPONENT  = F16_EXPONENT_BIAS + 1;
+            internal const int   F16_SIGNALING_EXPONENT     = (F16_MAX_UNBIASED_EXPONENT - F16_EXPONENT_BIAS + 1) << F16_MANTISSA_BITS;
+            internal const int   F16_F32_SHL_LOSE_SIGN      = F32_BITS - (F16_MANTISSA_BITS + F16_EXPONENT_BITS);
+            internal const int   F16_F32_SHR_PLACE_MANTISSA = F16_MANTISSA_BITS + ((1 + F32_EXPONENT_BITS) - (F16_MANTISSA_BITS + F16_EXPONENT_BITS));
+            internal const int   F16_F32_MAGIC              = (((1 << F32_EXPONENT_BITS) - 1) - (1 + -F16_EXPONENT_BIAS)) << F32_MANTISSA_BITS;
+            internal const uint  F16_DEPOSIT_MASK_32        = (1u << (F32_BITS - 1)) | (((1u << (F16_BITS - 1)) - 1) << (F32_BITS - F16_BITS - (F32_EXPONENT_BITS - F16_EXPONENT_BITS)));
+            internal const int   F16_F64_SHL_LOSE_SIGN      = F64_BITS - (F16_MANTISSA_BITS + F16_EXPONENT_BITS);
+            internal const int   F16_F64_SHR_PLACE_MANTISSA = F16_MANTISSA_BITS + ((1 + F64_EXPONENT_BITS) - (F16_MANTISSA_BITS + F16_EXPONENT_BITS));
+            internal const long  F16_F64_MAGIC              = (((1L << F64_EXPONENT_BITS) - 1) - (1 + -F16_EXPONENT_BIAS)) << F64_MANTISSA_BITS;
+            internal const ulong F16_DEPOSIT_MASK_64        = (1ul << (F64_BITS - 1)) | (((1ul << (F16_BITS - 1)) - 1) << (F64_BITS - F16_BITS - (F64_EXPONENT_BITS - F16_EXPONENT_BITS)));
 
             internal const int F32_BITS                   = 8 * sizeof(float);
             internal const int F32_EXPONENT_BITS          = 8;
@@ -32,8 +40,8 @@ namespace MaxMath
 
             internal const float F32_TO_LAST_DIGIT = 1e-6f;
             internal const double F64_TO_LAST_DIGIT = 1e-14d;
-            internal static quadruple F128_TO_LAST_DIGIT => /*1e-32q*/ new quadruple(0x2974_CFBC_31DB_4B08, 0x3F94_9F62_3D5A_8A73); 
-        }                                                                   
+            internal static quadruple F128_TO_LAST_DIGIT => /*1e-32q*/ new quadruple(0x2974_CFBC_31DB_4B08, 0x3F94_9F62_3D5A_8A73);
+        }
     }
 }
 

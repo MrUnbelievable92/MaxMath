@@ -11,13 +11,13 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 round_ss(v128 a, v128 b, int rounding)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return move_ss(a, round_ps(b, rounding));
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 floor_ss(v128 a, v128 b)
 		{
@@ -31,7 +31,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 ceil_ss(v128 a, v128 b)
 		{
@@ -45,7 +45,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 round_ss(v128 a, v128 b)
 		{
@@ -59,7 +59,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 trunc_ss(v128 a, v128 b)
 		{
@@ -73,18 +73,18 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-        
+
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 round_sd(v128 a, v128 b, int rounding)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return move_sd(a, round_pd(b, rounding));
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 floor_sd(v128 a, v128 b)
 		{
@@ -98,7 +98,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 ceil_sd(v128 a, v128 b)
 		{
@@ -112,7 +112,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 round_sd(v128 a, v128 b)
 		{
@@ -126,7 +126,7 @@ namespace MaxMath.Intrinsics
             }
 			else throw new IllegalInstructionException();
 		}
-		
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 trunc_sd(v128 a, v128 b)
 		{
@@ -145,7 +145,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 round_ps(v128 a, int rounding, byte elements = 4)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (rounding)
                 {
@@ -259,7 +259,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 round_pd(v128 a, int rounding, byte elements = 2)
 		{
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 switch (rounding)
                 {

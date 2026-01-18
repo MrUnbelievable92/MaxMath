@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
@@ -141,12 +142,14 @@ namespace MaxMath
         public int2 v2_6  { readonly get => (int2)((uint8)this).v2_6;    set { uint8 _this = (uint8)this; _this.v2_6  = (uint2)value; this = (int8)_this; } }
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(int8 input) => new v256(input.x0, input.x1, input.x2, input.x3, input.x4, input.x5, input.x6, input.x7);
-
+        public static implicit operator v256(int8 input) => RegisterConversion.ToRegister256(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator int8(v256 input) => new int8{ x0 = input.SInt0, x1 = input.SInt1, x2 = input.SInt2, x3 = input.SInt3, x4 = input.SInt4, x5 = input.SInt5, x6 = input.SInt6, x7 = input.SInt7 };
+        public static implicit operator int8(v256 input) => RegisterConversion.ToAbstraction256<int8>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -163,7 +166,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvttph_epi32(input);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new int8(RegisterConversion.ToInt4(Xse.cvttph_epi32(RegisterConversion.ToV128(input.v4_0), 4)),
                                 RegisterConversion.ToInt4(Xse.cvttph_epi32(RegisterConversion.ToV128(input.v4_4), 4)));
@@ -195,7 +198,17 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half8(int8 input) => (half8)(float8)input;
+        public static implicit operator half8(int8 input)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_cvtepi32_ph(input, (half)float.PositiveInfinity);
+            }
+            else
+            {
+                return (half8)(float8)input;
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(int8 input)
@@ -245,7 +258,11 @@ namespace MaxMath
             {
                 return Xse.mm256_div_epi32(left, right);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (Avx.IsAvxSupported)
+            {
+                return new int8((int4)((double4)left.v4_0 / right.v4_0), (int4)((double4)left.v4_4 / right.v4_4));
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new int8(RegisterConversion.ToInt4(Xse.div_epi32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))),
                                 RegisterConversion.ToInt4(Xse.div_epi32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
@@ -263,7 +280,7 @@ namespace MaxMath
             {
                 return Xse.mm256_rem_epi32(left, right);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new int8(RegisterConversion.ToInt4(Xse.rem_epi32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))),
                                 RegisterConversion.ToInt4(Xse.rem_epi32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));

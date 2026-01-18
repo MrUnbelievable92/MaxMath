@@ -16,7 +16,7 @@ namespace MaxMath
             FloatingPointPromise<quadruple> finalPromise;
             ulong sigZExtra;
             __UInt256__ sig256C = 0u;
-        
+
             ulong expA = a.Value.value.hi64 & SIGNALING_EXPONENT.hi64;
             ulong expB = b.Value.value.hi64 & SIGNALING_EXPONENT.hi64;
             UInt128 sigA = new UInt128(a.Value.value.lo64, fracF128UI64(a.Value.value.hi64));
@@ -26,18 +26,18 @@ namespace MaxMath
             bool bNaNifExpSignaling = !b.Promise.NotNaN && Hint.Unlikely(b.Value.value.lo64 != 0);
             bool aNotZero = a.Promise.NonZero || (Hint.Likely(expA != 0) | Hint.Likely(sigA.IsNotZero));
             bool bNotZero = b.Promise.NonZero || (Hint.Likely(expB != 0) | Hint.Likely(sigB.IsNotZero));
-            
+
             bool aSignaling = false;
 
             if (!(a.Promise.NonZero && a.Promise.NotSubnormal)
-             && Hint.Unlikely(expA == 0)) 
+             && Hint.Unlikely(expA == 0))
             {
                 if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                 {
                     if (!a.Promise.NonZero
                      && Hint.Likely(sigA.IsZero))
                     {
-                        if (!(b.Promise.NotNaN && b.Promise.NotInf) 
+                        if (!(b.Promise.NotNaN && b.Promise.NotInf)
                          && Hint.Unlikely(expB == SIGNALING_EXPONENT.hi64))
                         {
                             return NaN;
@@ -64,8 +64,8 @@ namespace MaxMath
             }
 
             if ((!(b.Promise.NonZero && b.Promise.NotSubnormal)
-             && Hint.Unlikely(expB == 0)) 
-             & !aSignaling) 
+             && Hint.Unlikely(expB == 0))
+             & !aSignaling)
             {
                 if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
                 {
@@ -83,7 +83,7 @@ namespace MaxMath
                             {
                                 finalPromise.FlipSign();
                             }
-                            
+
                             return new quadruple.ConstChecked(new quadruple(c.Value.value.lo64, c.Value.value.hi64 ^ (toulong(negC) << 63)), finalPromise);
                         }
                     }
@@ -117,126 +117,126 @@ namespace MaxMath
             ulong signC = (c.Value.value.hi64 & (1ul << 63)) ^ (toulong(negC) << 63);
             ulong signZ = signA ^ signB ^ (toulong(negProd) << 63);
 
-            if (aSignaling) 
+            if (aSignaling)
             {
-                if (aNaNifExpSignaling | 
-                    (!(b.Promise.NotNaN && b.Promise.NotInf) 
-                     && Hint.Unlikely((expB == (SIGNALING_EXPONENT.hi64 >> MANTISSA_BITS_HI64)) & bNaNifExpSignaling))) 
+                if (aNaNifExpSignaling |
+                    (!(b.Promise.NotNaN && b.Promise.NotInf)
+                     && Hint.Unlikely((expB == (SIGNALING_EXPONENT.hi64 >> MANTISSA_BITS_HI64)) & bNaNifExpSignaling)))
                 {
                     return NaN;
                 }
-                if (bNotZero) 
+                if (bNotZero)
                 {
-                    if (!(c.Promise.NotNaN && c.Promise.NotInf) 
+                    if (!(c.Promise.NotNaN && c.Promise.NotInf)
                        && Hint.Likely(expC != SIGNALING_EXPONENT.hi64 >> MANTISSA_BITS_HI64))
-                    { 
+                    {
                         return new quadruple(0, signZ | SIGNALING_EXPONENT.hi64);
                     }
                     if (!c.Promise.NonZero
                      && Hint.Unlikely(sigC.IsNotZero))
-                    { 
+                    {
                         return NaN;
                     }
                     if (signZ == signC)
-                    { 
+                    {
                         return new quadruple(0, signZ | SIGNALING_EXPONENT.hi64);
                     }
                 }
 
                 return NaN;
             }
-            if (!(b.Promise.NotNaN && b.Promise.NotInf) 
+            if (!(b.Promise.NotNaN && b.Promise.NotInf)
               && Hint.Unlikely(expB == SIGNALING_EXPONENT.hi64 >> MANTISSA_BITS_HI64))
             {
-                if (bNaNifExpSignaling) 
+                if (bNaNifExpSignaling)
                 {
                     return NaN;
                 }
-                if (aNotZero) 
+                if (aNotZero)
                 {
-                    if ((c.Promise.NotNaN && c.Promise.NotInf) 
+                    if ((c.Promise.NotNaN && c.Promise.NotInf)
                      || Hint.Likely(expC != SIGNALING_EXPONENT.hi64 >> MANTISSA_BITS_HI64))
-                    { 
+                    {
                         return new quadruple(0, signZ | SIGNALING_EXPONENT.hi64);
                     }
                     if (!c.Promise.NonZero
                      && Hint.Likely(sigC.IsNotZero))
-                    { 
+                    {
                         return NaN;
                     }
                     if (signZ == signC)
-                    { 
+                    {
                         return new quadruple(0, signZ | SIGNALING_EXPONENT.hi64);
                     }
                 }
 
                 return NaN;
             }
-            if (!(c.Promise.NotNaN && c.Promise.NotInf) 
+            if (!(c.Promise.NotNaN && c.Promise.NotInf)
               && Hint.Unlikely(expC == SIGNALING_EXPONENT.hi64 >> MANTISSA_BITS_HI64))
             {
                 return new quadruple(c.Value.value.lo64, c.Value.value.hi64);
             }
 
             finalPromise = FloatingPointPromise<quadruple>.NOT_NAN;
-            
+
             if (!(c.Promise.NonZero && c.Promise.NotSubnormal)
              && Hint.Unlikely(expC == 0))
             {
                 if (!c.Promise.NonZero
-                 && Hint.Likely(sigC.IsZero)) 
+                 && Hint.Likely(sigC.IsZero))
                 {
                     shiftDist += 8;
                     goto SIGZ;
                 }
                 softfloat_normSubnormalF128Sig(ref expC, ref sigC);
             }
-            
+
             sigC = new UInt128(sigC.lo64, sigC.hi64 | (1ul << MANTISSA_BITS_HI64));
             sigC <<= 8;
             int expDiff = (int)expZ - (int)expC;
-            if (expDiff < 0) 
+            if (expDiff < 0)
             {
                 expZ = expC;
-                if ((signZ == signC) | (expDiff < -1)) 
+                if ((signZ == signC) | (expDiff < -1))
                 {
                     shiftDist -= expDiff;
-                    if (shiftDist != 0) 
+                    if (shiftDist != 0)
                     {
                         sigZ = softfloat_shiftRightJam128(sigZ.hi64, sigZ.lo64, shiftDist);
                     }
-                } 
-                else if (shiftDist == 0) 
+                }
+                else if (shiftDist == 0)
                 {
                     UInt128 x128 = sig256Z.lo128 >> 1;
                     sig256Z = new __UInt256__(new UInt128(x128.lo64, (sigZ.lo64 << 63) | x128.hi64), sig256Z.hi128);
                     sigZ >>= 1;
                     sig256Z = new __UInt256__(sig256Z.lo128, sigZ);
                 }
-            } 
-            else 
+            }
+            else
             {
-                if (shiftDist != 0) 
+                if (shiftDist != 0)
                 {
                     sig256Z += sig256Z;
                 }
-                if (expDiff == 0) 
+                if (expDiff == 0)
                 {
                     sigZ = sig256Z.hi128;
-                } 
+                }
                 else
                 {
                     sig256C = softfloat_shiftRightJam256M(new __UInt256__(0, sigC), (uint)expDiff);
                 }
             }
             shiftDist = 8;
-            if (signZ == signC) 
+            if (signZ == signC)
             {
-                if (expDiff <= 0) 
+                if (expDiff <= 0)
                 {
                     sigZ += sigC;
-                } 
-                else 
+                }
+                else
                 {
                     sig256Z += sig256C;
                     sigZ = sig256Z.hi128;
@@ -245,13 +245,13 @@ namespace MaxMath
                 bit = (sigZ.hi64 & 0x0200_0000_0000_0000) >> 57;
                 expZ += bit;
                 shiftDist += (int)bit;
-            } 
-            else 
+            }
+            else
             {
                 if (expDiff < 0)
                 {
                     signZ = signC;
-                    if (expDiff < -1) 
+                    if (expDiff < -1)
                     {
                         sigZ = sigC - sigZ;
                         sigZExtra = sig256Z.lo128.hi64 | sig256Z.lo128.lo64;
@@ -262,14 +262,14 @@ namespace MaxMath
                         shiftDist -= (int)bit;
 
                         goto SHIFT_ROUND_PACK;
-                    } 
+                    }
                     else
                     {
                         sig256C = new __UInt256__(0, sigC);
                         sig256Z = sig256C - sig256Z;
                     }
-                } 
-                else if (expDiff == 0) 
+                }
+                else if (expDiff == 0)
                 {
                     sigZ -= sigC;
                     UInt128 loCMP = sigZ | sig256Z.lo128;
@@ -284,11 +284,11 @@ namespace MaxMath
                     signZ ^= (1ul << 63) & sigZ.hi64;
                     sig256Z ^= new __UInt256__(signMask, signMask, signMask, signMask);
                     sig256Z -= new __UInt256__(signMask, signMask, signMask, signMask);
-                } 
-                else 
+                }
+                else
                 {
                     sig256Z -= sig256C;
-                    if (expDiff > 1) 
+                    if (expDiff > 1)
                     {
                         sigZ = sig256Z.hi128;
                         bit = andnot(0x0100_0000_0000_0000, sigZ.hi64) >> 56;
@@ -303,18 +303,18 @@ namespace MaxMath
                 if (Hint.Likely(sigZ.hi64 != 0))
                 {
                     sigZExtra |= tobyte(sig256Z.lo128.lo64 != 0);
-                } 
-                else 
+                }
+                else
                 {
                     expZ -= 64;
                     sigZ = new UInt128(sigZExtra, sigZ.lo64);
                     sigZExtra = sig256Z.lo128.lo64;
-                    if (sigZ.hi64 == 0) 
+                    if (sigZ.hi64 == 0)
                     {
                         expZ -= 64;
                         sigZ = new UInt128(sigZExtra, sigZ.lo64);
                         sigZExtra = 0;
-                        if (sigZ.hi64 == 0) 
+                        if (sigZ.hi64 == 0)
                         {
                             expZ -= 64;
                             sigZ = new UInt128(sigZExtra, sigZ.lo64);
@@ -325,11 +325,11 @@ namespace MaxMath
                 expZ += (ulong)(7 - shiftDist);
                 shiftDist = EXPONENT_BITS - shiftDist;
 
-                if (sigZ.hi64 >= 1ul << (64 - EXPONENT_BITS - 1)) 
+                if (sigZ.hi64 >= 1ul << (64 - EXPONENT_BITS - 1))
                 {
                     goto SHIFT_ROUND_PACK;
                 }
-                else if (sigZ.hi64 <= 1ul << (64 - EXPONENT_BITS - 2)) 
+                else if (sigZ.hi64 <= 1ul << (64 - EXPONENT_BITS - 2))
                 {
                     shiftDist = -shiftDist;
                     sigZ = softfloat_shortShiftLeft128(sigZ.hi64, sigZ.lo64, (byte)shiftDist);
@@ -337,7 +337,7 @@ namespace MaxMath
                     sigZ = new UInt128(sigZ.lo64 | x128.hi64, sigZ.hi64);
                     sigZExtra = x128.lo64;
                 }
-            
+
                 goto ROUND_PACK;
             }
 
@@ -356,19 +356,19 @@ namespace MaxMath
         {
             return softfloat_mulAddF128(a, b, c, false, false);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked fmsub(quadruple.ConstChecked a, quadruple.ConstChecked b, quadruple.ConstChecked c)
         {
             return softfloat_mulAddF128(a, b, c, false, true);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked fnmadd(quadruple.ConstChecked a, quadruple.ConstChecked b, quadruple.ConstChecked c)
         {
             return softfloat_mulAddF128(a, b, c, true, false);
         }
-        
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked fnmsub(quadruple.ConstChecked a, quadruple.ConstChecked b, quadruple.ConstChecked c)
         {
@@ -390,5 +390,5 @@ namespace MaxMath
         {
             return quadruple.fmsub(a, b, c);
         }
-    } 
+    }
 }

@@ -12,7 +12,7 @@ namespace MaxMath
         /// is NAN_QUAD, use isnan().
         /// </summary>
         public static quadruple NAN_QUAD => quadruple.NaN;
-        
+
         /// <summary>       Quadruple precision constant for positive infinity.      </summary>
         public static quadruple INFINITY_QUAD => quadruple.PositiveInfinity;
 
@@ -41,7 +41,7 @@ namespace MaxMath
 
         /// <summary>       The base 2 logarithm of e. Approximately 1.44. This is a f128/quadruple precision constant.      </summary>
         public static quadruple LOG2E_QUAD => new quadruple(0xE177_7D0F_FDA0_D23A, 0x3FFF_7154_7652_B82F);
-        
+
         /// <summary>       The mathematical constant pi. Approximately 3.14. This is a f128/quadruple precision constant.      </summary>
         public static quadruple PI_QUAD => new quadruple(0x8469_898C_C517_01B8, 0x4000_921F_B544_42D1);
 
@@ -50,13 +50,13 @@ namespace MaxMath
 
         /// <summary>       The mathematical constant tau. Approximately 6.28. Also known as <see cref="PI2_QUAD"/>. This is a f128/quadruple precision constant.      </summary>
         public static quadruple TAU_QUAD => new quadruple(0x8469_898C_C517_01B8, 0x4001_921F_B544_42D1);
-        
+
         /// <summary>       The mathematical constant (2 * pi). Approximately 6.28. Also known as <see cref="TAU_QUAD"/>. This is a f128/quadruple precision constant.      </summary>
         public static quadruple PI2_QUAD => new quadruple(0x8469_898C_C517_01B8, 0x4001_921F_B544_42D1);
-        
+
         /// <summary>       The mathematical constant (pi / 2). Approximately 1.57. This is a f128/quadruple precision constant.      </summary>
         public static quadruple PIHALF_QUAD => new quadruple(0x8469_898C_C517_01B8, 0x3FFF_921F_B544_42D1);
-        
+
         /// <summary>       The mathematical constant phi also known as the golden ratio. Approximately 1.61. This is a f128/quadruple precision constant.      </summary>
         public static quadruple PHI_QUAD => new quadruple(0x7C15_F39C_C060_5CEE, 0x3FFF_9E37_79B9_7F4A);
 
@@ -76,22 +76,22 @@ namespace MaxMath
         public static quadruple CBRT4_QUAD => new quadruple(0xC82B_0599_9AB4_3DC5, 0x3FFF_965F_EA53_D6E3);
 
         /// <summary>       The inverse cube root of 2. Approximately 0.79. This is a f128/quadruple precision constant.      </summary>
-        public static quadruple RCBRT2_QUAD => new quadruple(0xC82B_0599_9AB4_3DC4, 0x3FFE_965F_EA53_D6E3);  
+        public static quadruple RCBRT2_QUAD => new quadruple(0xC82B_0599_9AB4_3DC4, 0x3FFE_965F_EA53_D6E3);
 
         /// <summary>       The inverse cube root of 4. Approximately 0.62. This is a f128/quadruple precision constant.      </summary>
-        public static quadruple RCBRT4_QUAD => new quadruple(0xAE22_3DDA_B715_BE26, 0x3FFE_428A_2F98_D728);  
-        
+        public static quadruple RCBRT4_QUAD => new quadruple(0xAE22_3DDA_B715_BE26, 0x3FFE_428A_2F98_D728);
+
         /// <summary>
         /// The conversion constant used to convert radians to degrees. Multiply the radian value by this constant to get degrees.
         /// <remarks>   Multiplying by this constant is equivalent to using <see cref="maxmath.degrees(quadruple)"/>.   </remarks>
         /// </summary>
-        public static quadruple TODEGREES_QUAD => new quadruple(0x7B86_152E_A6FE_81A4, 0x4004_CA5D_C1A6_3C1F);  
-        
+        public static quadruple TODEGREES_QUAD => new quadruple(0x7B86_152E_A6FE_81A4, 0x4004_CA5D_C1A6_3C1F);
+
         /// <summary>
         /// The conversion constant used to convert degrees to radians. Multiply the degree value by this constant to get radians.
         /// <remarks>Multiplying by this constant is equivalent to using <see cref="maxmath.radians(quadruple)"/>.</remarks>
         /// </summary>
-        public static quadruple TORADIANS_QUAD => new quadruple(0x915C_1D8B_ECDD_290A, 0x3FF9_1DF4_6A25_29D3);  
+        public static quadruple TORADIANS_QUAD => new quadruple(0x915C_1D8B_ECDD_290A, 0x3FF9_1DF4_6A25_29D3);
 
 
         /// <summary>       The mathematical constant phi also known as the golden ratio. Approximately 1.61. This is a f64/double precision constant.      </summary>

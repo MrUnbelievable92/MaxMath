@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
@@ -30,198 +31,65 @@ namespace MaxMath
 
         public static float8 zero => default;
 
-
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float x0, float x1, float x2, float x3, float x4, float x5, float x6, float x7)
         {
-            if (Avx.IsAvxSupported)
-            {
-                this = Avx.mm256_set_ps(x7, x6, x5, x4, x3, x2, x1, x0);
-            }
-            else
-            {
-                this = new float8
-                {
-                    _v4_0 = new float4(x0, x1, x2, x3),
-                    _v4_4 = new float4(x4, x5, x6, x7),
-                };
-            }
+            this = maxmath.asfloat(new uint8(math.asuint(x0), math.asuint(x1), math.asuint(x2), math.asuint(x3), math.asuint(x4), math.asuint(x5), math.asuint(x6), math.asuint(x7)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float x0x8)
         {
-            if (Avx.IsAvxSupported)
-            {
-                this = Xse.mm256_set1_ps(x0x8);
-            }
-            else
-            {
-                this = new float8
-                {
-                    _v4_0 = new float4(x0x8),
-                    _v4_4 = new float4(x0x8),
-                };
-            }
+            this = maxmath.asfloat(new uint8(math.asuint(x0x8)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float2 x23, float2 x45, float2 x67)
         {
-            this = new float8(new float4(x01, x23), new float4(x45, x67));
+            this = maxmath.asfloat(new uint8(math.asuint(x01), math.asuint(x23), math.asuint(x45), math.asuint(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float3 x234, float3 x567)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                v128 lo = Xse.unpacklo_pd(RegisterConversion.ToV128(x01), RegisterConversion.ToV128(x234));
-                v128 mid = Xse.bsrli_si128(RegisterConversion.ToV128(x234), 2 * sizeof(float));
-                v128 hi = Xse.bslli_si128(RegisterConversion.ToV128(x567), sizeof(float));
-
-                if (Sse4_1.IsSse41Supported)
-                {
-                    hi = Sse4_1.blend_ps(mid, hi, 0b1110);
-                }
-                else
-                {
-                    hi = Xse.blendv_si128(mid, hi, new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
-                }
-
-
-                this = new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
-            }
-            else
-            {
-                this = new float8
-                {
-                    _v4_0 = new float4(x01, x234.xy),
-                    _v4_4 = new float4(x234.z, x567)
-                };
-            }
+            this = maxmath.asfloat(new uint8(math.asuint(x01), math.asuint(x234), math.asuint(x567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float3 x012, float2 x34, float3 x567)
         {
-            if (Sse4_1.IsSse41Supported)
-            {
-                v128 mid = Xse.bslli_si128(RegisterConversion.ToV128(x34), 3 * sizeof(float));
-                v128 lo = Sse4_1.blend_ps(RegisterConversion.ToV128(x012), mid, 0b1000);
-
-                mid = Xse.bsrli_si128(RegisterConversion.ToV128(x34), sizeof(float));
-
-                v128 hi = Xse.bslli_si128(RegisterConversion.ToV128(x567), sizeof(float));
-                hi = Sse4_1.blend_ps(mid, hi, 0b1110);
-
-
-                this = new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
-            }
-            else if (Architecture.IsSIMDSupported)
-            {
-                v128 mid = Xse.bslli_si128(RegisterConversion.ToV128(x34), 3 * sizeof(float));
-                v128 lo = Xse.blendv_si128(RegisterConversion.ToV128(x012), mid, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255));
-
-                mid = Xse.bsrli_si128(RegisterConversion.ToV128(x34), sizeof(float));
-
-                v128 hi = Xse.bslli_si128(RegisterConversion.ToV128(x567), sizeof(float));
-                hi = Xse.blendv_si128(mid, hi, new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255));
-
-
-                this = new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
-            }
-            else
-            {
-                this = new float8
-                {
-                    _v4_0 = new float4(x012, x34.x),
-                    _v4_4 = new float4(x34.y, x567)
-                };
-            }
+            this = maxmath.asfloat(new uint8(math.asuint(x012), math.asuint(x34), math.asuint(x567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float3 x012, float3 x345, float2 x67)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                v128 mid = Xse.bsrli_si128(RegisterConversion.ToV128(x345), sizeof(float));
-                v128 hi = Xse.unpacklo_pd(mid, RegisterConversion.ToV128(x67));
-
-                mid = Xse.bslli_si128(RegisterConversion.ToV128(x345), 3 * sizeof(float));
-                v128 lo;
-
-                if (Sse4_1.IsSse41Supported)
-                {
-                    lo = Sse4_1.blend_ps(RegisterConversion.ToV128(x012), mid, 0b1000);
-                }
-                else
-                {
-                    lo = Xse.blendv_si128(RegisterConversion.ToV128(x012), mid, new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255));
-                }
-
-
-                this = new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
-            }
-            else
-            {
-                this = new float8
-                {
-                    _v4_0 = new float4(x012, x345.x),
-                    _v4_4 = new float4(x345.yz, x67)
-                };
-            }
+            this = maxmath.asfloat(new uint8(math.asuint(x012), math.asuint(x345), math.asuint(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float4 x0123, float2 x45, float2 x67)
         {
-            this = new float8(x0123, new float4(x45, x67));
+            this = maxmath.asfloat(new uint8(math.asuint(x0123), math.asuint(x45), math.asuint(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float4 x2345, float2 x67)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                v128 lo = Xse.unpacklo_pd(RegisterConversion.ToV128(x01), RegisterConversion.ToV128(x2345));
-                v128 hi = Xse.bslli_si128(RegisterConversion.ToV128(x67), 2 * sizeof(float));
-                hi = Xse.unpackhi_pd(RegisterConversion.ToV128(x2345), hi);
-
-                this = new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
-            }
-            else
-            {
-                this = new float8
-                {
-                    _v4_0 = new float4(x01, x2345.xy),
-                    _v4_4 = new float4(x2345.zw, x67)
-                };
-            }
+            this = maxmath.asfloat(new uint8(math.asuint(x01), math.asuint(x2345), math.asuint(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float2 x23, float4 x4567)
         {
-            this = new float8(new float4(x01, x23), x4567);
+            this = maxmath.asfloat(new uint8(math.asuint(x01), math.asuint(x23), math.asuint(x4567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float4 x0123, float4 x4567)
         {
-            if (Avx.IsAvxSupported)
-            {
-                this = Avx.mm256_set_m128(RegisterConversion.ToV128(x4567), RegisterConversion.ToV128(x0123));
-            }
-            else
-            {
-                this = new float8
-                {
-                    _v4_0 = x0123,
-                    _v4_4 = x4567
-                };
-            }
+            this = maxmath.asfloat(new uint8(math.asuint(x0123), math.asuint(x4567)));
         }
 
 
@@ -770,12 +638,14 @@ namespace MaxMath
         }
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(float8 input) => new v256(input.x0, input.x1, input.x2, input.x3, input.x4, input.x5, input.x6, input.x7);
-
+        public static implicit operator v256(float8 input) => RegisterConversion.ToRegister256(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float8(v256 input) => new float8{ x0 = input.Float0, x1 = input.Float1, x2 = input.Float2, x3 = input.Float3, x4 = input.Float4, x5 = input.Float5, x6 = input.Float6, x7 = input.Float7 };
+        public static implicit operator float8(v256 input) => RegisterConversion.ToAbstraction256<float8>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -795,26 +665,7 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Avx.IsAvxSupported)
-                {
-                    return Xse.mm256_extract_ps(this, (byte)index);
-                }
-                else if (Architecture.IsSIMDSupported)
-                {
-                    if (constexpr.IS_CONST(index))
-                    {
-                        if (index < 4)
-                        {
-                            return Xse.extract_ps(RegisterConversion.ToV128(_v4_0), (byte)index);
-                        }
-                        else
-                        {
-                            return Xse.extract_ps(RegisterConversion.ToV128(_v4_4), (byte)(index - 4));
-                        }
-                    }
-                }
-                
-                return this.GetField<float8, float>(index);
+                return math.asfloat(asuint(this)[index]);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -822,30 +673,9 @@ Assert.IsWithinArrayBounds(index, 8);
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Avx.IsAvxSupported)
-                {
-                    this = Xse.mm256_insert_ps(this, value, (byte)index);
-
-                    return;
-                }
-                else if (Architecture.IsSIMDSupported)
-                {
-                    if (constexpr.IS_CONST(index))
-                    {
-                        if (index < 4)
-                        {
-                            _v4_0 = RegisterConversion.ToFloat4(Xse.insert_ps(RegisterConversion.ToV128(_v4_0), value, (byte)index));
-                        }
-                        else
-                        {
-                            _v4_4 = RegisterConversion.ToFloat4(Xse.insert_ps(RegisterConversion.ToV128(_v4_4), value, (byte)(index - 4)));
-                        }
-
-                        return;
-                    }
-                }
-                
-                this.SetField(value, index);
+                uint8 cpy = asuint(this);
+                cpy[index] = math.asuint(value);
+                this = asfloat(cpy);
             }
         }
 

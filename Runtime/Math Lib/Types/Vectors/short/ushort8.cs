@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Mathematics;
 using MaxMath.Intrinsics;
@@ -57,7 +58,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort x0, ushort x1, ushort x2, ushort x3, ushort x4, ushort x5, ushort x6, ushort x7)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 this = Xse.set_epi16((short)x7, (short)x6, (short)x5, (short)x4, (short)x3, (short)x2, (short)x1, (short)x0);
             }
@@ -77,7 +78,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort x0x8)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 this = Xse.set1_epi16(x0x8);
             }
@@ -97,34 +98,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort2 x01, ushort2 x23, ushort2 x45, ushort2 x67)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                this = new ushort8(new ushort4(x01, x23), new ushort4(x45, x67));
-            }
-            else
-            {
-                this.x0 = x01.x;
-                this.x1 = x01.y;
-                this.x2 = x23.x;
-                this.x3 = x23.y;
-                this.x4 = x45.x;
-                this.x5 = x45.y;
-                this.x6 = x67.x;
-                this.x7 = x67.y;
-            }
+            this = new ushort8(new ushort4(x01, x23), new ushort4(x45, x67));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort2 x01, ushort3 x234, ushort3 x567)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 mid = Xse.bslli_si128(x234, 2 * sizeof(ushort));
-                v128 hi  = Xse.bslli_si128(x567, 5 * sizeof(ushort));
-
-                hi = Xse.blend_epi16(mid, hi, 0b1110_0000);
-
-                this = Xse.blend_epi16(x01, hi, 0b1111_1100);
+                this = Join.v2v3v3_epi16(x01, x234, x567);
             }
             else
             {
@@ -142,14 +124,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort3 x012, ushort2 x34, ushort3 x567)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 hi = Xse.bslli_si128(x567, 2 * sizeof(short));
-
-                hi = Xse.blend_epi16(x34, hi, 0b0001_1100);
-                hi = Xse.bslli_si128(hi, 3 * sizeof(short));
-
-                this = Xse.blend_epi16(x012, hi, 0b1111_1000);
+                this = Join.v3v2v3_epi16(x012, x34, x567);
             }
             else
             {
@@ -167,23 +144,9 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort3 x012, ushort3 x345, ushort2 x67)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 mid = Xse.bslli_si128(x345, 3 * sizeof(ushort));
-                v128 hi  = Xse.bslli_si128(x67, 6 * sizeof(ushort));
-
-                if (Sse4_1.IsSse41Supported)
-                {
-                    mid = Xse.blend_epi16(x012, mid, 0b0011_1000);
-
-                    this = Xse.blend_epi16(mid, hi, 0b1100_0000);
-                }
-                else
-                {
-                    mid = Xse.blend_epi16(x012, mid, 0b0011_1000);
-
-                    this = Xse.blend_epi16(mid, hi, 0b1100_0000);
-                }
+                this = Join.v3v3v2_epi16(x012, x345, x67);
             }
             else
             {
@@ -201,30 +164,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort4 x0123, ushort2 x45, ushort2 x67)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                this = new ushort8(x0123, new ushort4(x45, x67));
-            }
-            else
-            {
-                this.x0 = x0123.x;
-                this.x1 = x0123.y;
-                this.x2 = x0123.z;
-                this.x3 = x0123.w;
-                this.x4 = x45.x;
-                this.x5 = x45.y;
-                this.x6 = x67.x;
-                this.x7 = x67.y;
-            }
+            this = new ushort8(x0123, new ushort4(x45, x67));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort2 x01, ushort4 x2345, ushort2 x67)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                this = new ushort8((ushort4)Xse.unpacklo_epi32(x01, x2345),
-                                   (ushort4)Xse.unpacklo_epi32(Xse.bsrli_si128(x2345, 2 * sizeof(ushort)), x67));
+                this = Join.v2v4v2_epi16(x01, x2345, x67);
             }
             else
             {
@@ -242,29 +190,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort2 x01, ushort2 x23, ushort4 x4567)
         {
-            if (Architecture.IsSIMDSupported)
-            {
-                this = new ushort8(new ushort4(x01, x23), x4567);
-            }
-            else
-            {
-                this.x0 = x01.x;
-                this.x1 = x01.y;
-                this.x2 = x23.x;
-                this.x3 = x23.y;
-                this.x4 = x4567.x;
-                this.x5 = x4567.y;
-                this.x6 = x4567.z;
-                this.x7 = x4567.w;
-            }
+            this = new ushort8(new ushort4(x01, x23), x4567);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8(ushort4 x0123, ushort4 x4567)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                this = Xse.unpacklo_epi64(x0123, x4567);
+                this = Join.v4v4_epi16(x0123, x4567);
             }
             else
             {
@@ -286,7 +220,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return (v128)this;
                 }
@@ -299,7 +233,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, value, 0b0000_1111);
                 }
@@ -317,7 +251,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 1 * sizeof(ushort));
                 }
@@ -330,7 +264,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 1 * sizeof(ushort)), 0b0001_1110);
                 }
@@ -348,7 +282,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 2 * sizeof(ushort));
                 }
@@ -361,7 +295,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 2 * sizeof(ushort)), 0b0011_1100);
                 }
@@ -379,7 +313,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 3 * sizeof(ushort));
                 }
@@ -392,7 +326,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 3 * sizeof(ushort)), 0b0111_1000);
                 }
@@ -410,7 +344,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 4 * sizeof(ushort));
                 }
@@ -423,7 +357,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 4 * sizeof(ushort)), 0b1111_0000);
                 }
@@ -442,7 +376,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return (v128)this;
                 }
@@ -455,7 +389,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, value, 0b0000_0111);
                 }
@@ -472,7 +406,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 1 * sizeof(ushort));
                 }
@@ -485,7 +419,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 1 * sizeof(ushort)), 0b0000_1110);
                 }
@@ -502,7 +436,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 2 * sizeof(ushort));
                 }
@@ -515,7 +449,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 2 * sizeof(ushort)), 0b0001_1100);
                 }
@@ -532,7 +466,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 3 * sizeof(ushort));
                 }
@@ -545,7 +479,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 3 * sizeof(ushort)), 0b0011_1000);
                 }
@@ -562,7 +496,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 4 * sizeof(ushort));
                 }
@@ -575,7 +509,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 4 * sizeof(ushort)), 0b0111_0000);
                 }
@@ -592,7 +526,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 5 * sizeof(ushort));
                 }
@@ -605,7 +539,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 5 * sizeof(ushort)), 0b1110_0000);
                 }
@@ -623,7 +557,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return (v128)this;
                 }
@@ -636,7 +570,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, value, 0b0000_0011);
                 }
@@ -652,7 +586,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 1 * sizeof(ushort));
                 }
@@ -665,7 +599,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 1 * sizeof(ushort)), 0b0000_0110);
                 }
@@ -681,7 +615,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 2 * sizeof(ushort));
                 }
@@ -694,7 +628,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 2 * sizeof(ushort)), 0b0000_1100);
                 }
@@ -710,7 +644,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 3 * sizeof(ushort));
                 }
@@ -723,7 +657,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 3 * sizeof(ushort)), 0b0001_1000);
                 }
@@ -739,7 +673,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 4 * sizeof(ushort));
                 }
@@ -752,7 +686,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 4 * sizeof(ushort)), 0b0011_0000);
                 }
@@ -768,7 +702,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 5 * sizeof(ushort));
                 }
@@ -781,7 +715,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 5 * sizeof(ushort)), 0b0110_0000);
                 }
@@ -797,7 +731,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     return Xse.bsrli_si128(this, 6 * sizeof(ushort));
                 }
@@ -810,7 +744,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if (Architecture.IsSIMDSupported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
                     this = Xse.blend_epi16(this, Xse.bslli_si128(value, 6 * sizeof(ushort)), 0b1100_0000);
                 }
@@ -823,12 +757,14 @@ namespace MaxMath
         }
         #endregion
 
-
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(ushort8 input) => new v128 { UShort0 = input.x0, UShort1 = input.x1, UShort2 = input.x2, UShort3 = input.x3, UShort4 = input.x4, UShort5 = input.x5, UShort6 = input.x6, UShort7 = input.x7 };
-
+        public static implicit operator v128(ushort8 input) => RegisterConversion.ToRegister128(input);
+        
+        [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ushort8(v128 input) => new ushort8 { x0 = input.UShort0, x1 = input.UShort1, x2 = input.UShort2, x3 = input.UShort3, x4 = input.UShort4, x5 = input.UShort5, x6 = input.UShort6, x7 = input.UShort7 };
+        public static implicit operator ushort8(v128 input) => RegisterConversion.ToAbstraction128<ushort8>(input);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -845,7 +781,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvtepi32_epi16(input);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Cast.Int8To_U_Short8_SSE2(RegisterConversion.ToV128(input._v4_0), RegisterConversion.ToV128(input._v4_4));
             }
@@ -862,7 +798,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvtepi32_epi16(input);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return Cast.Int8To_U_Short8_SSE2(RegisterConversion.ToV128(input._v4_0), RegisterConversion.ToV128(input._v4_4));
             }
@@ -875,7 +811,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort8(half8 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.cvttph_epu16(input);
             }
@@ -899,7 +835,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator uint8(ushort8 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (uint8)Cast.UShort8ToInt8(input);
             }
@@ -912,7 +848,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator int8(ushort8 input)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Cast.UShort8ToInt8(input);
             }
@@ -923,7 +859,17 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half8(ushort8 input) => (half8)(float8)input;
+        public static implicit operator half8(ushort8 input)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.cvtepu16_ph(input, (half)float.PositiveInfinity);
+            }
+            else
+            {
+                return (half8)(float8)input;
+            }
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(ushort8 input)
@@ -932,7 +878,7 @@ namespace MaxMath
             {
                 return Xse.mm256_cvtepu16_ps(input);
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 lo = Xse.cvt2x2epu16_ps(input, out v128 hi);
 
@@ -952,9 +898,20 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Architecture.IsSIMDSupported)
+                if (constexpr.IS_CONST(index))
                 {
-                    return Xse.extract_epi16(this, (byte)index);
+                    if (BurstArchitecture.IsSIMDSupported)
+                    {
+                        return Xse.extract_epi16(this, (byte)index);
+                    }
+                }
+
+                if (BurstArchitecture.IsBurstCompiled)
+                {
+                    fixed (ushort* ptr = &x0)
+                    {
+                        return ptr[index];
+                    }
                 }
                 else
                 {
@@ -967,9 +924,20 @@ Assert.IsWithinArrayBounds(index, 8);
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                if (Architecture.IsSIMDSupported)
+                if (constexpr.IS_CONST(index))
                 {
-                    this = Xse.insert_epi16(this, value, (byte)index);
+                    if (BurstArchitecture.IsSIMDSupported)
+                    {
+                        this = Xse.insert_epi16(this, value, (byte)index);
+                    }
+                }
+
+                if (BurstArchitecture.IsBurstCompiled)
+                {
+                    fixed (ushort* ptr = &x0)
+                    {
+                        ptr[index] = value;
+                    }
                 }
                 else
                 {
@@ -982,7 +950,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator + (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.add_epi16(left, right);
             }
@@ -995,7 +963,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator - (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.sub_epi16(left, right);
             }
@@ -1008,7 +976,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator * (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.mullo_epi16(left, right);
             }
@@ -1021,7 +989,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator / (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.div_epu16(left, right, 8);
             }
@@ -1034,7 +1002,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator % (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.rem_epu16(left, right);
             }
@@ -1051,7 +1019,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator * (ushort8 left, ushort right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -1065,7 +1033,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator / (ushort8 left, ushort right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -1079,7 +1047,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator % (ushort8 left, ushort right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.IS_CONST(right))
                 {
@@ -1094,7 +1062,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator & (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.and_si128(left, right);
             }
@@ -1107,7 +1075,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator | (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.or_si128(left, right);
             }
@@ -1120,7 +1088,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator ^ (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.xor_si128(left, right);
             }
@@ -1134,7 +1102,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator ++ (ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.inc_epi16(x);
             }
@@ -1147,7 +1115,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator -- (ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.dec_epi16(x);
             }
@@ -1160,7 +1128,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator ~ (ushort8 x)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.not_si128(x);
             }
@@ -1174,7 +1142,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator << (ushort8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.slli_epi16(x, n, inRange: true);
             }
@@ -1187,7 +1155,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 operator >> (ushort8 x, int n)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.srli_epi16(x, n, inRange: true);
             }
@@ -1201,7 +1169,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator == (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmpeq_epi16(left, right));
             }
@@ -1214,7 +1182,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator < (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmplt_epu16(left, right, 8));
             }
@@ -1227,7 +1195,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator > (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmpgt_epu16(left, right, 8));
             }
@@ -1241,7 +1209,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator != (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsFalse16(Xse.cmpeq_epi16(left, right));
             }
@@ -1254,7 +1222,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator <= (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmple_epu16(left, right, 8));
             }
@@ -1267,7 +1235,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 operator >= (ushort8 left, ushort8 right)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.IsTrue16(Xse.cmpge_epu16(left, right, 8));
             }
@@ -1281,7 +1249,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public readonly bool Equals(ushort8 other)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.alltrue_epi128<ushort>(Xse.cmpeq_epi16(this, other));
             }
@@ -1297,7 +1265,7 @@ Assert.IsWithinArrayBounds(index, 8);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override readonly int GetHashCode()
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Hash.v128(this);
             }

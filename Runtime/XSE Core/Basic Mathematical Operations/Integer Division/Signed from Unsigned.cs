@@ -48,7 +48,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 SIGNED_FROM_UNSIGNED_DIV_EPI8(out v128 signedRemainder, v128 signedDividend, v128 signedDivisor, v128 unsignedQuotient, v128 unsignedRemainder, byte elements = 16, bool divisorPositive = false, bool divisorNegative = false, bool dividendPositive = false, bool dividendNegative = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 dividendPositive |= constexpr.ALL_GE_EPI8(signedDividend, 0, elements);
                 dividendNegative |= constexpr.ALL_LE_EPI8(signedDividend, 0, elements);
@@ -202,7 +202,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 SIGNED_FROM_UNSIGNED_DIV_EPI16(out v128 signedRemainder, v128 signedDividend, v128 signedDivisor, v128 unsignedQuotient, v128 unsignedRemainder, byte elements = 8, bool divisorPositive = false, bool divisorNegative = false, bool dividendPositive = false, bool dividendNegative = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 dividendPositive |= constexpr.ALL_GE_EPI16(signedDividend, 0, elements);
                 dividendNegative |= constexpr.ALL_LE_EPI16(signedDividend, 0, elements);
@@ -356,7 +356,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 SIGNED_FROM_UNSIGNED_DIV_EPI32(out v128 signedRemainder, v128 signedDividend, v128 signedDivisor, v128 unsignedQuotient, v128 unsignedRemainder, byte elements = 4, bool divisorPositive = false, bool divisorNegative = false, bool dividendPositive = false, bool dividendNegative = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 dividendPositive |= constexpr.ALL_GE_EPI32(signedDividend, 0, elements);
                 dividendNegative |= constexpr.ALL_LE_EPI32(signedDividend, 0, elements);
@@ -508,14 +508,14 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v128 SIGNED_FROM_UNSIGNED_DIV_EPI64(out v128 signedRemainder, v128 signedDividend, v128 signedDivisor, v128 unsignedQuotient, v128 unsignedRemainder, bool divisorPositive = false, bool divisorNegative = false, bool dividendPositive = false, bool dividendNegative = false)
+        internal static v128 SIGNED_FROM_UNSIGNED_DIV_EPI64(out v128 signedRemainder, v128 signedDividend, v128 signedDivisor, v128 unsignedQuotient, v128 unsignedRemainder, bool divisorPositive = false, bool divisorNegative = false, bool dividendPositive = false, bool dividendNegative = false, bool aIsDbl = false, bool bIsDbl = false)
         {
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                dividendPositive |= constexpr.ALL_GE_EPI64(signedDividend, 0);
-                dividendNegative |= constexpr.ALL_LE_EPI64(signedDividend, 0);
-                divisorPositive |= constexpr.ALL_GE_EPI64(signedDivisor, 0);
-                divisorNegative |= constexpr.ALL_LE_EPI64(signedDivisor, 0);
+                dividendPositive |= aIsDbl ? constexpr.ALL_GE_PD(signedDividend, 0) : constexpr.ALL_GE_EPI64(signedDividend, 0);
+                dividendNegative |= aIsDbl ? constexpr.ALL_LE_PD(signedDividend, 0) : constexpr.ALL_LE_EPI64(signedDividend, 0);
+                divisorPositive |= bIsDbl ? constexpr.ALL_GE_PD(signedDivisor, 0) : constexpr.ALL_GE_EPI64(signedDivisor, 0);
+                divisorNegative |= bIsDbl ? constexpr.ALL_LE_PD(signedDivisor, 0) : constexpr.ALL_LE_EPI64(signedDivisor, 0);
 
                 v128 signedQuotient = unsignedQuotient;
                 signedRemainder = unsignedRemainder;
@@ -555,14 +555,14 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static v256 SIGNED_FROM_UNSIGNED_DIV_EPI64(out v256 signedRemainder, v256 signedDividend, v256 signedDivisor, v256 unsignedQuotient, v256 unsignedRemainder, byte elements = 4, bool divisorPositive = false, bool divisorNegative = false, bool dividendPositive = false, bool dividendNegative = false)
+        internal static v256 SIGNED_FROM_UNSIGNED_DIV_EPI64(out v256 signedRemainder, v256 signedDividend, v256 signedDivisor, v256 unsignedQuotient, v256 unsignedRemainder, byte elements = 4, bool divisorPositive = false, bool divisorNegative = false, bool dividendPositive = false, bool dividendNegative = false, bool aIsDbl = false, bool bIsDbl = false)
         {
             if (Avx2.IsAvx2Supported)
             {
-                dividendPositive |= constexpr.ALL_GE_EPI64(signedDividend, 0, elements);
-                dividendNegative |= constexpr.ALL_LE_EPI64(signedDividend, 0, elements);
-                divisorPositive |= constexpr.ALL_GE_EPI64(signedDivisor, 0, elements);
-                divisorNegative |= constexpr.ALL_LE_EPI64(signedDivisor, 0, elements);
+                dividendPositive |= aIsDbl ? constexpr.ALL_GE_PD(signedDividend, 0, elements) : constexpr.ALL_GE_EPI64(signedDividend, 0, elements);
+                dividendNegative |= aIsDbl ? constexpr.ALL_LE_PD(signedDividend, 0, elements) : constexpr.ALL_LE_EPI64(signedDividend, 0, elements);
+                divisorPositive |= bIsDbl ? constexpr.ALL_GE_PD(signedDivisor, 0, elements) : constexpr.ALL_GE_EPI64(signedDivisor, 0, elements);
+                divisorNegative |= bIsDbl ? constexpr.ALL_LE_PD(signedDivisor, 0, elements) : constexpr.ALL_LE_EPI64(signedDivisor, 0, elements);
 
                 v256 signedQuotient = unsignedQuotient;
                 signedRemainder = unsignedRemainder;

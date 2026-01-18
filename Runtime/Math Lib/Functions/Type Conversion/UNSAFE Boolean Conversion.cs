@@ -43,7 +43,7 @@ Assert.IsSafeBoolean(a);
         public static byte2 tobyte(bool2 x)
         {
 VectorAssert.IsNotGreater<byte2, byte>(*(byte2*)&x, 1, 2);
-            
+
             byte2 result = *(byte2*)&x;
             constexpr.ASSUME_LE_EPU8(result, 1, 2);
             return result;
@@ -54,7 +54,7 @@ VectorAssert.IsNotGreater<byte2, byte>(*(byte2*)&x, 1, 2);
         public static byte3 tobyte(bool3 x)
         {
 VectorAssert.IsNotGreater<byte3, byte>(*(byte3*)&x, 1, 3);
-            
+
             byte3 result = *(byte3*)&x;
             constexpr.ASSUME_LE_EPU8(result, 1, 3);
             return result;
@@ -65,7 +65,7 @@ VectorAssert.IsNotGreater<byte3, byte>(*(byte3*)&x, 1, 3);
         public static byte4 tobyte(bool4 x)
         {
 VectorAssert.IsNotGreater<byte4, byte>(*(byte4*)&x, 1, 4);
-            
+
             byte4 result = *(byte4*)&x;
             constexpr.ASSUME_LE_EPU8(result, 1, 4);
             return result;
@@ -76,9 +76,9 @@ VectorAssert.IsNotGreater<byte4, byte>(*(byte4*)&x, 1, 4);
         public static byte8 tobyte(bool8 x)
         {
 VectorAssert.IsNotGreater<byte8, byte>(*(byte8*)&x, 1, 8);
-            
+
             byte8 result;
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 result = (v128)x;
             }
@@ -95,9 +95,9 @@ VectorAssert.IsNotGreater<byte8, byte>(*(byte8*)&x, 1, 8);
         public static byte16 tobyte(bool16 x)
         {
 VectorAssert.IsNotGreater<byte16, byte>(*(byte16*)&x, 1, 16);
-            
+
             byte16 result;
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 result = (v128)x;
             }
@@ -120,7 +120,7 @@ VectorAssert.IsNotGreater<byte32, byte>(*(byte32*)&x, 1, 32);
                 constexpr.ASSUME_LE_EPU8(x, 1);
                 return (v256)x;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 constexpr.ASSUME_LE_EPU8(x._v16_0, 1);
                 constexpr.ASSUME_LE_EPU8(x._v16_16, 1);
@@ -407,11 +407,11 @@ VectorAssert.IsNotGreater<byte32, byte>(*(byte32*)&x, 1, 32);
         }
 
 
-        /// <summary>       Converts a <see cref="bool"/> to its <see cref="quarter"/> representation. The underlying value is expected to be either 0 or 1.       </summary>
+        /// <summary>       Converts a <see cref="bool"/> to its <see cref="MaxMath.quarter"/> representation. The underlying value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarter(bool a)
         {
-            return new quarter((byte)(-tosbyte(a) & ((quarter)1f).value));
+            return asquarter((byte)(-tosbyte(a) & ((quarter)1f).value));
         }
 
         /// <summary>       Converts each value in a <see cref="bool2"/> to its floating point representation as a <see cref="MaxMath.quarter2"/>. The corresponding value is expected to be either 0 or 1.     </summary>
@@ -440,6 +440,20 @@ VectorAssert.IsNotGreater<byte32, byte>(*(byte32*)&x, 1, 32);
         public static quarter8 toquarter(bool8 x)
         {
             return asquarter(select(default(byte8), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.bool16"/> to its floating point representation as a <see cref="MaxMath.quarter16"/>. The corresponding value is expected to be either 0 or 1.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter16 toquarter(bool16 x)
+        {
+            return asquarter(select(default(byte16), ((quarter)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.bool32"/> to its floating point representation as a <see cref="MaxMath.quarter32"/>. The corresponding value is expected to be either 0 or 1.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter32 toquarter(bool32 x)
+        {
+            return asquarter(select(default(byte32), ((quarter)1f).value, x));
         }
 
 
@@ -476,6 +490,13 @@ VectorAssert.IsNotGreater<byte32, byte>(*(byte32*)&x, 1, 32);
         public static half8 tohalf(bool8 x)
         {
             return ashalf(select(default(ushort8), ((half)1f).value, x));
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.bool16"/> to its floating point representation as a <see cref="MaxMath.half16"/>. The corresponding value is expected to be either 0 or 1.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static half16 tohalf(bool16 x)
+        {
+            return ashalf(select(default(ushort16), ((half)1f).value, x));
         }
 
 
@@ -586,7 +607,7 @@ VectorAssert.IsNotGreater<byte4, byte>(x, 1, 4);
         {
 VectorAssert.IsNotGreater<byte8, byte>(x, 1, 8);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -602,7 +623,7 @@ VectorAssert.IsNotGreater<byte8, byte>(x, 1, 8);
         {
 VectorAssert.IsNotGreater<byte16, byte>(x, 1, 16);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return (v128)x;
             }
@@ -622,7 +643,7 @@ VectorAssert.IsNotGreater<byte32, byte>(x, 1, 32);
             {
                 return (v256)x;
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 return new bool32 { _v16_0 = (v128)x._v16_0, _v16_16 = (v128)x._v16_16 };
             }
@@ -734,14 +755,14 @@ Assert.IsBetween((byte)a, 0, 1);
 
             return *(bool*)&a;
         }
-        
+
         /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its boolean representation as a <see cref="bool2"/>. The corresponding value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 tobool(ushort2 x)
         {
 VectorAssert.IsNotGreater<ushort2, ushort>(x, 1, 2);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 res = Xse.packs_epi16(x, x);
 
@@ -757,7 +778,7 @@ VectorAssert.IsNotGreater<ushort2, ushort>(x, 1, 2);
         {
 VectorAssert.IsNotGreater<ushort3, ushort>(x, 1, 3);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return RegisterConversion.ToBool3(Xse.packs_epi16(x, x));
             }
@@ -771,7 +792,7 @@ VectorAssert.IsNotGreater<ushort3, ushort>(x, 1, 3);
         {
 VectorAssert.IsNotGreater<ushort4, ushort>(x, 1, 4);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 RegisterConversion.ToBool4(Xse.packs_epi16(x, x));
             }
@@ -785,7 +806,7 @@ VectorAssert.IsNotGreater<ushort4, ushort>(x, 1, 4);
         {
 VectorAssert.IsNotGreater<ushort8, ushort>(x, 1, 8);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.packs_epi16(x, x);
             }
@@ -799,7 +820,7 @@ VectorAssert.IsNotGreater<ushort8, ushort>(x, 1, 8);
         {
 VectorAssert.IsNotGreater<ushort16, ushort>(x, 1, 16);
 
-            if (Architecture.IsSIMDSupported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
                 return Xse.packs_epi16(x.v8_0, x.v8_8);
             }
@@ -859,11 +880,11 @@ Assert.IsBetween((byte)a, 0, 1);
         {
 VectorAssert.IsNotGreater<uint2, uint>(x, 1, 2);
 
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return RegisterConversion.ToBool2(Xse.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 epi16 = Xse.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
@@ -881,11 +902,11 @@ VectorAssert.IsNotGreater<uint2, uint>(x, 1, 2);
         {
 VectorAssert.IsNotGreater<uint3, uint>(x, 1, 3);
 
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return RegisterConversion.ToBool3(Xse.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 epi16 = Xse.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
@@ -904,11 +925,11 @@ VectorAssert.IsNotGreater<uint3, uint>(x, 1, 3);
         {
 VectorAssert.IsNotGreater<uint4, uint>(x, 1, 4);
 
-            if (Architecture.IsTableLookupSupported)
+            if (BurstArchitecture.IsTableLookupSupported)
             {
                 return RegisterConversion.ToBool4(Xse.shuffle_epi8(RegisterConversion.ToV128(x), new v128(0, 4, 8, 12,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
             }
-            else if (Architecture.IsSIMDSupported)
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 epi16 = Xse.packs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(x));
 
@@ -992,7 +1013,7 @@ Assert.IsBetween((byte)a, 0, 1);
         }
 
 
-        /// <summary>       Converts a <see cref="quarter"/> to its <see cref="bool"/> representation. The underlying value is expected to be either 0 or 1.       </summary>
+        /// <summary>       Converts a <see cref="MaxMath.quarter"/> to its <see cref="bool"/> representation. The underlying value is expected to be either 0 or 1.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool tobool(quarter a)
         {
@@ -1046,6 +1067,70 @@ Assert.IsTrue(x.x4 == (quarter)0f || x.x4 == (quarter)1f);
 Assert.IsTrue(x.x5 == (quarter)0f || x.x5 == (quarter)1f);
 Assert.IsTrue(x.x6 == (quarter)0f || x.x6 == (quarter)1f);
 Assert.IsTrue(x.x7 == (quarter)0f || x.x7 == (quarter)1f);
+
+            return asbyte(x) == ((quarter)1f).value;
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 tobool(quarter16 x)
+        {
+Assert.IsTrue(x.x0  == (quarter)0f || x.x0  == (quarter)1f);
+Assert.IsTrue(x.x1  == (quarter)0f || x.x1  == (quarter)1f);
+Assert.IsTrue(x.x2  == (quarter)0f || x.x2  == (quarter)1f);
+Assert.IsTrue(x.x3  == (quarter)0f || x.x3  == (quarter)1f);
+Assert.IsTrue(x.x4  == (quarter)0f || x.x4  == (quarter)1f);
+Assert.IsTrue(x.x5  == (quarter)0f || x.x5  == (quarter)1f);
+Assert.IsTrue(x.x6  == (quarter)0f || x.x6  == (quarter)1f);
+Assert.IsTrue(x.x7  == (quarter)0f || x.x7  == (quarter)1f);
+Assert.IsTrue(x.x8  == (quarter)0f || x.x8  == (quarter)1f);
+Assert.IsTrue(x.x9  == (quarter)0f || x.x9  == (quarter)1f);
+Assert.IsTrue(x.x10 == (quarter)0f || x.x10 == (quarter)1f);
+Assert.IsTrue(x.x11 == (quarter)0f || x.x11 == (quarter)1f);
+Assert.IsTrue(x.x12 == (quarter)0f || x.x12 == (quarter)1f);
+Assert.IsTrue(x.x13 == (quarter)0f || x.x13 == (quarter)1f);
+Assert.IsTrue(x.x14 == (quarter)0f || x.x14 == (quarter)1f);
+Assert.IsTrue(x.x15 == (quarter)0f || x.x15 == (quarter)1f);
+
+            return asbyte(x) == ((quarter)1f).value;
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.quarter32"/> to its boolean representation as a <see cref="MaxMath.bool32"/>. The corresponding value is expected to be either 0 or 1.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool32 tobool(quarter32 x)
+        {
+Assert.IsTrue(x.x0  == (quarter)0f || x.x0  == (quarter)1f);
+Assert.IsTrue(x.x1  == (quarter)0f || x.x1  == (quarter)1f);
+Assert.IsTrue(x.x2  == (quarter)0f || x.x2  == (quarter)1f);
+Assert.IsTrue(x.x3  == (quarter)0f || x.x3  == (quarter)1f);
+Assert.IsTrue(x.x4  == (quarter)0f || x.x4  == (quarter)1f);
+Assert.IsTrue(x.x5  == (quarter)0f || x.x5  == (quarter)1f);
+Assert.IsTrue(x.x6  == (quarter)0f || x.x6  == (quarter)1f);
+Assert.IsTrue(x.x7  == (quarter)0f || x.x7  == (quarter)1f);
+Assert.IsTrue(x.x8  == (quarter)0f || x.x8  == (quarter)1f);
+Assert.IsTrue(x.x9  == (quarter)0f || x.x9  == (quarter)1f);
+Assert.IsTrue(x.x10 == (quarter)0f || x.x10 == (quarter)1f);
+Assert.IsTrue(x.x11 == (quarter)0f || x.x11 == (quarter)1f);
+Assert.IsTrue(x.x12 == (quarter)0f || x.x12 == (quarter)1f);
+Assert.IsTrue(x.x13 == (quarter)0f || x.x13 == (quarter)1f);
+Assert.IsTrue(x.x14 == (quarter)0f || x.x14 == (quarter)1f);
+Assert.IsTrue(x.x15 == (quarter)0f || x.x15 == (quarter)1f);
+Assert.IsTrue(x.x16 == (quarter)0f || x.x16 == (quarter)1f);
+Assert.IsTrue(x.x17 == (quarter)0f || x.x17 == (quarter)1f);
+Assert.IsTrue(x.x18 == (quarter)0f || x.x18 == (quarter)1f);
+Assert.IsTrue(x.x19 == (quarter)0f || x.x19 == (quarter)1f);
+Assert.IsTrue(x.x20 == (quarter)0f || x.x20 == (quarter)1f);
+Assert.IsTrue(x.x21 == (quarter)0f || x.x21 == (quarter)1f);
+Assert.IsTrue(x.x22 == (quarter)0f || x.x22 == (quarter)1f);
+Assert.IsTrue(x.x23 == (quarter)0f || x.x23 == (quarter)1f);
+Assert.IsTrue(x.x24 == (quarter)0f || x.x24 == (quarter)1f);
+Assert.IsTrue(x.x25 == (quarter)0f || x.x25 == (quarter)1f);
+Assert.IsTrue(x.x26 == (quarter)0f || x.x26 == (quarter)1f);
+Assert.IsTrue(x.x27 == (quarter)0f || x.x27 == (quarter)1f);
+Assert.IsTrue(x.x28 == (quarter)0f || x.x28 == (quarter)1f);
+Assert.IsTrue(x.x29 == (quarter)0f || x.x29 == (quarter)1f);
+Assert.IsTrue(x.x30 == (quarter)0f || x.x30 == (quarter)1f);
+Assert.IsTrue(x.x31 == (quarter)0f || x.x31 == (quarter)1f);
 
             return asbyte(x) == ((quarter)1f).value;
         }
@@ -1105,6 +1190,30 @@ Assert.IsTrue(x.x4 == 0f || x.x4 == (half)1f);
 Assert.IsTrue(x.x5 == 0f || x.x5 == (half)1f);
 Assert.IsTrue(x.x6 == 0f || x.x6 == (half)1f);
 Assert.IsTrue(x.x7 == 0f || x.x7 == (half)1f);
+
+            return asushort(x) == ((half)1f).value;
+        }
+
+        /// <summary>       Converts each value in a <see cref="MaxMath.half16"/> to its boolean representation as a <see cref="MaxMath.bool16"/>. The corresponding value is expected to be either 0 or 1.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool16 tobool(half16 x)
+        {
+Assert.IsTrue(x.x0  == (half)0f || x.x0  == (half)1f);
+Assert.IsTrue(x.x1  == (half)0f || x.x1  == (half)1f);
+Assert.IsTrue(x.x2  == (half)0f || x.x2  == (half)1f);
+Assert.IsTrue(x.x3  == (half)0f || x.x3  == (half)1f);
+Assert.IsTrue(x.x4  == (half)0f || x.x4  == (half)1f);
+Assert.IsTrue(x.x5  == (half)0f || x.x5  == (half)1f);
+Assert.IsTrue(x.x6  == (half)0f || x.x6  == (half)1f);
+Assert.IsTrue(x.x7  == (half)0f || x.x7  == (half)1f);
+Assert.IsTrue(x.x8  == (half)0f || x.x8  == (half)1f);
+Assert.IsTrue(x.x9  == (half)0f || x.x9  == (half)1f);
+Assert.IsTrue(x.x10 == (half)0f || x.x10 == (half)1f);
+Assert.IsTrue(x.x11 == (half)0f || x.x11 == (half)1f);
+Assert.IsTrue(x.x12 == (half)0f || x.x12 == (half)1f);
+Assert.IsTrue(x.x13 == (half)0f || x.x13 == (half)1f);
+Assert.IsTrue(x.x14 == (half)0f || x.x14 == (half)1f);
+Assert.IsTrue(x.x15 == (half)0f || x.x15 == (half)1f);
 
             return asushort(x) == ((half)1f).value;
         }
