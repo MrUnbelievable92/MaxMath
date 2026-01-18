@@ -168,4 +168,11 @@ For these reasons I usually don't distribute DLLs.
 ![alt text](https://i.imgur.com/QcqF96e.png)
 
 - Locate the library's "package.json" file
-- DONE! 
+- DONE!  
+
+# Donations
+
+If this repository has been valuable to your projects and you'd like to support my work, consider making a donation.
+
+[![donateBTC](https://github.com/MrUnbelievable92/MaxMath/blob/master/donate_bitcoin.png)](https://raw.githubusercontent.com/MrUnbelievable92/MaxMath/master/bitcoin_address.txt)
+[![donatePP](https://github.com/MrUnbelievable92/MaxMath/blob/master/donate_paypal.png)](https://www.paypal.com/donate/?hosted_button_id=MARSK3E7WZP9C)
