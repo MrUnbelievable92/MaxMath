@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -303,7 +302,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <see langword="true"/> if the number of set 1-bits in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -323,87 +322,87 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityodd(byte2 x)
+        public static mask8x2 parityodd(byte2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.bpo_epi8(x)));
+                return Xse.bpo_epi8(x);
             }
             else
             {
-                return new bool2(parityodd(x.x), parityodd(x.y));
+                return new mask8x2(parityodd(x.x), parityodd(x.y));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityodd(byte3 x)
+        public static mask8x3 parityodd(byte3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.bpo_epi8(x)));
+                return Xse.bpo_epi8(x);
             }
             else
             {
-                return new bool3(parityodd(x.x), parityodd(x.y), parityodd(x.z));
+                return new mask8x3(parityodd(x.x), parityodd(x.y), parityodd(x.z));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityodd(byte4 x)
+        public static mask8x4 parityodd(byte4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.bpo_epi8(x)));
+                return Xse.bpo_epi8(x);
             }
             else
             {
-                return new bool4(parityodd(x.x), parityodd(x.y), parityodd(x.z), parityodd(x.w));
+                return new mask8x4(parityodd(x.x), parityodd(x.y), parityodd(x.z), parityodd(x.w));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityodd(byte8 x)
+        public static mask8x8 parityodd(byte8 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.bpo_epi8(x));
+                return Xse.bpo_epi8(x);
             }
             else
             {
-                return new bool8(parityodd(x.x0), parityodd(x.x1), parityodd(x.x2), parityodd(x.x3), parityodd(x.x4), parityodd(x.x5), parityodd(x.x6), parityodd(x.x7));
+                return new mask8x8(parityodd(x.x0), parityodd(x.x1), parityodd(x.x2), parityodd(x.x3), parityodd(x.x4), parityodd(x.x5), parityodd(x.x6), parityodd(x.x7));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool16"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 parityodd(byte16 x)
+        public static mask8x16 parityodd(byte16 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.bpo_epi8(x));
+                return Xse.bpo_epi8(x);
             }
             else
             {
-                return new bool16(parityodd(x.x0), parityodd(x.x1), parityodd(x.x2), parityodd(x.x3), parityodd(x.x4), parityodd(x.x5), parityodd(x.x6), parityodd(x.x7), parityodd(x.x8), parityodd(x.x9), parityodd(x.x10), parityodd(x.x11), parityodd(x.x12), parityodd(x.x13), parityodd(x.x14), parityodd(x.x15));
+                return new mask8x16(parityodd(x.x0), parityodd(x.x1), parityodd(x.x2), parityodd(x.x3), parityodd(x.x4), parityodd(x.x5), parityodd(x.x6), parityodd(x.x7), parityodd(x.x8), parityodd(x.x9), parityodd(x.x10), parityodd(x.x11), parityodd(x.x12), parityodd(x.x13), parityodd(x.x14), parityodd(x.x15));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool32"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 parityodd(byte32 x)
+        public static mask8x32 parityodd(byte32 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue8(Xse.mm256_bpo_epi8(x));
+                return Xse.mm256_bpo_epi8(x);
             }
             else
             {
-                return new bool32(parityodd(x.v16_0), parityodd(x.v16_16));
+                return new mask8x32(parityodd(x.v16_0), parityodd(x.v16_16));
             }
         }
 
@@ -417,73 +416,73 @@ namespace MaxMath
             return parityodd((byte)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityodd(ushort2 x)
+        public static mask16x2 parityodd(ushort2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.bpo_epi16(x)));
+                return Xse.bpo_epi16(x);
             }
             else
             {
-                return new bool2(parityodd(x.x), parityodd(x.y));
+                return new mask16x2(parityodd(x.x), parityodd(x.y));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityodd(ushort3 x)
+        public static mask16x3 parityodd(ushort3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.bpo_epi16(x)));
+                return Xse.bpo_epi16(x);
             }
             else
             {
-                return new bool3(parityodd(x.x), parityodd(x.y), parityodd(x.z));
+                return new mask16x3(parityodd(x.x), parityodd(x.y), parityodd(x.z));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityodd(ushort4 x)
+        public static mask16x4 parityodd(ushort4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.bpo_epi16(x)));
+                return Xse.bpo_epi16(x);
             }
             else
             {
-                return new bool4(parityodd(x.x), parityodd(x.y), parityodd(x.z), parityodd(x.w));
+                return new mask16x4(parityodd(x.x), parityodd(x.y), parityodd(x.z), parityodd(x.w));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityodd(ushort8 x)
+        public static mask16x8 parityodd(ushort8 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue16(Xse.bpo_epi16(x));
+                return Xse.bpo_epi16(x);
             }
             else
             {
-                return new bool8(parityodd(x.x0), parityodd(x.x1), parityodd(x.x2), parityodd(x.x3), parityodd(x.x4), parityodd(x.x5), parityodd(x.x6), parityodd(x.x7));
+                return new mask16x8(parityodd(x.x0), parityodd(x.x1), parityodd(x.x2), parityodd(x.x3), parityodd(x.x4), parityodd(x.x5), parityodd(x.x6), parityodd(x.x7));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool16"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 parityodd(ushort16 x)
+        public static mask16x16 parityodd(ushort16 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue16(Xse.mm256_bpo_epi16(x));
+                return Xse.mm256_bpo_epi16(x);
             }
             else
             {
-                return new bool16(parityodd(x.v8_0), parityodd(x.v8_8));
+                return new mask16x16(parityodd(x.v8_0), parityodd(x.v8_8));
             }
         }
 
@@ -497,59 +496,59 @@ namespace MaxMath
             return parityodd((ushort)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityodd(uint2 x)
+        public static mask32x2 parityodd(uint2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.bpo_epi32(RegisterConversion.ToV128(x))));
+                return Xse.bpo_epi32(x);
             }
             else
             {
-                return new bool2(parityodd(x.x), parityodd(x.y));
+                return new mask32x2(parityodd(x.x), parityodd(x.y));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityodd(uint3 x)
+        public static mask32x3 parityodd(uint3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.bpo_epi32(RegisterConversion.ToV128(x))));
+                return Xse.bpo_epi32(x);
             }
             else
             {
-                return new bool3(parityodd(x.x), parityodd(x.y), parityodd(x.z));
+                return new mask32x3(parityodd(x.x), parityodd(x.y), parityodd(x.z));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityodd(uint4 x)
+        public static mask32x4 parityodd(uint4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.bpo_epi32(RegisterConversion.ToV128(x))));
+                return Xse.bpo_epi32(x);
             }
             else
             {
-                return new bool4(parityodd(x.x), parityodd(x.y), parityodd(x.z), parityodd(x.w));
+                return new mask32x4(parityodd(x.x), parityodd(x.y), parityodd(x.z), parityodd(x.w));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityodd(uint8 x)
+        public static mask32x8 parityodd(uint8 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue32(Xse.mm256_bpo_epi32(x));
+                return Xse.mm256_bpo_epi32(x);
             }
             else
             {
-                return new bool8(parityodd(x.v4_0), parityodd(x.v4_4));
+                return new mask32x8(parityodd(x.v4_0), parityodd(x.v4_4));
             }
         }
 
@@ -560,7 +559,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsPopcntSupported)
             {
-                return (math.countbits(x) & 1) == 1;
+                return (countbits(x) & 1) == 1;
             }
             else
             {
@@ -570,45 +569,45 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityodd(ulong2 x)
+        public static mask64x2 parityodd(ulong2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.bpo_epi64(x)));
+                return Xse.bpo_epi64(x);
             }
             else
             {
-                return new bool2(parityodd(x.x), parityodd(x.y));
+                return new mask64x2(parityodd(x.x), parityodd(x.y));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityodd(ulong3 x)
+        public static mask64x3 parityodd(ulong3 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_bpo_epi64(x)));
+                return Xse.mm256_bpo_epi64(x);
             }
             else
             {
-                return new bool3(parityodd(x.xy), parityodd(x.z));
+                return new mask64x3(parityodd(x.xy), parityodd(x.z));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityodd(ulong4 x)
+        public static mask64x4 parityodd(ulong4 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_bpo_epi64(x)));
+                return Xse.mm256_bpo_epi64(x);
             }
             else
             {
-                return new bool4(parityodd(x.xy), parityodd(x.zw));
+                return new mask64x4(parityodd(x.xy), parityodd(x.zw));
             }
         }
 
@@ -628,44 +627,44 @@ namespace MaxMath
             return parityodd((byte)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityodd(sbyte2 x)
+        public static mask8x2 parityodd(sbyte2 x)
         {
             return parityodd((byte2)x);
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityodd(sbyte3 x)
+        public static mask8x3 parityodd(sbyte3 x)
         {
             return parityodd((byte3)x);
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityodd(sbyte4 x)
+        public static mask8x4 parityodd(sbyte4 x)
         {
             return parityodd((byte4)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityodd(sbyte8 x)
+        public static mask8x8 parityodd(sbyte8 x)
         {
             return parityodd((byte8)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool16"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 parityodd(sbyte16 x)
+        public static mask8x16 parityodd(sbyte16 x)
         {
             return parityodd((byte16)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool32"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 parityodd(sbyte32 x)
+        public static mask8x32 parityodd(sbyte32 x)
         {
             return parityodd((byte32)x);
         }
@@ -678,37 +677,37 @@ namespace MaxMath
             return parityodd((ushort)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityodd(short2 x)
+        public static mask16x2 parityodd(short2 x)
         {
             return parityodd((ushort2)x);
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityodd(short3 x)
+        public static mask16x3 parityodd(short3 x)
         {
             return parityodd((ushort3)x);
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityodd(short4 x)
+        public static mask16x4 parityodd(short4 x)
         {
             return parityodd((ushort4)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityodd(short8 x)
+        public static mask16x8 parityodd(short8 x)
         {
             return parityodd((ushort8)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool16"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 parityodd(short16 x)
+        public static mask16x16 parityodd(short16 x)
         {
             return parityodd((ushort16)x);
         }
@@ -721,30 +720,30 @@ namespace MaxMath
             return parityodd((uint)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityodd(int2 x)
+        public static mask32x2 parityodd(int2 x)
         {
             return parityodd((uint2)x);
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityodd(int3 x)
+        public static mask32x3 parityodd(int3 x)
         {
             return parityodd((uint3)x);
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityodd(int4 x)
+        public static mask32x4 parityodd(int4 x)
         {
             return parityodd((uint4)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityodd(int8 x)
+        public static mask32x8 parityodd(int8 x)
         {
             return parityodd((uint8)x);
         }
@@ -757,23 +756,23 @@ namespace MaxMath
             return parityodd((ulong)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityodd(long2 x)
+        public static mask64x2 parityodd(long2 x)
         {
             return parityodd((ulong2)x);
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityodd(long3 x)
+        public static mask64x3 parityodd(long3 x)
         {
             return parityodd((ulong3)x);
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is odd.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityodd(long4 x)
+        public static mask64x4 parityodd(long4 x)
         {
             return parityodd((ulong4)x);
         }
@@ -803,87 +802,87 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityeven(byte2 x)
+        public static mask8x2 parityeven(byte2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.bpe_epi8(x)));
+                return Xse.bpe_epi8(x);
             }
             else
             {
-                return new bool2(parityeven(x.x), parityeven(x.y));
+                return new mask8x2(parityeven(x.x), parityeven(x.y));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityeven(byte3 x)
+        public static mask8x3 parityeven(byte3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.bpe_epi8(x)));
+                return Xse.bpe_epi8(x);
             }
             else
             {
-                return new bool3(parityeven(x.x), parityeven(x.y), parityeven(x.z));
+                return new mask8x3(parityeven(x.x), parityeven(x.y), parityeven(x.z));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityeven(byte4 x)
+        public static mask8x4 parityeven(byte4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.bpe_epi8(x)));
+                return Xse.bpe_epi8(x);
             }
             else
             {
-                return new bool4(parityeven(x.x), parityeven(x.y), parityeven(x.z), parityeven(x.w));
+                return new mask8x4(parityeven(x.x), parityeven(x.y), parityeven(x.z), parityeven(x.w));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityeven(byte8 x)
+        public static mask8x8 parityeven(byte8 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.bpe_epi8(x));
+                return Xse.bpe_epi8(x);
             }
             else
             {
-                return new bool8(parityeven(x.x0), parityeven(x.x1), parityeven(x.x2), parityeven(x.x3), parityeven(x.x4), parityeven(x.x5), parityeven(x.x6), parityeven(x.x7));
+                return new mask8x8(parityeven(x.x0), parityeven(x.x1), parityeven(x.x2), parityeven(x.x3), parityeven(x.x4), parityeven(x.x5), parityeven(x.x6), parityeven(x.x7));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool16"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 parityeven(byte16 x)
+        public static mask8x16 parityeven(byte16 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.bpe_epi8(x));
+                return Xse.bpe_epi8(x);
             }
             else
             {
-                return new bool16(parityeven(x.x0), parityeven(x.x1), parityeven(x.x2), parityeven(x.x3), parityeven(x.x4), parityeven(x.x5), parityeven(x.x6), parityeven(x.x7), parityeven(x.x8), parityeven(x.x9), parityeven(x.x10), parityeven(x.x11), parityeven(x.x12), parityeven(x.x13), parityeven(x.x14), parityeven(x.x15));
+                return new mask8x16(parityeven(x.x0), parityeven(x.x1), parityeven(x.x2), parityeven(x.x3), parityeven(x.x4), parityeven(x.x5), parityeven(x.x6), parityeven(x.x7), parityeven(x.x8), parityeven(x.x9), parityeven(x.x10), parityeven(x.x11), parityeven(x.x12), parityeven(x.x13), parityeven(x.x14), parityeven(x.x15));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool32"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 parityeven(byte32 x)
+        public static mask8x32 parityeven(byte32 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue8(Xse.mm256_bpe_epi8(x));
+                return Xse.mm256_bpe_epi8(x);
             }
             else
             {
-                return new bool32(parityeven(x.v16_0), parityeven(x.v16_16));
+                return new mask8x32(parityeven(x.v16_0), parityeven(x.v16_16));
             }
         }
 
@@ -897,73 +896,73 @@ namespace MaxMath
             return parityeven((byte)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityeven(ushort2 x)
+        public static mask16x2 parityeven(ushort2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.bpe_epi16(x)));
+                return Xse.bpe_epi16(x);
             }
             else
             {
-                return new bool2(parityeven(x.x), parityeven(x.y));
+                return new mask16x2(parityeven(x.x), parityeven(x.y));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityeven(ushort3 x)
+        public static mask16x3 parityeven(ushort3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.bpe_epi16(x)));
+                return Xse.bpe_epi16(x);
             }
             else
             {
-                return new bool3(parityeven(x.x), parityeven(x.y), parityeven(x.z));
+                return new mask16x3(parityeven(x.x), parityeven(x.y), parityeven(x.z));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityeven(ushort4 x)
+        public static mask16x4 parityeven(ushort4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.bpe_epi16(x)));
+                return Xse.bpe_epi16(x);
             }
             else
             {
-                return new bool4(parityeven(x.x), parityeven(x.y), parityeven(x.z), parityeven(x.w));
+                return new mask16x4(parityeven(x.x), parityeven(x.y), parityeven(x.z), parityeven(x.w));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityeven(ushort8 x)
+        public static mask16x8 parityeven(ushort8 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue16(Xse.bpe_epi16(x));
+                return Xse.bpe_epi16(x);
             }
             else
             {
-                return new bool8(parityeven(x.x0), parityeven(x.x1), parityeven(x.x2), parityeven(x.x3), parityeven(x.x4), parityeven(x.x5), parityeven(x.x6), parityeven(x.x7));
+                return new mask16x8(parityeven(x.x0), parityeven(x.x1), parityeven(x.x2), parityeven(x.x3), parityeven(x.x4), parityeven(x.x5), parityeven(x.x6), parityeven(x.x7));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool16"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 parityeven(ushort16 x)
+        public static mask16x16 parityeven(ushort16 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue16(Xse.mm256_bpe_epi16(x));
+                return Xse.mm256_bpe_epi16(x);
             }
             else
             {
-                return new bool16(parityeven(x.v8_0), parityeven(x.v8_8));
+                return new mask16x16(parityeven(x.v8_0), parityeven(x.v8_8));
             }
         }
 
@@ -977,59 +976,59 @@ namespace MaxMath
             return parityeven((ushort)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityeven(uint2 x)
+        public static mask32x2 parityeven(uint2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.bpe_epi32(RegisterConversion.ToV128(x))));
+                return Xse.bpe_epi32(x);
             }
             else
             {
-                return new bool2(parityeven(x.x), parityeven(x.y));
+                return new mask32x2(parityeven(x.x), parityeven(x.y));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityeven(uint3 x)
+        public static mask32x3 parityeven(uint3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.bpe_epi32(RegisterConversion.ToV128(x))));
+                return Xse.bpe_epi32(x);
             }
             else
             {
-                return new bool3(parityeven(x.x), parityeven(x.y), parityeven(x.z));
+                return new mask32x3(parityeven(x.x), parityeven(x.y), parityeven(x.z));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityeven(uint4 x)
+        public static mask32x4 parityeven(uint4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.bpe_epi32(RegisterConversion.ToV128(x))));
+                return Xse.bpe_epi32(x);
             }
             else
             {
-                return new bool4(parityeven(x.x), parityeven(x.y), parityeven(x.z), parityeven(x.w));
+                return new mask32x4(parityeven(x.x), parityeven(x.y), parityeven(x.z), parityeven(x.w));
             }
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityeven(uint8 x)
+        public static mask32x8 parityeven(uint8 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue32(Xse.mm256_bpe_epi32(x));
+                return Xse.mm256_bpe_epi32(x);
             }
             else
             {
-                return new bool8(parityeven(x.v4_0), parityeven(x.v4_4));
+                return new mask32x8(parityeven(x.v4_0), parityeven(x.v4_4));
             }
         }
 
@@ -1040,7 +1039,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsPopcntSupported)
             {
-                return (math.countbits(x) & 1) == 0;
+                return (countbits(x) & 1) == 0;
             }
             else
             {
@@ -1050,45 +1049,45 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityeven(ulong2 x)
+        public static mask64x2 parityeven(ulong2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.bpe_epi64(x)));
+                return Xse.bpe_epi64(x);
             }
             else
             {
-                return new bool2(parityeven(x.x), parityeven(x.y));
+                return new mask64x2(parityeven(x.x), parityeven(x.y));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityeven(ulong3 x)
+        public static mask64x3 parityeven(ulong3 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_bpe_epi64(x)));
+                return Xse.mm256_bpe_epi64(x);
             }
             else
             {
-                return new bool3(parityeven(x.xy), parityeven(x.z));
+                return new mask64x3(parityeven(x.xy), parityeven(x.z));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityeven(ulong4 x)
+        public static mask64x4 parityeven(ulong4 x)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_bpe_epi64(x)));
+                return Xse.mm256_bpe_epi64(x);
             }
             else
             {
-                return new bool4(parityeven(x.xy), parityeven(x.zw));
+                return new mask64x4(parityeven(x.xy), parityeven(x.zw));
             }
         }
 
@@ -1108,44 +1107,44 @@ namespace MaxMath
             return parityeven((byte)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityeven(sbyte2 x)
+        public static mask8x2 parityeven(sbyte2 x)
         {
             return parityeven((byte2)x);
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityeven(sbyte3 x)
+        public static mask8x3 parityeven(sbyte3 x)
         {
             return parityeven((byte3)x);
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityeven(sbyte4 x)
+        public static mask8x4 parityeven(sbyte4 x)
         {
             return parityeven((byte4)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityeven(sbyte8 x)
+        public static mask8x8 parityeven(sbyte8 x)
         {
             return parityeven((byte8)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool16"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 parityeven(sbyte16 x)
+        public static mask8x16 parityeven(sbyte16 x)
         {
             return parityeven((byte16)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool32"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 parityeven(sbyte32 x)
+        public static mask8x32 parityeven(sbyte32 x)
         {
             return parityeven((byte32)x);
         }
@@ -1158,37 +1157,37 @@ namespace MaxMath
             return parityeven((ushort)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityeven(short2 x)
+        public static mask16x2 parityeven(short2 x)
         {
             return parityeven((ushort2)x);
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityeven(short3 x)
+        public static mask16x3 parityeven(short3 x)
         {
             return parityeven((ushort3)x);
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityeven(short4 x)
+        public static mask16x4 parityeven(short4 x)
         {
             return parityeven((ushort4)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityeven(short8 x)
+        public static mask16x8 parityeven(short8 x)
         {
             return parityeven((ushort8)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool16"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 parityeven(short16 x)
+        public static mask16x16 parityeven(short16 x)
         {
             return parityeven((ushort16)x);
         }
@@ -1201,30 +1200,30 @@ namespace MaxMath
             return parityeven((uint)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityeven(int2 x)
+        public static mask32x2 parityeven(int2 x)
         {
             return parityeven((uint2)x);
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityeven(int3 x)
+        public static mask32x3 parityeven(int3 x)
         {
             return parityeven((uint3)x);
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityeven(int4 x)
+        public static mask32x4 parityeven(int4 x)
         {
             return parityeven((uint4)x);
         }
 
         /// <summary>       Returns a <see cref="MaxMath.bool8"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 parityeven(int8 x)
+        public static mask32x8 parityeven(int8 x)
         {
             return parityeven((uint8)x);
         }
@@ -1237,23 +1236,23 @@ namespace MaxMath
             return parityeven((ulong)x);
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 parityeven(long2 x)
+        public static mask64x2 parityeven(long2 x)
         {
             return parityeven((ulong2)x);
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 parityeven(long3 x)
+        public static mask64x3 parityeven(long3 x)
         {
             return parityeven((ulong3)x);
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> with each component set to <see langword="true"/> if the number of set 1-bits in the corresponding component in <paramref name="x"/> is even.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 parityeven(long4 x)
+        public static mask64x4 parityeven(long4 x)
         {
             return parityeven((ulong4)x);
         }

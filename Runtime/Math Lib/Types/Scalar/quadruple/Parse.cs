@@ -3,18 +3,22 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Numerics;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple
+    unsafe public partial struct quadruple
     {
         public static implicit operator quadruple(string value)
         {
             return Parse(value);
         }
 
+
+        public static bool TryParse(string s, out quadruple q)
+        {
+            return !isnan(q = Parse(s));
+        }
 
         public static quadruple Parse(string s)
         {

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -15,7 +15,7 @@ namespace MaxMath.Tests
                 quarter a = (quarter)rng.NextFloat(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
                 quarter b = (quarter)rng.NextFloat(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
 
-                quarter test = maxmath.max(a, b);
+                quarter test = math.max(a, b);
 
                 if (a >= b)
                 {
@@ -38,11 +38,11 @@ namespace MaxMath.Tests
                 quarter2 a = (quarter2)rng.NextFloat2(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
                 quarter2 b = (quarter2)rng.NextFloat2(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
 
-                quarter2 test = maxmath.max(a, b);
+                quarter2 test = math.max(a, b);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -57,11 +57,11 @@ namespace MaxMath.Tests
                 quarter3 a = (quarter3)rng.NextFloat3(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
                 quarter3 b = (quarter3)rng.NextFloat3(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
 
-                quarter3 test = maxmath.max(a, b);
+                quarter3 test = math.max(a, b);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -76,11 +76,11 @@ namespace MaxMath.Tests
                 quarter4 a = (quarter4)rng.NextFloat4(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
                 quarter4 b = (quarter4)rng.NextFloat4(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
 
-                quarter4 test = maxmath.max(a, b);
+                quarter4 test = math.max(a, b);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -95,11 +95,11 @@ namespace MaxMath.Tests
                 quarter8 a = (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
                 quarter8 b = (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f);
 
-                quarter8 test = maxmath.max(a, b);
+                quarter8 test = math.max(a, b);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -114,11 +114,11 @@ namespace MaxMath.Tests
                 quarter16 a = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f));
                 quarter16 b = new quarter16((quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f));
 
-                quarter16 test = maxmath.max(a, b);
+                quarter16 test = math.max(a, b);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -133,11 +133,11 @@ namespace MaxMath.Tests
                 quarter32 a = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f));
                 quarter32 b = new quarter32((quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f), (quarter8)rng.NextFloat8(quarter.MinValue - 2.5f, quarter.MaxValue + 2.5f));
 
-                quarter32 test = maxmath.max(a, b);
+                quarter32 test = math.max(a, b);
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -153,16 +153,16 @@ namespace MaxMath.Tests
                 half a = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                 half b = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
 
-                while (maxmath.isnan(a))
+                while (math.isnan(a))
                 {
                     a = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                 }
-                while (maxmath.isnan(b))
+                while (math.isnan(b))
                 {
                     b = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                 }
 
-                half test = maxmath.max(a, b);
+                half test = math.max(a, b);
 
                 if (a >= b)
                 {
@@ -187,21 +187,21 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(a[j]))
+                    while (math.isnan(a[j]))
                     {
                         a[j] = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                     }
-                    while (maxmath.isnan(b[j]))
+                    while (math.isnan(b[j]))
                     {
                         b[j] = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                     }
                 }
 
-                half2 test = maxmath.max(a, b);
+                half2 test = math.max(a, b);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -218,21 +218,21 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(a[j]))
+                    while (math.isnan(a[j]))
                     {
                         a[j] = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                     }
-                    while (maxmath.isnan(b[j]))
+                    while (math.isnan(b[j]))
                     {
                         b[j] = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                     }
                 }
 
-                half3 test = maxmath.max(a, b);
+                half3 test = math.max(a, b);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -249,21 +249,21 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(a[j]))
+                    while (math.isnan(a[j]))
                     {
                         a[j] = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                     }
-                    while (maxmath.isnan(b[j]))
+                    while (math.isnan(b[j]))
                     {
                         b[j] = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                     }
                 }
 
-                half4 test = maxmath.max(a, b);
+                half4 test = math.max(a, b);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -280,21 +280,21 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(a[j]))
+                    while (math.isnan(a[j]))
                     {
                         a[j] = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                     }
-                    while (maxmath.isnan(b[j]))
+                    while (math.isnan(b[j]))
                     {
                         b[j] = (half)rng.NextFloat(half.MinValue - 2000f, half.MaxValue + 2000f);
                     }
                 }
 
-                half8 test = maxmath.max(a, b);
+                half8 test = math.max(a, b);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }
@@ -309,11 +309,11 @@ namespace MaxMath.Tests
                 half16 a = new half16((half8)rng.NextFloat8(half.MinValue - 2.5f, half.MaxValue + 2.5f), (half8)rng.NextFloat8(half.MinValue - 2.5f, half.MaxValue + 2.5f));
                 half16 b = new half16((half8)rng.NextFloat8(half.MinValue - 2.5f, half.MaxValue + 2.5f), (half8)rng.NextFloat8(half.MinValue - 2.5f, half.MaxValue + 2.5f));
 
-                half16 test = maxmath.max(a, b);
+                half16 test = math.max(a, b);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(test[j], maxmath.max(a[j], b[j]));
+                    Assert.AreEqual(test[j], math.max(a[j], b[j]));
                 }
             }
         }

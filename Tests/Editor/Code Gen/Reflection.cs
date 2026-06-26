@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -17,7 +17,6 @@ namespace MaxMath.Tests
             maxmathTypes.AddRange(TypeInfo.AllMatrixTypes);
 
             IEnumerable<Type> cleaned = MaxMathTypes.Where(type => maxmathTypes.Any(maxmathType => maxmathType.ToString() == type.Name));
-            cleaned = cleaned.Concat(UnityMathematicsTypes.Where(type => maxmathTypes.Any(maxmathType => maxmathType.ToString() == type.Name)));
 
             TypeMap = new Dictionary<Type, TypeInfo>(cleaned.Select(type => maxmathTypes.Where(maxmathType => type.Name == maxmathType.ToString())
                                                                                         .Select(maxmathType => new KeyValuePair<Type, TypeInfo>(type, maxmathType)).First()));
@@ -39,7 +38,7 @@ namespace MaxMath.Tests
             {
                 List<Type> result = new List<Type>();
 
-                foreach (MethodInfo function in typeof(maxmath).GetMethods(BindingFlags.Public | BindingFlags.Static))
+                foreach (MethodInfo function in typeof(math).GetMethods(BindingFlags.Public | BindingFlags.Static))
                 {
                     if (!result.Contains(function.ReturnType))
                     {
@@ -83,7 +82,7 @@ namespace MaxMath.Tests
             }
         }
 
-        internal static IEnumerable<Type> UnityMathematicsTypes
+        internal static IEnumerable<Type> MaxMathTypes
         {
             get
             {
@@ -91,19 +90,11 @@ namespace MaxMath.Tests
             }
         }
 
-        internal static IEnumerable<Type> MaxMathTypes
-        {
-            get
-            {
-                return typeof(maxmath).Assembly.GetExportedTypes().Where(t => t.IsValueType);
-            }
-        }
-
         internal static IEnumerable<Function> Functions
         {
             get
             {
-                return typeof(maxmath).GetMethods(PUBLIC_GLOBAL).Select(function => (Function)function);
+                return typeof(math).GetMethods(PUBLIC_GLOBAL).Select(function => (Function)function);
             }
         }
 
@@ -134,7 +125,7 @@ namespace MaxMath.Tests
             return s;
         }
 
-        internal static string GetTypeName(Type type)
+        internal static string GetTypeName(Type type, bool removeNamespace = true)
         {
             switch (RemovePointerSyntax(RemoveNamespace(type.Name)))
             {
@@ -155,7 +146,7 @@ namespace MaxMath.Tests
                 case "Single":  return "float";
                 case "Double":  return "double";
 
-                default: return RemovePointerSyntax(RemoveNamespace(type.Name));
+                default: return removeNamespace ? RemovePointerSyntax(RemoveNamespace(type.Name)) : type.FullName;
             }
         }
 

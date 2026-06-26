@@ -358,5 +358,57 @@ namespace MaxMath.Intrinsics
                 }
             }
         }
+
+        public static bool IsAdjacentMultiplyAddEpi16Supported
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                if (Sse2.IsSse2Supported)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool IsAdjacentMultiplyAddEpi8Supported
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                if (Ssse3.IsSsse3Supported)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public static bool IsF16Supported
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    return true;
+                }
+                else if (Arm.Neon.IsNeonArmv82FeaturesSupported)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

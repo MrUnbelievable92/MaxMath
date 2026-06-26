@@ -2,7 +2,7 @@ using MaxMath.Intrinsics;
 using System.Runtime.CompilerServices;
 using DevTools;
 
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
@@ -16,7 +16,7 @@ namespace MaxMath
                 return square(left);
             }
 
-            UInt128 product = UInt128.umul128(left.lo64, right.lo64);
+            UInt128 product = MaxMath.UInt128.umul128(left.lo64, right.lo64);
             ulong hi = product.hi64;
 
             if (constexpr.IS_CONST(left.hi64))
@@ -72,7 +72,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 umul(UInt128 left, ulong right)
         {
-            UInt128 product = UInt128.umul128(left.lo64, right);
+            UInt128 product = MaxMath.UInt128.umul128(left.lo64, right);
             ulong hi = product.hi64;
 
             if (constexpr.IS_CONST(left.hi64))
@@ -146,7 +146,7 @@ namespace MaxMath
                 return imul128((long)left.lo64, right);
             }
 
-            UInt128 result = UInt128.umul128(left.lo64, (ulong)right);
+            UInt128 result = MaxMath.UInt128.umul128(left.lo64, (ulong)right);
             ulong hi = result.hi64 + (ulong)-(long)(left.lo64 & (ulong)(right >> 63));
             hi += left.hi64 * (ulong)right;
 
@@ -158,7 +158,7 @@ namespace MaxMath
         {
             if (constexpr.IS_TRUE(left.hi64 == 0))
             {
-                return (Int128)UInt128.umul128(left.lo64, right);
+                return (Int128)MaxMath.UInt128.umul128(left.lo64, right);
             }
             if (constexpr.IS_TRUE(isinrange(left, long.MinValue, long.MaxValue)))
             {
@@ -237,7 +237,7 @@ Assert.IsTrue(constexpr.IS_CONST(_const));
                     }
                 }
 
-                return UInt128.umul(x, _const);
+                return MaxMath.UInt128.umul(x, _const);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -320,7 +320,7 @@ Assert.IsTrue(constexpr.IS_CONST(_const));
                     }
                 }
 
-                return UInt128.imul(x, _const);
+                return MaxMath.UInt128.imul(x, _const);
             }
         }
     }

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 byte x = rng.NextByte();
 
-                Assert.AreEqual(maxmath.reversebits(x), math.reversebits((ulong)x) >> (64 - 8));
+                Assert.AreEqual(math.reversebits(x), math.reversebits((ulong)x) >> (64 - 8));
             }
         }
 
@@ -27,7 +27,7 @@ namespace MaxMath.Tests
             {
                 byte2 x = rng.NextByte2();
 
-                Assert.AreEqual(maxmath.reversebits(x), (byte2)(math.reversebits((uint2)x) >> (32 - 8)));
+                Assert.AreEqual(math.reversebits(x), (byte2)(math.reversebits((uint2)x) >> (32 - 8)));
             }
         }
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
             {
                 byte3 x = rng.NextByte3();
 
-                Assert.AreEqual(maxmath.reversebits(x), (byte3)(math.reversebits((uint3)x) >> (32 - 8)));
+                Assert.AreEqual(math.reversebits(x), (byte3)(math.reversebits((uint3)x) >> (32 - 8)));
             }
         }
 
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 byte4 x = rng.NextByte4();
 
-                Assert.AreEqual(maxmath.reversebits(x), (byte4)(math.reversebits((uint4)x) >> (32 - 8)));
+                Assert.AreEqual(math.reversebits(x), (byte4)(math.reversebits((uint4)x) >> (32 - 8)));
             }
         }
 
@@ -68,7 +68,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 8));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 8));
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 8));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 8));
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 8));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 8));
                 }
             }
         }
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
             {
                 ushort x = rng.NextUShort();
 
-                Assert.AreEqual(maxmath.reversebits(x), math.reversebits((ulong)x) >> (64 - 16));
+                Assert.AreEqual(math.reversebits(x), math.reversebits((ulong)x) >> (64 - 16));
             }
         }
 
@@ -128,7 +128,7 @@ namespace MaxMath.Tests
             {
                 ushort2 x = rng.NextUShort2();
 
-                Assert.AreEqual(maxmath.reversebits(x), (ushort2)(math.reversebits((uint2)x) >> (32 - 16)));
+                Assert.AreEqual(math.reversebits(x), (ushort2)(math.reversebits((uint2)x) >> (32 - 16)));
             }
         }
 
@@ -141,7 +141,7 @@ namespace MaxMath.Tests
             {
                 ushort3 x = rng.NextUShort3();
 
-                Assert.AreEqual(maxmath.reversebits(x), (ushort3)(math.reversebits((uint3)x) >> (32 - 16)));
+                Assert.AreEqual(math.reversebits(x), (ushort3)(math.reversebits((uint3)x) >> (32 - 16)));
             }
         }
 
@@ -154,7 +154,7 @@ namespace MaxMath.Tests
             {
                 ushort4 x = rng.NextUShort4();
 
-                Assert.AreEqual(maxmath.reversebits(x), (ushort4)(math.reversebits((uint4)x) >> (32 - 16)));
+                Assert.AreEqual(math.reversebits(x), (ushort4)(math.reversebits((uint4)x) >> (32 - 16)));
             }
         }
 
@@ -169,7 +169,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 16));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 16));
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 16));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 16));
                 }
             }
         }
@@ -202,7 +202,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 32));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits((ulong)x[j]) >> (64 - 32));
                 }
             }
         }
@@ -219,7 +219,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits(x[j]));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits(x[j]));
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits(x[j]));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits(x[j]));
                 }
             }
         }
@@ -251,7 +251,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.reversebits(x)[j], math.reversebits(x[j]));
+                    Assert.AreEqual(math.reversebits(x)[j], math.reversebits(x[j]));
                 }
             }
         }

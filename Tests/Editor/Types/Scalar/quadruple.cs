@@ -1,9 +1,9 @@
 using NUnit.Framework;
 using System;
-using Unity.Mathematics;
 
-using static MaxMath.maxmath;
-using static Unity.Mathematics.math;
+
+using static MaxMath.math;
+
 
 #pragma warning disable CS1718 // comparison to same variable is a test case
 
@@ -63,9 +63,9 @@ namespace MaxMath.Tests
             Assert.IsTrue(quadruple.Epsilon == quadruple.Epsilon);
             Assert.IsFalse(-quadruple.Epsilon == quadruple.Epsilon);
 
-            Assert.IsTrue(new quadruple((UInt128)1 << 127) == new quadruple((UInt128)1 << 127));
-            Assert.IsTrue(new quadruple((UInt128)1 << 127) == (quadruple)0f);
-            Assert.IsTrue((quadruple)0f == new quadruple((UInt128)1 << 127));
+            Assert.IsTrue(new quadruple { value = (UInt128)1 << 127 } == new quadruple{ value = (UInt128)1 << 127 });
+            Assert.IsTrue(new quadruple { value = (UInt128)1 << 127 } == (quadruple)0f);
+            Assert.IsTrue((quadruple)0f == new quadruple { value = (UInt128)1 << 127 });
             Assert.IsTrue((quadruple)0f == (quadruple)0f);
 
             Assert.IsTrue((quadruple)1f == (quadruple)1f);
@@ -85,9 +85,9 @@ namespace MaxMath.Tests
             Assert.IsTrue((quadruple)1f != (quadruple)(-1f));
 
             Assert.IsFalse((quadruple)1f != (quadruple)1f);
-            Assert.IsFalse(new quadruple((UInt128)1 << 127) != new quadruple((UInt128)1 << 127));
-            Assert.IsFalse(new quadruple((UInt128)1 << 127) != new quadruple(0));
-            Assert.IsFalse(new quadruple(0) != new quadruple((UInt128)1 << 127));
+            Assert.IsFalse(new quadruple{ value = (UInt128)1 << 127 } != new quadruple{ value = (UInt128)1 << 127 });
+            Assert.IsFalse(new quadruple{ value = (UInt128)1 << 127 } != new quadruple(0));
+            Assert.IsFalse(new quadruple(0) != new quadruple{ value = (UInt128)1 << 127 });
             Assert.IsFalse(new quadruple(0) != new quadruple(0));
         }
 
@@ -207,15 +207,15 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalHalf = true;
 
-                quadruple f = subnormalHalf ? rng.NextQuadruple(-maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS)), maxmath.asquarter(maxmath.bitmask8(quarter.MANTISSA_BITS))) 
+                quadruple f = subnormalHalf ? rng.NextQuadruple(-math.asquarter(math.bitmask8(quarter.MANTISSA_BITS)), math.asquarter(math.bitmask8(quarter.MANTISSA_BITS))) 
                                             : rng.NextQuadruple(quarter.MinValue, quarter.MaxValue);
 
                 quarter q = (quarter)f;
-                quarter qm1 = maxmath.nextsmaller(q);
-                quarter qp1 = maxmath.nextgreater(q);
+                quarter qm1 = math.nextsmaller(q);
+                quarter qp1 = math.nextgreater(q);
             
-                Assert.IsFalse(maxmath.abs(f - qm1) < maxmath.abs(f - q));
-                Assert.IsFalse(maxmath.abs(f - qp1) < maxmath.abs(f - q));
+                Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
+                Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
             }
         }
 
@@ -240,9 +240,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 20; i++)
             {
-                quadruple q = rng.NextQuadruple((quadruple)Unity.Mathematics.half.MinValue * 1.5, (quadruple)Unity.Mathematics.half.MaxValue * 1.5);
+                quadruple q = rng.NextQuadruple((quadruple)half.MinValue * 1.5, (quadruple)half.MaxValue * 1.5);
 
-                if (abs(q) >= asquadruple(asuint128((quadruple)Unity.Mathematics.half.MaxValue) | ((UInt128)1ul << (quadruple.MANTISSA_BITS - LUT.FLOATING_POINT.F16_MANTISSA_BITS - 1))))
+                if (abs(q) >= asquadruple(asuint128((quadruple)half.MaxValue) | ((UInt128)1ul << (quadruple.MANTISSA_BITS - LUT.FLOATING_POINT.F16_MANTISSA_BITS - 1))))
                 {
                     Assert.IsTrue(isinf((half)q));
                 }
@@ -274,15 +274,15 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalHalf = true;
 
-                quadruple f = subnormalHalf ? rng.NextQuadruple(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
-                                            : rng.NextQuadruple(Unity.Mathematics.half.MinValue, Unity.Mathematics.half.MaxValue);
+                quadruple f = subnormalHalf ? rng.NextQuadruple(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                                            : rng.NextQuadruple(half.MinValue, half.MaxValue);
 
                 half q = (half)f;
-                half qm1 = maxmath.nextsmaller(q);
-                half qp1 = maxmath.nextgreater(q);
+                half qm1 = math.nextsmaller(q);
+                half qp1 = math.nextgreater(q);
             
-                Assert.IsFalse(maxmath.abs(f - qm1) < maxmath.abs(f - q));
-                Assert.IsFalse(maxmath.abs(f - qp1) < maxmath.abs(f - q));
+                Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
+                Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
             }
         }
 
@@ -335,15 +335,15 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalFloat = true;
 
-                quadruple f = subnormalFloat ? rng.NextQuadruple(-math.asfloat(maxmath.bitmask32(LUT.FLOATING_POINT.F32_MANTISSA_BITS)), math.asfloat(maxmath.bitmask32(LUT.FLOATING_POINT.F32_MANTISSA_BITS))) 
+                quadruple f = subnormalFloat ? rng.NextQuadruple(-math.asfloat(math.bitmask32(LUT.FLOATING_POINT.F32_MANTISSA_BITS)), math.asfloat(math.bitmask32(LUT.FLOATING_POINT.F32_MANTISSA_BITS))) 
                                              : rng.NextQuadruple(float.MinValue, float.MaxValue);
 
                 float q = (float)f;
-                float qm1 = maxmath.nextsmaller(q);
-                float qp1 = maxmath.nextgreater(q);
+                float qm1 = math.nextsmaller(q);
+                float qp1 = math.nextgreater(q);
             
-                Assert.IsFalse(maxmath.abs(f - qm1) < maxmath.abs(f - q));
-                Assert.IsFalse(maxmath.abs(f - qp1) < maxmath.abs(f - q));
+                Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
+                Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
             }
         }
 
@@ -396,15 +396,15 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalDouble = true;
 
-                quadruple f = subnormalDouble ? rng.NextQuadruple(-math.asdouble(maxmath.bitmask64((long)LUT.FLOATING_POINT.F64_MANTISSA_BITS)), math.asdouble(maxmath.bitmask64((long)LUT.FLOATING_POINT.F64_MANTISSA_BITS))) 
+                quadruple f = subnormalDouble ? rng.NextQuadruple(-math.asdouble(math.bitmask64((long)LUT.FLOATING_POINT.F64_MANTISSA_BITS)), math.asdouble(math.bitmask64((long)LUT.FLOATING_POINT.F64_MANTISSA_BITS))) 
                                               : rng.NextQuadruple(double.MinValue, double.MaxValue);
 
                 double q = (double)f;
-                double qm1 = maxmath.nextsmaller(q);
-                double qp1 = maxmath.nextgreater(q);
+                double qm1 = math.nextsmaller(q);
+                double qp1 = math.nextgreater(q);
             
-                Assert.IsFalse(maxmath.abs(f - qm1) < maxmath.abs(f - q));
-                Assert.IsFalse(maxmath.abs(f - qp1) < maxmath.abs(f - q));
+                Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
+                Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
             }
         }
 
@@ -713,10 +713,10 @@ namespace MaxMath.Tests
             {
                 bool neg = l < 0;
 
-                l = maxmath.abs(l);
-                r = maxmath.abs(r);
+                l = math.abs(l);
+                r = math.abs(r);
 
-                quadruple rem = l - r * maxmath.round(l / r);
+                quadruple rem = l - r * math.round(l / r);
 
                 return neg ? -rem : rem;
             }
@@ -726,10 +726,10 @@ namespace MaxMath.Tests
             {
                 bool neg = l < 0;
 
-                l = maxmath.abs(l);
-                r = maxmath.abs(r);
+                l = math.abs(l);
+                r = math.abs(r);
 
-                quadruple rem = maxmath.mad(-r, maxmath.round(l / r), l);
+                quadruple rem = math.mad(-r, math.round(l / r), l);
 
                 return neg ? -rem : rem;
             }
@@ -934,7 +934,7 @@ namespace MaxMath.Tests
             {
                 quadruple f = rng.NextQuadruple(quadruple.MinValue / 2, quadruple.MaxValue / 2);
 
-                Assert.IsTrue(maxmath.nextsmaller(f) < f);
+                Assert.IsTrue(math.nextsmaller(f) < f);
             }
         }
 

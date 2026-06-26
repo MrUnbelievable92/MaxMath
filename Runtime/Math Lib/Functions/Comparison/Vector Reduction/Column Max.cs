@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -412,7 +411,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the maximum component of a <see cref="MaxMath.byte2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -424,7 +423,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.max((uint)c.x, (uint)c.y);
+                return (byte)max((uint)c.x, (uint)c.y);
             }
         }
 
@@ -438,7 +437,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.max((uint)c.x, math.max((uint)c.y, (uint)c.z));
+                return (byte)max((uint)c.x, max((uint)c.y, (uint)c.z));
             }
         }
 
@@ -452,7 +451,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.max((uint)c.x, math.max((uint)c.y, math.max((uint)c.z, (uint)c.w)));
+                return (byte)max((uint)c.x, max((uint)c.y, max((uint)c.z, (uint)c.w)));
             }
         }
 
@@ -502,7 +501,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.max((int)c.x, (int)c.y);
+                return (sbyte)max((int)c.x, (int)c.y);
             }
         }
 
@@ -516,7 +515,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.max((int)c.x, math.max((int)c.y, (int)c.z));
+                return (sbyte)max((int)c.x, max((int)c.y, (int)c.z));
             }
         }
 
@@ -530,7 +529,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.max((int)c.x, math.max((int)c.y, math.max((int)c.z, (int)c.w)));
+                return (sbyte)max((int)c.x, max((int)c.y, max((int)c.z, (int)c.w)));
             }
         }
 
@@ -580,7 +579,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.max((int)c.x, (int)c.y);
+                return (short)max((int)c.x, (int)c.y);
             }
         }
 
@@ -594,7 +593,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.max((int)c.x, math.max((int)c.y, (int)c.z));
+                return (short)max((int)c.x, max((int)c.y, (int)c.z));
             }
         }
 
@@ -608,7 +607,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.max((int)c.x, math.max((int)c.y, math.max((int)c.z, (int)c.w)));
+                return (short)max((int)c.x, max((int)c.y, max((int)c.z, (int)c.w)));
             }
         }
 
@@ -644,7 +643,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.max((uint)c.x, (uint)c.y);
+                return (ushort)max((uint)c.x, (uint)c.y);
             }
         }
 
@@ -658,7 +657,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.max((uint)c.x, math.max((uint)c.y, (uint)c.z));
+                return (ushort)max((uint)c.x, max((uint)c.y, (uint)c.z));
             }
         }
 
@@ -672,7 +671,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.max((uint)c.x, math.max((uint)c.y, math.max((uint)c.z, (uint)c.w)));
+                return (ushort)max((uint)c.x, max((uint)c.y, max((uint)c.z, (uint)c.w)));
             }
         }
 
@@ -698,19 +697,61 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.int2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int cmax(int2 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.int3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int cmax(int3 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
+        /// <summary>       Returns the maximum component of an <see cref="MaxMath.int4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int cmax(int4 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
         /// <summary>       Returns the maximum component of an <see cref="MaxMath.int8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cmax(int8 c)
         {
-            return math.cmax(math.max(c.v4_0, c.v4_4));
+            return cmax(max(c.v4_0, c.v4_4));
         }
 
+        
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.uint2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint cmax(uint2 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.uint3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint cmax(uint3 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.uint4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint cmax(uint4 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
 
         /// <summary>       Returns the maximum component of a <see cref="MaxMath.uint8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cmax(uint8 c)
         {
-            return math.cmax(math.max(c.v4_0, c.v4_4));
+            return cmax(max(c.v4_0, c.v4_4));
         }
 
 
@@ -724,7 +765,7 @@ namespace MaxMath
             }
             else
             {
-                return math.max(c.x, c.y);
+                return max(c.x, c.y);
             }
         }
 
@@ -744,7 +785,7 @@ namespace MaxMath
             }
             else
             {
-                return math.max(math.max(c.x, c.z), c.y);
+                return max(max(c.x, c.z), c.y);
             }
         }
 
@@ -760,7 +801,7 @@ namespace MaxMath
             }
             else
             {
-                return math.max(c.x, math.max(c.y, math.max(c.z, c.w)));
+                return max(c.x, max(c.y, max(c.z, c.w)));
             }
         }
 
@@ -775,7 +816,7 @@ namespace MaxMath
             }
             else
             {
-                return math.max(c.x, c.y);
+                return max(c.x, c.y);
             }
         }
 
@@ -795,7 +836,7 @@ namespace MaxMath
             }
             else
             {
-                return math.max(math.max(c.x, c.z), c.y);
+                return max(max(c.x, c.z), c.y);
             }
         }
 
@@ -811,16 +852,59 @@ namespace MaxMath
             }
             else
             {
-                return math.max(c.x, math.max(c.y, math.max(c.z, c.w)));
+                return max(c.x, max(c.y, max(c.z, c.w)));
             }
         }
 
+        
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.float2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float cmax(float2 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.float3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float cmax(float3 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.float4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float cmax(float4 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
 
         /// <summary>       Returns the maximum component of a <see cref="MaxMath.float8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cmax(float8 c)
         {
-            return math.cmax(math.max(c.v4_0, c.v4_4));
+            return cmax(max(c.v4_0, c.v4_4));
+        }
+
+        
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.double2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double cmax(double2 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.double3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double cmax(double3 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
+        }
+
+        /// <summary>       Returns the maximum component of a <see cref="MaxMath.double4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double cmax(double4 c)
+        {
+            return Unity.Mathematics.math.cmax(c);
         }
     }
 }

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 byte left  = rng.NextByte();
 
-                byte q = maxmath.divrem(left, (byte)i, out byte r);
+                byte q = math.divrem(left, (byte)i, out byte r);
 
                 Assert.AreEqual((byte)(left / (byte)i), q);
                 Assert.AreEqual((byte)(left % (byte)i), r);
@@ -30,7 +30,7 @@ namespace MaxMath.Tests
             {
                 byte2 left  = rng.NextByte2();
 
-                byte2 q = maxmath.divrem(left, (byte)i, out byte2 r);
+                byte2 q = math.divrem(left, (byte)i, out byte2 r);
 
                 Assert.AreEqual(new byte2((byte)(left.x / (byte)i),
                                           (byte)(left.y / (byte)i)), q);
@@ -48,7 +48,7 @@ namespace MaxMath.Tests
             {
                 byte3 left  = rng.NextByte3();
 
-                byte3 q = maxmath.divrem(left, (byte)i, out byte3 r);
+                byte3 q = math.divrem(left, (byte)i, out byte3 r);
 
                 Assert.AreEqual(new byte3((byte)(left.x / (byte)i),
                                           (byte)(left.y / (byte)i),
@@ -68,7 +68,7 @@ namespace MaxMath.Tests
             {
                 byte4 left  = rng.NextByte4();
 
-                byte4 q = maxmath.divrem(left, (byte)i, out byte4 r);
+                byte4 q = math.divrem(left, (byte)i, out byte4 r);
 
                 Assert.AreEqual(new byte4((byte)(left.x / (byte)i),
                                           (byte)(left.y / (byte)i),
@@ -90,7 +90,7 @@ namespace MaxMath.Tests
             {
                 byte8 left  = rng.NextByte8();
 
-                byte8 q = maxmath.divrem(left, (byte)i, out byte8 r);
+                byte8 q = math.divrem(left, (byte)i, out byte8 r);
 
                 Assert.AreEqual(new byte8((byte)(left.x0 / (byte)i),
                                           (byte)(left.x1 / (byte)i),
@@ -120,7 +120,7 @@ namespace MaxMath.Tests
             {
                 byte16 left  = rng.NextByte16();
 
-                byte16 q = maxmath.divrem(left, (byte)i, out byte16 r);
+                byte16 q = math.divrem(left, (byte)i, out byte16 r);
 
                 Assert.AreEqual(new byte16((byte)(left.x0  / (byte)i),
                                            (byte)(left.x1  / (byte)i),
@@ -173,7 +173,7 @@ namespace MaxMath.Tests
             {
                 byte32 left  = rng.NextByte32();
 
-                byte32 q = maxmath.divrem(left, (byte)i, out byte32 r);
+                byte32 q = math.divrem(left, (byte)i, out byte32 r);
 
                 Assert.AreEqual(new byte32((byte)(left.x0  / (byte)i),
                                            (byte)(left.x1  / (byte)i),
@@ -253,9 +253,9 @@ namespace MaxMath.Tests
                 byte left  = rng.NextByte();
                 byte right = rng.NextByte();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (byte)1, right == 0);
 
-                byte q = maxmath.divrem(left, right, out byte r);
+                byte q = math.divrem(left, right, out byte r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -272,9 +272,9 @@ namespace MaxMath.Tests
                 byte2 left  = rng.NextByte2();
                 byte2 right = rng.NextByte2();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                byte2 q = maxmath.divrem(left, right, out byte2 r);
+                byte2 q = math.divrem(left, right, out byte2 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -291,9 +291,9 @@ namespace MaxMath.Tests
                 byte3 left  = rng.NextByte3();
                 byte3 right = rng.NextByte3();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                byte3 q = maxmath.divrem(left, right, out byte3 r);
+                byte3 q = math.divrem(left, right, out byte3 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -310,9 +310,9 @@ namespace MaxMath.Tests
                 byte4 left  = rng.NextByte4();
                 byte4 right = rng.NextByte4();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                byte4 q = maxmath.divrem(left, right, out byte4 r);
+                byte4 q = math.divrem(left, right, out byte4 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -329,9 +329,9 @@ namespace MaxMath.Tests
                 byte8 left  = rng.NextByte8();
                 byte8 right = rng.NextByte8();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                byte8 q = maxmath.divrem(left, right, out byte8 r);
+                byte8 q = math.divrem(left, right, out byte8 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -348,9 +348,9 @@ namespace MaxMath.Tests
                 byte16 left  = rng.NextByte16();
                 byte16 right = rng.NextByte16();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                byte16 q = maxmath.divrem(left, right, out byte16 r);
+                byte16 q = math.divrem(left, right, out byte16 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -367,9 +367,9 @@ namespace MaxMath.Tests
                 byte32 left  = rng.NextByte32();
                 byte32 right = rng.NextByte32();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                byte32 q = maxmath.divrem(left, right, out byte32 r);
+                byte32 q = math.divrem(left, right, out byte32 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -387,9 +387,9 @@ namespace MaxMath.Tests
                 ushort left  = rng.NextUShort();
                 ushort right = rng.NextUShort();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (ushort)1, right == 0);
 
-                ushort q = maxmath.divrem(left, right, out ushort r);
+                ushort q = math.divrem(left, right, out ushort r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -406,9 +406,9 @@ namespace MaxMath.Tests
                 ushort2 left  = rng.NextUShort2();
                 ushort2 right = rng.NextUShort2();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                ushort2 q = maxmath.divrem(left, right, out ushort2 r);
+                ushort2 q = math.divrem(left, right, out ushort2 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -425,9 +425,9 @@ namespace MaxMath.Tests
                 ushort3 left  = rng.NextUShort3();
                 ushort3 right = rng.NextUShort3();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                ushort3 q = maxmath.divrem(left, right, out ushort3 r);
+                ushort3 q = math.divrem(left, right, out ushort3 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -444,9 +444,9 @@ namespace MaxMath.Tests
                 ushort4 left  = rng.NextUShort4();
                 ushort4 right = rng.NextUShort4();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                ushort4 q = maxmath.divrem(left, right, out ushort4 r);
+                ushort4 q = math.divrem(left, right, out ushort4 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -463,9 +463,9 @@ namespace MaxMath.Tests
                 ushort8 left  = rng.NextUShort8();
                 ushort8 right = rng.NextUShort8();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                ushort8 q = maxmath.divrem(left, right, out ushort8 r);
+                ushort8 q = math.divrem(left, right, out ushort8 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -482,9 +482,9 @@ namespace MaxMath.Tests
                 ushort16 left  = rng.NextUShort16();
                 ushort16 right = rng.NextUShort16();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                ushort16 q = maxmath.divrem(left, right, out ushort16 r);
+                ushort16 q = math.divrem(left, right, out ushort16 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -504,7 +504,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                uint q = maxmath.divrem(left, right, out uint r);
+                uint q = math.divrem(left, right, out uint r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -523,7 +523,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                uint2 q = maxmath.divrem(left, right, out uint2 r);
+                uint2 q = math.divrem(left, right, out uint2 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -542,7 +542,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                uint3 q = maxmath.divrem(left, right, out uint3 r);
+                uint3 q = math.divrem(left, right, out uint3 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -561,7 +561,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                uint4 q = maxmath.divrem(left, right, out uint4 r);
+                uint4 q = math.divrem(left, right, out uint4 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -578,9 +578,9 @@ namespace MaxMath.Tests
                 uint8 left  = rng.NextUInt8();
                 uint8 right = rng.NextUInt8();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                uint8 q = maxmath.divrem(left, right, out uint8 r);
+                uint8 q = math.divrem(left, right, out uint8 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -600,7 +600,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                ulong q = maxmath.divrem(left, right, out ulong r);
+                ulong q = math.divrem(left, right, out ulong r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -617,9 +617,9 @@ namespace MaxMath.Tests
                 ulong2 left  = rng.NextULong2();
                 ulong2 right = rng.NextULong2();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                ulong2 q = maxmath.divrem(left, right, out ulong2 r);
+                ulong2 q = math.divrem(left, right, out ulong2 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -636,9 +636,9 @@ namespace MaxMath.Tests
                 ulong3 left  = rng.NextULong3();
                 ulong3 right = rng.NextULong3();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                ulong3 q = maxmath.divrem(left, right, out ulong3 r);
+                ulong3 q = math.divrem(left, right, out ulong3 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -655,9 +655,9 @@ namespace MaxMath.Tests
                 ulong4 left  = rng.NextULong4();
                 ulong4 right = rng.NextULong4();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                ulong4 q = maxmath.divrem(left, right, out ulong4 r);
+                ulong4 q = math.divrem(left, right, out ulong4 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -679,7 +679,7 @@ namespace MaxMath.Tests
 
                 sbyte left  = rng.NextSByte();
 
-                sbyte q = maxmath.divrem(left, (sbyte)i, out sbyte r);
+                sbyte q = math.divrem(left, (sbyte)i, out sbyte r);
 
                 Assert.AreEqual((sbyte)(left / (sbyte)i), q);
                 Assert.AreEqual((sbyte)(left % (sbyte)i), r);
@@ -700,7 +700,7 @@ namespace MaxMath.Tests
 
                 sbyte2 left  = rng.NextSByte2();
 
-                sbyte2 q = maxmath.divrem(left, (sbyte)i, out sbyte2 r);
+                sbyte2 q = math.divrem(left, (sbyte)i, out sbyte2 r);
 
                 Assert.AreEqual(new sbyte2((sbyte)(left.x / (sbyte)i),
                                           (sbyte)(left.y / (sbyte)i)), q);
@@ -722,7 +722,7 @@ namespace MaxMath.Tests
                 }
                 sbyte3 left  = rng.NextSByte3();
 
-                sbyte3 q = maxmath.divrem(left, (sbyte)i, out sbyte3 r);
+                sbyte3 q = math.divrem(left, (sbyte)i, out sbyte3 r);
 
                 Assert.AreEqual(new sbyte3((sbyte)(left.x / (sbyte)i),
                                           (sbyte)(left.y / (sbyte)i),
@@ -746,7 +746,7 @@ namespace MaxMath.Tests
                 }
                 sbyte4 left  = rng.NextSByte4();
 
-                sbyte4 q = maxmath.divrem(left, (sbyte)i, out sbyte4 r);
+                sbyte4 q = math.divrem(left, (sbyte)i, out sbyte4 r);
 
                 Assert.AreEqual(new sbyte4((sbyte)(left.x / (sbyte)i),
                                           (sbyte)(left.y / (sbyte)i),
@@ -772,7 +772,7 @@ namespace MaxMath.Tests
                 }
                 sbyte8 left  = rng.NextSByte8();
 
-                sbyte8 q = maxmath.divrem(left, (sbyte)i, out sbyte8 r);
+                sbyte8 q = math.divrem(left, (sbyte)i, out sbyte8 r);
 
                 Assert.AreEqual(new sbyte8((sbyte)(left.x0 / (sbyte)i),
                                           (sbyte)(left.x1 / (sbyte)i),
@@ -806,7 +806,7 @@ namespace MaxMath.Tests
                 }
                 sbyte16 left  = rng.NextSByte16();
 
-                sbyte16 q = maxmath.divrem(left, (sbyte)i, out sbyte16 r);
+                sbyte16 q = math.divrem(left, (sbyte)i, out sbyte16 r);
 
                 Assert.AreEqual(new sbyte16((sbyte)(left.x0  / (sbyte)i),
                                            (sbyte)(left.x1  / (sbyte)i),
@@ -856,7 +856,7 @@ namespace MaxMath.Tests
                 }
                 sbyte32 left  = rng.NextSByte32();
 
-                sbyte32 q = maxmath.divrem(left, (sbyte)i, out sbyte32 r);
+                sbyte32 q = math.divrem(left, (sbyte)i, out sbyte32 r);
 
                 Assert.AreEqual(new sbyte32((sbyte)(left.x0  / (sbyte)i),
                                            (sbyte)(left.x1  / (sbyte)i),
@@ -936,9 +936,9 @@ namespace MaxMath.Tests
                 sbyte left  = rng.NextSByte();
                 sbyte right = rng.NextSByte();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (sbyte)1, right == 0);
 
-                sbyte q = maxmath.divrem(left, right, out sbyte r);
+                sbyte q = math.divrem(left, right, out sbyte r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -955,9 +955,9 @@ namespace MaxMath.Tests
                 sbyte2 left  = rng.NextSByte2();
                 sbyte2 right = rng.NextSByte2();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                sbyte2 q = maxmath.divrem(left, right, out sbyte2 r);
+                sbyte2 q = math.divrem(left, right, out sbyte2 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -974,9 +974,9 @@ namespace MaxMath.Tests
                 sbyte3 left  = rng.NextSByte3();
                 sbyte3 right = rng.NextSByte3();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                sbyte3 q = maxmath.divrem(left, right, out sbyte3 r);
+                sbyte3 q = math.divrem(left, right, out sbyte3 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -993,9 +993,9 @@ namespace MaxMath.Tests
                 sbyte4 left  = rng.NextSByte4();
                 sbyte4 right = rng.NextSByte4();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                sbyte4 q = maxmath.divrem(left, right, out sbyte4 r);
+                sbyte4 q = math.divrem(left, right, out sbyte4 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1012,9 +1012,9 @@ namespace MaxMath.Tests
                 sbyte8 left  = rng.NextSByte8();
                 sbyte8 right = rng.NextSByte8();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                sbyte8 q = maxmath.divrem(left, right, out sbyte8 r);
+                sbyte8 q = math.divrem(left, right, out sbyte8 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1031,9 +1031,9 @@ namespace MaxMath.Tests
                 sbyte16 left  = rng.NextSByte16();
                 sbyte16 right = rng.NextSByte16();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                sbyte16 q = maxmath.divrem(left, right, out sbyte16 r);
+                sbyte16 q = math.divrem(left, right, out sbyte16 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1050,9 +1050,9 @@ namespace MaxMath.Tests
                 sbyte32 left  = rng.NextSByte32();
                 sbyte32 right = rng.NextSByte32();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                sbyte32 q = maxmath.divrem(left, right, out sbyte32 r);
+                sbyte32 q = math.divrem(left, right, out sbyte32 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1070,9 +1070,9 @@ namespace MaxMath.Tests
                 short left  = rng.NextShort();
                 short right = rng.NextShort();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (short)1, right == 0);
 
-                short q = maxmath.divrem(left, right, out short r);
+                short q = math.divrem(left, right, out short r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1089,9 +1089,9 @@ namespace MaxMath.Tests
                 short2 left  = rng.NextShort2();
                 short2 right = rng.NextShort2();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (short)1, right == 0);
 
-                short2 q = maxmath.divrem(left, right, out short2 r);
+                short2 q = math.divrem(left, right, out short2 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1108,9 +1108,9 @@ namespace MaxMath.Tests
                 short3 left  = rng.NextShort3();
                 short3 right = rng.NextShort3();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (short)1, right == 0);
 
-                short3 q = maxmath.divrem(left, right, out short3 r);
+                short3 q = math.divrem(left, right, out short3 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1127,9 +1127,9 @@ namespace MaxMath.Tests
                 short4 left  = rng.NextShort4();
                 short4 right = rng.NextShort4();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (short)1, right == 0);
 
-                short4 q = maxmath.divrem(left, right, out short4 r);
+                short4 q = math.divrem(left, right, out short4 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1146,9 +1146,9 @@ namespace MaxMath.Tests
                 short8 left  = rng.NextShort8();
                 short8 right = rng.NextShort8();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (short)1, right == 0);
 
-                short8 q = maxmath.divrem(left, right, out short8 r);
+                short8 q = math.divrem(left, right, out short8 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1165,9 +1165,9 @@ namespace MaxMath.Tests
                 short16 left  = rng.NextShort16();
                 short16 right = rng.NextShort16();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, (short)1, right == 0);
 
-                short16 q = maxmath.divrem(left, right, out short16 r);
+                short16 q = math.divrem(left, right, out short16 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1187,7 +1187,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                int q = maxmath.divrem(left, right, out int r);
+                int q = math.divrem(left, right, out int r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1206,7 +1206,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                int2 q = maxmath.divrem(left, right, out int2 r);
+                int2 q = math.divrem(left, right, out int2 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1225,7 +1225,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                int3 q = maxmath.divrem(left, right, out int3 r);
+                int3 q = math.divrem(left, right, out int3 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1244,7 +1244,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                int4 q = maxmath.divrem(left, right, out int4 r);
+                int4 q = math.divrem(left, right, out int4 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1261,9 +1261,9 @@ namespace MaxMath.Tests
                 int8 left  = rng.NextInt8();
                 int8 right = rng.NextInt8();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                int8 q = maxmath.divrem(left, right, out int8 r);
+                int8 q = math.divrem(left, right, out int8 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1283,7 +1283,7 @@ namespace MaxMath.Tests
 
                 right = math.select(right, 1, right == 0);
 
-                long q = maxmath.divrem(left, right, out long r);
+                long q = math.divrem(left, right, out long r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1300,9 +1300,9 @@ namespace MaxMath.Tests
                 long2 left  = rng.NextLong2();
                 long2 right = rng.NextLong2();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                long2 q = maxmath.divrem(left, right, out long2 r);
+                long2 q = math.divrem(left, right, out long2 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1319,9 +1319,9 @@ namespace MaxMath.Tests
                 long3 left  = rng.NextLong3();
                 long3 right = rng.NextLong3();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                long3 q = maxmath.divrem(left, right, out long3 r);
+                long3 q = math.divrem(left, right, out long3 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1338,9 +1338,9 @@ namespace MaxMath.Tests
                 long4 left  = rng.NextLong4();
                 long4 right = rng.NextLong4();
 
-                right = maxmath.select(right, 1, right == 0);
+                right = math.select(right, 1, right == 0);
 
-                long4 q = maxmath.divrem(left, right, out long4 r);
+                long4 q = math.divrem(left, right, out long4 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1360,7 +1360,7 @@ namespace MaxMath.Tests
 
                 right = right == 0 ? 1 : right;
 
-                UInt128 q = maxmath.divrem(left, right, out UInt128 r);
+                UInt128 q = math.divrem(left, right, out UInt128 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);
@@ -1380,7 +1380,7 @@ namespace MaxMath.Tests
 
                 right = right == 0 ? 1 : right;
 
-                Int128 q = maxmath.divrem(left, right, out Int128 r);
+                Int128 q = math.divrem(left, right, out Int128 r);
 
                 Assert.AreEqual(left / right, q);
                 Assert.AreEqual(left % right, r);

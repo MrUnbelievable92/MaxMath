@@ -34,19 +34,31 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                if (constexpr.ALL_EQ_EPI64(a, 0))
+                if (Avx2.IsAvx2Supported)
                 {
-                    v128 sign = srai_epi32(b, 31);
-                    return shuffle_epi32(sign, Sse.SHUFFLE(3, 3, 1, 1));
+                    ;
                 }
-                if (constexpr.ALL_LE_EPU64(a, int.MaxValue) && constexpr.ALL_LE_EPU64(b, int.MaxValue))
+                else
                 {
-                    v128 cmp = cmpgt_epi32(a, b);
-                    return shuffle_epi32(cmp, Sse.SHUFFLE(2, 2, 0, 0));
-                }
-                if (constexpr.ALL_POW2_EPU64(a) && constexpr.ALL_GE_EPI64(a, 0) && constexpr.ALL_GE_EPI64(b, 0))
-                {
-                    return cmpeq_epi64(setzero_si128(), and_si128(b, neg_epi64(a)));
+                    if (constexpr.ALL_EQ_EPI64(a, 0))
+                    {
+                        v128 sign = srai_epi32(b, 31);
+                        return shuffle_epi32(sign, Sse.SHUFFLE(3, 3, 1, 1));
+                    }
+                    if (constexpr.ALL_EQ_EPI64(b, 0))
+                    {
+                        v128 sign = srai_epi32(a, 31);
+                        return not_si128(shuffle_epi32(sign, Sse.SHUFFLE(3, 3, 1, 1)));
+                    }
+                    if (constexpr.ALL_LE_EPU64(a, int.MaxValue) && constexpr.ALL_LE_EPU64(b, int.MaxValue))
+                    {
+                        v128 cmp = cmpgt_epi32(a, b);
+                        return shuffle_epi32(cmp, Sse.SHUFFLE(2, 2, 0, 0));
+                    }
+                    if (constexpr.ALL_POW2_EPU64(a) && constexpr.ALL_GE_EPI64(a, 0) && constexpr.ALL_GE_EPI64(b, 0))
+                    {
+                        return cmpeq_epi64(setzero_si128(), and_si128(b, neg_epi64(a)));
+                    }
                 }
 
 

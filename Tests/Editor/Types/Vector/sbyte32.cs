@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using Unity.Burst.Intrinsics;
 
+using static Unity.Burst.Intrinsics.X86;
+
 namespace MaxMath.Tests
 {
     unsafe public static class t_sbyte32
@@ -7257,43 +7259,46 @@ namespace MaxMath.Tests
         public static void Cast_ToV128()
         {
             bool result = true;
-
-            for (int i = 0; i < NUM_TESTS; i++)
+            
+            if (Avx2.IsAvx2Supported)
             {
-                v256 x = TestData_LHS[i];
+                for (int i = 0; i < NUM_TESTS; i++)
+                {
+                    v256 x = TestData_LHS[i];
 
-                result &= x.SByte0  == TestData_LHS[i].x0  &
-                          x.SByte1  == TestData_LHS[i].x1  &
-                          x.SByte2  == TestData_LHS[i].x2  &
-                          x.SByte3  == TestData_LHS[i].x3  &
-                          x.SByte4  == TestData_LHS[i].x4  &
-                          x.SByte5  == TestData_LHS[i].x5  &
-                          x.SByte6  == TestData_LHS[i].x6  &
-                          x.SByte7  == TestData_LHS[i].x7  &
-                          x.SByte8  == TestData_LHS[i].x8  &
-                          x.SByte9  == TestData_LHS[i].x9  &
-                          x.SByte10 == TestData_LHS[i].x10 &
-                          x.SByte11 == TestData_LHS[i].x11 &
-                          x.SByte12 == TestData_LHS[i].x12 &
-                          x.SByte13 == TestData_LHS[i].x13 &
-                          x.SByte14 == TestData_LHS[i].x14 &
-                          x.SByte15 == TestData_LHS[i].x15 &
-                          x.SByte16 == TestData_LHS[i].x16 &
-                          x.SByte17 == TestData_LHS[i].x17 &
-                          x.SByte18 == TestData_LHS[i].x18 &
-                          x.SByte19 == TestData_LHS[i].x19 &
-                          x.SByte20 == TestData_LHS[i].x20 &
-                          x.SByte21 == TestData_LHS[i].x21 &
-                          x.SByte22 == TestData_LHS[i].x22 &
-                          x.SByte23 == TestData_LHS[i].x23 &
-                          x.SByte24 == TestData_LHS[i].x24 &
-                          x.SByte25 == TestData_LHS[i].x25 &
-                          x.SByte26 == TestData_LHS[i].x26 &
-                          x.SByte27 == TestData_LHS[i].x27 &
-                          x.SByte28 == TestData_LHS[i].x28 &
-                          x.SByte29 == TestData_LHS[i].x29 &
-                          x.SByte30 == TestData_LHS[i].x30 &
-                          x.SByte31 == TestData_LHS[i].x31;
+                    result &= x.SByte0  == TestData_LHS[i].x0  &
+                              x.SByte1  == TestData_LHS[i].x1  &
+                              x.SByte2  == TestData_LHS[i].x2  &
+                              x.SByte3  == TestData_LHS[i].x3  &
+                              x.SByte4  == TestData_LHS[i].x4  &
+                              x.SByte5  == TestData_LHS[i].x5  &
+                              x.SByte6  == TestData_LHS[i].x6  &
+                              x.SByte7  == TestData_LHS[i].x7  &
+                              x.SByte8  == TestData_LHS[i].x8  &
+                              x.SByte9  == TestData_LHS[i].x9  &
+                              x.SByte10 == TestData_LHS[i].x10 &
+                              x.SByte11 == TestData_LHS[i].x11 &
+                              x.SByte12 == TestData_LHS[i].x12 &
+                              x.SByte13 == TestData_LHS[i].x13 &
+                              x.SByte14 == TestData_LHS[i].x14 &
+                              x.SByte15 == TestData_LHS[i].x15 &
+                              x.SByte16 == TestData_LHS[i].x16 &
+                              x.SByte17 == TestData_LHS[i].x17 &
+                              x.SByte18 == TestData_LHS[i].x18 &
+                              x.SByte19 == TestData_LHS[i].x19 &
+                              x.SByte20 == TestData_LHS[i].x20 &
+                              x.SByte21 == TestData_LHS[i].x21 &
+                              x.SByte22 == TestData_LHS[i].x22 &
+                              x.SByte23 == TestData_LHS[i].x23 &
+                              x.SByte24 == TestData_LHS[i].x24 &
+                              x.SByte25 == TestData_LHS[i].x25 &
+                              x.SByte26 == TestData_LHS[i].x26 &
+                              x.SByte27 == TestData_LHS[i].x27 &
+                              x.SByte28 == TestData_LHS[i].x28 &
+                              x.SByte29 == TestData_LHS[i].x29 &
+                              x.SByte30 == TestData_LHS[i].x30 &
+                              x.SByte31 == TestData_LHS[i].x31;
+                }
             }
 
             Assert.AreEqual(true, result);
@@ -7303,45 +7308,48 @@ namespace MaxMath.Tests
         public static void Cast_FromV128()
         {
             bool result = true;
-
-            for (int i = 0; i < NUM_TESTS; i++)
+            
+            if (Avx2.IsAvx2Supported)
             {
-                sbyte32 x = TestData_LHS[i];
-                v256 c = x;
-                x = c;
+                for (int i = 0; i < NUM_TESTS; i++)
+                {
+                    sbyte32 x = TestData_LHS[i];
+                    v256 c = x;
+                    x = c;
 
-                result &= x.x0  == TestData_LHS[i].x0  &
-                          x.x1  == TestData_LHS[i].x1  &
-                          x.x2  == TestData_LHS[i].x2  &
-                          x.x3  == TestData_LHS[i].x3  &
-                          x.x4  == TestData_LHS[i].x4  &
-                          x.x5  == TestData_LHS[i].x5  &
-                          x.x6  == TestData_LHS[i].x6  &
-                          x.x7  == TestData_LHS[i].x7  &
-                          x.x8  == TestData_LHS[i].x8  &
-                          x.x9  == TestData_LHS[i].x9  &
-                          x.x10 == TestData_LHS[i].x10 &
-                          x.x11 == TestData_LHS[i].x11 &
-                          x.x12 == TestData_LHS[i].x12 &
-                          x.x13 == TestData_LHS[i].x13 &
-                          x.x14 == TestData_LHS[i].x14 &
-                          x.x15 == TestData_LHS[i].x15 &
-                          x.x16 == TestData_LHS[i].x16 &
-                          x.x17 == TestData_LHS[i].x17 &
-                          x.x18 == TestData_LHS[i].x18 &
-                          x.x19 == TestData_LHS[i].x19 &
-                          x.x20 == TestData_LHS[i].x20 &
-                          x.x21 == TestData_LHS[i].x21 &
-                          x.x22 == TestData_LHS[i].x22 &
-                          x.x23 == TestData_LHS[i].x23 &
-                          x.x24 == TestData_LHS[i].x24 &
-                          x.x25 == TestData_LHS[i].x25 &
-                          x.x26 == TestData_LHS[i].x26 &
-                          x.x27 == TestData_LHS[i].x27 &
-                          x.x28 == TestData_LHS[i].x28 &
-                          x.x29 == TestData_LHS[i].x29 &
-                          x.x30 == TestData_LHS[i].x30 &
-                          x.x31 == TestData_LHS[i].x31;
+                    result &= x.x0  == TestData_LHS[i].x0  &
+                              x.x1  == TestData_LHS[i].x1  &
+                              x.x2  == TestData_LHS[i].x2  &
+                              x.x3  == TestData_LHS[i].x3  &
+                              x.x4  == TestData_LHS[i].x4  &
+                              x.x5  == TestData_LHS[i].x5  &
+                              x.x6  == TestData_LHS[i].x6  &
+                              x.x7  == TestData_LHS[i].x7  &
+                              x.x8  == TestData_LHS[i].x8  &
+                              x.x9  == TestData_LHS[i].x9  &
+                              x.x10 == TestData_LHS[i].x10 &
+                              x.x11 == TestData_LHS[i].x11 &
+                              x.x12 == TestData_LHS[i].x12 &
+                              x.x13 == TestData_LHS[i].x13 &
+                              x.x14 == TestData_LHS[i].x14 &
+                              x.x15 == TestData_LHS[i].x15 &
+                              x.x16 == TestData_LHS[i].x16 &
+                              x.x17 == TestData_LHS[i].x17 &
+                              x.x18 == TestData_LHS[i].x18 &
+                              x.x19 == TestData_LHS[i].x19 &
+                              x.x20 == TestData_LHS[i].x20 &
+                              x.x21 == TestData_LHS[i].x21 &
+                              x.x22 == TestData_LHS[i].x22 &
+                              x.x23 == TestData_LHS[i].x23 &
+                              x.x24 == TestData_LHS[i].x24 &
+                              x.x25 == TestData_LHS[i].x25 &
+                              x.x26 == TestData_LHS[i].x26 &
+                              x.x27 == TestData_LHS[i].x27 &
+                              x.x28 == TestData_LHS[i].x28 &
+                              x.x29 == TestData_LHS[i].x29 &
+                              x.x30 == TestData_LHS[i].x30 &
+                              x.x31 == TestData_LHS[i].x31;
+                }
             }
 
             Assert.AreEqual(true, result);

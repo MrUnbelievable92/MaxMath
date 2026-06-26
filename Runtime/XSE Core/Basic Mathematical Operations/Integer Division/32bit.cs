@@ -1,9 +1,8 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using Unity.Burst;
 
 namespace MaxMath.Intrinsics
 {
@@ -207,6 +206,8 @@ namespace MaxMath.Intrinsics
                 {
                     quotient = DIV_FLOATV_SIGNED_BYTE_RANGE_RET_INT(Avx.mm256_cvtepi32_ps(a), Avx.mm256_cvtepi32_ps(b));
                     rem = Avx2.mm256_sub_epi32(a, Avx2.mm256_mullo_epi32(quotient, b));
+
+                    return quotient;
                 }
                 if (constexpr.ALL_GE_EPI32(a, -ushort.MinValue)
                  && constexpr.ALL_LE_EPI32(a, ushort.MaxValue)
@@ -215,6 +216,8 @@ namespace MaxMath.Intrinsics
                 {
                     quotient = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(Avx.mm256_cvtepi32_ps(a), Avx.mm256_cvtepi32_ps(b));
                     rem = Avx2.mm256_sub_epi32(a, Avx2.mm256_mullo_epi32(quotient, b));
+
+                    return quotient;
                 }
 
                 if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
@@ -234,8 +237,7 @@ namespace MaxMath.Intrinsics
                     v256 b64Lo = mm256_cvt2x2epu32_pd(mm256_abs_epi32(b), out v256 b64Hi);
 
                     quotient = mm256_cvtt2x2pd_epu32(Avx.mm256_div_pd(a64Lo, b64Lo), Avx.mm256_div_pd(a64Hi, b64Hi));
-                    rem = Avx2.mm256_sub_epi32(mm256_abs_epi32(a), Avx2.mm256_mullo_epi32(quotient, mm256_abs_epi32(b)));
-                    quotient = SIGNED_FROM_UNSIGNED_DIV_EPI32(out rem, a, b, quotient, rem);
+                    quotient = SIGNED_FROM_UNSIGNED_DIV_EPI32(out rem, a, b, quotient, Avx2.mm256_sub_epi32(mm256_abs_epi32(a), Avx2.mm256_mullo_epi32(quotient, mm256_abs_epi32(b))));
                 }
 
                 return quotient;

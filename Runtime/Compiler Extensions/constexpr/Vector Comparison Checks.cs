@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 namespace MaxMath.Intrinsics
 {
@@ -5604,7 +5603,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool ALL_SAME_EPI64(v256 v, byte elements = 4)
 		{
-			return ALL_EQ_EPI64(v, v.SLong0);
+			return ALL_EQ_EPI64(v, v.SLong0, elements);
 		}
 
 
@@ -5843,45 +5842,45 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: return IS_TRUE(maxmath.ispow2(v.Byte0 ));
+				case  1: return IS_TRUE(math.ispow2(v.Byte0 ));
 
-				case  2: return IS_TRUE(maxmath.ispow2(v.Byte0 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte1 ));
+				case  2: return IS_TRUE(math.ispow2(v.Byte0 ))
+							 && IS_TRUE(math.ispow2(v.Byte1 ));
 
-				case  3: return IS_TRUE(maxmath.ispow2(v.Byte0 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte1 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte2 ));
+				case  3: return IS_TRUE(math.ispow2(v.Byte0 ))
+							 && IS_TRUE(math.ispow2(v.Byte1 ))
+							 && IS_TRUE(math.ispow2(v.Byte2 ));
 
-				case  4: return IS_TRUE(maxmath.ispow2(v.Byte0 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte1 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte2 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte3 ));
+				case  4: return IS_TRUE(math.ispow2(v.Byte0 ))
+							 && IS_TRUE(math.ispow2(v.Byte1 ))
+							 && IS_TRUE(math.ispow2(v.Byte2 ))
+							 && IS_TRUE(math.ispow2(v.Byte3 ));
 
-				case  8: return IS_TRUE(maxmath.ispow2(v.Byte0 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte1 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte2 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte3 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte4 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte5 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte6 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte7 ));
+				case  8: return IS_TRUE(math.ispow2(v.Byte0 ))
+							 && IS_TRUE(math.ispow2(v.Byte1 ))
+							 && IS_TRUE(math.ispow2(v.Byte2 ))
+							 && IS_TRUE(math.ispow2(v.Byte3 ))
+							 && IS_TRUE(math.ispow2(v.Byte4 ))
+							 && IS_TRUE(math.ispow2(v.Byte5 ))
+							 && IS_TRUE(math.ispow2(v.Byte6 ))
+							 && IS_TRUE(math.ispow2(v.Byte7 ));
 
-				default: return IS_TRUE(maxmath.ispow2(v.Byte0 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte1 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte2 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte3 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte4 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte5 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte6 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte7 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte8 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte9 ))
-							 && IS_TRUE(maxmath.ispow2(v.Byte10))
-							 && IS_TRUE(maxmath.ispow2(v.Byte11))
-							 && IS_TRUE(maxmath.ispow2(v.Byte12))
-							 && IS_TRUE(maxmath.ispow2(v.Byte13))
-							 && IS_TRUE(maxmath.ispow2(v.Byte14))
-							 && IS_TRUE(maxmath.ispow2(v.Byte15));
+				default: return IS_TRUE(math.ispow2(v.Byte0 ))
+							 && IS_TRUE(math.ispow2(v.Byte1 ))
+							 && IS_TRUE(math.ispow2(v.Byte2 ))
+							 && IS_TRUE(math.ispow2(v.Byte3 ))
+							 && IS_TRUE(math.ispow2(v.Byte4 ))
+							 && IS_TRUE(math.ispow2(v.Byte5 ))
+							 && IS_TRUE(math.ispow2(v.Byte6 ))
+							 && IS_TRUE(math.ispow2(v.Byte7 ))
+							 && IS_TRUE(math.ispow2(v.Byte8 ))
+							 && IS_TRUE(math.ispow2(v.Byte9 ))
+							 && IS_TRUE(math.ispow2(v.Byte10))
+							 && IS_TRUE(math.ispow2(v.Byte11))
+							 && IS_TRUE(math.ispow2(v.Byte12))
+							 && IS_TRUE(math.ispow2(v.Byte13))
+							 && IS_TRUE(math.ispow2(v.Byte14))
+							 && IS_TRUE(math.ispow2(v.Byte15));
 			}
 		}
 
@@ -5890,28 +5889,28 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: return IS_TRUE(maxmath.ispow2(v.UShort0));
+				case  1: return IS_TRUE(math.ispow2(v.UShort0));
 
-				case  2: return IS_TRUE(maxmath.ispow2(v.UShort0))
-							 && IS_TRUE(maxmath.ispow2(v.UShort1));
+				case  2: return IS_TRUE(math.ispow2(v.UShort0))
+							 && IS_TRUE(math.ispow2(v.UShort1));
 
-				case  3: return IS_TRUE(maxmath.ispow2(v.UShort0))
-							 && IS_TRUE(maxmath.ispow2(v.UShort1))
-							 && IS_TRUE(maxmath.ispow2(v.UShort2));
+				case  3: return IS_TRUE(math.ispow2(v.UShort0))
+							 && IS_TRUE(math.ispow2(v.UShort1))
+							 && IS_TRUE(math.ispow2(v.UShort2));
 
-				case  4: return IS_TRUE(maxmath.ispow2(v.UShort0))
-							 && IS_TRUE(maxmath.ispow2(v.UShort1))
-							 && IS_TRUE(maxmath.ispow2(v.UShort2))
-							 && IS_TRUE(maxmath.ispow2(v.UShort3));
+				case  4: return IS_TRUE(math.ispow2(v.UShort0))
+							 && IS_TRUE(math.ispow2(v.UShort1))
+							 && IS_TRUE(math.ispow2(v.UShort2))
+							 && IS_TRUE(math.ispow2(v.UShort3));
 
-				default: return IS_TRUE(maxmath.ispow2(v.UShort0))
-							 && IS_TRUE(maxmath.ispow2(v.UShort1))
-							 && IS_TRUE(maxmath.ispow2(v.UShort2))
-							 && IS_TRUE(maxmath.ispow2(v.UShort3))
-							 && IS_TRUE(maxmath.ispow2(v.UShort4))
-							 && IS_TRUE(maxmath.ispow2(v.UShort5))
-							 && IS_TRUE(maxmath.ispow2(v.UShort6))
-							 && IS_TRUE(maxmath.ispow2(v.UShort7));
+				default: return IS_TRUE(math.ispow2(v.UShort0))
+							 && IS_TRUE(math.ispow2(v.UShort1))
+							 && IS_TRUE(math.ispow2(v.UShort2))
+							 && IS_TRUE(math.ispow2(v.UShort3))
+							 && IS_TRUE(math.ispow2(v.UShort4))
+							 && IS_TRUE(math.ispow2(v.UShort5))
+							 && IS_TRUE(math.ispow2(v.UShort6))
+							 && IS_TRUE(math.ispow2(v.UShort7));
 			}
 		}
 
@@ -5941,20 +5940,20 @@ namespace MaxMath.Intrinsics
 		{
              if (elements == 1)
              {
-				return IS_TRUE(maxmath.ispow2(v.ULong0));
+				return IS_TRUE(math.ispow2(v.ULong0));
              }
 			else
 			{
-				return IS_TRUE(maxmath.ispow2(v.ULong0))
-					&& IS_TRUE(maxmath.ispow2(v.ULong1));
+				return IS_TRUE(math.ispow2(v.ULong0))
+					&& IS_TRUE(math.ispow2(v.ULong1));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool ALL_POW2_EPU128(v128 vLo, v128 vHi)
 		{
-			return IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
-				&& IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)));
+			return IS_TRUE(math.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
+				&& IS_TRUE(math.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)));
 		}
 
 
@@ -5963,45 +5962,45 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: return IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )));
+				case  1: return IS_TRUE(math.ispow2((byte)math.abs(v.SByte0 )));
 
-				case  2: return IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )));
+				case  2: return IS_TRUE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte1 )));
 
-				case  3: return IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )));
+				case  3: return IS_TRUE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte1 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte2 )));
 
-				case  4: return IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte3 )));
+				case  4: return IS_TRUE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte1 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte2 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte3 )));
 
-				case  8: return IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte3 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte4 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte5 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte6 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte7 )));
+				case  8: return IS_TRUE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte1 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte2 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte3 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte4 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte5 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte6 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte7 )));
 
-				default: return IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte3 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte4 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte5 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte6 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte7 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte8 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte9 )))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte10)))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte11)))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte12)))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte13)))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte14)))
-							 && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte15)));
+				default: return IS_TRUE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte1 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte2 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte3 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte4 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte5 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte6 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte7 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte8 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte9 )))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte10)))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte11)))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte12)))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte13)))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte14)))
+							 && IS_TRUE(math.ispow2((byte)math.abs(v.SByte15)));
 			}
 		}
 
@@ -6010,28 +6009,28 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: return IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)));
+				case  1: return IS_TRUE(math.ispow2((ushort)math.abs(v.SShort0)));
 
-				case  2: return IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1)));
+				case  2: return IS_TRUE(math.ispow2((ushort)math.abs(v.SShort0)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort1)));
 
-				case  3: return IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort2)));
+				case  3: return IS_TRUE(math.ispow2((ushort)math.abs(v.SShort0)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort1)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort2)));
 
-				case  4: return IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort2)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort3)));
+				case  4: return IS_TRUE(math.ispow2((ushort)math.abs(v.SShort0)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort1)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort2)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort3)));
 
-				default: return IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort2)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort3)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort4)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort5)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort6)))
-							 && IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort7)));
+				default: return IS_TRUE(math.ispow2((ushort)math.abs(v.SShort0)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort1)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort2)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort3)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort4)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort5)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort6)))
+							 && IS_TRUE(math.ispow2((ushort)math.abs(v.SShort7)));
 			}
 		}
 
@@ -6061,71 +6060,71 @@ namespace MaxMath.Intrinsics
 		{
              if (elements == 1)
              {
-				return IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong0)));
+				return IS_TRUE(math.ispow2((ulong)math.abs(v.SLong0)));
              }
 			else
 			{
-				return IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong0)))
-					&& IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong1)));
+				return IS_TRUE(math.ispow2((ulong)math.abs(v.SLong0)))
+					&& IS_TRUE(math.ispow2((ulong)math.abs(v.SLong1)));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool ALL_POW2_EPU8(v256 v)
 		{
-			return IS_TRUE(maxmath.ispow2(v.Byte0 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte1 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte2 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte3 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte4 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte5 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte6 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte7 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte8 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte9 ))
-				&& IS_TRUE(maxmath.ispow2(v.Byte10))
-				&& IS_TRUE(maxmath.ispow2(v.Byte11))
-				&& IS_TRUE(maxmath.ispow2(v.Byte12))
-				&& IS_TRUE(maxmath.ispow2(v.Byte13))
-				&& IS_TRUE(maxmath.ispow2(v.Byte14))
-				&& IS_TRUE(maxmath.ispow2(v.Byte15))
-			    && IS_TRUE(maxmath.ispow2(v.Byte16))
-				&& IS_TRUE(maxmath.ispow2(v.Byte17))
-				&& IS_TRUE(maxmath.ispow2(v.Byte18))
-				&& IS_TRUE(maxmath.ispow2(v.Byte19))
-				&& IS_TRUE(maxmath.ispow2(v.Byte20))
-				&& IS_TRUE(maxmath.ispow2(v.Byte21))
-				&& IS_TRUE(maxmath.ispow2(v.Byte22))
-				&& IS_TRUE(maxmath.ispow2(v.Byte23))
-				&& IS_TRUE(maxmath.ispow2(v.Byte24))
-				&& IS_TRUE(maxmath.ispow2(v.Byte25))
-				&& IS_TRUE(maxmath.ispow2(v.Byte26))
-				&& IS_TRUE(maxmath.ispow2(v.Byte27))
-				&& IS_TRUE(maxmath.ispow2(v.Byte28))
-				&& IS_TRUE(maxmath.ispow2(v.Byte29))
-				&& IS_TRUE(maxmath.ispow2(v.Byte30))
-				&& IS_TRUE(maxmath.ispow2(v.Byte31));
+			return IS_TRUE(math.ispow2(v.Byte0 ))
+				&& IS_TRUE(math.ispow2(v.Byte1 ))
+				&& IS_TRUE(math.ispow2(v.Byte2 ))
+				&& IS_TRUE(math.ispow2(v.Byte3 ))
+				&& IS_TRUE(math.ispow2(v.Byte4 ))
+				&& IS_TRUE(math.ispow2(v.Byte5 ))
+				&& IS_TRUE(math.ispow2(v.Byte6 ))
+				&& IS_TRUE(math.ispow2(v.Byte7 ))
+				&& IS_TRUE(math.ispow2(v.Byte8 ))
+				&& IS_TRUE(math.ispow2(v.Byte9 ))
+				&& IS_TRUE(math.ispow2(v.Byte10))
+				&& IS_TRUE(math.ispow2(v.Byte11))
+				&& IS_TRUE(math.ispow2(v.Byte12))
+				&& IS_TRUE(math.ispow2(v.Byte13))
+				&& IS_TRUE(math.ispow2(v.Byte14))
+				&& IS_TRUE(math.ispow2(v.Byte15))
+			    && IS_TRUE(math.ispow2(v.Byte16))
+				&& IS_TRUE(math.ispow2(v.Byte17))
+				&& IS_TRUE(math.ispow2(v.Byte18))
+				&& IS_TRUE(math.ispow2(v.Byte19))
+				&& IS_TRUE(math.ispow2(v.Byte20))
+				&& IS_TRUE(math.ispow2(v.Byte21))
+				&& IS_TRUE(math.ispow2(v.Byte22))
+				&& IS_TRUE(math.ispow2(v.Byte23))
+				&& IS_TRUE(math.ispow2(v.Byte24))
+				&& IS_TRUE(math.ispow2(v.Byte25))
+				&& IS_TRUE(math.ispow2(v.Byte26))
+				&& IS_TRUE(math.ispow2(v.Byte27))
+				&& IS_TRUE(math.ispow2(v.Byte28))
+				&& IS_TRUE(math.ispow2(v.Byte29))
+				&& IS_TRUE(math.ispow2(v.Byte30))
+				&& IS_TRUE(math.ispow2(v.Byte31));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool ALL_POW2_EPU16(v256 v)
 		{
-			return IS_TRUE(maxmath.ispow2(v.UShort0 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort1 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort2 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort3 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort4 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort5 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort6 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort7 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort8 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort9 ))
-				&& IS_TRUE(maxmath.ispow2(v.UShort10))
-				&& IS_TRUE(maxmath.ispow2(v.UShort11))
-				&& IS_TRUE(maxmath.ispow2(v.UShort12))
-				&& IS_TRUE(maxmath.ispow2(v.UShort13))
-				&& IS_TRUE(maxmath.ispow2(v.UShort14))
-				&& IS_TRUE(maxmath.ispow2(v.UShort15));
+			return IS_TRUE(math.ispow2(v.UShort0 ))
+				&& IS_TRUE(math.ispow2(v.UShort1 ))
+				&& IS_TRUE(math.ispow2(v.UShort2 ))
+				&& IS_TRUE(math.ispow2(v.UShort3 ))
+				&& IS_TRUE(math.ispow2(v.UShort4 ))
+				&& IS_TRUE(math.ispow2(v.UShort5 ))
+				&& IS_TRUE(math.ispow2(v.UShort6 ))
+				&& IS_TRUE(math.ispow2(v.UShort7 ))
+				&& IS_TRUE(math.ispow2(v.UShort8 ))
+				&& IS_TRUE(math.ispow2(v.UShort9 ))
+				&& IS_TRUE(math.ispow2(v.UShort10))
+				&& IS_TRUE(math.ispow2(v.UShort11))
+				&& IS_TRUE(math.ispow2(v.UShort12))
+				&& IS_TRUE(math.ispow2(v.UShort13))
+				&& IS_TRUE(math.ispow2(v.UShort14))
+				&& IS_TRUE(math.ispow2(v.UShort15));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6146,75 +6145,75 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				return IS_TRUE(maxmath.ispow2(v.ULong0))
-					&& IS_TRUE(maxmath.ispow2(v.ULong1))
-					&& IS_TRUE(maxmath.ispow2(v.ULong2));
+				return IS_TRUE(math.ispow2(v.ULong0))
+					&& IS_TRUE(math.ispow2(v.ULong1))
+					&& IS_TRUE(math.ispow2(v.ULong2));
 			}
 			else
 			{
-				return IS_TRUE(maxmath.ispow2(v.ULong0))
-					&& IS_TRUE(maxmath.ispow2(v.ULong1))
-					&& IS_TRUE(maxmath.ispow2(v.ULong2))
-					&& IS_TRUE(maxmath.ispow2(v.ULong3));
+				return IS_TRUE(math.ispow2(v.ULong0))
+					&& IS_TRUE(math.ispow2(v.ULong1))
+					&& IS_TRUE(math.ispow2(v.ULong2))
+					&& IS_TRUE(math.ispow2(v.ULong3));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool ALL_POW2_EPI8(v256 v)
 		{
-			return IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte3 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte4 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte5 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte6 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte7 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte8 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte9 )))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte10)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte11)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte12)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte13)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte14)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte15)))
-			    && IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte16)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte17)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte18)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte19)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte20)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte21)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte22)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte23)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte24)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte25)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte26)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte27)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte28)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte29)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte30)))
-				&& IS_TRUE(maxmath.ispow2((byte)maxmath.abs(v.SByte31)));
+			return IS_TRUE(math.ispow2((byte)math.abs(v.SByte0 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte1 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte2 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte3 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte4 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte5 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte6 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte7 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte8 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte9 )))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte10)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte11)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte12)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte13)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte14)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte15)))
+			    && IS_TRUE(math.ispow2((byte)math.abs(v.SByte16)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte17)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte18)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte19)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte20)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte21)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte22)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte23)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte24)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte25)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte26)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte27)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte28)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte29)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte30)))
+				&& IS_TRUE(math.ispow2((byte)math.abs(v.SByte31)));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool ALL_POW2_EPI16(v256 v)
 		{
-			return IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort2 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort3 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort4 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort5 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort6 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort7 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort8 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort9 )))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort10)))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort11)))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort12)))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort13)))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort14)))
-				&& IS_TRUE(maxmath.ispow2((ushort)maxmath.abs(v.SShort15)));
+			return IS_TRUE(math.ispow2((ushort)math.abs(v.SShort0 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort1 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort2 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort3 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort4 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort5 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort6 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort7 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort8 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort9 )))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort10)))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort11)))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort12)))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort13)))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort14)))
+				&& IS_TRUE(math.ispow2((ushort)math.abs(v.SShort15)));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6235,16 +6234,16 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				return IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong0)))
-					&& IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong1)))
-					&& IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong2)));
+				return IS_TRUE(math.ispow2((ulong)math.abs(v.SLong0)))
+					&& IS_TRUE(math.ispow2((ulong)math.abs(v.SLong1)))
+					&& IS_TRUE(math.ispow2((ulong)math.abs(v.SLong2)));
 			}
 			else
 			{
-				return IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong0)))
-					&& IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong1)))
-					&& IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong2)))
-					&& IS_TRUE(maxmath.ispow2((ulong)math.abs(v.SLong3)));
+				return IS_TRUE(math.ispow2((ulong)math.abs(v.SLong0)))
+					&& IS_TRUE(math.ispow2((ulong)math.abs(v.SLong1)))
+					&& IS_TRUE(math.ispow2((ulong)math.abs(v.SLong2)))
+					&& IS_TRUE(math.ispow2((ulong)math.abs(v.SLong3)));
 			}
 		}
 
@@ -6253,16 +6252,16 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				return IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
-					&& IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)))
-					&& IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong2, vHi.ULong2)));
+				return IS_TRUE(math.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
+					&& IS_TRUE(math.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)))
+					&& IS_TRUE(math.ispow2(new UInt128(vLo.ULong2, vHi.ULong2)));
 			}
 			else
 			{
-				return IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
-					&& IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)))
-					&& IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong2, vHi.ULong2)))
-					&& IS_TRUE(maxmath.ispow2(new UInt128(vLo.ULong3, vHi.ULong3)));
+				return IS_TRUE(math.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
+					&& IS_TRUE(math.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)))
+					&& IS_TRUE(math.ispow2(new UInt128(vLo.ULong2, vHi.ULong2)))
+					&& IS_TRUE(math.ispow2(new UInt128(vLo.ULong3, vHi.ULong3)));
 			}
 		}
 
@@ -6271,45 +6270,45 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: return IS_FALSE(maxmath.ispow2(v.Byte0 ));
+				case  1: return IS_FALSE(math.ispow2(v.Byte0 ));
 
-				case  2: return IS_FALSE(maxmath.ispow2(v.Byte0 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte1 ));
+				case  2: return IS_FALSE(math.ispow2(v.Byte0 ))
+							 && IS_FALSE(math.ispow2(v.Byte1 ));
 
-				case  3: return IS_FALSE(maxmath.ispow2(v.Byte0 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte1 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte2 ));
+				case  3: return IS_FALSE(math.ispow2(v.Byte0 ))
+							 && IS_FALSE(math.ispow2(v.Byte1 ))
+							 && IS_FALSE(math.ispow2(v.Byte2 ));
 
-				case  4: return IS_FALSE(maxmath.ispow2(v.Byte0 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte1 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte2 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte3 ));
+				case  4: return IS_FALSE(math.ispow2(v.Byte0 ))
+							 && IS_FALSE(math.ispow2(v.Byte1 ))
+							 && IS_FALSE(math.ispow2(v.Byte2 ))
+							 && IS_FALSE(math.ispow2(v.Byte3 ));
 
-				case  8: return IS_FALSE(maxmath.ispow2(v.Byte0 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte1 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte2 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte3 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte4 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte5 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte6 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte7 ));
+				case  8: return IS_FALSE(math.ispow2(v.Byte0 ))
+							 && IS_FALSE(math.ispow2(v.Byte1 ))
+							 && IS_FALSE(math.ispow2(v.Byte2 ))
+							 && IS_FALSE(math.ispow2(v.Byte3 ))
+							 && IS_FALSE(math.ispow2(v.Byte4 ))
+							 && IS_FALSE(math.ispow2(v.Byte5 ))
+							 && IS_FALSE(math.ispow2(v.Byte6 ))
+							 && IS_FALSE(math.ispow2(v.Byte7 ));
 
-				default: return IS_FALSE(maxmath.ispow2(v.Byte0 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte1 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte2 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte3 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte4 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte5 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte6 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte7 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte8 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte9 ))
-							 && IS_FALSE(maxmath.ispow2(v.Byte10))
-							 && IS_FALSE(maxmath.ispow2(v.Byte11))
-							 && IS_FALSE(maxmath.ispow2(v.Byte12))
-							 && IS_FALSE(maxmath.ispow2(v.Byte13))
-							 && IS_FALSE(maxmath.ispow2(v.Byte14))
-							 && IS_FALSE(maxmath.ispow2(v.Byte15));
+				default: return IS_FALSE(math.ispow2(v.Byte0 ))
+							 && IS_FALSE(math.ispow2(v.Byte1 ))
+							 && IS_FALSE(math.ispow2(v.Byte2 ))
+							 && IS_FALSE(math.ispow2(v.Byte3 ))
+							 && IS_FALSE(math.ispow2(v.Byte4 ))
+							 && IS_FALSE(math.ispow2(v.Byte5 ))
+							 && IS_FALSE(math.ispow2(v.Byte6 ))
+							 && IS_FALSE(math.ispow2(v.Byte7 ))
+							 && IS_FALSE(math.ispow2(v.Byte8 ))
+							 && IS_FALSE(math.ispow2(v.Byte9 ))
+							 && IS_FALSE(math.ispow2(v.Byte10))
+							 && IS_FALSE(math.ispow2(v.Byte11))
+							 && IS_FALSE(math.ispow2(v.Byte12))
+							 && IS_FALSE(math.ispow2(v.Byte13))
+							 && IS_FALSE(math.ispow2(v.Byte14))
+							 && IS_FALSE(math.ispow2(v.Byte15));
 			}
 		}
 
@@ -6318,28 +6317,28 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: return IS_FALSE(maxmath.ispow2(v.UShort0));
+				case  1: return IS_FALSE(math.ispow2(v.UShort0));
 
-				case  2: return IS_FALSE(maxmath.ispow2(v.UShort0))
-							 && IS_FALSE(maxmath.ispow2(v.UShort1));
+				case  2: return IS_FALSE(math.ispow2(v.UShort0))
+							 && IS_FALSE(math.ispow2(v.UShort1));
 
-				case  3: return IS_FALSE(maxmath.ispow2(v.UShort0))
-							 && IS_FALSE(maxmath.ispow2(v.UShort1))
-							 && IS_FALSE(maxmath.ispow2(v.UShort2));
+				case  3: return IS_FALSE(math.ispow2(v.UShort0))
+							 && IS_FALSE(math.ispow2(v.UShort1))
+							 && IS_FALSE(math.ispow2(v.UShort2));
 
-				case  4: return IS_FALSE(maxmath.ispow2(v.UShort0))
-							 && IS_FALSE(maxmath.ispow2(v.UShort1))
-							 && IS_FALSE(maxmath.ispow2(v.UShort2))
-							 && IS_FALSE(maxmath.ispow2(v.UShort3));
+				case  4: return IS_FALSE(math.ispow2(v.UShort0))
+							 && IS_FALSE(math.ispow2(v.UShort1))
+							 && IS_FALSE(math.ispow2(v.UShort2))
+							 && IS_FALSE(math.ispow2(v.UShort3));
 
-				default: return IS_FALSE(maxmath.ispow2(v.UShort0))
-							 && IS_FALSE(maxmath.ispow2(v.UShort1))
-							 && IS_FALSE(maxmath.ispow2(v.UShort2))
-							 && IS_FALSE(maxmath.ispow2(v.UShort3))
-							 && IS_FALSE(maxmath.ispow2(v.UShort4))
-							 && IS_FALSE(maxmath.ispow2(v.UShort5))
-							 && IS_FALSE(maxmath.ispow2(v.UShort6))
-							 && IS_FALSE(maxmath.ispow2(v.UShort7));
+				default: return IS_FALSE(math.ispow2(v.UShort0))
+							 && IS_FALSE(math.ispow2(v.UShort1))
+							 && IS_FALSE(math.ispow2(v.UShort2))
+							 && IS_FALSE(math.ispow2(v.UShort3))
+							 && IS_FALSE(math.ispow2(v.UShort4))
+							 && IS_FALSE(math.ispow2(v.UShort5))
+							 && IS_FALSE(math.ispow2(v.UShort6))
+							 && IS_FALSE(math.ispow2(v.UShort7));
 			}
 		}
 
@@ -6369,12 +6368,12 @@ namespace MaxMath.Intrinsics
 		{
              if (elements == 1)
              {
-				return IS_FALSE(maxmath.ispow2(v.ULong0));
+				return IS_FALSE(math.ispow2(v.ULong0));
              }
 			else
 			{
-				return IS_FALSE(maxmath.ispow2(v.ULong0))
-					&& IS_FALSE(maxmath.ispow2(v.ULong1));
+				return IS_FALSE(math.ispow2(v.ULong0))
+					&& IS_FALSE(math.ispow2(v.ULong1));
 			}
 		}
 
@@ -6384,45 +6383,45 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: return IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )));
+				case  1: return IS_FALSE(math.ispow2((byte)math.abs(v.SByte0 )));
 
-				case  2: return IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )));
+				case  2: return IS_FALSE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte1 )));
 
-				case  3: return IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )));
+				case  3: return IS_FALSE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte1 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte2 )));
 
-				case  4: return IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte3 )));
+				case  4: return IS_FALSE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte1 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte2 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte3 )));
 
-				case  8: return IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte3 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte4 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte5 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte6 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte7 )));
+				case  8: return IS_FALSE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte1 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte2 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte3 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte4 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte5 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte6 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte7 )));
 
-				default: return IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte3 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte4 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte5 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte6 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte7 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte8 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte9 )))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte10)))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte11)))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte12)))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte13)))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte14)))
-							 && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte15)));
+				default: return IS_FALSE(math.ispow2((byte)math.abs(v.SByte0 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte1 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte2 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte3 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte4 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte5 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte6 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte7 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte8 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte9 )))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte10)))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte11)))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte12)))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte13)))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte14)))
+							 && IS_FALSE(math.ispow2((byte)math.abs(v.SByte15)));
 			}
 		}
 
@@ -6431,28 +6430,28 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: return IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)));
+				case  1: return IS_FALSE(math.ispow2((ushort)math.abs(v.SShort0)));
 
-				case  2: return IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1)));
+				case  2: return IS_FALSE(math.ispow2((ushort)math.abs(v.SShort0)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort1)));
 
-				case  3: return IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort2)));
+				case  3: return IS_FALSE(math.ispow2((ushort)math.abs(v.SShort0)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort1)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort2)));
 
-				case  4: return IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort2)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort3)));
+				case  4: return IS_FALSE(math.ispow2((ushort)math.abs(v.SShort0)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort1)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort2)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort3)));
 
-				default: return IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort2)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort3)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort4)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort5)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort6)))
-							 && IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort7)));
+				default: return IS_FALSE(math.ispow2((ushort)math.abs(v.SShort0)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort1)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort2)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort3)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort4)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort5)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort6)))
+							 && IS_FALSE(math.ispow2((ushort)math.abs(v.SShort7)));
 			}
 		}
 
@@ -6482,78 +6481,78 @@ namespace MaxMath.Intrinsics
 		{
              if (elements == 1)
              {
-				return IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong0)));
+				return IS_FALSE(math.ispow2((ulong)math.abs(v.SLong0)));
              }
 			else
 			{
-				return IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong0)))
-					&& IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong1)));
+				return IS_FALSE(math.ispow2((ulong)math.abs(v.SLong0)))
+					&& IS_FALSE(math.ispow2((ulong)math.abs(v.SLong1)));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool NONE_POW2_EPU128(v128 vLo, v128 vHi)
 		{
-			return IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
-				&& IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)));
+			return IS_FALSE(math.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
+				&& IS_FALSE(math.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool NONE_POW2_EPU8(v256 v)
 		{
-			return IS_FALSE(maxmath.ispow2(v.Byte0 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte1 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte2 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte3 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte4 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte5 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte6 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte7 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte8 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte9 ))
-				&& IS_FALSE(maxmath.ispow2(v.Byte10))
-				&& IS_FALSE(maxmath.ispow2(v.Byte11))
-				&& IS_FALSE(maxmath.ispow2(v.Byte12))
-				&& IS_FALSE(maxmath.ispow2(v.Byte13))
-				&& IS_FALSE(maxmath.ispow2(v.Byte14))
-				&& IS_FALSE(maxmath.ispow2(v.Byte15))
-			    && IS_FALSE(maxmath.ispow2(v.Byte16))
-				&& IS_FALSE(maxmath.ispow2(v.Byte17))
-				&& IS_FALSE(maxmath.ispow2(v.Byte18))
-				&& IS_FALSE(maxmath.ispow2(v.Byte19))
-				&& IS_FALSE(maxmath.ispow2(v.Byte20))
-				&& IS_FALSE(maxmath.ispow2(v.Byte21))
-				&& IS_FALSE(maxmath.ispow2(v.Byte22))
-				&& IS_FALSE(maxmath.ispow2(v.Byte23))
-				&& IS_FALSE(maxmath.ispow2(v.Byte24))
-				&& IS_FALSE(maxmath.ispow2(v.Byte25))
-				&& IS_FALSE(maxmath.ispow2(v.Byte26))
-				&& IS_FALSE(maxmath.ispow2(v.Byte27))
-				&& IS_FALSE(maxmath.ispow2(v.Byte28))
-				&& IS_FALSE(maxmath.ispow2(v.Byte29))
-				&& IS_FALSE(maxmath.ispow2(v.Byte30))
-				&& IS_FALSE(maxmath.ispow2(v.Byte31));
+			return IS_FALSE(math.ispow2(v.Byte0 ))
+				&& IS_FALSE(math.ispow2(v.Byte1 ))
+				&& IS_FALSE(math.ispow2(v.Byte2 ))
+				&& IS_FALSE(math.ispow2(v.Byte3 ))
+				&& IS_FALSE(math.ispow2(v.Byte4 ))
+				&& IS_FALSE(math.ispow2(v.Byte5 ))
+				&& IS_FALSE(math.ispow2(v.Byte6 ))
+				&& IS_FALSE(math.ispow2(v.Byte7 ))
+				&& IS_FALSE(math.ispow2(v.Byte8 ))
+				&& IS_FALSE(math.ispow2(v.Byte9 ))
+				&& IS_FALSE(math.ispow2(v.Byte10))
+				&& IS_FALSE(math.ispow2(v.Byte11))
+				&& IS_FALSE(math.ispow2(v.Byte12))
+				&& IS_FALSE(math.ispow2(v.Byte13))
+				&& IS_FALSE(math.ispow2(v.Byte14))
+				&& IS_FALSE(math.ispow2(v.Byte15))
+			    && IS_FALSE(math.ispow2(v.Byte16))
+				&& IS_FALSE(math.ispow2(v.Byte17))
+				&& IS_FALSE(math.ispow2(v.Byte18))
+				&& IS_FALSE(math.ispow2(v.Byte19))
+				&& IS_FALSE(math.ispow2(v.Byte20))
+				&& IS_FALSE(math.ispow2(v.Byte21))
+				&& IS_FALSE(math.ispow2(v.Byte22))
+				&& IS_FALSE(math.ispow2(v.Byte23))
+				&& IS_FALSE(math.ispow2(v.Byte24))
+				&& IS_FALSE(math.ispow2(v.Byte25))
+				&& IS_FALSE(math.ispow2(v.Byte26))
+				&& IS_FALSE(math.ispow2(v.Byte27))
+				&& IS_FALSE(math.ispow2(v.Byte28))
+				&& IS_FALSE(math.ispow2(v.Byte29))
+				&& IS_FALSE(math.ispow2(v.Byte30))
+				&& IS_FALSE(math.ispow2(v.Byte31));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool NONE_POW2_EPU16(v256 v)
 		{
-			return IS_FALSE(maxmath.ispow2(v.UShort0 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort1 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort2 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort3 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort4 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort5 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort6 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort7 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort8 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort9 ))
-				&& IS_FALSE(maxmath.ispow2(v.UShort10))
-				&& IS_FALSE(maxmath.ispow2(v.UShort11))
-				&& IS_FALSE(maxmath.ispow2(v.UShort12))
-				&& IS_FALSE(maxmath.ispow2(v.UShort13))
-				&& IS_FALSE(maxmath.ispow2(v.UShort14))
-				&& IS_FALSE(maxmath.ispow2(v.UShort15));
+			return IS_FALSE(math.ispow2(v.UShort0 ))
+				&& IS_FALSE(math.ispow2(v.UShort1 ))
+				&& IS_FALSE(math.ispow2(v.UShort2 ))
+				&& IS_FALSE(math.ispow2(v.UShort3 ))
+				&& IS_FALSE(math.ispow2(v.UShort4 ))
+				&& IS_FALSE(math.ispow2(v.UShort5 ))
+				&& IS_FALSE(math.ispow2(v.UShort6 ))
+				&& IS_FALSE(math.ispow2(v.UShort7 ))
+				&& IS_FALSE(math.ispow2(v.UShort8 ))
+				&& IS_FALSE(math.ispow2(v.UShort9 ))
+				&& IS_FALSE(math.ispow2(v.UShort10))
+				&& IS_FALSE(math.ispow2(v.UShort11))
+				&& IS_FALSE(math.ispow2(v.UShort12))
+				&& IS_FALSE(math.ispow2(v.UShort13))
+				&& IS_FALSE(math.ispow2(v.UShort14))
+				&& IS_FALSE(math.ispow2(v.UShort15));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6574,16 +6573,16 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				return IS_FALSE(maxmath.ispow2(v.ULong0))
-					&& IS_FALSE(maxmath.ispow2(v.ULong1))
-					&& IS_FALSE(maxmath.ispow2(v.ULong2));
+				return IS_FALSE(math.ispow2(v.ULong0))
+					&& IS_FALSE(math.ispow2(v.ULong1))
+					&& IS_FALSE(math.ispow2(v.ULong2));
 			}
 			else
 			{
-				return IS_FALSE(maxmath.ispow2(v.ULong0))
-					&& IS_FALSE(maxmath.ispow2(v.ULong1))
-					&& IS_FALSE(maxmath.ispow2(v.ULong2))
-					&& IS_FALSE(maxmath.ispow2(v.ULong3));
+				return IS_FALSE(math.ispow2(v.ULong0))
+					&& IS_FALSE(math.ispow2(v.ULong1))
+					&& IS_FALSE(math.ispow2(v.ULong2))
+					&& IS_FALSE(math.ispow2(v.ULong3));
 			}
 		}
 
@@ -6592,75 +6591,75 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				return IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
-					&& IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)))
-					&& IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong2, vHi.ULong2)));
+				return IS_FALSE(math.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
+					&& IS_FALSE(math.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)))
+					&& IS_FALSE(math.ispow2(new UInt128(vLo.ULong2, vHi.ULong2)));
 			}
 			else
 			{
-				return IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
-					&& IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)))
-					&& IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong2, vHi.ULong2)))
-					&& IS_FALSE(maxmath.ispow2(new UInt128(vLo.ULong3, vHi.ULong3)));
+				return IS_FALSE(math.ispow2(new UInt128(vLo.ULong0, vHi.ULong0)))
+					&& IS_FALSE(math.ispow2(new UInt128(vLo.ULong1, vHi.ULong1)))
+					&& IS_FALSE(math.ispow2(new UInt128(vLo.ULong2, vHi.ULong2)))
+					&& IS_FALSE(math.ispow2(new UInt128(vLo.ULong3, vHi.ULong3)));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool NONE_POW2_EPI8(v256 v)
 		{
-			return IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte0 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte1 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte2 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte3 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte4 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte5 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte6 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte7 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte8 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte9 )))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte10)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte11)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte12)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte13)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte14)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte15)))
-			    && IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte16)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte17)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte18)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte19)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte20)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte21)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte22)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte23)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte24)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte25)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte26)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte27)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte28)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte29)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte30)))
-				&& IS_FALSE(maxmath.ispow2((byte)maxmath.abs(v.SByte31)));
+			return IS_FALSE(math.ispow2((byte)math.abs(v.SByte0 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte1 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte2 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte3 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte4 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte5 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte6 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte7 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte8 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte9 )))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte10)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte11)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte12)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte13)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte14)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte15)))
+			    && IS_FALSE(math.ispow2((byte)math.abs(v.SByte16)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte17)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte18)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte19)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte20)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte21)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte22)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte23)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte24)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte25)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte26)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte27)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte28)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte29)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte30)))
+				&& IS_FALSE(math.ispow2((byte)math.abs(v.SByte31)));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool NONE_POW2_EPI16(v256 v)
 		{
-			return IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort0 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort1 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort2 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort3 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort4 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort5 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort6 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort7 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort8 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort9 )))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort10)))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort11)))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort12)))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort13)))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort14)))
-				&& IS_FALSE(maxmath.ispow2((ushort)maxmath.abs(v.SShort15)));
+			return IS_FALSE(math.ispow2((ushort)math.abs(v.SShort0 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort1 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort2 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort3 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort4 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort5 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort6 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort7 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort8 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort9 )))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort10)))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort11)))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort12)))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort13)))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort14)))
+				&& IS_FALSE(math.ispow2((ushort)math.abs(v.SShort15)));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6681,16 +6680,16 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				return IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong0)))
-					&& IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong1)))
-					&& IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong2)));
+				return IS_FALSE(math.ispow2((ulong)math.abs(v.SLong0)))
+					&& IS_FALSE(math.ispow2((ulong)math.abs(v.SLong1)))
+					&& IS_FALSE(math.ispow2((ulong)math.abs(v.SLong2)));
 			}
 			else
 			{
-				return IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong0)))
-					&& IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong1)))
-					&& IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong2)))
-					&& IS_FALSE(maxmath.ispow2((ulong)math.abs(v.SLong3)));
+				return IS_FALSE(math.ispow2((ulong)math.abs(v.SLong0)))
+					&& IS_FALSE(math.ispow2((ulong)math.abs(v.SLong1)))
+					&& IS_FALSE(math.ispow2((ulong)math.abs(v.SLong2)))
+					&& IS_FALSE(math.ispow2((ulong)math.abs(v.SLong3)));
 			}
 		}
 

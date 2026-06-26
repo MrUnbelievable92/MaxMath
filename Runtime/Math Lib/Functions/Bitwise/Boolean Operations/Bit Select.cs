@@ -1,12 +1,11 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns a bitwise selection between two <see cref="UInt128"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -322,13 +321,13 @@ namespace MaxMath
             return andnot(a, c) | (b & c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="uint2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.uint2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bits_select(uint2 a, uint2 b, uint2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.blendb_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c)));
+                return Xse.blendb_si128(a, b, c);
             }
             else
             {
@@ -336,13 +335,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="uint3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.uint3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bits_select(uint3 a, uint3 b, uint3 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.blendb_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c)));
+                return Xse.blendb_si128(a, b, c);
             }
             else
             {
@@ -350,13 +349,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="uint4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.uint4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bits_select(uint4 a, uint4 b, uint4 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.blendb_si128(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(c)));
+                return Xse.blendb_si128(a, b, c);
             }
             else
             {
@@ -386,21 +385,21 @@ namespace MaxMath
             return (int)bits_select((uint)a, (uint)b, (uint)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="int2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.int2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 bits_select(int2 a, int2 b, int2 c)
         {
             return (int2)bits_select((uint2)a, (uint2)b, (uint2)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="int3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.int3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 bits_select(int3 a, int3 b, int3 c)
         {
             return (int3)bits_select((uint3)a, (uint3)b, (uint3)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="int4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.int4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 bits_select(int4 a, int4 b, int4 c)
         {

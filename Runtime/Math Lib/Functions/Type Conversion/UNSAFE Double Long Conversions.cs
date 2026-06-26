@@ -1,14 +1,13 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="ulong"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double2"/> to its respective <see cref="ulong"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0       </para>
@@ -21,7 +20,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return Xse.cvttpd_epu64(RegisterConversion.ToV128(x), nonZero: promise.Promises(Promise.NonZero));
+                    return Xse.cvttpd_epu64(x, nonZero: promise.Promises(Promise.NonZero));
                 }
                 else
                 {
@@ -34,7 +33,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="double3"/> to its respective <see cref="ulong"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double3"/> to its respective <see cref="ulong"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [<see cref="ulong.MinValue"/>, <see cref="long.MaxValue"/>]       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
@@ -46,7 +45,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epu64(RegisterConversion.ToV256(x), elements: 3, nonZero: promise.Promises(Promise.NonZero));
+                return Xse.mm256_cvttpd_epu64(x, elements: 3, nonZero: promise.Promises(Promise.NonZero));
             }
             else
             {
@@ -54,7 +53,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="double4"/> to its respective <see cref="ulong"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double4"/> to its respective <see cref="ulong"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [<see cref="ulong.MinValue"/>, <see cref="long.MaxValue"/>]       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
@@ -66,7 +65,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epu64(RegisterConversion.ToV256(x), elements: 4, nonZero: promise.Promises(Promise.NonZero));
+                return Xse.mm256_cvttpd_epu64(x, elements: 4, nonZero: promise.Promises(Promise.NonZero));
             }
             else
             {
@@ -77,7 +76,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="long"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double2"/> to its respective <see cref="long"/> representation.
         ///    <para>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
         ///    <para>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0       </para>
         ///    <para>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values       </para>
@@ -90,7 +89,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return Xse.cvttpd_epi64(RegisterConversion.ToV128(x), positive: promise.Promises(Promise.Positive), nonZero: promise.Promises(Promise.NonZero));
+                    return Xse.cvttpd_epi64(x, positive: promise.Promises(Promise.Positive), nonZero: promise.Promises(Promise.NonZero));
                 }
                 else
                 {
@@ -103,7 +102,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="double3"/> to its respective <see cref="long"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double3"/> to its respective <see cref="long"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [<see cref="long.MinValue"/>, <see cref="long.MaxValue"/>]       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
@@ -116,7 +115,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epi64(RegisterConversion.ToV256(x), elements: 3, positive: promise.Promises(Promise.Positive), nonZero: promise.Promises(Promise.NonZero));
+                return Xse.mm256_cvttpd_epi64(x, elements: 3, positive: promise.Promises(Promise.Positive), nonZero: promise.Promises(Promise.NonZero));
             }
             else
             {
@@ -124,7 +123,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="double4"/> to its respective <see cref="long"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double4"/> to its respective <see cref="long"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [<see cref="long.MinValue"/>, <see cref="long.MaxValue"/>]       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
@@ -137,7 +136,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epi64(RegisterConversion.ToV256(x), elements: 4, positive: promise.Promises(Promise.Positive), nonZero: promise.Promises(Promise.NonZero));
+                return Xse.mm256_cvttpd_epi64(x, elements: 4, positive: promise.Promises(Promise.Positive), nonZero: promise.Promises(Promise.NonZero));
             }
             else
             {
@@ -160,7 +159,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToDouble2(Xse.usfcvtepu64_pd(x));
+                    return Xse.usfcvtepu64_pd(x);
                 }
                 else
                 {
@@ -185,7 +184,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToDouble3(Xse.mm256_usfcvtepu64_pd(x));
+                    return Xse.mm256_usfcvtepu64_pd(x);
                 }
                 else
                 {
@@ -210,7 +209,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToDouble4(Xse.mm256_usfcvtepu64_pd(x));
+                    return Xse.mm256_usfcvtepu64_pd(x);
                 }
                 else
                 {
@@ -236,7 +235,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToDouble2(Xse.usfcvtepi64_pd(x));
+                    return Xse.usfcvtepi64_pd(x);
                 }
                 else
                 {
@@ -261,7 +260,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToDouble3(Xse.mm256_usfcvtepi64_pd(x));
+                    return Xse.mm256_usfcvtepi64_pd(x);
                 }
                 else
                 {
@@ -286,7 +285,7 @@ namespace MaxMath
             {
                 if (promise.Promises(Promise.Unsafe0))
                 {
-                    return RegisterConversion.ToDouble4(Xse.mm256_usfcvtepi64_pd(x));
+                    return Xse.mm256_usfcvtepi64_pd(x);
                 }
                 else
                 {

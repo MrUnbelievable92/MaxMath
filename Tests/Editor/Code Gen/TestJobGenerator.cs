@@ -18,7 +18,7 @@ namespace MaxMath.Tests
 
         private void ConvertAllFunctions()
         {
-            MethodInfo[] globalFunctions = typeof(maxmath).GetMethods(BindingFlags.Public | BindingFlags.Static);
+            MethodInfo[] globalFunctions = typeof(math).GetMethods(BindingFlags.Public | BindingFlags.Static);
 
             SourceCodeWithoutVariableNames = new string[globalFunctions.Length];
             ReturnTypes = new string[globalFunctions.Length];
@@ -72,7 +72,7 @@ namespace MaxMath.Tests
             }
         }
 
-        private string[] ExcludedParameterTypes =
+        private readonly string[] ExcludedParameterTypes =
         {
             Reflection.GetTypeName(typeof(Promise))
         };
@@ -88,13 +88,13 @@ namespace MaxMath.Tests
 
         private void AppendJobPreamble()
         {
-            Result = "using Unity.Mathematics;\n"
+            Result = "\n"
                    + "using Unity.Burst;\n"
                    + "using Unity.Collections;\n"
                    + "using Unity.Jobs;\n"
                    + "using MaxMath;\n"
                    + "\n"
-                   + "using static Unity.Mathematics.math;\n"
+                   + "\n"
                    + "using static MaxMath.maxmath;\n"
                    + "\n"
                    + "[BurstCompile(OptimizeFor = OptimizeFor.Size)]\n"
@@ -248,7 +248,7 @@ namespace MaxMath.Tests
         {
             foreach (Type type in Reflection.AllTypes.Where(t => t != typeof(Promise)
                                                               && t != typeof(void)
-                                                              && t != typeof(Unity.Mathematics.math.ShuffleComponent)))
+                                                              && t != typeof(math.ShuffleComponent)))
             {
                 yield return new TestJobGenerator(Reflection.GetTypeName(type));
             }

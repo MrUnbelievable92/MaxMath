@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -11,8 +11,8 @@ namespace MaxMath.Tests
             byte2 l = new byte2(0, 1);
             byte2 r = byte.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 2; i++)
             {
@@ -26,8 +26,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -38,8 +38,8 @@ namespace MaxMath.Tests
             byte3 l = new byte3(0, 1, 2);
             byte3 r = byte.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 3; i++)
             {
@@ -53,8 +53,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -65,8 +65,8 @@ namespace MaxMath.Tests
             byte4 l = new byte4(0, 1, 2, 3);
             byte4 r = byte.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 4; i++)
             {
@@ -80,8 +80,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -92,8 +92,8 @@ namespace MaxMath.Tests
             byte8 l = new byte8(0, 1, 2, 3, 4, 5, 6, 7);
             byte8 r = byte.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 8; i++)
             {
@@ -107,8 +107,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -119,8 +119,8 @@ namespace MaxMath.Tests
             byte16 l = new byte16(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
             byte16 r = byte.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 16; i++)
             {
@@ -134,8 +134,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -146,8 +146,8 @@ namespace MaxMath.Tests
             byte32 l = new byte32(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31);
             byte32 r = byte.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 32; i++)
             {
@@ -161,8 +161,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -174,8 +174,8 @@ namespace MaxMath.Tests
             ushort2 l = new ushort2(0, 1);
             ushort2 r = ushort.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 2; i++)
             {
@@ -189,8 +189,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -201,8 +201,8 @@ namespace MaxMath.Tests
             ushort3 l = new ushort3(0, 1, 2);
             ushort3 r = ushort.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 3; i++)
             {
@@ -216,8 +216,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -228,8 +228,8 @@ namespace MaxMath.Tests
             ushort4 l = new ushort4(0, 1, 2, 3);
             ushort4 r = ushort.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 4; i++)
             {
@@ -243,8 +243,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -255,8 +255,8 @@ namespace MaxMath.Tests
             ushort8 l = new ushort8(0, 1, 2, 3, 4, 5, 6, 7);
             ushort8 r = ushort.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 8; i++)
             {
@@ -270,8 +270,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -282,8 +282,8 @@ namespace MaxMath.Tests
             ushort16 l = new ushort16(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
             ushort16 r = ushort.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 16; i++)
             {
@@ -297,8 +297,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -310,8 +310,8 @@ namespace MaxMath.Tests
             uint2 l = new uint2(0, 1);
             uint2 r = uint.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 2; i++)
             {
@@ -325,8 +325,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -337,8 +337,8 @@ namespace MaxMath.Tests
             uint3 l = new uint3(0, 1, 2);
             uint3 r = uint.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 3; i++)
             {
@@ -352,8 +352,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -364,8 +364,8 @@ namespace MaxMath.Tests
             uint4 l = new uint4(0, 1, 2, 3);
             uint4 r = uint.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 4; i++)
             {
@@ -379,8 +379,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -391,8 +391,8 @@ namespace MaxMath.Tests
             uint8 l = new uint8(0, 1, 2, 3, 4, 5, 6, 7);
             uint8 r = uint.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 8; i++)
             {
@@ -406,8 +406,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -419,8 +419,8 @@ namespace MaxMath.Tests
             ulong2 l = new ulong2(0, 1);
             ulong2 r = ulong.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 2; i++)
             {
@@ -434,8 +434,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -446,8 +446,8 @@ namespace MaxMath.Tests
             ulong3 l = new ulong3(0, 1, 2);
             ulong3 r = ulong.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 3; i++)
             {
@@ -461,8 +461,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -473,8 +473,8 @@ namespace MaxMath.Tests
             ulong4 l = new ulong4(0, 1, 2, 3);
             ulong4 r = ulong.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 4; i++)
             {
@@ -488,8 +488,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -501,8 +501,8 @@ namespace MaxMath.Tests
             float2 l = new float2(0, 1);
             float2 r = float.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 2; i++)
             {
@@ -516,8 +516,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -528,8 +528,8 @@ namespace MaxMath.Tests
             float3 l = new float3(0, 1, 2);
             float3 r = float.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 3; i++)
             {
@@ -543,8 +543,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -555,8 +555,8 @@ namespace MaxMath.Tests
             float4 l = new float4(0, 1, 2, 3);
             float4 r = float.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 4; i++)
             {
@@ -570,8 +570,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -582,8 +582,8 @@ namespace MaxMath.Tests
             float8 l = new float8(0, 1, 2, 3, 4, 5, 6, 7);
             float8 r = float.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 8; i++)
             {
@@ -597,8 +597,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -610,8 +610,8 @@ namespace MaxMath.Tests
             double2 l = new double2(0, 1);
             double2 r = double.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 2; i++)
             {
@@ -625,8 +625,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -637,8 +637,8 @@ namespace MaxMath.Tests
             double3 l = new double3(0, 1, 2);
             double3 r = double.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 3; i++)
             {
@@ -652,8 +652,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -664,8 +664,8 @@ namespace MaxMath.Tests
             double4 l = new double4(0, 1, 2, 3);
             double4 r = double.MaxValue - l;
 
-            Assert.IsTrue(maxmath.all_dif(l, r));
-            Assert.IsTrue(maxmath.all_dif(r, l));
+            Assert.IsTrue(math.all_dif(l, r));
+            Assert.IsTrue(math.all_dif(r, l));
 
             for (int i = 0; i < 4; i++)
             {
@@ -679,8 +679,8 @@ namespace MaxMath.Tests
                     cpyL[j] = extractR;
                     cpyR[j] = extractL;
 
-                    Assert.IsFalse(maxmath.all_dif(cpyL, r));
-                    Assert.IsFalse(maxmath.all_dif(l, cpyR));
+                    Assert.IsFalse(math.all_dif(cpyL, r));
+                    Assert.IsFalse(math.all_dif(l, cpyR));
                 }
             }
         }
@@ -700,12 +700,12 @@ namespace MaxMath.Tests
                         a[j] = (byte)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -725,12 +725,12 @@ namespace MaxMath.Tests
                         a[j] = (byte)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -750,12 +750,12 @@ namespace MaxMath.Tests
                         a[j] = (byte)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -775,12 +775,12 @@ namespace MaxMath.Tests
                         a[j] = (byte)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -800,12 +800,12 @@ namespace MaxMath.Tests
                         a[j] = (byte)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -825,18 +825,18 @@ namespace MaxMath.Tests
                         a[j] = (byte)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
 
             byte32 xxx = new byte32(new byte16(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), new byte16(16));
-            Assert.IsFalse(maxmath.all_dif(xxx));
+            Assert.IsFalse(math.all_dif(xxx));
         }
 
 
@@ -854,12 +854,12 @@ namespace MaxMath.Tests
                         a[j] = (short)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -879,12 +879,12 @@ namespace MaxMath.Tests
                         a[j] = (short)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -904,12 +904,12 @@ namespace MaxMath.Tests
                         a[j] = (short)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -929,12 +929,12 @@ namespace MaxMath.Tests
                         a[j] = (short)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -954,12 +954,12 @@ namespace MaxMath.Tests
                         a[j] = (short)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -980,12 +980,12 @@ namespace MaxMath.Tests
                         a[j] = (int)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1005,12 +1005,12 @@ namespace MaxMath.Tests
                         a[j] = (int)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1030,12 +1030,12 @@ namespace MaxMath.Tests
                         a[j] = (int)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1055,18 +1055,18 @@ namespace MaxMath.Tests
                         a[j] = (int)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
 
             int8 xxx = new int8(new int4(0, 1, 2, 3), new int4(4));
-            Assert.IsFalse(maxmath.all_dif(xxx));
+            Assert.IsFalse(math.all_dif(xxx));
         }
 
 
@@ -1084,12 +1084,12 @@ namespace MaxMath.Tests
                         a[j] = (long)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1109,12 +1109,12 @@ namespace MaxMath.Tests
                         a[j] = (long)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1134,12 +1134,12 @@ namespace MaxMath.Tests
                         a[j] = (long)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1160,12 +1160,12 @@ namespace MaxMath.Tests
                         a[j] = (float)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1185,12 +1185,12 @@ namespace MaxMath.Tests
                         a[j] = (float)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1210,12 +1210,12 @@ namespace MaxMath.Tests
                         a[j] = (float)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1235,12 +1235,12 @@ namespace MaxMath.Tests
                         a[j] = (float)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1261,12 +1261,12 @@ namespace MaxMath.Tests
                         a[j] = (double)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1286,12 +1286,12 @@ namespace MaxMath.Tests
                         a[j] = (double)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }
@@ -1311,12 +1311,12 @@ namespace MaxMath.Tests
                         a[j] = (double)j;
                     }
 
-                    Assert.IsTrue(maxmath.all_dif(a));
+                    Assert.IsTrue(math.all_dif(a));
 
                     if (a[i] != a[K])
                     {
                         a[i] = a[K];
-                        Assert.IsFalse(maxmath.all_dif(a));
+                        Assert.IsFalse(math.all_dif(a));
                     }
                 }
             }

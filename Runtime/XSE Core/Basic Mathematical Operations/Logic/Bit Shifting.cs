@@ -5,7 +5,6 @@ using Unity.Burst;
 using Unity.Burst.Intrinsics;
 
 #if TESTING
-using Unity.Mathematics;
 using DevTools;
 #endif
 
@@ -640,6 +639,14 @@ if (inRange) VectorAssert.IsBetween<byte16, byte>(b, 0, 7, elements);
 
                         return shuffle_epi8(LOOKUP, b);
                     }
+
+                    if ((constexpr.IS_CONST(b) || COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                     && constexpr.ALL_NEQ_EPI8(b, 0))
+                    {
+                        v128 INV_POW2 = new v128(0, 1 << 7, 1 << 6, 1 << 5, 1 << 4, 1 << 3, 1 << 2, 1 << 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                        return mulhi_epu8(a, shuffle_epi8(INV_POW2, b), elements);
+                    }
                 }
 
                 //if (Avx512.IsAvx512Supported)
@@ -1105,6 +1112,15 @@ if (inRange) VectorAssert.IsBetween<byte16, byte>(b, 0, 7, elements);
                     return Avx2.mm256_shuffle_epi8(LOOKUP, b);
                 }
 
+                if ((constexpr.IS_CONST(b) || COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                 && constexpr.ALL_NEQ_EPI8(b, 0))
+                {
+                    v256 INV_POW2 = new v256(0, 1 << 7, 1 << 6, 1 << 5, 1 << 4, 1 << 3, 1 << 2, 1 << 1, 0, 0, 0, 0, 0, 0, 0, 0,
+                                             0, 1 << 7, 1 << 6, 1 << 5, 1 << 4, 1 << 3, 1 << 2, 1 << 1, 0, 0, 0, 0, 0, 0, 0, 0);
+
+                    return mm256_mulhi_epu8(a, Avx2.mm256_shuffle_epi8(INV_POW2, b));
+                }
+
                 //if (Avx512.IsAvx512Supported)
                 //{
                 //    v256 loA16 = mm256_cvt2x2epi8_epi16(a, out v256 hiA16);
@@ -1509,6 +1525,19 @@ if (inRange) VectorAssert.IsBetween<ushort8, ushort>(b, 0, 15, elements);
                 {
                     return srli_epi16(a, b.UShort0, inRange);
                 }
+                
+
+                if (constexpr.IS_CONST(b)
+                 && constexpr.ALL_NEQ_EPI16(b, 0, elements))
+                {
+                    v128 INV_POW2_LO = new v128(0, 1 << 15, 1 << 14, 1 << 13, 1 << 12, 1 << 11, 1 << 10, 1 << 9);
+                    v128 INV_POW2_HI = new v128(1 << 8, 1 << 7, 1 << 6, 1 << 5, 1 << 4, 1 << 3, 1 << 2, 1 << 1);
+                
+                    v128 shiftGE8 = cmpgt_epi16(b, set1_epi16(7));
+                    v128 shuf = blendv_si128(shuffle_epi16(INV_POW2_LO, b), shuffle_epi16(INV_POW2_HI, sub_epi16(b, set1_epi16(8))), shiftGE8);
+
+                    return mulhi_epu16(a, shuf);
+                }
 
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1865,6 +1894,14 @@ if (inRange) VectorAssert.IsBetween<ushort8, ushort>(b, 0, 15, elements);
                     return mm256_srli_epi16(a, b.UShort0);
                 }
 
+                if (constexpr.IS_CONST(b)
+                 && constexpr.ALL_NEQ_EPI16(b, 0))
+                {
+                    v256 INV_POW2 = new v256(0, 1 << 15, 1 << 14, 1 << 13, 1 << 12, 1 << 11, 1 << 10, 1 << 9, 1 << 8, 1 << 7, 1 << 6, 1 << 5, 1 << 4, 1 << 3, 1 << 2, 1 << 1);
+                
+                    return Avx2.mm256_mulhi_epu16(a, mm256_permutevar_epi16(INV_POW2, b));
+                }
+
                 v256 aLo = mm256_cvt2x2epu16_epi32(a, out v256 aHi);
                 v256 bLo = mm256_cvt2x2epu16_epi32(b, out v256 bHi);
 
@@ -2048,7 +2085,7 @@ if (inRange) Assert.IsBetween(count.ULong0, 0ul, 31ul);
         public static v128 sllv_epi32(v128 a, v128 b, bool inRange = false, byte elements = 4)
         {
 #if TESTING
-if (inRange) VectorAssert.IsBetween<uint4, uint>(RegisterConversion.ToUInt4(b), 0, 31, elements);
+if (inRange) VectorAssert.IsBetween<uint4, uint>(b, 0, 31, elements);
 #endif
 
             if (Sse2.IsSse2Supported)
@@ -2152,7 +2189,7 @@ if (inRange) VectorAssert.IsBetween<uint4, uint>(RegisterConversion.ToUInt4(b), 
         public static v128 srlv_epi32(v128 a, v128 b, bool inRange = false, byte elements = 4)
         {
 #if TESTING
-if (inRange) VectorAssert.IsBetween<uint4, uint>(RegisterConversion.ToUInt4(b), 0, 31, elements);
+if (inRange) VectorAssert.IsBetween<uint4, uint>(b, 0, 31, elements);
 #endif
 
             if (Sse2.IsSse2Supported)
@@ -2245,7 +2282,7 @@ if (inRange) VectorAssert.IsBetween<uint4, uint>(RegisterConversion.ToUInt4(b), 
         public static v128 srav_epi32(v128 a, v128 b, bool inRange = false, byte elements = 4)
         {
 #if TESTING
-if (inRange) VectorAssert.IsBetween<uint4, uint>(RegisterConversion.ToUInt4(b), 0, 31, elements);
+if (inRange) VectorAssert.IsBetween<uint4, uint>(b, 0, 31, elements);
 #endif
 
             if (Sse2.IsSse2Supported)
@@ -2502,6 +2539,13 @@ if (inRange) Assert.IsBetween(count.ULong0, 0ul, 63ul);
 #if TESTING
 if (inRange) Assert.IsBetween(n, 0, 63);
 #endif
+            if (Avx2.IsAvx2Supported)
+            {
+                if (constexpr.IS_TRUE(n == 63))
+                {
+                    return cmpgt_epi64(setzero_si128(), a);
+                }
+            }
 
             if (Sse2.IsSse2Supported)
             {
@@ -2572,21 +2616,21 @@ if (inRange) Assert.IsBetween(n, 0, 63);
                 {
                     return mm256_srli_epi64(a, n);
                 }
-
-                v256 sign = Avx2.mm256_shuffle_epi32(Avx2.mm256_srai_epi32(a, 31), Sse.SHUFFLE(3, 3, 1, 1));
+                
+                if (constexpr.IS_TRUE(n == 63))
+                {
+                    return Avx2.mm256_cmpgt_epi64(Avx.mm256_setzero_si256(), a);
+                }
 
                 if (constexpr.IS_CONST(n))
                 {
-                    if (n == 63)
-                    {
-                        return sign;
-                    }
                     if (n <= 32)
                     {
                         return Avx2.mm256_blend_epi32(mm256_srli_epi64(a, n), mm256_srai_epi32(a, n), 0b1010_1010);
                     }
                 }
 
+                v256 sign = Avx2.mm256_shuffle_epi32(Avx2.mm256_srai_epi32(a, 31), Sse.SHUFFLE(3, 3, 1, 1));
                 v256 shiftedSign = mm256_slli_epi64(sign, 64 - n);
 
                 return Avx2.mm256_or_si256(shiftedSign, mm256_srli_epi64(a, n));

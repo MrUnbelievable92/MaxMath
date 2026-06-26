@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -15,9 +15,9 @@ namespace MaxMath.Tests
                 byte x = rng.NextByte();
                 byte n = (byte)(1 << i);
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (byte)(n / 2)), (byte)(n - 1)) == (byte)((byte)(x + (byte)(n / 2)) - (byte)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (byte)(n / 2)), (byte)(n - 1)) == (byte)((byte)(x + (byte)(n / 2)) - (byte)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
         }
@@ -34,9 +34,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -54,9 +54,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -74,9 +74,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -94,9 +94,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -114,9 +114,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -134,9 +134,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (byte)(n[j] / 2)), (byte)(n[j] - 1)) == (byte)((byte)(x[j] + (byte)(n[j] / 2)) - (byte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -153,9 +153,9 @@ namespace MaxMath.Tests
                 sbyte x = rng.NextSByte();
                 byte n = (byte)(1 << i);
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (sbyte)(n / 2)), (sbyte)(n - 1)) == (sbyte)((sbyte)(x + (sbyte)(n / 2)) - (sbyte)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (sbyte)(n / 2)), (sbyte)(n - 1)) == (sbyte)((sbyte)(x + (sbyte)(n / 2)) - (sbyte)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
 
@@ -164,9 +164,9 @@ namespace MaxMath.Tests
                 sbyte x = rng.NextSByte(0, sbyte.MaxValue);
                 byte n = rng.NextByte(1, (byte)sbyte.MaxValue);
 
-                if (maxmath.addsaturated(x, (sbyte)(n / 2)) == (sbyte)(x + (sbyte)(n / 2)))
+                if (math.addsaturated(x, (sbyte)(n / 2)) == (sbyte)(x + (sbyte)(n / 2)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.ZeroOrGreater));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.ZeroOrGreater));
                 }
             }
         }
@@ -183,9 +183,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -197,9 +197,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -217,9 +217,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -231,9 +231,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -251,9 +251,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -265,9 +265,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -285,9 +285,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -299,9 +299,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -319,9 +319,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -333,9 +333,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -353,9 +353,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (sbyte)(n[j] / 2)), (sbyte)(n[j] - 1)) == (sbyte)((sbyte)(x[j] + (sbyte)(n[j] / 2)) - (sbyte)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -367,9 +367,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (sbyte)(n[j] / 2)) == (sbyte)(x[j] + (sbyte)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -386,9 +386,9 @@ namespace MaxMath.Tests
                 ushort x = rng.NextUShort();
                 ushort n = (ushort)(1 << i);
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (ushort)(n / 2)), (ushort)(n - 1)) == (ushort)((ushort)(x + (ushort)(n / 2)) - (ushort)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (ushort)(n / 2)), (ushort)(n - 1)) == (ushort)((ushort)(x + (ushort)(n / 2)) - (ushort)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
         }
@@ -405,9 +405,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -425,9 +425,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -445,9 +445,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -465,9 +465,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -485,9 +485,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (ushort)(n[j] / 2)), (ushort)(n[j] - 1)) == (ushort)((ushort)(x[j] + (ushort)(n[j] / 2)) - (ushort)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -504,9 +504,9 @@ namespace MaxMath.Tests
                 short x = rng.NextShort();
                 ushort n = (ushort)(1 << i);
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (short)(n / 2)), (short)(n - 1)) == (short)((short)(x + (short)(n / 2)) - (short)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (short)(n / 2)), (short)(n - 1)) == (short)((short)(x + (short)(n / 2)) - (short)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
 
@@ -515,9 +515,9 @@ namespace MaxMath.Tests
                 short x = rng.NextShort(0, short.MaxValue);
                 ushort n = rng.NextUShort(1, (ushort)short.MaxValue);
 
-                if (maxmath.addsaturated(x, (short)(n / 2)) == (short)(x + (short)(n / 2)))
+                if (math.addsaturated(x, (short)(n / 2)) == (short)(x + (short)(n / 2)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.ZeroOrGreater));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.ZeroOrGreater));
                 }
             }
         }
@@ -534,9 +534,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -548,9 +548,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -568,9 +568,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -582,9 +582,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -602,9 +602,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -616,9 +616,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -636,9 +636,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -650,9 +650,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -670,9 +670,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (short)(n[j] / 2)), (short)(n[j] - 1)) == (short)((short)(x[j] + (short)(n[j] / 2)) - (short)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -684,9 +684,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (short)(n[j] / 2)) == (short)(x[j] + (short)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -703,9 +703,9 @@ namespace MaxMath.Tests
                 uint x = rng.NextUInt();
                 uint n = (uint)(1 << i);
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (uint)(n / 2)), (uint)(n - 1)) == (uint)((uint)(x + (uint)(n / 2)) - (uint)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (uint)(n / 2)), (uint)(n - 1)) == (uint)((uint)(x + (uint)(n / 2)) - (uint)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
         }
@@ -722,9 +722,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (uint)(n[j] / 2)), (uint)(n[j] - 1)) == (uint)((uint)(x[j] + (uint)(n[j] / 2)) - (uint)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (uint)(n[j] / 2)), (uint)(n[j] - 1)) == (uint)((uint)(x[j] + (uint)(n[j] / 2)) - (uint)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -742,9 +742,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (uint)(n[j] / 2)), (uint)(n[j] - 1)) == (uint)((uint)(x[j] + (uint)(n[j] / 2)) - (uint)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (uint)(n[j] / 2)), (uint)(n[j] - 1)) == (uint)((uint)(x[j] + (uint)(n[j] / 2)) - (uint)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -762,9 +762,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (uint)(n[j] / 2)), (uint)(n[j] - 1)) == (uint)((uint)(x[j] + (uint)(n[j] / 2)) - (uint)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (uint)(n[j] / 2)), (uint)(n[j] - 1)) == (uint)((uint)(x[j] + (uint)(n[j] / 2)) - (uint)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -782,9 +782,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (uint)(n[j] / 2)), (uint)(n[j] - 1)) == (uint)((uint)(x[j] + (uint)(n[j] / 2)) - (uint)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (uint)(n[j] / 2)), (uint)(n[j] - 1)) == (uint)((uint)(x[j] + (uint)(n[j] / 2)) - (uint)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -801,9 +801,9 @@ namespace MaxMath.Tests
                 int x = rng.NextInt();
                 uint n = (uint)(1 << i);
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (int)(n / 2)), (int)(n - 1)) == (int)((int)(x + (int)(n / 2)) - (int)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (int)(n / 2)), (int)(n - 1)) == (int)((int)(x + (int)(n / 2)) - (int)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
 
@@ -812,9 +812,9 @@ namespace MaxMath.Tests
                 int x = rng.NextInt(0, int.MaxValue);
                 uint n = rng.NextUInt(1, (uint)int.MaxValue);
 
-                if (maxmath.addsaturated(x, (int)(n / 2)) == (int)(x + (int)(n / 2)))
+                if (math.addsaturated(x, (int)(n / 2)) == (int)(x + (int)(n / 2)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.ZeroOrGreater));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.ZeroOrGreater));
                 }
             }
         }
@@ -831,9 +831,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (int)(n[j] / 2)), (int)(n[j] - 1)) == (int)((int)(x[j] + (int)(n[j] / 2)) - (int)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (int)(n[j] / 2)), (int)(n[j] - 1)) == (int)((int)(x[j] + (int)(n[j] / 2)) - (int)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -845,9 +845,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (int)(n[j] / 2)) == (int)(x[j] + (int)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (int)(n[j] / 2)) == (int)(x[j] + (int)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -865,9 +865,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (int)(n[j] / 2)), (int)(n[j] - 1)) == (int)((int)(x[j] + (int)(n[j] / 2)) - (int)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (int)(n[j] / 2)), (int)(n[j] - 1)) == (int)((int)(x[j] + (int)(n[j] / 2)) - (int)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -879,9 +879,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (int)(n[j] / 2)) == (int)(x[j] + (int)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (int)(n[j] / 2)) == (int)(x[j] + (int)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -899,9 +899,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (int)(n[j] / 2)), (int)(n[j] - 1)) == (int)((int)(x[j] + (int)(n[j] / 2)) - (int)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (int)(n[j] / 2)), (int)(n[j] - 1)) == (int)((int)(x[j] + (int)(n[j] / 2)) - (int)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -913,9 +913,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (int)(n[j] / 2)) == (int)(x[j] + (int)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (int)(n[j] / 2)) == (int)(x[j] + (int)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -933,9 +933,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (int)(n[j] / 2)), (int)(n[j] - 1)) == (int)((int)(x[j] + (int)(n[j] / 2)) - (int)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (int)(n[j] / 2)), (int)(n[j] - 1)) == (int)((int)(x[j] + (int)(n[j] / 2)) - (int)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -947,9 +947,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (int)(n[j] / 2)) == (int)(x[j] + (int)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (int)(n[j] / 2)) == (int)(x[j] + (int)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -966,9 +966,9 @@ namespace MaxMath.Tests
                 ulong x = rng.NextULong();
                 ulong n = 1ul << i;
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (ulong)(n / 2)), (ulong)(n - 1)) == (ulong)((ulong)(x + (ulong)(n / 2)) - (ulong)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (ulong)(n / 2)), (ulong)(n - 1)) == (ulong)((ulong)(x + (ulong)(n / 2)) - (ulong)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
         }
@@ -985,9 +985,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (ulong)(n[j] / 2)), (ulong)(n[j] - 1)) == (ulong)((ulong)(x[j] + (ulong)(n[j] / 2)) - (ulong)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (ulong)(n[j] / 2)), (ulong)(n[j] - 1)) == (ulong)((ulong)(x[j] + (ulong)(n[j] / 2)) - (ulong)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -1005,9 +1005,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (ulong)(n[j] / 2)), (ulong)(n[j] - 1)) == (ulong)((ulong)(x[j] + (ulong)(n[j] / 2)) - (ulong)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (ulong)(n[j] / 2)), (ulong)(n[j] - 1)) == (ulong)((ulong)(x[j] + (ulong)(n[j] / 2)) - (ulong)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -1025,9 +1025,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (ulong)(n[j] / 2)), (ulong)(n[j] - 1)) == (ulong)((ulong)(x[j] + (ulong)(n[j] / 2)) - (ulong)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (ulong)(n[j] / 2)), (ulong)(n[j] - 1)) == (ulong)((ulong)(x[j] + (ulong)(n[j] / 2)) - (ulong)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -1044,9 +1044,9 @@ namespace MaxMath.Tests
                 long x = rng.NextLong();
                 ulong n = 1ul << i;
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (long)(n / 2)), (long)(n - 1)) == (long)((long)(x + (long)(n / 2)) - (long)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (long)(n / 2)), (long)(n - 1)) == (long)((long)(x + (long)(n / 2)) - (long)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
 
@@ -1055,9 +1055,9 @@ namespace MaxMath.Tests
                 long x = rng.NextLong(0, long.MaxValue);
                 ulong n = rng.NextULong(1, (ulong)long.MaxValue);
 
-                if (maxmath.addsaturated(x, (long)(n / 2)) == (long)(x + (long)(n / 2)))
+                if (math.addsaturated(x, (long)(n / 2)) == (long)(x + (long)(n / 2)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.ZeroOrGreater));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.ZeroOrGreater));
                 }
             }
         }
@@ -1074,9 +1074,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (long)(n[j] / 2)), (long)(n[j] - 1)) == (long)((long)(x[j] + (long)(n[j] / 2)) - (long)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (long)(n[j] / 2)), (long)(n[j] - 1)) == (long)((long)(x[j] + (long)(n[j] / 2)) - (long)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -1088,9 +1088,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (long)(n[j] / 2)) == (long)(x[j] + (long)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (long)(n[j] / 2)) == (long)(x[j] + (long)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -1108,9 +1108,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (long)(n[j] / 2)), (long)(n[j] - 1)) == (long)((long)(x[j] + (long)(n[j] / 2)) - (long)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (long)(n[j] / 2)), (long)(n[j] - 1)) == (long)((long)(x[j] + (long)(n[j] / 2)) - (long)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -1122,9 +1122,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (long)(n[j] / 2)) == (long)(x[j] + (long)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (long)(n[j] / 2)) == (long)(x[j] + (long)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -1142,9 +1142,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.subsaturated(maxmath.addsaturated(x[j], (long)(n[j] / 2)), (long)(n[j] - 1)) == (long)((long)(x[j] + (long)(n[j] / 2)) - (long)(n[j] - 1)))
+                    if (math.subsaturated(math.addsaturated(x[j], (long)(n[j] / 2)), (long)(n[j] - 1)) == (long)((long)(x[j] + (long)(n[j] / 2)) - (long)(n[j] - 1)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.Unsafe0)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.Unsafe0)[j]);
                     }
                 }
             }
@@ -1156,9 +1156,9 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.addsaturated(x[j], (long)(n[j] / 2)) == (long)(x[j] + (long)(n[j] / 2)))
+                    if (math.addsaturated(x[j], (long)(n[j] / 2)) == (long)(x[j] + (long)(n[j] / 2)))
                     {
-                        Assert.AreEqual(maxmath.roundmultiple(x, n)[j], maxmath.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
+                        Assert.AreEqual(math.roundmultiple(x, n)[j], math.roundmultiple(x, n, Promise.ZeroOrGreater)[j]);
                     }
                 }
             }
@@ -1175,9 +1175,9 @@ namespace MaxMath.Tests
                 UInt128 x = rng.NextUInt128();
                 UInt128 n = (UInt128)1 << i;
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (UInt128)(n / 2)), (UInt128)(n - 1)) == (UInt128)((UInt128)(x + (UInt128)(n / 2)) - (UInt128)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (UInt128)(n / 2)), (UInt128)(n - 1)) == (UInt128)((UInt128)(x + (UInt128)(n / 2)) - (UInt128)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
         }
@@ -1192,9 +1192,9 @@ namespace MaxMath.Tests
                 Int128 x = rng.NextInt128();
                 UInt128 n = (UInt128)1 << i;
 
-                if (maxmath.subsaturated(maxmath.addsaturated(x, (Int128)(n / 2)), (Int128)(n - 1)) == (Int128)((Int128)(x + (Int128)(n / 2)) - (Int128)(n - 1)))
+                if (math.subsaturated(math.addsaturated(x, (Int128)(n / 2)), (Int128)(n - 1)) == (Int128)((Int128)(x + (Int128)(n / 2)) - (Int128)(n - 1)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.Unsafe0));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.Unsafe0));
                 }
             }
 
@@ -1203,9 +1203,9 @@ namespace MaxMath.Tests
                 Int128 x = rng.NextInt128(0, Int128.MaxValue);
                 UInt128 n = rng.NextUInt128(1, (UInt128)Int128.MaxValue);
 
-                if (maxmath.addsaturated(x, (Int128)(n / 2)) == (Int128)(x + (Int128)(n / 2)))
+                if (math.addsaturated(x, (Int128)(n / 2)) == (Int128)(x + (Int128)(n / 2)))
                 {
-                    Assert.AreEqual(maxmath.roundmultiple(x, n), maxmath.roundmultiple(x, n, Promise.ZeroOrGreater));
+                    Assert.AreEqual(math.roundmultiple(x, n), math.roundmultiple(x, n, Promise.ZeroOrGreater));
                 }
             }
         }

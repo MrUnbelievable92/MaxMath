@@ -2,7 +2,6 @@ using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -63,14 +62,14 @@ namespace MaxMath
                         if (elements == 16)
                         {
                             v128 v16Lo = cvt2x2epi8_epi16(v, out v128 v16Hi);
-
+                        
                             result = vsum_epi16(add_epi16(v16Lo, v16Hi), true, 8);
                         }
                         else
                         {
                             result = vsum_epi16(cvtepi8_epi16(v), true, elements);
                         }
-
+                        
                         constexpr.ASSUME_RANGE_EPI16(result, elements * sbyte.MinValue, elements * sbyte.MaxValue, 1);
                         return result;
                     }
@@ -469,7 +468,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.float8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -486,7 +485,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum(c.v4_0 + c.v4_4);
+                return csum(c.v4_0 + c.v4_4);
             }
         }
 
@@ -800,7 +799,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum((int2)c);
+                return csum((int2)c);
             }
         }
 
@@ -826,7 +825,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum((int3)c);
+                return csum((int3)c);
             }
         }
 
@@ -852,7 +851,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum((int4)c);
+                return csum((int4)c);
             }
         }
 
@@ -878,7 +877,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum((int4)c.v4_0 + (int4)c.v4_4);
+                return csum((int4)c.v4_0 + (int4)c.v4_4);
             }
         }
 
@@ -935,7 +934,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum((uint2)c);
+                return csum((uint2)c);
             }
         }
 
@@ -961,7 +960,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum((uint3)c);
+                return csum((uint3)c);
             }
         }
 
@@ -987,7 +986,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum((uint4)c);
+                return csum((uint4)c);
             }
         }
 
@@ -1013,7 +1012,7 @@ namespace MaxMath
             }
             else
             {
-                return math.csum((uint4)c.v4_0 + (uint4)c.v4_4);
+                return csum((uint4)c.v4_0 + (uint4)c.v4_4);
             }
         }
 
@@ -1048,6 +1047,27 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.int2"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int csum(int2 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.int3"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int csum(int3 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.int4"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int csum(int4 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
         /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.int8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(int8 c)
@@ -1060,10 +1080,31 @@ namespace MaxMath
             }
             else
             {
-                return math.csum(c.v4_0 + c.v4_4);
+                return csum(c.v4_0 + c.v4_4);
             }
         }
 
+        
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.uint2"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint csum(uint2 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.uint3"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint csum(uint3 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.uint4"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint csum(uint4 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
 
         /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.uint8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1143,6 +1184,50 @@ namespace MaxMath
         public static ulong csum(ulong4 c)
         {
             return (ulong)csum((long4)c);
+        }
+
+
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.float2"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float csum(float2 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.float3"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float csum(float3 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.float4"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float csum(float4 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.double2"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double csum(double2 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.double3"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double csum(double3 c)
+        {
+            return Unity.Mathematics.math.csum(c);
+        }
+
+        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.double4"/>.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double csum(double4 c)
+        {
+            return Unity.Mathematics.math.csum(c);
         }
     }
 }

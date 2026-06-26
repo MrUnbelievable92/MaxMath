@@ -6,13 +6,13 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Computes the square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 square(UInt128 x)
         {
-            UInt128 product = UInt128.umul128(x.lo64, x.lo64);
+            UInt128 product = MaxMath.UInt128.umul128(x.lo64, x.lo64);
 
             return new UInt128(product.lo64, product.hi64 + ((x.lo64 * x.hi64) << 1));
         }
@@ -350,12 +350,69 @@ namespace MaxMath
             return (short16)square((ushort16)x);
         }
 
+        
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint square(uint x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 square(uint2 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 square(uint3 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 square(uint4 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
 
         /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 square(uint8 x)
         {
             return x * x;
+        }
+        
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int square(int x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 square(int2 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 square(int3 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 square(int4 x)
+        {
+            return Unity.Mathematics.math.square(x);
         }
 
         /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
@@ -447,9 +504,66 @@ namespace MaxMath
 
         /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float square(float x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 square(float2 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 square(float3 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 square(float4 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 square(float8 x)
         {
             return x * x;
+        }
+
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double square(double x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 square(double2 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 square(double3 x)
+        {
+            return Unity.Mathematics.math.square(x);
+        }
+
+        /// <summary>       Computes the component-wise square (<paramref name="x"/> <see langword="*"/> <paramref name="x"/>) of the input argument <paramref name="x"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 square(double4 x)
+        {
+            return Unity.Mathematics.math.square(x);
         }
     }
 }

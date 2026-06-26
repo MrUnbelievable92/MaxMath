@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -16,34 +15,31 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 soz_epi8(v128 a, bool ge0 = false, bool le0 = false, bool non0 = false, byte elements = 16)
             {
-                if (BurstArchitecture.IsSIMDSupported)
+                if (Ssse3.IsSsse3Supported)
+                {
+                    return sign_epi8(set1_epi8(1), a);
+                }
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ONE = set1_epi8(1);
 
                     v128 result;
 
-                    if (Ssse3.IsSsse3Supported)
+                    if (ge0 || constexpr.ALL_GE_EPI8(a, 0, elements))
                     {
-                        result = sign_epi8(ONE, a);
+                        result = andnot_si128(cmpeq_epi8(a, setzero_si128()), ONE);
+                    }
+                    else if (le0 || constexpr.ALL_LE_EPI8(a, 0, elements))
+                    {
+                        result = srai_epi8(a, 7, elements: elements);
+                    }
+                    else if (non0 || constexpr.ALL_NEQ_EPI8(a, 0, elements))
+                    {
+                        result = or_si128(ONE, srai_epi8(a, 7, elements: elements));
                     }
                     else
                     {
-                        if (ge0 || constexpr.ALL_GE_EPI8(a, 0, elements))
-                        {
-                            result = andnot_si128(cmpeq_epi8(a, setzero_si128()), ONE);
-                        }
-                        else if (le0 || constexpr.ALL_LE_EPI8(a, 0, elements))
-                        {
-                            result = srai_epi8(a, 7, elements: elements);
-                        }
-                        else if (non0 || constexpr.ALL_NEQ_EPI8(a, 0, elements))
-                        {
-                            result = or_si128(ONE, srai_epi8(a, 7, elements: elements));
-                        }
-                        else
-                        {
-                            result = sub_epi8(srai_epi8(a, 7, elements: elements), cmpgt_epi8(a, setzero_si128()));
-                        }
+                        result = sub_epi8(srai_epi8(a, 7, elements: elements), cmpgt_epi8(a, setzero_si128()));
                     }
 
                     constexpr.ASSUME_RANGE_EPI8(result, -1, 1);
@@ -68,34 +64,31 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 soz_epi16(v128 a, bool ge0 = false, bool le0 = false, bool non0 = false, byte elements = 8)
             {
-                if (BurstArchitecture.IsSIMDSupported)
+                if (Ssse3.IsSsse3Supported)
+                {
+                    return sign_epi16(set1_epi16(1), a);
+                }
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ONE = set1_epi16(1);
 
                     v128 result;
 
-                    if (Ssse3.IsSsse3Supported)
+                    if (ge0 || constexpr.ALL_GE_EPI16(a, 0, elements))
                     {
-                        result = sign_epi16(ONE, a);
+                        result = andnot_si128(cmpeq_epi16(a, setzero_si128()), ONE);
+                    }
+                    else if (le0 || constexpr.ALL_LE_EPI16(a, 0, elements))
+                    {
+                        result = srai_epi16(a, 15);
+                    }
+                    else if (non0 || constexpr.ALL_NEQ_EPI16(a, 0, elements))
+                    {
+                        result = or_si128(ONE, srai_epi16(a, 15));
                     }
                     else
                     {
-                        if (ge0 || constexpr.ALL_GE_EPI16(a, 0, elements))
-                        {
-                            result = andnot_si128(cmpeq_epi16(a, setzero_si128()), ONE);
-                        }
-                        else if (le0 || constexpr.ALL_LE_EPI16(a, 0, elements))
-                        {
-                            result = srai_epi16(a, 15);
-                        }
-                        else if (non0 || constexpr.ALL_NEQ_EPI16(a, 0, elements))
-                        {
-                            result = or_si128(ONE, srai_epi16(a, 15));
-                        }
-                        else
-                        {
-                            result = sub_epi16(srai_epi16(a, 15), cmpgt_epi16(a, setzero_si128()));
-                        }
+                        result = sub_epi16(srai_epi16(a, 15), cmpgt_epi16(a, setzero_si128()));
                     }
 
                     constexpr.ASSUME_RANGE_EPI16(result, -1, 1);
@@ -120,34 +113,31 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 soz_epi32(v128 a, bool ge0 = false, bool le0 = false, bool non0 = false, byte elements = 4)
             {
-                if (BurstArchitecture.IsSIMDSupported)
+                if (Ssse3.IsSsse3Supported)
+                {
+                    return sign_epi32(set1_epi32(1), a);
+                }
+                else if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 ONE = set1_epi32(1);
 
                     v128 result;
 
-                    if (Ssse3.IsSsse3Supported)
+                    if (ge0 || constexpr.ALL_GE_EPI32(a, 0, elements))
                     {
-                        result = sign_epi32(ONE, a);
+                        result = andnot_si128(cmpeq_epi32(a, setzero_si128()), ONE);
+                    }
+                    else if (le0 || constexpr.ALL_LE_EPI32(a, 0, elements))
+                    {
+                        result = srai_epi32(a, 31);
+                    }
+                    else if (non0 || constexpr.ALL_NEQ_EPI32(a, 0, elements))
+                    {
+                        result = or_si128(ONE, srai_epi32(a, 31));
                     }
                     else
                     {
-                        if (ge0 || constexpr.ALL_GE_EPI32(a, 0, elements))
-                        {
-                            result = andnot_si128(cmpeq_epi32(a, setzero_si128()), ONE);
-                        }
-                        else if (le0 || constexpr.ALL_LE_EPI32(a, 0, elements))
-                        {
-                            result = srai_epi32(a, 31);
-                        }
-                        else if (non0 || constexpr.ALL_NEQ_EPI32(a, 0, elements))
-                        {
-                            result = or_si128(ONE, srai_epi32(a, 31));
-                        }
-                        else
-                        {
-                            result = sub_epi32(srai_epi32(a, 31), cmpgt_epi32(a, setzero_si128()));
-                        }
+                        result = sub_epi32(srai_epi32(a, 31), cmpgt_epi32(a, setzero_si128()));
                     }
 
                     constexpr.ASSUME_RANGE_EPI32(result, -1, 1);
@@ -222,7 +212,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        result = Avx2.mm256_sub_epi64(mm256_srai_epi64(a, 63, elements: elements), mm256_cmpgt_epi64(a, Avx.mm256_setzero_si256()));
+                        result = Avx2.mm256_sub_epi64(mm256_srai_epi64(a, 63, elements: elements), Avx2.mm256_cmpgt_epi64(a, Avx.mm256_setzero_si256()));
                     }
 
                     constexpr.ASSUME_RANGE_EPI64(result, -1, 1);
@@ -243,11 +233,11 @@ namespace MaxMath
                     if (le0
                      /*|| constexpr.ALL_LE_PQ(a, 0, elements)*/)
                     {
-                        result = set1_epi8((byte)((1 << 7) | maxmath.ONE_AS_QUARTER));
+                        result = set1_epi8((byte)((1 << 7) | math.ONE_AS_QUARTER));
                     }
                     else
                     {
-                        result = ternarylogic_si128(set1_epi8(maxmath.ONE_AS_QUARTER), a, SIGN_BIT, TernaryOperation.OxF8);
+                        result = ternarylogic_si128(set1_epi8(math.ONE_AS_QUARTER), a, SIGN_BIT, TernaryOperation.OxF8);
                     }
 
                     if (!(non0
@@ -272,7 +262,7 @@ namespace MaxMath
                       || COMPILATION_OPTIONS.FLOAT_NO_NAN)
                       /*|| constexpr.ALL_NOTNAN_PQ(a, elements)*/)
                     {
-                        result = or_si128(result, cmpgt_epi8(andnot_si128(SIGN_BIT, a), set1_epi8(quarter.SIGNALING_EXPONENT)));
+                        result = or_si128(result, cmpgt_epi8(andnot_si128(SIGN_BIT, a), set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)));
                     }
                     else
                     {
@@ -295,11 +285,11 @@ namespace MaxMath
                     if (le0
                      /*|| constexpr.ALL_LE_PH(a, 0, elements)*/)
                     {
-                        result = set1_epi16((ushort)((1 << 15) | maxmath.ONE_AS_HALF));
+                        result = set1_epi16((ushort)((1 << 15) | math.ONE_AS_HALF));
                     }
                     else
                     {
-                        result = ternarylogic_si128(set1_epi16(maxmath.ONE_AS_HALF), a, SIGN_BIT, TernaryOperation.OxF8);
+                        result = ternarylogic_si128(set1_epi16(math.ONE_AS_HALF), a, SIGN_BIT, TernaryOperation.OxF8);
                     }
 
                     if (!(non0
@@ -452,11 +442,11 @@ namespace MaxMath
                     if (le0
                      /*|| constexpr.ALL_LE_PQ(a, 0, elements)*/)
                     {
-                        result = mm256_set1_epi8((byte)((1 << 7) | maxmath.ONE_AS_QUARTER));
+                        result = mm256_set1_epi8((byte)((1 << 7) | math.ONE_AS_QUARTER));
                     }
                     else
                     {
-                        result = mm256_ternarylogic_si256(mm256_set1_epi8(maxmath.ONE_AS_QUARTER), a, SIGN_BIT, TernaryOperation.OxF8);
+                        result = mm256_ternarylogic_si256(mm256_set1_epi8(math.ONE_AS_QUARTER), a, SIGN_BIT, TernaryOperation.OxF8);
                     }
 
                     if (!(non0
@@ -481,7 +471,7 @@ namespace MaxMath
                       || COMPILATION_OPTIONS.FLOAT_NO_NAN)
                       /*|| constexpr.ALL_NOTNAN_PQ(a, elements)*/)
                     {
-                        result = Avx2.mm256_or_si256(result, Avx2.mm256_cmpgt_epi8(Avx2.mm256_andnot_si256(SIGN_BIT, a), mm256_set1_epi8(quarter.SIGNALING_EXPONENT)));
+                        result = Avx2.mm256_or_si256(result, Avx2.mm256_cmpgt_epi8(Avx2.mm256_andnot_si256(SIGN_BIT, a), mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)));
                     }
                     else
                     {
@@ -504,11 +494,11 @@ namespace MaxMath
                     if (le0
                      /*|| constexpr.ALL_LE_PH(a, 0, elements)*/)
                     {
-                        result = mm256_set1_epi16((ushort)((1 << 15) | maxmath.ONE_AS_HALF));
+                        result = mm256_set1_epi16((ushort)((1 << 15) | math.ONE_AS_HALF));
                     }
                     else
                     {
-                        result = mm256_ternarylogic_si256(mm256_set1_epi16(maxmath.ONE_AS_HALF), a, SIGN_BIT, TernaryOperation.OxF8);
+                        result = mm256_ternarylogic_si256(mm256_set1_epi16(math.ONE_AS_HALF), a, SIGN_BIT, TernaryOperation.OxF8);
                     }
 
                     if (!(non0
@@ -676,7 +666,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the sign of an <see cref="Int128"/>. 1 for a positive <see cref="Int128"/>, 0 for zero and -1 for a negative <see cref="Int128"/>
 		/// <remarks>
@@ -996,7 +986,7 @@ namespace MaxMath
 		/// </summary>
         [return: AssumeRange(-1, 1)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int sign(int x, Promise promises)
+        public static int sign(int x, Promise promises = Promise.Nothing)
         {
             if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
             {
@@ -1016,7 +1006,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="int2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.int2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1024,11 +1014,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int2 sign(int2 x, Promise promises)
+        public static int2 sign(int2 x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.soz_epi32(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 2));
+                return Xse.soz_epi32(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 2);
             }
             else
             {
@@ -1036,7 +1026,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="int3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.int3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1044,11 +1034,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int3 sign(int3 x, Promise promises)
+        public static int3 sign(int3 x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.soz_epi32(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 3));
+                return Xse.soz_epi32(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 3);
             }
             else
             {
@@ -1056,7 +1046,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="int4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.int4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1064,11 +1054,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int4 sign(int4 x, Promise promises)
+        public static int4 sign(int4 x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.soz_epi32(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 4));
+                return Xse.soz_epi32(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 4);
             }
             else
             {
@@ -1106,7 +1096,7 @@ namespace MaxMath
 		/// </summary>
         [return: AssumeRange(-1L, 1L)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long sign(long x, Promise promises)
+        public static long sign(long x, Promise promises = Promise.Nothing)
         {
             if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
             {
@@ -1192,7 +1182,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1202,7 +1192,7 @@ namespace MaxMath
 
             byte result;
             if (promises.Promises(Promise.ZeroOrLess)
-             || constexpr.IS_TRUE(x.IsLessThanOrEqualTo(quarter.Zero)))
+             || constexpr.IS_TRUE(x.IsLessThanOrEqualTo(MaxMath.quarter.Zero)))
             {
                 result = asbyte((quarter)(-1f));
             }
@@ -1212,12 +1202,12 @@ namespace MaxMath
             }
 
             if (!(promises.Promises(Promise.NonZero)
-               || constexpr.IS_TRUE(x.IsNotEqualTo(quarter.Zero))))
+               || constexpr.IS_TRUE(x.IsNotEqualTo(MaxMath.quarter.Zero))))
             {
                 byte cmp0;
                 if (!COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO
                  && (promises.Promises(Promise.ZeroOrGreater)
-                  || constexpr.IS_TRUE(x.IsGreaterThanOrEqualTo(quarter.Zero) )))
+                  || constexpr.IS_TRUE(x.IsGreaterThanOrEqualTo(MaxMath.quarter.Zero) )))
                 {
                     cmp0 = asbyte(x);
                 }
@@ -1233,7 +1223,7 @@ namespace MaxMath
               || COMPILATION_OPTIONS.FLOAT_NO_NAN)
               || constexpr.IS_FALSE(isnan(x)))
             {
-                result = andnot(x.value, SIGN_BIT) > quarter.SIGNALING_EXPONENT ? byte.MaxValue : result;
+                result = andnot(x.value, SIGN_BIT) > MaxMath.quarter.SIGNALING_EXPONENT ? byte.MaxValue : result;
             }
             else
             {
@@ -1248,7 +1238,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1269,7 +1259,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1290,7 +1280,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1311,7 +1301,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1339,7 +1329,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1375,7 +1365,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1392,12 +1382,12 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sign of a <see cref="half"/>. 1.0f for a positive <see cref="half"/>, 0.0f for zero and -1.0f for a negative <see cref="half"/>
+        /// <summary>       Returns the sign of a <see cref="MaxMath.half"/>. 1.0f for a positive <see cref="MaxMath.half"/>, 0.0f for zero and -1.0f for a negative <see cref="MaxMath.half"/>
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1448,12 +1438,12 @@ namespace MaxMath
             return ashalf(result);
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="half2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.half2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1461,7 +1451,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf2(Xse.soz_ph(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 2));
+                return Xse.soz_ph(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 2);
             }
             else
             {
@@ -1469,12 +1459,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="half3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.half3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1482,7 +1472,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf3(Xse.soz_ph(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 3));
+                return Xse.soz_ph(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 3);
             }
             else
             {
@@ -1490,12 +1480,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="half4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.half4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1503,7 +1493,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf4(Xse.soz_ph(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 4));
+                return Xse.soz_ph(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), elements: 4);
             }
             else
             {
@@ -1516,7 +1506,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1544,7 +1534,7 @@ namespace MaxMath
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1570,11 +1560,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float sign(float x, Promise promises)
+        public static float sign(float x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.soz_ps(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), 1).Float0;
+                return Xse.soz_ps(Xse.set_ss(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), 1).Float0;
             }
             else
             {
@@ -1584,11 +1574,11 @@ namespace MaxMath
                 if (promises.Promises(Promise.ZeroOrLess)
                  || constexpr.IS_TRUE(x <= 0f))
                 {
-                    result = math.asuint((quarter)(-1f));
+                    result = asuint(-1f);
                 }
                 else
                 {
-                    result = math.asuint(1f) | (math.asuint(x) & SIGN_BIT);
+                    result = asuint(1f) | (asuint(x) & SIGN_BIT);
                 }
 
                 if (!(promises.Promises(Promise.NonZero)
@@ -1599,11 +1589,11 @@ namespace MaxMath
                      && (promises.Promises(Promise.ZeroOrGreater)
                       || constexpr.IS_TRUE(x >= 0f)))
                     {
-                        cmp0 = math.asuint(x);
+                        cmp0 = asuint(x);
                     }
                     else
                     {
-                        cmp0 = andnot(math.asuint(x), SIGN_BIT);
+                        cmp0 = andnot(asuint(x), SIGN_BIT);
                     }
 
                     result = cmp0 != 0 ? result : 0;
@@ -1611,20 +1601,20 @@ namespace MaxMath
 
                 if (!(promises.Promises(Promise.Unsafe0)
                   || COMPILATION_OPTIONS.FLOAT_NO_NAN)
-                  || constexpr.IS_FALSE(math.isnan(x)))
+                  || constexpr.IS_FALSE(isnan(x)))
                 {
-                    result = andnot(math.asuint(x), SIGN_BIT) > F16_SIGNALING_EXPONENT ? uint.MaxValue : result;
+                    result = andnot(asuint(x), SIGN_BIT) > F32_SIGNALING_EXPONENT ? uint.MaxValue : result;
                 }
                 else
                 {
                     constexpr.ASSUME(result >= -1f && result <= 1f);
                 }
 
-                return math.asfloat(result);
+                return asfloat(result);
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="float2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.float2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1633,11 +1623,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float2 sign(float2 x, Promise promises)
+        public static float2 sign(float2 x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.soz_ps(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 2));
+                return Xse.soz_ps(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 2);
             }
             else
             {
@@ -1645,7 +1635,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="float3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.float3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1654,11 +1644,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float3 sign(float3 x, Promise promises)
+        public static float3 sign(float3 x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.soz_ps(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 3));
+                return Xse.soz_ps(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 3);
             }
             else
             {
@@ -1666,7 +1656,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="float4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.float4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1675,11 +1665,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float4 sign(float4 x, Promise promises)
+        public static float4 sign(float4 x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.soz_ps(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 4));
+                return Xse.soz_ps(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 4);
             }
             else
             {
@@ -1704,7 +1694,7 @@ namespace MaxMath
             }
             else
             {
-                return new float8(math.sign(x.v4_0), math.sign(x.v4_4));
+                return new float8(sign(x.v4_0), sign(x.v4_4));
             }
         }
 
@@ -1718,11 +1708,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double sign(double x, Promise promises)
+        public static double sign(double x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.soz_pd(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0)).Double0;
+                return Xse.soz_pd(Xse.set_sd(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0)).Double0;
             }
             else
             {
@@ -1732,11 +1722,11 @@ namespace MaxMath
                 if (promises.Promises(Promise.ZeroOrLess)
                  || constexpr.IS_TRUE(x <= 0d))
                 {
-                    result = math.asulong((quarter)(-1d));
+                    result = asulong(-1d);
                 }
                 else
                 {
-                    result = math.asulong(1d) | (math.asulong(x) & SIGN_BIT);
+                    result = asulong(1d) | (asulong(x) & SIGN_BIT);
                 }
 
                 if (!(promises.Promises(Promise.NonZero)
@@ -1747,11 +1737,11 @@ namespace MaxMath
                      && (promises.Promises(Promise.ZeroOrGreater)
                       || constexpr.IS_TRUE(x >= 0d)))
                     {
-                        cmp0 = math.asulong(x);
+                        cmp0 = asulong(x);
                     }
                     else
                     {
-                        cmp0 = andnot(math.asulong(x), SIGN_BIT);
+                        cmp0 = andnot(asulong(x), SIGN_BIT);
                     }
 
                     result = cmp0 != 0 ? result : 0;
@@ -1759,20 +1749,20 @@ namespace MaxMath
 
                 if (!(promises.Promises(Promise.Unsafe0)
                   || COMPILATION_OPTIONS.FLOAT_NO_NAN)
-                  || constexpr.IS_FALSE(math.isnan(x)))
+                  || constexpr.IS_FALSE(isnan(x)))
                 {
-                    result = andnot(math.asulong(x), SIGN_BIT) > F16_SIGNALING_EXPONENT ? ulong.MaxValue : result;
+                    result = andnot(asulong(x), SIGN_BIT) > F64_SIGNALING_EXPONENT ? ulong.MaxValue : result;
                 }
                 else
                 {
                     constexpr.ASSUME(result >= -1d && result <= 1d);
                 }
 
-                return math.asdouble(result);
+                return asdouble(result);
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="double2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.double2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1781,11 +1771,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double2 sign(double2 x, Promise promises)
+        public static double2 sign(double2 x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.soz_pd(RegisterConversion.ToV128(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0)));
+                return Xse.soz_pd(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0));
             }
             else
             {
@@ -1793,7 +1783,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="double3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.double3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1802,11 +1792,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double3 sign(double3 x, Promise promises)
+        public static double3 sign(double3 x, Promise promises = Promise.Nothing)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_soz_pd(RegisterConversion.ToV256(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 3));
+                return Xse.mm256_soz_pd(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 3);
             }
             else
             {
@@ -1814,7 +1804,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="double4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.double4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1823,11 +1813,11 @@ namespace MaxMath
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double4 sign(double4 x, Promise promises)
+        public static double4 sign(double4 x, Promise promises = Promise.Nothing)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_soz_pd(RegisterConversion.ToV256(x), ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 4));
+                return Xse.mm256_soz_pd(x, ge0: promises.Promises(Promise.ZeroOrGreater), le0: promises.Promises(Promise.ZeroOrLess), non0: promises.Promises(Promise.NonZero), notNaN: promises.Promises(Promise.Unsafe0), elements: 4);
             }
             else
             {

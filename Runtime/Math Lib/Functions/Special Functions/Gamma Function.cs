@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -55,7 +54,7 @@ namespace MaxMath
 
 					v128 y = add_ps(absX, set1_ps((float)GM_HALF));
 					v128 z = sub_ps(absX, HALF);
-					v128 r = mul_ps(div_ps(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToFloat4(y))));
+					v128 r = mul_ps(div_ps(num, den), math.exp((float4)neg_ps(y)));
 					v128 xNegative = default(v128);
 
 					if (!promiseGEzero)
@@ -78,7 +77,7 @@ namespace MaxMath
 							sinpi = fnmadd_ps(cvtepi32_ps(n), HALF, sinpi);
 							sinpi = fmadd_ps(sinpi, PI, ternarylogic_si128(PI, q1, q3, TernaryOperation.OxEO));
 							sinpi = ternarylogic_si128(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-							sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToFloat4(sinpi)));
+							sinpi = math.sin((float4)sinpi);
 							sinpi = ternarylogic_si128(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
 
 							r = div_ps(set1_ps(-math.PI), mul_ps(sinpi, mul_ps(absX, r)));
@@ -86,7 +85,7 @@ namespace MaxMath
 						}
 					}
 
-					v128 result = mul_ps(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToFloat4(y), RegisterConversion.ToFloat4(z))));
+					v128 result = mul_ps(r, math.pow((float4)y, (float4)z));
 
 					// the following is 100% free, ILP
 					v128 result3 = rcp;
@@ -170,7 +169,7 @@ namespace MaxMath
 
 					v256 y = Avx.mm256_add_ps(absX, mm256_set1_ps((float)GM_HALF));
 					v256 z = Avx.mm256_sub_ps(absX, HALF);
-					v256 r = Avx.mm256_mul_ps(Avx.mm256_div_ps(num, den), maxmath.exp(mm256_neg_ps(y)));
+					v256 r = Avx.mm256_mul_ps(Avx.mm256_div_ps(num, den), math.exp((float8)mm256_neg_ps(y)));
 					v256 xNegative = default(v256);
 
 					if (!promiseGEzero)
@@ -218,7 +217,7 @@ namespace MaxMath
 							sinpi = mm256_fnmadd_ps(Avx.mm256_cvtepi32_ps(n), HALF, sinpi);
 							sinpi = mm256_fmadd_ps(sinpi, PI, mm256_ternarylogic_si256(PI, q1, q3, TernaryOperation.OxEO));
 							sinpi = mm256_ternarylogic_si256(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-							sinpi = maxmath.sin(sinpi);
+							sinpi = math.sin((float8)sinpi);
 							sinpi = mm256_ternarylogic_si256(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
 
 							r = Avx.mm256_div_ps(mm256_set1_ps(-math.PI), Avx.mm256_mul_ps(sinpi, Avx.mm256_mul_ps(absX, r)));
@@ -226,7 +225,7 @@ namespace MaxMath
 						}
 					}
 
-					v256 result = Avx.mm256_mul_ps(r, maxmath.pow(y, z));
+					v256 result = Avx.mm256_mul_ps(r, math.pow((float8)y, (float8)z));
 
 					// the following is 100% free, ILP
 					v256 INFINITY = mm256_set1_ps(float.PositiveInfinity);
@@ -332,7 +331,7 @@ namespace MaxMath
 
 					v128 y = add_pd(absX, set1_pd(GM_HALF));
 					v128 z = sub_pd(absX, HALF);
-					v128 r = mul_pd(div_pd(num, den), RegisterConversion.ToV128(math.exp(-RegisterConversion.ToDouble2(y))));
+					v128 r = mul_pd(div_pd(num, den), math.exp((double2)neg_pd(y)));
 					v128 xNegative = default(v128);
 
 					if (!promiseGEzero)
@@ -367,7 +366,7 @@ namespace MaxMath
 							sinpi = fnmadd_pd(usfcvtepu64_pd(n), HALF, sinpi);
 							sinpi = fmadd_pd(sinpi, PI, ternarylogic_si128(PI, q1, q3, TernaryOperation.OxEO));
 							sinpi = ternarylogic_si128(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-							sinpi = RegisterConversion.ToV128(math.sin(RegisterConversion.ToDouble2(sinpi)));
+							sinpi = math.sin((double2)sinpi);
 							sinpi = ternarylogic_si128(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
 
 							r = div_pd(set1_pd(-math.PI_DBL), mul_pd(sinpi, mul_pd(absX, r)));
@@ -375,7 +374,7 @@ namespace MaxMath
 						}
 					}
 
-					v128 result = mul_pd(r, RegisterConversion.ToV128(math.pow(RegisterConversion.ToDouble2(y), RegisterConversion.ToDouble2(z))));
+					v128 result = mul_pd(r, math.pow((double2)y, z));
 
 					v128 result3 = rcp;
 					v128 floorX = floor_pd(a);
@@ -497,7 +496,7 @@ namespace MaxMath
 
 					v256 y = Avx.mm256_add_pd(absX, mm256_set1_pd(GM_HALF));
 					v256 z = Avx.mm256_sub_pd(absX, HALF);
-					v256 r = Avx.mm256_mul_pd(Avx.mm256_div_pd(num, den), RegisterConversion.ToV256(math.exp(-RegisterConversion.ToDouble4(y))));
+					v256 r = Avx.mm256_mul_pd(Avx.mm256_div_pd(num, den), math.exp((double4)mm256_neg_pd(y)));
 					v256 xNegative = default(v256);
 
 					if (!promiseGEzero)
@@ -540,7 +539,7 @@ namespace MaxMath
 
 							sinpi = mm256_fmadd_pd(sinpi, PI, mm256_ternarylogic_si256(PI, q1, q3, TernaryOperation.OxEO));
 							sinpi = mm256_ternarylogic_si256(ABS_MASK, q2, sinpi, TernaryOperation.OxA6);
-							sinpi = RegisterConversion.ToV256(math.sin(RegisterConversion.ToDouble4(sinpi)));
+							sinpi = math.sin((double4)sinpi);
 							sinpi = mm256_ternarylogic_si256(ABS_MASK, q3, sinpi, TernaryOperation.OxA6);
 
 							r = Avx.mm256_div_pd(mm256_set1_pd(-math.PI_DBL), Avx.mm256_mul_pd(sinpi, Avx.mm256_mul_pd(absX, r)));
@@ -548,7 +547,7 @@ namespace MaxMath
 						}
 					}
 
-					v256 result = Avx.mm256_mul_pd(r, RegisterConversion.ToV256(math.pow(RegisterConversion.ToDouble4(y), RegisterConversion.ToDouble4(z))));
+					v256 result = Avx.mm256_mul_pd(r, math.pow((double4)y, (double4)z));
 
 					v256 INFINITY = mm256_set1_pd(double.PositiveInfinity);
 
@@ -611,7 +610,7 @@ namespace MaxMath
 	}
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the value of the gamma function Γ(x + 1) = x! for <paramref name="x"/>.
         /// <remarks>
@@ -626,8 +625,8 @@ namespace MaxMath
 			uint ix = u & 0x7FFF_FFFFu;
 			uint sign = andnot(u, 0x7FFF_FFFFu);
 
-			float absX = math.abs(x);
-			float rcp = math.rcp(absX);
+			float absX = abs(x);
+			float _rcp = rcp(absX);
 
 			if (!promises.Promises(Promise.Unsafe0))
 			{
@@ -637,7 +636,7 @@ namespace MaxMath
 				}
 			}
 
-			if (x == math.floor(x) && (sign != 0 | x == 0d))
+			if (x == floor(x) && (sign != 0 | x == 0d))
 			{
 				return float.NaN;
 			}
@@ -645,93 +644,93 @@ namespace MaxMath
 			{
 				if (sign != 0)
 				{
-					return negate(0f, math.floor(x) * 0.5f != math.floor(x * 0.5f));
+					return negate(0f, floor(x) * 0.5f != floor(x * 0.5f));
 				}
 
 				return x * float.MaxValue;
 			}
 			if (ix < (uint)(0x7F - 54) << 23)
 			{
-			    return rcp;
+			    return _rcp;
 			}
 
 			float num;
 			float den;
-			float absrcp = math.abs(rcp);
+			float absrcp = abs(_rcp);
 			if (x < 8)
 			{
-			    num = math.mad((float)F64_SNUM12, absX, (float)F64_SNUM11);
+			    num = mad((float)F64_SNUM12, absX, (float)F64_SNUM11);
 			    den = absX + (float)F64_SDEN11;
-			    num = math.mad(num, absX, (float)F64_SNUM10);
-			    den = math.mad(den, absX, (float)F64_SDEN10);
-			    num = math.mad(num, absX, (float)F64_SNUM9);
-			    den = math.mad(den, absX, (float)F64_SDEN9);
-			    num = math.mad(num, absX, (float)F64_SNUM8);
-			    den = math.mad(den, absX, (float)F64_SDEN8);
-			    num = math.mad(num, absX, (float)F64_SNUM7);
-			    den = math.mad(den, absX, (float)F64_SDEN7);
-			    num = math.mad(num, absX, (float)F64_SNUM6);
-			    den = math.mad(den, absX, (float)F64_SDEN6);
-			    num = math.mad(num, absX, (float)F64_SNUM5);
-			    den = math.mad(den, absX, (float)F64_SDEN5);
-			    num = math.mad(num, absX, (float)F64_SNUM4);
-			    den = math.mad(den, absX, (float)F64_SDEN4);
-			    num = math.mad(num, absX, (float)F64_SNUM3);
-			    den = math.mad(den, absX, (float)F64_SDEN3);
-			    num = math.mad(num, absX, (float)F64_SNUM2);
-			    den = math.mad(den, absX, (float)F64_SDEN2);
-			    num = math.mad(num, absX, (float)F64_SNUM1);
-			    den = math.mad(den, absX, (float)F64_SDEN1);
-			    num = math.mad(num, absX, (float)F64_SNUM0);
-			    den = den * absX;
+			    num = mad(num, absX, (float)F64_SNUM10);
+			    den = mad(den, absX, (float)F64_SDEN10);
+			    num = mad(num, absX, (float)F64_SNUM9);
+			    den = mad(den, absX, (float)F64_SDEN9);
+			    num = mad(num, absX, (float)F64_SNUM8);
+			    den = mad(den, absX, (float)F64_SDEN8);
+			    num = mad(num, absX, (float)F64_SNUM7);
+			    den = mad(den, absX, (float)F64_SDEN7);
+			    num = mad(num, absX, (float)F64_SNUM6);
+			    den = mad(den, absX, (float)F64_SDEN6);
+			    num = mad(num, absX, (float)F64_SNUM5);
+			    den = mad(den, absX, (float)F64_SDEN5);
+			    num = mad(num, absX, (float)F64_SNUM4);
+			    den = mad(den, absX, (float)F64_SDEN4);
+			    num = mad(num, absX, (float)F64_SNUM3);
+			    den = mad(den, absX, (float)F64_SDEN3);
+			    num = mad(num, absX, (float)F64_SNUM2);
+			    den = mad(den, absX, (float)F64_SDEN2);
+			    num = mad(num, absX, (float)F64_SNUM1);
+			    den = mad(den, absX, (float)F64_SDEN1);
+			    num = mad(num, absX, (float)F64_SNUM0);
+			    den *= absX;
 			}
 			else
 			{
-			    num = math.mad((float)F64_SNUM0, absrcp, (float)F64_SNUM1);
+			    num = mad((float)F64_SNUM0, absrcp, (float)F64_SNUM1);
 			    den = (float)F64_SDEN1;
-			    num = math.mad(num, absrcp, (float)F64_SNUM2);
-			    den = math.mad(den, absrcp, (float)F64_SDEN2);
-			    num = math.mad(num, absrcp, (float)F64_SNUM3);
-			    den = math.mad(den, absrcp, (float)F64_SDEN3);
-			    num = math.mad(num, absrcp, (float)F64_SNUM4);
-			    den = math.mad(den, absrcp, (float)F64_SDEN4);
-			    num = math.mad(num, absrcp, (float)F64_SNUM5);
-			    den = math.mad(den, absrcp, (float)F64_SDEN5);
-			    num = math.mad(num, absrcp, (float)F64_SNUM6);
-			    den = math.mad(den, absrcp, (float)F64_SDEN6);
-			    num = math.mad(num, absrcp, (float)F64_SNUM7);
-			    den = math.mad(den, absrcp, (float)F64_SDEN7);
-			    num = math.mad(num, absrcp, (float)F64_SNUM8);
-			    den = math.mad(den, absrcp, (float)F64_SDEN8);
-			    num = math.mad(num, absrcp, (float)F64_SNUM9);
-			    den = math.mad(den, absrcp, (float)F64_SDEN9);
-			    num = math.mad(num, absrcp, (float)F64_SNUM10);
-			    den = math.mad(den, absrcp, (float)F64_SDEN10);
-			    num = math.mad(num, absrcp, (float)F64_SNUM11);
-			    den = math.mad(den, absrcp, (float)F64_SDEN11);
-			    num = math.mad(num, absrcp, (float)F64_SNUM12);
-			    den = math.mad(den, absrcp, 1f);
+			    num = mad(num, absrcp, (float)F64_SNUM2);
+			    den = mad(den, absrcp, (float)F64_SDEN2);
+			    num = mad(num, absrcp, (float)F64_SNUM3);
+			    den = mad(den, absrcp, (float)F64_SDEN3);
+			    num = mad(num, absrcp, (float)F64_SNUM4);
+			    den = mad(den, absrcp, (float)F64_SDEN4);
+			    num = mad(num, absrcp, (float)F64_SNUM5);
+			    den = mad(den, absrcp, (float)F64_SDEN5);
+			    num = mad(num, absrcp, (float)F64_SNUM6);
+			    den = mad(den, absrcp, (float)F64_SDEN6);
+			    num = mad(num, absrcp, (float)F64_SNUM7);
+			    den = mad(den, absrcp, (float)F64_SDEN7);
+			    num = mad(num, absrcp, (float)F64_SNUM8);
+			    den = mad(den, absrcp, (float)F64_SDEN8);
+			    num = mad(num, absrcp, (float)F64_SNUM9);
+			    den = mad(den, absrcp, (float)F64_SDEN9);
+			    num = mad(num, absrcp, (float)F64_SNUM10);
+			    den = mad(den, absrcp, (float)F64_SDEN10);
+			    num = mad(num, absrcp, (float)F64_SNUM11);
+			    den = mad(den, absrcp, (float)F64_SDEN11);
+			    num = mad(num, absrcp, (float)F64_SNUM12);
+			    den = mad(den, absrcp, 1f);
 			}
 
 			float y = absX + (float)GM_HALF;
 			float z = absX - 0.5f;
-			float r = (num / den) * math.exp(-y);
+			float r = (num / den) * exp(-y);
 
 			if (!promises.Promises(Promise.ZeroOrGreater))
 			{
 				if (x < 0)
 				{
 				    float sinpi = absX * 0.5f;
-				    sinpi -= math.floor(sinpi);
+				    sinpi -= floor(sinpi);
 					sinpi += sinpi;
 
 				    int n = ((int)(sinpi * 4) + 1) >> 1;
 				    sinpi -= n * 0.5f;
-				    sinpi *= math.PI;
+				    sinpi *= PI;
 
-					sinpi = negate(math.sin(negate(sinpi + ((n == 1 | n == 3) ? math.PI : 0f), n == 2)), n == 3);
+					sinpi = negate(sin(negate(sinpi + ((n == 1 | n == 3) ? PI : 0f), n == 2)), n == 3);
 
-				    r = -math.PI / (sinpi * (absX * r));
+				    r = -PI / (sinpi * (absX * r));
 				    z = -z;
 				}
 			}
@@ -750,7 +749,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat2(Xse.gamma_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+				return Xse.gamma_ps(x, 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
 			else
 			{
@@ -769,7 +768,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat3(Xse.gamma_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+				return Xse.gamma_ps(x, 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
 			else
 			{
@@ -788,7 +787,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat4(Xse.gamma_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+				return Xse.gamma_ps(x, 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
 			else
 			{
@@ -829,8 +828,8 @@ namespace MaxMath
 			ulong ix = u & 0x7FFF_FFFF_FFFF_FFFFul;
 			ulong sign = andnot(u, 0x7FFF_FFFF_FFFF_FFFFul);
 
-			double absX = math.abs(x);
-			double rcp = math.rcp(absX);
+			double absX = abs(x);
+			double _rcp = rcp(absX);
 
 			if (!promises.Promises(Promise.Unsafe0))
 			{
@@ -840,7 +839,7 @@ namespace MaxMath
 				}
 			}
 
-			if (x == math.floor(x) && (sign != 0 | x == 0d))
+			if (x == floor(x) && (sign != 0 | x == 0d))
 			{
 				return double.NaN;
 			}
@@ -848,93 +847,93 @@ namespace MaxMath
 			{
 				if (sign != 0)
 				{
-					return negate(0d, math.floor(x) * 0.5d != math.floor(x * 0.5d));
+					return negate(0d, floor(x) * 0.5d != floor(x * 0.5d));
 				}
 
 				return x * double.MaxValue;
 			}
 			if (ix < (ulong)(0x3FF - 54) << 52)
 			{
-			    return rcp;
+			    return _rcp;
 			}
 
 			double num;
 			double den;
-			double absrcp = math.abs(rcp);
+			double absrcp = abs(_rcp);
 			if (x < 8)
 			{
-			    num = math.mad(F64_SNUM12, absX, F64_SNUM11);
+			    num = mad(F64_SNUM12, absX, F64_SNUM11);
 			    den = absX + F64_SDEN11;
-			    num = math.mad(num, absX, F64_SNUM10);
-			    den = math.mad(den, absX, F64_SDEN10);
-			    num = math.mad(num, absX, F64_SNUM9);
-			    den = math.mad(den, absX, F64_SDEN9);
-			    num = math.mad(num, absX, F64_SNUM8);
-			    den = math.mad(den, absX, F64_SDEN8);
-			    num = math.mad(num, absX, F64_SNUM7);
-			    den = math.mad(den, absX, F64_SDEN7);
-			    num = math.mad(num, absX, F64_SNUM6);
-			    den = math.mad(den, absX, F64_SDEN6);
-			    num = math.mad(num, absX, F64_SNUM5);
-			    den = math.mad(den, absX, F64_SDEN5);
-			    num = math.mad(num, absX, F64_SNUM4);
-			    den = math.mad(den, absX, F64_SDEN4);
-			    num = math.mad(num, absX, F64_SNUM3);
-			    den = math.mad(den, absX, F64_SDEN3);
-			    num = math.mad(num, absX, F64_SNUM2);
-			    den = math.mad(den, absX, F64_SDEN2);
-			    num = math.mad(num, absX, F64_SNUM1);
-			    den = math.mad(den, absX, F64_SDEN1);
-			    num = math.mad(num, absX, F64_SNUM0);
-			    den = den * absX;
+			    num = mad(num, absX, F64_SNUM10);
+			    den = mad(den, absX, F64_SDEN10);
+			    num = mad(num, absX, F64_SNUM9);
+			    den = mad(den, absX, F64_SDEN9);
+			    num = mad(num, absX, F64_SNUM8);
+			    den = mad(den, absX, F64_SDEN8);
+			    num = mad(num, absX, F64_SNUM7);
+			    den = mad(den, absX, F64_SDEN7);
+			    num = mad(num, absX, F64_SNUM6);
+			    den = mad(den, absX, F64_SDEN6);
+			    num = mad(num, absX, F64_SNUM5);
+			    den = mad(den, absX, F64_SDEN5);
+			    num = mad(num, absX, F64_SNUM4);
+			    den = mad(den, absX, F64_SDEN4);
+			    num = mad(num, absX, F64_SNUM3);
+			    den = mad(den, absX, F64_SDEN3);
+			    num = mad(num, absX, F64_SNUM2);
+			    den = mad(den, absX, F64_SDEN2);
+			    num = mad(num, absX, F64_SNUM1);
+			    den = mad(den, absX, F64_SDEN1);
+			    num = mad(num, absX, F64_SNUM0);
+			    den *= absX;
 			}
 			else
 			{
-			    num = math.mad(F64_SNUM0, absrcp, F64_SNUM1);
+			    num = mad(F64_SNUM0, absrcp, F64_SNUM1);
 			    den = F64_SDEN1;
-			    num = math.mad(num, absrcp, F64_SNUM2);
-			    den = math.mad(den, absrcp, F64_SDEN2);
-			    num = math.mad(num, absrcp, F64_SNUM3);
-			    den = math.mad(den, absrcp, F64_SDEN3);
-			    num = math.mad(num, absrcp, F64_SNUM4);
-			    den = math.mad(den, absrcp, F64_SDEN4);
-			    num = math.mad(num, absrcp, F64_SNUM5);
-			    den = math.mad(den, absrcp, F64_SDEN5);
-			    num = math.mad(num, absrcp, F64_SNUM6);
-			    den = math.mad(den, absrcp, F64_SDEN6);
-			    num = math.mad(num, absrcp, F64_SNUM7);
-			    den = math.mad(den, absrcp, F64_SDEN7);
-			    num = math.mad(num, absrcp, F64_SNUM8);
-			    den = math.mad(den, absrcp, F64_SDEN8);
-			    num = math.mad(num, absrcp, F64_SNUM9);
-			    den = math.mad(den, absrcp, F64_SDEN9);
-			    num = math.mad(num, absrcp, F64_SNUM10);
-			    den = math.mad(den, absrcp, F64_SDEN10);
-			    num = math.mad(num, absrcp, F64_SNUM11);
-			    den = math.mad(den, absrcp, F64_SDEN11);
-			    num = math.mad(num, absrcp, F64_SNUM12);
-			    den = math.mad(den, absrcp, 1d);
+			    num = mad(num, absrcp, F64_SNUM2);
+			    den = mad(den, absrcp, F64_SDEN2);
+			    num = mad(num, absrcp, F64_SNUM3);
+			    den = mad(den, absrcp, F64_SDEN3);
+			    num = mad(num, absrcp, F64_SNUM4);
+			    den = mad(den, absrcp, F64_SDEN4);
+			    num = mad(num, absrcp, F64_SNUM5);
+			    den = mad(den, absrcp, F64_SDEN5);
+			    num = mad(num, absrcp, F64_SNUM6);
+			    den = mad(den, absrcp, F64_SDEN6);
+			    num = mad(num, absrcp, F64_SNUM7);
+			    den = mad(den, absrcp, F64_SDEN7);
+			    num = mad(num, absrcp, F64_SNUM8);
+			    den = mad(den, absrcp, F64_SDEN8);
+			    num = mad(num, absrcp, F64_SNUM9);
+			    den = mad(den, absrcp, F64_SDEN9);
+			    num = mad(num, absrcp, F64_SNUM10);
+			    den = mad(den, absrcp, F64_SDEN10);
+			    num = mad(num, absrcp, F64_SNUM11);
+			    den = mad(den, absrcp, F64_SDEN11);
+			    num = mad(num, absrcp, F64_SNUM12);
+			    den = mad(den, absrcp, 1d);
 			}
 
 			double y = absX + GM_HALF;
 			double z = absX - 0.5d;
-			double r = (num / den) * math.exp(-y);
+			double r = (num / den) * exp(-y);
 
 			if (!promises.Promises(Promise.ZeroOrGreater))
 			{
 				if (x < 0)
 				{
 				    double sinpi = absX * 0.5d;
-				    sinpi -= math.floor(sinpi);
+				    sinpi -= floor(sinpi);
 					sinpi += sinpi;
 
 				    int n = ((int)(sinpi * 4) + 1) >> 1;
 				    sinpi -= n * 0.5d;
-				    sinpi *= math.PI_DBL;
+				    sinpi *= PI_DBL;
 
-					sinpi = negate(math.sin(negate(sinpi + ((n == 1 | n == 3) ? math.PI_DBL : 0d), n == 2)), n == 3);
+					sinpi = negate(sin(negate(sinpi + ((n == 1 | n == 3) ? PI_DBL : 0d), n == 2)), n == 3);
 
-				    r = -math.PI_DBL / (sinpi * (absX * r));
+				    r = -PI_DBL / (sinpi * (absX * r));
 				    z = -z;
 				}
 			}
@@ -953,7 +952,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToDouble2(Xse.gamma_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+				return Xse.gamma_pd(x, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
 			else
 			{
@@ -972,7 +971,7 @@ namespace MaxMath
 		{
             if (Avx.IsAvxSupported)
             {
-				return RegisterConversion.ToDouble3(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+				return Xse.mm256_gamma_pd(x, 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
 			else
 			{
@@ -991,7 +990,7 @@ namespace MaxMath
 		{
             if (Avx.IsAvxSupported)
             {
-				return RegisterConversion.ToDouble4(Xse.mm256_gamma_pd(RegisterConversion.ToV256(x), 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+				return Xse.mm256_gamma_pd(x, 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
 			else
 			{

@@ -2,12 +2,11 @@ using System.Runtime.CompilerServices;
 using DevTools;
 using MaxMath.Intrinsics;
 
-using static MaxMath.maxmath;
-using static Unity.Mathematics.math;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple
+    unsafe public partial struct quadruple
     {
         private const Promise FROM_SIGNED_INTEGER_BASER_PROMISE = FloatingPointPromise<quadruple>.NOT_NAN
                                                                 | FloatingPointPromise<quadruple>.NOT_INF
@@ -18,7 +17,7 @@ namespace MaxMath
                                                                   | FloatingPointPromise<quadruple>.ZERO_OR_GREATER;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static quadruple.ConstChecked MaxUInt<T>()
+        private static MaxMath.quadruple.ConstChecked MaxUInt<T>()
             where T : unmanaged
         {
             switch (sizeof(T))
@@ -34,7 +33,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static quadruple.ConstChecked MinInt<T>()
+        private static MaxMath.quadruple.ConstChecked MinInt<T>()
             where T : unmanaged
         {
             switch (sizeof(T))
@@ -50,7 +49,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static quadruple.ConstChecked MaxInt<T>()
+        private static MaxMath.quadruple.ConstChecked MaxInt<T>()
             where T : unmanaged
         {
             switch (sizeof(T))
@@ -67,7 +66,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quadruple.ConstChecked u32tof128<T>(T ui)
+        internal static MaxMath.quadruple.ConstChecked u32tof128<T>(T ui)
             where T : unmanaged
         {
             uint ui32;
@@ -81,7 +80,7 @@ namespace MaxMath
             }
 
             int shiftDist = lzcnt(ui32);
-            quadruple.ConstChecked result = new quadruple(0, packToF128UI64(0, (ulong)((0x402E - 17) - ((ui32 == 0) ? (0x402E - 17) : shiftDist)) << MANTISSA_BITS_HI64, (ulong)ui32 << (shiftDist + 17)));
+            MaxMath.quadruple.ConstChecked result = new quadruple(0, packToF128UI64(0, (ulong)((0x402E - 17) - ((ui32 == 0) ? (0x402E - 17) : shiftDist)) << MANTISSA_BITS_HI64, (ulong)ui32 << (shiftDist + 17)));
 
             result.Promise.MinPossible = default(quadruple);
             result.Promise.MaxPossible = MaxUInt<T>();
@@ -93,7 +92,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quadruple.ConstChecked u64tof128(ulong ul)
+        internal static MaxMath.quadruple.ConstChecked u64tof128(ulong ul)
         {
             int shiftDist = lzcnt(ul);
             UInt128 zSig;
@@ -106,7 +105,7 @@ namespace MaxMath
                 zSig = softfloat_shortShiftLeft128(0, ul, (byte)(shiftDist + 49));
             }
 
-            quadruple.ConstChecked result = new quadruple(zSig.lo64, packToF128UI64(0, ((0x406E - 49) - (ulong)shiftDist) << MANTISSA_BITS_HI64, zSig.hi64));
+            MaxMath.quadruple.ConstChecked result = new quadruple(zSig.lo64, packToF128UI64(0, ((0x406E - 49) - (ulong)shiftDist) << MANTISSA_BITS_HI64, zSig.hi64));
 
             result.Promise.MinPossible = default(quadruple);
             result.Promise.MaxPossible = MaxUInt<ulong>();
@@ -118,13 +117,13 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quadruple.ConstChecked u128tof128(UInt128 u128)
+        internal static MaxMath.quadruple.ConstChecked u128tof128(UInt128 u128)
         {
             quadruple POW_2to64 = asquadruple((UInt128)(64 - EXPONENT_BIAS) << MANTISSA_BITS);
 
-            quadruple.ConstChecked cvtLo = u64tof128(u128.lo64);
-            quadruple.ConstChecked cvtHi = u64tof128(u128.hi64);
-            quadruple.ConstChecked result = fmadd(POW_2to64, cvtHi, cvtLo);
+            MaxMath.quadruple.ConstChecked cvtLo = u64tof128(u128.lo64);
+            MaxMath.quadruple.ConstChecked cvtHi = u64tof128(u128.hi64);
+            MaxMath.quadruple.ConstChecked result = fmadd(POW_2to64, cvtHi, cvtLo);
 
             result.Promise.MinPossible = default(quadruple);
             result.Promise.MaxPossible = MaxUInt<ulong>();
@@ -137,7 +136,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quadruple.ConstChecked i32tof128<T>(T i)
+        internal static MaxMath.quadruple.ConstChecked i32tof128<T>(T i)
             where T : unmanaged
         {
             int i32;
@@ -155,7 +154,7 @@ namespace MaxMath
                 return u32tof128((uint)i32);
             }
 
-            quadruple.ConstChecked result = u32tof128((uint)abs(i32));
+            MaxMath.quadruple.ConstChecked result = u32tof128((uint)abs(i32));
             result = new quadruple(result.Value.value.lo64, result.Value.value.hi64 ^ ((ulong)(i32 >> 31) << 63));
 
             result.Promise.MinPossible = MinInt<T>();
@@ -168,14 +167,14 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quadruple.ConstChecked i64tof128(long l)
+        internal static MaxMath.quadruple.ConstChecked i64tof128(long l)
         {
             if (constexpr.IS_TRUE(l >= 0))
             {
                 return u64tof128((ulong)l);
             }
 
-            quadruple.ConstChecked result = u64tof128((ulong)abs(l));
+            MaxMath.quadruple.ConstChecked result = u64tof128((ulong)abs(l));
             result = new quadruple(result.Value.value.lo64, result.Value.value.hi64 ^ ((ulong)(l >> 63) << 63));
 
             result.Promise.MinPossible = MinInt<long>();
@@ -188,14 +187,14 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static quadruple.ConstChecked i128tof128(Int128 i128)
+        internal static MaxMath.quadruple.ConstChecked i128tof128(Int128 i128)
         {
             if (constexpr.IS_TRUE(i128 >= 0))
             {
                 return u128tof128((UInt128)i128);
             }
 
-            quadruple.ConstChecked result = u128tof128((UInt128)abs(i128));
+            MaxMath.quadruple.ConstChecked result = u128tof128((UInt128)abs(i128));
             result = new quadruple(result.Value.value.lo64, result.Value.value.hi64 ^ ((ulong)(i128.hi64 >> 63) << 63));
 
             result.Promise.MinPossible = MinInt<Int128>();
@@ -275,25 +274,25 @@ namespace MaxMath
         }
     }
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static UInt128 BASE_cvtf128i128(quadruple.ConstChecked x, bool signed, bool trunc, bool evenOnTie = true)
+        internal static UInt128 BASE_cvtf128i128(MaxMath.quadruple.ConstChecked x, bool signed, bool trunc, bool evenOnTie = true)
         {
-            UInt128 IMPLICIT_ONE = (UInt128)1ul << quadruple.MANTISSA_BITS;
-            UInt128 MANTISSA_MASK = bitmask128((ulong)quadruple.MANTISSA_BITS);
-            ulong EXP = (uint)abs(quadruple.EXPONENT_BIAS) + quadruple.MANTISSA_BITS;
+            UInt128 IMPLICIT_ONE = (UInt128)1ul << MaxMath.quadruple.MANTISSA_BITS;
+            UInt128 MANTISSA_MASK = bitmask128((ulong)MaxMath.quadruple.MANTISSA_BITS);
+            ulong EXP = (uint)abs(MaxMath.quadruple.EXPONENT_BIAS) + MaxMath.quadruple.MANTISSA_BITS;
 
             UInt128 __x = asuint128(x);
 
             ulong biasedExponent;
             if (x.Promise.Positive || (!signed && x.Promise.NonZero) || (x.Promise.NoSignedZero && x.Promise.ZeroOrGreater) || constexpr.IS_TRUE(__x < (UInt128)1ul << 127))
             {
-                biasedExponent = __x.hi64 >> quadruple.MANTISSA_BITS_HI64;
+                biasedExponent = __x.hi64 >> MaxMath.quadruple.MANTISSA_BITS_HI64;
             }
             else
             {
-                biasedExponent = (__x.hi64 << 1) >> (quadruple.MANTISSA_BITS_HI64 + 1);
+                biasedExponent = (__x.hi64 << 1) >> (MaxMath.quadruple.MANTISSA_BITS_HI64 + 1);
             }
 
             UInt128 mantissa = IMPLICIT_ONE | (__x & MANTISSA_MASK);
@@ -316,7 +315,7 @@ namespace MaxMath
 
             result >>= (int)(shift_mnt >= 128 ? 127 : shift_mnt);
 
-            return (UInt128)negate((Int128)result, signed && quadruple.IsNegative(x));
+            return (UInt128)negate((Int128)result, signed && MaxMath.quadruple.IsNegative(x));
         }
     }
 }

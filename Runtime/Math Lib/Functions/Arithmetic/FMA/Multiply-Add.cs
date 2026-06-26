@@ -1,10 +1,9 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the result of a multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="UInt128"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -21,6 +20,63 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Returns the result of a multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="double"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double mad(double a, double b, double c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double2"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 mad(double2 a, double2 b, double2 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double3"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 mad(double3 a, double3 b, double3 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double4"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 mad(double4 a, double4 b, double4 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+
+        /// <summary>       Returns the result of a multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="float"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float mad(float a, float b, float c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float2"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 mad(float2 a, float2 b, float2 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float3"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 mad(float3 a, float3 b, float3 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float4"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 mad(float4 a, float4 b, float4 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 mad(float8 a, float8 b, float8 c)
@@ -30,6 +86,34 @@ namespace MaxMath
             return (a * b) + c;
         }
 
+        
+        /// <summary>       Returns the result of a multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="uint"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint mad(uint a, uint b, uint c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.uint2"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 mad(uint2 a, uint2 b, uint2 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.uint3"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 mad(uint3 a, uint3 b, uint3 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.uint4"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 mad(uint4 a, uint4 b, uint4 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
 
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.uint8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -38,6 +122,34 @@ namespace MaxMath
             return (a * b) + c;
         }
 
+
+        /// <summary>       Returns the result of a multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="int"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mad(int a, int b, int c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.int2"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 mad(int2 a, int2 b, int2 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.int3"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 mad(int3 a, int3 b, int3 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
+
+        /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.int4"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 mad(int4 a, int4 b, int4 c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
 
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.int8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,7 +164,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint mad(byte a, byte b, byte c)
         {
-            return math.mad((uint)a, (uint)b, (uint)c);
+            return mad((uint)a, (uint)b, (uint)c);
         }
 
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.byte2"/>s.    </summary>
@@ -103,7 +215,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int mad(sbyte a, sbyte b, sbyte c)
         {
-            return math.mad((int)a, (int)b, (int)c);
+            return mad((int)a, (int)b, (int)c);
         }
 
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.sbyte2"/>s.    </summary>
@@ -154,7 +266,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint mad(ushort a, ushort b, ushort c)
         {
-            return math.mad((uint)a, (uint)b, (uint)c);
+            return mad((uint)a, (uint)b, (uint)c);
         }
 
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ushort2"/>s.    </summary>
@@ -198,7 +310,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int mad(short a, short b, short c)
         {
-            return math.mad((int)a, (int)b, (int)c);
+            return mad((int)a, (int)b, (int)c);
         }
 
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.byte2"/>s.    </summary>
@@ -236,6 +348,13 @@ namespace MaxMath
             return (a * b) + c;
         }
 
+        
+        /// <summary>       Returns the result of a multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="ulong"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong mad(ulong a, ulong b, ulong c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
 
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ulong2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -258,6 +377,13 @@ namespace MaxMath
             return (a * b) + c;
         }
 
+        
+        /// <summary>       Returns the result of a multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="long"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long mad(long a, long b, long c)
+        {
+            return Unity.Mathematics.math.mad(a, b, c);
+        }
 
         /// <summary>       Returns the result of a componentwise multiply-add operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.long2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

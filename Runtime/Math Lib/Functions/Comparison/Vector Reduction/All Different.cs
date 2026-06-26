@@ -1,24 +1,23 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte2 a, byte2 b)
+        public static bool all_dif (byte2 a, byte2 b)
         {
-            return !math.any(a.xyxy == b.xxyy);
+            return !any(a.xyxy == b.xxyy);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte3 a, byte3 b)
+        public static bool all_dif (byte3 a, byte3 b)
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
@@ -38,13 +37,13 @@ namespace MaxMath
             }
             else
             {
-                return !math.any(a == b.x | a == b.y | a == b.z);
+                return !any(a == b.x | a == b.y | a == b.z);
             }
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte4 a, byte4 b)
+        public static bool all_dif (byte4 a, byte4 b)
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
@@ -64,13 +63,13 @@ namespace MaxMath
             }
             else
             {
-                return !math.any(a == b.x | a == b.y | a == b.z | a == b.w);
+                return !any(a == b.x | a == b.y | a == b.z | a == b.w);
             }
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte8 a, byte8 b)
+        public static bool all_dif (byte8 a, byte8 b)
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
@@ -113,7 +112,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte16 a, byte16 b)
+        public static bool all_dif (byte16 a, byte16 b)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -167,7 +166,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte32 a, byte32 b)
+        public static bool all_dif (byte32 a, byte32 b)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -207,10 +206,10 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return all_dif(a.v16_0,  b.v16_0)
-                    && all_dif(a.v16_16, b.v16_0)
-                    && all_dif(a.v16_0,  b.v16_16)
-                    && all_dif(a.v16_16, b.v16_16);
+                return all_dif (a.v16_0,  b.v16_0)
+                    && all_dif (a.v16_16, b.v16_0)
+                    && all_dif (a.v16_0,  b.v16_16)
+                    && all_dif (a.v16_16, b.v16_16);
             }
             else
             {
@@ -232,57 +231,57 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte2 a, sbyte2 b)
+        public static bool all_dif (sbyte2 a, sbyte2 b)
         {
-            return all_dif((byte2)a, (byte2)b);
+            return all_dif ((byte2)a, (byte2)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte3 a, sbyte3 b)
+        public static bool all_dif (sbyte3 a, sbyte3 b)
         {
-            return all_dif((byte3)a, (byte3)b);
+            return all_dif ((byte3)a, (byte3)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte4 a, sbyte4 b)
+        public static bool all_dif (sbyte4 a, sbyte4 b)
         {
-            return all_dif((byte4)a, (byte4)b);
+            return all_dif ((byte4)a, (byte4)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte8 a, sbyte8 b)
+        public static bool all_dif (sbyte8 a, sbyte8 b)
         {
-            return all_dif((byte8)a, (byte8)b);
+            return all_dif ((byte8)a, (byte8)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte16 a, sbyte16 b)
+        public static bool all_dif (sbyte16 a, sbyte16 b)
         {
-            return all_dif((byte16)a, (byte16)b);
+            return all_dif ((byte16)a, (byte16)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte32 a, sbyte32 b)
+        public static bool all_dif (sbyte32 a, sbyte32 b)
         {
-            return all_dif((byte32)a, (byte32)b);
+            return all_dif ((byte32)a, (byte32)b);
         }
 
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short2 a, short2 b)
+        public static bool all_dif (short2 a, short2 b)
         {
-            return !math.any(a.xyxy == b.xxyy);
+            return !any(a.xyxy == b.xxyy);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short3 a, short3 b)
+        public static bool all_dif (short3 a, short3 b)
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
@@ -291,13 +290,13 @@ namespace MaxMath
             }
             else
             {
-                return !math.any(a == b.x | a == b.y | a == b.z);
+                return !any(a == b.x | a == b.y | a == b.z);
             }
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short4 a, short4 b)
+        public static bool all_dif (short4 a, short4 b)
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
@@ -314,13 +313,13 @@ namespace MaxMath
             }
             else
             {
-                return !math.any(a == b.x | a == b.y | a == b.z | a == b.w);
+                return !any(a == b.x | a == b.y | a == b.z | a == b.w);
             }
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short8 a, short8 b)
+        public static bool all_dif (short8 a, short8 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -352,7 +351,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short16 a, short16 b)
+        public static bool all_dif (short16 a, short16 b)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -375,10 +374,10 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return all_dif(a.v8_0, b.v8_0)
-                    && all_dif(a.v8_8, b.v8_0)
-                    && all_dif(a.v8_0, b.v8_8)
-                    && all_dif(a.v8_8, b.v8_8);
+                return all_dif (a.v8_0, b.v8_0)
+                    && all_dif (a.v8_8, b.v8_0)
+                    && all_dif (a.v8_0, b.v8_8)
+                    && all_dif (a.v8_8, b.v8_8);
             }
             else
             {
@@ -400,64 +399,64 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort2 a, ushort2 b)
+        public static bool all_dif (ushort2 a, ushort2 b)
         {
-            return all_dif((short2)a, (short2)b);
+            return all_dif ((short2)a, (short2)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort3 a, ushort3 b)
+        public static bool all_dif (ushort3 a, ushort3 b)
         {
-            return all_dif((short3)a, (short3)b);
+            return all_dif ((short3)a, (short3)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort4 a, ushort4 b)
+        public static bool all_dif (ushort4 a, ushort4 b)
         {
-            return all_dif((short4)a, (short4)b);
+            return all_dif ((short4)a, (short4)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort8 a, ushort8 b)
+        public static bool all_dif (ushort8 a, ushort8 b)
         {
-            return all_dif((short8)a, (short8)b);
+            return all_dif ((short8)a, (short8)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort16 a, ushort16 b)
+        public static bool all_dif (ushort16 a, ushort16 b)
         {
-            return all_dif((short16)a, (short16)b);
+            return all_dif ((short16)a, (short16)b);
         }
 
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(int2 a, int2 b)
+        public static bool all_dif (int2 a, int2 b)
         {
-            return !math.any(a.xyxy == b.xxyy);
+            return !any(a.xyxy == b.xxyy);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(int3 a, int3 b)
+        public static bool all_dif (int3 a, int3 b)
         {
-            return !math.any(a == b.xxx | a == b.yyy | a == b.zzz);
+            return !any(a == b.xxx | a == b.yyy | a == b.zzz);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(int4 a, int4 b)
+        public static bool all_dif (int4 a, int4 b)
         {
-            return !math.any(a == b.xxxx | a == b.yyyy | a == b.zzzz | a == b.wwww);
+            return !any(a == b.xxxx | a == b.yyyy | a == b.zzzz | a == b.wwww);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(int8 a, int8 b)
+        public static bool all_dif (int8 a, int8 b)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -472,10 +471,10 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return all_dif(a.v4_0, b.v4_0)
-                     & all_dif(a.v4_4, b.v4_0)
-                     & all_dif(a.v4_0, b.v4_4)
-                     & all_dif(a.v4_4, b.v4_4);
+                return all_dif (a.v4_0, b.v4_0)
+                     & all_dif (a.v4_4, b.v4_0)
+                     & all_dif (a.v4_0, b.v4_4)
+                     & all_dif (a.v4_4, b.v4_4);
             }
             else
             {
@@ -497,40 +496,40 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(uint2 a, uint2 b)
+        public static bool all_dif (uint2 a, uint2 b)
         {
-            return all_dif((int2)a, (int2)b);
+            return all_dif ((int2)a, (int2)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(uint3 a, uint3 b)
+        public static bool all_dif (uint3 a, uint3 b)
         {
-            return all_dif((int3)a, (int3)b);
+            return all_dif ((int3)a, (int3)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(uint4 a, uint4 b)
+        public static bool all_dif (uint4 a, uint4 b)
         {
-            return all_dif((int4)a, (int4)b);
+            return all_dif ((int4)a, (int4)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(uint8 a, uint8 b)
+        public static bool all_dif (uint8 a, uint8 b)
         {
-            return all_dif((int8)a, (int8)b);
+            return all_dif ((int8)a, (int8)b);
         }
 
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(long2 a, long2 b)
+        public static bool all_dif (long2 a, long2 b)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return !math.any(a.xyxy == b.xxyy);
+                return !any(a.xyxy == b.xxyy);
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
@@ -538,13 +537,13 @@ namespace MaxMath
             }
             else
             {
-                return !math.any(a == b.xx | a == b.yy);
+                return !any(a == b.xx | a == b.yy);
             }
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(long3 a, long3 b)
+        public static bool all_dif (long3 a, long3 b)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -564,13 +563,13 @@ namespace MaxMath
             }
             else
             {
-                return !math.any(a.xy == b.xx | a.xy == b.yy | a.xy == b.zz | a.zz == b.xy) & a.z != b.z;
+                return !any(a.xy == b.xx | a.xy == b.yy | a.xy == b.zz | a.zz == b.xy) & a.z != b.z;
             }
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(long4 a, long4 b)
+        public static bool all_dif (long4 a, long4 b)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -593,7 +592,7 @@ namespace MaxMath
             }
             else
             {
-                return !math.any(a.xy == b.xx | a.xy == b.yy | a.xy == b.zz | a.xy == b.ww |
+                return !any(a.xy == b.xx | a.xy == b.yy | a.xy == b.zz | a.xy == b.ww |
                                  a.zw == b.xx | a.zw == b.yy | a.zw == b.zz | a.zw == b.ww);
             }
         }
@@ -601,50 +600,50 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ulong2 a, ulong2 b)
+        public static bool all_dif (ulong2 a, ulong2 b)
         {
-            return all_dif((long2)a, (long2)b);
+            return all_dif ((long2)a, (long2)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ulong3 a, ulong3 b)
+        public static bool all_dif (ulong3 a, ulong3 b)
         {
-            return all_dif((long3)a, (long3)b);
+            return all_dif ((long3)a, (long3)b);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ulong4 a, ulong4 b)
+        public static bool all_dif (ulong4 a, ulong4 b)
         {
-            return all_dif((long4)a, (long4)b);
+            return all_dif ((long4)a, (long4)b);
         }
 
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(float2 a, float2 b)
+        public static bool all_dif (float2 a, float2 b)
         {
-            return !math.any(a.xyxy == b.xxyy);
+            return !any(a.xyxy == b.xxyy);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(float3 a, float3 b)
+        public static bool all_dif (float3 a, float3 b)
         {
-            return !math.any(a == b.xxx | a == b.yyy | a == b.zzz);
+            return !any(a == b.xxx | a == b.yyy | a == b.zzz);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(float4 a, float4 b)
+        public static bool all_dif (float4 a, float4 b)
         {
-            return !math.any(a == b.xxxx | a == b.yyyy | a == b.zzzz | a == b.wwww);
+            return !any(a == b.xxxx | a == b.yyyy | a == b.zzzz | a == b.wwww);
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(float8 a, float8 b)
+        public static bool all_dif (float8 a, float8 b)
         {
             if (Avx.IsAvxSupported)
             {
@@ -659,10 +658,10 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return all_dif(a.v4_0, b.v4_0)
-                     & all_dif(a.v4_4, b.v4_0)
-                     & all_dif(a.v4_0, b.v4_4)
-                     & all_dif(a.v4_4, b.v4_4);
+                return all_dif (a.v4_0, b.v4_0)
+                     & all_dif (a.v4_4, b.v4_0)
+                     & all_dif (a.v4_0, b.v4_4)
+                     & all_dif (a.v4_4, b.v4_4);
             }
             else
             {
@@ -684,43 +683,43 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(double2 a, double2 b)
+        public static bool all_dif (double2 a, double2 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return !math.any(a.xyxy == b.xxyy);
+                return !any(a.xyxy == b.xxyy);
             }
             else
             {
-                return !math.any(a == b.xx | a == b.yy);
+                return !any(a == b.xx | a == b.yy);
             }
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(double3 a, double3 b)
+        public static bool all_dif (double3 a, double3 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return !math.any(a == b.xxx | a == b.yyy | a == b.zzz);
+                return !any(a == b.xxx | a == b.yyy | a == b.zzz);
             }
             else
             {
-                return !math.any(a.xy == b.xx | a.xy == b.yy | a.xy == b.zz | a.zz == b.xy | a.zz == b.zz);
+                return !any(a.xy == b.xx | a.xy == b.yy | a.xy == b.zz | a.zz == b.xy | a.zz == b.zz);
             }
         }
 
         /// <summary>       Returns <see langword="true"/> if <paramref name="a"/> and <paramref name="b"/> do not share any components with each other.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(double4 a, double4 b)
+        public static bool all_dif (double4 a, double4 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return !math.any(a == b.xxxx | a == b.yyyy | a == b.zzzz | a == b.wwww);
+                return !any(a == b.xxxx | a == b.yyyy | a == b.zzzz | a == b.wwww);
             }
             else
             {
-                return !math.any(a.xy == b.xx | a.xy == b.yy | a.xy == b.zz | a.xy == b.ww |
+                return !any(a.xy == b.xx | a.xy == b.yy | a.xy == b.zz | a.xy == b.ww |
                                  a.zw == b.xx | a.zw == b.yy | a.zw == b.zz | a.zw == b.ww);
             }
         }
@@ -728,7 +727,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.byte2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte2 c)
+        public static bool all_dif (byte2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -742,11 +741,11 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.byte3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte3 c)
+        public static bool all_dif (byte3 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return !math.any(c.xxz == c.yzy);
+                return !any(c.xxz == c.yzy);
             }
             else
             {
@@ -756,7 +755,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.byte4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte4 c)
+        public static bool all_dif (byte4 c)
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
@@ -765,7 +764,7 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return !math.any(c == c.ywxz | c == c.wzxz);
+                return !any(c == c.ywxz | c == c.wzxz);
             }
             else
             {
@@ -787,7 +786,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.byte8"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte8 c)
+        public static bool all_dif (byte8 c)
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
@@ -819,7 +818,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.byte16"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte16 c)
+        public static bool all_dif (byte16 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -869,7 +868,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.byte32"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(byte32 c)
+        public static bool all_dif (byte32 c)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -905,7 +904,7 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return all_dif(c.v16_0) && all_dif(c.v16_16) && all_dif(c.v16_0, c.v16_16);
+                return all_dif (c.v16_0) && all_dif (c.v16_16) && all_dif (c.v16_0, c.v16_16);
             }
             else
             {
@@ -928,50 +927,50 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.sbyte2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte2 c)
+        public static bool all_dif (sbyte2 c)
         {
-            return all_dif((short2)c);
+            return all_dif ((short2)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.sbyte3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte3 c)
+        public static bool all_dif (sbyte3 c)
         {
-            return all_dif((short3)c);
+            return all_dif ((short3)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.sbyte4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte4 c)
+        public static bool all_dif (sbyte4 c)
         {
-            return all_dif((byte4)c);
+            return all_dif ((byte4)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.sbyte8"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte8 c)
+        public static bool all_dif (sbyte8 c)
         {
-            return all_dif((byte8)c);
+            return all_dif ((byte8)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.sbyte16"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte16 c)
+        public static bool all_dif (sbyte16 c)
         {
-            return all_dif((byte16)c);
+            return all_dif ((byte16)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.sbyte32"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(sbyte32 c)
+        public static bool all_dif (sbyte32 c)
         {
-            return all_dif((byte32)c);
+            return all_dif ((byte32)c);
         }
 
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.short2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short2 c)
+        public static bool all_dif (short2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -985,11 +984,11 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.short3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short3 c)
+        public static bool all_dif (short3 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return !math.any(c.xxzx == c.yzyy);
+                return !any(c.xxzx == c.yzyy);
             }
             else
             {
@@ -1011,7 +1010,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.short4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short4 c)
+        public static bool all_dif (short4 c)
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
@@ -1020,7 +1019,7 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return !math.any(c == c.ywxz | c == c.wzxz);
+                return !any(c == c.ywxz | c == c.wzxz);
             }
             else
             {
@@ -1042,7 +1041,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.short8"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short8 c)
+        public static bool all_dif (short8 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -1085,7 +1084,7 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.short16"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(short16 c)
+        public static bool all_dif (short16 c)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1108,7 +1107,7 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return all_dif(c.v8_0) && all_dif(c.v8_8) && all_dif(c.v8_0, c.v8_8);
+                return all_dif (c.v8_0) && all_dif (c.v8_8) && all_dif (c.v8_0, c.v8_8);
             }
             else
             {
@@ -1131,47 +1130,47 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.ushort2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort2 c)
+        public static bool all_dif (ushort2 c)
         {
-            return all_dif((short2)c);
+            return all_dif ((short2)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.ushort3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort3 c)
+        public static bool all_dif (ushort3 c)
         {
-            return all_dif((short3)c);
+            return all_dif ((short3)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.ushort4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort4 c)
+        public static bool all_dif (ushort4 c)
         {
-            return all_dif((short4)c);
+            return all_dif ((short4)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.ushort8"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort8 c)
+        public static bool all_dif (ushort8 c)
         {
-            return all_dif((short8)c);
+            return all_dif ((short8)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.ushort16"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ushort16 c)
+        public static bool all_dif (ushort16 c)
         {
-            return all_dif((short16)c);
+            return all_dif ((short16)c);
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="int2"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.int2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(int2 c)
+        public static bool all_dif (int2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 _c = RegisterConversion.ToV128(c);
+                v128 _c = c;
 
                 return Xse.allfalse_epi128<int>(Xse.cmpeq_epi32(_c, Xse.bsrli_si128(_c, 1 * sizeof(int))), 1);
             }
@@ -1181,23 +1180,23 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="int3"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.int3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(int3 c)
+        public static bool all_dif (int3 c)
         {
-            return !math.any(c.xxz == c.yzy);
+            return !any(c.xxz == c.yzy);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="int4"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.int4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(int4 c)
+        public static bool all_dif (int4 c)
         {
-            return !math.any(c == c.ywxz | c == c.wzxz);
+            return !any(c == c.ywxz | c == c.wzxz);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.int8"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(int8 c)
+        public static bool all_dif (int8 c)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1217,60 +1216,60 @@ namespace MaxMath
 
 
                 int4 _0000 = lo.xxxx;
-                int4 _1234 = math.shuffle(lo, hi, math.ShuffleComponent.LeftY,
-                                                  math.ShuffleComponent.LeftZ,
-                                                  math.ShuffleComponent.LeftW,
-                                                  math.ShuffleComponent.RightX);
+                int4 _1234 = shuffle(lo, hi, ShuffleComponent.LeftY,
+                                                  ShuffleComponent.LeftZ,
+                                                  ShuffleComponent.LeftW,
+                                                  ShuffleComponent.RightX);
 
-                v128 _1st_cmp = Xse.cmpeq_epi32(RegisterConversion.ToV128(_0000), RegisterConversion.ToV128(_1234));
+                v128 _1st_cmp = Xse.cmpeq_epi32(_0000, _1234);
 
 
                 int4 _0001 = lo.xxxy;
-                int4 _5672 = math.shuffle(lo, hi, math.ShuffleComponent.RightY,
-                                                  math.ShuffleComponent.RightZ,
-                                                  math.ShuffleComponent.RightW,
-                                                  math.ShuffleComponent.LeftZ);
+                int4 _5672 = shuffle(lo, hi, ShuffleComponent.RightY,
+                                                  ShuffleComponent.RightZ,
+                                                  ShuffleComponent.RightW,
+                                                  ShuffleComponent.LeftZ);
 
-                v128 _2nd_cmp = Xse.cmpeq_epi32(RegisterConversion.ToV128(_0001), RegisterConversion.ToV128(_5672));
+                v128 _2nd_cmp = Xse.cmpeq_epi32(_0001, _5672);
 
 
                 int4 _1111 = lo.yyyy;
-                int4 _3456 = math.shuffle(lo, hi, math.ShuffleComponent.LeftW,
-                                                  math.ShuffleComponent.RightX,
-                                                  math.ShuffleComponent.RightY,
-                                                  math.ShuffleComponent.RightZ);
+                int4 _3456 = shuffle(lo, hi, ShuffleComponent.LeftW,
+                                                  ShuffleComponent.RightX,
+                                                  ShuffleComponent.RightY,
+                                                  ShuffleComponent.RightZ);
 
-                v128 _3rd_cmp = Xse.cmpeq_epi32(RegisterConversion.ToV128(_1111), RegisterConversion.ToV128(_3456));
+                v128 _3rd_cmp = Xse.cmpeq_epi32(_1111, _3456);
 
 
                 int4 _1222 = lo.yzzz;
-                int4 _7345 = math.shuffle(lo, hi, math.ShuffleComponent.RightW,
-                                                  math.ShuffleComponent.LeftW,
-                                                  math.ShuffleComponent.RightX,
-                                                  math.ShuffleComponent.RightY);
+                int4 _7345 = shuffle(lo, hi, ShuffleComponent.RightW,
+                                                  ShuffleComponent.LeftW,
+                                                  ShuffleComponent.RightX,
+                                                  ShuffleComponent.RightY);
 
-                v128 _4th_cmp = Xse.cmpeq_epi32(RegisterConversion.ToV128(_1222), RegisterConversion.ToV128(_7345));
+                v128 _4th_cmp = Xse.cmpeq_epi32(_1222, _7345);
 
 
                 int4 _2233 = lo.zzww;
                 int4 _6745 = hi.zwxy;
 
-                v128 _5th_cmp = Xse.cmpeq_epi32(RegisterConversion.ToV128(_2233), RegisterConversion.ToV128(_6745));
+                v128 _5th_cmp = Xse.cmpeq_epi32(_2233, _6745);
 
 
-                int4 _3344 = math.shuffle(lo, hi, math.ShuffleComponent.LeftW,
-                                                  math.ShuffleComponent.LeftW,
-                                                  math.ShuffleComponent.RightX,
-                                                  math.ShuffleComponent.RightX);
+                int4 _3344 = shuffle(lo, hi, ShuffleComponent.LeftW,
+                                                  ShuffleComponent.LeftW,
+                                                  ShuffleComponent.RightX,
+                                                  ShuffleComponent.RightX);
                 int4 _6756 = hi.zwyz;
 
-                v128 _6th_cmp = Xse.cmpeq_epi32(RegisterConversion.ToV128(_3344), RegisterConversion.ToV128(_6756));
+                v128 _6th_cmp = Xse.cmpeq_epi32(_3344, _6756);
 
 
                 int4 _4556 = hi.xyyz;
                 int4 _7677 = hi.wzww;
 
-                v128 _7th_cmp = Xse.cmpeq_epi32(RegisterConversion.ToV128(_4556), RegisterConversion.ToV128(_7677));
+                v128 _7th_cmp = Xse.cmpeq_epi32(_4556, _7677);
 
 
                 v128 or = Xse.or_si128(Xse.or_si128(Xse.or_si128(_1st_cmp, _2nd_cmp),
@@ -1299,38 +1298,38 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="uint2"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.uint2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(uint2 c)
+        public static bool all_dif (uint2 c)
         {
-            return all_dif((int2)c);
+            return all_dif ((int2)c);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="uint3"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.uint3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(uint3 c)
+        public static bool all_dif (uint3 c)
         {
-            return all_dif((int3)c);
+            return all_dif ((int3)c);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="uint4"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.uint4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(uint4 c)
+        public static bool all_dif (uint4 c)
         {
-            return all_dif((int4)c);
+            return all_dif ((int4)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.uint8"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(uint8 c)
+        public static bool all_dif (uint8 c)
         {
-            return all_dif((int8)c);
+            return all_dif ((int8)c);
         }
 
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.long2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(long2 c)
+        public static bool all_dif (long2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -1344,47 +1343,47 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.long3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(long3 c)
+        public static bool all_dif (long3 c)
         {
-            return !math.any(c.xxz == c.yzy);
+            return !any(c.xxz == c.yzy);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.long4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(long4 c)
+        public static bool all_dif (long4 c)
         {
-            return !math.any(c == c.ywxz | c == c.wzxz);
+            return !any(c == c.ywxz | c == c.wzxz);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.ulong2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ulong2 c)
+        public static bool all_dif (ulong2 c)
         {
-            return all_dif((long2)c);
+            return all_dif ((long2)c);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.ulong3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ulong3 c)
+        public static bool all_dif (ulong3 c)
         {
-            return all_dif(c.xxzx, c.yzyy);
+            return all_dif (c.xxzx, c.yzyy);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.ulong4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(ulong4 c)
+        public static bool all_dif (ulong4 c)
         {
-            return all_dif(c, c.ywxz) & all_dif(c, c.wzxz);
+            return all_dif (c, c.ywxz) & all_dif (c, c.wzxz);
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="float2"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.float2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(float2 c)
+        public static bool all_dif (float2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 _c = RegisterConversion.ToV128(c);
+                v128 _c = c;
 
                 return Xse.allfalse_f128<float>(Xse.cmpeq_ps(_c, Xse.bsrli_si128(_c, 1 * sizeof(float))), 1);
             }
@@ -1394,23 +1393,23 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="float3"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.float3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(float3 c)
+        public static bool all_dif (float3 c)
         {
-            return !math.any(c.xxz == c.yzy);
+            return !any(c.xxz == c.yzy);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="float4"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.float4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(float4 c)
+        public static bool all_dif (float4 c)
         {
-            return !math.any(c == c.ywxz | c == c.wzxz);
+            return !any(c == c.ywxz | c == c.wzxz);
         }
 
         /// <summary>       Returns <see langword="true"/> if all of the components of an <see cref="MaxMath.float8"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(float8 c)
+        public static bool all_dif (float8 c)
         {
             if (Avx2.IsAvx2Supported)
             {
@@ -1430,60 +1429,60 @@ namespace MaxMath
 
 
                 float4 _0000 = lo.xxxx;
-                float4 _1234 = math.shuffle(lo, hi, math.ShuffleComponent.LeftY,
-                                                    math.ShuffleComponent.LeftZ,
-                                                    math.ShuffleComponent.LeftW,
-                                                    math.ShuffleComponent.RightX);
+                float4 _1234 = shuffle(lo, hi, ShuffleComponent.LeftY,
+                                                    ShuffleComponent.LeftZ,
+                                                    ShuffleComponent.LeftW,
+                                                    ShuffleComponent.RightX);
 
-                v128 _1st_cmp = Xse.cmpeq_ps(RegisterConversion.ToV128(_0000), RegisterConversion.ToV128(_1234));
+                v128 _1st_cmp = Xse.cmpeq_ps(_0000, _1234);
 
 
                 float4 _0001 = lo.xxxy;
-                float4 _5672 = math.shuffle(lo, hi, math.ShuffleComponent.RightY,
-                                                    math.ShuffleComponent.RightZ,
-                                                    math.ShuffleComponent.RightW,
-                                                    math.ShuffleComponent.LeftZ);
+                float4 _5672 = shuffle(lo, hi, ShuffleComponent.RightY,
+                                                    ShuffleComponent.RightZ,
+                                                    ShuffleComponent.RightW,
+                                                    ShuffleComponent.LeftZ);
 
-                v128 _2nd_cmp = Xse.cmpeq_ps(RegisterConversion.ToV128(_0001), RegisterConversion.ToV128(_5672));
+                v128 _2nd_cmp = Xse.cmpeq_ps(_0001, _5672);
 
 
                 float4 _1111 = lo.yyyy;
-                float4 _3456 = math.shuffle(lo, hi, math.ShuffleComponent.LeftW,
-                                                    math.ShuffleComponent.RightX,
-                                                    math.ShuffleComponent.RightY,
-                                                    math.ShuffleComponent.RightZ);
+                float4 _3456 = shuffle(lo, hi, ShuffleComponent.LeftW,
+                                                    ShuffleComponent.RightX,
+                                                    ShuffleComponent.RightY,
+                                                    ShuffleComponent.RightZ);
 
-                v128 _3rd_cmp = Xse.cmpeq_ps(RegisterConversion.ToV128(_1111), RegisterConversion.ToV128(_3456));
+                v128 _3rd_cmp = Xse.cmpeq_ps(_1111, _3456);
 
 
                 float4 _1222 = lo.yzzz;
-                float4 _7345 = math.shuffle(lo, hi, math.ShuffleComponent.RightW,
-                                                    math.ShuffleComponent.LeftW,
-                                                    math.ShuffleComponent.RightX,
-                                                    math.ShuffleComponent.RightY);
+                float4 _7345 = shuffle(lo, hi, ShuffleComponent.RightW,
+                                                    ShuffleComponent.LeftW,
+                                                    ShuffleComponent.RightX,
+                                                    ShuffleComponent.RightY);
 
-                v128 _4th_cmp = Xse.cmpeq_ps(RegisterConversion.ToV128(_1222), RegisterConversion.ToV128(_7345));
+                v128 _4th_cmp = Xse.cmpeq_ps(_1222, _7345);
 
 
                 float4 _2233 = lo.zzww;
                 float4 _6745 = hi.zwxy;
 
-                v128 _5th_cmp = Xse.cmpeq_ps(RegisterConversion.ToV128(_2233), RegisterConversion.ToV128(_6745));
+                v128 _5th_cmp = Xse.cmpeq_ps(_2233, _6745);
 
 
-                float4 _3344 = math.shuffle(lo, hi, math.ShuffleComponent.LeftW,
-                                                    math.ShuffleComponent.LeftW,
-                                                    math.ShuffleComponent.RightX,
-                                                    math.ShuffleComponent.RightX);
+                float4 _3344 = shuffle(lo, hi, ShuffleComponent.LeftW,
+                                                    ShuffleComponent.LeftW,
+                                                    ShuffleComponent.RightX,
+                                                    ShuffleComponent.RightX);
                 float4 _6756 = hi.zwyz;
 
-                v128 _6th_cmp = Xse.cmpeq_ps(RegisterConversion.ToV128(_3344), RegisterConversion.ToV128(_6756));
+                v128 _6th_cmp = Xse.cmpeq_ps(_3344, _6756);
 
 
                 float4 _4556 = hi.xyyz;
                 float4 _7677 = hi.wzww;
 
-                v128 _7th_cmp = Xse.cmpeq_ps(RegisterConversion.ToV128(_4556), RegisterConversion.ToV128(_7677));
+                v128 _7th_cmp = Xse.cmpeq_ps(_4556, _7677);
 
 
                 v128 or = Xse.or_ps(Xse.or_ps(Xse.or_ps(_1st_cmp, _2nd_cmp),
@@ -1512,13 +1511,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="double2"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.double2"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(double2 c)
+        public static bool all_dif (double2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 _c = RegisterConversion.ToV128(c);
+                v128 _c = c;
 
                 return Xse.allfalse_f128<double>(Xse.cmpeq_pd(_c, Xse.bsrli_si128(_c, 1 * sizeof(double))), 1);
             }
@@ -1528,18 +1527,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="double3"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.double3"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(double3 c)
+        public static bool all_dif (double3 c)
         {
-            return !math.any(c.xxz == c.yzy);
+            return !any(c.xxz == c.yzy);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="double4"/> are unique within that vector.     </summary>
+        /// <summary>       Returns <see langword="true"/> if all of the components of a <see cref="MaxMath.double4"/> are unique within that vector.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool all_dif(double4 c)
+        public static bool all_dif (double4 c)
         {
-            return !math.any(c == c.ywxz | c == c.wzxz);
+            return !any(c == c.ywxz | c == c.wzxz);
         }
     }
 }

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -12,7 +12,7 @@ namespace MaxMath.Tests
 
             byte2 left  = rng.NextByte2();
             byte2 right = rng.NextByte2();
-            byte2 op = maxmath.addsub(left, right);
+            byte2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (byte)(left.x + right.x));
             Assert.AreEqual(op.y, (byte)(left.y - right.y));
@@ -25,7 +25,7 @@ namespace MaxMath.Tests
 
             byte3 left  = rng.NextByte3();
             byte3 right = rng.NextByte3();
-            byte3 op = maxmath.addsub(left, right);
+            byte3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (byte)(left.x + right.x));
             Assert.AreEqual(op.y, (byte)(left.y - right.y));
@@ -39,7 +39,7 @@ namespace MaxMath.Tests
 
             byte4 left  = rng.NextByte4();
             byte4 right = rng.NextByte4();
-            byte4 op = maxmath.addsub(left, right);
+            byte4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (byte)(left.x + right.x));
             Assert.AreEqual(op.y, (byte)(left.y - right.y));
@@ -54,7 +54,7 @@ namespace MaxMath.Tests
 
             byte8 left  = rng.NextByte8();
             byte8 right = rng.NextByte8();
-            byte8 op = maxmath.addsub(left, right);
+            byte8 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0, (byte)(left.x0 + right.x0));
             Assert.AreEqual(op.x1, (byte)(left.x1 - right.x1));
@@ -73,7 +73,7 @@ namespace MaxMath.Tests
 
             byte16 left  = rng.NextByte16();
             byte16 right = rng.NextByte16();
-            byte16 op = maxmath.addsub(left, right);
+            byte16 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0,  (byte)(left.x0  + right.x0));
             Assert.AreEqual(op.x1,  (byte)(left.x1  - right.x1));
@@ -100,7 +100,7 @@ namespace MaxMath.Tests
 
             byte32 left  = rng.NextByte32();
             byte32 right = rng.NextByte32();
-            byte32 op = maxmath.addsub(left, right);
+            byte32 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0,  (byte)(left.x0  + right.x0));
             Assert.AreEqual(op.x1,  (byte)(left.x1  - right.x1));
@@ -144,7 +144,7 @@ namespace MaxMath.Tests
 
             sbyte2 left  = rng.NextSByte2();
             sbyte2 right = rng.NextSByte2();
-            sbyte2 op = maxmath.addsub(left, right);
+            sbyte2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (sbyte)(left.x + right.x));
             Assert.AreEqual(op.y, (sbyte)(left.y - right.y));
@@ -157,7 +157,7 @@ namespace MaxMath.Tests
 
             sbyte3 left  = rng.NextSByte3();
             sbyte3 right = rng.NextSByte3();
-            sbyte3 op = maxmath.addsub(left, right);
+            sbyte3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (sbyte)(left.x + right.x));
             Assert.AreEqual(op.y, (sbyte)(left.y - right.y));
@@ -171,7 +171,7 @@ namespace MaxMath.Tests
 
             sbyte4 left  = rng.NextSByte4();
             sbyte4 right = rng.NextSByte4();
-            sbyte4 op = maxmath.addsub(left, right);
+            sbyte4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (sbyte)(left.x + right.x));
             Assert.AreEqual(op.y, (sbyte)(left.y - right.y));
@@ -186,7 +186,7 @@ namespace MaxMath.Tests
 
             sbyte8 left  = rng.NextSByte8();
             sbyte8 right = rng.NextSByte8();
-            sbyte8 op = maxmath.addsub(left, right);
+            sbyte8 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0, (sbyte)(left.x0 + right.x0));
             Assert.AreEqual(op.x1, (sbyte)(left.x1 - right.x1));
@@ -205,7 +205,7 @@ namespace MaxMath.Tests
 
             sbyte16 left  = rng.NextSByte16();
             sbyte16 right = rng.NextSByte16();
-            sbyte16 op = maxmath.addsub(left, right);
+            sbyte16 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0,  (sbyte)(left.x0  + right.x0));
             Assert.AreEqual(op.x1,  (sbyte)(left.x1  - right.x1));
@@ -232,7 +232,7 @@ namespace MaxMath.Tests
 
             sbyte32 left  = rng.NextSByte32();
             sbyte32 right = rng.NextSByte32();
-            sbyte32 op = maxmath.addsub(left, right);
+            sbyte32 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0,  (sbyte)(left.x0  + right.x0));
             Assert.AreEqual(op.x1,  (sbyte)(left.x1  - right.x1));
@@ -276,7 +276,7 @@ namespace MaxMath.Tests
 
             ushort2 left  = rng.NextUShort2();
             ushort2 right = rng.NextUShort2();
-            ushort2 op = maxmath.addsub(left, right);
+            ushort2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (ushort)(left.x + right.x));
             Assert.AreEqual(op.y, (ushort)(left.y - right.y));
@@ -289,7 +289,7 @@ namespace MaxMath.Tests
 
             ushort3 left  = rng.NextUShort3();
             ushort3 right = rng.NextUShort3();
-            ushort3 op = maxmath.addsub(left, right);
+            ushort3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (ushort)(left.x + right.x));
             Assert.AreEqual(op.y, (ushort)(left.y - right.y));
@@ -303,7 +303,7 @@ namespace MaxMath.Tests
 
             ushort4 left  = rng.NextUShort4();
             ushort4 right = rng.NextUShort4();
-            ushort4 op = maxmath.addsub(left, right);
+            ushort4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (ushort)(left.x + right.x));
             Assert.AreEqual(op.y, (ushort)(left.y - right.y));
@@ -318,7 +318,7 @@ namespace MaxMath.Tests
 
             ushort8 left  = rng.NextUShort8();
             ushort8 right = rng.NextUShort8();
-            ushort8 op = maxmath.addsub(left, right);
+            ushort8 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0, (ushort)(left.x0 + right.x0));
             Assert.AreEqual(op.x1, (ushort)(left.x1 - right.x1));
@@ -337,7 +337,7 @@ namespace MaxMath.Tests
 
             ushort16 left  = rng.NextUShort16();
             ushort16 right = rng.NextUShort16();
-            ushort16 op = maxmath.addsub(left, right);
+            ushort16 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0,  (ushort)(left.x0  + right.x0));
             Assert.AreEqual(op.x1,  (ushort)(left.x1  - right.x1));
@@ -365,7 +365,7 @@ namespace MaxMath.Tests
 
             short2 left  = rng.NextShort2();
             short2 right = rng.NextShort2();
-            short2 op = maxmath.addsub(left, right);
+            short2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (short)(left.x + right.x));
             Assert.AreEqual(op.y, (short)(left.y - right.y));
@@ -378,7 +378,7 @@ namespace MaxMath.Tests
 
             short3 left  = rng.NextShort3();
             short3 right = rng.NextShort3();
-            short3 op = maxmath.addsub(left, right);
+            short3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (short)(left.x + right.x));
             Assert.AreEqual(op.y, (short)(left.y - right.y));
@@ -392,7 +392,7 @@ namespace MaxMath.Tests
 
             short4 left  = rng.NextShort4();
             short4 right = rng.NextShort4();
-            short4 op = maxmath.addsub(left, right);
+            short4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (short)(left.x + right.x));
             Assert.AreEqual(op.y, (short)(left.y - right.y));
@@ -407,7 +407,7 @@ namespace MaxMath.Tests
 
             short8 left  = rng.NextShort8();
             short8 right = rng.NextShort8();
-            short8 op = maxmath.addsub(left, right);
+            short8 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0, (short)(left.x0 + right.x0));
             Assert.AreEqual(op.x1, (short)(left.x1 - right.x1));
@@ -426,7 +426,7 @@ namespace MaxMath.Tests
 
             short16 left  = rng.NextShort16();
             short16 right = rng.NextShort16();
-            short16 op = maxmath.addsub(left, right);
+            short16 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0,  (short)(left.x0  + right.x0));
             Assert.AreEqual(op.x1,  (short)(left.x1  - right.x1));
@@ -454,7 +454,7 @@ namespace MaxMath.Tests
 
             uint2 left  = rng.NextUInt2();
             uint2 right = rng.NextUInt2();
-            uint2 op = maxmath.addsub(left, right);
+            uint2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (uint)(left.x + right.x));
             Assert.AreEqual(op.y, (uint)(left.y - right.y));
@@ -467,7 +467,7 @@ namespace MaxMath.Tests
 
             uint3 left  = rng.NextUInt3();
             uint3 right = rng.NextUInt3();
-            uint3 op = maxmath.addsub(left, right);
+            uint3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (uint)(left.x + right.x));
             Assert.AreEqual(op.y, (uint)(left.y - right.y));
@@ -481,7 +481,7 @@ namespace MaxMath.Tests
 
             uint4 left  = rng.NextUInt4();
             uint4 right = rng.NextUInt4();
-            uint4 op = maxmath.addsub(left, right);
+            uint4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (uint)(left.x + right.x));
             Assert.AreEqual(op.y, (uint)(left.y - right.y));
@@ -496,7 +496,7 @@ namespace MaxMath.Tests
 
             uint8 left  = rng.NextUInt8();
             uint8 right = rng.NextUInt8();
-            uint8 op = maxmath.addsub(left, right);
+            uint8 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0, (uint)(left.x0 + right.x0));
             Assert.AreEqual(op.x1, (uint)(left.x1 - right.x1));
@@ -516,7 +516,7 @@ namespace MaxMath.Tests
 
             int2 left  = rng.NextInt2();
             int2 right = rng.NextInt2();
-            int2 op = maxmath.addsub(left, right);
+            int2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (int)(left.x + right.x));
             Assert.AreEqual(op.y, (int)(left.y - right.y));
@@ -529,7 +529,7 @@ namespace MaxMath.Tests
 
             int3 left  = rng.NextInt3();
             int3 right = rng.NextInt3();
-            int3 op = maxmath.addsub(left, right);
+            int3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (int)(left.x + right.x));
             Assert.AreEqual(op.y, (int)(left.y - right.y));
@@ -543,7 +543,7 @@ namespace MaxMath.Tests
 
             int4 left  = rng.NextInt4();
             int4 right = rng.NextInt4();
-            int4 op = maxmath.addsub(left, right);
+            int4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (int)(left.x + right.x));
             Assert.AreEqual(op.y, (int)(left.y - right.y));
@@ -558,7 +558,7 @@ namespace MaxMath.Tests
 
             int8 left  = rng.NextInt8();
             int8 right = rng.NextInt8();
-            int8 op = maxmath.addsub(left, right);
+            int8 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0, (int)(left.x0 + right.x0));
             Assert.AreEqual(op.x1, (int)(left.x1 - right.x1));
@@ -578,7 +578,7 @@ namespace MaxMath.Tests
 
             ulong2 left  = rng.NextULong2();
             ulong2 right = rng.NextULong2();
-            ulong2 op = maxmath.addsub(left, right);
+            ulong2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (ulong)(left.x + right.x));
             Assert.AreEqual(op.y, (ulong)(left.y - right.y));
@@ -591,7 +591,7 @@ namespace MaxMath.Tests
 
             ulong3 left  = rng.NextULong3();
             ulong3 right = rng.NextULong3();
-            ulong3 op = maxmath.addsub(left, right);
+            ulong3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (ulong)(left.x + right.x));
             Assert.AreEqual(op.y, (ulong)(left.y - right.y));
@@ -605,7 +605,7 @@ namespace MaxMath.Tests
 
             ulong4 left  = rng.NextULong4();
             ulong4 right = rng.NextULong4();
-            ulong4 op = maxmath.addsub(left, right);
+            ulong4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (ulong)(left.x + right.x));
             Assert.AreEqual(op.y, (ulong)(left.y - right.y));
@@ -621,7 +621,7 @@ namespace MaxMath.Tests
 
             long2 left  = rng.NextLong2();
             long2 right = rng.NextLong2();
-            long2 op = maxmath.addsub(left, right);
+            long2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (long)(left.x + right.x));
             Assert.AreEqual(op.y, (long)(left.y - right.y));
@@ -634,7 +634,7 @@ namespace MaxMath.Tests
 
             long3 left  = rng.NextLong3();
             long3 right = rng.NextLong3();
-            long3 op = maxmath.addsub(left, right);
+            long3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (long)(left.x + right.x));
             Assert.AreEqual(op.y, (long)(left.y - right.y));
@@ -648,7 +648,7 @@ namespace MaxMath.Tests
 
             long4 left  = rng.NextLong4();
             long4 right = rng.NextLong4();
-            long4 op = maxmath.addsub(left, right);
+            long4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (long)(left.x + right.x));
             Assert.AreEqual(op.y, (long)(left.y - right.y));
@@ -664,7 +664,7 @@ namespace MaxMath.Tests
 
             float2 left  = rng.NextFloat2();
             float2 right = rng.NextFloat2();
-            float2 op = maxmath.addsub(left, right);
+            float2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (float)(left.x + right.x));
             Assert.AreEqual(op.y, (float)(left.y - right.y));
@@ -677,7 +677,7 @@ namespace MaxMath.Tests
 
             float3 left  = rng.NextFloat3();
             float3 right = rng.NextFloat3();
-            float3 op = maxmath.addsub(left, right);
+            float3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (float)(left.x + right.x));
             Assert.AreEqual(op.y, (float)(left.y - right.y));
@@ -691,7 +691,7 @@ namespace MaxMath.Tests
 
             float4 left  = rng.NextFloat4();
             float4 right = rng.NextFloat4();
-            float4 op = maxmath.addsub(left, right);
+            float4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (float)(left.x + right.x));
             Assert.AreEqual(op.y, (float)(left.y - right.y));
@@ -706,7 +706,7 @@ namespace MaxMath.Tests
 
             float8 left  = rng.NextFloat8();
             float8 right = rng.NextFloat8();
-            float8 op = maxmath.addsub(left, right);
+            float8 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x0, (float)(left.x0 + right.x0));
             Assert.AreEqual(op.x1, (float)(left.x1 - right.x1));
@@ -726,7 +726,7 @@ namespace MaxMath.Tests
 
             double2 left  = rng.NextDouble2();
             double2 right = rng.NextDouble2();
-            double2 op = maxmath.addsub(left, right);
+            double2 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (double)(left.x + right.x));
             Assert.AreEqual(op.y, (double)(left.y - right.y));
@@ -739,7 +739,7 @@ namespace MaxMath.Tests
 
             double3 left  = rng.NextDouble3();
             double3 right = rng.NextDouble3();
-            double3 op = maxmath.addsub(left, right);
+            double3 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (double)(left.x + right.x));
             Assert.AreEqual(op.y, (double)(left.y - right.y));
@@ -753,7 +753,7 @@ namespace MaxMath.Tests
 
             double4 left  = rng.NextDouble4();
             double4 right = rng.NextDouble4();
-            double4 op = maxmath.addsub(left, right);
+            double4 op = math.addsub(left, right);
 
             Assert.AreEqual(op.x, (double)(left.x + right.x));
             Assert.AreEqual(op.y, (double)(left.y - right.y));

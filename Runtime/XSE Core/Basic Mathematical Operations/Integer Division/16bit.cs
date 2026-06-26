@@ -27,7 +27,7 @@ namespace MaxMath.Intrinsics
                     v128 intsLo = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(leftLo, rightLo);
                     v128 intsHi = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(leftHi, rightHi);
 
-                    if (saturated)
+                    if (saturated || (constexpr.ALL_GT_EPI16(dividend, short.MinValue, elements) || constexpr.ALL_NEQ_EPI16(divisor, -1, elements)))
                     {
                         return packs_epi32(intsLo, intsHi);
                     }
@@ -40,7 +40,7 @@ namespace MaxMath.Intrinsics
                 {
                     v128 ints = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(cvtepi32_ps(cvtepi16_epi32(dividend)), cvtepi32_ps(cvtepi16_epi32(divisor)));
 
-                    if (saturated || (constexpr.ALL_GT_EPI16(dividend, ushort.MinValue, elements) || constexpr.ALL_NEQ_EPI16(divisor, -1, elements)))
+                    if (saturated || (constexpr.ALL_GT_EPI16(dividend, short.MinValue, elements) || constexpr.ALL_NEQ_EPI16(divisor, -1, elements)))
                     {
                         return packs_epi32(ints, ints);
                     }
@@ -85,7 +85,7 @@ namespace MaxMath.Intrinsics
                 v256 lo = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(dividendLo, divisorLo);
                 v256 hi = DIV_FLOATV_SIGNED_USHORT_RANGE_RET_INT(dividendHi, divisorHi);
 
-                if (saturated || (constexpr.ALL_GT_EPI16(dividend, ushort.MinValue) || constexpr.ALL_NEQ_EPI16(divisor, -1)))
+                if (saturated || (constexpr.ALL_GT_EPI16(dividend, short.MinValue) || constexpr.ALL_NEQ_EPI16(divisor, -1)))
                 {
                     return Avx2.mm256_packs_epi32(lo, hi);
                 }

@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 
 namespace MaxMath
 {
@@ -134,6 +133,16 @@ namespace MaxMath
             remainder = x % this;
             return      x / this;
         }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly int2 DivRem(Unity.Mathematics.int2 x, out int2 remainder) => DivRem((int2)x, out remainder);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly int3 DivRem(Unity.Mathematics.int3 x, out int3 remainder) => DivRem((int3)x, out remainder);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public readonly int4 DivRem(Unity.Mathematics.int4 x, out int4 remainder) => DivRem((int4)x, out remainder);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

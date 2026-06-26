@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -75,7 +74,7 @@ namespace MaxMath
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 avg_epi16(v128 a, v128 b, bool promise = false, byte elements = 8)
+            public static v128 avg_epi16(v128 a, v128 b, bool promise = false)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -193,8 +192,8 @@ namespace MaxMath
 
                         v256 sumLo = Avx2.mm256_add_epi64(a64Lo, b64Lo);
                         v256 sumHi = Avx2.mm256_add_epi64(a64Hi, b64Hi);
-                        sumLo = Avx2.mm256_sub_epi64(sumLo, mm256_cmpgt_epi64(sumLo, mm256_setall_si256()));
-                        sumHi = Avx2.mm256_sub_epi64(sumHi, mm256_cmpgt_epi64(sumHi, mm256_setall_si256()));
+                        sumLo = Avx2.mm256_sub_epi64(sumLo, Avx2.mm256_cmpgt_epi64(sumLo, mm256_setall_si256()));
+                        sumHi = Avx2.mm256_sub_epi64(sumHi, Avx2.mm256_cmpgt_epi64(sumHi, mm256_setall_si256()));
 
                         sumLo = mm256_srai_epi64(sumLo, 1);
                         sumHi = mm256_srai_epi64(sumHi, 1);
@@ -241,7 +240,7 @@ namespace MaxMath
                     if (promise)
                     {
                         v256 sum = Avx2.mm256_add_epi64(a, b);
-                        v256 addOneMask = mm256_cmpgt_epi64(sum, mm256_setall_si256(), elements);
+                        v256 addOneMask = Avx2.mm256_cmpgt_epi64(sum, mm256_setall_si256());
                         sum = Avx2.mm256_sub_epi64(sum, addOneMask);
 
                         return mm256_srai_epi64(sum, 1, elements);
@@ -251,7 +250,7 @@ namespace MaxMath
                         v256 avg = Avx2.mm256_add_epi64(Avx2.mm256_and_si256(a, b), mm256_srai_epi64(Avx2.mm256_xor_si256(a, b), 1, elements));
 
                         v256 sum = mm256_adds_epi64(a, b);
-                        v256 addOneMask = mm256_cmpgt_epi64(sum, mm256_setall_si256());
+                        v256 addOneMask = Avx2.mm256_cmpgt_epi64(sum, mm256_setall_si256());
                         avg = Avx2.mm256_add_epi64(avg, Avx2.mm256_and_si256(mm256_neg_epi64(addOneMask), Avx2.mm256_add_epi64(a, b)));
 
                         return avg;
@@ -423,7 +422,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the average value of two <see cref="Int128"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
@@ -446,11 +445,11 @@ namespace MaxMath
 
                 if (constexpr.IS_CONST(x))
                 {
-                    x += andnot(tobyte(x != Int128.MaxValue), sumS.hi64 >> 63);
+                    x += andnot(tobyte(x != MaxMath.Int128.MaxValue), sumS.hi64 >> 63);
                 }
                 else
                 {
-                    y += andnot(tobyte(y != Int128.MaxValue), sumS.hi64 >> 63);
+                    y += andnot(tobyte(y != MaxMath.Int128.MaxValue), sumS.hi64 >> 63);
                 }
 
                 return (x & y) + ((x ^ y) >> 1);
@@ -768,7 +767,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow), 2);
+                return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -786,7 +785,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow), 3);
+                return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -804,7 +803,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow), 4);
+                return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -822,7 +821,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow), 8);
+                return Xse.avg_epi16(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -855,7 +854,7 @@ namespace MaxMath
             return (uint)(((ulong)x + (ulong)y + 1u) / 2);
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.uint2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -865,7 +864,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.avg_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow)));
+                return Xse.avg_epu32(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -880,7 +879,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.uint3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -890,7 +889,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.avg_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow)));
+                return Xse.avg_epu32(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -905,7 +904,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.uint4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -915,7 +914,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.avg_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow)));
+                return Xse.avg_epu32(x, y, noOverflow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -958,7 +957,7 @@ namespace MaxMath
             return (int)((intermediate + (long)((ulong)~intermediate >> 63)) >> 1);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="int2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.int2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -968,7 +967,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.avg_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow), 2));
+                return Xse.avg_epi32(x, y, noOverflow.Promises(Promise.NoOverflow), 2);
             }
             else
             {
@@ -976,7 +975,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="int3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.int3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -986,7 +985,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.avg_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow), 3));
+                return Xse.avg_epi32(x, y, noOverflow.Promises(Promise.NoOverflow), 3);
             }
             else
             {
@@ -994,7 +993,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="int4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.int4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1004,7 +1003,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.avg_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow), 4));
+                return Xse.avg_epi32(x, y, noOverflow.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -1196,59 +1195,59 @@ namespace MaxMath
         {
             if (constexpr.IS_CONST(x))
             {
-                return math.mad(0.5f, y, 0.5f * x);
+                return mad(0.5f, y, 0.5f * x);
             }
             if (constexpr.IS_CONST(y))
             {
-                return math.mad(0.5f, x, 0.5f * y);
+                return mad(0.5f, x, 0.5f * y);
             }
 
             return 0.5f * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="float2"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.float2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 avg(float2 x, float2 y)
         {
             if (constexpr.IS_CONST(x))
             {
-                return math.mad(0.5f, y, 0.5f * x);
+                return mad(0.5f, y, 0.5f * x);
             }
             if (constexpr.IS_CONST(y))
             {
-                return math.mad(0.5f, x, 0.5f * y);
+                return mad(0.5f, x, 0.5f * y);
             }
 
             return 0.5f * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="float3"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.float3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 avg(float3 x, float3 y)
         {
             if (constexpr.IS_CONST(x))
             {
-                return math.mad(0.5f, y, 0.5f * x);
+                return mad(0.5f, y, 0.5f * x);
             }
             if (constexpr.IS_CONST(y))
             {
-                return math.mad(0.5f, x, 0.5f * y);
+                return mad(0.5f, x, 0.5f * y);
             }
 
             return 0.5f * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="float4"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.float4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 avg(float4 x, float4 y)
         {
             if (constexpr.IS_CONST(x))
             {
-                return math.mad(0.5f, y, 0.5f * x);
+                return mad(0.5f, y, 0.5f * x);
             }
             if (constexpr.IS_CONST(y))
             {
-                return math.mad(0.5f, x, 0.5f * y);
+                return mad(0.5f, x, 0.5f * y);
             }
 
             return 0.5f * (x + y);
@@ -1277,59 +1276,59 @@ namespace MaxMath
         {
             if (constexpr.IS_CONST(x))
             {
-                return math.mad(0.5d, y, 0.5d * x);
+                return mad(0.5d, y, 0.5d * x);
             }
             if (constexpr.IS_CONST(y))
             {
-                return math.mad(0.5d, x, 0.5d * y);
+                return mad(0.5d, x, 0.5d * y);
             }
 
             return 0.5d * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="double2"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.double2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 avg(double2 x, double2 y)
         {
             if (constexpr.IS_CONST(x))
             {
-                return math.mad(0.5d, y, 0.5d * x);
+                return mad(0.5d, y, 0.5d * x);
             }
             if (constexpr.IS_CONST(y))
             {
-                return math.mad(0.5d, x, 0.5d * y);
+                return mad(0.5d, x, 0.5d * y);
             }
 
             return 0.5d * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="double3"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.double3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 avg(double3 x, double3 y)
         {
             if (constexpr.IS_CONST(x))
             {
-                return math.mad(0.5d, y, 0.5d * x);
+                return mad(0.5d, y, 0.5d * x);
             }
             if (constexpr.IS_CONST(y))
             {
-                return math.mad(0.5d, x, 0.5d * y);
+                return mad(0.5d, x, 0.5d * y);
             }
 
             return 0.5d * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="double4"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.double4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 avg(double4 x, double4 y)
         {
             if (constexpr.IS_CONST(x))
             {
-                return math.mad(0.5d, y, 0.5d * x);
+                return mad(0.5d, y, 0.5d * x);
             }
             if (constexpr.IS_CONST(y))
             {
-                return math.mad(0.5d, x, 0.5d * y);
+                return mad(0.5d, x, 0.5d * y);
             }
 
             return 0.5d * (x + y);

@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -105,7 +104,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -353,6 +352,34 @@ namespace MaxMath
             return (short16)ceillog2((ushort16)x);
         }
 
+        
+        /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ceillog2(uint x)
+        {
+            return Unity.Mathematics.math.ceillog2(x);
+        }
+
+        /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 ceillog2(uint2 x)
+        {
+            return Unity.Mathematics.math.ceillog2(x);
+        }
+
+        /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 ceillog2(uint3 x)
+        {
+            return Unity.Mathematics.math.ceillog2(x);
+        }
+
+        /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 ceillog2(uint4 x)
+        {
+            return Unity.Mathematics.math.ceillog2(x);
+        }
 
         /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -361,6 +388,34 @@ namespace MaxMath
             return (uint8)(32 - lzcnt(x - 1));
         }
 
+        
+        /// <summary>       Computes the ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ceillog2(int x)
+        {
+            return Unity.Mathematics.math.ceillog2(x);
+        }
+
+        /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 ceillog2(int2 x)
+        {
+            return Unity.Mathematics.math.ceillog2(x);
+        }
+
+        /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 ceillog2(int3 x)
+        {
+            return Unity.Mathematics.math.ceillog2(x);
+        }
+
+        /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 ceillog2(int4 x)
+        {
+            return Unity.Mathematics.math.ceillog2(x);
+        }
 
         /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -375,7 +430,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong ceillog2(ulong x)
         {
-            return (ulong)(64 - math.lzcnt(x - 1));
+            return (ulong)(64 - lzcnt(x - 1));
         }
 
         /// <summary>       Computes the componentwise ceiling of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
@@ -685,11 +740,67 @@ namespace MaxMath
 
         /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint8 floorlog2(uint8 x)
+        public static int floorlog2(uint x)
         {
-            return (uint8)(31 - lzcnt(x));
+            return Unity.Mathematics.math.floorlog2(x);
         }
 
+        /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 floorlog2(uint2 x)
+        {
+            return Unity.Mathematics.math.floorlog2(x);
+        }
+
+        /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 floorlog2(uint3 x)
+        {
+            return Unity.Mathematics.math.floorlog2(x);
+        }
+
+        /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 floorlog2(uint4 x)
+        {
+            return Unity.Mathematics.math.floorlog2(x);
+        }
+
+        /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int8 floorlog2(uint8 x)
+        {
+            return 31 - lzcnt(x);
+        }
+
+        
+        /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int floorlog2(int x)
+        {
+            return Unity.Mathematics.math.floorlog2(x);
+        }
+
+        /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 floorlog2(int2 x)
+        {
+            return Unity.Mathematics.math.floorlog2(x);
+        }
+
+        /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 floorlog2(int3 x)
+        {
+            return Unity.Mathematics.math.floorlog2(x);
+        }
+
+        /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 floorlog2(int4 x)
+        {
+            return Unity.Mathematics.math.floorlog2(x);
+        }
 
         /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -703,7 +814,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong floorlog2(ulong x)
         {
-            return (ulong)(63 - math.lzcnt(x));
+            return (ulong)(63 - lzcnt(x));
         }
 
         /// <summary>       Computes the componentwise floor of the base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
@@ -972,28 +1083,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint intlog2(uint x)
         {
-            return (uint)math.floorlog2((uint)x);
+            return (uint)floorlog2((uint)x);
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 intlog2(uint2 x)
         {
-            return (uint2)math.floorlog2((uint2)x);
+            return (uint2)floorlog2((uint2)x);
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 intlog2(uint3 x)
         {
-            return (uint3)math.floorlog2((uint3)x);
+            return (uint3)floorlog2((uint3)x);
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 intlog2(uint4 x)
         {
-            return (uint4)math.floorlog2((uint4)x);
+            return (uint4)floorlog2((uint4)x);
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
@@ -1008,28 +1119,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int intlog2(int x)
         {
-            return (int)math.floorlog2((uint)x);
+            return (int)floorlog2((uint)x);
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 intlog2(int2 x)
         {
-            return (int2)math.floorlog2((uint2)x);
+            return (int2)floorlog2((uint2)x);
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 intlog2(int3 x)
         {
-            return (int3)math.floorlog2((uint3)x);
+            return (int3)floorlog2((uint3)x);
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 intlog2(int4 x)
         {
-            return (int4)math.floorlog2((uint4)x);
+            return (int4)floorlog2((uint4)x);
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
@@ -1044,7 +1155,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong intlog2(ulong x)
         {
-            return (ulong)(63 - math.lzcnt(x));
+            return (ulong)(63 - lzcnt(x));
         }
 
         /// <summary>       Computes the componentwise base-2 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>

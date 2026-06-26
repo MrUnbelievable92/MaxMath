@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -94,7 +93,7 @@ namespace MaxMath
                         return Avx2.mm256_max_epi32(a, b);
                     }
 
-                    return mm256_blendv_si256(a, b, mm256_cmpgt_epi64(b, a, elements));
+                    return mm256_blendv_si256(a, b, Avx2.mm256_cmpgt_epi64(b, a));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -283,7 +282,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the maximum of two <see cref="UInt128"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -639,6 +638,34 @@ namespace MaxMath
             }
         }
 
+        
+        /// <summary>       Returns the maximum of two <see cref="int"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int max(int a, int b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int2"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 max(int2 a, int2 b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int3"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 max(int3 a, int3 b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int4"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 max(int4 a, int4 b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
 
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -650,10 +677,38 @@ namespace MaxMath
             }
             else
             {
-                return new int8(math.max(a.v4_0, b.v4_0), math.max(a.v4_4, b.v4_4));
+                return new int8(max(a.v4_0, b.v4_0), max(a.v4_4, b.v4_4));
             }
         }
 
+        
+        /// <summary>       Returns the maximum of two <see cref="uint"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint max(uint a, uint b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
+        
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.uint2"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 max(uint2 a, uint2 b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.uint3"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 max(uint3 a, uint3 b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.uint4"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 max(uint4 a, uint4 b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
 
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.uint8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -665,10 +720,17 @@ namespace MaxMath
             }
             else
             {
-                return new uint8(math.max(a.v4_0, b.v4_0), math.max(a.v4_4, b.v4_4));
+                return new uint8(max(a.v4_0, b.v4_0), max(a.v4_4, b.v4_4));
             }
         }
 
+        
+        /// <summary>       Returns the maximum of two <see cref="ulong"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong max(ulong a, ulong b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
 
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.ulong2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -680,7 +742,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong2(math.max(a.x, b.x), math.max(a.y, b.y));
+                return new ulong2(max(a.x, b.x), max(a.y, b.y));
             }
         }
 
@@ -694,7 +756,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong3(max(a.xy, b.xy), math.max(a.z, b.z));
+                return new ulong3(max(a.xy, b.xy), max(a.z, b.z));
             }
         }
 
@@ -712,6 +774,13 @@ namespace MaxMath
             }
         }
 
+        
+        /// <summary>       Returns the maximum of two <see cref="long"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long max(long a, long b)
+        {
+            return Unity.Mathematics.math.max(a, b);
+        }
 
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.long2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -723,7 +792,7 @@ namespace MaxMath
             }
             else
             {
-                return new long2(math.max(a.x, b.x), math.max(a.y, b.y));
+                return new long2(max(a.x, b.x), max(a.y, b.y));
             }
         }
 
@@ -737,7 +806,7 @@ namespace MaxMath
             }
             else
             {
-                return new long3(max(a.xy, b.xy), math.max(a.z, b.z));
+                return new long3(max(a.xy, b.xy), max(a.z, b.z));
             }
         }
 
@@ -756,25 +825,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float8"/>s.    </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 max(float8 a, float8 b)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return Avx.mm256_max_ps(a, b);
-            }
-            else
-            {
-                return new float8(math.max(a.v4_0, b.v4_0), math.max(a.v4_4, b.v4_4));
-            }
-        }
-
-
         /// <summary>       Returns the maximum of two <see cref="MaxMath.quarter"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -792,13 +846,21 @@ namespace MaxMath
                 }
             }
 
-            return a.IsLessThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero)) ? b : a;
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                return a.IsGreaterThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero)) ? a : b;
+            }
+            else
+            {
+                return (isnan(b) | a.IsGreaterThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero))) ? a : b;
+            }
         }
 
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -806,7 +868,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 2);
+                quarter2 result = Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 2);
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -817,7 +887,7 @@ namespace MaxMath
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -825,7 +895,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 3);
+                quarter3 result = Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 3);
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -836,7 +914,7 @@ namespace MaxMath
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -844,7 +922,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 4);
+                quarter4 result = Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 4);
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -855,7 +941,7 @@ namespace MaxMath
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -863,7 +949,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 8);
+                quarter8 result = Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 8);
+                
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -881,7 +975,7 @@ namespace MaxMath
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -889,7 +983,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
+                quarter16 result = Xse.max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -915,7 +1017,7 @@ namespace MaxMath
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.quarter32"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -923,7 +1025,15 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
+                quarter32 result = Xse.mm256_max_pq(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -932,10 +1042,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the maximum of two <see cref="half"/>s.
+        /// <summary>       Returns the maximum of two <see cref="MaxMath.half"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -943,23 +1053,31 @@ namespace MaxMath
         {
             if (promises.Promises(Promise.Unsafe0))
             {
-                if (constexpr.IS_TRUE(a.IsZero()))
+                if (constexpr.IS_TRUE(a.IsZero))
                 {
                     return ashalf(andnot(b.value, (ushort)((short)b.value >> 31)));
                 }
-                if (constexpr.IS_TRUE(b.IsZero()))
+                if (constexpr.IS_TRUE(b.IsZero))
                 {
                     return ashalf(andnot(a.value, (ushort)((short)a.value >> 31)));
                 }
             }
 
-            return a.IsLessThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero)) ? b : a;
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                return a.IsGreaterThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero)) ? a : b;
+            }
+            else
+            {
+                return (isnan(b) | a.IsGreaterThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero))) ? a : b;
+            }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="half2"/>s.
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.half2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -967,7 +1085,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf2(Xse.max_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 2));
+                half2 result = Xse.max_ph(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 2);
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -975,10 +1101,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="half3"/>s.
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.half3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -986,7 +1112,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf3(Xse.max_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 3));
+                half3 result = Xse.max_ph(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 3);
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -994,10 +1128,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="half4"/>s.
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.half4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1005,7 +1139,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf4(Xse.max_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 4));
+                half4 result = Xse.max_ph(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 4);
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -1016,7 +1158,7 @@ namespace MaxMath
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.half8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1024,7 +1166,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.max_ph(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 8);
+                half8 result = Xse.max_ph(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 8);
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
@@ -1042,7 +1192,7 @@ namespace MaxMath
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.half16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1050,12 +1200,210 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_max_ph(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
+                half16 result = Xse.mm256_max_ph(a, b, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
             }
             else
             {
                 return new half16(max(a.v8_0, b.v8_0, promises), max(a.v8_8, b.v8_8, promises));
             }
+        }
+
+
+        /// <summary>       Returns the maximum of two <see cref="float"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float max(float a, float b, Promise promises = Promise.Nothing)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                return a > b ? a : b;
+            }
+
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float2"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 max(float2 a, float2 b, Promise promises = Promise.Nothing)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return Xse.max_ps(a, b);
+                }
+            }
+
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float3"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 max(float3 a, float3 b, Promise promises = Promise.Nothing)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return Xse.max_ps(a, b);
+                }
+            }
+
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float4"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 max(float4 a, float4 b, Promise promises = Promise.Nothing)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return Xse.max_ps(a, b);
+                }
+            }
+
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float8"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 max(float8 a, float8 b, Promise promises = Promise.Nothing)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                float8 result = Avx.mm256_max_ps(a, b);
+
+                if (!(COMPILATION_OPTIONS.FLOAT_NO_NAN
+                   || promises.Promises(Promise.Unsafe0)))
+                {
+                    result = select(result, a, isnan(b));
+                }
+
+                return result;
+            }
+            else
+            {
+                return new float8(max(a.v4_0, b.v4_0, promises), max(a.v4_4, b.v4_4, promises));
+            }
+        }
+
+        
+        /// <summary>       Returns the maximum of two <see cref="double"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double max(double a, double b, Promise promises = Promise.Nothing)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                return a > b ? a : b;
+            }
+
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double2"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 max(double2 a, double2 b, Promise promises = Promise.Nothing)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return Xse.max_pd(a, b);
+                }
+            }
+
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double3"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 max(double3 a, double3 b, Promise promises = Promise.Nothing)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                if (Avx.IsAvxSupported)
+                {
+                    return Avx.mm256_max_pd(a, b);
+                }
+                else
+                {
+                    return new double3(max(a.xy, b.xy, promises), max(a.z, b.z, promises));
+                }
+            }
+
+            return Unity.Mathematics.math.max(a, b);
+        }
+
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double4"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 max(double4 a, double4 b, Promise promises = Promise.Nothing)
+        {
+            if (COMPILATION_OPTIONS.FLOAT_NO_NAN
+             || promises.Promises(Promise.Unsafe0))
+            {
+                if (Avx.IsAvxSupported)
+                {
+                    return Avx.mm256_max_pd(a, b);
+                }
+                else
+                {
+                    return new double4(max(a.xy, b.xy, promises), max(a.zw, b.zw, promises));
+                }
+            }
+
+            return Unity.Mathematics.math.max(a, b);
         }
     }
 }

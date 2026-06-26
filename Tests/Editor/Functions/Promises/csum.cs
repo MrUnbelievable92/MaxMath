@@ -13,7 +13,7 @@ namespace MaxMath.Tests
             {
                 byte2 b = rng.NextByte2(0, byte.MaxValue / 2);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -26,7 +26,7 @@ namespace MaxMath.Tests
             {
                 byte3 b = rng.NextByte3(0, byte.MaxValue / 3);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -39,7 +39,7 @@ namespace MaxMath.Tests
             {
                 byte4 b = rng.NextByte4(0, byte.MaxValue / 4);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 ushort2 b = rng.NextUShort2(0, ushort.MaxValue / 2);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -66,7 +66,7 @@ namespace MaxMath.Tests
             {
                 ushort3 b = rng.NextUShort3(0, ushort.MaxValue / 3);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -79,7 +79,7 @@ namespace MaxMath.Tests
             {
                 ushort4 b = rng.NextUShort4(0, ushort.MaxValue / 4);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -92,7 +92,7 @@ namespace MaxMath.Tests
             {
                 ushort8 b = rng.NextUShort8(0, ushort.MaxValue / 8);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -105,7 +105,7 @@ namespace MaxMath.Tests
             {
                 ushort16 b = rng.NextUShort16(0, ushort.MaxValue / 16);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -119,7 +119,7 @@ namespace MaxMath.Tests
             {
                 sbyte2 b = rng.NextSByte2(sbyte.MinValue / 2, sbyte.MaxValue / 2);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -132,7 +132,7 @@ namespace MaxMath.Tests
             {
                 sbyte3 b = rng.NextSByte3(sbyte.MinValue / 3, sbyte.MaxValue / 3);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -145,7 +145,7 @@ namespace MaxMath.Tests
             {
                 sbyte4 b = rng.NextSByte4(sbyte.MinValue / 4, sbyte.MaxValue / 4);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -158,7 +158,7 @@ namespace MaxMath.Tests
             {
                 sbyte8 b = rng.NextSByte8(sbyte.MinValue / 8, sbyte.MaxValue / 8);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -171,7 +171,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 b = rng.NextSByte16(sbyte.MinValue / 16, sbyte.MaxValue / 16);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -184,7 +184,7 @@ namespace MaxMath.Tests
             {
                 sbyte32 b = rng.NextSByte32(sbyte.MinValue / 32, sbyte.MaxValue / 32);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -198,7 +198,7 @@ namespace MaxMath.Tests
             {
                 short2 b = rng.NextShort2(short.MinValue / 2, short.MaxValue / 2);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
             {
                 short3 b = rng.NextShort3(short.MinValue / 3, short.MaxValue / 3);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -224,7 +224,7 @@ namespace MaxMath.Tests
             {
                 short4 b = rng.NextShort4(short.MinValue / 4, short.MaxValue / 4);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -237,7 +237,7 @@ namespace MaxMath.Tests
             {
                 short8 b = rng.NextShort8(short.MinValue / 8, short.MaxValue / 8);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
 
@@ -250,7 +250,7 @@ namespace MaxMath.Tests
             {
                 short16 b = rng.NextShort16(short.MinValue / 16, short.MaxValue / 16);
 
-                Assert.AreEqual(maxmath.csum(b), maxmath.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
             }
         }
     }

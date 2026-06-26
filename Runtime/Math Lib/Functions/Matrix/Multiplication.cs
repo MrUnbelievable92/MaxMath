@@ -2,8 +2,15 @@ using System.Runtime.CompilerServices;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
+        /// <summary>   Returns the <see langword="long"/> value result of a matrix multiplication between a <see langword="long"/> value and a <see langword="long"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long mul(long a, long b)
+        {
+            return a * b;
+        }
+
         /// <summary>		Returns the <see cref="long"/> result of a matrix multiplication between a <see cref="MaxMath.long2"/> row vector and a <see cref="MaxMath.long2"/> column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long mul(long2 a, long2 b)
@@ -421,6 +428,13 @@ namespace MaxMath
                 (a.c0 * b.c3.xxxx + a.c1 * b.c3.yyyy) + (a.c2 * b.c3.zzzz + a.c3 * b.c3.wwww));
         }
 
+        
+        /// <summary>   Returns the <see langword="ulong"/> value result of a matrix multiplication between a <see langword="ulong"/> value and a <see langword="ulong"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong mul(ulong a, ulong b)
+        {
+            return a * b;
+        }
 
         /// <summary>		Returns the <see cref="ulong"/> result of a matrix multiplication between a <see cref="MaxMath.ulong2"/> row vector and a <see cref="MaxMath.ulong2"/> column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -839,6 +853,701 @@ namespace MaxMath
                 (a.c0 * b.c3.xxxx + a.c1 * b.c3.yyyy) + (a.c2 * b.c3.zzzz + a.c3 * b.c3.wwww));
         }
 
+        
+        /// <summary>   Returns the <see langword="int"/> value result of a matrix multiplication between an <see langword="int"/> value and an <see langword="int"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mul(int a, int b)
+        {
+            return a * b;
+        }
+
+        /// <summary>		Returns the <see cref="int"/> result of a matrix multiplication between an <see cref="MaxMath.int2"/> row vector and an <see cref="MaxMath.int2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mul(int2 a, int2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int2"/> row vector and an <see cref="MaxMath.int2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 mul(int2 a, int2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int2"/> row vector and an <see cref="MaxMath.int2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 mul(int2 a, int2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int2"/> row vector and an <see cref="MaxMath.int2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 mul(int2 a, int2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="int"/> result of a matrix multiplication between an <see cref="MaxMath.int3"/> row vector and an <see cref="MaxMath.int3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mul(int3 a, int3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int3"/> row vector and an <see cref="MaxMath.int3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 mul(int3 a, int3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int3"/> row vector and an <see cref="MaxMath.int3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 mul(int3 a, int3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int3"/> row vector and an <see cref="MaxMath.int3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 mul(int3 a, int3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="int"/> result of a matrix multiplication between an <see cref="MaxMath.int4"/> row vector and an <see cref="MaxMath.int4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mul(int4 a, int4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int4"/> row vector and an <see cref="MaxMath.int4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 mul(int4 a, int4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int4"/> row vector and an <see cref="MaxMath.int4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 mul(int4 a, int4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4"/> row vector result of a matrix multiplication between an <see cref="MaxMath.int4"/> row vector and an <see cref="MaxMath.int4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 mul(int4 a, int4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int2x2"/> and an <see cref="MaxMath.int2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 mul(int2x2 a, int2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x2"/> result of a matrix multiplication between an <see cref="MaxMath.int2x2"/> and an <see cref="MaxMath.int2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x2 mul(int2x2 a, int2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x3"/> result of a matrix multiplication between an <see cref="MaxMath.int2x2"/> and an <see cref="MaxMath.int2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x3 mul(int2x2 a, int2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x4"/> result of a matrix multiplication between an <see cref="MaxMath.int2x2"/> and an <see cref="MaxMath.int2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x4 mul(int2x2 a, int2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int2x3"/> and an <see cref="MaxMath.int3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 mul(int2x3 a, int3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x2"/> result of a matrix multiplication between an <see cref="MaxMath.int2x3"/> and an <see cref="MaxMath.int3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x2 mul(int2x3 a, int3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x3"/> result of a matrix multiplication between an <see cref="MaxMath.int2x3"/> and an <see cref="MaxMath.int3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x3 mul(int2x3 a, int3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x4"/> result of a matrix multiplication between an <see cref="MaxMath.int2x3"/> and an <see cref="MaxMath.int3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x4 mul(int2x3 a, int3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int2x4"/> and an <see cref="MaxMath.int4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 mul(int2x4 a, int4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x2"/> result of a matrix multiplication between an <see cref="MaxMath.int2x4"/> and an <see cref="MaxMath.int4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x2 mul(int2x4 a, int4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x3"/> result of a matrix multiplication between an <see cref="MaxMath.int2x4"/> and an <see cref="MaxMath.int4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x3 mul(int2x4 a, int4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int2x4"/> result of a matrix multiplication between an <see cref="MaxMath.int2x4"/> and an <see cref="MaxMath.int4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2x4 mul(int2x4 a, int4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int3x2"/> and an <see cref="MaxMath.int2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 mul(int3x2 a, int2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x2"/> result of a matrix multiplication between an <see cref="MaxMath.int3x2"/> and an <see cref="MaxMath.int2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 mul(int3x2 a, int2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x3"/> result of a matrix multiplication between an <see cref="MaxMath.int3x2"/> and an <see cref="MaxMath.int2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x3 mul(int3x2 a, int2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x4"/> result of a matrix multiplication between an <see cref="MaxMath.int3x2"/> and an <see cref="MaxMath.int2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x4 mul(int3x2 a, int2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int3x3"/> and an <see cref="MaxMath.int3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 mul(int3x3 a, int3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x2"/> result of a matrix multiplication between an <see cref="MaxMath.int3x3"/> and an <see cref="MaxMath.int3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 mul(int3x3 a, int3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x3"/> result of a matrix multiplication between an <see cref="MaxMath.int3x3"/> and an <see cref="MaxMath.int3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x3 mul(int3x3 a, int3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x4"/> result of a matrix multiplication between an <see cref="MaxMath.int3x3"/> and an <see cref="MaxMath.int3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x4 mul(int3x3 a, int3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int3x4"/> and an <see cref="MaxMath.int4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 mul(int3x4 a, int4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x2"/> result of a matrix multiplication between an <see cref="MaxMath.int3x4"/> and an <see cref="MaxMath.int4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 mul(int3x4 a, int4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x3"/> result of a matrix multiplication between an <see cref="MaxMath.int3x4"/> and an <see cref="MaxMath.int4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x3 mul(int3x4 a, int4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int3x4"/> result of a matrix multiplication between an <see cref="MaxMath.int3x4"/> and an <see cref="MaxMath.int4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x4 mul(int3x4 a, int4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int4x2"/> and an <see cref="MaxMath.int2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 mul(int4x2 a, int2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x2"/> result of a matrix multiplication between an <see cref="MaxMath.int4x2"/> and an <see cref="MaxMath.int2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x2 mul(int4x2 a, int2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x3"/> result of a matrix multiplication between an <see cref="MaxMath.int4x2"/> and an <see cref="MaxMath.int2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x3 mul(int4x2 a, int2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x4"/> result of a matrix multiplication between an <see cref="MaxMath.int4x2"/> and an <see cref="MaxMath.int2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 mul(int4x2 a, int2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int4x3"/> and an <see cref="MaxMath.int3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 mul(int4x3 a, int3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x2"/> result of a matrix multiplication between an <see cref="MaxMath.int4x3"/> and an <see cref="MaxMath.int3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x2 mul(int4x3 a, int3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x3"/> result of a matrix multiplication between an <see cref="MaxMath.int4x3"/> and an <see cref="MaxMath.int3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x3 mul(int4x3 a, int3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x4"/> result of a matrix multiplication between an <see cref="MaxMath.int4x3"/> and an <see cref="MaxMath.int3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 mul(int4x3 a, int3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4"/> column vector result of a matrix multiplication between an <see cref="MaxMath.int4x4"/> and an <see cref="MaxMath.int4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 mul(int4x4 a, int4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x2"/> result of a matrix multiplication between an <see cref="MaxMath.int4x4"/> and an <see cref="MaxMath.int4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x2 mul(int4x4 a, int4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x3"/> result of a matrix multiplication between an <see cref="MaxMath.int4x4"/> and an <see cref="MaxMath.int4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x3 mul(int4x4 a, int4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.int4x4"/> result of a matrix multiplication between an <see cref="MaxMath.int4x4"/> and an <see cref="MaxMath.int4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 mul(int4x4 a, int4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        
+        /// <summary>   Returns the <see langword="uint"/> value result of a matrix multiplication between a <see langword="uint"/> value and a <see langword="uint"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint mul(uint a, uint b)
+        {
+            return a * b;
+        }
+
+        /// <summary>		Returns the <see cref="uint"/> result of a matrix multiplication between a <see cref="MaxMath.uint2"/> row vector and a <see cref="MaxMath.uint2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint mul(uint2 a, uint2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint2"/> row vector and a <see cref="MaxMath.uint2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 mul(uint2 a, uint2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint2"/> row vector and a <see cref="MaxMath.uint2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 mul(uint2 a, uint2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint2"/> row vector and a <see cref="MaxMath.uint2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 mul(uint2 a, uint2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="uint"/> result of a matrix multiplication between a <see cref="MaxMath.uint3"/> row vector and a <see cref="MaxMath.uint3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint mul(uint3 a, uint3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint3"/> row vector and a <see cref="MaxMath.uint3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 mul(uint3 a, uint3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint3"/> row vector and a <see cref="MaxMath.uint3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 mul(uint3 a, uint3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint3"/> row vector and a <see cref="MaxMath.uint3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 mul(uint3 a, uint3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="uint"/> result of a matrix multiplication between a <see cref="MaxMath.uint4"/> row vector and a <see cref="MaxMath.uint4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint mul(uint4 a, uint4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint4"/> row vector and a <see cref="MaxMath.uint4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 mul(uint4 a, uint4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint4"/> row vector and a <see cref="MaxMath.uint4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 mul(uint4 a, uint4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.uint4"/> row vector and a <see cref="MaxMath.uint4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 mul(uint4 a, uint4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint2x2"/> and a <see cref="MaxMath.uint2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 mul(uint2x2 a, uint2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x2"/> and a <see cref="MaxMath.uint2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x2 mul(uint2x2 a, uint2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x2"/> and a <see cref="MaxMath.uint2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x3 mul(uint2x2 a, uint2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x2"/> and a <see cref="MaxMath.uint2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x4 mul(uint2x2 a, uint2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint2x3"/> and a <see cref="MaxMath.uint3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 mul(uint2x3 a, uint3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x3"/> and a <see cref="MaxMath.uint3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x2 mul(uint2x3 a, uint3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x3"/> and a <see cref="MaxMath.uint3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x3 mul(uint2x3 a, uint3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x3"/> and a <see cref="MaxMath.uint3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x4 mul(uint2x3 a, uint3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint2x4"/> and a <see cref="MaxMath.uint4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 mul(uint2x4 a, uint4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x4"/> and a <see cref="MaxMath.uint4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x2 mul(uint2x4 a, uint4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x4"/> and a <see cref="MaxMath.uint4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x3 mul(uint2x4 a, uint4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint2x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint2x4"/> and a <see cref="MaxMath.uint4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2x4 mul(uint2x4 a, uint4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint3x2"/> and a <see cref="MaxMath.uint2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 mul(uint3x2 a, uint2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x2"/> and a <see cref="MaxMath.uint2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x2 mul(uint3x2 a, uint2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x2"/> and a <see cref="MaxMath.uint2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x3 mul(uint3x2 a, uint2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x2"/> and a <see cref="MaxMath.uint2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x4 mul(uint3x2 a, uint2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint3x3"/> and a <see cref="MaxMath.uint3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 mul(uint3x3 a, uint3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x3"/> and a <see cref="MaxMath.uint3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x2 mul(uint3x3 a, uint3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x3"/> and a <see cref="MaxMath.uint3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x3 mul(uint3x3 a, uint3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x3"/> and a <see cref="MaxMath.uint3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x4 mul(uint3x3 a, uint3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint3x4"/> and a <see cref="MaxMath.uint4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 mul(uint3x4 a, uint4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x4"/> and a <see cref="MaxMath.uint4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x2 mul(uint3x4 a, uint4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x4"/> and a <see cref="MaxMath.uint4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x3 mul(uint3x4 a, uint4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint3x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint3x4"/> and a <see cref="MaxMath.uint4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3x4 mul(uint3x4 a, uint4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint4x2"/> and a <see cref="MaxMath.uint2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 mul(uint4x2 a, uint2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x2"/> and a <see cref="MaxMath.uint2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x2 mul(uint4x2 a, uint2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x2"/> and a <see cref="MaxMath.uint2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x3 mul(uint4x2 a, uint2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x2"/> and a <see cref="MaxMath.uint2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 mul(uint4x2 a, uint2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint4x3"/> and a <see cref="MaxMath.uint3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 mul(uint4x3 a, uint3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x3"/> and a <see cref="MaxMath.uint3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x2 mul(uint4x3 a, uint3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x3"/> and a <see cref="MaxMath.uint3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x3 mul(uint4x3 a, uint3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x3"/> and a <see cref="MaxMath.uint3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 mul(uint4x3 a, uint3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.uint4x4"/> and a <see cref="MaxMath.uint4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 mul(uint4x4 a, uint4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x2"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x4"/> and a <see cref="MaxMath.uint4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x2 mul(uint4x4 a, uint4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x3"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x4"/> and a <see cref="MaxMath.uint4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x3 mul(uint4x4 a, uint4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.uint4x4"/> result of a matrix multiplication between a <see cref="MaxMath.uint4x4"/> and a <see cref="MaxMath.uint4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 mul(uint4x4 a, uint4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        
+        /// <summary>   Returns the <see langword="int"/> value result of a matrix multiplication between a <see langword="short"/> value and a <see langword="short"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mul(short a, short b)
+        {
+            return a * b;
+        }
 
         /// <summary>		Returns the <see cref="short"/> result of a matrix multiplication between a <see cref="MaxMath.short2"/> row vector and a <see cref="MaxMath.short2"/> column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1257,6 +1966,13 @@ namespace MaxMath
                 (a.c0 * b.c3.xxxx + a.c1 * b.c3.yyyy) + (a.c2 * b.c3.zzzz + a.c3 * b.c3.wwww));
         }
 
+        
+        /// <summary>   Returns the <see langword="int"/> value result of a matrix multiplication between a <see langword="ushort"/> value and a <see langword="ushort"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mul(ushort a, ushort b)
+        {
+            return a * b;
+        }
 
         /// <summary>		Returns the <see cref="ushort"/> result of a matrix multiplication between a <see cref="MaxMath.ushort2"/> row vector and a <see cref="MaxMath.ushort2"/> column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1675,6 +2391,13 @@ namespace MaxMath
                 (a.c0 * b.c3.xxxx + a.c1 * b.c3.yyyy) + (a.c2 * b.c3.zzzz + a.c3 * b.c3.wwww));
         }
 
+        
+        /// <summary>   Returns the <see langword="int"/> value result of a matrix multiplication between an <see langword="sbyte"/> value and an <see langword="sbyte"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mul(sbyte a, sbyte b)
+        {
+            return a * b;
+        }
 
         /// <summary>		Returns the <see cref="sbyte"/> result of a matrix multiplication between an <see cref="MaxMath.sbyte2"/> row vector and an <see cref="MaxMath.sbyte2"/> column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2012,6 +2735,13 @@ namespace MaxMath
             return (sbyte4x4)mul((short4x4)a, (short4x4)b);
         }
 
+        
+        /// <summary>   Returns the <see langword="int"/> value result of a matrix multiplication between an <see langword="byte"/> value and an <see langword="byte"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int mul(byte a, byte b)
+        {
+            return a * b;
+        }
 
         /// <summary>		Returns the <see cref="byte"/> result of a matrix multiplication between an <see cref="MaxMath.byte2"/> row vector and an <see cref="MaxMath.byte2"/> column vector.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2347,6 +3077,694 @@ namespace MaxMath
         public static byte4x4 mul(byte4x4 a, byte4x4 b)
         {
             return (byte4x4)mul((ushort4x4)a, (ushort4x4)b);
+        }
+
+        
+        /// <summary>   Returns the <see langword="float"/> value result of a matrix multiplication between an <see langword="float"/> value and an <see langword="float"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float mul(float a, float b)
+        {
+            return a * b;
+        }
+
+        /// <summary>		Returns the <see cref="float"/> result of a matrix multiplication between a <see cref="MaxMath.float2"/> row vector and a <see cref="MaxMath.float2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float mul(float2 a, float2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float2"/> row vector and a <see cref="MaxMath.float2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 mul(float2 a, float2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float2"/> row vector and a <see cref="MaxMath.float2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 mul(float2 a, float2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float2"/> row vector and a <see cref="MaxMath.float2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 mul(float2 a, float2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="float"/> result of a matrix multiplication between a <see cref="MaxMath.float3"/> row vector and a <see cref="MaxMath.float3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float mul(float3 a, float3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float3"/> row vector and a <see cref="MaxMath.float3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 mul(float3 a, float3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float3"/> row vector and a <see cref="MaxMath.float3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 mul(float3 a, float3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float3"/> row vector and a <see cref="MaxMath.float3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 mul(float3 a, float3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="float"/> result of a matrix multiplication between a <see cref="MaxMath.float4"/> row vector and a <see cref="MaxMath.float4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float mul(float4 a, float4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float4"/> row vector and a <see cref="MaxMath.float4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 mul(float4 a, float4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float4"/> row vector and a <see cref="MaxMath.float4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 mul(float4 a, float4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.float4"/> row vector and a <see cref="MaxMath.float4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 mul(float4 a, float4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float2x2"/> and a <see cref="MaxMath.float2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 mul(float2x2 a, float2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x2"/> result of a matrix multiplication between a <see cref="MaxMath.float2x2"/> and a <see cref="MaxMath.float2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 mul(float2x2 a, float2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x3"/> result of a matrix multiplication between a <see cref="MaxMath.float2x2"/> and a <see cref="MaxMath.float2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x3 mul(float2x2 a, float2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x4"/> result of a matrix multiplication between a <see cref="MaxMath.float2x2"/> and a <see cref="MaxMath.float2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x4 mul(float2x2 a, float2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float2x3"/> and a <see cref="MaxMath.float3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 mul(float2x3 a, float3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x2"/> result of a matrix multiplication between a <see cref="MaxMath.float2x3"/> and a <see cref="MaxMath.float3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 mul(float2x3 a, float3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x3"/> result of a matrix multiplication between a <see cref="MaxMath.float2x3"/> and a <see cref="MaxMath.float3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x3 mul(float2x3 a, float3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x4"/> result of a matrix multiplication between a <see cref="MaxMath.float2x3"/> and a <see cref="MaxMath.float3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x4 mul(float2x3 a, float3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float2x4"/> and a <see cref="MaxMath.float4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 mul(float2x4 a, float4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x2"/> result of a matrix multiplication between a <see cref="MaxMath.float2x4"/> and a <see cref="MaxMath.float4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 mul(float2x4 a, float4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x3"/> result of a matrix multiplication between a <see cref="MaxMath.float2x4"/> and a <see cref="MaxMath.float4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x3 mul(float2x4 a, float4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float2x4"/> result of a matrix multiplication between a <see cref="MaxMath.float2x4"/> and a <see cref="MaxMath.float4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x4 mul(float2x4 a, float4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float3x2"/> and a <see cref="MaxMath.float2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 mul(float3x2 a, float2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x2"/> result of a matrix multiplication between a <see cref="MaxMath.float3x2"/> and a <see cref="MaxMath.float2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 mul(float3x2 a, float2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x3"/> result of a matrix multiplication between a <see cref="MaxMath.float3x2"/> and a <see cref="MaxMath.float2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x3 mul(float3x2 a, float2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x4"/> result of a matrix multiplication between a <see cref="MaxMath.float3x2"/> and a <see cref="MaxMath.float2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x4 mul(float3x2 a, float2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float3x3"/> and a <see cref="MaxMath.float3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 mul(float3x3 a, float3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x2"/> result of a matrix multiplication between a <see cref="MaxMath.float3x3"/> and a <see cref="MaxMath.float3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 mul(float3x3 a, float3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x3"/> result of a matrix multiplication between a <see cref="MaxMath.float3x3"/> and a <see cref="MaxMath.float3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x3 mul(float3x3 a, float3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x4"/> result of a matrix multiplication between a <see cref="MaxMath.float3x3"/> and a <see cref="MaxMath.float3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x4 mul(float3x3 a, float3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float3x4"/> and a <see cref="MaxMath.float4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 mul(float3x4 a, float4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x2"/> result of a matrix multiplication between a <see cref="MaxMath.float3x4"/> and a <see cref="MaxMath.float4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 mul(float3x4 a, float4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x3"/> result of a matrix multiplication between a <see cref="MaxMath.float3x4"/> and a <see cref="MaxMath.float4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x3 mul(float3x4 a, float4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float3x4"/> result of a matrix multiplication between a <see cref="MaxMath.float3x4"/> and a <see cref="MaxMath.float4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x4 mul(float3x4 a, float4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float4x2"/> and a <see cref="MaxMath.float2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 mul(float4x2 a, float2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x2"/> result of a matrix multiplication between a <see cref="MaxMath.float4x2"/> and a <see cref="MaxMath.float2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x2 mul(float4x2 a, float2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x3"/> result of a matrix multiplication between a <see cref="MaxMath.float4x2"/> and a <see cref="MaxMath.float2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x3 mul(float4x2 a, float2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x4"/> result of a matrix multiplication between a <see cref="MaxMath.float4x2"/> and a <see cref="MaxMath.float2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 mul(float4x2 a, float2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float4x3"/> and a <see cref="MaxMath.float3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 mul(float4x3 a, float3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x2"/> result of a matrix multiplication between a <see cref="MaxMath.float4x3"/> and a <see cref="MaxMath.float3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x2 mul(float4x3 a, float3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x3"/> result of a matrix multiplication between a <see cref="MaxMath.float4x3"/> and a <see cref="MaxMath.float3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x3 mul(float4x3 a, float3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x4"/> result of a matrix multiplication between a <see cref="MaxMath.float4x3"/> and a <see cref="MaxMath.float3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 mul(float4x3 a, float3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.float4x4"/> and a <see cref="MaxMath.float4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 mul(float4x4 a, float4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x2"/> result of a matrix multiplication between a <see cref="MaxMath.float4x4"/> and a <see cref="MaxMath.float4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x2 mul(float4x4 a, float4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x3"/> result of a matrix multiplication between a <see cref="MaxMath.float4x4"/> and a <see cref="MaxMath.float4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x3 mul(float4x4 a, float4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.float4x4"/> result of a matrix multiplication between a <see cref="MaxMath.float4x4"/> and a <see cref="MaxMath.float4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 mul(float4x4 a, float4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        
+        /// <summary>   Returns the <see langword="double"/> value result of a matrix multiplication between an <see langword="double"/> value and an <see langword="double"/> value.  </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double mul(double a, double b)
+        {
+            return a * b;
+        }
+
+        /// <summary>		Returns the <see cref="double"/> result of a matrix multiplication between a <see cref="MaxMath.double2"/> row vector and a <see cref="MaxMath.double2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double mul(double2 a, double2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double2"/> row vector and a <see cref="MaxMath.double2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 mul(double2 a, double2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double2"/> row vector and a <see cref="MaxMath.double2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 mul(double2 a, double2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double2"/> row vector and a <see cref="MaxMath.double2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 mul(double2 a, double2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="double"/> result of a matrix multiplication between a <see cref="MaxMath.double3"/> row vector and a <see cref="MaxMath.double3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double mul(double3 a, double3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double3"/> row vector and a <see cref="MaxMath.double3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 mul(double3 a, double3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double3"/> row vector and a <see cref="MaxMath.double3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 mul(double3 a, double3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double3"/> row vector and a <see cref="MaxMath.double3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 mul(double3 a, double3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="double"/> result of a matrix multiplication between a <see cref="MaxMath.double4"/> row vector and a <see cref="MaxMath.double4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double mul(double4 a, double4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double4"/> row vector and a <see cref="MaxMath.double4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 mul(double4 a, double4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double4"/> row vector and a <see cref="MaxMath.double4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 mul(double4 a, double4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4"/> row vector result of a matrix multiplication between a <see cref="MaxMath.double4"/> row vector and a <see cref="MaxMath.double4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 mul(double4 a, double4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double2x2"/> and a <see cref="MaxMath.double2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 mul(double2x2 a, double2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x2"/> result of a matrix multiplication between a <see cref="MaxMath.double2x2"/> and a <see cref="MaxMath.double2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 mul(double2x2 a, double2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x3"/> result of a matrix multiplication between a <see cref="MaxMath.double2x2"/> and a <see cref="MaxMath.double2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x3 mul(double2x2 a, double2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x4"/> result of a matrix multiplication between a <see cref="MaxMath.double2x2"/> and a <see cref="MaxMath.double2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x4 mul(double2x2 a, double2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double2x3"/> and a <see cref="MaxMath.double3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 mul(double2x3 a, double3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x2"/> result of a matrix multiplication between a <see cref="MaxMath.double2x3"/> and a <see cref="MaxMath.double3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 mul(double2x3 a, double3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x3"/> result of a matrix multiplication between a <see cref="MaxMath.double2x3"/> and a <see cref="MaxMath.double3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x3 mul(double2x3 a, double3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x4"/> result of a matrix multiplication between a <see cref="MaxMath.double2x3"/> and a <see cref="MaxMath.double3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x4 mul(double2x3 a, double3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double2x4"/> and a <see cref="MaxMath.double4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 mul(double2x4 a, double4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x2"/> result of a matrix multiplication between a <see cref="MaxMath.double2x4"/> and a <see cref="MaxMath.double4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 mul(double2x4 a, double4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x3"/> result of a matrix multiplication between a <see cref="MaxMath.double2x4"/> and a <see cref="MaxMath.double4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x3 mul(double2x4 a, double4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double2x4"/> result of a matrix multiplication between a <see cref="MaxMath.double2x4"/> and a <see cref="MaxMath.double4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x4 mul(double2x4 a, double4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double3x2"/> and a <see cref="MaxMath.double2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 mul(double3x2 a, double2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x2"/> result of a matrix multiplication between a <see cref="MaxMath.double3x2"/> and a <see cref="MaxMath.double2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 mul(double3x2 a, double2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x3"/> result of a matrix multiplication between a <see cref="MaxMath.double3x2"/> and a <see cref="MaxMath.double2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x3 mul(double3x2 a, double2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x4"/> result of a matrix multiplication between a <see cref="MaxMath.double3x2"/> and a <see cref="MaxMath.double2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x4 mul(double3x2 a, double2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double3x3"/> and a <see cref="MaxMath.double3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 mul(double3x3 a, double3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x2"/> result of a matrix multiplication between a <see cref="MaxMath.double3x3"/> and a <see cref="MaxMath.double3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 mul(double3x3 a, double3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x3"/> result of a matrix multiplication between a <see cref="MaxMath.double3x3"/> and a <see cref="MaxMath.double3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x3 mul(double3x3 a, double3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x4"/> result of a matrix multiplication between a <see cref="MaxMath.double3x3"/> and a <see cref="MaxMath.double3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x4 mul(double3x3 a, double3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double3x4"/> and a <see cref="MaxMath.double4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 mul(double3x4 a, double4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x2"/> result of a matrix multiplication between a <see cref="MaxMath.double3x4"/> and a <see cref="MaxMath.double4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 mul(double3x4 a, double4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x3"/> result of a matrix multiplication between a <see cref="MaxMath.double3x4"/> and a <see cref="MaxMath.double4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x3 mul(double3x4 a, double4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double3x4"/> result of a matrix multiplication between a <see cref="MaxMath.double3x4"/> and a <see cref="MaxMath.double4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x4 mul(double3x4 a, double4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double4x2"/> and a <see cref="MaxMath.double2"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 mul(double4x2 a, double2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x2"/> result of a matrix multiplication between a <see cref="MaxMath.double4x2"/> and a <see cref="MaxMath.double2x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x2 mul(double4x2 a, double2x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x3"/> result of a matrix multiplication between a <see cref="MaxMath.double4x2"/> and a <see cref="MaxMath.double2x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x3 mul(double4x2 a, double2x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x4"/> result of a matrix multiplication between a <see cref="MaxMath.double4x2"/> and a <see cref="MaxMath.double2x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 mul(double4x2 a, double2x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double4x3"/> and a <see cref="MaxMath.double3"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 mul(double4x3 a, double3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x2"/> result of a matrix multiplication between a <see cref="MaxMath.double4x3"/> and a <see cref="MaxMath.double3x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x2 mul(double4x3 a, double3x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x3"/> result of a matrix multiplication between a <see cref="MaxMath.double4x3"/> and a <see cref="MaxMath.double3x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x3 mul(double4x3 a, double3x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x4"/> result of a matrix multiplication between a <see cref="MaxMath.double4x3"/> and a <see cref="MaxMath.double3x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 mul(double4x3 a, double3x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4"/> column vector result of a matrix multiplication between a <see cref="MaxMath.double4x4"/> and a <see cref="MaxMath.double4"/> column vector.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 mul(double4x4 a, double4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x2"/> result of a matrix multiplication between a <see cref="MaxMath.double4x4"/> and a <see cref="MaxMath.double4x2"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x2 mul(double4x4 a, double4x2 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x3"/> result of a matrix multiplication between a <see cref="MaxMath.double4x4"/> and a <see cref="MaxMath.double4x3"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x3 mul(double4x4 a, double4x3 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
+        }
+
+        /// <summary>		Returns the <see cref="MaxMath.double4x4"/> result of a matrix multiplication between a <see cref="MaxMath.double4x4"/> and a <see cref="MaxMath.double4x4"/>.		</summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 mul(double4x4 a, double4x4 b)
+        {
+            return Unity.Mathematics.math.mul(a, b);
         }
     }
 }

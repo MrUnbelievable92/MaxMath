@@ -16,7 +16,7 @@ namespace MaxMath.Intrinsics
             if (Sse2.IsSse2Supported)
             {
                 v128 MAGIC = Xse.cvtsi64x_si128(MAGIC_RCP_PD);
-                v128 TWO = Xse.cvtsi64x_si128(Unity.Mathematics.math.aslong(2d));
+                v128 TWO = Xse.cvtsi64x_si128(math.aslong(2d));
 
                 v128 guess = sub_epi64(MAGIC, a);
                 a = fnmadd_pd(a, guess, TWO);

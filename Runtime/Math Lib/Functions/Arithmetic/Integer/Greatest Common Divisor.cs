@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst;
 using MaxMath.Intrinsics;
 
@@ -118,10 +117,10 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    b = srlv_epi32(b, tzcntB);
+                    b = srlv_epi32(b, tzcntB, elements: elements);
                     loopCheck = cmpeq_epi32(a, b);
 
-                    minmax_epu32(a, b, out a, out b);
+                    minmax_epu32(a, b, out a, out b, elements: elements);
                     b = sub_epi32(b, a);
 
                     result = blendv_si128(result, a, loopCheck);
@@ -142,7 +141,7 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static bool mm256_LOOP_gcd_epu8_epu16([NoAlias] ref v256 a, [NoAlias] ref v256 b, [NoAlias] ref v256 result, [NoAlias] ref v256 tzcntB, [NoAlias] ref v256 doneMask, [NoAlias] out v256 loopCheck, byte elements = 16)
+            private static bool mm256_LOOP_gcd_epu8_epu16([NoAlias] ref v256 a, [NoAlias] ref v256 b, [NoAlias] ref v256 result, [NoAlias] ref v256 tzcntB, [NoAlias] ref v256 doneMask, [NoAlias] out v256 loopCheck)
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -177,7 +176,7 @@ namespace MaxMath
                     b = Avx2.mm256_srlv_epi32(b, tzcntB);
                     loopCheck = Avx2.mm256_cmpeq_epi32(a, b);
 
-                    mm256_minmax_epu32(a, b, out a, out b);
+                    mm256_minmax_epu32(a, b, out a, out b, elements);
                     b = Avx2.mm256_sub_epi32(b, a);
 
                     result = mm256_blendv_si256(result, a, loopCheck);
@@ -242,7 +241,7 @@ namespace MaxMath
 
                                 a16 = mm256_srlv_epi16(a16, tzcntA16);
 
-                                while (Hint.Likely(!mm256_LOOP_gcd_epu8_epu16(ref a16, ref b16, ref result16, ref tzcntB16, ref doneMask16, out _, 16)))
+                                while (Hint.Likely(!mm256_LOOP_gcd_epu8_epu16(ref a16, ref b16, ref result16, ref tzcntB16, ref doneMask16, out _)))
                                 {
 
                                 }
@@ -349,8 +348,8 @@ namespace MaxMath
 
                     while (true)
                     {
-                        LOOP_gcd_epu8(ref a0, ref b0, ref r0, ref tzcntB0, ref doneMask0, out v128 loopCheck0, 16);
-                        LOOP_gcd_epu8(ref a1, ref b1, ref r1, ref tzcntB1, ref doneMask1, out v128 loopCheck1, 16);
+                        LOOP_gcd_epu8(ref a0, ref b0, ref r0, ref tzcntB0, ref doneMask0, out _, 16);
+                        LOOP_gcd_epu8(ref a1, ref b1, ref r1, ref tzcntB1, ref doneMask1, out _, 16);
 
                         if (Hint.Unlikely(alltrue_epi128<byte>(and_si128(doneMask0, doneMask1))))
                         {
@@ -1197,7 +1196,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool LOOP_gcd_u128([NoAlias] ref UInt128 x, [NoAlias] ref UInt128 y, [NoAlias] ref int tzcntY)
@@ -1232,7 +1231,7 @@ namespace MaxMath
             }
             else
             {
-                tzcntY = math.tzcnt(y);
+                tzcntY = tzcnt(y);
                 return false;
             }
         }
@@ -1251,7 +1250,7 @@ namespace MaxMath
             }
             else
             {
-                tzcntY = math.tzcnt(y);
+                tzcntY = tzcnt(y);
                 return false;
             }
         }
@@ -1272,7 +1271,7 @@ namespace MaxMath
 
             int tzcntX = tzcnt(x);
             int tzcntY = tzcnt(y);
-            int shift = math.min(tzcntX, tzcntY);
+            int shift = min(tzcntX, tzcntY);
             x >>= tzcntX;
 
             if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
@@ -1831,16 +1830,16 @@ namespace MaxMath
                 }
                 else
                 {
-                    return gcd((ulong)x, (ulong)math.abs(y), nonZero);
+                    return gcd((ulong)x, (ulong)abs(y), nonZero);
                 }
             }
             else if (constexpr.IS_TRUE(y >= 0))
             {
-                return gcd((ulong)math.abs(x), (ulong)y, nonZero);
+                return gcd((ulong)abs(x), (ulong)y, nonZero);
             }
             else
             {
-                return gcd((ulong)math.abs(x), (ulong)math.abs(y), nonZero);
+                return gcd((ulong)abs(x), (ulong)abs(y), nonZero);
             }
         }
 
@@ -1892,9 +1891,9 @@ namespace MaxMath
                 if (Hint.Unlikely(y == 0)) return x;
             }
 
-            int tzcntX = math.tzcnt(x);
-            int tzcntY = math.tzcnt(y);
-            int shift = math.min(tzcntX, tzcntY);
+            int tzcntX = tzcnt(x);
+            int tzcntY = tzcnt(y);
+            int shift = min(tzcntX, tzcntY);
             x >>= tzcntX;
 
             if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
@@ -2225,7 +2224,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong3(gcd(x._xy, y._xy, nonZero), gcd(x.z, y.z, nonZero));
+                return new ulong3(gcd(x.__x0, y.__x0, nonZero), gcd(x.z, y.z, nonZero));
             }
         }
 
@@ -2258,7 +2257,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong4(gcd(x._xy, y._xy, nonZero), gcd(x._zw, y._zw, nonZero));
+                return new ulong4(gcd(x.__x0, y.__x0, nonZero), gcd(x.__x2, y.__x2, nonZero));
             }
         }
 
@@ -2279,20 +2278,20 @@ namespace MaxMath
                 }
                 else
                 {
-                    return gcd((uint)x, (uint)math.abs(y), nonZero);
+                    return gcd((uint)x, (uint)abs(y), nonZero);
                 }
             }
             else if (constexpr.IS_TRUE(y >= 0))
             {
-                return gcd((uint)math.abs(x), (uint)y, nonZero);
+                return gcd((uint)abs(x), (uint)y, nonZero);
             }
             else
             {
-                return gcd((uint)math.abs(x), (uint)math.abs(y), nonZero);
+                return gcd((uint)abs(x), (uint)abs(y), nonZero);
             }
         }
 
-        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="int2"/>s.
+        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="MaxMath.int2"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -2300,28 +2299,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 gcd(int2 x, int2 y, Promise nonZero = Promise.Nothing)
         {
-            if (constexpr.IS_TRUE(math.all(x >= 0)))
+            if (constexpr.IS_TRUE(all(x >= 0)))
             {
-                if (constexpr.IS_TRUE(math.all(y >= 0)))
+                if (constexpr.IS_TRUE(all(y >= 0)))
                 {
                     return gcd((uint2)x, (uint2)y, nonZero);
                 }
                 else
                 {
-                    return gcd((uint2)x, (uint2)math.abs(y), nonZero);
+                    return gcd((uint2)x, (uint2)abs(y), nonZero);
                 }
             }
-            else if (constexpr.IS_TRUE(math.all(y >= 0)))
+            else if (constexpr.IS_TRUE(all(y >= 0)))
             {
-                return gcd((uint2)math.abs(x), (uint2)y, nonZero);
+                return gcd((uint2)abs(x), (uint2)y, nonZero);
             }
             else
             {
-                return gcd((uint2)math.abs(x), (uint2)math.abs(y), nonZero);
+                return gcd((uint2)abs(x), (uint2)abs(y), nonZero);
             }
         }
 
-        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="int3"/>s.
+        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="MaxMath.int3"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -2329,28 +2328,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 gcd(int3 x, int3 y, Promise nonZero = Promise.Nothing)
         {
-            if (constexpr.IS_TRUE(math.all(x >= 0)))
+            if (constexpr.IS_TRUE(all(x >= 0)))
             {
-                if (constexpr.IS_TRUE(math.all(y >= 0)))
+                if (constexpr.IS_TRUE(all(y >= 0)))
                 {
                     return gcd((uint3)x, (uint3)y, nonZero);
                 }
                 else
                 {
-                    return gcd((uint3)x, (uint3)math.abs(y), nonZero);
+                    return gcd((uint3)x, (uint3)abs(y), nonZero);
                 }
             }
-            else if (constexpr.IS_TRUE(math.all(y >= 0)))
+            else if (constexpr.IS_TRUE(all(y >= 0)))
             {
-                return gcd((uint3)math.abs(x), (uint3)y, nonZero);
+                return gcd((uint3)abs(x), (uint3)y, nonZero);
             }
             else
             {
-                return gcd((uint3)math.abs(x), (uint3)math.abs(y), nonZero);
+                return gcd((uint3)abs(x), (uint3)abs(y), nonZero);
             }
         }
 
-        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="int4"/>s.
+        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="MaxMath.int4"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -2358,24 +2357,24 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 gcd(int4 x, int4 y, Promise nonZero = Promise.Nothing)
         {
-            if (constexpr.IS_TRUE(math.all(x >= 0)))
+            if (constexpr.IS_TRUE(all(x >= 0)))
             {
-                if (constexpr.IS_TRUE(math.all(y >= 0)))
+                if (constexpr.IS_TRUE(all(y >= 0)))
                 {
                     return gcd((uint4)x, (uint4)y, nonZero);
                 }
                 else
                 {
-                    return gcd((uint4)x, (uint4)math.abs(y), nonZero);
+                    return gcd((uint4)x, (uint4)abs(y), nonZero);
                 }
             }
-            else if (constexpr.IS_TRUE(math.all(y >= 0)))
+            else if (constexpr.IS_TRUE(all(y >= 0)))
             {
-                return gcd((uint4)math.abs(x), (uint4)y, nonZero);
+                return gcd((uint4)abs(x), (uint4)y, nonZero);
             }
             else
             {
-                return gcd((uint4)math.abs(x), (uint4)math.abs(y), nonZero);
+                return gcd((uint4)abs(x), (uint4)abs(y), nonZero);
             }
         }
 
@@ -2423,9 +2422,9 @@ namespace MaxMath
                 if (Hint.Unlikely(y == 0)) return x;
             }
 
-            int tzcntX = math.tzcnt(x);
-            int tzcntY = math.tzcnt(y);
-            int shift = math.min(tzcntX, tzcntY);
+            int tzcntX = tzcnt(x);
+            int tzcntY = tzcnt(y);
+            int shift = min(tzcntX, tzcntY);
             x >>= tzcntX;
 
             if (constexpr.IS_CONST(x) && constexpr.IS_CONST(y))
@@ -2572,7 +2571,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="uint2"/>s.
+        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="MaxMath.uint2"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -2591,7 +2590,7 @@ namespace MaxMath
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.gcd_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 2));
+                return Xse.gcd_epu32(x, y, nonZero.Promises(Promise.NonZero), 2);
             }
             else
             {
@@ -2599,7 +2598,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="uint3"/>s.
+        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="MaxMath.uint3"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -2618,7 +2617,7 @@ namespace MaxMath
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.gcd_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 3));
+                return Xse.gcd_epu32(x, y, nonZero.Promises(Promise.NonZero), 3);
             }
             else
             {
@@ -2626,7 +2625,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="uint4"/>s.
+        /// <summary>       Returns the componentwise greatest common divisor of two <see cref="MaxMath.uint4"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -2645,7 +2644,7 @@ namespace MaxMath
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.gcd_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 4));
+                return Xse.gcd_epu32(x, y, nonZero.Promises(Promise.NonZero), 4);
             }
             else
             {
@@ -2684,9 +2683,9 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.gcd_epu32x2(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(y.v4_0), RegisterConversion.ToV128(y.v4_4), out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
+                Xse.gcd_epu32x2(x.v4_0, x.v4_4, y.v4_0, y.v4_4, out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
 
-                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+                return new uint8(lo, hi);
             }
             else
             {

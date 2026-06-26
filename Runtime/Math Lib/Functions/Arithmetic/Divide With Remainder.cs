@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using MaxMath.Intrinsics;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using DevTools;
 
@@ -9,7 +8,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -55,8 +54,8 @@ namespace MaxMath
             {
 Assert.AreNotEqual(0u, divisor);
 
-                remainder = UInt128.__const.urem(dividend, divisor);
-                return UInt128.__const.udiv(dividend, divisor);
+                remainder = MaxMath.UInt128.__const.urem(dividend, divisor);
+                return MaxMath.UInt128.__const.udiv(dividend, divisor);
             }
 
             return asm128.__udivrem128x64(dividend, divisor, out remainder);
@@ -70,8 +69,8 @@ Assert.AreNotEqual(0u, divisor);
             {
 Assert.AreNotEqual(0u, divisor);
 
-                remainder = UInt128.__const.urem(dividend, divisor);
-                return UInt128.__const.udiv(dividend, divisor);
+                remainder = MaxMath.UInt128.__const.urem(dividend, divisor);
+                return MaxMath.UInt128.__const.udiv(dividend, divisor);
             }
 
             return asm128.__udivrem128x128(dividend, divisor, out remainder);
@@ -143,11 +142,11 @@ Assert.AreNotEqual(0u, divisor);
             {
 Assert.AreNotEqual(0u, divisor);
 
-                remainder = UInt128.__const.irem(dividend, divisor);
-                return UInt128.__const.idiv(dividend, divisor);
+                remainder = MaxMath.UInt128.__const.irem(dividend, divisor);
+                return MaxMath.UInt128.__const.idiv(dividend, divisor);
             }
 
-            ulong absDivisor = constexpr.IS_TRUE(divisor >= 0) ? (ulong)divisor : (ulong)math.abs(divisor);
+            ulong absDivisor = constexpr.IS_TRUE(divisor >= 0) ? (ulong)divisor : (ulong)abs(divisor);
             UInt128 absQuotient = asm128.__udivrem128x64((UInt128)abs(dividend), absDivisor, out ulong absRem64);
             Int128 quotient = Xse.SIGNED_FROM_UNSIGNED_DIV_I128(out Int128 remainder128, (long)dividend.hi64, divisor >> 63, absQuotient, absRem64);
 
@@ -163,8 +162,8 @@ Assert.AreNotEqual(0u, divisor);
             {
 Assert.AreNotEqual(0u, divisor);
 
-                remainder = UInt128.__const.irem(dividend, divisor);
-                return UInt128.__const.idiv(dividend, divisor);
+                remainder = MaxMath.UInt128.__const.irem(dividend, divisor);
+                return MaxMath.UInt128.__const.idiv(dividend, divisor);
             }
 
             if (constexpr.IS_TRUE(isinrange(divisor, long.MinValue, long.MaxValue)))
@@ -196,7 +195,7 @@ Assert.AreNotEqual(0u, divisor);
             {
                 bool sameValue = all_eq(divisor);
 
-                if (!sameValue && math.all(ispow2(divisor)))
+                if (!sameValue && all(ispow2(divisor)))
                 {
                     remainder = dividend & (divisor - 1);
                     return shrl(dividend, tzcnt(divisor));
@@ -231,7 +230,7 @@ Assert.AreNotEqual(0u, divisor);
             {
                 bool sameValue = all_eq(divisor);
 
-                if (!sameValue && math.all(ispow2(divisor)))
+                if (!sameValue && all(ispow2(divisor)))
                 {
                     remainder = dividend & (divisor - 1);
                     return shrl(dividend, tzcnt(divisor));
@@ -266,7 +265,7 @@ Assert.AreNotEqual(0u, divisor);
             {
                 bool sameValue = all_eq(divisor);
 
-                if (!sameValue && math.all(ispow2(divisor)))
+                if (!sameValue && all(ispow2(divisor)))
                 {
                     remainder = dividend & (divisor - 1);
                     return shrl(dividend, tzcnt(divisor));
@@ -1143,8 +1142,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                int2 ret = RegisterConversion.ToInt2(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 2));
-                remainder = RegisterConversion.ToInt2(rem);
+                int2 ret = Xse.divrem_epi32(dividend, divisor, out v128 rem, 2);
+                remainder = rem;
 
                 return ret;
             }
@@ -1162,8 +1161,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                int3 ret = RegisterConversion.ToInt3(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 3));
-                remainder = RegisterConversion.ToInt3(rem);
+                int3 ret = Xse.divrem_epi32(dividend, divisor, out v128 rem, 3);
+                remainder = rem;
 
                 return ret;
             }
@@ -1181,8 +1180,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                int4 ret = RegisterConversion.ToInt4(Xse.divrem_epi32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 4));
-                remainder = RegisterConversion.ToInt4(rem);
+                int4 ret = Xse.divrem_epi32(dividend, divisor, out v128 rem, 4);
+                remainder = rem;
 
                 return ret;
             }
@@ -1231,8 +1230,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                uint2 ret = RegisterConversion.ToUInt2(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 2));
-                remainder = RegisterConversion.ToUInt2(rem);
+                uint2 ret = Xse.divrem_epu32(dividend, divisor, out v128 rem, 2);
+                remainder = rem;
 
                 return ret;
             }
@@ -1250,8 +1249,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                uint3 ret = RegisterConversion.ToUInt3(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 3));
-                remainder = RegisterConversion.ToUInt3(rem);
+                uint3 ret = Xse.divrem_epu32(dividend, divisor, out v128 rem, 3);
+                remainder = rem;
 
                 return ret;
             }
@@ -1269,8 +1268,8 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                uint4 ret = RegisterConversion.ToUInt4(Xse.divrem_epu32(RegisterConversion.ToV128(dividend), RegisterConversion.ToV128(divisor), out v128 rem, 4));
-                remainder = RegisterConversion.ToUInt4(rem);
+                uint4 ret = Xse.divrem_epu32(dividend, divisor, out v128 rem, 4);
+                remainder = rem;
 
                 return ret;
             }
@@ -1515,7 +1514,7 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepu32_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
@@ -1541,14 +1540,14 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu32_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu32_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
 
                 remainder = new long3(remLo, remHi);
@@ -1576,15 +1575,15 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Xse.mm256_cvtepu32_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true, bNonNegative: true);
                 remainder = rem;
 
                 return quotient;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
-                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor.zw)), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false, bNonNegative: true);
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepu32_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true, bNonNegative: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepu32_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false, bNonNegative: true);
 
                 remainder = new long4(remLo, remHi);
                 return new long4(quotientLo, quotientHi);
@@ -1803,7 +1802,7 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepi32_pd(RegisterConversion.ToV128(divisor)), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
+                v128 quotient = Xse.divrem_epi64(dividend, Xse.cvtepi32_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
@@ -1829,14 +1828,14 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx.mm256_cvtepi32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx.mm256_cvtepi32_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi32_pd(RegisterConversion.ToV128(divisor)), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi32_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
                 long quotientHi = divrem(dividend.z, divisor.z, out long remHi);
 
                 remainder = new long3(remLo, remHi);
@@ -1864,15 +1863,15 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx.mm256_cvtepi32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
+                v256 quotient = Xse.mm256_divrem_epi64(dividend, Avx.mm256_cvtepi32_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi32_pd(RegisterConversion.ToV128(divisor)),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
-                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepi32_epi64(RegisterConversion.ToV128(divisor.zw)), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
+                long2 quotientLo = Xse.divrem_epi64(dividend.xy, Xse.cvtepi32_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                long2 quotientHi = Xse.divrem_epi64(dividend.zw, Xse.cvtepi32_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
 
                 remainder = new long4(remLo, remHi);
                 return new long4(quotientLo, quotientHi);
@@ -2183,7 +2182,7 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 quotient = Xse.divrem_epu64(dividend, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
+                v128 quotient = Xse.divrem_epu64(dividend, Xse.cvtepu32_pd(divisor), out v128 rem, useFPU: true, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
@@ -2209,14 +2208,14 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
+                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu32_pd(divisor), out v256 rem, elements: 3, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu32_pd(divisor), out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
                 ulong quotientHi = divrem(dividend.z, divisor.z, out ulong remHi);
 
                 remainder = new ulong3(remLo, remHi);
@@ -2244,15 +2243,15 @@ Assert.AreNotEqual(0u, divisor);
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(divisor)), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
+                v256 quotient = Xse.mm256_divrem_epu64(dividend, Xse.mm256_cvtepu32_pd(divisor), out v256 rem, elements: 4, bLEu32max: true, bIsDbl: true);
                 remainder = rem;
 
                 return quotient;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(divisor)),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
-                ulong2 quotientHi = Xse.divrem_epu64(dividend.zw, Xse.cvtepu32_epi64(RegisterConversion.ToV128(divisor.zw)), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
+                ulong2 quotientLo = Xse.divrem_epu64(dividend.xy, Xse.cvtepu32_pd(divisor),       out v128 remLo, useFPU: true, bLEu32max: true, bIsDbl: true);
+                ulong2 quotientHi = Xse.divrem_epu64(dividend.zw, Xse.cvtepu32_epi64(divisor.zw), out v128 remHi, useFPU: false, bLEu32max: true, bIsDbl: false);
 
                 remainder = new ulong4(remLo, remHi);
                 return new ulong4(quotientLo, quotientHi);
@@ -2355,7 +2354,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float divrem(float dividend, float divisor, out float remainder, bool fastApproximate = false)
         {
-            remainder = divisor * math.modf(div(dividend, divisor, fastApproximate), out float quotient);
+            remainder = divisor * modf(div(dividend, divisor, fastApproximate), out float quotient);
 
             return quotient;
         }
@@ -2364,7 +2363,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 divrem(float2 dividend, float2 divisor, out float2 remainder, bool fastApproximate = false)
         {
-            remainder = divisor * math.modf(div(dividend, divisor, fastApproximate), out float2 quotient);
+            remainder = divisor * modf(div(dividend, divisor, fastApproximate), out float2 quotient);
 
             return quotient;
         }
@@ -2373,7 +2372,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 divrem(float3 dividend, float3 divisor, out float3 remainder, bool fastApproximate = false)
         {
-            remainder = divisor * math.modf(div(dividend, divisor, fastApproximate), out float3 quotient);
+            remainder = divisor * modf(div(dividend, divisor, fastApproximate), out float3 quotient);
 
             return quotient;
         }
@@ -2382,7 +2381,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 divrem(float4 dividend, float4 divisor, out float4 remainder, bool fastApproximate = false)
         {
-            remainder = divisor * math.modf(div(dividend, divisor, fastApproximate), out float4 quotient);
+            remainder = divisor * modf(div(dividend, divisor, fastApproximate), out float4 quotient);
 
             return quotient;
         }
@@ -2401,7 +2400,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double divrem(double dividend, double divisor, out double remainder)
         {
-            remainder = divisor * math.modf(dividend / divisor, out double quotient);
+            remainder = divisor * modf(dividend / divisor, out double quotient);
 
             return quotient;
         }
@@ -2410,7 +2409,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 divrem(double2 dividend, double2 divisor, out double2 remainder)
         {
-            remainder = divisor * math.modf(dividend / divisor, out double2 quotient);
+            remainder = divisor * modf(dividend / divisor, out double2 quotient);
 
             return quotient;
         }
@@ -2419,7 +2418,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 divrem(double3 dividend, double3 divisor, out double3 remainder)
         {
-            remainder = divisor * math.modf(dividend / divisor, out double3 quotient);
+            remainder = divisor * modf(dividend / divisor, out double3 quotient);
 
             return quotient;
         }
@@ -2428,7 +2427,7 @@ Assert.AreNotEqual(0u, divisor);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 divrem(double4 dividend, double4 divisor, out double4 remainder)
         {
-            remainder = divisor * math.modf(dividend / divisor, out double4 quotient);
+            remainder = divisor * modf(dividend / divisor, out double4 quotient);
 
             return quotient;
         }

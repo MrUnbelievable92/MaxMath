@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
@@ -191,7 +190,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns a 128-bit bitmask with all bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -499,7 +498,7 @@ Assert.IsBetween(numBits, 0u, 32u - index);
             return (uint)(((1ul << (int)numBits) - 1) << (int)index);
         }
 
-        /// <summary>       Returns a 32-bit bitmask <see cref="uint2"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
+        /// <summary>       Returns a 32-bit bitmask <see cref="MaxMath.uint2"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bitmask32(uint2 numBits, uint2 index = default(uint2))
         {
@@ -508,7 +507,7 @@ VectorAssert.IsBetween<uint2, uint>(numBits, 0, 32 - index, 2);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 2));
+                return Xse.bitmask_epi32(numBits, index, 2);
             }
             else
             {
@@ -517,7 +516,7 @@ VectorAssert.IsBetween<uint2, uint>(numBits, 0, 32 - index, 2);
             }
         }
 
-        /// <summary>       Returns a 32-bit bitmask <see cref="uint3"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
+        /// <summary>       Returns a 32-bit bitmask <see cref="MaxMath.uint3"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bitmask32(uint3 numBits, uint3 index = default(uint3))
         {
@@ -526,7 +525,7 @@ VectorAssert.IsBetween<uint3, uint>(numBits, 0, 32 - index, 3);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 3));
+                return Xse.bitmask_epi32(numBits, index, 3);
             }
             else
             {
@@ -536,7 +535,7 @@ VectorAssert.IsBetween<uint3, uint>(numBits, 0, 32 - index, 3);
             }
         }
 
-        /// <summary>       Returns a 32-bit bitmask <see cref="uint4"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
+        /// <summary>       Returns a 32-bit bitmask <see cref="MaxMath.uint4"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bitmask32(uint4 numBits, uint4 index = default(uint4))
         {
@@ -545,7 +544,7 @@ VectorAssert.IsBetween<uint4, uint>(numBits, 0, 32 - index, 4);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.bitmask_epi32(RegisterConversion.ToV128(numBits), RegisterConversion.ToV128(index), 4));
+                return Xse.bitmask_epi32(numBits, index, 4);
             }
             else
             {
@@ -623,7 +622,7 @@ VectorAssert.IsBetween<ulong3, ulong>(numBits, 0, 64 - index, 3);
             }
             else
             {
-                return new ulong3(bitmask64(numBits._xy, index._xy), bitmask64(numBits.z, index.z));
+                return new ulong3(bitmask64(numBits.__x0, index.__x0), bitmask64(numBits.z, index.z));
             }
         }
 
@@ -640,7 +639,7 @@ VectorAssert.IsBetween<ulong4, ulong>(numBits, 0, 64 - index, 4);
             }
             else
             {
-                return new ulong4(bitmask64(numBits._xy, index._xy), bitmask64(numBits._zw, index._zw));
+                return new ulong4(bitmask64(numBits.__x0, index.__x0), bitmask64(numBits.__x2, index.__x2));
             }
         }
 
@@ -703,15 +702,15 @@ VectorAssert.IsBetween<ulong4, ulong>(numBits, 0, 64 - index, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask32(int numBits, int index = 0) => (int)bitmask32((uint)numBits, (uint)index);
 
-        /// <summary>       Returns a 32-bit bitmask <see cref="int2"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
+        /// <summary>       Returns a 32-bit bitmask <see cref="MaxMath.int2"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 bitmask32(int2 numBits, int2 index = default(int2)) => (int2)bitmask32((uint2)numBits, (uint2)index);
 
-        /// <summary>       Returns a 32-bit bitmask <see cref="int3"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
+        /// <summary>       Returns a 32-bit bitmask <see cref="MaxMath.int3"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 bitmask32(int3 numBits, int3 index = default(int3)) => (int3)bitmask32((uint3)numBits, (uint3)index);
 
-        /// <summary>       Returns a 32-bit bitmask <see cref="int4"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
+        /// <summary>       Returns a 32-bit bitmask <see cref="MaxMath.int4"/> with all componentwise bits set to 1 from <paramref name="index"/> to <see langword="("/><paramref name="index"/> <see langword="+"/> <paramref name="numBits"/> <see langword="-"/> 1<see langword=")"/> in LSB order.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 bitmask32(int4 numBits, int4 index = default(int4)) => (int4)bitmask32((uint4)numBits, (uint4)index);
 

@@ -22,9 +22,9 @@ namespace MaxMath.Tests
                 Indices[i] = v[i];
             }
 
-            if        (num == 2)   AllUnique = maxmath.all_dif(*(byte2*)v);
-            else if   (num == 3)   AllUnique = maxmath.all_dif(*(byte3*)v);
-            else    /*(num == 4)*/ AllUnique = maxmath.all_dif(*(byte4*)v);
+            if        (num == 2)   AllUnique = math.all_dif(*(byte2*)v);
+            else if   (num == 3)   AllUnique = math.all_dif(*(byte3*)v);
+            else    /*(num == 4)*/ AllUnique = math.all_dif(*(byte4*)v);
         }
 
         internal string Name;
@@ -39,7 +39,7 @@ namespace MaxMath.Tests
             Num = num;
         }
 
-        private int Num;
+        private readonly int Num;
 
         private static bool Next(byte* v, int indices, int num)
         {

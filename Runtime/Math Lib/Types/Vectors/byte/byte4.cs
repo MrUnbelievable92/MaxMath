@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
@@ -12,32 +10,38 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
+#if DEBUG
+    internal sealed class byte4DebuggerProxy
+    {
+	    public byte x;
+	    public byte y;
+	    public byte z;
+	    public byte w;
+        
+	    public byte4DebuggerProxy(byte4 v)
+	    {
+	    	x = v.x;
+	    	y = v.y;
+	    	z = v.z;
+	    	w = v.w;
+	    }
+    }
+
+    [System.Diagnostics.DebuggerTypeProxy(typeof(byte4DebuggerProxy))]
+#endif
     [Serializable]
-	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(byte))]
-	[DebuggerTypeProxy(typeof(byte4.DebuggerProxy))]
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
     unsafe public struct byte4 : IEquatable<byte4>, IFormattable
 	{
-		internal sealed class DebuggerProxy
-		{
-			public byte x;
-			public byte y;
-			public byte z;
-			public byte w;
-
-			public DebuggerProxy(byte4 v)
-			{
-				x = v.x;
-				y = v.y;
-				z = v.z;
-				w = v.w;
-			}
-		}
-
-
-        [FieldOffset(0)] public byte x;
-        [FieldOffset(1)] public byte y;
-        [FieldOffset(2)] public byte z;
-        [FieldOffset(3)] public byte w;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal uint __x0;
+		
+        public ref byte x { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(byte4* ptr = &this) { return ref *((byte*)ptr + 0); } } }
+        public ref byte y { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(byte4* ptr = &this) { return ref *((byte*)ptr + 1); } } }
+        public ref byte z { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(byte4* ptr = &this) { return ref *((byte*)ptr + 2); } } }
+        public ref byte w { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(byte4* ptr = &this) { return ref *((byte*)ptr + 3); } } }
 
 
         public static byte4 zero => default;
@@ -52,6 +56,8 @@ namespace MaxMath
 			}
 			else
             {
+				__x0 = Uninitialized<uint>.Create();
+
 				this.x = x;
 				this.y = y;
 				this.z = z;
@@ -68,6 +74,8 @@ namespace MaxMath
 			}
 			else
 			{
+				__x0 = Uninitialized<uint>.Create();
+
 				this.x = this.y = this.z = this.w = xyzw;
 			}
         }
@@ -81,6 +89,8 @@ namespace MaxMath
 			}
 			else
             {
+				__x0 = Uninitialized<uint>.Create();
+
 				this.x = xy.x;
 				this.y = xy.y;
 				this.z = z;
@@ -97,6 +107,8 @@ namespace MaxMath
 			}
 			else
 			{
+				__x0 = Uninitialized<uint>.Create();
+
 				this.x = x;
 				this.y = yz.x;
 				this.z = yz.y;
@@ -119,6 +131,8 @@ namespace MaxMath
 			}
 			else
 			{
+				__x0 = Uninitialized<uint>.Create();
+
 				this.x = xy.x;
 				this.y = xy.y;
 				this.z = zw.x;
@@ -139,6 +153,8 @@ namespace MaxMath
 			}
 			else
 			{
+				__x0 = Uninitialized<uint>.Create();
+
 				this.x = xyz.x;
 				this.y = xyz.y;
 				this.z = xyz.z;
@@ -159,16 +175,254 @@ namespace MaxMath
 			}
 			else
 			{
+				__x0 = Uninitialized<uint>.Create();
+
 				this.x = x;
 				this.y = yzw.x;
 				this.z = yzw.y;
 				this.w = yzw.z;
 			}
         }
+		
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(bool v)
+        {
+            this = (byte4)v;
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(bool4 v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(mask8x4 v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(mask16x4 v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(mask32x4 v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(mask64x4 v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(byte4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(sbyte v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(sbyte4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(ushort v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(ushort4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(short v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(short4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(uint v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(uint4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(int v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(int4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(ulong v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(ulong4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(long v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(long4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(UInt128 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(Int128 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(quarter v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(quarter4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(half v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(half4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(float v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(float4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(double v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(double4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(quadruple v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(Unity.Mathematics.bool4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(Unity.Mathematics.uint4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(Unity.Mathematics.int4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(Unity.Mathematics.half v)
+        {
+            this = (byte4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(Unity.Mathematics.half4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(Unity.Mathematics.float4 v)
+        {
+            this = (byte4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4(Unity.Mathematics.double4 v)
+        {
+            this = (byte4)v;
+        }
 
         #region Shuffle
-		public readonly byte4 xxxx
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -183,7 +437,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -198,7 +456,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -213,7 +475,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -228,7 +494,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xxyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -243,7 +513,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -258,7 +532,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xxyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -273,7 +551,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -288,7 +570,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xxzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -303,7 +589,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -318,7 +608,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -333,7 +627,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xxzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -348,7 +646,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xxwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -363,7 +665,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xxwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -378,7 +684,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xxwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -393,7 +703,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xxww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xxww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -408,7 +722,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xyxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -423,7 +741,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 xyxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -438,7 +760,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly byte4 xyxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -453,7 +779,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 xyxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -468,7 +798,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xyyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -483,7 +817,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 xyyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -498,7 +836,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 xyyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -513,7 +855,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 xyyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -528,7 +874,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xyzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -543,7 +893,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xyzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -558,7 +912,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xyzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -573,7 +931,28 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 xywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyzw
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            readonly get
+            {
+                return this;
+            }
+
+            set
+            {
+                this = value;
+            }
+        }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -588,7 +967,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -603,10 +986,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 xywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -624,7 +1011,11 @@ namespace MaxMath
 				this = value.xywz;
 			}
 		}
-		public readonly byte4 xyww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -639,7 +1030,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xzxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -654,7 +1049,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xzxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -669,7 +1068,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xzxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -684,7 +1087,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 xzxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -699,7 +1106,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xzyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -714,7 +1125,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xzyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -729,7 +1144,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xzyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -744,10 +1163,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte4 xzyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -765,7 +1188,11 @@ namespace MaxMath
 				this = value.xzyw;
 			}
 		}
-		public readonly byte4 xzzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -780,7 +1207,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xzzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -795,7 +1226,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 xzzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -810,7 +1245,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 xzzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -825,7 +1264,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xzwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -840,10 +1283,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 xzwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -861,7 +1308,11 @@ namespace MaxMath
 				this = value.xwyz;
 			}
 		}
-		public readonly byte4 xzwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -876,7 +1327,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xzww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -891,7 +1346,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -906,7 +1365,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -921,7 +1384,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -936,7 +1403,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -951,7 +1422,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -966,7 +1441,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -981,10 +1460,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 xwyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -1002,7 +1485,11 @@ namespace MaxMath
 				this = value.xzwy;
 			}
 		}
-		public readonly byte4 xwyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1017,7 +1504,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1032,10 +1523,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 xwzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -1053,7 +1548,11 @@ namespace MaxMath
 				this = value.xwzy;
 			}
 		}
-		public readonly byte4 xwzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1068,7 +1567,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1083,7 +1586,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1098,7 +1605,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1113,7 +1624,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1128,7 +1643,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 xwww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 xwww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1143,7 +1662,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yxxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1158,7 +1681,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1173,7 +1700,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1188,7 +1719,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 yxxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1203,7 +1738,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yxyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1218,7 +1757,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1233,7 +1776,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1248,7 +1795,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 yxyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1263,7 +1814,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yxzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1278,7 +1833,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1293,7 +1852,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yxzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1308,10 +1871,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte4 yxzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -1329,7 +1896,11 @@ namespace MaxMath
 				this = value.yxzw;
 			}
 		}
-		public readonly byte4 yxwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1344,7 +1915,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yxwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1359,10 +1934,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 yxwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -1380,7 +1959,11 @@ namespace MaxMath
 				this = value.yxwz;
 			}
 		}
-		public readonly byte4 yxww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1395,7 +1978,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yyxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1410,7 +1997,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1425,7 +2016,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1440,7 +2035,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 yyxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1455,7 +2054,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yyyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1470,7 +2073,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1485,7 +2092,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1500,7 +2111,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 yyyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1515,7 +2130,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yyzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1530,7 +2149,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1545,7 +2168,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yyzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1560,7 +2187,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 yyzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1575,7 +2206,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1590,7 +2225,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1605,7 +2244,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1620,7 +2263,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yyww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1635,7 +2282,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yzxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1650,7 +2301,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yzxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1665,7 +2320,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yzxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1680,10 +2339,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte4 yzxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -1701,7 +2364,11 @@ namespace MaxMath
 				this = value.zxyw;
 			}
 		}
-		public readonly byte4 yzyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1716,7 +2383,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yzyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1731,7 +2402,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yzyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1746,7 +2421,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 yzyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1761,7 +2440,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yzzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1776,7 +2459,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yzzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1791,7 +2478,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 yzzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -1806,7 +2497,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 yzzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1821,10 +2516,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 yzwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -1842,7 +2541,11 @@ namespace MaxMath
 				this = value.wxyz;
 			}
 		}
-		public readonly byte4 yzwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1857,7 +2560,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yzwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1872,7 +2579,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 yzww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 yzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1887,7 +2598,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1902,7 +2617,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1917,10 +2636,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 ywxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -1938,7 +2661,11 @@ namespace MaxMath
 				this = value.zxwy;
 			}
 		}
-		public readonly byte4 ywxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1953,7 +2680,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1968,7 +2699,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1983,7 +2718,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1998,7 +2737,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2013,10 +2756,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 ywzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -2034,7 +2781,11 @@ namespace MaxMath
 				this = value.wxzy;
 			}
 		}
-		public readonly byte4 ywzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2049,7 +2800,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2064,7 +2819,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2079,7 +2838,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2094,7 +2857,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2109,7 +2876,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2124,7 +2895,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 ywww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 ywww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2139,7 +2914,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zxxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2154,7 +2933,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zxxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2169,7 +2952,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zxxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2184,7 +2971,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 zxxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2199,7 +2990,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zxyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2214,7 +3009,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zxyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2229,7 +3028,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zxyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2244,10 +3047,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte4 zxyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -2265,7 +3072,11 @@ namespace MaxMath
 				this = value.yzxw;
 			}
 		}
-		public readonly byte4 zxzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2280,7 +3091,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zxzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2295,7 +3110,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zxzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2310,7 +3129,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 zxzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2325,7 +3148,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zxwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2340,10 +3167,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 zxwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -2361,7 +3192,11 @@ namespace MaxMath
 				this = value.ywxz;
 			}
 		}
-		public readonly byte4 zxwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2376,7 +3211,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zxww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2391,7 +3230,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zyxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2406,7 +3249,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zyxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2421,7 +3268,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zyxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2436,10 +3287,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte4 zyxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -2457,7 +3312,11 @@ namespace MaxMath
 				this = value.zyxw;
 			}
 		}
-		public readonly byte4 zyyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2472,7 +3331,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zyyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2487,7 +3350,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zyyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2502,7 +3369,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 zyyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2517,7 +3388,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zyzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2532,7 +3407,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zyzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2547,7 +3426,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zyzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2562,7 +3445,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 zyzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2577,10 +3464,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 zywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -2598,7 +3489,11 @@ namespace MaxMath
 				this = value.wyxz;
 			}
 		}
-		public readonly byte4 zywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2613,7 +3508,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2628,7 +3527,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zyww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2643,7 +3546,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zzxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2658,7 +3565,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zzxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2673,7 +3584,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zzxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2688,7 +3603,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 zzxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2703,7 +3622,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zzyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2718,7 +3641,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zzyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2733,7 +3660,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zzyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2748,7 +3679,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 zzyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2763,7 +3698,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zzzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2778,7 +3717,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zzzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2793,7 +3736,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte4 zzzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -2808,7 +3755,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte4 zzzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2823,7 +3774,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zzwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2838,7 +3793,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zzwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2853,7 +3812,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zzwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2868,7 +3831,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zzww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2883,7 +3850,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2898,10 +3869,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 zwxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -2919,7 +3894,11 @@ namespace MaxMath
 				this = value.zwxy;
 			}
 		}
-		public readonly byte4 zwxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2934,7 +3913,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2949,10 +3932,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 zwyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -2970,7 +3957,11 @@ namespace MaxMath
 				this = value.wzxy;
 			}
 		}
-		public readonly byte4 zwyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2985,7 +3976,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3000,7 +3995,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3015,7 +4014,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3030,7 +4033,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3045,7 +4052,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3060,7 +4071,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3075,7 +4090,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3090,7 +4109,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3105,7 +4128,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3120,7 +4147,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 zwww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 zwww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3135,7 +4166,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3150,7 +4185,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3165,7 +4204,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3180,7 +4223,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3195,7 +4242,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3210,7 +4261,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3225,10 +4280,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 wxyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -3246,7 +4305,11 @@ namespace MaxMath
 				this = value.yzwx;
 			}
 		}
-		public readonly byte4 wxyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3261,7 +4324,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3276,10 +4343,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 wxzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -3297,7 +4368,11 @@ namespace MaxMath
 				this = value.ywzx;
 			}
 		}
-		public readonly byte4 wxzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3312,7 +4387,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3327,7 +4406,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3342,7 +4425,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3357,7 +4444,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3372,7 +4463,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wxww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3387,7 +4482,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3402,7 +4501,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3417,10 +4520,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 wyxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -3438,7 +4545,11 @@ namespace MaxMath
 				this = value.zywx;
 			}
 		}
-		public readonly byte4 wyxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3453,7 +4564,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3468,7 +4583,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3483,7 +4602,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3498,7 +4621,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3513,10 +4640,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 wyzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -3534,7 +4665,11 @@ namespace MaxMath
 				this = value.wyzx;
 			}
 		}
-		public readonly byte4 wyzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3549,7 +4684,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3564,7 +4703,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3579,7 +4722,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3594,7 +4741,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3609,7 +4760,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3624,7 +4779,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wyww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3639,7 +4798,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3654,10 +4817,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 wzxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -3675,7 +4842,11 @@ namespace MaxMath
 				this = value.zwyx;
 			}
 		}
-		public readonly byte4 wzxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3690,7 +4861,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3705,10 +4880,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte4 wzyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -3726,7 +4905,11 @@ namespace MaxMath
 				this = value.wzyx;
 			}
 		}
-		public readonly byte4 wzyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3741,7 +4924,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3756,7 +4943,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3771,7 +4962,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3786,7 +4981,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3801,7 +5000,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3816,7 +5019,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3831,7 +5038,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3846,7 +5057,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3861,7 +5076,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3876,7 +5095,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wzww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3891,7 +5114,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3906,7 +5133,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3921,7 +5152,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3936,7 +5171,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3951,7 +5190,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3966,7 +5209,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3981,7 +5228,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3996,7 +5247,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4011,7 +5266,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4026,7 +5285,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4041,7 +5304,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4056,7 +5323,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4071,7 +5342,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4086,7 +5361,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4101,7 +5380,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4116,7 +5399,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte4 wwww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte4 wwww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4132,7 +5419,11 @@ namespace MaxMath
 			}
 		}
 
-		public readonly byte3 xxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4147,7 +5438,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 xxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4162,7 +5457,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 xxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4177,7 +5476,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte3 xxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4192,7 +5495,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 xyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4207,7 +5514,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 xyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4222,10 +5533,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte3 xyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4252,10 +5567,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 xyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4282,7 +5601,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 xzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4297,10 +5620,14 @@ namespace MaxMath
                 }
             }
         }
-        public          byte3 xzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4327,7 +5654,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly byte3 xzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4342,10 +5673,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte3 xzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4372,7 +5707,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 xwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4387,10 +5726,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 xwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4417,10 +5760,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 xwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4447,7 +5794,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 xww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 xww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4462,7 +5813,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 yxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4477,7 +5832,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 yxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4492,10 +5851,14 @@ namespace MaxMath
                 }
             }
         }
-        public          byte3 yxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4522,10 +5885,14 @@ namespace MaxMath
 				}
 			}
         }
-		public byte3 yxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4552,7 +5919,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 yyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4567,7 +5938,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 yyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4582,7 +5957,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 yyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4597,7 +5976,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte3 yyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4612,10 +5995,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public          byte3 yzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4642,7 +6029,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly byte3 yzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4657,7 +6048,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 yzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4672,10 +6067,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte3 yzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4702,10 +6101,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 ywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 ywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4732,7 +6135,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 ywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 ywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4747,10 +6154,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 ywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 ywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4777,7 +6188,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 yww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 yww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4792,7 +6207,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 zxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zxx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4807,10 +6226,14 @@ namespace MaxMath
                 }
             }
         }
-        public          byte3 zxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4837,7 +6260,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly byte3 zxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4852,10 +6279,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte3 zxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4882,10 +6313,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public          byte3 zyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4912,7 +6347,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly byte3 zyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zyy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4927,7 +6366,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 zyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4942,10 +6385,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte3 zyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -4972,7 +6419,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 zzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -4987,7 +6438,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 zzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -5002,7 +6457,11 @@ namespace MaxMath
                 }
             }
         }
-        public readonly byte3 zzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zzz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -5017,7 +6476,11 @@ namespace MaxMath
                 }
             }
         }
-		public readonly byte3 zzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5032,10 +6495,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 zwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5062,10 +6529,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 zwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5092,7 +6563,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 zwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5107,7 +6582,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 zww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 zww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5122,7 +6601,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5137,10 +6620,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 wxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5167,10 +6654,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 wxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5197,7 +6688,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5212,10 +6707,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 wyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5242,7 +6741,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5257,10 +6760,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 wyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5287,7 +6794,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5302,10 +6813,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 wzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5332,10 +6847,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte3 wzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5362,7 +6881,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5377,7 +6900,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5392,7 +6919,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5407,7 +6938,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5422,7 +6957,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 wwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 wwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5437,7 +6976,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte3 www
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte3 www
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5453,7 +6996,11 @@ namespace MaxMath
 			}
 		}
 
-		public readonly byte2 xx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 xx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -5468,10 +7015,14 @@ namespace MaxMath
                 }
             }
         }
-        public          byte2 xy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 xy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5497,10 +7048,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          byte2 xz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 xz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5526,10 +7081,14 @@ namespace MaxMath
 				}
 			}
         }
-		public byte2 xw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 xw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5555,10 +7114,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public          byte2 yx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 yx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5585,7 +7148,11 @@ namespace MaxMath
 			}
         }
 
-        public readonly byte2 yy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 yy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -5600,10 +7167,14 @@ namespace MaxMath
                 }
             }
         }
-        public          byte2 yz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 yz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5629,10 +7200,14 @@ namespace MaxMath
 				}
 			}
         }
-		public byte2 yw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 yw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5658,10 +7233,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public          byte2 zx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 zx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5687,10 +7266,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          byte2 zy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 zy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5716,7 +7299,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly byte2 zz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 zz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
@@ -5731,10 +7318,14 @@ namespace MaxMath
                 }
             }
         }
-		public byte2 zw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 zw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5760,10 +7351,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte2 wx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 wx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5789,10 +7384,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte2 wy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 wy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5818,10 +7417,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public byte2 wz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public byte2 wz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -5847,7 +7450,7 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly byte2 ww
+		public byte2 ww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5866,11 +7469,182 @@ namespace MaxMath
 		
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(byte4 input) => RegisterConversion.ToRegister128(input);
+        public static implicit operator v128(byte4 input)
+        {
+            v128 result;
+            if (Avx.IsAvxSupported)
+            {
+                result = Avx.undefined_si128();
+            }
+            else
+            {
+                result = Uninitialized<v128>.Create();
+            }
+
+            result.UInt0 = input.__x0;
+            return result;
+        }
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator byte4(v128 input) => RegisterConversion.ToAbstraction128<byte4>(input);
+        public static implicit operator byte4(v128 input) => new byte4 { __x0 = input.UInt0 };
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(bool x) => math.tobyte(x);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(bool4 x) => (byte4)(mask8x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(Unity.Mathematics.bool4 x) => (byte4)(mask8x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(mask8x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.neg_epi8(x);
+            }
+            else
+            {
+                return *(byte4*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(mask16x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (byte4)(mask8x4)x;
+            }
+            else
+            {
+                return *(byte4*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(mask32x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (byte4)(mask8x4)x;
+            }
+            else
+            {
+                return *(byte4*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(mask64x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (byte4)(mask8x4)x;
+            }
+            else
+            {
+                return *(byte4*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool4(byte4 x) => (mask8x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool4(byte4 x) => (mask8x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask8x4(byte4 x) => x != 0;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask16x4(byte4 x) => (mask8x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask32x4(byte4 x) => (mask8x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask64x4(byte4 x) => (mask8x4)x;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(sbyte x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(ushort x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(short x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(uint x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(int x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(ulong x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(long x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(UInt128 x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(Int128 x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(quarter x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(half x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(float x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(double x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(quadruple x) => (byte)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(Unity.Mathematics.half x) => (byte4)(half)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(Unity.Mathematics.half4 x) => (byte4)(half4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(Unity.Mathematics.float4 x) => (byte4)(float4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(Unity.Mathematics.double4 x) => (byte4)(double4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(Unity.Mathematics.uint4 x) => (byte4)(uint4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4(Unity.Mathematics.int4 x) => (byte4)(int4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.half4(byte4 x) => (half4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float4(byte4 x) => (float4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double4(byte4 x) => (double4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.uint4(byte4 x) => (uint4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.int4(byte4 x) => (int4)x;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -5911,7 +7685,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi32_epi8(RegisterConversion.ToV128(input), 4);
+                return Xse.cvtepi32_epi8(input, 4);
             }
 			else
 			{
@@ -5924,7 +7698,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi32_epi8(RegisterConversion.ToV128(input), 4);
+                return Xse.cvtepi32_epi8(input, 4);
             }
 			else
 			{
@@ -5941,7 +7715,7 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return new byte4(Xse.cvtepi64_epi8(input._xy), Xse.cvtepi64_epi8(input._zw));
+                return new byte4(Xse.cvtepi64_epi8(input.__x0), Xse.cvtepi64_epi8(input.__x2));
             }
             else
 			{
@@ -5958,28 +7732,12 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return new byte4(Xse.cvtepi64_epi8(input._xy), Xse.cvtepi64_epi8(input._zw));
+                return new byte4(Xse.cvtepi64_epi8(input.__x0), Xse.cvtepi64_epi8(input.__x2));
             }
             else
 			{
 				return new byte4((byte)input.x, (byte)input.y, (byte)input.z, (byte)input.w);
 			}
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4(half4 input)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                return Xse.cvttph_epu8(RegisterConversion.ToV128(input), 4);
-            }
-            else
-            {
-                return new byte4((byte)maxmath.BASE_cvtf16i32(input.x, signed: false, trunc: true),
-                                 (byte)maxmath.BASE_cvtf16i32(input.y, signed: false, trunc: true),
-                                 (byte)maxmath.BASE_cvtf16i32(input.z, signed: false, trunc: true),
-                                 (byte)maxmath.BASE_cvtf16i32(input.w, signed: false, trunc: true));
-            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6020,7 +7778,7 @@ namespace MaxMath
         {
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToInt4(Xse.cvtepu8_epi32(input));
+				return Xse.cvtepu8_epi32(input);
             }
             else
             {
@@ -6033,7 +7791,7 @@ namespace MaxMath
         {
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToUInt4(Xse.cvtepu8_epi32(input));
+				return Xse.cvtepu8_epi32(input);
             }
             else
             {
@@ -6075,19 +7833,6 @@ namespace MaxMath
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator half4(byte4 input)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                return RegisterConversion.ToHalf4(Xse.cvtepu8_ph(input, elements: 4));
-            }
-            else
-            {
-                return (half4)(float4)input;
-            }
-        }
-
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static implicit operator float4(byte4 input)
 		{
@@ -6110,7 +7855,7 @@ namespace MaxMath
         public byte this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
 Assert.IsWithinArrayBounds(index, 4);
 
@@ -6124,9 +7869,9 @@ Assert.IsWithinArrayBounds(index, 4);
 
                 if (BurstArchitecture.IsBurstCompiled)
                 {
-                    fixed (byte* ptr = &x)
+                    fixed (byte4* ptr = &this)
                     {
-                        return ptr[index];
+                        return ((byte*)ptr)[index];
                     }
                 }
                 else
@@ -6150,9 +7895,9 @@ Assert.IsWithinArrayBounds(index, 4);
 
                 if (BurstArchitecture.IsBurstCompiled)
                 {
-                    fixed (byte* ptr = &x)
+                    fixed (byte4* ptr = &this)
                     {
-                        ptr[index] = value;
+                        ((byte*)ptr)[index] = value;
                     }
                 }
                 else
@@ -6228,6 +7973,18 @@ Assert.IsWithinArrayBounds(index, 4);
             }
         }
 
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator + (byte4 left, byte right) => left + (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator + (byte left, byte4 right) => (byte4)left + right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator - (byte4 left, byte right) => left - (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator - (byte left, byte4 right) => (byte4)left - right;
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator * (byte left, byte4 right) => right * left;
@@ -6259,6 +8016,9 @@ Assert.IsWithinArrayBounds(index, 4);
 
 			return left / (byte4)right;
 		}
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator / (byte left, byte4 right) => (byte4)left / right;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 operator % (byte4 left, byte right)
@@ -6273,6 +8033,133 @@ Assert.IsWithinArrayBounds(index, 4);
 
 			return left % (byte4)right;
 		}
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator % (byte left, byte4 right) => (byte4)left % right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator + (byte4 left, Unity.Mathematics.int4 right) => left + (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator + (Unity.Mathematics.int4 left, byte4 right) => (int4)left + right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator - (byte4 left, Unity.Mathematics.int4 right) => left - (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator - (Unity.Mathematics.int4 left, byte4 right) => (int4)left - right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator * (byte4 left, Unity.Mathematics.int4 right) => left * (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator * (Unity.Mathematics.int4 left, byte4 right) => (int4)left * right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator / (byte4 left, Unity.Mathematics.int4 right) => left / (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator / (Unity.Mathematics.int4 left, byte4 right) => (int4)left / right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator % (byte4 left, Unity.Mathematics.int4 right) => left % (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator % (Unity.Mathematics.int4 left, byte4 right) => (int4)left % right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator + (byte4 left, Unity.Mathematics.uint4 right) => left + (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator + (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left + right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator - (byte4 left, Unity.Mathematics.uint4 right) => left - (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator - (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left - right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator * (byte4 left, Unity.Mathematics.uint4 right) => left * (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator * (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left * right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator / (byte4 left, Unity.Mathematics.uint4 right) => left / (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator / (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left / right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator % (byte4 left, Unity.Mathematics.uint4 right) => left % (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator % (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left % right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (byte4 left, Unity.Mathematics.float4 right) => left + (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (Unity.Mathematics.float4 left, byte4 right) => (float4)left + right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (byte4 left, Unity.Mathematics.float4 right) => left - (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (Unity.Mathematics.float4 left, byte4 right) => (float4)left - right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (byte4 left, Unity.Mathematics.float4 right) => left * (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (Unity.Mathematics.float4 left, byte4 right) => (float4)left * right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (byte4 left, Unity.Mathematics.float4 right) => left / (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (Unity.Mathematics.float4 left, byte4 right) => (float4)left / right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (byte4 left, Unity.Mathematics.float4 right) => left % (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (Unity.Mathematics.float4 left, byte4 right) => (float4)left % right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator + (byte4 left, Unity.Mathematics.double4 right) => left + (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator + (Unity.Mathematics.double4 left, byte4 right) => (double4)left + right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator - (byte4 left, Unity.Mathematics.double4 right) => left - (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator - (Unity.Mathematics.double4 left, byte4 right) => (double4)left - right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator * (byte4 left, Unity.Mathematics.double4 right) => left * (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator * (Unity.Mathematics.double4 left, byte4 right) => (double4)left * right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator / (byte4 left, Unity.Mathematics.double4 right) => left / (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator / (Unity.Mathematics.double4 left, byte4 right) => (double4)left / right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator % (byte4 left, Unity.Mathematics.double4 right) => left % (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator % (Unity.Mathematics.double4 left, byte4 right) => (double4)left % right;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6313,6 +8200,63 @@ Assert.IsWithinArrayBounds(index, 4);
                 return new byte4((byte)(left.x ^ right.x), (byte)(left.y ^ right.y), (byte)(left.z ^ right.z), (byte)(left.w ^ right.w));
             }
         }
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator & (byte4 left, byte right) => left & (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator & (byte left, byte4 right) => (byte4)left & right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator | (byte4 left, byte right) => left | (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator | (byte left, byte4 right) => (byte4)left | right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator ^ (byte4 left, byte right) => left ^ (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4 operator ^ (byte left, byte4 right) => (byte4)left ^ right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator & (byte4 left, Unity.Mathematics.int4 right) => left & (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator & (Unity.Mathematics.int4 left, byte4 right) => (int4)left & right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator | (byte4 left, Unity.Mathematics.int4 right) => left | (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator | (Unity.Mathematics.int4 left, byte4 right) => (int4)left | right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator ^ (byte4 left, Unity.Mathematics.int4 right) => left ^ (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 operator ^ (Unity.Mathematics.int4 left, byte4 right) => (int4)left ^ right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator & (byte4 left, Unity.Mathematics.uint4 right) => left & (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator & (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left & right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator | (byte4 left, Unity.Mathematics.uint4 right) => left | (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator | (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left | right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator ^ (byte4 left, Unity.Mathematics.uint4 right) => left ^ (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator ^ (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left ^ right;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6383,99 +8327,308 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator == (byte4 left, byte4 right)
+        public static mask8x4 operator == (byte4 left, byte4 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsTrue8(Xse.cmpeq_epi8(left, right));
-
-                return *(bool4*)&results;
+                return Xse.cmpeq_epi8(left, right);
             }
             else
             {
-                return new bool4(left.x == right.x, left.y == right.y, left.z == right.z, left.w == right.w);
+                return new mask8x4(left.x == right.x, left.y == right.y, left.z == right.z, left.w == right.w);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator < (byte4 left, byte4 right)
+        public static mask8x4 operator < (byte4 left, byte4 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsTrue8(Xse.cmplt_epu8(left, right, 4));
-
-                return *(bool4*)&results;
+                return Xse.cmplt_epu8(left, right, 4);
             }
             else
             {
-                return new bool4(left.x < right.x, left.y < right.y, left.z < right.z, left.w < right.w);
+                return new mask8x4(left.x < right.x, left.y < right.y, left.z < right.z, left.w < right.w);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator > (byte4 left, byte4 right)
+        public static mask8x4 operator > (byte4 left, byte4 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsTrue8(Xse.cmpgt_epu8(left, right, 4));
-
-                return *(bool4*)&results;
+                return Xse.cmpgt_epu8(left, right, 4);
             }
             else
             {
-                return new bool4(left.x > right.x, left.y > right.y, left.z > right.z, left.w > right.w);
-            }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator != (byte4 left, byte4 right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                v128 results = RegisterConversion.IsFalse8(Xse.cmpeq_epi8(left, right));
-
-                return *(bool4*)&results;
-            }
-            else
-            {
-                return new bool4(left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w);
+                return new mask8x4(left.x > right.x, left.y > right.y, left.z > right.z, left.w > right.w);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator <= (byte4 left, byte4 right)
+        public static mask8x4 operator != (byte4 left, byte4 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.not_si128(Xse.cmpeq_epi8(left, right));
+            }
+            else
+            {
+                return new mask8x4(left.x != right.x, left.y != right.y, left.z != right.z, left.w != right.w);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (byte4 left, byte4 right)
         {
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				v128 results = RegisterConversion.IsTrue8(Xse.cmple_epu8(left, right, 4));
-
-                return *(bool4*)&results;
+                return Xse.cmple_epu8(left, right, 4);
 			}
 			else
             {
-                return new bool4(left.x <= right.x, left.y <= right.y, left.z <= right.z, left.w <= right.w);
+                return new mask8x4(left.x <= right.x, left.y <= right.y, left.z <= right.z, left.w <= right.w);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator >= (byte4 left, byte4 right)
+        public static mask8x4 operator >= (byte4 left, byte4 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 results = RegisterConversion.IsTrue8(Xse.cmpge_epu8(left, right, 4));
-
-                return *(bool4*)&results;
+                return Xse.cmpge_epu8(left, right, 4);
 			}
             else
             {
-                return new bool4(left.x >= right.x, left.y >= right.y, left.z >= right.z, left.w >= right.w);
+                return new mask8x4(left.x >= right.x, left.y >= right.y, left.z >= right.z, left.w >= right.w);
             }
         }
 
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (byte4 left, byte right) => left == (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (byte left, byte4 right) => (byte4)left == right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (byte4 left, byte right) => left != (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (byte left, byte4 right) => (byte4)left != right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (byte4 left, byte right) => left < (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (byte left, byte4 right) => (byte4)left < right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (byte4 left, byte right) => left > (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (byte left, byte4 right) => (byte4)left > right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (byte4 left, byte right) => left <= (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (byte left, byte4 right) => (byte4)left <= right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (byte4 left, byte right) => left >= (byte4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (byte left, byte4 right) => (byte4)left >= right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (byte4 left, Unity.Mathematics.int4 right) => left == (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (Unity.Mathematics.int4 left, byte4 right) => (int4)left == right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (byte4 left, Unity.Mathematics.int4 right) => left != (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (Unity.Mathematics.int4 left, byte4 right) => (int4)left != right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (byte4 left, Unity.Mathematics.int4 right) => left < (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (Unity.Mathematics.int4 left, byte4 right) => (int4)left < right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (byte4 left, Unity.Mathematics.int4 right) => left > (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (Unity.Mathematics.int4 left, byte4 right) => (int4)left > right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (byte4 left, Unity.Mathematics.int4 right) => left <= (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (Unity.Mathematics.int4 left, byte4 right) => (int4)left <= right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (byte4 left, Unity.Mathematics.int4 right) => left >= (int4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (Unity.Mathematics.int4 left, byte4 right) => (int4)left >= right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (byte4 left, Unity.Mathematics.uint4 right) => left == (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left == right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (byte4 left, Unity.Mathematics.uint4 right) => left != (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left != right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (byte4 left, Unity.Mathematics.uint4 right) => left < (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left < right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (byte4 left, Unity.Mathematics.uint4 right) => left > (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left > right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (byte4 left, Unity.Mathematics.uint4 right) => left <= (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left <= right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (byte4 left, Unity.Mathematics.uint4 right) => left >= (uint4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (Unity.Mathematics.uint4 left, byte4 right) => (uint4)left >= right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (byte4 left, Unity.Mathematics.half4 right) => left == (half4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (Unity.Mathematics.half4 left, byte4 right) => (half4)left == right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (byte4 left, Unity.Mathematics.half4 right) => left != (half4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (Unity.Mathematics.half4 left, byte4 right) => (half4)left != right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (byte4 left, Unity.Mathematics.half4 right) => left < (half4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (Unity.Mathematics.half4 left, byte4 right) => (half4)left < right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (byte4 left, Unity.Mathematics.half4 right) => left > (half4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (Unity.Mathematics.half4 left, byte4 right) => (half4)left > right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (byte4 left, Unity.Mathematics.half4 right) => left <= (half4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (Unity.Mathematics.half4 left, byte4 right) => (half4)left <= right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (byte4 left, Unity.Mathematics.half4 right) => left >= (half4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (Unity.Mathematics.half4 left, byte4 right) => (half4)left >= right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (byte4 left, Unity.Mathematics.float4 right) => left == (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (Unity.Mathematics.float4 left, byte4 right) => (float4)left == right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (byte4 left, Unity.Mathematics.float4 right) => left != (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (Unity.Mathematics.float4 left, byte4 right) => (float4)left != right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (byte4 left, Unity.Mathematics.float4 right) => left < (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (Unity.Mathematics.float4 left, byte4 right) => (float4)left < right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (byte4 left, Unity.Mathematics.float4 right) => left > (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (Unity.Mathematics.float4 left, byte4 right) => (float4)left > right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (byte4 left, Unity.Mathematics.float4 right) => left <= (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (Unity.Mathematics.float4 left, byte4 right) => (float4)left <= right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (byte4 left, Unity.Mathematics.float4 right) => left >= (float4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (Unity.Mathematics.float4 left, byte4 right) => (float4)left >= right;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (byte4 left, Unity.Mathematics.double4 right) => left == (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator == (Unity.Mathematics.double4 left, byte4 right) => (double4)left == right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (byte4 left, Unity.Mathematics.double4 right) => left != (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator != (Unity.Mathematics.double4 left, byte4 right) => (double4)left != right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (byte4 left, Unity.Mathematics.double4 right) => left < (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator < (Unity.Mathematics.double4 left, byte4 right) => (double4)left < right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (byte4 left, Unity.Mathematics.double4 right) => left > (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator > (Unity.Mathematics.double4 left, byte4 right) => (double4)left > right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (byte4 left, Unity.Mathematics.double4 right) => left <= (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator <= (Unity.Mathematics.double4 left, byte4 right) => (double4)left <= right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (byte4 left, Unity.Mathematics.double4 right) => left >= (double4)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 operator >= (Unity.Mathematics.double4 left, byte4 right) => (double4)left >= right;
+
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly bool Equals(byte4 other)
+		public bool Equals(byte4 other)
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
@@ -6488,26 +8641,14 @@ Assert.IsWithinArrayBounds(index, 4);
 			}
 		}
 
-		public override readonly bool Equals(object obj) => obj is byte4 converted && this.Equals(converted);
+		public override bool Equals(object obj) => obj is byte4 converted && this.Equals(converted);
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override readonly int GetHashCode()
-		{
-			if (BurstArchitecture.IsSIMDSupported)
-			{
-				return ((v128)this).SInt0;
-			}
-			else
-			{
-				byte4 temp = this;
-
-				return *(int*)&temp;
-			}
-		}
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
 
-		public override readonly string ToString() => $"byte4({x}, {y}, {z}, {w})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"byte4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
+		public override string ToString() => $"byte4({x}, {y}, {z}, {w})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"byte4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
     }
 }

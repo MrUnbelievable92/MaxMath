@@ -1,14 +1,13 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the result of a calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -16,7 +15,7 @@ namespace MaxMath
         {
             if (constexpr.IS_TRUE(x <= 1ul << 63))
             {
-                return math.ceilpow2(x.lo64);
+                return ceilpow2(x.lo64);
             }
 
             x -= 1;
@@ -312,6 +311,34 @@ namespace MaxMath
             return (short16)ceilpow2((ushort16)x);
         }
 
+        
+        /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ceilpow2(int x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
+
+        /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 ceilpow2(int2 x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
+
+        /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 ceilpow2(int3 x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
+
+        /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 ceilpow2(int4 x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
 
         /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -320,6 +347,34 @@ namespace MaxMath
             return (int8)ceilpow2((uint8)x);
         }
 
+        
+        /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint ceilpow2(uint x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
+
+        /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 ceilpow2(uint2 x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
+
+        /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 ceilpow2(uint3 x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
+
+        /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 ceilpow2(uint4 x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
 
         /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -335,6 +390,13 @@ namespace MaxMath
             return x + 1;
         }
 
+        
+        /// <summary>       Returns the result of calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long ceilpow2(long x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
 
         /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -357,6 +419,13 @@ namespace MaxMath
             return (long4)ceilpow2((ulong4)x);
         }
 
+        
+        /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong ceilpow2(ulong x)
+        {
+            return Unity.Mathematics.math.ceilpow2(x);
+        }
 
         /// <summary>       Returns the result of a componentwise calculation of the smallest power of two greater than or equal to <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

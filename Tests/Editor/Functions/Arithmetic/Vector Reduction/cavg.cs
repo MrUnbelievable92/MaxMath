@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -22,7 +22,7 @@ namespace MaxMath.Tests
                 avg /= 2;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (byte)avg);
+                Assert.AreEqual(math.cavg(test), (byte)avg);
             }
         }
 
@@ -43,7 +43,7 @@ namespace MaxMath.Tests
                 avg /= 3;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (byte)avg);
+                Assert.AreEqual(math.cavg(test), (byte)avg);
             }
         }
 
@@ -64,7 +64,7 @@ namespace MaxMath.Tests
                 avg /= 4;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (byte)avg);
+                Assert.AreEqual(math.cavg(test), (byte)avg);
             }
         }
 
@@ -85,7 +85,7 @@ namespace MaxMath.Tests
                 avg /= 8;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (byte)avg);
+                Assert.AreEqual(math.cavg(test), (byte)avg);
             }
         }
 
@@ -106,7 +106,7 @@ namespace MaxMath.Tests
                 avg /= 16;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (byte)avg);
+                Assert.AreEqual(math.cavg(test), (byte)avg);
             }
         }
 
@@ -127,7 +127,7 @@ namespace MaxMath.Tests
                 avg /= 32;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (byte)avg);
+                Assert.AreEqual(math.cavg(test), (byte)avg);
             }
         }
 
@@ -149,7 +149,7 @@ namespace MaxMath.Tests
                 avg /= 2;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (ushort)avg);
+                Assert.AreEqual(math.cavg(test), (ushort)avg);
             }
         }
 
@@ -170,7 +170,7 @@ namespace MaxMath.Tests
                 avg /= 3;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (ushort)avg);
+                Assert.AreEqual(math.cavg(test), (ushort)avg);
             }
         }
 
@@ -191,7 +191,7 @@ namespace MaxMath.Tests
                 avg /= 4;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (ushort)avg);
+                Assert.AreEqual(math.cavg(test), (ushort)avg);
             }
         }
 
@@ -212,7 +212,7 @@ namespace MaxMath.Tests
                 avg /= 8;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (ushort)avg);
+                Assert.AreEqual(math.cavg(test), (ushort)avg);
             }
         }
 
@@ -232,7 +232,7 @@ namespace MaxMath.Tests
                 }
                 avg /= 16;
 
-                Assert.AreEqual(maxmath.cavg(test), (ushort)avg);
+                Assert.AreEqual(math.cavg(test), (ushort)avg);
             }
         }
 
@@ -254,7 +254,7 @@ namespace MaxMath.Tests
                 avg /= 2;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (uint)avg);
+                Assert.AreEqual(math.cavg(test), (uint)avg);
             }
         }
 
@@ -275,7 +275,7 @@ namespace MaxMath.Tests
                 avg /= 3;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (uint)avg);
+                Assert.AreEqual(math.cavg(test), (uint)avg);
             }
         }
 
@@ -296,7 +296,7 @@ namespace MaxMath.Tests
                 avg /= 4;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (uint)avg);
+                Assert.AreEqual(math.cavg(test), (uint)avg);
             }
         }
 
@@ -317,7 +317,7 @@ namespace MaxMath.Tests
                 avg /= 8;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (uint)avg);
+                Assert.AreEqual(math.cavg(test), (uint)avg);
             }
         }
 
@@ -339,7 +339,7 @@ namespace MaxMath.Tests
                 avg /= 2;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (ulong)avg);
+                Assert.AreEqual(math.cavg(test), (ulong)avg);
             }
         }
 
@@ -360,7 +360,7 @@ namespace MaxMath.Tests
                 avg /= 3;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (ulong)avg);
+                Assert.AreEqual(math.cavg(test), (ulong)avg);
             }
         }
 
@@ -381,7 +381,7 @@ namespace MaxMath.Tests
                 avg /= 4;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (ulong)avg);
+                Assert.AreEqual(math.cavg(test), (ulong)avg);
             }
         }
 
@@ -403,7 +403,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -1 : 1) + avg) / 2;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (sbyte)avg);
+                Assert.AreEqual(math.cavg(test), (sbyte)avg);
             }
         }
 
@@ -424,7 +424,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -2 : 2) + avg) / 3;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (sbyte)avg);
+                Assert.AreEqual(math.cavg(test), (sbyte)avg);
             }
         }
 
@@ -445,7 +445,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -3 : 3) + avg) / 4;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (sbyte)avg);
+                Assert.AreEqual(math.cavg(test), (sbyte)avg);
             }
         }
 
@@ -466,7 +466,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -7 : 7) + avg) / 8;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (sbyte)avg);
+                Assert.AreEqual(math.cavg(test), (sbyte)avg);
             }
         }
 
@@ -487,7 +487,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -15 : 15) + avg) / 16;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (sbyte)avg);
+                Assert.AreEqual(math.cavg(test), (sbyte)avg);
             }
         }
 
@@ -508,7 +508,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -31 : 31) + avg) / 32;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (sbyte)avg);
+                Assert.AreEqual(math.cavg(test), (sbyte)avg);
             }
         }
 
@@ -530,7 +530,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -1 : 1) + avg) / 2;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (short)avg);
+                Assert.AreEqual(math.cavg(test), (short)avg);
             }
         }
 
@@ -551,7 +551,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -2 : 2) + avg) / 3;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (short)avg);
+                Assert.AreEqual(math.cavg(test), (short)avg);
             }
         }
 
@@ -572,7 +572,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -3 : 3) + avg) / 4;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (short)avg);
+                Assert.AreEqual(math.cavg(test), (short)avg);
             }
         }
 
@@ -593,7 +593,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -7 : 7) + avg) / 8;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (short)avg);
+                Assert.AreEqual(math.cavg(test), (short)avg);
             }
         }
 
@@ -613,7 +613,7 @@ namespace MaxMath.Tests
                 }
                 avg = ((avg < 0 ? -15 : 15) + avg) / 16;
 
-                Assert.AreEqual(maxmath.cavg(test), (short)avg);
+                Assert.AreEqual(math.cavg(test), (short)avg);
             }
         }
 
@@ -635,7 +635,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -1 : 1) + avg) / 2;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (int)avg);
+                Assert.AreEqual(math.cavg(test), (int)avg);
             }
         }
 
@@ -656,7 +656,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -2 : 2) + avg) / 3;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (int)avg);
+                Assert.AreEqual(math.cavg(test), (int)avg);
             }
         }
 
@@ -677,7 +677,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -3 : 3) + avg) / 4;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (int)avg);
+                Assert.AreEqual(math.cavg(test), (int)avg);
             }
         }
 
@@ -698,7 +698,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -7 : 7) + avg) / 8;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (int)avg);
+                Assert.AreEqual(math.cavg(test), (int)avg);
             }
         }
 
@@ -720,7 +720,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -1 : 1) + avg) / 2;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (long)avg);
+                Assert.AreEqual(math.cavg(test), (long)avg);
             }
         }
 
@@ -741,7 +741,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -2 : 2) + avg) / 3;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (long)avg);
+                Assert.AreEqual(math.cavg(test), (long)avg);
             }
         }
 
@@ -762,7 +762,7 @@ namespace MaxMath.Tests
                 avg = ((avg < 0 ? -3 : 3) + avg) / 4;
 
 
-                Assert.AreEqual(maxmath.cavg(test), (long)avg);
+                Assert.AreEqual(math.cavg(test), (long)avg);
             }
         }
     }

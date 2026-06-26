@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
@@ -12,47 +10,54 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
+#if DEBUG
+    internal sealed class int8DebuggerProxy
+    {
+        public int x0;
+        public int x1;
+        public int x2;
+        public int x3;
+        public int x4;
+        public int x5;
+        public int x6;
+        public int x7;
+        
+        public int8DebuggerProxy(int8 v)
+        {
+            x0 = v.x0;
+            x1 = v.x1;
+            x2 = v.x2;
+            x3 = v.x3;
+            x4 = v.x4;
+            x5 = v.x5;
+            x6 = v.x6;
+            x7 = v.x7;
+        }
+    }
+
+    [System.Diagnostics.DebuggerTypeProxy(typeof(int8DebuggerProxy))]
+#endif
     [Serializable]
-    [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(int))]
-    [DebuggerTypeProxy(typeof(int8.DebuggerProxy))]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     unsafe public struct int8 : IEquatable<int8>, IFormattable
     {
-        internal sealed class DebuggerProxy
-        {
-            public int x0;
-            public int x1;
-            public int x2;
-            public int x3;
-            public int x4;
-            public int x5;
-            public int x6;
-            public int x7;
-
-            public DebuggerProxy(int8 v)
-            {
-                x0 = v.x0;
-                x1 = v.x1;
-                x2 = v.x2;
-                x3 = v.x3;
-                x4 = v.x4;
-                x5 = v.x5;
-                x6 = v.x6;
-                x7 = v.x7;
-            }
-        }
-
-
-        [FieldOffset(0)]  internal int4 _v4_0;
-        [FieldOffset(16)] internal int4 _v4_4;
-
-        [FieldOffset(0)]  public int x0;
-        [FieldOffset(4)]  public int x1;
-        [FieldOffset(8)]  public int x2;
-        [FieldOffset(12)] public int x3;
-        [FieldOffset(16)] public int x4;
-        [FieldOffset(20)] public int x5;
-        [FieldOffset(24)] public int x6;
-        [FieldOffset(28)] public int x7;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal int4 __x0;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal int4 __x4;
+        
+        public ref int x0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(int8* ptr = &this) { return ref *((int*)ptr + 0); } } }
+        public ref int x1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(int8* ptr = &this) { return ref *((int*)ptr + 1); } } }
+        public ref int x2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(int8* ptr = &this) { return ref *((int*)ptr + 2); } } }
+        public ref int x3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(int8* ptr = &this) { return ref *((int*)ptr + 3); } } }
+        public ref int x4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(int8* ptr = &this) { return ref *((int*)ptr + 4); } } }
+        public ref int x5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(int8* ptr = &this) { return ref *((int*)ptr + 5); } } }
+        public ref int x6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(int8* ptr = &this) { return ref *((int*)ptr + 6); } } }
+        public ref int x7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(int8* ptr = &this) { return ref *((int*)ptr + 7); } } }
 
 
         public static int8 zero => default;
@@ -118,38 +123,388 @@ namespace MaxMath
             this = (int8)new uint8((uint4)x0123, (uint4)x4567);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(bool v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(bool8 v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(mask8x8 v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(mask16x8 v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(mask32x8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(byte v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(byte8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(sbyte v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(sbyte8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(ushort v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(ushort8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(short v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(short8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(uint v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(uint8 v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(int8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(ulong v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(long v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(UInt128 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(Int128 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(quarter v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(quarter8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(half v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(half8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(float v)
+        {
+            this = (int8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(float8 v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(double v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(quadruple v)
+        {
+            this = (int8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public int8(Unity.Mathematics.half v)
+        {
+            this = (int8)v;
+        }
+
 
         #region Shuffle
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int4 v4_0  { readonly get => (int4)((uint8)this).v4_0;    set { uint8 _this = (uint8)this; _this.v4_0  = (uint4)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int4 v4_1  { readonly get => (int4)((uint8)this).v4_1;    set { uint8 _this = (uint8)this; _this.v4_1  = (uint4)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int4 v4_2  { readonly get => (int4)((uint8)this).v4_2;    set { uint8 _this = (uint8)this; _this.v4_2  = (uint4)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int4 v4_3  { readonly get => (int4)((uint8)this).v4_3;    set { uint8 _this = (uint8)this; _this.v4_3  = (uint4)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int4 v4_4  { readonly get => (int4)((uint8)this).v4_4;    set { uint8 _this = (uint8)this; _this.v4_4  = (uint4)value; this = (int8)_this; } }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int3 v3_0  { readonly get => (int3)((uint8)this).v3_0;    set { uint8 _this = (uint8)this; _this.v3_0  = (uint3)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int3 v3_1  { readonly get => (int3)((uint8)this).v3_1;    set { uint8 _this = (uint8)this; _this.v3_1  = (uint3)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int3 v3_2  { readonly get => (int3)((uint8)this).v3_2;    set { uint8 _this = (uint8)this; _this.v3_2  = (uint3)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int3 v3_3  { readonly get => (int3)((uint8)this).v3_3;    set { uint8 _this = (uint8)this; _this.v3_3  = (uint3)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int3 v3_4  { readonly get => (int3)((uint8)this).v3_4;    set { uint8 _this = (uint8)this; _this.v3_4  = (uint3)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int3 v3_5  { readonly get => (int3)((uint8)this).v3_5;    set { uint8 _this = (uint8)this; _this.v3_5  = (uint3)value; this = (int8)_this; } }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int2 v2_0  { readonly get => (int2)((uint8)this).v2_0;    set { uint8 _this = (uint8)this; _this.v2_0  = (uint2)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int2 v2_1  { readonly get => (int2)((uint8)this).v2_1;    set { uint8 _this = (uint8)this; _this.v2_1  = (uint2)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int2 v2_2  { readonly get => (int2)((uint8)this).v2_2;    set { uint8 _this = (uint8)this; _this.v2_2  = (uint2)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int2 v2_3  { readonly get => (int2)((uint8)this).v2_3;    set { uint8 _this = (uint8)this; _this.v2_3  = (uint2)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int2 v2_4  { readonly get => (int2)((uint8)this).v2_4;    set { uint8 _this = (uint8)this; _this.v2_4  = (uint2)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int2 v2_5  { readonly get => (int2)((uint8)this).v2_5;    set { uint8 _this = (uint8)this; _this.v2_5  = (uint2)value; this = (int8)_this; } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public int2 v2_6  { readonly get => (int2)((uint8)this).v2_6;    set { uint8 _this = (uint8)this; _this.v2_6  = (uint2)value; this = (int8)_this; } }
         #endregion
 
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(int8 input) => RegisterConversion.ToRegister256(input);
+        public static implicit operator v256(int8 input) => (uint8)input;
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator int8(v256 input) => RegisterConversion.ToAbstraction256<int8>(input);
+        public static implicit operator int8(v256 input) => (int8)(uint8)input;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(bool x) => math.tobyte(x);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(bool8 x) => (int8)(mask32x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(mask8x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (int8)(mask32x8)x;
+            }
+            else
+            {
+                return *(byte8*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(mask16x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (int8)(mask32x8)x;
+            }
+            else
+            {
+                return *(byte8*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(mask32x8 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_neg_epi32(x);
+            }
+            else
+            {
+                return new int8((int4)x.v4_0, (int4)x.v4_4);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool8(int8 x) => (mask32x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask8x8(int8 x) => (mask32x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask16x8(int8 x) => (mask32x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask32x8(int8 x) => x != 0;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator int8(byte x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator int8(sbyte x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator int8(ushort x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator int8(short x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(uint x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(ulong x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(long x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(UInt128 x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(Int128 x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(quarter x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(half x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(float x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(double x) => (int)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(quadruple x) => (int)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator int8(Unity.Mathematics.half x) => (int8)(half)x;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -166,21 +521,9 @@ namespace MaxMath
             {
                 return Xse.mm256_cvttph_epi32(input);
             }
-            else if (BurstArchitecture.IsSIMDSupported)
-            {
-                return new int8(RegisterConversion.ToInt4(Xse.cvttph_epi32(RegisterConversion.ToV128(input.v4_0), 4)),
-                                RegisterConversion.ToInt4(Xse.cvttph_epi32(RegisterConversion.ToV128(input.v4_4), 4)));
-            }
             else
             {
-                return new int8((int)maxmath.BASE_cvtf16i32(input.x0, signed: true, trunc: true),
-                                (int)maxmath.BASE_cvtf16i32(input.x1, signed: true, trunc: true),
-                                (int)maxmath.BASE_cvtf16i32(input.x2, signed: true, trunc: true),
-                                (int)maxmath.BASE_cvtf16i32(input.x3, signed: true, trunc: true),
-                                (int)maxmath.BASE_cvtf16i32(input.x4, signed: true, trunc: true),
-                                (int)maxmath.BASE_cvtf16i32(input.x5, signed: true, trunc: true),
-                                (int)maxmath.BASE_cvtf16i32(input.x6, signed: true, trunc: true),
-                                (int)maxmath.BASE_cvtf16i32(input.x7, signed: true, trunc: true));
+                return new int8((int4)input.v4_0, (int4)input.v4_4);
             }
         }
 
@@ -193,7 +536,7 @@ namespace MaxMath
             }
             else
             {
-                return new int8((int4)input._v4_0, (int4)input._v4_4);
+                return new int8((int4)input.__x0, (int4)input.__x4);
             }
         }
 
@@ -206,7 +549,7 @@ namespace MaxMath
             }
             else
             {
-                return (half8)(float8)input;
+                return new half8((half4)input.v4_0, (half4)input.v4_4);
             }
         }
 
@@ -219,7 +562,7 @@ namespace MaxMath
             }
             else
             {
-                return new float8((float4)input._v4_0, (float4)input._v4_4);
+                return new float8((float4)input.__x0, (float4)input.__x4);
             }
         }
 
@@ -258,18 +601,9 @@ namespace MaxMath
             {
                 return Xse.mm256_div_epi32(left, right);
             }
-            else if (Avx.IsAvxSupported)
-            {
-                return new int8((int4)((double4)left.v4_0 / right.v4_0), (int4)((double4)left.v4_4 / right.v4_4));
-            }
-            else if (BurstArchitecture.IsSIMDSupported)
-            {
-                return new int8(RegisterConversion.ToInt4(Xse.div_epi32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))),
-                                RegisterConversion.ToInt4(Xse.div_epi32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
-            }
             else
             {
-                return new int8((left.x0 / right.x0), (left.x1 / right.x1), (left.x2 / right.x2), (left.x3 / right.x3), (left.x4 / right.x4), (left.x5 / right.x5), (left.x6 / right.x6), (left.x7 / right.x7));
+                return new int8(left.__x0 / right.__x0, left.__x4 / right.__x4);
             }
         }
 
@@ -280,14 +614,9 @@ namespace MaxMath
             {
                 return Xse.mm256_rem_epi32(left, right);
             }
-            else if (BurstArchitecture.IsSIMDSupported)
-            {
-                return new int8(RegisterConversion.ToInt4(Xse.rem_epi32(RegisterConversion.ToV128(left.v4_0), RegisterConversion.ToV128(right.v4_0))),
-                                RegisterConversion.ToInt4(Xse.rem_epi32(RegisterConversion.ToV128(left.v4_4), RegisterConversion.ToV128(right.v4_4))));
-            }
             else
             {
-                return new int8((left.x0 % right.x0), (left.x1 % right.x1), (left.x2 % right.x2), (left.x3 % right.x3), (left.x4 % right.x4), (left.x5 % right.x5), (left.x6 % right.x6), (left.x7 % right.x7));
+                return new int8(left.__x0 % right.__x0, left.__x4 % right.__x4);
             }
         }
 
@@ -304,15 +633,9 @@ namespace MaxMath
                 {
                     return new int8((left.x0 * right), (left.x1 * right), (left.x2 * right), (left.x3 * right), (left.x4 * right), (left.x5 * right), (left.x6 * right), (left.x7 * right));
                 }
-                else
-                {
-                    return left * (int8)right;
-                }
             }
-            else
-            {
-                return new int8(left._v4_0 * right, left._v4_4 * right);
-            }
+
+            return new int8(left.v4_0 * right, left.v4_4 * right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -337,7 +660,7 @@ Assert.IsFalse(left.x7 == int.MinValue && right == -1);
                 }
             }
 
-            return left / (int8)right;
+            return new int8(left.v4_0 / right, left.v4_4 / right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -362,7 +685,7 @@ Assert.IsFalse(left.x7 == int.MinValue && right == -1);
                 }
             }
 
-            return left % (int8)right;
+            return new int8(left.v4_0 % right, left.v4_4 % right);
         }
 
 
@@ -385,7 +708,7 @@ Assert.IsFalse(left.x7 == int.MinValue && right == -1);
             }
             else
             {
-                return new int8(-x._v4_0, -x._v4_4);
+                return new int8(-x.__x0, -x.__x4);
             }
         }
 
@@ -398,7 +721,7 @@ Assert.IsFalse(left.x7 == int.MinValue && right == -1);
             }
             else
             {
-                return new int8(x._v4_0 + 1, x._v4_4 + 1);
+                return new int8(x.__x0 + 1, x.__x4 + 1);
             }
         }
 
@@ -411,7 +734,7 @@ Assert.IsFalse(left.x7 == int.MinValue && right == -1);
             }
             else
             {
-                return new int8(x._v4_0 - 1, x._v4_4 - 1);
+                return new int8(x.__x0 - 1, x.__x4 - 1);
             }
         }
 
@@ -431,67 +754,67 @@ Assert.IsFalse(left.x7 == int.MinValue && right == -1);
             }
             else
             {
-                return new int8(x._v4_0 >> n, x._v4_4 >> n);
+                return new int8(x.__x0 >> n, x.__x4 >> n);
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (int8 left, int8 right) => (uint8)left == (uint8)right;
+        public static mask32x8 operator == (int8 left, int8 right) => (uint8)left == (uint8)right;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (int8 left, int8 right)
+        public static mask32x8 operator < (int8 left, int8 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmplt_epi32(left, right));
+                return Xse.mm256_cmplt_epi32(left, right);
             }
             else
             {
-                return new bool8(left._v4_0 < right._v4_0, left._v4_4 < right._v4_4);
+                return new mask32x8(left.__x0 < right.__x0, left.__x4 < right.__x4);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (int8 left, int8 right)
+        public static mask32x8 operator > (int8 left, int8 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue32(Avx2.mm256_cmpgt_epi32(left, right));
+                return Avx2.mm256_cmpgt_epi32(left, right);
             }
             else
             {
-                return new bool8(left._v4_0 > right._v4_0, left._v4_4 > right._v4_4);
+                return new mask32x8(left.__x0 > right.__x0, left.__x4 > right.__x4);
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (int8 left, int8 right) => (uint8)left != (uint8)right;
+        public static mask32x8 operator != (int8 left, int8 right) => (uint8)left != (uint8)right;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (int8 left, int8 right)
+        public static mask32x8 operator <= (int8 left, int8 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsFalse32(Avx2.mm256_cmpgt_epi32(left, right));
+                return Xse.mm256_not_si256(Avx2.mm256_cmpgt_epi32(left, right));
             }
             else
             {
-                return new bool8(left._v4_0 <= right._v4_0, left._v4_4 <= right._v4_4);
+                return new mask32x8(left.__x0 <= right.__x0, left.__x4 <= right.__x4);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (int8 left, int8 right)
+        public static mask32x8 operator >= (int8 left, int8 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsFalse32(Xse.mm256_cmplt_epi32(left, right));
+                return Xse.mm256_not_si256(Xse.mm256_cmplt_epi32(left, right));
             }
             else
             {
-                return new bool8(left._v4_0 >= right._v4_0, left._v4_4 >= right._v4_4);
+                return new mask32x8(left.__x0 >= right.__x0, left.__x4 >= right.__x4);
             }
         }
 
@@ -503,9 +826,9 @@ Assert.IsFalse(left.x7 == int.MinValue && right == -1);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => ((uint8)this).GetHashCode();
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
-        public override readonly string ToString() => $"int8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"int8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
+        public override string ToString() => $"int8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"int8({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)})";
     }
 }

@@ -2,7 +2,6 @@ using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -49,7 +48,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static v128 SadHelper(v128 a, v128 b, byte elements, bool signed)
@@ -58,7 +57,7 @@ namespace MaxMath
             {
                 if (elements < 8)
                 {
-                    v128 mask = Xse.cvtsi32_si128(maxmath.bitmask32(8 * elements));
+                    v128 mask = Xse.cvtsi32_si128(math.bitmask32(8 * elements));
 
                     a = Xse.and_si128(a, mask);
                     b = Xse.and_si128(b, mask);
@@ -91,7 +90,7 @@ namespace MaxMath
             }
             else
             {
-                return (uint)(math.abs(a.x - b.x) + math.abs(a.y - b.y));
+                return (uint)(abs(a.x - b.x) + abs(a.y - b.y));
             }
         }
 
@@ -106,7 +105,7 @@ namespace MaxMath
             }
             else
             {
-                return (uint)(math.abs(a.x - b.x) + math.abs(a.y - b.y) + math.abs(a.z - b.z));
+                return (uint)(abs(a.x - b.x) + abs(a.y - b.y) + abs(a.z - b.z));
             }
         }
 
@@ -121,7 +120,7 @@ namespace MaxMath
             }
             else
             {
-                return (uint)((math.abs(a.x - b.x) + math.abs(a.y - b.y)) + (math.abs(a.z - b.z) + math.abs(a.w - b.w)));
+                return (uint)((abs(a.x - b.x) + abs(a.y - b.y)) + (abs(a.z - b.z) + abs(a.w - b.w)));
             }
         }
 
@@ -136,7 +135,7 @@ namespace MaxMath
             }
             else
             {
-                return (uint)(((math.abs(a.x0 - b.x0) + math.abs(a.x1 - b.x1)) + (math.abs(a.x2 - b.x2) + math.abs(a.x3 - b.x3))) + ((math.abs(a.x4 - b.x4) + math.abs(a.x5 - b.x5)) + (math.abs(a.x6 - b.x6) + math.abs(a.x7 - b.x7))));
+                return (uint)(((abs(a.x0 - b.x0) + abs(a.x1 - b.x1)) + (abs(a.x2 - b.x2) + abs(a.x3 - b.x3))) + ((abs(a.x4 - b.x4) + abs(a.x5 - b.x5)) + (abs(a.x6 - b.x6) + abs(a.x7 - b.x7))));
             }
         }
 
@@ -151,7 +150,7 @@ namespace MaxMath
             }
             else
             {
-                return (uint)(((math.abs(a.x0 - b.x0) + math.abs(a.x1 - b.x1)) + (math.abs(a.x2 - b.x2) + math.abs(a.x3 - b.x3))) + (((math.abs(a.x4 - b.x4) + math.abs(a.x5 - b.x5)) + (math.abs(a.x6 - b.x6) + math.abs(a.x7 - b.x7)))) + (((math.abs(a.x8 - b.x8) + math.abs(a.x9 - b.x9)) + (math.abs(a.x10 - b.x10) + math.abs(a.x11 - b.x11))) + ((math.abs(a.x12 - b.x12) + math.abs(a.x13 - b.x13)) + (math.abs(a.x14 - b.x14) + math.abs(a.x15 - b.x15)))));
+                return (uint)(((abs(a.x0 - b.x0) + abs(a.x1 - b.x1)) + (abs(a.x2 - b.x2) + abs(a.x3 - b.x3))) + (((abs(a.x4 - b.x4) + abs(a.x5 - b.x5)) + (abs(a.x6 - b.x6) + abs(a.x7 - b.x7)))) + (((abs(a.x8 - b.x8) + abs(a.x9 - b.x9)) + (abs(a.x10 - b.x10) + abs(a.x11 - b.x11))) + ((abs(a.x12 - b.x12) + abs(a.x13 - b.x13)) + (abs(a.x14 - b.x14) + abs(a.x15 - b.x15)))));
             }
         }
 
@@ -267,7 +266,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort2 a, ushort2 b)
         {
-            return math.csum((uint2)math.abs((int2)a - (int2)b));
+            return csum((uint2)abs((int2)a - (int2)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort3"/>s.     </summary>
@@ -275,7 +274,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort3 a, ushort3 b)
         {
-            return math.csum((uint3)math.abs((int3)a - (int3)b));
+            return csum((uint3)abs((int3)a - (int3)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort4"/>s.     </summary>
@@ -283,7 +282,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort4 a, ushort4 b)
         {
-            return math.csum((uint4)math.abs((int4)a - (int4)b));
+            return csum((uint4)abs((int4)a - (int4)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort8"/>s.     </summary>
@@ -338,7 +337,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short2 a, short2 b)
         {
-            return math.csum((uint2)math.abs((int2)a - (int2)b));
+            return csum((uint2)abs((int2)a - (int2)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short3"/>s.     </summary>
@@ -346,7 +345,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short3 a, short3 b)
         {
-            return math.csum((uint3)math.abs((int3)a - (int3)b));
+            return csum((uint3)abs((int3)a - (int3)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short4"/>s.     </summary>
@@ -354,7 +353,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short4 a, short4 b)
         {
-            return math.csum((uint4)math.abs((int4)a - (int4)b));
+            return csum((uint4)abs((int4)a - (int4)b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short8"/>s.     </summary>
@@ -404,21 +403,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="uint2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.uint2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint2 a, uint2 b)
         {
             return csum((ulong2)abs((long2)a - (long2)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="uint3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.uint3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint3 a, uint3 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 aLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(a), out v128 aZ);
-                v128 bLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(b), out v128 bZ);
+                v128 aLo = Xse.cvt2x2epu32_epi64(a, out v128 aZ);
+                v128 bLo = Xse.cvt2x2epu32_epi64(b, out v128 bZ);
 
                 v128 absDifLo = Xse.abs_epi64(Xse.sub_epi64(aLo, bLo));
                 v128 absDifZ  = Xse.abs_epi64(Xse.sub_epi64(aZ,  bZ));
@@ -434,14 +433,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="uint4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.uint4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint4 a, uint4 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 aLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(a), out v128 aHi);
-                v128 bLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(b), out v128 bHi);
+                v128 aLo = Xse.cvt2x2epu32_epi64(a, out v128 aHi);
+                v128 bLo = Xse.cvt2x2epu32_epi64(b, out v128 bHi);
 
                 v128 absDifLo = Xse.abs_epi64(Xse.sub_epi64(aLo, bLo));
                 v128 absDifHi = Xse.abs_epi64(Xse.sub_epi64(aHi, bHi));
@@ -482,14 +481,14 @@ namespace MaxMath
             return csum((ulong2)abs((long2)a - (long2)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="int3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.int3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int3 a, int3 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 aLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(a), out v128 aZ);
-                v128 bLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(b), out v128 bZ);
+                v128 aLo = Xse.cvt2x2epi32_epi64(a, out v128 aZ);
+                v128 bLo = Xse.cvt2x2epi32_epi64(b, out v128 bZ);
 
                 v128 absDifLo = Xse.abs_epi64(Xse.sub_epi64(aLo, bLo));
                 v128 absDifZ  = Xse.abs_epi64(Xse.sub_epi64(aZ,  bZ));
@@ -505,14 +504,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="int4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.int4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int4 a, int4 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 aLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(a), out v128 aHi);
-                v128 bLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(b), out v128 bHi);
+                v128 aLo = Xse.cvt2x2epi32_epi64(a, out v128 aHi);
+                v128 bLo = Xse.cvt2x2epi32_epi64(b, out v128 bHi);
 
                 v128 absDifLo = Xse.abs_epi64(Xse.sub_epi64(aLo, bLo));
                 v128 absDifHi = Xse.abs_epi64(Xse.sub_epi64(aHi, bHi));
@@ -599,25 +598,25 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="float2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.float2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sad(float2 a, float2 b)
         {
-            return math.csum(math.abs(a - b));
+            return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="float3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.float3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sad(float3 a, float3 b)
         {
-            return math.csum(math.abs(a - b));
+            return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="float4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.float4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sad(float4 a, float4 b)
         {
-            return math.csum(math.abs(a - b));
+            return csum(abs(a - b));
         }
 
         /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.float8"/>s.     </summary>
@@ -628,25 +627,25 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="double2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.double2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double sad(double2 a, double2 b)
         {
-            return math.csum(math.abs(a - b));
+            return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="double3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.double3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double sad(double3 a, double3 b)
         {
-            return math.csum(math.abs(a - b));
+            return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="double4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.double4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double sad(double4 a, double4 b)
         {
-            return math.csum(math.abs(a - b));
+            return csum(abs(a - b));
         }
     }
 }

@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -267,13 +266,13 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>       Adds <paramref name="x"/> and <paramref name="y"/> and returns the result, which is clamped to <see cref="UInt128.MaxValue"/> if overflow occurs.    </summary>
+        /// <summary>       Adds <paramref name="x"/> and <paramref name="y"/> and returns the result, which is clamped to <see cref="MaxMath.UInt128.MaxValue"/> if overflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 addsaturated(UInt128 x, UInt128 y)
         {
-            if (constexpr.IS_TRUE(x <= UInt128.MaxValue / 2 && y <= UInt128.MaxValue / 2))
+            if (constexpr.IS_TRUE(x <= MaxMath.UInt128.MaxValue / 2 && y <= MaxMath.UInt128.MaxValue / 2))
             {
                 return x + y;
             }
@@ -297,7 +296,7 @@ namespace MaxMath
         public static Int128 addsaturated(Int128 x, Int128 y)
         {
 	        Int128 result = x + y;
-	        Int128 overflow = (x.hi64 >> 63) + Int128.MaxValue;
+	        Int128 overflow = (x.hi64 >> 63) + MaxMath.Int128.MaxValue;
 
 	        if ((long)((overflow ^ y) | ~(y ^ result)).hi64 >= 0)
 	        {
@@ -579,7 +578,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                return Xse.adds_epu32(x, y, 2);
             }
             else
             {
@@ -594,7 +593,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                return Xse.adds_epu32(x, y, 3);
             }
             else
             {
@@ -610,7 +609,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.adds_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                return Xse.adds_epu32(x, y, 4);
             }
             else
             {
@@ -720,7 +719,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(x + y, sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(x + y, sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -853,7 +852,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp(x + y, short.MinValue, short.MaxValue);
+                return (short)clamp(x + y, short.MinValue, short.MaxValue);
             }
         }
 
@@ -946,7 +945,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int addsaturated(int x, int y)
         {
-            return (int)math.clamp((long)x + (long)y, int.MinValue, int.MaxValue);
+            return (int)clamp((long)x + (long)y, int.MinValue, int.MaxValue);
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.    </summary>
@@ -955,7 +954,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                return Xse.adds_epi32(x, y, 2);
             }
             else
             {
@@ -970,7 +969,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                return Xse.adds_epi32(x, y, 3);
             }
             else
             {
@@ -986,7 +985,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.adds_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                return Xse.adds_epi32(x, y, 4);
             }
             else
             {
@@ -1078,28 +1077,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float addsaturated(float x, float y)
         {
-            return math.clamp(x + y, float.MinValue, float.MaxValue);
+            return clamp(x + y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 addsaturated(float2 x, float2 y)
         {
-            return math.clamp(x + y, float.MinValue, float.MaxValue);
+            return clamp(x + y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 addsaturated(float3 x, float3 y)
         {
-            return math.clamp(x + y, float.MinValue, float.MaxValue);
+            return clamp(x + y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 addsaturated(float4 x, float4 y)
         {
-            return math.clamp(x + y, float.MinValue, float.MaxValue);
+            return clamp(x + y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
@@ -1113,28 +1112,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double addsaturated(double x, double y)
         {
-            return math.clamp(x + y, double.MinValue, double.MaxValue);
+            return clamp(x + y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 addsaturated(double2 x, double2 y)
         {
-            return math.clamp(x + y, double.MinValue, double.MaxValue);
+            return clamp(x + y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 addsaturated(double3 x, double3 y)
         {
-            return math.clamp(x + y, double.MinValue, double.MaxValue);
+            return clamp(x + y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Adds each component of <paramref name="x"/> and <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 addsaturated(double4 x, double4 y)
         {
-            return math.clamp(x + y, double.MinValue, double.MaxValue);
+            return clamp(x + y, double.MinValue, double.MaxValue);
         }
     }
 }

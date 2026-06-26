@@ -1,56 +1,59 @@
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
+#if DEBUG
+    internal sealed class quarter8DebuggerProxy
+    {
+        public quarter x0;
+        public quarter x1;
+        public quarter x2;
+        public quarter x3;
+        public quarter x4;
+        public quarter x5;
+        public quarter x6;
+        public quarter x7;
+        
+        public quarter8DebuggerProxy(quarter8 v)
+        {
+            x0 = v.x0;
+            x1 = v.x1;
+            x2 = v.x2;
+            x3 = v.x3;
+            x4 = v.x4;
+            x5 = v.x5;
+            x6 = v.x6;
+            x7 = v.x7;
+        }
+    }
+
+    [System.Diagnostics.DebuggerTypeProxy(typeof(quarter8DebuggerProxy))]
+#endif
     [Serializable]
-    [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(byte))]
-    [DebuggerTypeProxy(typeof(quarter8.DebuggerProxy))]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     unsafe public struct quarter8 : IEquatable<quarter8>, IFormattable
     {
-        internal sealed class DebuggerProxy
-        {
-            public quarter x0;
-            public quarter x1;
-            public quarter x2;
-            public quarter x3;
-            public quarter x4;
-            public quarter x5;
-            public quarter x6;
-            public quarter x7;
-
-            public DebuggerProxy(quarter8 v)
-            {
-                x0 = v.x0;
-                x1 = v.x1;
-                x2 = v.x2;
-                x3 = v.x3;
-                x4 = v.x4;
-                x5 = v.x5;
-                x6 = v.x6;
-                x7 = v.x7;
-            }
-        }
-
-
-        [FieldOffset(0)] public quarter x0;
-        [FieldOffset(1)] public quarter x1;
-        [FieldOffset(2)] public quarter x2;
-        [FieldOffset(3)] public quarter x3;
-        [FieldOffset(4)] public quarter x4;
-        [FieldOffset(5)] public quarter x5;
-        [FieldOffset(6)] public quarter x6;
-        [FieldOffset(7)] public quarter x7;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal ulong __x0;
+        
+        public ref quarter x0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter8* ptr = &this) { return ref *((quarter*)ptr + 0); } } }
+        public ref quarter x1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter8* ptr = &this) { return ref *((quarter*)ptr + 1); } } }
+        public ref quarter x2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter8* ptr = &this) { return ref *((quarter*)ptr + 2); } } }
+        public ref quarter x3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter8* ptr = &this) { return ref *((quarter*)ptr + 3); } } }
+        public ref quarter x4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter8* ptr = &this) { return ref *((quarter*)ptr + 4); } } }
+        public ref quarter x5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter8* ptr = &this) { return ref *((quarter*)ptr + 5); } } }
+        public ref quarter x6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter8* ptr = &this) { return ref *((quarter*)ptr + 6); } } }
+        public ref quarter x7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter8* ptr = &this) { return ref *((quarter*)ptr + 7); } } }
 
 
         public static quarter8 zero => default;
@@ -115,37 +118,378 @@ namespace MaxMath
         {
             this = asquarter(new byte8(asbyte(x0123), asbyte(x4567)));
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(bool v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(bool8 v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(mask8x8 v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(mask16x8 v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(mask32x8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(byte v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(byte8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(sbyte v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(sbyte8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(ushort v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(ushort8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(short v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(short8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(uint v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(uint8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(int v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(int8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(ulong v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(long v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(UInt128 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(Int128 v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(quarter8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(half v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(half8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(float v)
+        {
+            this = (quarter8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(float8 v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(double v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(quadruple v)
+        {
+            this = (quarter8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter8(Unity.Mathematics.half v)
+        {
+            this = (quarter8)v;
+        }
 
 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_0 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_1 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_2 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_3 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v4_4 = asbyte(value); this = asquarter(temp); } }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_0 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_1 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_2 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_3 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_4 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v3_5 = asbyte(value); this = asquarter(temp); } }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_0 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_1 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_2 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_3 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_4 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_5 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte8 temp = asbyte(this); temp.v2_6 = asbyte(value); this = asquarter(temp); } }
 
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(quarter8 input) => RegisterConversion.ToRegister128(input);
+        public static implicit operator v128(quarter8 input) => asbyte(input);
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator quarter8(v128 input) => RegisterConversion.ToAbstraction128<quarter8>(input);
+        public static implicit operator quarter8(v128 input) => asquarter((byte8)input);
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(bool x) => (quarter8)(mask8x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(bool8 x) => (quarter8)(mask8x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(mask8x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.and_si128(x, Xse.set1_pq((quarter)1f));
+            }
+            else
+            {
+                return (quarter8)(*(byte8*)&x);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(mask16x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (quarter8)(mask8x8)x;
+            }
+            else
+            {
+                return (quarter8)(*(byte8*)&x);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(mask32x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (quarter8)(mask8x8)x;
+            }
+            else
+            {
+                return (quarter8)(*(byte8*)&x);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool8(quarter8 x) => math.andnot(x != 0, math.isnan(x));
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask8x8(quarter8 x) => math.andnot(x != 0, math.isnan(x));
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask16x8(quarter8 x) => (mask8x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask32x8(quarter8 x) => (mask8x8)x;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(byte x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(sbyte x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(ushort x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(short x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(uint x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(int x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(ulong x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(long x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(UInt128 x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(Int128 x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(quadruple x) => (quarter)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter8(Unity.Mathematics.half x) => (quarter8)(half)x;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -359,8 +703,8 @@ namespace MaxMath
             }
             if (BurstArchitecture.IsSIMDSupported)
             {
-                int4 lo = RegisterConversion.ToInt4(Xse.cvttpq_epi32(input));
-                int4 hi = RegisterConversion.ToInt4(Xse.cvttpq_epi32(Xse.bsrli_si128(input, 4 * sizeof(quarter))));
+                int4 lo = Xse.cvttpq_epi32(input);
+                int4 hi = Xse.cvttpq_epi32(Xse.bsrli_si128(input, 4 * sizeof(quarter)));
 
                 return new int8(lo, hi);
             }
@@ -379,8 +723,8 @@ namespace MaxMath
             }
             if (BurstArchitecture.IsSIMDSupported)
             {
-                uint4 lo = RegisterConversion.ToUInt4(Xse.cvttpq_epu32(input));
-                uint4 hi = RegisterConversion.ToUInt4(Xse.cvttpq_epu32(Xse.bsrli_si128(input, 4 * sizeof(quarter))));
+                uint4 lo = Xse.cvttpq_epu32(input);
+                uint4 hi = Xse.cvttpq_epu32(Xse.bsrli_si128(input, 4 * sizeof(quarter)));
 
                 return new uint8(lo, hi);
             }
@@ -444,607 +788,646 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (quarter8 left, quarter8 right)
+        public static mask8x8 operator == (quarter8 left, quarter8 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmpeq_pq(left, right, elements: 8));
+                return Xse.cmpeq_pq(left, right, elements: 8);
             }
             else
             {
-                return new bool8(left.x0 == right.x0, left.x1 == right.x1, left.x2 == right.x2, left.x3 == right.x3, left.x4 == right.x4, left.x5 == right.x5, left.x6 == right.x6, left.x7 == right.x7);
+                return new mask8x8(left.x0 == right.x0, left.x1 == right.x1, left.x2 == right.x2, left.x3 == right.x3, left.x4 == right.x4, left.x5 == right.x5, left.x6 == right.x6, left.x7 == right.x7);
             }
         }
-
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (quarter8 left, quarter right)
-        {
-            return left == (quarter8)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (quarter left, quarter8 right)
-        {
-            return (quarter8)left == right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (quarter8 left, half right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left == default(quarter8);
-            }
-            else
-            {
-                return (float8)left == (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (half left, quarter8 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (quarter8 left, half8 right)
-        {
-            if (constexpr.ALL_EQ_PS((float8)right, 0f))
-            {
-                return left == default(quarter8);
-            }
-            else
-            {
-                return (float8)left == (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (half8 left, quarter8 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (quarter8 left, float right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left == default(quarter8);
-            }
-            else
-            {
-                return (float8)left == (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (float left, quarter8 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (quarter8 left, float8 right)
-        {
-            if (constexpr.IS_TRUE(all(right == 0f)))
-            {
-                return left == default(quarter8);
-            }
-            else
-            {
-                return (float8)left == (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (float8 left, quarter8 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (quarter8 left, double right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left == default(quarter8);
-            }
-            else
-            {
-                return new bool8((double4)left.v4_0 == right, (double4)left.v4_4 == right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (double left, quarter8 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (quarter8 left, quarter8 right)
+        public static mask8x8 operator != (quarter8 left, quarter8 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmpneq_pq(left, right, elements: 8));
+                return Xse.cmpneq_pq(left, right, elements: 8);
             }
             else
             {
-                return new bool8(left.x0 != right.x0, left.x1 != right.x1, left.x2 != right.x2, left.x3 != right.x3, left.x4 != right.x4, left.x5 != right.x5, left.x6 != right.x6, left.x7 != right.x7);
+                return new mask8x8(left.x0 != right.x0, left.x1 != right.x1, left.x2 != right.x2, left.x3 != right.x3, left.x4 != right.x4, left.x5 != right.x5, left.x6 != right.x6, left.x7 != right.x7);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (quarter8 left, quarter right)
-        {
-            return left != (quarter8)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (quarter left, quarter8 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (quarter8 left, half right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left != default(quarter8);
-            }
-            else
-            {
-                return (float8)left != (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (half left, quarter8 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (quarter8 left, half8 right)
-        {
-            if (constexpr.ALL_EQ_PS((float8)right, 0f))
-            {
-                return left != default(quarter8);
-            }
-            else
-            {
-                return (float8)left != (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (half8 left, quarter8 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (quarter8 left, float right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left != default(quarter8);
-            }
-            else
-            {
-                return (float8)left != (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (float left, quarter8 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (quarter8 left, float8 right)
-        {
-            if (constexpr.IS_TRUE(all(right == 0f)))
-            {
-                return left != default(quarter8);
-            }
-            else
-            {
-                return (float8)left != (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (float8 left, quarter8 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (quarter8 left, double right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left != default(quarter8);
-            }
-            else
-            {
-                return new bool8((double4)left.v4_0 != right, (double4)left.v4_4 != right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (double left, quarter8 right) => right != left;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (quarter8 left, quarter8 right)
+        public static mask8x8 operator < (quarter8 left, quarter8 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmplt_pq(left, right, elements: 8));
+                return Xse.cmplt_pq(left, right, elements: 8);
             }
             else
             {
-                return new bool8(left.x0 < right.x0, left.x1 < right.x1, left.x2 < right.x2, left.x3 < right.x3, left.x4 < right.x4, left.x5 < right.x5, left.x6 < right.x6, left.x7 < right.x7);
+                return new mask8x8(left.x0 < right.x0, left.x1 < right.x1, left.x2 < right.x2, left.x3 < right.x3, left.x4 < right.x4, left.x5 < right.x5, left.x6 < right.x6, left.x7 < right.x7);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (quarter8 left, quarter right)
-        {
-            return left < (quarter8)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (quarter left, quarter8 right)
-        {
-            return (quarter8)left < right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (quarter8 left, half right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left < default(quarter8);
-            }
-            else
-            {
-                return (float8)left < (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (half left, quarter8 right)
-        {
-            if (constexpr.IS_TRUE(left == 0f))
-            {
-                return right > default(quarter8);
-            }
-            else
-            {
-                return (float8)left < (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (quarter8 left, half8 right)
-        {
-            if (constexpr.IS_TRUE(maxmath.all((float8)right == 0f)))
-            {
-                return left < default(quarter8);
-            }
-            else
-            {
-                return (float8)left < (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (half8 left, quarter8 right)
-        {
-            if (constexpr.IS_TRUE(maxmath.all((float8)left == 0f)))
-            {
-                return right > default(quarter8);
-            }
-            else
-            {
-                return (float8)left < (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (quarter8 left, float right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left < default(quarter8);
-            }
-            else
-            {
-                return (float8)left < (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (float left, quarter8 right)
-        {
-            if (constexpr.IS_TRUE(left == 0f))
-            {
-                return right > default(quarter8);
-            }
-            else
-            {
-                return (float8)left < (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (quarter8 left, float8 right)
-        {
-            if (constexpr.IS_TRUE(maxmath.all(right == 0f)))
-            {
-                return left < default(quarter8);
-            }
-            else
-            {
-                return (float8)left < (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (float8 left, quarter8 right)
-        {
-            if (constexpr.IS_TRUE(maxmath.all(left == 0f)))
-            {
-                return right > default(quarter8);
-            }
-            else
-            {
-                return (float8)left < (float8)right;
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (quarter8 left, double right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left < default(quarter8);
-            }
-            else
-            {
-                return new bool8((double4)left.v4_0 < (double4)right, (double4)left.v4_4 < (double4)right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (double left, quarter8 right)
-        {
-            if (constexpr.IS_TRUE(left == 0f))
-            {
-                return right > default(quarter8);
-            }
-            else
-            {
-                return new bool8((double4)left < (double4)right.v4_0, (double4)left < (double4)right.v4_4);
-            }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (quarter8 left, quarter8 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (quarter8 left, quarter right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (quarter left, quarter8 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (quarter8 left, half right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (half left, quarter8 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (quarter8 left, half8 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (half8 left, quarter8 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (quarter8 left, float right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (float left, quarter8 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (quarter8 left, float8 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (float8 left, quarter8 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (quarter8 left, double right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (double left, quarter8 right) => right < left;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (quarter8 left, quarter8 right)
+        public static mask8x8 operator > (quarter8 left, quarter8 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmple_pq(left, right, elements: 8));
+                return Xse.cmpgt_pq(left, right, elements: 8);
             }
             else
             {
-                return new bool8(left.x0 <= right.x0, left.x1 <= right.x1, left.x2 <= right.x2, left.x3 <= right.x3, left.x4 <= right.x4, left.x5 <= right.x5, left.x6 <= right.x6, left.x7 <= right.x7);
+                return new mask8x8(left.x0 > right.x0, left.x1 > right.x1, left.x2 > right.x2, left.x3 > right.x3, left.x4 > right.x4, left.x5 > right.x5, left.x6 > right.x6, left.x7 > right.x7);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (quarter8 left, quarter right)
+        public static mask8x8 operator <= (quarter8 left, quarter8 right)
         {
-            return left <= (quarter8)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (quarter left, quarter8 right)
-        {
-            return (quarter8)left <= right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (quarter8 left, half right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return left <= default(quarter8);
+                return Xse.cmple_pq(left, right, elements: 8);
             }
             else
             {
-                return (float8)left <= (float8)right;
+                return new mask8x8(left.x0 <= right.x0, left.x1 <= right.x1, left.x2 <= right.x2, left.x3 <= right.x3, left.x4 <= right.x4, left.x5 <= right.x5, left.x6 <= right.x6, left.x7 <= right.x7);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (half left, quarter8 right)
+        public static mask8x8 operator >= (quarter8 left, quarter8 right)
         {
-            if (constexpr.IS_TRUE(left == 0f))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return right >= default(quarter8);
+                return Xse.cmpge_pq(left, right, elements: 8);
             }
             else
             {
-                return (float8)left <= (float8)right;
+                return new mask8x8(left.x0 >= right.x0, left.x1 >= right.x1, left.x2 >= right.x2, left.x3 >= right.x3, left.x4 >= right.x4, left.x5 >= right.x5, left.x6 >= right.x6, left.x7 >= right.x7);
             }
         }
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (quarter8 left, half8 right)
+        public static mask8x8 operator == (quarter left, quarter8 right) => (quarter8)left == right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator != (quarter left, quarter8 right) => (quarter8)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator < (quarter left, quarter8 right) => (quarter8)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator > (quarter left, quarter8 right) => (quarter8)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator <= (quarter left, quarter8 right) => (quarter8)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator >= (quarter left, quarter8 right) => (quarter8)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator == (quarter8 left, quarter right) => left == (quarter8)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator != (quarter8 left, quarter right) => left != (quarter8)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator < (quarter8 left, quarter right) => left < (quarter8)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator > (quarter8 left, quarter right) => left > (quarter8)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator <= (quarter8 left, quarter right) => left <= (quarter8)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator >= (quarter8 left, quarter right) => left >= (quarter8)right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator == (quarter8 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(maxmath.all((float8)right == 0f)))
+            if (constexpr.IS_CONST(right))
             {
-                return left <= default(quarter8);
+                if ((half)(quarter)right == right)
+                {
+                    return left == (quarter)right;
+                }
             }
-            else
-            {
-                return (float8)left <= (float8)right;
-            }
-        }
 
+            return (half8)left == right;
+        }
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (half8 left, quarter8 right)
+        public static mask8x8 operator != (quarter8 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(maxmath.all((float8)left == 0f)))
+            if (constexpr.IS_CONST(right))
             {
-                return right >= default(quarter8);
+                if ((half)(quarter)right == right)
+                {
+                    return left != (quarter)right;
+                }
             }
-            else
-            {
-                return (float8)left <= (float8)right;
-            }
+
+            return (half8)left != right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (quarter8 left, float right)
+        public static mask8x8 operator < (quarter8 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_CONST(right))
             {
-                return left <= default(quarter8);
+                if ((half)(quarter)right == right)
+                {
+                    return left < (quarter)right;
+                }
             }
-            else
-            {
-                return (float8)left <= (float8)right;
-            }
+
+            return (half8)left < right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (float left, quarter8 right)
+        public static mask8x8 operator > (quarter8 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_CONST(right))
             {
-                return right >= default(quarter8);
+                if ((half)(quarter)right == right)
+                {
+                    return left > (quarter)right;
+                }
             }
-            else
-            {
-                return (float8)left <= (float8)right;
-            }
+
+            return (half8)left > right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (quarter8 left, float8 right)
+        public static mask8x8 operator <= (quarter8 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(maxmath.all(right == 0f)))
+            if (constexpr.IS_CONST(right))
             {
-                return left <= default(quarter8);
+                if ((half)(quarter)right == right)
+                {
+                    return left <= (quarter)right;
+                }
             }
-            else
-            {
-                return (float8)left <= (float8)right;
-            }
+
+            return (half8)left <= right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (float8 left, quarter8 right)
+        public static mask8x8 operator >= (quarter8 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(maxmath.all(left == 0f)))
+            if (constexpr.IS_CONST(right))
             {
-                return right >= default(quarter8);
+                if ((half)(quarter)right == right)
+                {
+                    return left >= (quarter)right;
+                }
             }
-            else
-            {
-                return (float8)left <= (float8)right;
-            }
+
+            return (half8)left >= right;
         }
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (quarter8 left, double right)
+        public static mask8x8 operator == (Unity.Mathematics.half left, quarter8 right)
         {
-            if (constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_CONST(left))
             {
-                return left <= default(quarter8);
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left == right;
+                }
             }
-            else
-            {
-                return new bool8((double4)left.v4_0 <= (double4)right, (double4)left.v4_4 <= (double4)right);
-            }
-        }
 
+            return left == (half8)right;
+        }
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (double left, quarter8 right)
+        public static mask8x8 operator != (Unity.Mathematics.half left, quarter8 right)
         {
-            if (constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_CONST(left))
             {
-                return right >= default(quarter8);
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left != right;
+                }
             }
-            else
+
+            return left != (half8)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator < (Unity.Mathematics.half left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
             {
-                return new bool8((double4)left <= (double4)right.v4_0, (double4)left <= (double4)right.v4_4);
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left < right;
+                }
             }
+
+            return left < (half8)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator > (Unity.Mathematics.half left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left > right;
+                }
+            }
+
+            return left > (half8)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator <= (Unity.Mathematics.half left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left <= right;
+                }
+            }
+
+            return left <= (half8)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator >= (Unity.Mathematics.half left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left >= right;
+                }
+            }
+
+            return left >= (half8)right;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (quarter8 left, quarter8 right) => right <= left;
+        public static mask8x8 operator == (quarter8 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left == (quarter)right;
+                }
+            }
+
+            return (float8)left == right;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator != (quarter8 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left != (quarter)right;
+                }
+            }
+
+            return (float8)left != right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (quarter8 left, quarter right) => right <= left;
+        public static mask8x8 operator < (quarter8 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left < (quarter)right;
+                }
+            }
+
+            return (float8)left < right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (quarter left, quarter8 right) => right <= left;
+        public static mask8x8 operator > (quarter8 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left > (quarter)right;
+                }
+            }
+
+            return (float8)left > right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (quarter8 left, half right) => right <= left;
+        public static mask8x8 operator <= (quarter8 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left <= (quarter)right;
+                }
+            }
+
+            return (float8)left <= right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (half left, quarter8 right) => right <= left;
+        public static mask8x8 operator >= (quarter8 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left >= (quarter)right;
+                }
+            }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (quarter8 left, half8 right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (half8 left, quarter8 right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (quarter8 left, float right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (float left, quarter8 right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (quarter8 left, float8 right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (float8 left, quarter8 right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (quarter8 left, double right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (double left, quarter8 right) => right <= left;
+            return (float8)left >= right;
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(quarter8 other)
+        public static mask8x8 operator == (float left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left == right;
+                }
+            }
+
+            return left == (float8)right;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator != (float left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left != right;
+                }
+            }
+
+            return left != (float8)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator < (float left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left < right;
+                }
+            }
+
+            return left < (float8)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator > (float left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left > right;
+                }
+            }
+
+            return left > (float8)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator <= (float left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left <= right;
+                }
+            }
+
+            return left <= (float8)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator >= (float left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left >= right;
+                }
+            }
+
+            return left >= (float8)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator == (quarter8 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left == (quarter)right;
+                }
+            }
+
+            return new mask8x8(left.v4_0 == right,
+                               left.v4_4 == right);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator != (quarter8 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left != (quarter)right;
+                }
+            }
+
+            return new mask8x8(left.v4_0 != right,
+                               left.v4_4 != right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator < (quarter8 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left < (quarter)right;
+                }
+            }
+            
+            return new mask8x8(left.v4_0 < right,
+                               left.v4_4 < right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator > (quarter8 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left > (quarter)right;
+                }
+            }
+
+            return new mask8x8(left.v4_0 > right,
+                               left.v4_4 > right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator <= (quarter8 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left <= (quarter)right;
+                }
+            }
+
+            return new mask8x8(left.v4_0 <= right,
+                               left.v4_4 <= right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator >= (quarter8 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left >= (quarter)right;
+                }
+            }
+
+            return new mask8x8(left.v4_0 >= right,
+                               left.v4_4 >= right);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator == (double left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left == right;
+                }
+            }
+
+            return new mask8x8(left == right.v4_0,
+                               left == right.v4_4);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator != (double left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left != right;
+                }
+            }
+
+            return new mask8x8(left != right.v4_0,
+                               left != right.v4_4);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator < (double left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left < right;
+                }
+            }
+
+            return new mask8x8(left < right.v4_0,
+                               left < right.v4_4);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator > (double left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left > right;
+                }
+            }
+
+            return new mask8x8(left > right.v4_0,
+                               left > right.v4_4);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator <= (double left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left <= right;
+                }
+            }
+
+            return new mask8x8(left <= right.v4_0,
+                               left <= right.v4_4);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 operator >= (double left, quarter8 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left >= right;
+                }
+            }
+
+            return new mask8x8(left >= right.v4_0,
+                               left >= right.v4_4);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(quarter8 other)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -1060,18 +1443,7 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                return Hash.v64(this);
-            }
-            else
-            {
-                quarter8 temp = this;
-                return (*(long*)&temp).GetHashCode();
-            }
-        }
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
 
         public override string ToString() => $"quarter8({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7})";

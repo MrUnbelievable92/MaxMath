@@ -1,6 +1,6 @@
 using System.Numerics;
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
                 Int128 x = rng.NextInt128();
                 Int128 y = rng.NextInt128();
 
-                maxmath.mulwide(x, y, out Int128 lo, out Int128 hi);
+                math.mulwide(x, y, out Int128 lo, out Int128 hi);
 
                 TestInt128(x, y, lo, hi);
             }
@@ -103,7 +103,7 @@ namespace MaxMath.Tests
                 UInt128 x = rng.NextUInt128();
                 UInt128 y = rng.NextUInt128();
 
-                maxmath.mulwide(x, y, out UInt128 lo, out UInt128 hi);
+                math.mulwide(x, y, out UInt128 lo, out UInt128 hi);
 
                 TestUInt128(x, y, lo, hi);
             }
@@ -119,7 +119,7 @@ namespace MaxMath.Tests
                 {
                     sbyte x = (sbyte)i;
                     sbyte y = (sbyte)j;
-                    maxmath.mulwide(x, y, out sbyte lo, out sbyte hi);
+                    math.mulwide(x, y, out sbyte lo, out sbyte hi);
 
                     TestSByte(x, y, lo, hi);
                 }
@@ -135,7 +135,7 @@ namespace MaxMath.Tests
                 {
                     sbyte2 x = (sbyte)i;
                     sbyte2 y = (sbyte)j;
-                    maxmath.mulwide(x, y, out sbyte2 lo, out sbyte2 hi);
+                    math.mulwide(x, y, out sbyte2 lo, out sbyte2 hi);
 
                     for (int h = 0; h < 2; h++)
                     {
@@ -154,7 +154,7 @@ namespace MaxMath.Tests
                 {
                     sbyte3 x = (sbyte)i;
                     sbyte3 y = (sbyte)j;
-                    maxmath.mulwide(x, y, out sbyte3 lo, out sbyte3 hi);
+                    math.mulwide(x, y, out sbyte3 lo, out sbyte3 hi);
 
                     for (int h = 0; h < 3; h++)
                     {
@@ -173,7 +173,7 @@ namespace MaxMath.Tests
                 {
                     sbyte4 x = (sbyte)i;
                     sbyte4 y = (sbyte)j;
-                    maxmath.mulwide(x, y, out sbyte4 lo, out sbyte4 hi);
+                    math.mulwide(x, y, out sbyte4 lo, out sbyte4 hi);
 
                     for (int h = 0; h < 4; h++)
                     {
@@ -192,7 +192,7 @@ namespace MaxMath.Tests
                 {
                     sbyte8 x = (sbyte)i;
                     sbyte8 y = (sbyte)j;
-                    maxmath.mulwide(x, y, out sbyte8 lo, out sbyte8 hi);
+                    math.mulwide(x, y, out sbyte8 lo, out sbyte8 hi);
 
                     for (int h = 0; h < 8; h++)
                     {
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
                 {
                     sbyte16 x = (sbyte)i;
                     sbyte16 y = (sbyte)j;
-                    maxmath.mulwide(x, y, out sbyte16 lo, out sbyte16 hi);
+                    math.mulwide(x, y, out sbyte16 lo, out sbyte16 hi);
 
                     for (int h = 0; h < 16; h++)
                     {
@@ -230,7 +230,7 @@ namespace MaxMath.Tests
                 {
                     sbyte32 x = (sbyte)i;
                     sbyte32 y = (sbyte)j;
-                    maxmath.mulwide(x, y, out sbyte32 lo, out sbyte32 hi);
+                    math.mulwide(x, y, out sbyte32 lo, out sbyte32 hi);
 
                     for (int h = 0; h < 32; h++)
                     {
@@ -250,7 +250,7 @@ namespace MaxMath.Tests
                 {
                     byte x = (byte)i;
                     byte y = (byte)j;
-                    maxmath.mulwide(x, y, out byte lo, out byte hi);
+                    math.mulwide(x, y, out byte lo, out byte hi);
 
                     TestByte(x, y, lo, hi);
                 }
@@ -266,7 +266,7 @@ namespace MaxMath.Tests
                 {
                     byte2 x = (byte)i;
                     byte2 y = (byte)j;
-                    maxmath.mulwide(x, y, out byte2 lo, out byte2 hi);
+                    math.mulwide(x, y, out byte2 lo, out byte2 hi);
 
                     for (int h = 0; h < 2; h++)
                     {
@@ -285,7 +285,7 @@ namespace MaxMath.Tests
                 {
                     byte3 x = (byte)i;
                     byte3 y = (byte)j;
-                    maxmath.mulwide(x, y, out byte3 lo, out byte3 hi);
+                    math.mulwide(x, y, out byte3 lo, out byte3 hi);
 
                     for (int h = 0; h < 3; h++)
                     {
@@ -304,7 +304,7 @@ namespace MaxMath.Tests
                 {
                     byte4 x = (byte)i;
                     byte4 y = (byte)j;
-                    maxmath.mulwide(x, y, out byte4 lo, out byte4 hi);
+                    math.mulwide(x, y, out byte4 lo, out byte4 hi);
 
                     for (int h = 0; h < 4; h++)
                     {
@@ -323,7 +323,7 @@ namespace MaxMath.Tests
                 {
                     byte8 x = (byte)i;
                     byte8 y = (byte)j;
-                    maxmath.mulwide(x, y, out byte8 lo, out byte8 hi);
+                    math.mulwide(x, y, out byte8 lo, out byte8 hi);
 
                     for (int h = 0; h < 8; h++)
                     {
@@ -342,7 +342,7 @@ namespace MaxMath.Tests
                 {
                     byte16 x = (byte)i;
                     byte16 y = (byte)j;
-                    maxmath.mulwide(x, y, out byte16 lo, out byte16 hi);
+                    math.mulwide(x, y, out byte16 lo, out byte16 hi);
 
                     for (int h = 0; h < 16; h++)
                     {
@@ -361,7 +361,7 @@ namespace MaxMath.Tests
                 {
                     byte32 x = (byte)i;
                     byte32 y = (byte)j;
-                    maxmath.mulwide(x, y, out byte32 lo, out byte32 hi);
+                    math.mulwide(x, y, out byte32 lo, out byte32 hi);
 
                     for (int h = 0; h < 32; h++)
                     {
@@ -381,7 +381,7 @@ namespace MaxMath.Tests
             {
                 short x = rng.NextShort();
                 short y = rng.NextShort();
-                maxmath.mulwide(x, y, out short lo, out short hi);
+                math.mulwide(x, y, out short lo, out short hi);
 
                 TestShort(x, y, lo, hi);
             }
@@ -396,7 +396,7 @@ namespace MaxMath.Tests
             {
                 short2 x = rng.NextShort2();
                 short2 y = rng.NextShort2();
-                maxmath.mulwide(x, y, out short2 lo, out short2 hi);
+                math.mulwide(x, y, out short2 lo, out short2 hi);
 
                 for (int h = 0; h < 2; h++)
                 {
@@ -414,7 +414,7 @@ namespace MaxMath.Tests
             {
                 short3 x = rng.NextShort3();
                 short3 y = rng.NextShort3();
-                maxmath.mulwide(x, y, out short3 lo, out short3 hi);
+                math.mulwide(x, y, out short3 lo, out short3 hi);
 
                 for (int h = 0; h < 3; h++)
                 {
@@ -432,7 +432,7 @@ namespace MaxMath.Tests
             {
                 short4 x = rng.NextShort4();
                 short4 y = rng.NextShort4();
-                maxmath.mulwide(x, y, out short4 lo, out short4 hi);
+                math.mulwide(x, y, out short4 lo, out short4 hi);
 
                 for (int h = 0; h < 4; h++)
                 {
@@ -450,7 +450,7 @@ namespace MaxMath.Tests
             {
                 short8 x = rng.NextShort8();
                 short8 y = rng.NextShort8();
-                maxmath.mulwide(x, y, out short8 lo, out short8 hi);
+                math.mulwide(x, y, out short8 lo, out short8 hi);
 
                 for (int h = 0; h < 8; h++)
                 {
@@ -468,7 +468,7 @@ namespace MaxMath.Tests
             {
                 short16 x = rng.NextShort16();
                 short16 y = rng.NextShort16();
-                maxmath.mulwide(x, y, out short16 lo, out short16 hi);
+                math.mulwide(x, y, out short16 lo, out short16 hi);
 
                 for (int h = 0; h < 16; h++)
                 {
@@ -487,7 +487,7 @@ namespace MaxMath.Tests
             {
                 ushort x = rng.NextUShort();
                 ushort y = rng.NextUShort();
-                maxmath.mulwide(x, y, out ushort lo, out ushort hi);
+                math.mulwide(x, y, out ushort lo, out ushort hi);
 
                 TestUShort(x, y, lo, hi);
             }
@@ -502,7 +502,7 @@ namespace MaxMath.Tests
             {
                 ushort2 x = rng.NextUShort2();
                 ushort2 y = rng.NextUShort2();
-                maxmath.mulwide(x, y, out ushort2 lo, out ushort2 hi);
+                math.mulwide(x, y, out ushort2 lo, out ushort2 hi);
 
                 for (int h = 0; h < 2; h++)
                 {
@@ -520,7 +520,7 @@ namespace MaxMath.Tests
             {
                 ushort3 x = rng.NextUShort3();
                 ushort3 y = rng.NextUShort3();
-                maxmath.mulwide(x, y, out ushort3 lo, out ushort3 hi);
+                math.mulwide(x, y, out ushort3 lo, out ushort3 hi);
 
                 for (int h = 0; h < 3; h++)
                 {
@@ -538,7 +538,7 @@ namespace MaxMath.Tests
             {
                 ushort4 x = rng.NextUShort4();
                 ushort4 y = rng.NextUShort4();
-                maxmath.mulwide(x, y, out ushort4 lo, out ushort4 hi);
+                math.mulwide(x, y, out ushort4 lo, out ushort4 hi);
 
                 for (int h = 0; h < 4; h++)
                 {
@@ -556,7 +556,7 @@ namespace MaxMath.Tests
             {
                 ushort8 x = rng.NextUShort8();
                 ushort8 y = rng.NextUShort8();
-                maxmath.mulwide(x, y, out ushort8 lo, out ushort8 hi);
+                math.mulwide(x, y, out ushort8 lo, out ushort8 hi);
 
                 for (int h = 0; h < 8; h++)
                 {
@@ -574,7 +574,7 @@ namespace MaxMath.Tests
             {
                 ushort16 x = rng.NextUShort16();
                 ushort16 y = rng.NextUShort16();
-                maxmath.mulwide(x, y, out ushort16 lo, out ushort16 hi);
+                math.mulwide(x, y, out ushort16 lo, out ushort16 hi);
 
                 for (int h = 0; h < 16; h++)
                 {
@@ -593,7 +593,7 @@ namespace MaxMath.Tests
             {
                 int x = rng.NextInt();
                 int y = rng.NextInt();
-                maxmath.mulwide(x, y, out int lo, out int hi);
+                math.mulwide(x, y, out int lo, out int hi);
 
                 TestInt(x, y, lo, hi);
             }
@@ -608,7 +608,7 @@ namespace MaxMath.Tests
             {
                 int2 x = rng.NextInt2();
                 int2 y = rng.NextInt2();
-                maxmath.mulwide(x, y, out int2 lo, out int2 hi);
+                math.mulwide(x, y, out int2 lo, out int2 hi);
 
                 for (int h = 0; h < 2; h++)
                 {
@@ -626,7 +626,7 @@ namespace MaxMath.Tests
             {
                 int3 x = rng.NextInt3();
                 int3 y = rng.NextInt3();
-                maxmath.mulwide(x, y, out int3 lo, out int3 hi);
+                math.mulwide(x, y, out int3 lo, out int3 hi);
 
                 for (int h = 0; h < 3; h++)
                 {
@@ -644,7 +644,7 @@ namespace MaxMath.Tests
             {
                 int4 x = rng.NextInt4();
                 int4 y = rng.NextInt4();
-                maxmath.mulwide(x, y, out int4 lo, out int4 hi);
+                math.mulwide(x, y, out int4 lo, out int4 hi);
 
                 for (int h = 0; h < 4; h++)
                 {
@@ -662,7 +662,7 @@ namespace MaxMath.Tests
             {
                 int8 x = rng.NextInt8();
                 int8 y = rng.NextInt8();
-                maxmath.mulwide(x, y, out int8 lo, out int8 hi);
+                math.mulwide(x, y, out int8 lo, out int8 hi);
 
                 for (int h = 0; h < 8; h++)
                 {
@@ -681,7 +681,7 @@ namespace MaxMath.Tests
             {
                 uint x = rng.NextUInt();
                 uint y = rng.NextUInt();
-                maxmath.mulwide(x, y, out uint lo, out uint hi);
+                math.mulwide(x, y, out uint lo, out uint hi);
 
                 TestUInt(x, y, lo, hi);
             }
@@ -696,7 +696,7 @@ namespace MaxMath.Tests
             {
                 uint2 x = rng.NextUInt2();
                 uint2 y = rng.NextUInt2();
-                maxmath.mulwide(x, y, out uint2 lo, out uint2 hi);
+                math.mulwide(x, y, out uint2 lo, out uint2 hi);
 
                 for (int h = 0; h < 2; h++)
                 {
@@ -714,7 +714,7 @@ namespace MaxMath.Tests
             {
                 uint3 x = rng.NextUInt3();
                 uint3 y = rng.NextUInt3();
-                maxmath.mulwide(x, y, out uint3 lo, out uint3 hi);
+                math.mulwide(x, y, out uint3 lo, out uint3 hi);
 
                 for (int h = 0; h < 3; h++)
                 {
@@ -732,7 +732,7 @@ namespace MaxMath.Tests
             {
                 uint4 x = rng.NextUInt4();
                 uint4 y = rng.NextUInt4();
-                maxmath.mulwide(x, y, out uint4 lo, out uint4 hi);
+                math.mulwide(x, y, out uint4 lo, out uint4 hi);
 
                 for (int h = 0; h < 4; h++)
                 {
@@ -750,7 +750,7 @@ namespace MaxMath.Tests
             {
                 uint8 x = rng.NextUInt8();
                 uint8 y = rng.NextUInt8();
-                maxmath.mulwide(x, y, out uint8 lo, out uint8 hi);
+                math.mulwide(x, y, out uint8 lo, out uint8 hi);
 
                 for (int h = 0; h < 8; h++)
                 {
@@ -769,7 +769,7 @@ namespace MaxMath.Tests
             {
                 long x = rng.NextLong();
                 long y = rng.NextLong();
-                maxmath.mulwide(x, y, out long lo, out long hi);
+                math.mulwide(x, y, out long lo, out long hi);
 
                 TestLong(x, y, lo, hi);
             }
@@ -784,7 +784,7 @@ namespace MaxMath.Tests
             {
                 long2 x = rng.NextLong2();
                 long2 y = rng.NextLong2();
-                maxmath.mulwide(x, y, out long2 lo, out long2 hi);
+                math.mulwide(x, y, out long2 lo, out long2 hi);
 
                 for (int h = 0; h < 2; h++)
                 {
@@ -802,7 +802,7 @@ namespace MaxMath.Tests
             {
                 long3 x = rng.NextLong3();
                 long3 y = rng.NextLong3();
-                maxmath.mulwide(x, y, out long3 lo, out long3 hi);
+                math.mulwide(x, y, out long3 lo, out long3 hi);
 
                 for (int h = 0; h < 3; h++)
                 {
@@ -820,7 +820,7 @@ namespace MaxMath.Tests
             {
                 long4 x = rng.NextLong4();
                 long4 y = rng.NextLong4();
-                maxmath.mulwide(x, y, out long4 lo, out long4 hi);
+                math.mulwide(x, y, out long4 lo, out long4 hi);
 
                 for (int h = 0; h < 4; h++)
                 {
@@ -839,7 +839,7 @@ namespace MaxMath.Tests
             {
                 ulong x = rng.NextULong();
                 ulong y = rng.NextULong();
-                maxmath.mulwide(x, y, out ulong lo, out ulong hi);
+                math.mulwide(x, y, out ulong lo, out ulong hi);
 
                 TestULong(x, y, lo, hi);
             }
@@ -854,7 +854,7 @@ namespace MaxMath.Tests
             {
                 ulong2 x = rng.NextULong2();
                 ulong2 y = rng.NextULong2();
-                maxmath.mulwide(x, y, out ulong2 lo, out ulong2 hi);
+                math.mulwide(x, y, out ulong2 lo, out ulong2 hi);
 
                 for (int h = 0; h < 2; h++)
                 {
@@ -872,7 +872,7 @@ namespace MaxMath.Tests
             {
                 ulong3 x = rng.NextULong3();
                 ulong3 y = rng.NextULong3();
-                maxmath.mulwide(x, y, out ulong3 lo, out ulong3 hi);
+                math.mulwide(x, y, out ulong3 lo, out ulong3 hi);
 
                 for (int h = 0; h < 3; h++)
                 {
@@ -890,7 +890,7 @@ namespace MaxMath.Tests
             {
                 ulong4 x = rng.NextULong4();
                 ulong4 y = rng.NextULong4();
-                maxmath.mulwide(x, y, out ulong4 lo, out ulong4 hi);
+                math.mulwide(x, y, out ulong4 lo, out ulong4 hi);
 
                 for (int h = 0; h < 4; h++)
                 {

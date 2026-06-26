@@ -415,7 +415,17 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
-                return shuffle_epi8(x, new v128(0, 2, 4, 6, 8, 10, 12, 14,    -1, -1, -1, -1, -1, -1, -1, -1));
+                v128 result = shuffle_epi8(x, new v128(0, 2, 4, 6, 8, 10, 12, 14,    -1, -1, -1, -1, -1, -1, -1, -1));
+
+                constexpr.ASSUME(result.Byte0 == (byte)x.UShort0);
+                constexpr.ASSUME(result.Byte1 == (byte)x.UShort1);
+                constexpr.ASSUME(result.Byte2 == (byte)x.UShort2);
+                constexpr.ASSUME(result.Byte3 == (byte)x.UShort3);
+                constexpr.ASSUME(result.Byte4 == (byte)x.UShort4);
+                constexpr.ASSUME(result.Byte5 == (byte)x.UShort5);
+                constexpr.ASSUME(result.Byte6 == (byte)x.UShort6);
+                constexpr.ASSUME(result.Byte7 == (byte)x.UShort7);
+                return result;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
@@ -423,13 +433,27 @@ namespace MaxMath.Intrinsics
                 {
                     v128 y_shifted = bsrli_si128(x, 1 * sizeof(short));
 
-                    return unpacklo_epi8(x, y_shifted);
+                    v128 result = unpacklo_epi8(x, y_shifted);
+
+                    constexpr.ASSUME(result.Byte0 == (byte)x.UShort0);
+                    constexpr.ASSUME(result.Byte1 == (byte)x.UShort1);
+                    return result;
                 }
                 else
                 {
                     v128 clamp = and_si128(x, new v128(0x00FF_00FF_00FF_00FF, 0x00FF_00FF_00FF_00FF));
 
-                    return packus_epi16(clamp, clamp);
+                    v128 result = packus_epi16(clamp, clamp);
+
+                    constexpr.ASSUME(result.Byte0 == (byte)x.UShort0);
+                    constexpr.ASSUME(result.Byte1 == (byte)x.UShort1);
+                    constexpr.ASSUME(result.Byte2 == (byte)x.UShort2);
+                    constexpr.ASSUME(result.Byte3 == (byte)x.UShort3);
+                    constexpr.ASSUME(result.Byte4 == (byte)x.UShort4);
+                    constexpr.ASSUME(result.Byte5 == (byte)x.UShort5);
+                    constexpr.ASSUME(result.Byte6 == (byte)x.UShort6);
+                    constexpr.ASSUME(result.Byte7 == (byte)x.UShort7);
+                    return result;
                 }
             }
             else throw new IllegalInstructionException();
@@ -440,8 +464,26 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(Avx2.mm256_shuffle_epi8(x, new v256(0, 2, 4, 6, 8, 10, 12, 14,    -1, -1, -1, -1, -1, -1, -1, -1,     0, 2, 4, 6, 8, 10, 12, 14,     -1, -1, -1, -1, -1, -1, -1, -1)),
-                                                                              Sse.SHUFFLE(0, 0, 2, 0)));
+                v128 result = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(Avx2.mm256_shuffle_epi8(x, new v256(0, 2, 4, 6, 8, 10, 12, 14,    -1, -1, -1, -1, -1, -1, -1, -1,     0, 2, 4, 6, 8, 10, 12, 14,     -1, -1, -1, -1, -1, -1, -1, -1)),
+                                                                                     Sse.SHUFFLE(0, 0, 2, 0)));
+
+                constexpr.ASSUME(result.Byte0  == (byte)x.UShort0);
+                constexpr.ASSUME(result.Byte1  == (byte)x.UShort1);
+                constexpr.ASSUME(result.Byte2  == (byte)x.UShort2);
+                constexpr.ASSUME(result.Byte3  == (byte)x.UShort3);
+                constexpr.ASSUME(result.Byte4  == (byte)x.UShort4);
+                constexpr.ASSUME(result.Byte5  == (byte)x.UShort5);
+                constexpr.ASSUME(result.Byte6  == (byte)x.UShort6);
+                constexpr.ASSUME(result.Byte7  == (byte)x.UShort7);
+                constexpr.ASSUME(result.Byte8  == (byte)x.UShort8);
+                constexpr.ASSUME(result.Byte9  == (byte)x.UShort9);
+                constexpr.ASSUME(result.Byte10 == (byte)x.UShort10);
+                constexpr.ASSUME(result.Byte11 == (byte)x.UShort11);
+                constexpr.ASSUME(result.Byte12 == (byte)x.UShort12);
+                constexpr.ASSUME(result.Byte13 == (byte)x.UShort13);
+                constexpr.ASSUME(result.Byte14 == (byte)x.UShort14);
+                constexpr.ASSUME(result.Byte15 == (byte)x.UShort15);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -452,7 +494,13 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
-                return shuffle_epi8(x, new v128(0, 4, 8, 12,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
+                v128 result = shuffle_epi8(x, new v128(0, 4, 8, 12,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
+
+                constexpr.ASSUME(result.Byte0 == (byte)x.UInt0);
+                constexpr.ASSUME(result.Byte1 == (byte)x.UInt1);
+                constexpr.ASSUME(result.Byte2 == (byte)x.UInt2);
+                constexpr.ASSUME(result.Byte3 == (byte)x.UInt3);
+                return result;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
@@ -460,7 +508,11 @@ namespace MaxMath.Intrinsics
                 {
                     v128 y_shifted = bsrli_si128(x, 1 * sizeof(int));
 
-                    return unpacklo_epi8(x, y_shifted);
+                    v128 result = unpacklo_epi8(x, y_shifted);
+
+                    constexpr.ASSUME(result.Byte0 == (byte)x.UInt0);
+                    constexpr.ASSUME(result.Byte1 == (byte)x.UInt1);
+                    return result;
                 }
                 else
                 {
@@ -468,7 +520,13 @@ namespace MaxMath.Intrinsics
 
                     v128 epi16 = packs_epi32(clamp, clamp);
 
-                    return packus_epi16(epi16, epi16);
+                    v128 result = packus_epi16(epi16, epi16);
+
+                    constexpr.ASSUME(result.Byte0 == (byte)x.UInt0);
+                    constexpr.ASSUME(result.Byte1 == (byte)x.UInt1);
+                    constexpr.ASSUME(result.Byte2 == (byte)x.UInt2);
+                    constexpr.ASSUME(result.Byte3 == (byte)x.UInt3);
+                    return result;
                 }
             }
             else throw new IllegalInstructionException();
@@ -479,9 +537,19 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                x = Avx2.mm256_shuffle_epi8(x, new v256(0, 4, 8, 12,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,     0, 4, 8, 12,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
+                v256 __x = Avx2.mm256_shuffle_epi8(x, new v256(0, 4, 8, 12,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,     0, 4, 8, 12,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
 
-                return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(x, Avx.mm256_castsi128_si256(new v128(0, 4, 1, 1))));
+                v128 result = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(__x, Avx.mm256_castsi128_si256(new v128(0, 4, 1, 1))));
+
+                constexpr.ASSUME(result.Byte0 == (byte)x.UInt0);
+                constexpr.ASSUME(result.Byte1 == (byte)x.UInt1);
+                constexpr.ASSUME(result.Byte2 == (byte)x.UInt2);
+                constexpr.ASSUME(result.Byte3 == (byte)x.UInt3);
+                constexpr.ASSUME(result.Byte4 == (byte)x.UInt4);
+                constexpr.ASSUME(result.Byte5 == (byte)x.UInt5);
+                constexpr.ASSUME(result.Byte6 == (byte)x.UInt6);
+                constexpr.ASSUME(result.Byte7 == (byte)x.UInt7);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -492,21 +560,34 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
-                return shuffle_epi16(x, new v128(0, 2, 4, 6,    -1, -1, -1, -1));
+                v128 result = shuffle_epi16(x, new v128(0, 2, 4, 6,    -1, -1, -1, -1));
+
+                constexpr.ASSUME(result.UShort0 == (ushort)x.UInt0);
+                constexpr.ASSUME(result.UShort1 == (ushort)x.UInt1);
+                constexpr.ASSUME(result.UShort2 == (ushort)x.UInt2);
+                constexpr.ASSUME(result.UShort3 == (ushort)x.UInt3);
+                return result;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                x = shufflelo_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
+                v128 result = shufflelo_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
 
                 if (elements <= 2)
                 {
-                    return x;
+                    constexpr.ASSUME(result.UShort0 == (ushort)x.UInt0);
+                    constexpr.ASSUME(result.UShort1 == (ushort)x.UInt1);
+                    return result;
                 }
                 else
                 {
-                    x = shufflehi_epi16(x, Sse.SHUFFLE(3, 3, 2, 0));
+                    result = shufflehi_epi16(result, Sse.SHUFFLE(3, 3, 2, 0));
+                    result = shuffle_epi32(result, Sse.SHUFFLE(3, 3, 2, 0));
 
-                    return shuffle_epi32(x, Sse.SHUFFLE(3, 3, 2, 0));
+                    constexpr.ASSUME(result.UShort0 == (ushort)x.UInt0);
+                    constexpr.ASSUME(result.UShort1 == (ushort)x.UInt1);
+                    constexpr.ASSUME(result.UShort2 == (ushort)x.UInt2);
+                    constexpr.ASSUME(result.UShort3 == (ushort)x.UInt3);
+                    return result;
                 }
             }
             else throw new IllegalInstructionException();
@@ -517,10 +598,20 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                x = Xse.mm256_shuffle_epi16(x, new v256(0, 2, 4, 6,    -1, -1, -1, -1,
-                                                        0, 2, 4, 6,    -1, -1, -1, -1));
+                v256 __x = Xse.mm256_shuffle_epi16(x, new v256(0, 2, 4, 6,    -1, -1, -1, -1,
+                                                               0, 2, 4, 6,    -1, -1, -1, -1));
 
-                return Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(x, Sse.SHUFFLE(0, 0, 2, 0)));
+                v128 result = Avx.mm256_castsi256_si128(Avx2.mm256_permute4x64_epi64(__x, Sse.SHUFFLE(0, 0, 2, 0)));
+
+                constexpr.ASSUME(result.UShort0 == (ushort)x.UInt0);
+                constexpr.ASSUME(result.UShort1 == (ushort)x.UInt1);
+                constexpr.ASSUME(result.UShort2 == (ushort)x.UInt2);
+                constexpr.ASSUME(result.UShort3 == (ushort)x.UInt3);
+                constexpr.ASSUME(result.UShort4 == (ushort)x.UInt4);
+                constexpr.ASSUME(result.UShort5 == (ushort)x.UInt5);
+                constexpr.ASSUME(result.UShort6 == (ushort)x.UInt6);
+                constexpr.ASSUME(result.UShort7 == (ushort)x.UInt7);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -531,12 +622,20 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
-                return shuffle_epi8(x, new v128(0, 8, -1, -1,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
+                v128 result = shuffle_epi8(x, new v128(0, 8, -1, -1,    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1));
+
+                constexpr.ASSUME(result.Byte0 == (byte)x.ULong0);
+                constexpr.ASSUME(result.Byte1 == (byte)x.ULong1);
+                return result;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 high = bsrli_si128(x, sizeof(long));
-                return unpacklo_epi8(x, high);
+                v128 result = unpacklo_epi8(x, high);
+
+                constexpr.ASSUME(result.Byte0 == (byte)x.ULong0);
+                constexpr.ASSUME(result.Byte1 == (byte)x.ULong1);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -546,7 +645,13 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return cvtepi32_epi8(mm256_cvtepi64_epi32(x));
+                v128 result = cvtepi32_epi8(mm256_cvtepi64_epi32(x));
+
+                constexpr.ASSUME(result.Byte0 == (byte)x.ULong0);
+                constexpr.ASSUME(result.Byte1 == (byte)x.ULong1);
+                constexpr.ASSUME(result.Byte2 == (byte)x.ULong2);
+                constexpr.ASSUME(result.Byte3 == (byte)x.ULong3);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -557,12 +662,20 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
-                return shuffle_epi16(x, new v128(0, 4,   -1, -1, -1, -1, -1, -1));
+                v128 result = shuffle_epi16(x, new v128(0, 4,   -1, -1, -1, -1, -1, -1));
+
+                constexpr.ASSUME(result.UShort0 == (ushort)x.ULong0);
+                constexpr.ASSUME(result.UShort1 == (ushort)x.ULong1);
+                return result;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 high = bsrli_si128(x, sizeof(long));
-                return unpacklo_epi16(x, high);
+                v128 result = unpacklo_epi16(x, high);
+
+                constexpr.ASSUME(result.UShort0 == (ushort)x.ULong0);
+                constexpr.ASSUME(result.UShort1 == (ushort)x.ULong1);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -572,7 +685,13 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return cvtepi32_epi16(mm256_cvtepi64_epi32(x));
+                v128 result = cvtepi32_epi16(mm256_cvtepi64_epi32(x));
+
+                constexpr.ASSUME(result.UShort0 == (ushort)x.ULong0);
+                constexpr.ASSUME(result.UShort1 == (ushort)x.ULong1);
+                constexpr.ASSUME(result.UShort2 == (ushort)x.ULong2);
+                constexpr.ASSUME(result.UShort3 == (ushort)x.ULong3);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -583,7 +702,11 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return shuffle_epi32(x, Sse.SHUFFLE(3, 3, 2, 0));
+                v128 result = shuffle_epi32(x, Sse.SHUFFLE(3, 3, 2, 0));
+
+                constexpr.ASSUME(result.UInt0 == (uint)x.ULong0);
+                constexpr.ASSUME(result.UInt1 == (uint)x.ULong1);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -593,7 +716,13 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(x, Avx.mm256_castsi128_si256(new v128(0, 2, 4, 6))));
+                v128 result = Avx.mm256_castsi256_si128(Avx2.mm256_permutevar8x32_epi32(x, Avx.mm256_castsi128_si256(new v128(0, 2, 4, 6))));
+
+                constexpr.ASSUME(result.UInt0 == (uint)x.ULong0);
+                constexpr.ASSUME(result.UInt1 == (uint)x.ULong1);
+                constexpr.ASSUME(result.UInt2 == (uint)x.ULong2);
+                constexpr.ASSUME(result.UInt3 == (uint)x.ULong3);
+                return result;
             }
             else throw new IllegalInstructionException();
         }

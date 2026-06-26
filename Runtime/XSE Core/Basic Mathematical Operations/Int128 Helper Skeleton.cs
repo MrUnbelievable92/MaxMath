@@ -3,7 +3,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.FLOATING_POINT;
@@ -866,14 +865,14 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void slli_epi128(v128 aLo, v128 aHi, int n, [NoAlias] out v128 rLo, [NoAlias] out v128 rHi, bool inRange = false)
+        public static void slli_epi128(v128 aLo, v128 aHi, int n, [NoAlias] out v128 rLo, [NoAlias] out v128 rHi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPI64(aLo, 0))
                 {
                     rLo = setzero_si128();
-                    rHi = and_si128(slli_epi64(aHi, n, inRange: constexpr.IS_TRUE(n != 64)), set1_epi64x(-maxmath.tolong(n < 64)));
+                    rHi = and_si128(slli_epi64(aHi, n, inRange: constexpr.IS_TRUE(n != 64)), set1_epi64x(-math.tolong(n < 64)));
 
                     return;
                 }
@@ -884,8 +883,8 @@ namespace MaxMath.Intrinsics
                     return;
                 }
 
-                v128 isZero = set1_epi64x(-maxmath.tolong(n == 0));
-                v128 isSmall = set1_epi64x(-maxmath.tolong(n < 64));
+                v128 isZero = set1_epi64x(-math.tolong(n == 0));
+                v128 isSmall = set1_epi64x(-math.tolong(n < 64));
 
                 v128 smallLo = slli_epi64(aLo, n, inRange: SHIFT128_IN_RANGE);
                 v128 smallHi = or_si128(slli_epi64(aHi, n, inRange: SHIFT128_IN_RANGE), srli_epi64(aLo, 64 - n, inRange: SHIFT128_IN_RANGE));
@@ -906,7 +905,7 @@ namespace MaxMath.Intrinsics
                 if (constexpr.ALL_EQ_EPI64(aLo, 0, elements))
                 {
                     rLo = Avx.mm256_setzero_si256();
-                    rHi = Avx2.mm256_and_si256(mm256_slli_epi64(aHi, n), mm256_set1_epi64x(-maxmath.tolong(n < 64)));
+                    rHi = Avx2.mm256_and_si256(mm256_slli_epi64(aHi, n), mm256_set1_epi64x(-math.tolong(n < 64)));
 
                     return;
                 }
@@ -917,8 +916,8 @@ namespace MaxMath.Intrinsics
                     return;
                 }
 
-                v256 isZero = mm256_set1_epi64x(-maxmath.tolong(n == 0));
-                v256 isSmall = mm256_set1_epi64x(-maxmath.tolong(n < 64));
+                v256 isZero = mm256_set1_epi64x(-math.tolong(n == 0));
+                v256 isSmall = mm256_set1_epi64x(-math.tolong(n < 64));
 
                 v256 smallLo = mm256_slli_epi64(aLo, n);
                 v256 smallHi = Avx2.mm256_or_si256(mm256_slli_epi64(aHi, n), mm256_srli_epi64(aLo, 64 - n));
@@ -932,7 +931,7 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void sllv_epi128(v128 aLo, v128 aHi, v128 n64, [NoAlias] out v128 rLo, [NoAlias] out v128 rHi, bool inRange = false)
+        public static void sllv_epi128(v128 aLo, v128 aHi, v128 n64, [NoAlias] out v128 rLo, [NoAlias] out v128 rHi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -966,13 +965,13 @@ namespace MaxMath.Intrinsics
                 if (constexpr.ALL_EQ_EPI64(aLo, 0, elements))
                 {
                     rLo = Avx.mm256_setzero_si256();
-                    rHi = Avx2.mm256_and_si256(Avx2.mm256_sllv_epi64(aHi, n64), mm256_cmpgt_epi64(mm256_set1_epi64x(64), n64, elements));
+                    rHi = Avx2.mm256_and_si256(Avx2.mm256_sllv_epi64(aHi, n64), Avx2.mm256_cmpgt_epi64(mm256_set1_epi64x(64), n64));
 
                     return;
                 }
 
                 v256 isZero = Avx2.mm256_cmpeq_epi64(Avx.mm256_setzero_si256(), n64);
-                v256 isSmall = mm256_cmpgt_epi64(mm256_set1_epi64x(64), n64, elements);
+                v256 isSmall = Avx2.mm256_cmpgt_epi64(mm256_set1_epi64x(64), n64);
 
                 v256 smallLo = Avx2.mm256_sllv_epi64(aLo, n64);
                 v256 smallHi = Avx2.mm256_or_si256(Avx2.mm256_sllv_epi64(aHi, n64), Avx2.mm256_srlv_epi64(aLo, Avx2.mm256_sub_epi64(mm256_set1_epi64x(64), n64)));
@@ -992,7 +991,7 @@ namespace MaxMath.Intrinsics
             {
                 if (constexpr.ALL_EQ_EPI64(aHi, 0))
                 {
-                    rLo = and_si128(srli_epi64(aLo, n, inRange: constexpr.IS_TRUE(n != 64)), set1_epi64x(-maxmath.tolong(n < 64)));
+                    rLo = and_si128(srli_epi64(aLo, n, inRange: constexpr.IS_TRUE(n != 64)), set1_epi64x(-math.tolong(n < 64)));
                     rHi = setzero_si128();
 
                     return;
@@ -1004,8 +1003,8 @@ namespace MaxMath.Intrinsics
                     return;
                 }
 
-                v128 isZero = set1_epi64x(-maxmath.tolong(n == 0));
-                v128 isSmall = set1_epi64x(-maxmath.tolong(n < 64));
+                v128 isZero = set1_epi64x(-math.tolong(n == 0));
+                v128 isSmall = set1_epi64x(-math.tolong(n < 64));
 
                 v128 smallLo = or_si128(srli_epi64(aLo, n, inRange: SHIFT128_IN_RANGE), slli_epi64(aHi, 64 - n, inRange: SHIFT128_IN_RANGE));
                 v128 smallHi = srli_epi64(aHi, n, inRange: SHIFT128_IN_RANGE);
@@ -1025,7 +1024,7 @@ namespace MaxMath.Intrinsics
             {
                 if (constexpr.ALL_EQ_EPI64(aHi, 0, elements))
                 {
-                    rLo = Avx2.mm256_and_si256(mm256_srli_epi64(aLo, n), mm256_set1_epi64x(-maxmath.tolong(n < 64)));
+                    rLo = Avx2.mm256_and_si256(mm256_srli_epi64(aLo, n), mm256_set1_epi64x(-math.tolong(n < 64)));
                     rHi = Avx.mm256_setzero_si256();
 
                     return;
@@ -1037,8 +1036,8 @@ namespace MaxMath.Intrinsics
                     return;
                 }
 
-                v256 isZero = mm256_set1_epi64x(-maxmath.tolong(n == 0));
-                v256 isSmall = mm256_set1_epi64x(-maxmath.tolong(n < 64));
+                v256 isZero = mm256_set1_epi64x(-math.tolong(n == 0));
+                v256 isSmall = mm256_set1_epi64x(-math.tolong(n < 64));
 
                 v256 smallLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, n), mm256_slli_epi64(aHi, 64 - n));
                 v256 smallHi = mm256_srli_epi64(aHi, n);
@@ -1087,14 +1086,14 @@ namespace MaxMath.Intrinsics
             {
                 if (constexpr.ALL_EQ_EPU64(aHi, 0, elements))
                 {
-                    rLo = Avx2.mm256_and_si256(Avx2.mm256_srlv_epi64(aLo, n64), mm256_cmpgt_epi64(mm256_set1_epi64x(64), n64));
+                    rLo = Avx2.mm256_and_si256(Avx2.mm256_srlv_epi64(aLo, n64), Avx2.mm256_cmpgt_epi64(mm256_set1_epi64x(64), n64));
                     rHi = Avx.mm256_setzero_si256();
 
                     return;
                 }
 
                 v256 isZero = Avx2.mm256_cmpeq_epi64(Avx.mm256_setzero_si256(), n64);
-                v256 isSmall = mm256_cmpgt_epi64(mm256_set1_epi64x(64), n64);
+                v256 isSmall = Avx2.mm256_cmpgt_epi64(mm256_set1_epi64x(64), n64);
 
                 v256 smallLo = Avx2.mm256_or_si256(Avx2.mm256_srlv_epi64(aLo, n64), Avx2.mm256_sllv_epi64(aHi, Avx2.mm256_sub_epi64(mm256_set1_epi64x(64), n64)));
                 v256 smallHi = Avx2.mm256_srlv_epi64(aHi, n64);
@@ -1284,10 +1283,10 @@ namespace MaxMath.Intrinsics
             {
                 if (constexpr.ALL_EQ_EPU64(aLo, 0, elements) && constexpr.ALL_EQ_EPU64(aHi, 0, elements))
                 {
-                    return mm256_cmpgt_epi64(Avx.mm256_setzero_si256(), bHi, elements);
+                    return Avx2.mm256_cmpgt_epi64(Avx.mm256_setzero_si256(), bHi);
                 }
 
-                return mm256_ternarylogic_si256(mm256_cmpgt_epi64(aHi, bHi, elements), Avx2.mm256_cmpeq_epi64(aHi, bHi), mm256_cmpgt_epu64(aLo, bLo, elements), TernaryOperation.OxF8);
+                return mm256_ternarylogic_si256(Avx2.mm256_cmpgt_epi64(aHi, bHi), Avx2.mm256_cmpeq_epi64(aHi, bHi), mm256_cmpgt_epu64(aLo, bLo, elements), TernaryOperation.OxF8);
             }
             else throw new IllegalInstructionException();
         }
@@ -1618,7 +1617,7 @@ if (!unsafeRange)
                 v128 U32_MASK = set1_epi64x(0xFFFF_FFFFu);
 
                 v128 shift = lzcnt_epi64(bInt64);
-                sllv_epi128(aLo, aHi, shift, out aLo, out aHi, inRange: true);
+                sllv_epi128(aLo, aHi, shift, out aLo, out aHi);
                 bInt64 = sllv_epi64(bInt64, shift, inRange: true);
                 v128 bLo = and_si128(bInt64, U32_MASK);
                 v128 bHi = srli_epi64(bInt64, 32);
@@ -1695,7 +1694,7 @@ if (!unsafeRange)
                     // lzcnt_pd but different and with extra steps
                     v256 EXP32 = mm256_set1_epi64x(32L << F64_MANTISSA_BITS);
                     v256 GREATER_THRESHOLD = mm256_set1_epi64x((31L - F64_EXPONENT_BIAS) << F64_MANTISSA_BITS);
-                    v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask64((ulong)F64_MANTISSA_BITS));
+                    v256 MANTISSA_MASK = mm256_set1_epi64x(math.bitmask64((ulong)F64_MANTISSA_BITS));
 
                     v256 hi0 = Avx2.mm256_cmpgt_epi32(b, GREATER_THRESHOLD);
 
@@ -1923,7 +1922,7 @@ if (!unsafeRange)
                 positive |= constexpr.ALL_GT_PD(a, 0, 2);
 
                 v128 IMPLICIT_ONE = set1_epi64x(1L << F64_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask64((long)F64_MANTISSA_BITS));
+                v128 MANTISSA_MASK = set1_epi64x(math.bitmask64((long)F64_MANTISSA_BITS));
                 v128 EXP = set1_epi64x(math.abs(F64_EXPONENT_BIAS) + F64_MANTISSA_BITS);
 
                 v128 biasedExponent;
@@ -1981,7 +1980,7 @@ if (!unsafeRange)
                 positive |= constexpr.ALL_GT_PD(a, 0, 2);
 
                 v256 IMPLICIT_ONE = mm256_set1_epi64x(1L << F64_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask64((long)F64_MANTISSA_BITS));
+                v256 MANTISSA_MASK = mm256_set1_epi64x(math.bitmask64((long)F64_MANTISSA_BITS));
                 v256 EXP = mm256_set1_epi64x(math.abs(F64_EXPONENT_BIAS) + F64_MANTISSA_BITS);
 
                 v256 biasedExponent;

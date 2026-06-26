@@ -1,7 +1,6 @@
 using System.Numerics;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
@@ -69,7 +68,7 @@ namespace MaxMath
             //return bitLength - 1;
 
             byte[] bytes = value.ToByteArray();
-            byte msb = bytes[bytes.Length - 1];
+            byte msb = bytes[^1];
             int msbBits = 0;
             while (msb != 0)
             {

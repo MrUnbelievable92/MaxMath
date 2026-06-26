@@ -1,15 +1,13 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 using static MaxMath.LUT.FLOATING_POINT;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple
+    unsafe public partial struct quadruple
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator quarter(quadruple f128) => ToQuarter(f128, false, false);
@@ -22,6 +20,10 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(quadruple f128) => ToDouble(f128, false, false);
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.half(quadruple f128) => (half)f128;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -38,9 +40,13 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator quadruple(Unity.Mathematics.half h) => (half)h;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter ToQuarter(quadruple.ConstChecked f128, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
         {
-            promiseInRange |= constexpr.IS_TRUE(f128.Promise.MinPossible >= quarter.MinValue && f128.Promise.MaxPossible <= quarter.MaxValue);
+            promiseInRange |= constexpr.IS_TRUE(f128.Promise.MinPossible >= MaxMath.quarter.MinValue && f128.Promise.MaxPossible <= MaxMath.quarter.MaxValue);
             promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? f128.Promise.Positive : f128.Promise.ZeroOrGreater;
 
             ulong sign = promiseAbs ? 0 : f128.Value.value.hi64 >> 63;
@@ -48,36 +54,36 @@ namespace MaxMath
             ulong frac64 = fracF128UI64(f128.Value.value.hi64) | tobyte(f128.Value.value.lo64 != 0);
 
             bool denormalF8 = !promiseNotSubnormal && exp <= (ulong)F8_EXPONENT_OFFSET << MANTISSA_BITS_HI64;
-            bool overflow = !promiseInRange && abs(f128).value > asuint128((quadruple)quarter.MaxValue);
-            bool noUnderflow = exp >= (ulong)(-EXPONENT_BIAS + quarter.EXPONENT_BIAS - quarter.MANTISSA_BITS) << MANTISSA_BITS_HI64;
+            bool overflow = !promiseInRange && abs(f128).value > asuint128((quadruple)MaxMath.quarter.MaxValue);
+            bool noUnderflow = exp >= (ulong)(-EXPONENT_BIAS + MaxMath.quarter.EXPONENT_BIAS - MaxMath.quarter.MANTISSA_BITS) << MANTISSA_BITS_HI64;
 
             exp -= (ulong)F8_EXPONENT_OFFSET << MANTISSA_BITS_HI64;
             byte frac8;
             if (Hint.Unlikely(denormalF8))
             {
-                int bitIndex = quarter.MANTISSA_BITS - 1 - (int)abs((long)exp >> MANTISSA_BITS_HI64);
+                int bitIndex = MaxMath.quarter.MANTISSA_BITS - 1 - (int)abs((long)exp >> MANTISSA_BITS_HI64);
                 frac8 = (byte)(tobyte(noUnderflow) << bitIndex);
                 frac8 |= (byte)((frac64 & (ulong)-tolong(noUnderflow)) >> (MANTISSA_BITS_HI64 - bitIndex));
                 
                 uint round = ((uint)bitIndex >> 31) | tobyte((frac64 & (1ul << (MANTISSA_BITS_HI64 - 1 - bitIndex))) != 0);
                 frac8 += (byte)(round & (uint)-(int)tobyte(noUnderflow));
             
-                return asquarter((byte)(((uint)sign << (quarter.BITS - 1)) | frac8));
+                return asquarter((byte)(((uint)sign << (MaxMath.quarter.BITS - 1)) | frac8));
             }
             else
             {
                 if (overflow)
                 {
-                    bool nan = f128.Promise.NotNaN ? false : isnan(f128);
-                    return asquarter((byte)(((uint)sign << (quarter.BITS - 1)) | quarter.SIGNALING_EXPONENT | tobyte(nan)));
+                    bool nan = !f128.Promise.NotNaN && isnan(f128);
+                    return asquarter((byte)(((uint)sign << (MaxMath.quarter.BITS - 1)) | MaxMath.quarter.SIGNALING_EXPONENT | tobyte(nan)));
                 }
                 else
                 {
-                    sign <<= quarter.BITS - 1;
-                    frac8 = (byte)(frac64 >> (MANTISSA_BITS_HI64 - quarter.MANTISSA_BITS));
-                    frac8 |= (byte)(exp >> (MANTISSA_BITS_HI64 - quarter.MANTISSA_BITS));
+                    sign <<= MaxMath.quarter.BITS - 1;
+                    frac8 = (byte)(frac64 >> (MANTISSA_BITS_HI64 - MaxMath.quarter.MANTISSA_BITS));
+                    frac8 |= (byte)(exp >> (MANTISSA_BITS_HI64 - MaxMath.quarter.MANTISSA_BITS));
 
-                    byte round = tobyte((frac64 & bitmask64((ulong)(MANTISSA_BITS_HI64 - quarter.MANTISSA_BITS))) > (1ul << (MANTISSA_BITS_HI64 - quarter.MANTISSA_BITS - 1)));
+                    byte round = tobyte((frac64 & bitmask64((ulong)(MANTISSA_BITS_HI64 - MaxMath.quarter.MANTISSA_BITS))) > (1ul << (MANTISSA_BITS_HI64 - MaxMath.quarter.MANTISSA_BITS - 1)));
                     frac8 += (byte)(sign | round);
 
                     return asquarter(frac8);
@@ -88,7 +94,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static half ToHalf(quadruple.ConstChecked f128, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
         {
-            promiseInRange |= constexpr.IS_TRUE(f128.Promise.MinPossible >= quarter.MinValue && f128.Promise.MaxPossible <= quarter.MaxValue);
+            promiseInRange |= constexpr.IS_TRUE(f128.Promise.MinPossible >= MaxMath.quarter.MinValue && f128.Promise.MaxPossible <= MaxMath.quarter.MaxValue);
             promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? f128.Promise.Positive : f128.Promise.ZeroOrGreater;
 
             ulong sign = promiseAbs ? 0 : f128.Value.value.hi64 >> 63;
@@ -112,8 +118,8 @@ namespace MaxMath
             }
 
             bool denormalF16 = !promiseNotSubnormal && exp <= (ulong)F16_EXPONENT_OFFSET << MANTISSA_BITS_HI64;
-            bool overflow = !promiseInRange && abs(f128).value > asuint128((quadruple)Unity.Mathematics.half.MaxValueAsHalf);
-            bool noUnderflow = exp >= (ulong)(-EXPONENT_BIAS + HalfExtensions.EXPONENT_BIAS - HalfExtensions.MANTISSA_BITS) << MANTISSA_BITS_HI64;
+            bool overflow = !promiseInRange && abs(f128).value > asuint128((quadruple)MaxMath.half.MaxValue);
+            bool noUnderflow = exp >= (ulong)(-EXPONENT_BIAS + MaxMath.half.EXPONENT_BIAS - MaxMath.half.MANTISSA_BITS) << MANTISSA_BITS_HI64;
 
             exp -= (ulong)F16_EXPONENT_OFFSET << MANTISSA_BITS_HI64;
             ushort frac16;
@@ -132,7 +138,7 @@ namespace MaxMath
             {
                 if (overflow)
                 {
-                    bool nan = f128.Promise.NotNaN ? false : isnan(f128);
+                    bool nan = !f128.Promise.NotNaN && isnan(f128);
                     return ashalf((ushort)(((uint)sign << (F16_BITS - 1)) | F16_SIGNALING_EXPONENT | tobyte(nan)));
                 }
                 else
@@ -152,7 +158,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static float ToFloat(quadruple.ConstChecked f128, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
         {
-            promiseInRange |= constexpr.IS_TRUE(f128.Promise.MinPossible >= quarter.MinValue && f128.Promise.MaxPossible <= quarter.MaxValue);
+            promiseInRange |= constexpr.IS_TRUE(f128.Promise.MinPossible >= MaxMath.quarter.MinValue && f128.Promise.MaxPossible <= MaxMath.quarter.MaxValue);
             promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? f128.Promise.Positive : f128.Promise.ZeroOrGreater;
 
             ulong sign = promiseAbs ? 0 : f128.Value.value.hi64 >> 63;
@@ -180,7 +186,7 @@ namespace MaxMath
             {
                 if (overflow)
                 {
-                    bool nan = f128.Promise.NotNaN ? false : isnan(f128);
+                    bool nan = !f128.Promise.NotNaN && isnan(f128);
                     return asfloat(((uint)sign << (F32_BITS - 1)) | F32_SIGNALING_EXPONENT | tobyte(nan));
                 }
                 else
@@ -200,7 +206,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static double ToDouble(quadruple.ConstChecked f128, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
         {
-            promiseInRange |= constexpr.IS_TRUE(f128.Promise.MinPossible >= quarter.MinValue && f128.Promise.MaxPossible <= quarter.MaxValue);
+            promiseInRange |= constexpr.IS_TRUE(f128.Promise.MinPossible >= MaxMath.quarter.MinValue && f128.Promise.MaxPossible <= MaxMath.quarter.MaxValue);
             promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? f128.Promise.Positive : f128.Promise.ZeroOrGreater;
 
             ulong sign = promiseAbs ? 0 : f128.Value.value.hi64 & (1ul << 63);
@@ -228,7 +234,7 @@ namespace MaxMath
             {
                 if (overflow)
                 {
-                    bool nan = f128.Promise.NotNaN ? false : isnan(f128);
+                    bool nan = !f128.Promise.NotNaN && isnan(f128);
                     return asdouble(sign | F64_SIGNALING_EXPONENT | tobyte(nan));
                 }
                 else
@@ -252,7 +258,7 @@ namespace MaxMath
             promiseAbs |= COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO ? promise.Positive : promise.ZeroOrGreater;
 
             ulong sign = promiseAbs ? 0 : (ulong)(q.value >> 7) << 63;
-            ulong exp = (ulong)q.value & quarter.SIGNALING_EXPONENT;
+            ulong exp = (ulong)q.value & MaxMath.quarter.SIGNALING_EXPONENT;
             uint frac = fracF8UI(q.value);
 
             if (Hint.Unlikely(exp == 0))
@@ -269,16 +275,16 @@ namespace MaxMath
             else
             {
                 if (!promiseInRange
-                 && Hint.Unlikely(exp == bitmask64((ulong)quarter.EXPONENT_BITS) << quarter.MANTISSA_BITS))
+                 && Hint.Unlikely(exp == bitmask64((ulong)MaxMath.quarter.EXPONENT_BITS) << MaxMath.quarter.MANTISSA_BITS))
                 {
                     return new quadruple(promise.NotNaN ? 0ul : tobyte(frac != 0), sign | SIGNALING_EXPONENT.hi64);
                 }
 
-                exp += F8_EXPONENT_OFFSET << quarter.MANTISSA_BITS;
-                exp <<= MANTISSA_BITS_HI64 - quarter.MANTISSA_BITS;
+                exp += F8_EXPONENT_OFFSET << MaxMath.quarter.MANTISSA_BITS;
+                exp <<= MANTISSA_BITS_HI64 - MaxMath.quarter.MANTISSA_BITS;
             }
 
-            return new quadruple(0, packToF128UI64(sign, exp, (ulong)frac << (MANTISSA_BITS_HI64 - quarter.MANTISSA_BITS)));
+            return new quadruple(0, packToF128UI64(sign, exp, (ulong)frac << (MANTISSA_BITS_HI64 - MaxMath.quarter.MANTISSA_BITS)));
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

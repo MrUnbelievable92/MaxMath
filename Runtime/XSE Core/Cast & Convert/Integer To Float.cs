@@ -1,6 +1,5 @@
 //#define TESTING
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
 
@@ -336,8 +335,8 @@ namespace MaxMath.Intrinsics
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                int result = quarter.GetInteger(a.ULong0, overflowValue).value;
-                result |= quarter.GetInteger(a.ULong1, overflowValue).value << 8;
+                int result = MaxMath.quarter.GetInteger(a.ULong0, overflowValue).value;
+                result |= MaxMath.quarter.GetInteger(a.ULong1, overflowValue).value << 8;
 
                 return cvtsi32_si128(result);
             }
@@ -369,8 +368,8 @@ namespace MaxMath.Intrinsics
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                int result = quarter.FromLong(a.SLong0, overflowValue).value;
-                result |= quarter.FromLong(a.SLong1, overflowValue).value << 8;
+                int result = MaxMath.quarter.FromLong(a.SLong0, overflowValue).value;
+                result |= MaxMath.quarter.FromLong(a.SLong1, overflowValue).value << 8;
 
                 return cvtsi32_si128(result);
             }
@@ -404,7 +403,7 @@ namespace MaxMath.Intrinsics
             {
                 v256 abs = promiseAbs ? a : mm256_abs_epi64(a);
                 v256 result = Avx2.mm256_shuffle_epi8(new v256(INTEGER_MAP_F8, INTEGER_MAP_F8), abs);
-                result = promiseInRange ? result : mm256_blendv_si256(result, mm256_set1_epi64x((sbyte)overflowValue.value), mm256_cmpgt_epi64(abs, mm256_set1_epi64x(15), elements));
+                result = promiseInRange ? result : mm256_blendv_si256(result, mm256_set1_epi64x((sbyte)overflowValue.value), Avx2.mm256_cmpgt_epi64(abs, mm256_set1_epi64x(15)));
 
                 if (!promiseAbs)
                 {
@@ -597,10 +596,8 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cvtepu8_ph(v128 a, bool promiseNonZero = false)
+        public static v256 mm256_cvtepu8_ph(v128 a)
         {
-            promiseNonZero |= constexpr.ALL_NEQ_EPU8(a, 0);
-
             if (Avx2.IsAvx2Supported)
             {
                 if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
@@ -645,7 +642,6 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mm256_cvtepi8_ph(v128 a, bool promiseNonZero = false, bool promiseNotNegative = false)
         {
-            promiseNonZero |= constexpr.ALL_NEQ_EPU8(a, 0);
             promiseNotNegative |= constexpr.ALL_GE_EPI8(a, 0);
 
             if (Avx2.IsAvx2Supported)
@@ -701,13 +697,12 @@ namespace MaxMath.Intrinsics
             else throw new IllegalInstructionException();
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepu16_ph(v128 a, half overflowValue, bool nonZero = false, bool inRange = false, bool absBelow2pow11 = false, byte elements = 8)
         {
             inRange |= absBelow2pow11;
 
-            if (Avx2.IsAvx2Supported)
+            if (BurstArchitecture.IsF16Supported)
             {
                 if (elements <= 4)
                 {
@@ -754,7 +749,8 @@ namespace MaxMath.Intrinsics
                 else
                 {
                     v128 mantissaBelow2pow11 = sllv_epi16(a, mantissaShift, inRange: HALF_INTEGER_CONVERSION_SHIFT_IN_RANGE, noOverflow: true, elements: elements);
-                    v128 mantissaGE2pow11 = srlv_epi16(a, neg_epi16(mantissaShift), inRange: HALF_INTEGER_CONVERSION_SHIFT_IN_RANGE, elements: elements);
+                    v128 round = cmpgt_epi16(and_si128(a, sub_epi16(sllv_epi16(set1_epi16(1), neg_epi16(mantissaShift)), set1_epi16(1))), sllv_epi16(set1_epi16(1), not_si128(mantissaShift)));
+                    v128 mantissaGE2pow11 = sub_epi16(srlv_epi16(a, neg_epi16(mantissaShift), inRange: HALF_INTEGER_CONVERSION_SHIFT_IN_RANGE, elements: elements), round);
 
                     mantissa = blendv_si128(mantissaBelow2pow11, mantissaGE2pow11, srai_epi16(mantissaShift, 15));
                 }
@@ -773,7 +769,7 @@ namespace MaxMath.Intrinsics
                 v128 result = add_epi16(exp, mantissa);
                 if (!inRange)
                 {
-                    result = blendv_si128(result, set1_epi16(overflowValue.value), cmpgt_epu16(a, set1_epi16((ushort)half.MaxValue)));
+                    result = blendv_si128(result, set1_epi16(overflowValue.value), cmpgt_epu16(a, set1_epi16((ushort)MaxMath.half.MaxValue)));
                 }
                 return result;
             }
@@ -783,7 +779,7 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepi16_ph(v128 a, bool nonZero = false, bool nonNegative = false, bool absBelow2pow11 = false, byte elements = 8)
         {
-            if (Avx2.IsAvx2Supported)
+            if (BurstArchitecture.IsF16Supported)
             {
                 if (elements <= 4)
                 {
@@ -842,7 +838,8 @@ namespace MaxMath.Intrinsics
                 else
                 {
                     v128 mantissaBelow2pow11 = sllv_epi16(a, mantissaShift, inRange: HALF_INTEGER_CONVERSION_SHIFT_IN_RANGE, noOverflow: true, elements: elements);
-                    v128 mantissaGE2pow11 = srlv_epi16(a, neg_epi16(mantissaShift), inRange: HALF_INTEGER_CONVERSION_SHIFT_IN_RANGE, elements: elements);
+                    v128 round = cmpgt_epi16(and_si128(a, sub_epi16(sllv_epi16(set1_epi16(1), neg_epi16(mantissaShift)), set1_epi16(1))), sllv_epi16(set1_epi16(1), not_si128(mantissaShift)));
+                    v128 mantissaGE2pow11 = sub_epi16(srlv_epi16(a, neg_epi16(mantissaShift), inRange: HALF_INTEGER_CONVERSION_SHIFT_IN_RANGE, elements: elements), round);
                 
                     mantissa = blendv_si128(mantissaBelow2pow11, mantissaGE2pow11, srai_epi16(mantissaShift, 15));
                 }
@@ -870,7 +867,6 @@ namespace MaxMath.Intrinsics
 
             if (Avx2.IsAvx2Supported)
             {
-                nonZero |= constexpr.ALL_NEQ_EPI16(a, 0);
                 absBelow2pow11 |= constexpr.ALL_LT_EPU16(a, 1 << 11);
                 
                 v256 SHUFFLE_MASK_LO = new v256(29, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4,
@@ -894,7 +890,8 @@ namespace MaxMath.Intrinsics
                 else
                 {
                     v256 mantissaBelow2pow11 = mm256_sllv_epi16(a, mantissaShift, noOverflow: true);
-                    v256 mantissaGE2pow11 = mm256_srlv_epi16(a, mm256_neg_epi16(mantissaShift));
+                    v256 round = Avx2.mm256_cmpgt_epi16(Avx2.mm256_and_si256(a, Avx2.mm256_sub_epi16(mm256_sllv_epi16(mm256_set1_epi16(1), mm256_neg_epi16(mantissaShift)), mm256_set1_epi16(1))), mm256_sllv_epi16(mm256_set1_epi16(1), mm256_not_si256(mantissaShift)));
+                    v256 mantissaGE2pow11 = Avx2.mm256_sub_epi16(mm256_srlv_epi16(a, mm256_neg_epi16(mantissaShift)), round);
                 
                     mantissa = mm256_blendv_si256(mantissaBelow2pow11, mantissaGE2pow11, Avx2.mm256_srai_epi16(mantissaShift, 15));
                 }
@@ -905,7 +902,7 @@ namespace MaxMath.Intrinsics
                 v256 result = Avx2.mm256_add_epi16(exp, mantissa);
                 if (!inRange)
                 {
-                    result = mm256_blendv_si256(result, mm256_set1_epi16(overflowValue.value), mm256_cmpgt_epu16(a, mm256_set1_epi16((ushort)half.MaxValue)));
+                    result = mm256_blendv_si256(result, mm256_set1_epi16(overflowValue.value), mm256_cmpgt_epu16(a, mm256_set1_epi16((ushort)MaxMath.half.MaxValue)));
                 }
                 return result;
             }
@@ -917,7 +914,6 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                nonZero |= constexpr.ALL_NEQ_EPI16(a, 0);
                 nonNegative |= constexpr.ALL_GE_EPI16(a, 0);
                 absBelow2pow11 |= (nonNegative || constexpr.ALL_GT_EPI16(a, -(1 << 11))) && constexpr.ALL_LT_EPI16(a, 1 << 11);
                   
@@ -952,7 +948,8 @@ namespace MaxMath.Intrinsics
                 else
                 {
                     v256 mantissaBelow2pow11 = mm256_sllv_epi16(a, mantissaShift, noOverflow: true);
-                    v256 mantissaGE2pow11 = mm256_srlv_epi16(a, mm256_neg_epi16(mantissaShift));
+                    v256 round = Avx2.mm256_cmpgt_epi16(Avx2.mm256_and_si256(a, Avx2.mm256_sub_epi16(mm256_sllv_epi16(mm256_set1_epi16(1), mm256_neg_epi16(mantissaShift)), mm256_set1_epi16(1))), mm256_sllv_epi16(mm256_set1_epi16(1), mm256_not_si256(mantissaShift)));
+                    v256 mantissaGE2pow11 = Avx2.mm256_sub_epi16(mm256_srlv_epi16(a, mm256_neg_epi16(mantissaShift)), round);
                 
                     mantissa = mm256_blendv_si256(mantissaBelow2pow11, mantissaGE2pow11, Avx2.mm256_srai_epi16(mantissaShift, 15));
                 }
@@ -987,7 +984,7 @@ namespace MaxMath.Intrinsics
                 v128 result = cvtepu16_ph(packs_epi32(a, a), overflowValue, nonZero: nonZero, inRange: true, absBelow2pow11: absBelow2pow11, elements: elements);
                 if (!inRange)
                 {
-                    v128 overflowMask = cmpgt_epu32(a, set1_epi32((ushort)half.MaxValue));
+                    v128 overflowMask = cmpgt_epu32(a, set1_epi32((ushort)MaxMath.half.MaxValue));
                     overflowMask = packs_epi32(overflowMask, overflowMask);
                     result = blendv_si128(result, set1_epi16(overflowValue.value), overflowMask);
                 }
@@ -1014,8 +1011,8 @@ namespace MaxMath.Intrinsics
                 v128 result = cvtepi16_ph(packs_epi32(a, a), nonZero: nonZero, nonNegative: nonNegative, absBelow2pow11: absBelow2pow11);
                 if (!inRange)
                 {
-                    v128 overflowMask = nonNegative ? cmpgt_epi32(a, set1_epi32((ushort)half.MaxValue)) 
-                                                    : cmpgt_epu32(abs_epi32(a), set1_epi32((ushort)half.MaxValue));
+                    v128 overflowMask = nonNegative ? cmpgt_epi32(a, set1_epi32((ushort)MaxMath.half.MaxValue)) 
+                                                    : cmpgt_epu32(abs_epi32(a), set1_epi32((ushort)MaxMath.half.MaxValue));
                     overflowMask = packs_epi32(overflowMask, overflowMask);
 
                     v128 signedOverflowValue = nonNegative ? set1_epi16(overflowValue.value)
@@ -1042,7 +1039,7 @@ namespace MaxMath.Intrinsics
                 else
                 {
                     v128 result = cvtepu16_ph(packs_epi32(Avx.mm256_castsi256_si128(a), Avx2.mm256_extracti128_si256(a, 1)), overflowValue, nonZero: nonZero, inRange: true, absBelow2pow11: absBelow2pow11);
-                    v256 overflowMask = mm256_cmpgt_epu32(a, mm256_set1_epi32((ushort)half.MaxValue));
+                    v256 overflowMask = mm256_cmpgt_epu32(a, mm256_set1_epi32((ushort)MaxMath.half.MaxValue));
                     v128 overflowMask128 = packs_epi32(Avx.mm256_castsi256_si128(overflowMask), Avx2.mm256_extracti128_si256(overflowMask, 1));
                     
                     return blendv_si128(result, set1_epi16(overflowValue.value), overflowMask128);
@@ -1069,8 +1066,8 @@ namespace MaxMath.Intrinsics
                 v128 result = cvtepi16_ph(packs_epi32(Avx.mm256_castsi256_si128(a), Avx2.mm256_extracti128_si256(a, 1)), nonZero: nonZero, nonNegative: nonNegative, absBelow2pow11: absBelow2pow11);
                 if (!inRange)
                 {
-                    v256 overflowMask = nonNegative ? Avx2.mm256_cmpgt_epi32(a, mm256_set1_epi32((ushort)half.MaxValue))
-                                                    : mm256_cmpgt_epu32(Avx2.mm256_abs_epi32(a), mm256_set1_epi32((ushort)half.MaxValue));
+                    v256 overflowMask = nonNegative ? Avx2.mm256_cmpgt_epi32(a, mm256_set1_epi32((ushort)MaxMath.half.MaxValue))
+                                                    : mm256_cmpgt_epu32(Avx2.mm256_abs_epi32(a), mm256_set1_epi32((ushort)MaxMath.half.MaxValue));
                     v128 overflowMask128 = packs_epi32(Avx.mm256_castsi256_si128(overflowMask), Avx2.mm256_extracti128_si256(overflowMask, 1));
 
                     v128 signedOverflowValue128;
@@ -1113,7 +1110,7 @@ namespace MaxMath.Intrinsics
                 if (!inRange
                  || overflowValue != float.PositiveInfinity)
                 {
-                    v128 overflowMask = cmpgt_epu64(a, set1_epi64x((ushort)half.MaxValue));
+                    v128 overflowMask = cmpgt_epu64(a, set1_epi64x((ushort)MaxMath.half.MaxValue));
                     overflowMask = cvtepi64_epi16(overflowMask);
                     result = blendv_si128(result, set1_epi16(overflowValue.value), overflowMask);
                 }
@@ -1142,9 +1139,9 @@ namespace MaxMath.Intrinsics
                 if (!inRange
                  || overflowValue != float.PositiveInfinity)
                 {
-                    v128 overflowMask = nonNegative ? cmpgt_epi64(a, set1_epi64x((ushort)half.MaxValue))
-                                                    : or_si128(cmpgt_epi64(set1_epi64x(-(ushort)half.MaxValue), a),
-                                                               cmpgt_epi64(a, set1_epi64x((ushort)half.MaxValue)));
+                    v128 overflowMask = nonNegative ? cmpgt_epi64(a, set1_epi64x((ushort)MaxMath.half.MaxValue))
+                                                    : or_si128(cmpgt_epi64(set1_epi64x(-(ushort)MaxMath.half.MaxValue), a),
+                                                               cmpgt_epi64(a, set1_epi64x((ushort)MaxMath.half.MaxValue)));
                     overflowMask = cvtepi64_epi16(overflowMask);
                     
                     v128 signedOverflowValue = nonNegative ? set1_epi16(overflowValue.value)
@@ -1169,7 +1166,7 @@ namespace MaxMath.Intrinsics
                 if (!inRange
                  || overflowValue != float.PositiveInfinity)
                 {
-                    v256 overflowMask = mm256_cmpgt_epu64(a, mm256_set1_epi64x((ushort)half.MaxValue), elements: elements);
+                    v256 overflowMask = mm256_cmpgt_epu64(a, mm256_set1_epi64x((ushort)MaxMath.half.MaxValue), elements: elements);
                     v128 overflowMask128 = mm256_cvtepi64_epi16(overflowMask);
                     result = blendv_si128(result, set1_epi16(overflowValue.value), overflowMask128);
                 }
@@ -1190,9 +1187,9 @@ namespace MaxMath.Intrinsics
                 if (!inRange
                  || overflowValue != float.PositiveInfinity)
                 {
-                    v256 overflowMask = nonNegative ? mm256_cmpgt_epi64(a, mm256_set1_epi64x((ushort)half.MaxValue), elements: elements)
-                                                    : Avx2.mm256_or_si256(mm256_cmpgt_epi64(mm256_set1_epi64x(-(ushort)half.MaxValue), a, elements: elements),
-                                                                          mm256_cmpgt_epi64(a, mm256_set1_epi64x((ushort)half.MaxValue), elements: elements));
+                    v256 overflowMask = nonNegative ? Avx2.mm256_cmpgt_epi64(a, mm256_set1_epi64x((ushort)MaxMath.half.MaxValue))
+                                                    : Avx2.mm256_or_si256(Avx2.mm256_cmpgt_epi64(mm256_set1_epi64x(-(ushort)MaxMath.half.MaxValue), a),
+                                                                          Avx2.mm256_cmpgt_epi64(a, mm256_set1_epi64x((ushort)MaxMath.half.MaxValue)));
                     v128 overflowMask128 = mm256_cvtepi64_epi16(overflowMask);
                     
                     v128 signedOverflowValue = nonNegative ? set1_epi16(overflowValue.value)
@@ -1330,7 +1327,7 @@ namespace MaxMath.Intrinsics
                     return cvtepi32_ps(a);
                 }
 
-                v128 aLo = and_si128(a, set1_epi32(maxmath.bitmask32(16)));
+                v128 aLo = and_si128(a, set1_epi32(math.bitmask32(16)));
                 v128 aHi = srli_epi32(a, 16);
 
                 v128 cvtLo = cvtepi32_ps(aLo);
@@ -1355,7 +1352,7 @@ namespace MaxMath.Intrinsics
                     return Avx.mm256_cvtepi32_ps(a);
                 }
 
-                v256 aLo = Avx2.mm256_and_si256(a, mm256_set1_epi32(maxmath.bitmask32(16)));
+                v256 aLo = Avx2.mm256_and_si256(a, mm256_set1_epi32(math.bitmask32(16)));
                 v256 aHi = Avx2.mm256_srli_epi32(a, 16);
 
                 v256 cvtLo = Avx.mm256_cvtepi32_ps(aLo);

@@ -1,11 +1,10 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 using DevTools;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <see langword="true"/> if the <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -90,7 +89,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(byte2 dividend, byte2 divisor)
+        public static mask8x2 isdivisible(byte2 dividend, byte2 divisor)
         {
 VectorAssert.AreNotEqual<byte2, byte>(divisor, 0, 2);
 
@@ -116,7 +115,7 @@ VectorAssert.AreNotEqual<byte2, byte>(divisor, 0, 2);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(byte2 dividend, byte divisor)
+        public static mask8x2 isdivisible(byte2 dividend, byte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -126,7 +125,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (byte)(divisor - 1)) == 0;
                 }
@@ -144,7 +143,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(byte3 dividend, byte3 divisor)
+        public static mask8x3 isdivisible(byte3 dividend, byte3 divisor)
         {
 VectorAssert.AreNotEqual<byte3, byte>(divisor, 0, 3);
 
@@ -170,7 +169,7 @@ VectorAssert.AreNotEqual<byte3, byte>(divisor, 0, 3);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(byte3 dividend, byte divisor)
+        public static mask8x3 isdivisible(byte3 dividend, byte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -180,7 +179,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (byte)(divisor - 1)) == 0;
                 }
@@ -198,7 +197,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(byte4 dividend, byte4 divisor)
+        public static mask8x4 isdivisible(byte4 dividend, byte4 divisor)
         {
 VectorAssert.AreNotEqual<byte4, byte>(divisor, 0, 4);
 
@@ -224,7 +223,7 @@ VectorAssert.AreNotEqual<byte4, byte>(divisor, 0, 4);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(byte4 dividend, byte divisor)
+        public static mask8x4 isdivisible(byte4 dividend, byte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -234,7 +233,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (byte)(divisor - 1)) == 0;
                 }
@@ -252,7 +251,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(byte8 dividend, byte8 divisor)
+        public static mask8x8 isdivisible(byte8 dividend, byte8 divisor)
         {
 VectorAssert.AreNotEqual<byte8, byte>(divisor, 0, 8);
 
@@ -278,7 +277,7 @@ VectorAssert.AreNotEqual<byte8, byte>(divisor, 0, 8);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(byte8 dividend, byte divisor)
+        public static mask8x8 isdivisible(byte8 dividend, byte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -288,7 +287,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (byte)(divisor - 1)) == 0;
                 }
@@ -306,7 +305,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isdivisible(byte16 dividend, byte16 divisor)
+        public static mask8x16 isdivisible(byte16 dividend, byte16 divisor)
         {
 VectorAssert.AreNotEqual<byte16, byte>(divisor, 0, 16);
 
@@ -332,7 +331,7 @@ VectorAssert.AreNotEqual<byte16, byte>(divisor, 0, 16);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isdivisible(byte16 dividend, byte divisor)
+        public static mask8x16 isdivisible(byte16 dividend, byte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -342,7 +341,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (byte)(divisor - 1)) == 0;
                 }
@@ -360,7 +359,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 isdivisible(byte32 dividend, byte32 divisor)
+        public static mask8x32 isdivisible(byte32 dividend, byte32 divisor)
         {
 VectorAssert.AreNotEqual<byte32, byte>(divisor, 0, 32);
 
@@ -386,7 +385,7 @@ VectorAssert.AreNotEqual<byte32, byte>(divisor, 0, 32);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 isdivisible(byte32 dividend, byte divisor)
+        public static mask8x32 isdivisible(byte32 dividend, byte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -396,7 +395,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (byte)(divisor - 1)) == 0;
                 }
@@ -425,7 +424,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (ushort)(divisor - 1)) == 0;
                 }
@@ -443,7 +442,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(ushort2 dividend, ushort2 divisor)
+        public static mask16x2 isdivisible(ushort2 dividend, ushort2 divisor)
         {
 VectorAssert.AreNotEqual<ushort2, ushort>(divisor, 0, 2);
 
@@ -469,7 +468,7 @@ VectorAssert.AreNotEqual<ushort2, ushort>(divisor, 0, 2);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(ushort2 dividend, ushort divisor)
+        public static mask16x2 isdivisible(ushort2 dividend, ushort divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -479,7 +478,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (ushort)(divisor - 1)) == 0;
                 }
@@ -497,7 +496,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(ushort3 dividend, ushort3 divisor)
+        public static mask16x3 isdivisible(ushort3 dividend, ushort3 divisor)
         {
 VectorAssert.AreNotEqual<ushort3, ushort>(divisor, 0, 3);
 
@@ -523,7 +522,7 @@ VectorAssert.AreNotEqual<ushort3, ushort>(divisor, 0, 3);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(ushort3 dividend, ushort divisor)
+        public static mask16x3 isdivisible(ushort3 dividend, ushort divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -533,7 +532,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (ushort)(divisor - 1)) == 0;
                 }
@@ -551,7 +550,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(ushort4 dividend, ushort4 divisor)
+        public static mask16x4 isdivisible(ushort4 dividend, ushort4 divisor)
         {
 VectorAssert.AreNotEqual<ushort4, ushort>(divisor, 0, 4);
 
@@ -577,7 +576,7 @@ VectorAssert.AreNotEqual<ushort4, ushort>(divisor, 0, 4);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(ushort4 dividend, ushort divisor)
+        public static mask16x4 isdivisible(ushort4 dividend, ushort divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -587,7 +586,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (ushort)(divisor - 1)) == 0;
                 }
@@ -605,7 +604,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(ushort8 dividend, ushort8 divisor)
+        public static mask16x8 isdivisible(ushort8 dividend, ushort8 divisor)
         {
 VectorAssert.AreNotEqual<ushort8, ushort>(divisor, 0, 8);
 
@@ -631,7 +630,7 @@ VectorAssert.AreNotEqual<ushort8, ushort>(divisor, 0, 8);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(ushort8 dividend, ushort divisor)
+        public static mask16x8 isdivisible(ushort8 dividend, ushort divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -641,7 +640,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (ushort)(divisor - 1)) == 0;
                 }
@@ -659,7 +658,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isdivisible(ushort16 dividend, ushort16 divisor)
+        public static mask16x16 isdivisible(ushort16 dividend, ushort16 divisor)
         {
 VectorAssert.AreNotEqual<ushort16, ushort>(divisor, 0, 16);
 
@@ -685,7 +684,7 @@ VectorAssert.AreNotEqual<ushort16, ushort>(divisor, 0, 16);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isdivisible(ushort16 dividend, ushort divisor)
+        public static mask16x16 isdivisible(ushort16 dividend, ushort divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -695,7 +694,7 @@ Assert.AreNotEqual(0, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (ushort)(divisor - 1)) == 0;
                 }
@@ -724,7 +723,7 @@ Assert.AreNotEqual(0u, divisor);
                 {
                     return true;
                 }
-                else if (math.ispow2(divisor))
+                else if (ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -737,12 +736,12 @@ Assert.AreNotEqual(0u, divisor);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(uint2 dividend, uint2 divisor)
+        public static mask32x2 isdivisible(uint2 dividend, uint2 divisor)
         {
 VectorAssert.AreNotEqual<uint2, uint>(divisor, 0, 2);
 
@@ -763,12 +762,12 @@ VectorAssert.AreNotEqual<uint2, uint>(divisor, 0, 2);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(uint2 dividend, uint divisor)
+        public static mask32x2 isdivisible(uint2 dividend, uint divisor)
         {
 Assert.AreNotEqual(0u, divisor);
 
@@ -778,7 +777,7 @@ Assert.AreNotEqual(0u, divisor);
                 {
                     return true;
                 }
-                else if (math.ispow2(divisor))
+                else if (ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -791,12 +790,12 @@ Assert.AreNotEqual(0u, divisor);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(uint3 dividend, uint3 divisor)
+        public static mask32x3 isdivisible(uint3 dividend, uint3 divisor)
         {
 VectorAssert.AreNotEqual<uint3, uint>(divisor, 0, 3);
 
@@ -817,12 +816,12 @@ VectorAssert.AreNotEqual<uint3, uint>(divisor, 0, 3);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(uint3 dividend, uint divisor)
+        public static mask32x3 isdivisible(uint3 dividend, uint divisor)
         {
 Assert.AreNotEqual(0u, divisor);
 
@@ -832,7 +831,7 @@ Assert.AreNotEqual(0u, divisor);
                 {
                     return true;
                 }
-                else if (math.ispow2(divisor))
+                else if (ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -845,12 +844,12 @@ Assert.AreNotEqual(0u, divisor);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(uint4 dividend, uint4 divisor)
+        public static mask32x4 isdivisible(uint4 dividend, uint4 divisor)
         {
 VectorAssert.AreNotEqual<uint4, uint>(divisor, 0, 4);
 
@@ -871,12 +870,12 @@ VectorAssert.AreNotEqual<uint4, uint>(divisor, 0, 4);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(uint4 dividend, uint divisor)
+        public static mask32x4 isdivisible(uint4 dividend, uint divisor)
         {
 Assert.AreNotEqual(0u, divisor);
 
@@ -886,7 +885,7 @@ Assert.AreNotEqual(0u, divisor);
                 {
                     return true;
                 }
-                else if (math.ispow2(divisor))
+                else if (ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -899,12 +898,12 @@ Assert.AreNotEqual(0u, divisor);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(uint8 dividend, uint8 divisor)
+        public static mask32x8 isdivisible(uint8 dividend, uint8 divisor)
         {
 VectorAssert.AreNotEqual<uint8, uint>(divisor, 0, 8);
 
@@ -930,7 +929,7 @@ VectorAssert.AreNotEqual<uint8, uint>(divisor, 0, 8);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(uint8 dividend, uint divisor)
+        public static mask32x8 isdivisible(uint8 dividend, uint divisor)
         {
 Assert.AreNotEqual(0u, divisor);
 
@@ -940,7 +939,7 @@ Assert.AreNotEqual(0u, divisor);
                 {
                     return true;
                 }
-                else if (math.ispow2(divisor))
+                else if (ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -969,7 +968,7 @@ Assert.AreNotEqual(0ul, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -987,7 +986,7 @@ Assert.AreNotEqual(0ul, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(ulong2 dividend, ulong2 divisor)
+        public static mask64x2 isdivisible(ulong2 dividend, ulong2 divisor)
         {
 VectorAssert.AreNotEqual<ulong2, ulong>(divisor, 0, 2);
 
@@ -1013,7 +1012,7 @@ VectorAssert.AreNotEqual<ulong2, ulong>(divisor, 0, 2);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(ulong2 dividend, ulong divisor)
+        public static mask64x2 isdivisible(ulong2 dividend, ulong divisor)
         {
 Assert.AreNotEqual(0ul, divisor);
 
@@ -1023,7 +1022,7 @@ Assert.AreNotEqual(0ul, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -1041,7 +1040,7 @@ Assert.AreNotEqual(0ul, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(ulong3 dividend, ulong3 divisor)
+        public static mask64x3 isdivisible(ulong3 dividend, ulong3 divisor)
         {
 VectorAssert.AreNotEqual<ulong3, ulong>(divisor, 0, 3);
 
@@ -1067,7 +1066,7 @@ VectorAssert.AreNotEqual<ulong3, ulong>(divisor, 0, 3);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(ulong3 dividend, ulong divisor)
+        public static mask64x3 isdivisible(ulong3 dividend, ulong divisor)
         {
 Assert.AreNotEqual(0ul, divisor);
 
@@ -1077,7 +1076,7 @@ Assert.AreNotEqual(0ul, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -1095,7 +1094,7 @@ Assert.AreNotEqual(0ul, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(ulong4 dividend, ulong4 divisor)
+        public static mask64x4 isdivisible(ulong4 dividend, ulong4 divisor)
         {
 VectorAssert.AreNotEqual<ulong4, ulong>(divisor, 0, 4);
 
@@ -1121,7 +1120,7 @@ VectorAssert.AreNotEqual<ulong4, ulong>(divisor, 0, 4);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(ulong4 dividend, ulong divisor)
+        public static mask64x4 isdivisible(ulong4 dividend, ulong divisor)
         {
 Assert.AreNotEqual(0ul, divisor);
 
@@ -1131,7 +1130,7 @@ Assert.AreNotEqual(0ul, divisor);
                 {
                     return true;
                 }
-                else if (maxmath.ispow2(divisor))
+                else if (math.ispow2(divisor))
                 {
                     return (dividend & (divisor - 1)) == 0;
                 }
@@ -1178,7 +1177,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(sbyte2 dividend, sbyte2 divisor)
+        public static mask8x2 isdivisible(sbyte2 dividend, sbyte2 divisor)
         {
 VectorAssert.AreNotEqual<sbyte2, sbyte>(divisor, 0, 2);
 
@@ -1204,7 +1203,7 @@ VectorAssert.AreNotEqual<sbyte2, sbyte>(divisor, 0, 2);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(sbyte2 dividend, sbyte divisor)
+        public static mask8x2 isdivisible(sbyte2 dividend, sbyte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1232,7 +1231,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(sbyte3 dividend, sbyte3 divisor)
+        public static mask8x3 isdivisible(sbyte3 dividend, sbyte3 divisor)
         {
 VectorAssert.AreNotEqual<sbyte3, sbyte>(divisor, 0, 3);
 
@@ -1258,7 +1257,7 @@ VectorAssert.AreNotEqual<sbyte3, sbyte>(divisor, 0, 3);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(sbyte3 dividend, sbyte divisor)
+        public static mask8x3 isdivisible(sbyte3 dividend, sbyte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1286,7 +1285,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(sbyte4 dividend, sbyte4 divisor)
+        public static mask8x4 isdivisible(sbyte4 dividend, sbyte4 divisor)
         {
 VectorAssert.AreNotEqual<sbyte4, sbyte>(divisor, 0, 4);
 
@@ -1312,7 +1311,7 @@ VectorAssert.AreNotEqual<sbyte4, sbyte>(divisor, 0, 4);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(sbyte4 dividend, sbyte divisor)
+        public static mask8x4 isdivisible(sbyte4 dividend, sbyte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1340,7 +1339,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(sbyte8 dividend, sbyte8 divisor)
+        public static mask8x8 isdivisible(sbyte8 dividend, sbyte8 divisor)
         {
 VectorAssert.AreNotEqual<sbyte8, sbyte>(divisor, 0, 8);
 
@@ -1366,7 +1365,7 @@ VectorAssert.AreNotEqual<sbyte8, sbyte>(divisor, 0, 8);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(sbyte8 dividend, sbyte divisor)
+        public static mask8x8 isdivisible(sbyte8 dividend, sbyte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1394,7 +1393,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isdivisible(sbyte16 dividend, sbyte16 divisor)
+        public static mask8x16 isdivisible(sbyte16 dividend, sbyte16 divisor)
         {
 VectorAssert.AreNotEqual<sbyte16, sbyte>(divisor, 0, 16);
 
@@ -1420,7 +1419,7 @@ VectorAssert.AreNotEqual<sbyte16, sbyte>(divisor, 0, 16);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isdivisible(sbyte16 dividend, sbyte divisor)
+        public static mask8x16 isdivisible(sbyte16 dividend, sbyte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1448,7 +1447,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 isdivisible(sbyte32 dividend, sbyte32 divisor)
+        public static mask8x32 isdivisible(sbyte32 dividend, sbyte32 divisor)
         {
 VectorAssert.AreNotEqual<sbyte32, sbyte>(divisor, 0, 32);
 
@@ -1474,7 +1473,7 @@ VectorAssert.AreNotEqual<sbyte32, sbyte>(divisor, 0, 32);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 isdivisible(sbyte32 dividend, sbyte divisor)
+        public static mask8x32 isdivisible(sbyte32 dividend, sbyte divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1531,7 +1530,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(short2 dividend, short2 divisor)
+        public static mask16x2 isdivisible(short2 dividend, short2 divisor)
         {
 VectorAssert.AreNotEqual<short2, short>(divisor, 0, 2);
 
@@ -1557,7 +1556,7 @@ VectorAssert.AreNotEqual<short2, short>(divisor, 0, 2);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(short2 dividend, short divisor)
+        public static mask16x2 isdivisible(short2 dividend, short divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1585,7 +1584,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(short3 dividend, short3 divisor)
+        public static mask16x3 isdivisible(short3 dividend, short3 divisor)
         {
 VectorAssert.AreNotEqual<short3, short>(divisor, 0, 3);
 
@@ -1611,7 +1610,7 @@ VectorAssert.AreNotEqual<short3, short>(divisor, 0, 3);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(short3 dividend, short divisor)
+        public static mask16x3 isdivisible(short3 dividend, short divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1639,7 +1638,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(short4 dividend, short4 divisor)
+        public static mask16x4 isdivisible(short4 dividend, short4 divisor)
         {
 VectorAssert.AreNotEqual<short4, short>(divisor, 0, 4);
 
@@ -1665,7 +1664,7 @@ VectorAssert.AreNotEqual<short4, short>(divisor, 0, 4);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(short4 dividend, short divisor)
+        public static mask16x4 isdivisible(short4 dividend, short divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1693,7 +1692,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(short8 dividend, short8 divisor)
+        public static mask16x8 isdivisible(short8 dividend, short8 divisor)
         {
 VectorAssert.AreNotEqual<short8, short>(divisor, 0, 8);
 
@@ -1719,7 +1718,7 @@ VectorAssert.AreNotEqual<short8, short>(divisor, 0, 8);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(short8 dividend, short divisor)
+        public static mask16x8 isdivisible(short8 dividend, short divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1747,7 +1746,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isdivisible(short16 dividend, short16 divisor)
+        public static mask16x16 isdivisible(short16 dividend, short16 divisor)
         {
 VectorAssert.AreNotEqual<short16, short>(divisor, 0, 16);
 
@@ -1773,7 +1772,7 @@ VectorAssert.AreNotEqual<short16, short>(divisor, 0, 16);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isdivisible(short16 dividend, short divisor)
+        public static mask16x16 isdivisible(short16 dividend, short divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1830,7 +1829,7 @@ Assert.AreNotEqual(0, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(int2 dividend, int2 divisor)
+        public static mask32x2 isdivisible(int2 dividend, int2 divisor)
         {
 VectorAssert.AreNotEqual<int2, int>(divisor, 0, 2);
 
@@ -1851,12 +1850,12 @@ VectorAssert.AreNotEqual<int2, int>(divisor, 0, 2);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(int2 dividend, int divisor)
+        public static mask32x2 isdivisible(int2 dividend, int divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1879,12 +1878,12 @@ Assert.AreNotEqual(0, divisor);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(int3 dividend, int3 divisor)
+        public static mask32x3 isdivisible(int3 dividend, int3 divisor)
         {
 VectorAssert.AreNotEqual<int3, int>(divisor, 0, 3);
 
@@ -1905,12 +1904,12 @@ VectorAssert.AreNotEqual<int3, int>(divisor, 0, 3);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(int3 dividend, int divisor)
+        public static mask32x3 isdivisible(int3 dividend, int divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1933,12 +1932,12 @@ Assert.AreNotEqual(0, divisor);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(int4 dividend, int4 divisor)
+        public static mask32x4 isdivisible(int4 dividend, int4 divisor)
         {
 VectorAssert.AreNotEqual<int4, int>(divisor, 0, 4);
 
@@ -1959,12 +1958,12 @@ VectorAssert.AreNotEqual<int4, int>(divisor, 0, 4);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(int4 dividend, int divisor)
+        public static mask32x4 isdivisible(int4 dividend, int divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -1987,12 +1986,12 @@ Assert.AreNotEqual(0, divisor);
                 }
             }
 
-            return mod(dividend, divisor) == 0;
+            return dividend % divisor == 0;
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(int8 dividend, int8 divisor)
+        public static mask32x8 isdivisible(int8 dividend, int8 divisor)
         {
 VectorAssert.AreNotEqual<int8, int>(divisor, 0, 8);
 
@@ -2018,7 +2017,7 @@ VectorAssert.AreNotEqual<int8, int>(divisor, 0, 8);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isdivisible(int8 dividend, int divisor)
+        public static mask32x8 isdivisible(int8 dividend, int divisor)
         {
 Assert.AreNotEqual(0, divisor);
 
@@ -2075,7 +2074,7 @@ Assert.AreNotEqual(0L, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(long2 dividend, long2 divisor)
+        public static mask64x2 isdivisible(long2 dividend, long2 divisor)
         {
 VectorAssert.AreNotEqual<long2, long>(divisor, 0, 2);
 
@@ -2101,7 +2100,7 @@ VectorAssert.AreNotEqual<long2, long>(divisor, 0, 2);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isdivisible(long2 dividend, long divisor)
+        public static mask64x2 isdivisible(long2 dividend, long divisor)
         {
 Assert.AreNotEqual(0L, divisor);
 
@@ -2129,7 +2128,7 @@ Assert.AreNotEqual(0L, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(long3 dividend, long3 divisor)
+        public static mask64x3 isdivisible(long3 dividend, long3 divisor)
         {
 VectorAssert.AreNotEqual<long3, long>(divisor, 0, 3);
 
@@ -2155,7 +2154,7 @@ VectorAssert.AreNotEqual<long3, long>(divisor, 0, 3);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isdivisible(long3 dividend, long divisor)
+        public static mask64x3 isdivisible(long3 dividend, long divisor)
         {
 Assert.AreNotEqual(0L, divisor);
 
@@ -2183,7 +2182,7 @@ Assert.AreNotEqual(0L, divisor);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the corresponding <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(long4 dividend, long4 divisor)
+        public static mask64x4 isdivisible(long4 dividend, long4 divisor)
         {
 VectorAssert.AreNotEqual<long4, long>(divisor, 0, 4);
 
@@ -2209,7 +2208,7 @@ VectorAssert.AreNotEqual<long4, long>(divisor, 0, 4);
 
         /// <summary>       Returns <see langword="true"/> for each component if the respective <paramref name="dividend"/> is evenly divisible by the <paramref name="divisor"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isdivisible(long4 dividend, long divisor)
+        public static mask64x4 isdivisible(long4 dividend, long divisor)
         {
 Assert.AreNotEqual(0L, divisor);
 

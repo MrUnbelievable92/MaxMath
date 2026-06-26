@@ -1,6 +1,7 @@
 using NUnit.Framework;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Tests
 {
@@ -2355,27 +2356,30 @@ namespace MaxMath.Tests
         public static void Cast_ToV128()
         {
             bool result = true;
-
-            for (int i = 0; i < NUM_TESTS; i++)
+            
+            if (Avx2.IsAvx2Supported)
             {
-                v256 x = TestData_LHS[i];
+                for (int i = 0; i < NUM_TESTS; i++)
+                {
+                    v256 x = TestData_LHS[i];
 
-                result &= x.SShort0 == TestData_LHS[i].x0 &
-                          x.SShort1 == TestData_LHS[i].x1 &
-                          x.SShort2 == TestData_LHS[i].x2 &
-                          x.SShort3 == TestData_LHS[i].x3 &
-                          x.SShort4 == TestData_LHS[i].x4 &
-                          x.SShort5 == TestData_LHS[i].x5 &
-                          x.SShort6 == TestData_LHS[i].x6 &
-                          x.SShort7 == TestData_LHS[i].x7 &
-                          x.SShort8 == TestData_LHS[i].x8 &
-                          x.SShort9 == TestData_LHS[i].x9 &
-                          x.SShort10 == TestData_LHS[i].x10 &
-                          x.SShort11 == TestData_LHS[i].x11 &
-                          x.SShort12 == TestData_LHS[i].x12 &
-                          x.SShort13 == TestData_LHS[i].x13 &
-                          x.SShort14 == TestData_LHS[i].x14 &
-                          x.SShort15 == TestData_LHS[i].x15;
+                    result &= x.SShort0 == TestData_LHS[i].x0 &
+                              x.SShort1 == TestData_LHS[i].x1 &
+                              x.SShort2 == TestData_LHS[i].x2 &
+                              x.SShort3 == TestData_LHS[i].x3 &
+                              x.SShort4 == TestData_LHS[i].x4 &
+                              x.SShort5 == TestData_LHS[i].x5 &
+                              x.SShort6 == TestData_LHS[i].x6 &
+                              x.SShort7 == TestData_LHS[i].x7 &
+                              x.SShort8 == TestData_LHS[i].x8 &
+                              x.SShort9 == TestData_LHS[i].x9 &
+                              x.SShort10 == TestData_LHS[i].x10 &
+                              x.SShort11 == TestData_LHS[i].x11 &
+                              x.SShort12 == TestData_LHS[i].x12 &
+                              x.SShort13 == TestData_LHS[i].x13 &
+                              x.SShort14 == TestData_LHS[i].x14 &
+                              x.SShort15 == TestData_LHS[i].x15;
+                }
             }
 
             Assert.AreEqual(true, result);
@@ -2385,29 +2389,32 @@ namespace MaxMath.Tests
         public static void Cast_FromV128()
         {
             bool result = true;
-
-            for (int i = 0; i < NUM_TESTS; i++)
+            
+            if (Avx2.IsAvx2Supported)
             {
-                short16 x = TestData_LHS[i];
-                v256 c = x;
-                x = c;
+                for (int i = 0; i < NUM_TESTS; i++)
+                {
+                    short16 x = TestData_LHS[i];
+                    v256 c = x;
+                    x = c;
 
-                result &= x.x0 == TestData_LHS[i].x0 &
-                          x.x1 == TestData_LHS[i].x1 &
-                          x.x2 == TestData_LHS[i].x2 &
-                          x.x3 == TestData_LHS[i].x3 &
-                          x.x4 == TestData_LHS[i].x4 &
-                          x.x5 == TestData_LHS[i].x5 &
-                          x.x6 == TestData_LHS[i].x6 &
-                          x.x7 == TestData_LHS[i].x7 &
-                          x.x8 == TestData_LHS[i].x8 &
-                          x.x9 == TestData_LHS[i].x9 &
-                          x.x10 == TestData_LHS[i].x10 &
-                          x.x11 == TestData_LHS[i].x11 &
-                          x.x12 == TestData_LHS[i].x12 &
-                          x.x13 == TestData_LHS[i].x13 &
-                          x.x14 == TestData_LHS[i].x14 &
-                          x.x15 == TestData_LHS[i].x15;
+                    result &= x.x0 == TestData_LHS[i].x0 &
+                              x.x1 == TestData_LHS[i].x1 &
+                              x.x2 == TestData_LHS[i].x2 &
+                              x.x3 == TestData_LHS[i].x3 &
+                              x.x4 == TestData_LHS[i].x4 &
+                              x.x5 == TestData_LHS[i].x5 &
+                              x.x6 == TestData_LHS[i].x6 &
+                              x.x7 == TestData_LHS[i].x7 &
+                              x.x8 == TestData_LHS[i].x8 &
+                              x.x9 == TestData_LHS[i].x9 &
+                              x.x10 == TestData_LHS[i].x10 &
+                              x.x11 == TestData_LHS[i].x11 &
+                              x.x12 == TestData_LHS[i].x12 &
+                              x.x13 == TestData_LHS[i].x13 &
+                              x.x14 == TestData_LHS[i].x14 &
+                              x.x15 == TestData_LHS[i].x15;
+                }
             }
 
             Assert.AreEqual(true, result);

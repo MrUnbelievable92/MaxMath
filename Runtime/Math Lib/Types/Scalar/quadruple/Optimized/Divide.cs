@@ -2,12 +2,11 @@ using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.CompilerServices;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple
+    unsafe public partial struct quadruple
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked Divide(quadruple.ConstChecked left, quadruple.ConstChecked right)
@@ -103,84 +102,40 @@ namespace MaxMath
                 }
             }
 
-            ulong q64;
-            uint q;
-            uint q0;
-            uint q1;
-            uint q2;
-            bool round;
-            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+            ulong q64 = (uint)(rem.hi64 >> 19) * recip32;
+            uint q = (uint)((q64 + 0x8000_0000) >> 32);
+            rem <<= 29;
+            rem -= q * sigB;
+            if ((long)rem.hi64 < 0)
             {
-                uint* q0p = &q0;
-                uint* q1p = &q1;
-                uint* q2p = &q2;
-
-                int ix = 3;
-                while (true)
-                {
-                    q64 = (uint)(rem.hi64 >> 19) * recip32;
-                    q = (uint)((q64 + 0x8000_0000) >> 32);
-                    if (--ix < 0)
-                    {
-                        break;
-                    }
-                    rem <<= 29;
-                    rem -= q * sigB;
-                    if ((long)rem.hi64 < 0)
-                    {
-                        q--;
-                        rem += sigB;
-                    }
-
-                    switch (ix)
-                    {
-                        case 0:  q0 = q; break;
-                        case 1:  q1 = q; break;
-                        default: q2 = q; break;
-                    }
-                }
-
-                round = ((q + 1) & 7) < 2;
+                q--;
+                rem += sigB;
             }
-            else
+            uint q2 = q;
+            q64 = (uint)(rem.hi64 >> 19) * recip32;
+            q = (uint)((q64 + 0x8000_0000) >> 32);
+            rem <<= 29;
+            rem -= q * sigB;
+            if ((long)rem.hi64 < 0)
             {
-                q64 = (uint)(rem.hi64 >> 19) * recip32;
-                q = (uint)((q64 + 0x8000_0000) >> 32);
-                rem <<= 29;
-                rem -= q * sigB;
-                if ((long)rem.hi64 < 0)
-                {
-                    q--;
-                    rem += sigB;
-                }
-                q2 = q;
-                q64 = (uint)(rem.hi64 >> 19) * recip32;
-                q = (uint)((q64 + 0x8000_0000) >> 32);
-                rem <<= 29;
-                rem -= q * sigB;
-                if ((long)rem.hi64 < 0)
-                {
-                    q--;
-                    rem += sigB;
-                }
-                q1 = q;
-                q64 = (uint)(rem.hi64 >> 19) * recip32;
-                q = (uint)((q64 + 0x8000_0000) >> 32);
-                rem <<= 29;
-                rem -= q * sigB;
-                if ((long)rem.hi64 < 0)
-                {
-                    q--;
-                    rem += sigB;
-                }
-                q0 = q;
-                q64 = (uint)(rem.hi64 >> 19) * recip32;
-                q = (uint)((q64 + 0x8000_0000) >> 32);
-
-                round = ((q64 + 0x0000_0001_8000_0000ul) & (7ul << 32)) < (2ul << 32);
+                q--;
+                rem += sigB;
             }
-
-            if (round)
+            uint q1 = q;
+            q64 = (uint)(rem.hi64 >> 19) * recip32;
+            q = (uint)((q64 + 0x8000_0000) >> 32);
+            rem <<= 29;
+            rem -= q * sigB;
+            if ((long)rem.hi64 < 0)
+            {
+                q--;
+                rem += sigB;
+            }
+            uint q0 = q;
+            q64 = (uint)(rem.hi64 >> 19) * recip32;
+            q = (uint)((q64 + 0x8000_0000) >> 32);
+            
+            if (((q64 + 0x0000_0001_8000_0000ul) & (7ul << 32)) < (2ul << 32))
             {
                 rem <<= 29;
                 rem -= q * sigB;

@@ -1,24 +1,32 @@
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
+    /// <summary>       A random number generator for producing uniformly distributed 128-bit values.     </summary>
     [Serializable]
     unsafe public struct Random128
     {
+        public static UInt128 DEFAULT_SEED => new UInt128(0xE7A1_F3C9_2D5B_6A40ul, 0x8C4F_21BE_97D0_A653ul);
+
         public UInt128 State;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Random128(UInt128 seed)
+        public Random128(UInt128 seed = default)
         {
+            if (constexpr.IS_TRUE(seed == 0))
+            {
+                seed = DEFAULT_SEED;
+            }
+            
             State = seed;
 
             NextState();
@@ -31,14 +39,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                ulong seed = (uint)Environment.TickCount;
-                seed += maxmath.tobyte(seed == 0);
-
-                seed ^= seed >> 24;
-                UInt128 seed128 = new UInt128(seed, seed << (69 - 64));
-                seed128 ^= seed128 >> 35;
-
-                return new Random128(seed128);
+                return new Random128 { State = BijectiveHash((ulong)Stopwatch.GetTimestamp()) };
             }
         }
 
@@ -66,7 +67,42 @@ namespace MaxMath
         {
             return new Random64 { State = (uint)input.NextUInt128(1, (UInt128)ulong.MaxValue + 1) };
         }
+        
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static UInt128 BijectiveHash(ulong n)
+        {
+            UInt128 __n = UInt128.umul((UInt128)n, 0x9E3779B97F4A7C15ul);
+            __n = rol(__n, 47);
+            __n ^= new UInt128(0xD6E8FEB86659FD93ul, 0xA4093822299F31D0ul);
+            __n = UInt128.umul(__n, 0xBF58476D1CE4E5B9ul);
+            __n = rol(__n, 79);
+            __n ^= new UInt128(0xC3A5C85C97CB3127ul, 0xB492B66FBE98F273ul);
 
+            return __n;
+        }
+
+        /// <summary>   Initialized the state of the <see cref="Random128"/> instance with a given seed value. The seed must be non-zero.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void InitState(UInt128 seed = default)
+        {
+            if (constexpr.IS_TRUE(seed == 0))
+            {
+                seed = DEFAULT_SEED;
+            }
+            
+Assert.AreNotEqual(seed, (UInt128)0);
+
+            State = seed;
+            NextState();
+        }
+        
+        /// <summary>   Constructs a <see cref="Random128"/> instance with an index <paramref name="i"/> that gets hashed. Use this function when you expect to create several <see cref="Random128"/> instances in a loop.   </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Random128 CreateFromIndex(uint i)
+        {
+            return new Random128 { State = BijectiveHash(i) };
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private UInt128 NextState()
@@ -90,7 +126,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             return (long)NextState().hi64 < 0;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -99,7 +135,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             return *(bool2*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="bool3"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -108,7 +144,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             return *(bool3*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="bool4"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -164,7 +200,7 @@ Assert.AreNotEqual(State, (UInt128)0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Int128 NextInt128()
         {
-            return Int128.MinValue ^ (Int128)NextState();
+            return MaxMath.Int128.MinValue ^ (Int128)NextState();
         }
 
         /// <summary>       Returns a uniformly random <see cref="Int128"/> in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
@@ -179,7 +215,7 @@ Assert.IsNotSmaller(max, min);
         }
 
 
-        /// <summary>       Returns a uniformly random <see cref="UInt128"/> in the interval [0, <see cref="UInt128.MaxValue"/> - 1].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="UInt128"/> in the interval [0, <see cref="MaxMath.UInt128.MaxValue"/> - 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 NextUInt128()
         {
@@ -195,7 +231,7 @@ Assert.IsNotSmaller(max, min);
             return product.hi128;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="UInt128"/> in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="UInt128"/> in the interval [<paramref name="min"/>, <paramref name="max"/>].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 NextUInt128(UInt128 min, UInt128 max)
         {
@@ -211,12 +247,12 @@ Assert.IsNotSmaller(max, min);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public quadruple NextQuadruple()
         {
-            quadruple.ConstChecked left = asquadruple(maxmath.ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
+            quadruple.ConstChecked left = asquadruple(math.ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
             left.Promise |= FloatingPointPromise<quadruple>.NOT_INF;
             left.Promise |= FloatingPointPromise<quadruple>.NOT_NAN;
             left.Promise |= FloatingPointPromise<quadruple>.POSITIVE;
 
-            quadruple.ConstChecked result = quadruple.Subtract(left, asquadruple(maxmath.ONE_AS_QUADRUPLE), sameSign: true);
+            quadruple.ConstChecked result = quadruple.Subtract(left, asquadruple(math.ONE_AS_QUADRUPLE), sameSign: true);
             left.Promise |= FloatingPointPromise<quadruple>.NOT_INF;
             left.Promise |= FloatingPointPromise<quadruple>.NOT_NAN;
             left.Promise |= FloatingPointPromise<quadruple>.POSITIVE;
@@ -226,20 +262,20 @@ Assert.IsNotSmaller(max, min);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="quadruple"/> in the interval [<paramref name="min"/>, <paramref name="max"/>).     </summary>
+        /// <summary>       Returns a uniformly random <see cref="quadruple"/> in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public quadruple NextQuadruple(quadruple min, quadruple max)
         {
 Assert.IsNotSmaller(max, min);
 
-            quadruple.ConstChecked left = asquadruple(maxmath.ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
+            quadruple.ConstChecked left = asquadruple(math.ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
             left.Promise |= FloatingPointPromise<quadruple>.NOT_INF;
             left.Promise |= FloatingPointPromise<quadruple>.NOT_NAN;
             left.Promise |= FloatingPointPromise<quadruple>.POSITIVE;
             left.Promise.MinPossible = 1d;
             left.Promise.MaxPossible = nextsmaller((quadruple)2d);
 
-            quadruple.ConstChecked result = quadruple.fmadd(quadruple.Subtract(left, asquadruple(maxmath.ONE_AS_QUADRUPLE), sameSign: true), max - min, min);
+            quadruple.ConstChecked result = quadruple.fmadd(quadruple.Subtract(left, asquadruple(math.ONE_AS_QUADRUPLE), sameSign: true), max - min, min);
             left.Promise.MinPossible = min;
             left.Promise.MaxPossible = constexpr.IS_CONST(max) ? nextsmaller(max) : max;
 

@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using Unity.Burst;
 using MaxMath.Intrinsics;
 
@@ -993,7 +992,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <paramref name="x"/> raised to the power <paramref name="n"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1444,7 +1443,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2));
+                return Xse.pow_epi32(x, n, 2);
             }
             else
             {
@@ -1458,7 +1457,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3));
+                return Xse.pow_epi32(x, n, 3);
             }
             else
             {
@@ -1472,7 +1471,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.pow_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4));
+                return Xse.pow_epi32(x, n, 4);
             }
             else
             {
@@ -1490,9 +1489,9 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.pow_epi32x2(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(n.v4_0), RegisterConversion.ToV128(n.v4_4), out v128 lo, out v128 hi);
+                Xse.pow_epi32x2(x.v4_0, x.v4_4, n.v4_0, n.v4_4, out v128 lo, out v128 hi);
 
-                return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
+                return new int8(lo, hi);
             }
             else
             {

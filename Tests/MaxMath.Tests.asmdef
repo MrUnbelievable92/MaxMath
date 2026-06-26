@@ -19,7 +19,9 @@
         "nunit.framework.dll"
     ],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": [
+        "MAXMATH_TESTS"
+    ],
     "versionDefines": [],
     "noEngineReferences": false
 }

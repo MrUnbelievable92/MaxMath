@@ -1,7 +1,6 @@
 using MaxMath.Intrinsics;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.FLOATING_POINT;
@@ -163,7 +162,7 @@ namespace MaxMath
                 if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 SIGN_MASK = set1_epi32(1 << 31);
-                    v128 MAX_RANGE_M1 = set1_ps(math.asfloat(maxmath.bitmask32((uint)MANTISSA_ROUNDING_BITS)));
+                    v128 MAX_RANGE_M1 = set1_ps(math.asfloat(math.bitmask32((uint)MANTISSA_ROUNDING_BITS)));
                     v128 GUARANTEED_DECIMALS_M1 = set1_ps(F32_TO_LAST_DIGIT);
 
                     v128 absA = andnot_ps(SIGN_MASK, a);
@@ -182,7 +181,7 @@ namespace MaxMath
                 if (Avx.IsAvxSupported)
                 {
                     v256 SIGN_MASK = mm256_set1_epi32(1 << 31);
-                    v256 MAX_RANGE_M1 = mm256_set1_ps(math.asfloat(maxmath.bitmask32((uint)MANTISSA_ROUNDING_BITS)));
+                    v256 MAX_RANGE_M1 = mm256_set1_ps(math.asfloat(math.bitmask32((uint)MANTISSA_ROUNDING_BITS)));
                     v256 GUARANTEED_DECIMALS_M1 = mm256_set1_ps(F32_TO_LAST_DIGIT);
 
                     v256 absA = Avx.mm256_andnot_ps(SIGN_MASK, a);
@@ -202,7 +201,7 @@ namespace MaxMath
                 if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 SIGN_MASK = set1_epi64x(1L << 63);
-                    v128 MAX_RANGE_M1 = set1_pd(math.asdouble(maxmath.bitmask64((ulong)MANTISSA_ROUNDING_BITS)));
+                    v128 MAX_RANGE_M1 = set1_pd(math.asdouble(math.bitmask64((ulong)MANTISSA_ROUNDING_BITS)));
                     v128 GUARANTEED_DECIMALS_M1 = set1_pd(F64_TO_LAST_DIGIT);
 
                     v128 absA = andnot_pd(SIGN_MASK, a);
@@ -221,7 +220,7 @@ namespace MaxMath
                 if (Avx.IsAvxSupported)
                 {
                     v256 SIGN_MASK = mm256_set1_epi32(1 << 31);
-                    v256 MAX_RANGE_M1 = mm256_set1_pd(math.asdouble(maxmath.bitmask64((ulong)MANTISSA_ROUNDING_BITS)));
+                    v256 MAX_RANGE_M1 = mm256_set1_pd(math.asdouble(math.bitmask64((ulong)MANTISSA_ROUNDING_BITS)));
                     v256 GUARANTEED_DECIMALS_M1 = mm256_set1_pd(F64_TO_LAST_DIGIT);
 
                     v256 absA = Avx.mm256_andnot_pd(SIGN_MASK, a);
@@ -236,7 +235,7 @@ namespace MaxMath
         }
     }
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <see langword="true"/> if the two <see cref="float"/>s <paramref name="a"/> and <paramref name="b"/> are approximately equal to each other, given a <paramref name="tolerance"/>. .
         /// <remarks>
@@ -248,98 +247,98 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return tobool(1 & Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0)).SInt0);
+                return tobool(1 & Xse.cmpapprox_ps(Xse.set_ss(a), Xse.set_ss(b), Xse.set_ss(tolerance), promises.Promises(Promise.Unsafe0)).SInt0);
             }
             else
             {
-                float cmp = math.abs(b - a);
+                float cmp = abs(b - a);
 
                 if (!promises.Promises(Promise.Unsafe0))
                 {
-                    bool ainf = math.isinf(a);
-                    bool binf = math.isinf(b);
-                    cmp = math.select(math.select(cmp, math.asfloat(-1), ainf | binf), math.select(0f, math.asfloat(-1), a != b), ainf & binf);
+                    bool ainf = isinf(a);
+                    bool binf = isinf(b);
+                    cmp = select(select(cmp, asfloat(-1), ainf | binf), select(0f, asfloat(-1), a != b), ainf & binf);
                 }
 
                 return cmp <= tolerance;
             }
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="float2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float2"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.float2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float2"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 approx(float2 a, float2 b, float2 tolerance, Promise promises = Promise.Nothing)
+        public static mask32x2 approx(float2 a, float2 b, float2 tolerance, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0))));
+                return Xse.cmpapprox_ps(a, b, tolerance, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                float2 cmp = math.abs(b - a);
+                float2 cmp = abs(b - a);
 
                 if (!promises.Promises(Promise.Unsafe0))
                 {
-                    bool2 ainf = math.isinf(a);
-                    bool2 binf = math.isinf(b);
-                    cmp = math.select(math.select(cmp, math.asfloat(-1), ainf | binf), math.select(0f, math.asfloat(-1), a != b), ainf & binf);
+                    bool2 ainf = isinf(a);
+                    bool2 binf = isinf(b);
+                    cmp = select(select(cmp, asfloat(-1), ainf | binf), select(0f, asfloat(-1), a != b), ainf & binf);
                 }
 
                 return cmp <= tolerance;
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="float3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float3"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.float3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float3"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 approx(float3 a, float3 b, float3 tolerance, Promise promises = Promise.Nothing)
+        public static mask32x3 approx(float3 a, float3 b, float3 tolerance, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0))));
+                return Xse.cmpapprox_ps(a, b, tolerance, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                float3 cmp = math.abs(b - a);
+                float3 cmp = abs(b - a);
 
                 if (!promises.Promises(Promise.Unsafe0))
                 {
-                    bool3 ainf = math.isinf(a);
-                    bool3 binf = math.isinf(b);
-                    cmp = math.select(math.select(cmp, math.asfloat(-1), ainf | binf), math.select(0f, math.asfloat(-1), a != b), ainf & binf);
+                    bool3 ainf = isinf(a);
+                    bool3 binf = isinf(b);
+                    cmp = select(select(cmp, asfloat(-1), ainf | binf), select(0f, asfloat(-1), a != b), ainf & binf);
                 }
 
                 return cmp <= tolerance;
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="float4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float4"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.float4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float4"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 approx(float4 a, float4 b, float4 tolerance, Promise promises = Promise.Nothing)
+        public static mask32x4 approx(float4 a, float4 b, float4 tolerance, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0))));
+                return Xse.cmpapprox_ps(a, b, tolerance, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                float4 cmp = math.abs(b - a);
+                float4 cmp = abs(b - a);
 
                 if (!promises.Promises(Promise.Unsafe0))
                 {
-                    bool4 ainf = math.isinf(a);
-                    bool4 binf = math.isinf(b);
-                    cmp = math.select(math.select(cmp, math.asfloat(-1), ainf | binf), math.select(0f, math.asfloat(-1), a != b), ainf & binf);
+                    bool4 ainf = isinf(a);
+                    bool4 binf = isinf(b);
+                    cmp = select(select(cmp, asfloat(-1), ainf | binf), select(0f, asfloat(-1), a != b), ainf & binf);
                 }
 
                 return cmp <= tolerance;
@@ -352,15 +351,15 @@ namespace MaxMath
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 approx(float8 a, float8 b, float8 tolerance, Promise promises = Promise.Nothing)
+        public static mask32x8 approx(float8 a, float8 b, float8 tolerance, Promise promises = Promise.Nothing)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmpapprox_ps(a, b, tolerance, promises.Promises(Promise.Unsafe0)));
+                return Xse.mm256_cmpapprox_ps(a, b, tolerance, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return new bool8(approx(a.v4_0, b.v4_0, tolerance.v4_0, promises), approx(a.v4_4, b.v4_4, tolerance.v4_4, promises));
+                return new mask32x8(approx(a.v4_0, b.v4_0, tolerance.v4_0, promises), approx(a.v4_4, b.v4_4, tolerance.v4_4, promises));
             }
         }
 
@@ -375,83 +374,83 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return tobool(1 & Xse.cmpapprox_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0)).SLong0);
+                return tobool(1 & Xse.cmpapprox_pd(Xse.set_sd(a), Xse.set_sd(b), Xse.set_sd(tolerance), promises.Promises(Promise.Unsafe0)).SLong0);
             }
             else
             {
-                double cmp = math.abs(b - a);
+                double cmp = abs(b - a);
 
                 if (!promises.Promises(Promise.Unsafe0))
                 {
-                    bool ainf = math.isinf(a);
-                    bool binf = math.isinf(b);
-                    cmp = math.select(math.select(cmp, math.asdouble(-1L), ainf | binf), math.select(0d, math.asdouble(-1L), a != b), ainf & binf);
+                    bool ainf = isinf(a);
+                    bool binf = isinf(b);
+                    cmp = select(select(cmp, asdouble(-1L), ainf | binf), select(0d, asdouble(-1L), a != b), ainf & binf);
                 }
 
                 return cmp <= tolerance;
             }
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="double2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double2"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.double2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double2"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 approx(double2 a, double2 b, double2 tolerance, Promise promises = Promise.Nothing)
+        public static mask64x2 approx(double2 a, double2 b, double2 tolerance, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpapprox_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), RegisterConversion.ToV128(tolerance), promises.Promises(Promise.Unsafe0))));
+                return Xse.cmpapprox_pd(a, b, tolerance, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                double2 cmp = math.abs(b - a);
+                double2 cmp = abs(b - a);
 
                 if (!promises.Promises(Promise.Unsafe0))
                 {
-                    bool2 ainf = math.isinf(a);
-                    bool2 binf = math.isinf(b);
-                    cmp = math.select(math.select(cmp, math.asdouble(-1L), ainf | binf), math.select(0d, math.asdouble(-1L), a != b), ainf & binf);
+                    bool2 ainf = isinf(a);
+                    bool2 binf = isinf(b);
+                    cmp = select(select(cmp, asdouble(-1L), ainf | binf), select(0d, asdouble(-1L), a != b), ainf & binf);
                 }
 
                 return cmp <= tolerance;
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="double3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double3"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.double3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double3"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 approx(double3 a, double3 b, double3 tolerance, Promise promises = Promise.Nothing)
+        public static mask64x3 approx(double3 a, double3 b, double3 tolerance, Promise promises = Promise.Nothing)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_cmpapprox_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), RegisterConversion.ToV256(tolerance), promises.Promises(Promise.Unsafe0))));
+                return Xse.mm256_cmpapprox_pd(a, b, tolerance, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return new bool3(approx(a.xy, b.xy, tolerance.xy, promises), approx(a.z, b.z, tolerance.z, promises));
+                return new mask64x3(approx(a.xy, b.xy, tolerance.xy, promises), approx(a.z, b.z, tolerance.z, promises));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="double4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double4"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.double4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double4"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 approx(double4 a, double4 b, double4 tolerance, Promise promises = Promise.Nothing)
+        public static mask64x4 approx(double4 a, double4 b, double4 tolerance, Promise promises = Promise.Nothing)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_cmpapprox_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), RegisterConversion.ToV256(tolerance), promises.Promises(Promise.Unsafe0))));
+                return Xse.mm256_cmpapprox_pd(a, b, tolerance, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return new bool4(approx(a.xy, b.xy, tolerance.xy, promises), approx(a.zw, b.zw, tolerance.zw, promises));
+                return new mask64x4(approx(a.xy, b.xy, tolerance.xy, promises), approx(a.zw, b.zw, tolerance.zw, promises));
             }
         }
 
@@ -466,65 +465,65 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return tobool(1 & Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0)).SInt0);
+                return tobool(1 & Xse.cmpapprox_ps(Xse.set_ss(a), Xse.set_ss(b), promises.Promises(Promise.Unsafe0)).SInt0);
             }
             else
             {
-                return approx(a, b, UnsafeFunctions.max(F32_TO_LAST_DIGIT * UnsafeFunctions.max(math.abs(a), math.abs(b)), math.asfloat(maxmath.bitmask32((uint)MANTISSA_ROUNDING_BITS))), promises);
+                return approx(a, b, UnsafeFunctions.max(F32_TO_LAST_DIGIT * UnsafeFunctions.max(abs(a), abs(b)), asfloat(math.bitmask32((uint)MANTISSA_ROUNDING_BITS))), promises);
             }
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="float2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float2"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.float2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float2"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 approx(float2 a, float2 b, Promise promises = Promise.Nothing)
+        public static mask32x2 approx(float2 a, float2 b, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0))));
+                return Xse.cmpapprox_ps(a, b, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return approx(a, b, UnsafeFunctions.max(F32_TO_LAST_DIGIT * UnsafeFunctions.max(math.abs(a), math.abs(b)), math.asfloat(maxmath.bitmask32((uint)MANTISSA_ROUNDING_BITS))), promises);
+                return approx(a, b, UnsafeFunctions.max(F32_TO_LAST_DIGIT * UnsafeFunctions.max(abs(a), abs(b)), asfloat(math.bitmask32((uint)MANTISSA_ROUNDING_BITS))), promises);
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="float3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float3"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.float3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float3"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 approx(float3 a, float3 b, Promise promises = Promise.Nothing)
+        public static mask32x3 approx(float3 a, float3 b, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0))));
+                return Xse.cmpapprox_ps(a, b, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return approx(a, b, UnsafeFunctions.max(F32_TO_LAST_DIGIT * UnsafeFunctions.max(math.abs(a), math.abs(b)), math.asfloat(maxmath.bitmask32((uint)MANTISSA_ROUNDING_BITS))), promises);
+                return approx(a, b, UnsafeFunctions.max(F32_TO_LAST_DIGIT * UnsafeFunctions.max(abs(a), abs(b)), asfloat(math.bitmask32((uint)MANTISSA_ROUNDING_BITS))), promises);
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="float4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float4"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.float4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float4"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 approx(float4 a, float4 b, Promise promises = Promise.Nothing)
+        public static mask32x4 approx(float4 a, float4 b, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.cmpapprox_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0))));
+                return Xse.cmpapprox_ps(a, b, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return approx(a, b, UnsafeFunctions.max(F32_TO_LAST_DIGIT * UnsafeFunctions.max(math.abs(a), math.abs(b)), math.asfloat(7u)), promises);
+                return approx(a, b, UnsafeFunctions.max(F32_TO_LAST_DIGIT * UnsafeFunctions.max(abs(a), abs(b)), asfloat(7u)), promises);
             }
         }
 
@@ -534,15 +533,15 @@ namespace MaxMath
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 approx(float8 a, float8 b, Promise promises = Promise.Nothing)
+        public static mask32x8 approx(float8 a, float8 b, Promise promises = Promise.Nothing)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmpapprox_ps(a, b, promises.Promises(Promise.Unsafe0)));
+                return Xse.mm256_cmpapprox_ps(a, b, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return new bool8(approx(a.v4_0, b.v4_0, promises), approx(a.v4_4, b.v4_4, promises));
+                return new mask32x8(approx(a.v4_0, b.v4_0, promises), approx(a.v4_4, b.v4_4, promises));
             }
         }
 
@@ -557,65 +556,65 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return tobool(1 & Xse.cmpapprox_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0)).SLong0);
+                return tobool(1 & Xse.cmpapprox_pd(Xse.set_sd(a), Xse.set_sd(b), promises.Promises(Promise.Unsafe0)).SLong0);
             }
             else
             {
-                return approx(a, b, UnsafeFunctions.max(F64_TO_LAST_DIGIT * UnsafeFunctions.max(math.abs(a), math.abs(b)), math.asdouble(maxmath.bitmask64((ulong)MANTISSA_ROUNDING_BITS))), promises);
+                return approx(a, b, UnsafeFunctions.max(F64_TO_LAST_DIGIT * UnsafeFunctions.max(abs(a), abs(b)), asdouble(math.bitmask64((ulong)MANTISSA_ROUNDING_BITS))), promises);
             }
         }
 
-        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="double2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double2"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.double2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double2"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 approx(double2 a, double2 b, Promise promises = Promise.Nothing)
+        public static mask64x2 approx(double2 a, double2 b, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpapprox_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), promises.Promises(Promise.Unsafe0))));
+                return Xse.cmpapprox_pd(a, b, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return approx(a, b, UnsafeFunctions.max(F64_TO_LAST_DIGIT * UnsafeFunctions.max(math.abs(a), math.abs(b)), math.asdouble(7ul)), promises);
+                return approx(a, b, UnsafeFunctions.max(F64_TO_LAST_DIGIT * UnsafeFunctions.max(abs(a), abs(b)), asdouble(7ul)), promises);
             }
         }
 
-        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="double3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double3"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.double3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double3"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 approx(double3 a, double3 b, Promise promises = Promise.Nothing)
+        public static mask64x3 approx(double3 a, double3 b, Promise promises = Promise.Nothing)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_cmpapprox_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), promises.Promises(Promise.Unsafe0))));
+                return Xse.mm256_cmpapprox_pd(a, b, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return new bool3(approx(a.xy, b.xy, promises), approx(a.z, b.z, promises));
+                return new mask64x3(approx(a.xy, b.xy, promises), approx(a.z, b.z, promises));
             }
         }
 
-        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="double4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double4"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.double4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double4"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 approx(double4 a, double4 b, Promise promises = Promise.Nothing)
+        public static mask64x4 approx(double4 a, double4 b, Promise promises = Promise.Nothing)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_cmpapprox_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), promises.Promises(Promise.Unsafe0))));
+                return Xse.mm256_cmpapprox_pd(a, b, promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return new bool4(approx(a.xy, b.xy, promises), approx(a.zw, b.zw, promises));
+                return new mask64x4(approx(a.xy, b.xy, promises), approx(a.zw, b.zw, promises));
             }
         }
     }

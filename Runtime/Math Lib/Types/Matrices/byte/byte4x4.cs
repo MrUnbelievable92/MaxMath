@@ -1,23 +1,20 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
+using System.Runtime.CompilerServices;
 using DevTools;
 
 namespace MaxMath
 {
-    [Serializable]  
-    [StructLayout(LayoutKind.Sequential, Size = 4 * 4 * sizeof(byte))]
-    unsafe public struct byte4x4 : IEquatable<byte4x4>, IFormattable
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    unsafe public partial struct byte4x4 : IEquatable<byte4x4>, IFormattable
     {
         public byte4 c0;
         public byte4 c1;
         public byte4 c2;
         public byte4 c3;
 
-
         public static byte4x4 identity => new byte4x4(1, 0, 0, 0,   0, 1, 0, 0,   0, 0, 1, 0,   0, 0, 0, 1);
-
         public static byte4x4 zero => default;
 
 
@@ -43,170 +40,851 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public byte4x4(byte v)
+        public byte4x4(bool v)
         {
-            this.c0 = v;
-            this.c1 = v;
-            this.c2 = v;
-            this.c3 = v;
+            this = (byte4x4)v;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(bool4x4 v)
+        {
+            this = (byte4x4)v;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator byte4x4(byte v) => new byte4x4(v);
+        public byte4x4(mask8x4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(mask16x4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(mask32x4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(mask64x4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(sbyte v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(sbyte4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(byte v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(byte4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(ushort v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(ushort4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(short v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(short4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(uint v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(uint4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(int v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(int4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(long v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(long4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(ulong v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(ulong4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(UInt128 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(Int128 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(quarter v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(half v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(float v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(float4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(double v)
+        {
+            this = (byte4x4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(double4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(quadruple v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(Unity.Mathematics.bool4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(Unity.Mathematics.uint4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(Unity.Mathematics.int4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(Unity.Mathematics.half v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(Unity.Mathematics.float4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte4x4(Unity.Mathematics.double4x4 v)
+        {
+            this = (byte4x4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(UInt128 x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(Int128 x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(quarter x) => (byte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(quadruple x) => (byte)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool4x4(byte4x4 v) => new bool4x4 { c0 = (bool4)v.c0, c1 = (bool4)v.c1, c2 = (bool4)v.c2, c3 = (bool4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(Unity.Mathematics.bool4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool4x4(byte4x4 v) => new Unity.Mathematics.bool4x4 { c0 = (bool4)v.c0, c1 = (bool4)v.c1, c2 = (bool4)v.c2, c3 = (bool4)v.c3 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(Unity.Mathematics.int4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.int4x4(byte4x4 v) => new int4x4 { c0 = (int4)v.c0, c1 = (int4)v.c1, c2 = (int4)v.c2, c3 = (int4)v.c3 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(Unity.Mathematics.uint4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.uint4x4(byte4x4 v) => new uint4x4 { c0 = (uint4)v.c0, c1 = (uint4)v.c1, c2 = (uint4)v.c2, c3 = (uint4)v.c3 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(Unity.Mathematics.half v) => (byte4x4)(half)v;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(Unity.Mathematics.float4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float4x4(byte4x4 v) => new float4x4 { c0 = (float4)v.c0, c1 = (float4)v.c1, c2 = (float4)v.c2, c3 = (float4)v.c3 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(Unity.Mathematics.double4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double4x4(byte4x4 v) => new double4x4 { c0 = (double4)v.c0, c1 = (double4)v.c1, c2 = (double4)v.c2, c3 = (double4)v.c3 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(sbyte4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static implicit operator byte4x4(byte v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(bool v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(bool4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(short v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(short4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(int v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(int4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(long v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(long4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(sbyte v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(sbyte4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(ushort v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(ushort4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(uint v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(uint4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(ulong v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(ulong4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(half v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(float v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(float4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(double v) => new byte4x4 { c0 = (byte4)v, c1 = (byte4)v, c2 = (byte4)v, c3 = (byte4)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator byte4x4(double4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(short4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static explicit operator byte4x4(mask8x4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(ushort4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static explicit operator byte4x4(mask16x4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(int4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static explicit operator byte4x4(mask32x4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(uint4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static explicit operator byte4x4(mask64x4x4 v) => new byte4x4 { c0 = (byte4)v.c0, c1 = (byte4)v.c1, c2 = (byte4)v.c2, c3 = (byte4)v.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(long4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static explicit operator mask8x4x4(byte4x4 v) => new mask8x4x4 { c0 = (mask8x4)v.c0, c1 = (mask8x4)v.c1, c2 = (mask8x4)v.c2, c3 = (mask8x4)v.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(ulong4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static explicit operator mask16x4x4(byte4x4 v) => new mask16x4x4 { c0 = (mask16x4)v.c0, c1 = (mask16x4)v.c1, c2 = (mask16x4)v.c2, c3 = (mask16x4)v.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(float4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static explicit operator mask32x4x4(byte4x4 v) => new mask32x4x4 { c0 = (mask32x4)v.c0, c1 = (mask32x4)v.c1, c2 = (mask32x4)v.c2, c3 = (mask32x4)v.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator byte4x4(double4x4 input) => new byte4x4((byte4)input.c0, (byte4)input.c1, (byte4)input.c2, (byte4)input.c3);
+        public static explicit operator mask64x4x4(byte4x4 v) => new mask64x4x4 { c0 = (mask64x4)v.c0, c1 = (mask64x4)v.c1, c2 = (mask64x4)v.c2, c3 = (mask64x4)v.c3 };
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator ++ (byte4x4 val) => new byte4x4 { c0 = val.c0 + 1, c1 = val.c1 + 1, c2 = val.c2 + 1, c3 = val.c3 + 1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator -- (byte4x4 val) => new byte4x4 { c0 = val.c0 - 1, c1 = val.c1 - 1, c2 = val.c2 - 1, c3 = val.c3 - 1 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator short4x4(byte4x4 input) => new short4x4((short4)input.c0, (short4)input.c1, (short4)input.c2, (short4)input.c3);
+        public static byte4x4 operator + (byte4x4 lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1, c2 = lhs.c2 + rhs.c2, c3 = lhs.c3 + rhs.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ushort4x4(byte4x4 input) => new ushort4x4((ushort4)input.c0, (ushort4)input.c1, (ushort4)input.c2, (ushort4)input.c3);
+        public static byte4x4 operator + (byte4x4 lhs, byte rhs) => new byte4x4 { c0 = lhs.c0 + rhs, c1 = lhs.c1 + rhs, c2 = lhs.c2 + rhs, c3 = lhs.c3 + rhs };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator int4x4(byte4x4 input) => new int4x4((int4)input.c0, (int4)input.c1, (int4)input.c2, (int4)input.c3);
+        public static byte4x4 operator + (byte lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs + rhs.c0, c1 = lhs + rhs.c1, c2 = lhs + rhs.c2, c3 = lhs + rhs.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator uint4x4(byte4x4 input) => new uint4x4((uint4)input.c0, (uint4)input.c1, (uint4)input.c2, (uint4)input.c3);
+        public static byte4x4 operator - (byte4x4 lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1, c2 = lhs.c2 - rhs.c2, c3 = lhs.c3 - rhs.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator long4x4(byte4x4 input) => new long4x4((long4)input.c0, (long4)input.c1, (long4)input.c2, (long4)input.c3);
+        public static byte4x4 operator - (byte4x4 lhs, byte rhs) => new byte4x4 { c0 = lhs.c0 - rhs, c1 = lhs.c1 - rhs, c2 = lhs.c2 - rhs, c3 = lhs.c3 - rhs };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ulong4x4(byte4x4 input) => new ulong4x4((ulong4)input.c0, (ulong4)input.c1, (ulong4)input.c2, (ulong4)input.c3);
+        public static byte4x4 operator - (byte lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs - rhs.c0, c1 = lhs - rhs.c1, c2 = lhs - rhs.c2, c3 = lhs - rhs.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float4x4(byte4x4 input) => new float4x4((float4)input.c0, (float4)input.c1, (float4)input.c2, (float4)input.c3);
+        public static byte4x4 operator * (byte4x4 lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1, c2 = lhs.c2 * rhs.c2, c3 = lhs.c3 * rhs.c3 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator double4x4(byte4x4 input) => new double4x4((double4)input.c0, (double4)input.c1, (double4)input.c2, (double4)input.c3);
+        public static byte4x4 operator * (byte4x4 lhs, byte rhs) => new byte4x4 { c0 = lhs.c0 * rhs, c1 = lhs.c1 * rhs, c2 = lhs.c2 * rhs, c3 = lhs.c3 * rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator * (byte lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs * rhs.c0, c1 = lhs * rhs.c1, c2 = lhs * rhs.c2, c3 = lhs * rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator / (byte4x4 lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1, c2 = lhs.c2 / rhs.c2, c3 = lhs.c3 / rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator / (byte4x4 lhs, byte rhs) => new byte4x4 { c0 = lhs.c0 / rhs, c1 = lhs.c1 / rhs, c2 = lhs.c2 / rhs, c3 = lhs.c3 / rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator / (byte lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs / rhs.c0, c1 = lhs / rhs.c1, c2 = lhs / rhs.c2, c3 = lhs / rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator % (byte4x4 lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1, c2 = lhs.c2 % rhs.c2, c3 = lhs.c3 % rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator % (byte4x4 lhs, byte rhs) => new byte4x4 { c0 = lhs.c0 % rhs, c1 = lhs.c1 % rhs, c2 = lhs.c2 % rhs, c3 = lhs.c3 % rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator % (byte lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs % rhs.c0, c1 = lhs % rhs.c1, c2 = lhs % rhs.c2, c3 = lhs % rhs.c3 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator + (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs + (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator - (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs - (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator * (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs * (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator / (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs / (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator % (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs % (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator + (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator - (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator * (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator / (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator % (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator + (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs + (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator - (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs - (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator * (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs * (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator / (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs / (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator % (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs % (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator + (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator - (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator * (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator / (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator % (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator + (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs + (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator - (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs - (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator * (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs * (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator / (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs / (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator % (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs % (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator + (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator - (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator * (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator / (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4x4 operator % (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator + (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs + (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator - (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs - (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator * (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs * (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator / (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs / (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator % (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs % (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator + (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator - (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator * (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator / (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4x4 operator % (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs % rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator ~ (byte4x4 val) => new byte4x4 { c0 = ~val.c0, c1 = ~val.c1, c2 = ~val.c2, c3 = ~val.c3 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator << (byte4x4 val, int n) => new byte4x4 { c0 = val.c0 << n, c1 = val.c1 << n, c2 = val.c2 << n, c3 = val.c3 << n };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator >> (byte4x4 val, int n) => new byte4x4 { c0 = val.c0 >> n, c1 = val.c1 >> n, c2 = val.c2 >> n, c3 = val.c3 >> n };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator & (byte4x4 lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs.c0 & rhs.c0, c1 = lhs.c1 & rhs.c1, c2 = lhs.c2 & rhs.c2, c3 = lhs.c3 & rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator & (byte4x4 lhs, byte rhs) => new byte4x4 { c0 = lhs.c0 & rhs, c1 = lhs.c1 & rhs, c2 = lhs.c2 & rhs, c3 = lhs.c3 & rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator & (byte lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs & rhs.c0, c1 = lhs & rhs.c1, c2 = lhs & rhs.c2, c3 = lhs & rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator | (byte4x4 lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs.c0 | rhs.c0, c1 = lhs.c1 | rhs.c1, c2 = lhs.c2 | rhs.c2, c3 = lhs.c3 | rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator | (byte4x4 lhs, byte rhs) => new byte4x4 { c0 = lhs.c0 | rhs, c1 = lhs.c1 | rhs, c2 = lhs.c2 | rhs, c3 = lhs.c3 | rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator | (byte lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs | rhs.c0, c1 = lhs | rhs.c1, c2 = lhs | rhs.c2, c3 = lhs | rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator ^ (byte4x4 lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs.c0 ^ rhs.c0, c1 = lhs.c1 ^ rhs.c1, c2 = lhs.c2 ^ rhs.c2, c3 = lhs.c3 ^ rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator ^ (byte4x4 lhs, byte rhs) => new byte4x4 { c0 = lhs.c0 ^ rhs, c1 = lhs.c1 ^ rhs, c2 = lhs.c2 ^ rhs, c3 = lhs.c3 ^ rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte4x4 operator ^ (byte lhs, byte4x4 rhs) => new byte4x4 { c0 = lhs ^ rhs.c0, c1 = lhs ^ rhs.c1, c2 = lhs ^ rhs.c2, c3 = lhs ^ rhs.c3 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator & (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs & (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator | (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs | (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator ^ (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs ^ (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator & (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator | (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs | rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4x4 operator ^ (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator & (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs & (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator | (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs | (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator ^ (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs ^ (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator & (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator | (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs | rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4x4 operator ^ (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator == (byte4x4 lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs.c0 == rhs.c0, c1 = lhs.c1 == rhs.c1, c2 = lhs.c2 == rhs.c2, c3 = lhs.c3 == rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator == (byte4x4 lhs, byte rhs) => new mask8x4x4 { c0 = lhs.c0 == rhs, c1 = lhs.c1 == rhs, c2 = lhs.c2 == rhs, c3 = lhs.c3 == rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator == (byte lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs == rhs.c0, c1 = lhs == rhs.c1, c2 = lhs == rhs.c2, c3 = lhs == rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator != (byte4x4 lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs.c0 != rhs.c0, c1 = lhs.c1 != rhs.c1, c2 = lhs.c2 != rhs.c2, c3 = lhs.c3 != rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator != (byte4x4 lhs, byte rhs) => new mask8x4x4 { c0 = lhs.c0 != rhs, c1 = lhs.c1 != rhs, c2 = lhs.c2 != rhs, c3 = lhs.c3 != rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator != (byte lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs != rhs.c0, c1 = lhs != rhs.c1, c2 = lhs != rhs.c2, c3 = lhs != rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator < (byte4x4 lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs.c0 < rhs.c0, c1 = lhs.c1 < rhs.c1, c2 = lhs.c2 < rhs.c2, c3 = lhs.c3 < rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator < (byte4x4 lhs, byte rhs) => new mask8x4x4 { c0 = lhs.c0 < rhs, c1 = lhs.c1 < rhs, c2 = lhs.c2 < rhs, c3 = lhs.c3 < rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator < (byte lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs < rhs.c0, c1 = lhs < rhs.c1, c2 = lhs < rhs.c2, c3 = lhs < rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator > (byte4x4 lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs.c0 > rhs.c0, c1 = lhs.c1 > rhs.c1, c2 = lhs.c2 > rhs.c2, c3 = lhs.c3 > rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator > (byte4x4 lhs, byte rhs) => new mask8x4x4 { c0 = lhs.c0 > rhs, c1 = lhs.c1 > rhs, c2 = lhs.c2 > rhs, c3 = lhs.c3 > rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator > (byte lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs > rhs.c0, c1 = lhs > rhs.c1, c2 = lhs > rhs.c2, c3 = lhs > rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator <= (byte4x4 lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs.c0 <= rhs.c0, c1 = lhs.c1 <= rhs.c1, c2 = lhs.c2 <= rhs.c2, c3 = lhs.c3 <= rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator <= (byte4x4 lhs, byte rhs) => new mask8x4x4 { c0 = lhs.c0 <= rhs, c1 = lhs.c1 <= rhs, c2 = lhs.c2 <= rhs, c3 = lhs.c3 <= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator <= (byte lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs <= rhs.c0, c1 = lhs <= rhs.c1, c2 = lhs <= rhs.c2, c3 = lhs <= rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator >= (byte4x4 lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs.c0 >= rhs.c0, c1 = lhs.c1 >= rhs.c1, c2 = lhs.c2 >= rhs.c2, c3 = lhs.c3 >= rhs.c3 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator >= (byte4x4 lhs, byte rhs) => new mask8x4x4 { c0 = lhs.c0 >= rhs, c1 = lhs.c1 >= rhs, c2 = lhs.c2 >= rhs, c3 = lhs.c3 >= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4x4 operator >= (byte lhs, byte4x4 rhs) => new mask8x4x4 { c0 = lhs >= rhs.c0, c1 = lhs >= rhs.c1, c2 = lhs >= rhs.c2, c3 = lhs >= rhs.c3 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator == (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs == (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator != (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs != (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator < (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs < (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator > (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs > (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator <= (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs <= (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator >= (byte4x4 lhs, Unity.Mathematics.int4x4 rhs) => lhs >= (int4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator == (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator != (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator < (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator > (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator <= (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator >= (Unity.Mathematics.int4x4 lhs, byte4x4 rhs) => (int4x4)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator == (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs == (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator != (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs != (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator < (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs < (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator > (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs > (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator <= (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs <= (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator >= (byte4x4 lhs, Unity.Mathematics.uint4x4 rhs) => lhs >= (uint4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator == (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator != (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator < (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator > (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator <= (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator >= (Unity.Mathematics.uint4x4 lhs, byte4x4 rhs) => (uint4x4)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator == (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs == (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator != (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs != (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator < (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs < (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator > (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs > (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator <= (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs <= (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator >= (byte4x4 lhs, Unity.Mathematics.float4x4 rhs) => lhs >= (float4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator == (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator != (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator < (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator > (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator <= (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4x4 operator >= (Unity.Mathematics.float4x4 lhs, byte4x4 rhs) => (float4x4)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator == (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs == (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator != (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs != (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator < (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs < (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator > (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs > (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator <= (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs <= (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator >= (byte4x4 lhs, Unity.Mathematics.double4x4 rhs) => lhs >= (double4x4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator == (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator != (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator < (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator > (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator <= (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4x4 operator >= (Unity.Mathematics.double4x4 lhs, byte4x4 rhs) => (double4x4)lhs >= rhs;
 
 
         public ref byte4 this[int index]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
 Assert.IsWithinArrayBounds(index, 4);
 
-                fixed (void* ptr = &this)
-                {
-                    return ref ((byte4*)ptr)[index];
-                }
+                fixed (byte4x4* array = &this) { return ref ((byte4*)array)[index]; }
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator + (byte4x4 left, byte4x4 right) => new byte4x4 (left.c0 + right.c0, left.c1 + right.c1, left.c2 + right.c2, left.c3 + right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator - (byte4x4 left, byte4x4 right) => new byte4x4 (left.c0 - right.c0, left.c1 - right.c1, left.c2 - right.c2, left.c3 - right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator * (byte4x4 left, byte4x4 right) => new byte4x4(left.c0 * right.c0, left.c1 * right.c1, left.c2 * right.c2, left.c3 * right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator / (byte4x4 left, byte4x4 right) => new byte4x4(left.c0 / right.c0, left.c1 / right.c1, left.c2 / right.c2, left.c3 / right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator % (byte4x4 left, byte4x4 right) => new byte4x4(left.c0 % right.c0, left.c1 % right.c1, left.c2 % right.c2, left.c3 % right.c3);
+        public readonly bool Equals(byte4x4 other) => math.all(this.c0 == other.c0 & this.c1 == other.c1 & this.c2 == other.c2 & this.c3 == other.c3);
+        
+        public override readonly bool Equals(object o) => o is byte4x4 converted && Equals(converted); 
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator * (byte4x4 left, byte right) => right * left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator * (byte left, byte4x4 right) => new byte4x4 (left * right.c0, left * right.c1, left * right.c2, left * right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator / (byte4x4 left, byte right) => new byte4x4(left.c0 / right, left.c1 / right, left.c2 / right, left.c3 / right);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator % (byte4x4 left, byte right) => new byte4x4(left.c0 % right, left.c1 % right, left.c2 % right, left.c3 % right);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator & (byte4x4 left, byte4x4 right) => new byte4x4 (left.c0 & right.c0, left.c1 & right.c1, left.c2 & right.c2, left.c3 & right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator | (byte4x4 left, byte4x4 right) => new byte4x4 (left.c0 | right.c0, left.c1 | right.c1, left.c2 | right.c2, left.c3 | right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator ^ (byte4x4 left, byte4x4 right) => new byte4x4 (left.c0 ^ right.c0, left.c1 ^ right.c1, left.c2 ^ right.c2, left.c3 ^ right.c3);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator ++ (byte4x4 val) => new byte4x4 (++val.c0, ++val.c1, ++val.c2, ++val.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator -- (byte4x4 val) => new byte4x4 (--val.c0, --val.c1, --val.c2, --val.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator ~ (byte4x4 val) => new byte4x4 (~val.c0, ~val.c1, ~val.c2, ~val.c3);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator << (byte4x4 x, int n) => new byte4x4 (x.c0 << n, x.c1 << n, x.c2 << n, x.c3 << n);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static byte4x4 operator >> (byte4x4 x, int n) => new byte4x4 (x.c0 >> n, x.c1 >> n, x.c2 >> n, x.c3 >> n);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4x4 operator == (byte4x4 left, byte4x4 right) => new bool4x4 (left.c0 == right.c0, left.c1 == right.c1, left.c2 == right.c2, left.c3 == right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4x4 operator < (byte4x4 left, byte4x4 right) => new bool4x4 (left.c0 < right.c0, left.c1 < right.c1, left.c2 < right.c2, left.c3 < right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4x4 operator > (byte4x4 left, byte4x4 right) => new bool4x4 (left.c0 > right.c0, left.c1 > right.c1, left.c2 > right.c2, left.c3 > right.c3);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4x4 operator != (byte4x4 left, byte4x4 right) => new bool4x4 (left.c0 != right.c0, left.c1 != right.c1, left.c2 != right.c2, left.c3 != right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4x4 operator <= (byte4x4 left, byte4x4 right) => new bool4x4 (left.c0 <= right.c0, left.c1 <= right.c1, left.c2 <= right.c2, left.c3 <= right.c3);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4x4 operator >= (byte4x4 left, byte4x4 right) => new bool4x4 (left.c0 >= right.c0, left.c1 >= right.c1, left.c2 >= right.c2, left.c3 >= right.c3);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(byte4x4 other) => (this.c0.Equals(other.c0) & this.c1.Equals(other.c1)) & (this.c2.Equals(other.c2) & this.c3.Equals(other.c3));
-        public override readonly bool Equals(object obj) => obj is byte4x4 converted && this.Equals(converted);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => (c0.GetHashCode() ^ c1.GetHashCode()) ^ (c2.GetHashCode() ^ c3.GetHashCode());
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
 
         public override readonly string ToString() => $"byte4x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y},  {c0.z}, {c1.z}, {c2.z}, {c3.z},  {c0.w}, {c1.w}, {c2.w}, {c3.w})";

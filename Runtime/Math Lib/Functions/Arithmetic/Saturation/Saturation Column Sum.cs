@@ -1,13 +1,12 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the saturated horizontal sum of components of a <see cref="MaxMath.byte2"/>, so that the sum is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -19,7 +18,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, csum(x));
+                return (byte)min(byte.MaxValue, csum(x));
             }
         }
 
@@ -36,7 +35,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, csum(x));
+                return (byte)min(byte.MaxValue, csum(x));
             }
         }
 
@@ -52,7 +51,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, csum(x));
+                return (byte)min(byte.MaxValue, csum(x));
             }
         }
 
@@ -69,7 +68,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, csum(x));
+                return (byte)min(byte.MaxValue, csum(x));
             }
         }
 
@@ -87,7 +86,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, csum(x));
+                return (byte)min(byte.MaxValue, csum(x));
             }
         }
 
@@ -107,7 +106,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, csum(x));
+                return (byte)min(byte.MaxValue, csum(x));
             }
         }
 
@@ -122,7 +121,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -143,7 +142,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -162,7 +161,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -182,7 +181,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -204,7 +203,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -225,7 +224,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(csum(x), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -240,7 +239,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp(csum(x), short.MinValue, short.MaxValue);
+                return (short)clamp(csum(x), short.MinValue, short.MaxValue);
             }
         }
 
@@ -261,7 +260,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp(csum(x), short.MinValue, short.MaxValue);
+                return (short)clamp(csum(x), short.MinValue, short.MaxValue);
             }
         }
 
@@ -280,7 +279,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp(csum(x), short.MinValue, short.MaxValue);
+                return (short)clamp(csum(x), short.MinValue, short.MaxValue);
             }
         }
 
@@ -301,7 +300,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp(csum(x), short.MinValue, short.MaxValue);
+                return (short)clamp(csum(x), short.MinValue, short.MaxValue);
             }
         }
 
@@ -314,7 +313,7 @@ namespace MaxMath
                 int8 cast_lohi = (int8)x.v8_0 + (int8)x.v8_8;
 
                 int4 __1 = cast_lohi.v4_0 + cast_lohi.v4_4;
-                v128 _1 = RegisterConversion.ToV128(__1);
+                v128 _1 = __1;
                 v128 _2 = Xse.add_epi32(_1, Xse.shuffle_epi32(_1, Sse.SHUFFLE(0, 0, 3, 2)));
                 v128 _3 = Xse.add_epi32(_2, Xse.shuffle_epi32(_2, Sse.SHUFFLE(0, 0, 0, 1)));
 
@@ -322,7 +321,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp(csum(x), short.MinValue, short.MaxValue);
+                return (short)clamp(csum(x), short.MinValue, short.MaxValue);
             }
         }
 
@@ -337,7 +336,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min(csum(x), ushort.MaxValue);
+                return (ushort)min(csum(x), ushort.MaxValue);
             }
         }
 
@@ -354,7 +353,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min(csum(x), ushort.MaxValue);
+                return (ushort)min(csum(x), ushort.MaxValue);
             }
         }
 
@@ -370,7 +369,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min(csum(x), ushort.MaxValue);
+                return (ushort)min(csum(x), ushort.MaxValue);
             }
         }
 
@@ -387,7 +386,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min(csum(x), ushort.MaxValue);
+                return (ushort)min(csum(x), ushort.MaxValue);
             }
         }
 
@@ -405,66 +404,66 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min(csum(x), ushort.MaxValue);
+                return (ushort)min(csum(x), ushort.MaxValue);
             }
         }
 
 
-        /// <summary>       Returns the saturated horizontal sum of components of an <see cref="int2"/>, so that the sum is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal sum of components of an <see cref="MaxMath.int2"/>, so that the sum is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csumsaturated(int2 x)
         {
-            return (int)math.clamp((long)x.x + (long)x.y, int.MinValue, int.MaxValue);
+            return (int)clamp((long)x.x + (long)x.y, int.MinValue, int.MaxValue);
         }
 
-        /// <summary>       Returns the saturated horizontal sum of components of an <see cref="int3"/>, so that the sum is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal sum of components of an <see cref="MaxMath.int3"/>, so that the sum is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csumsaturated(int3 x)
         {
-            return (int)math.clamp(csum((long3)x), int.MinValue, int.MaxValue);
+            return (int)clamp(csum((long3)x), int.MinValue, int.MaxValue);
         }
 
-        /// <summary>       Returns the saturated horizontal sum of components of an <see cref="int4"/>, so that the sum is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal sum of components of an <see cref="MaxMath.int4"/>, so that the sum is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csumsaturated(int4 x)
         {
-            return (int)math.clamp(csum((long4)x), int.MinValue, int.MaxValue);
+            return (int)clamp(csum((long4)x), int.MinValue, int.MaxValue);
         }
 
         /// <summary>       Returns the saturated horizontal sum of components of an <see cref="MaxMath.int8"/>, so that the sum is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csumsaturated(int8 x)
         {
-            return (int)math.clamp(csum((long4)x.v4_0 + (long4)x.v4_4), int.MinValue, int.MaxValue);
+            return (int)clamp(csum((long4)x.v4_0 + (long4)x.v4_4), int.MinValue, int.MaxValue);
         }
 
 
-        /// <summary>       Returns the saturated horizontal sum of components of a <see cref="uint2"/>, so that the sum is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal sum of components of a <see cref="MaxMath.uint2"/>, so that the sum is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csumsaturated(uint2 x)
         {
-            return (uint)math.min((ulong)x.x + (ulong)x.y, uint.MaxValue);
+            return (uint)min((ulong)x.x + (ulong)x.y, uint.MaxValue);
         }
 
-        /// <summary>       Returns the saturated horizontal sum of components of a <see cref="uint3"/>, so that the sum is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal sum of components of a <see cref="MaxMath.uint3"/>, so that the sum is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csumsaturated(uint3 x)
         {
-            return (uint)math.min(csum((ulong3)x), uint.MaxValue);
+            return (uint)min(csum((ulong3)x), uint.MaxValue);
         }
 
-        /// <summary>       Returns the saturated horizontal sum of components of a <see cref="uint4"/>, so that the sum is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal sum of components of a <see cref="MaxMath.uint4"/>, so that the sum is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csumsaturated(uint4 x)
         {
-            return (uint)math.min(csum((ulong4)x), uint.MaxValue);
+            return (uint)min(csum((ulong4)x), uint.MaxValue);
         }
 
         /// <summary>       Returns the saturated horizontal sum of components of a <see cref="MaxMath.uint8"/>, so that the sum is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csumsaturated(uint8 x)
         {
-            return (uint)math.min(csum((ulong4)x.v4_0 + (ulong4)x.v4_4), uint.MaxValue);
+            return (uint)min(csum((ulong4)x.v4_0 + (ulong4)x.v4_4), uint.MaxValue);
         }
 
 
@@ -517,27 +516,27 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="float2"/>, so that the sum is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="MaxMath.float2"/>, so that the sum is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float csumsaturated(float2 x)
         {
             return addsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="float3"/>, so that the sum is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="MaxMath.float3"/>, so that the sum is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float csumsaturated(float3 x)
         {
             return addsaturated(addsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="float4"/>, so that the sum is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="MaxMath.float4"/>, so that the sum is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float csumsaturated(float4 x)
         {
             double2 _0 = (double2)x.xy + (double2)x.zw;
 
-            return (float)math.clamp(_0.x * _0.y, float.MinValue, float.MaxValue);
+            return (float)clamp(_0.x * _0.y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="MaxMath.float8"/>, so that the sum is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
@@ -547,25 +546,25 @@ namespace MaxMath
             double4 _0 = (double4)x.v4_0 + (double4)x.v4_4;
             double2 _1 = _0.xy + _0.zw;
 
-            return (float)math.clamp(_1.x * _1.y, float.MinValue, float.MaxValue);
+            return (float)clamp(_1.x * _1.y, float.MinValue, float.MaxValue);
         }
 
 
-        //// <summary>       Returns the saturated horizontal sum of components ofa<see cref="double2"/>, so that the sum is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        //// <summary>       Returns the saturated horizontal sum of components ofa<see cref="MaxMath.double2"/>, so that the sum is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double csumsaturated(double2 x)
         {
             return addsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="double3"/>, so that the sum is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="MaxMath.double3"/>, so that the sum is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double csumsaturated(double3 x)
         {
             return addsaturated(addsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="double4"/>, so that the sum is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal sum of components ofa<see cref="MaxMath.double4"/>, so that the sum is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double csumsaturated(double4 x)
         {

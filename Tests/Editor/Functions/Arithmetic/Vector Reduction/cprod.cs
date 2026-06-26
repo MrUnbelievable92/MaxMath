@@ -1,4 +1,4 @@
-using Unity.Mathematics;
+
 using NUnit.Framework;
 
 namespace MaxMath.Tests
@@ -20,7 +20,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -39,7 +39,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -58,7 +58,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -77,7 +77,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -96,7 +96,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -135,7 +135,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -154,7 +154,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -173,7 +173,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -192,7 +192,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -230,7 +230,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -250,7 +250,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -269,7 +269,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -288,7 +288,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -307,7 +307,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -326,7 +326,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -346,7 +346,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -365,7 +365,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -384,7 +384,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -403,7 +403,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -422,7 +422,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -442,7 +442,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -461,7 +461,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -480,7 +480,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -499,7 +499,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -519,7 +519,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -538,7 +538,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -557,7 +557,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -576,7 +576,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -596,7 +596,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -615,7 +615,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -634,7 +634,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -654,7 +654,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -673,7 +673,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
 
@@ -692,7 +692,7 @@ namespace MaxMath.Tests
                     cmp *= test[j];
                 }
 
-                Assert.AreEqual(cmp, maxmath.cprod(test));
+                Assert.AreEqual(cmp, math.cprod(test));
             }
         }
     }

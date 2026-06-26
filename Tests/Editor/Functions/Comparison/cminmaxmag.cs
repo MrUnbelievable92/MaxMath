@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,10 +14,10 @@ namespace MaxMath.Tests
             {
                 sbyte2 l = rng.NextSByte2();
 
-                maxmath.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
+                math.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -30,10 +30,10 @@ namespace MaxMath.Tests
             {
                 sbyte3 l = rng.NextSByte3();
 
-                maxmath.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
+                math.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -46,10 +46,10 @@ namespace MaxMath.Tests
             {
                 sbyte4 l = rng.NextSByte4();
 
-                maxmath.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
+                math.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -62,10 +62,10 @@ namespace MaxMath.Tests
             {
                 sbyte8 l = rng.NextSByte8();
 
-                maxmath.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
+                math.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -78,10 +78,10 @@ namespace MaxMath.Tests
             {
                 sbyte16 l = rng.NextSByte16();
 
-                maxmath.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
+                math.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -94,10 +94,10 @@ namespace MaxMath.Tests
             {
                 sbyte32 l = rng.NextSByte32();
 
-                maxmath.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
+                math.cminmaxmag(l, out sbyte testmin, out sbyte testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -111,10 +111,10 @@ namespace MaxMath.Tests
             {
                 short2 l = rng.NextShort2();
 
-                maxmath.cminmaxmag(l, out short testmin, out short testmax);
+                math.cminmaxmag(l, out short testmin, out short testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -127,10 +127,10 @@ namespace MaxMath.Tests
             {
                 short3 l = rng.NextShort3();
 
-                maxmath.cminmaxmag(l, out short testmin, out short testmax);
+                math.cminmaxmag(l, out short testmin, out short testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -143,10 +143,10 @@ namespace MaxMath.Tests
             {
                 short4 l = rng.NextShort4();
 
-                maxmath.cminmaxmag(l, out short testmin, out short testmax);
+                math.cminmaxmag(l, out short testmin, out short testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -159,10 +159,10 @@ namespace MaxMath.Tests
             {
                 short8 l = rng.NextShort8();
 
-                maxmath.cminmaxmag(l, out short testmin, out short testmax);
+                math.cminmaxmag(l, out short testmin, out short testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -175,10 +175,10 @@ namespace MaxMath.Tests
             {
                 short16 l = rng.NextShort16();
 
-                maxmath.cminmaxmag(l, out short testmin, out short testmax);
+                math.cminmaxmag(l, out short testmin, out short testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -192,10 +192,10 @@ namespace MaxMath.Tests
             {
                 int2 l = rng.NextInt2();
 
-                maxmath.cminmaxmag(l, out int testmin, out int testmax);
+                math.cminmaxmag(l, out int testmin, out int testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -208,10 +208,10 @@ namespace MaxMath.Tests
             {
                 int3 l = rng.NextInt3();
 
-                maxmath.cminmaxmag(l, out int testmin, out int testmax);
+                math.cminmaxmag(l, out int testmin, out int testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -224,10 +224,10 @@ namespace MaxMath.Tests
             {
                 int4 l = rng.NextInt4();
 
-                maxmath.cminmaxmag(l, out int testmin, out int testmax);
+                math.cminmaxmag(l, out int testmin, out int testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -240,10 +240,10 @@ namespace MaxMath.Tests
             {
                 int8 l = rng.NextInt8();
 
-                maxmath.cminmaxmag(l, out int testmin, out int testmax);
+                math.cminmaxmag(l, out int testmin, out int testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -257,10 +257,10 @@ namespace MaxMath.Tests
             {
                 long2 l = rng.NextLong2();
 
-                maxmath.cminmaxmag(l, out long testmin, out long testmax);
+                math.cminmaxmag(l, out long testmin, out long testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -273,10 +273,10 @@ namespace MaxMath.Tests
             {
                 long3 l = rng.NextLong3();
 
-                maxmath.cminmaxmag(l, out long testmin, out long testmax);
+                math.cminmaxmag(l, out long testmin, out long testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -289,10 +289,10 @@ namespace MaxMath.Tests
             {
                 long4 l = rng.NextLong4();
 
-                maxmath.cminmaxmag(l, out long testmin, out long testmax);
+                math.cminmaxmag(l, out long testmin, out long testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -306,10 +306,10 @@ namespace MaxMath.Tests
             {
                 float2 l = rng.NextFloat2();
 
-                maxmath.cminmaxmag(l, out float testmin, out float testmax);
+                math.cminmaxmag(l, out float testmin, out float testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -322,10 +322,10 @@ namespace MaxMath.Tests
             {
                 float3 l = rng.NextFloat3();
 
-                maxmath.cminmaxmag(l, out float testmin, out float testmax);
+                math.cminmaxmag(l, out float testmin, out float testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -338,10 +338,10 @@ namespace MaxMath.Tests
             {
                 float4 l = rng.NextFloat4();
 
-                maxmath.cminmaxmag(l, out float testmin, out float testmax);
+                math.cminmaxmag(l, out float testmin, out float testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -354,10 +354,10 @@ namespace MaxMath.Tests
             {
                 float8 l = rng.NextFloat8();
 
-                maxmath.cminmaxmag(l, out float testmin, out float testmax);
+                math.cminmaxmag(l, out float testmin, out float testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -371,10 +371,10 @@ namespace MaxMath.Tests
             {
                 double2 l = rng.NextDouble2();
 
-                maxmath.cminmaxmag(l, out double testmin, out double testmax);
+                math.cminmaxmag(l, out double testmin, out double testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -387,10 +387,10 @@ namespace MaxMath.Tests
             {
                 double3 l = rng.NextDouble3();
 
-                maxmath.cminmaxmag(l, out double testmin, out double testmax);
+                math.cminmaxmag(l, out double testmin, out double testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
 
@@ -403,10 +403,10 @@ namespace MaxMath.Tests
             {
                 double4 l = rng.NextDouble4();
 
-                maxmath.cminmaxmag(l, out double testmin, out double testmax);
+                math.cminmaxmag(l, out double testmin, out double testmax);
 
-                Assert.AreEqual(testmin, maxmath.cminmag(l));
-                Assert.AreEqual(testmax, maxmath.cmaxmag(l));
+                Assert.AreEqual(testmin, math.cminmag(l));
+                Assert.AreEqual(testmax, math.cmaxmag(l));
             }
         }
     }

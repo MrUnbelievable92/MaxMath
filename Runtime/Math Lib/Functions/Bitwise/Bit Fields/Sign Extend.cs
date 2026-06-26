@@ -1,11 +1,10 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using DevTools;
 using MaxMath.Intrinsics;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns a sign-extended <see cref="Int128"/> from a signed integer with <paramref name="numBits"/> bits.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -187,7 +186,7 @@ Assert.IsBetween(numBits, 1, 32);
             return (x << (32 - numBits)) >> (32 - numBits);
         }
 
-        /// <summary>       Returns a sign-extended <see cref="int2"/> from a vector of signed integers with <paramref name="numBits"/> bits.     </summary>
+        /// <summary>       Returns a sign-extended <see cref="MaxMath.int2"/> from a vector of signed integers with <paramref name="numBits"/> bits.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 signextend(int2 x, int numBits)
         {
@@ -196,7 +195,7 @@ Assert.IsBetween(numBits, 1, 32);
             return (x << (32 - numBits)) >> (32 - numBits);
         }
 
-        /// <summary>       Returns a sign-extended <see cref="int3"/> from a vector of signed integers with <paramref name="numBits"/> bits.     </summary>
+        /// <summary>       Returns a sign-extended <see cref="MaxMath.int3"/> from a vector of signed integers with <paramref name="numBits"/> bits.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 signextend(int3 x, int numBits)
         {
@@ -205,7 +204,7 @@ Assert.IsBetween(numBits, 1, 32);
             return (x << (32 - numBits)) >> (32 - numBits);
         }
 
-        /// <summary>       Returns a sign-extended <see cref="int4"/> from a vector of signed integers with <paramref name="numBits"/> bits.     </summary>
+        /// <summary>       Returns a sign-extended <see cref="MaxMath.int4"/> from a vector of signed integers with <paramref name="numBits"/> bits.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 signextend(int4 x, int numBits)
         {

@@ -339,7 +339,7 @@ namespace MaxMath.Intrinsics
                 }
                 if (constexpr.ALL_LE_EPU64(a, long.MaxValue, elements) && constexpr.ALL_LE_EPU64(b, long.MaxValue, elements))
                 {
-                    return mm256_cmpgt_epi64(a, b, elements);
+                    return Avx2.mm256_cmpgt_epi64(a, b);
                 }
                 if (constexpr.ALL_POW2_EPU64(a, elements))
                 {
@@ -349,9 +349,8 @@ namespace MaxMath.Intrinsics
 
                 v256 mask = mm256_set1_epi64x(1ul << 63);
 
-                return mm256_cmpgt_epi64(Avx2.mm256_xor_si256(a, mask),
-                                         Avx2.mm256_xor_si256(b, mask),
-                                         elements);
+                return Avx2.mm256_cmpgt_epi64(Avx2.mm256_xor_si256(a, mask),
+                                              Avx2.mm256_xor_si256(b, mask));
             }
             else throw new IllegalInstructionException();
         }

@@ -2,7 +2,6 @@
 
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -393,7 +392,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the result of rotating the bits of a <see cref="UInt128"/> right by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -701,6 +700,34 @@ namespace MaxMath
             return (short16)ror((ushort16)x, n);
         }
 
+        
+        /// <summary>       Returns the result of rotating the bits of a <see cref="uint"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint ror(uint x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
+        
+        /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.uint2"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 ror(uint2 x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
+
+        /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.uint3"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 ror(uint3 x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
+
+        /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.uint4"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 ror(uint4 x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
 
         /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.uint8"/> right by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -712,10 +739,38 @@ namespace MaxMath
             }
             else
             {
-                return new uint8(math.ror(x.v4_0, n), math.ror(x.v4_4, n));
+                return new uint8(ror(x.v4_0, n), ror(x.v4_4, n));
             }
         }
 
+        
+        /// <summary>       Returns the result of rotating the bits of an <see cref="int"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ror(int x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
+        
+        /// <summary>       Returns the componentwise result of rotating the bits of an <see cref="MaxMath.int2"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 ror(int2 x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
+
+        /// <summary>       Returns the componentwise result of rotating the bits of an <see cref="MaxMath.int3"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 ror(int3 x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
+        
+        /// <summary>       Returns the componentwise result of rotating the bits of an <see cref="MaxMath.int4"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 ror(int4 x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
 
         /// <summary>       Returns the componentwise result of rotating the bits of an <see cref="MaxMath.int8"/> right by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -724,7 +779,14 @@ namespace MaxMath
             return (int8)ror((uint8)x, n);
         }
 
-
+        
+        /// <summary>       Returns the result of rotating the bits of a <see cref="ulong"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong ror(ulong x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
+        
         /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.ulong2"/> right by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 ror(ulong2 x, int n)
@@ -735,7 +797,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong2(math.ror(x.x, n), math.ror(x.y, n));
+                return new ulong2(ror(x.x, n), ror(x.y, n));
             }
         }
 
@@ -749,7 +811,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong3(ror(x.xy, n), math.ror(x.z, n));
+                return new ulong3(ror(x.xy, n), ror(x.z, n));
             }
         }
 
@@ -767,7 +829,14 @@ namespace MaxMath
             }
         }
 
-
+        
+        /// <summary>       Returns the result of rotating the bits of a <see cref="long"/> right by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long ror(long x, int n)
+        {
+            return Unity.Mathematics.math.ror(x, n);
+        }
+        
         /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.long2"/> right by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 ror(long2 x, int n)
@@ -1096,6 +1165,34 @@ namespace MaxMath
             return (short16)rol((ushort16)x, n);
         }
 
+        
+        /// <summary>       Returns the result of rotating the bits of a <see cref="uint"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint rol(uint x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
+        
+        /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.uint2"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 rol(uint2 x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
+
+        /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.uint3"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 rol(uint3 x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
+
+        /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.uint4"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 rol(uint4 x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
 
         /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.uint8"/> left by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1107,10 +1204,38 @@ namespace MaxMath
             }
             else
             {
-                return new uint8(math.rol(x.v4_0, n), math.rol(x.v4_4, n));
+                return new uint8(rol(x.v4_0, n), rol(x.v4_4, n));
             }
         }
 
+        
+        /// <summary>       Returns the result of rotating the bits of an <see cref="int"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int rol(int x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
+        
+        /// <summary>       Returns the componentwise result of rotating the bits of an <see cref="MaxMath.int2"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 rol(int2 x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
+
+        /// <summary>       Returns the componentwise result of rotating the bits of an <see cref="MaxMath.int3"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 rol(int3 x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
+        
+        /// <summary>       Returns the componentwise result of rotating the bits of an <see cref="MaxMath.int4"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 rol(int4 x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
 
         /// <summary>       Returns the componentwise result of rotating the bits of an <see cref="MaxMath.int8"/> left by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1119,7 +1244,14 @@ namespace MaxMath
             return (int8)rol((uint8)x, n);
         }
 
-
+        
+        /// <summary>       Returns the result of rotating the bits of a <see cref="ulong"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong rol(ulong x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
+        
         /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.ulong2"/> left by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 rol(ulong2 x, int n)
@@ -1130,7 +1262,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong2(math.rol(x.x, n), math.rol(x.y, n));
+                return new ulong2(rol(x.x, n), rol(x.y, n));
             }
         }
 
@@ -1144,7 +1276,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong3(rol(x.xy, n), math.rol(x.z, n));
+                return new ulong3(rol(x.xy, n), rol(x.z, n));
             }
         }
 
@@ -1162,7 +1294,14 @@ namespace MaxMath
             }
         }
 
-
+        
+        /// <summary>       Returns the result of rotating the bits of a <see cref="long"/> left by <paramref name="n"/> bits.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long rol(long x, int n)
+        {
+            return Unity.Mathematics.math.rol(x, n);
+        }
+        
         /// <summary>       Returns the componentwise result of rotating the bits of a <see cref="MaxMath.long2"/> left by <paramref name="n"/> bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 rol(long2 x, int n)

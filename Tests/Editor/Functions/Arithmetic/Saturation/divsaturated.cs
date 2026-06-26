@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -29,7 +29,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            sbyte2 quotients = maxmath.divsaturated(left, right);
+            sbyte2 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 2; i++)
             {
@@ -68,7 +68,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            sbyte3 quotients = maxmath.divsaturated(left, right);
+            sbyte3 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 3; i++)
             {
@@ -107,7 +107,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            sbyte4 quotients = maxmath.divsaturated(left, right);
+            sbyte4 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 4; i++)
             {
@@ -146,7 +146,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            sbyte16 quotients = maxmath.divsaturated(left, right);
+            sbyte16 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 16; i++)
             {
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            sbyte16 quotients = maxmath.divsaturated(left, right);
+            sbyte16 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 16; i++)
             {
@@ -224,7 +224,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            sbyte32 quotients = maxmath.divsaturated(left, right);
+            sbyte32 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 32; i++)
             {
@@ -264,7 +264,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            short2 quotients = maxmath.divsaturated(left, right);
+            short2 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 2; i++)
             {
@@ -303,7 +303,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            short3 quotients = maxmath.divsaturated(left, right);
+            short3 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 3; i++)
             {
@@ -342,7 +342,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            short4 quotients = maxmath.divsaturated(left, right);
+            short4 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 4; i++)
             {
@@ -381,7 +381,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            short8 quotients = maxmath.divsaturated(left, right);
+            short8 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 8; i++)
             {
@@ -420,7 +420,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            short16 quotients = maxmath.divsaturated(left, right);
+            short16 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 16; i++)
             {
@@ -460,7 +460,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            int2 quotients = maxmath.divsaturated(left, right);
+            int2 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 2; i++)
             {
@@ -499,7 +499,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            int3 quotients = maxmath.divsaturated(left, right);
+            int3 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 3; i++)
             {
@@ -538,7 +538,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            int4 quotients = maxmath.divsaturated(left, right);
+            int4 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 4; i++)
             {
@@ -577,7 +577,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            int8 quotients = maxmath.divsaturated(left, right);
+            int8 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 8; i++)
             {
@@ -617,7 +617,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            long2 quotients = maxmath.divsaturated(left, right);
+            long2 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 2; i++)
             {
@@ -656,7 +656,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            long3 quotients = maxmath.divsaturated(left, right);
+            long3 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 3; i++)
             {
@@ -695,7 +695,7 @@ namespace MaxMath.Tests
                 right[i] = -1;
             }
 
-            long4 quotients = maxmath.divsaturated(left, right);
+            long4 quotients = math.divsaturated(left, right);
 
             for (int i = 0; i < 4; i++)
             {
@@ -726,12 +726,12 @@ namespace MaxMath.Tests
                 right = 100;
             }
 
-            Int128 quotient = maxmath.divsaturated(left, right);
+            Int128 quotient = math.divsaturated(left, right);
             Assert.AreEqual(quotient, left / right);
 
             left = Int128.MinValue;
             right = -1;
-            quotient = maxmath.divsaturated(left, right);
+            quotient = math.divsaturated(left, right);
             Assert.AreEqual(quotient, Int128.MaxValue);
         }
     }

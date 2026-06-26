@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
+
+using static MaxMath.math;
 
 namespace MaxMath.Intrinsics
 {
@@ -137,21 +138,21 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_RANGE_PS(v128 v, float min, float max, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 >= min && v.Float0 <= max));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 >= min && v.Float0 <= max));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 >= min && v.Float1 <= max));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 >= min && v.Float1 <= max));
 			if (elements == 2) return;
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 >= min && v.Float2 <= max));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 >= min && v.Float2 <= max));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 >= min && v.Float3 <= max));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 >= min && v.Float3 <= max));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_RANGE_PD(v128 v, double min, double max, byte elements = 2)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 >= min && v.Double0 <= max));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 >= min && v.Double0 <= max));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 >= min && v.Double1 <= max));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 >= min && v.Double1 <= max));
 		}
 
 
@@ -329,26 +330,26 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_RANGE_PS(v256 v, float min, float max, byte elements = 8)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 >= min && v.Float0 <= max));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 >= min && v.Float0 <= max));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 >= min && v.Float1 <= max));
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 >= min && v.Float2 <= max));
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 >= min && v.Float3 <= max));
-			ASSUME(math.isnan(v.Float4) ^ (v.Float4 >= min && v.Float4 <= max));
-			ASSUME(math.isnan(v.Float5) ^ (v.Float5 >= min && v.Float5 <= max));
-			ASSUME(math.isnan(v.Float6) ^ (v.Float6 >= min && v.Float6 <= max));
-			ASSUME(math.isnan(v.Float7) ^ (v.Float7 >= min && v.Float7 <= max));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 >= min && v.Float1 <= max));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 >= min && v.Float2 <= max));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 >= min && v.Float3 <= max));
+			ASSUME(isnan(v.Float4) ^ (v.Float4 >= min && v.Float4 <= max));
+			ASSUME(isnan(v.Float5) ^ (v.Float5 >= min && v.Float5 <= max));
+			ASSUME(isnan(v.Float6) ^ (v.Float6 >= min && v.Float6 <= max));
+			ASSUME(isnan(v.Float7) ^ (v.Float7 >= min && v.Float7 <= max));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_RANGE_PD(v256 v, double min, double max, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 >= min && v.Double0 <= max));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 >= min && v.Double0 <= max));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 >= min && v.Double1 <= max));
-			ASSUME(math.isnan(v.Double2) ^ (v.Double2 >= min && v.Double2 <= max));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 >= min && v.Double1 <= max));
+			ASSUME(isnan(v.Double2) ^ (v.Double2 >= min && v.Double2 <= max));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Double3) ^ (v.Double3 >= min && v.Double3 <= max));
+			ASSUME(isnan(v.Double3) ^ (v.Double3 >= min && v.Double3 <= max));
 		}
 
 
@@ -483,21 +484,21 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_EQ_PS(v128 v, float cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 == cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 == cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 == cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 == cmpVal));
 			if (elements == 2) return;
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 == cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 == cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 == cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 == cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_EQ_PD(v128 v, double cmpVal, byte elements = 2)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 == cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 == cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 == cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 == cmpVal));
 		}
 
 
@@ -675,26 +676,26 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_EQ_PS(v256 v, float cmpVal, byte elements = 8)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 == cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 == cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 == cmpVal));
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 == cmpVal));
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 == cmpVal));
-			ASSUME(math.isnan(v.Float4) ^ (v.Float4 == cmpVal));
-			ASSUME(math.isnan(v.Float5) ^ (v.Float5 == cmpVal));
-			ASSUME(math.isnan(v.Float6) ^ (v.Float6 == cmpVal));
-			ASSUME(math.isnan(v.Float7) ^ (v.Float7 == cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 == cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 == cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 == cmpVal));
+			ASSUME(isnan(v.Float4) ^ (v.Float4 == cmpVal));
+			ASSUME(isnan(v.Float5) ^ (v.Float5 == cmpVal));
+			ASSUME(isnan(v.Float6) ^ (v.Float6 == cmpVal));
+			ASSUME(isnan(v.Float7) ^ (v.Float7 == cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_EQ_PD(v256 v, double cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 == cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 == cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 == cmpVal));
-			ASSUME(math.isnan(v.Double2) ^ (v.Double2 == cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 == cmpVal));
+			ASSUME(isnan(v.Double2) ^ (v.Double2 == cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Double3) ^ (v.Double3 == cmpVal));
+			ASSUME(isnan(v.Double3) ^ (v.Double3 == cmpVal));
 		}
 
 
@@ -829,21 +830,21 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NEQ_PS(v128 v, float cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 != cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 != cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 != cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 != cmpVal));
 			if (elements == 2) return;
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 != cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 != cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 != cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 != cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NEQ_PD(v128 v, double cmpVal, byte elements = 2)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 != cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 != cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 != cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 != cmpVal));
 		}
 
 
@@ -1021,26 +1022,26 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NEQ_PS(v256 v, float cmpVal, byte elements = 8)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 != cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 != cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 != cmpVal));
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 != cmpVal));
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 != cmpVal));
-			ASSUME(math.isnan(v.Float4) ^ (v.Float4 != cmpVal));
-			ASSUME(math.isnan(v.Float5) ^ (v.Float5 != cmpVal));
-			ASSUME(math.isnan(v.Float6) ^ (v.Float6 != cmpVal));
-			ASSUME(math.isnan(v.Float7) ^ (v.Float7 != cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 != cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 != cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 != cmpVal));
+			ASSUME(isnan(v.Float4) ^ (v.Float4 != cmpVal));
+			ASSUME(isnan(v.Float5) ^ (v.Float5 != cmpVal));
+			ASSUME(isnan(v.Float6) ^ (v.Float6 != cmpVal));
+			ASSUME(isnan(v.Float7) ^ (v.Float7 != cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NEQ_PD(v256 v, double cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 != cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 != cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 != cmpVal));
-			ASSUME(math.isnan(v.Double2) ^ (v.Double2 != cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 != cmpVal));
+			ASSUME(isnan(v.Double2) ^ (v.Double2 != cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Double3) ^ (v.Double3 != cmpVal));
+			ASSUME(isnan(v.Double3) ^ (v.Double3 != cmpVal));
 		}
 
 
@@ -1175,21 +1176,21 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_GT_PS(v128 v, float cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 > cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 > cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 > cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 > cmpVal));
 			if (elements == 2) return;
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 > cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 > cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 > cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 > cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_GT_PD(v128 v, double cmpVal, byte elements = 2)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 > cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 > cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 > cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 > cmpVal));
 		}
 
 
@@ -1367,26 +1368,26 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_GT_PS(v256 v, float cmpVal, byte elements = 8)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 > cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 > cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 > cmpVal));
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 > cmpVal));
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 > cmpVal));
-			ASSUME(math.isnan(v.Float4) ^ (v.Float4 > cmpVal));
-			ASSUME(math.isnan(v.Float5) ^ (v.Float5 > cmpVal));
-			ASSUME(math.isnan(v.Float6) ^ (v.Float6 > cmpVal));
-			ASSUME(math.isnan(v.Float7) ^ (v.Float7 > cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 > cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 > cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 > cmpVal));
+			ASSUME(isnan(v.Float4) ^ (v.Float4 > cmpVal));
+			ASSUME(isnan(v.Float5) ^ (v.Float5 > cmpVal));
+			ASSUME(isnan(v.Float6) ^ (v.Float6 > cmpVal));
+			ASSUME(isnan(v.Float7) ^ (v.Float7 > cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_GT_PD(v256 v, double cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 > cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 > cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 > cmpVal));
-			ASSUME(math.isnan(v.Double2) ^ (v.Double2 > cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 > cmpVal));
+			ASSUME(isnan(v.Double2) ^ (v.Double2 > cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Double3) ^ (v.Double3 > cmpVal));
+			ASSUME(isnan(v.Double3) ^ (v.Double3 > cmpVal));
 		}
 
 
@@ -1521,21 +1522,21 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_LT_PS(v128 v, float cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 < cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 < cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 < cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 < cmpVal));
 			if (elements == 2) return;
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 < cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 < cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 < cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 < cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_LT_PD(v128 v, double cmpVal, byte elements = 2)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 < cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 < cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 < cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 < cmpVal));
 		}
 
 
@@ -1713,26 +1714,26 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_LT_PS(v256 v, float cmpVal, byte elements = 8)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 < cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 < cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 < cmpVal));
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 < cmpVal));
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 < cmpVal));
-			ASSUME(math.isnan(v.Float4) ^ (v.Float4 < cmpVal));
-			ASSUME(math.isnan(v.Float5) ^ (v.Float5 < cmpVal));
-			ASSUME(math.isnan(v.Float6) ^ (v.Float6 < cmpVal));
-			ASSUME(math.isnan(v.Float7) ^ (v.Float7 < cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 < cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 < cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 < cmpVal));
+			ASSUME(isnan(v.Float4) ^ (v.Float4 < cmpVal));
+			ASSUME(isnan(v.Float5) ^ (v.Float5 < cmpVal));
+			ASSUME(isnan(v.Float6) ^ (v.Float6 < cmpVal));
+			ASSUME(isnan(v.Float7) ^ (v.Float7 < cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_LT_PD(v256 v, double cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 < cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 < cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 < cmpVal));
-			ASSUME(math.isnan(v.Double2) ^ (v.Double2 < cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 < cmpVal));
+			ASSUME(isnan(v.Double2) ^ (v.Double2 < cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Double3) ^ (v.Double3 < cmpVal));
+			ASSUME(isnan(v.Double3) ^ (v.Double3 < cmpVal));
 		}
 
 
@@ -1867,21 +1868,21 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_GE_PS(v128 v, float cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 >= cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 >= cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 >= cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 >= cmpVal));
 			if (elements == 2) return;
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 >= cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 >= cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 >= cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 >= cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_GE_PD(v128 v, double cmpVal, byte elements = 2)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 >= cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 >= cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 >= cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 >= cmpVal));
 		}
 
 
@@ -2059,26 +2060,26 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_GE_PS(v256 v, float cmpVal, byte elements = 8)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 >= cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 >= cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 >= cmpVal));
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 >= cmpVal));
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 >= cmpVal));
-			ASSUME(math.isnan(v.Float4) ^ (v.Float4 >= cmpVal));
-			ASSUME(math.isnan(v.Float5) ^ (v.Float5 >= cmpVal));
-			ASSUME(math.isnan(v.Float6) ^ (v.Float6 >= cmpVal));
-			ASSUME(math.isnan(v.Float7) ^ (v.Float7 >= cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 >= cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 >= cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 >= cmpVal));
+			ASSUME(isnan(v.Float4) ^ (v.Float4 >= cmpVal));
+			ASSUME(isnan(v.Float5) ^ (v.Float5 >= cmpVal));
+			ASSUME(isnan(v.Float6) ^ (v.Float6 >= cmpVal));
+			ASSUME(isnan(v.Float7) ^ (v.Float7 >= cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_GE_PD(v256 v, double cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 >= cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 >= cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 >= cmpVal));
-			ASSUME(math.isnan(v.Double2) ^ (v.Double2 >= cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 >= cmpVal));
+			ASSUME(isnan(v.Double2) ^ (v.Double2 >= cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Double3) ^ (v.Double3 >= cmpVal));
+			ASSUME(isnan(v.Double3) ^ (v.Double3 >= cmpVal));
 		}
 
 
@@ -2213,21 +2214,21 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_LE_PS(v128 v, float cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 <= cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 <= cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 <= cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 <= cmpVal));
 			if (elements == 2) return;
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 <= cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 <= cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 <= cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 <= cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_LE_PD(v128 v, double cmpVal, byte elements = 2)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 <= cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 <= cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 <= cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 <= cmpVal));
 		}
 
 
@@ -2405,26 +2406,26 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_LE_PS(v256 v, float cmpVal, byte elements = 8)
 		{
-			ASSUME(math.isnan(v.Float0) ^ (v.Float0 <= cmpVal));
+			ASSUME(isnan(v.Float0) ^ (v.Float0 <= cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Float1) ^ (v.Float1 <= cmpVal));
-			ASSUME(math.isnan(v.Float2) ^ (v.Float2 <= cmpVal));
-			ASSUME(math.isnan(v.Float3) ^ (v.Float3 <= cmpVal));
-			ASSUME(math.isnan(v.Float4) ^ (v.Float4 <= cmpVal));
-			ASSUME(math.isnan(v.Float5) ^ (v.Float5 <= cmpVal));
-			ASSUME(math.isnan(v.Float6) ^ (v.Float6 <= cmpVal));
-			ASSUME(math.isnan(v.Float7) ^ (v.Float7 <= cmpVal));
+			ASSUME(isnan(v.Float1) ^ (v.Float1 <= cmpVal));
+			ASSUME(isnan(v.Float2) ^ (v.Float2 <= cmpVal));
+			ASSUME(isnan(v.Float3) ^ (v.Float3 <= cmpVal));
+			ASSUME(isnan(v.Float4) ^ (v.Float4 <= cmpVal));
+			ASSUME(isnan(v.Float5) ^ (v.Float5 <= cmpVal));
+			ASSUME(isnan(v.Float6) ^ (v.Float6 <= cmpVal));
+			ASSUME(isnan(v.Float7) ^ (v.Float7 <= cmpVal));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_LE_PD(v256 v, double cmpVal, byte elements = 4)
 		{
-			ASSUME(math.isnan(v.Double0) ^ (v.Double0 <= cmpVal));
+			ASSUME(isnan(v.Double0) ^ (v.Double0 <= cmpVal));
 			if (elements == 1) return;
-			ASSUME(math.isnan(v.Double1) ^ (v.Double1 <= cmpVal));
-			ASSUME(math.isnan(v.Double2) ^ (v.Double2 <= cmpVal));
+			ASSUME(isnan(v.Double1) ^ (v.Double1 <= cmpVal));
+			ASSUME(isnan(v.Double2) ^ (v.Double2 <= cmpVal));
 			if (elements == 3) return;
-			ASSUME(math.isnan(v.Double3) ^ (v.Double3 <= cmpVal));
+			ASSUME(isnan(v.Double3) ^ (v.Double3 <= cmpVal));
 		}
 
 
@@ -2433,19 +2434,19 @@ namespace MaxMath.Intrinsics
          {
 			switch (elements)
 			{
-				case  1: ASSUME(math.isnan(v.Float0));	return;
+				case  1: ASSUME(isnan(v.Float0));	return;
 
-				case  2: ASSUME(math.isnan(v.Float0));
-						 ASSUME(math.isnan(v.Float1));	return;
+				case  2: ASSUME(isnan(v.Float0));
+						 ASSUME(isnan(v.Float1));	return;
 
-				case  3: ASSUME(math.isnan(v.Float0));
-						 ASSUME(math.isnan(v.Float1));
-						 ASSUME(math.isnan(v.Float2));	return;
+				case  3: ASSUME(isnan(v.Float0));
+						 ASSUME(isnan(v.Float1));
+						 ASSUME(isnan(v.Float2));	return;
 
-				default: ASSUME(math.isnan(v.Float0));
-						 ASSUME(math.isnan(v.Float1));
-						 ASSUME(math.isnan(v.Float2));
-						 ASSUME(math.isnan(v.Float3));	return;
+				default: ASSUME(isnan(v.Float0));
+						 ASSUME(isnan(v.Float1));
+						 ASSUME(isnan(v.Float2));
+						 ASSUME(isnan(v.Float3));	return;
 			}
          }
 
@@ -2454,61 +2455,61 @@ namespace MaxMath.Intrinsics
          {
 			switch (elements)
 			{
-				case  1: ASSUME(!math.isnan(v.Float0));	return;
+				case  1: ASSUME(!isnan(v.Float0));	return;
 
-				case  2: ASSUME(!math.isnan(v.Float0));
-						 ASSUME(!math.isnan(v.Float1));	return;
+				case  2: ASSUME(!isnan(v.Float0));
+						 ASSUME(!isnan(v.Float1));	return;
 
-				case  3: ASSUME(!math.isnan(v.Float0));
-						 ASSUME(!math.isnan(v.Float1));
-						 ASSUME(!math.isnan(v.Float2));	return;
+				case  3: ASSUME(!isnan(v.Float0));
+						 ASSUME(!isnan(v.Float1));
+						 ASSUME(!isnan(v.Float2));	return;
 
-				default: ASSUME(!math.isnan(v.Float0));
-						 ASSUME(!math.isnan(v.Float1));
-						 ASSUME(!math.isnan(v.Float2));
-						 ASSUME(!math.isnan(v.Float3));	return;
+				default: ASSUME(!isnan(v.Float0));
+						 ASSUME(!isnan(v.Float1));
+						 ASSUME(!isnan(v.Float2));
+						 ASSUME(!isnan(v.Float3));	return;
 			}
          }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NAN_PS(v256 v)
          {
-			ASSUME(math.isnan(v.Float0));
-			ASSUME(math.isnan(v.Float1));
-			ASSUME(math.isnan(v.Float2));
-			ASSUME(math.isnan(v.Float3));
-			ASSUME(math.isnan(v.Float4));
-			ASSUME(math.isnan(v.Float5));
-			ASSUME(math.isnan(v.Float6));
-			ASSUME(math.isnan(v.Float7));
+			ASSUME(isnan(v.Float0));
+			ASSUME(isnan(v.Float1));
+			ASSUME(isnan(v.Float2));
+			ASSUME(isnan(v.Float3));
+			ASSUME(isnan(v.Float4));
+			ASSUME(isnan(v.Float5));
+			ASSUME(isnan(v.Float6));
+			ASSUME(isnan(v.Float7));
          }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NOTNAN_PS(v256 v)
          {
-			ASSUME(!math.isnan(v.Float0));
-			ASSUME(!math.isnan(v.Float1));
-			ASSUME(!math.isnan(v.Float2));
-			ASSUME(!math.isnan(v.Float3));
-			ASSUME(!math.isnan(v.Float4));
-			ASSUME(!math.isnan(v.Float5));
-			ASSUME(!math.isnan(v.Float6));
-			ASSUME(!math.isnan(v.Float7));
+			ASSUME(!isnan(v.Float0));
+			ASSUME(!isnan(v.Float1));
+			ASSUME(!isnan(v.Float2));
+			ASSUME(!isnan(v.Float3));
+			ASSUME(!isnan(v.Float4));
+			ASSUME(!isnan(v.Float5));
+			ASSUME(!isnan(v.Float6));
+			ASSUME(!isnan(v.Float7));
          }
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NAN_PD(v128 v)
         {
-			ASSUME(math.isnan(v.Double0));
-			ASSUME(math.isnan(v.Double1));
+			ASSUME(isnan(v.Double0));
+			ASSUME(isnan(v.Double1));
         }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NOTNAN_PD(v128 v)
         {
-			ASSUME(!math.isnan(v.Double0));
-			ASSUME(!math.isnan(v.Double1));
+			ASSUME(!isnan(v.Double0));
+			ASSUME(!isnan(v.Double1));
         }
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2516,16 +2517,16 @@ namespace MaxMath.Intrinsics
         {
             if (elements == 3)
             {
-				ASSUME(math.isnan(v.Double0));
-				ASSUME(math.isnan(v.Double1));
-				ASSUME(math.isnan(v.Double2));
+				ASSUME(isnan(v.Double0));
+				ASSUME(isnan(v.Double1));
+				ASSUME(isnan(v.Double2));
             }
 			else
             {
-				ASSUME(math.isnan(v.Double0));
-				ASSUME(math.isnan(v.Double1));
-				ASSUME(math.isnan(v.Double2));
-				ASSUME(math.isnan(v.Double3));
+				ASSUME(isnan(v.Double0));
+				ASSUME(isnan(v.Double1));
+				ASSUME(isnan(v.Double2));
+				ASSUME(isnan(v.Double3));
             }
         }
 
@@ -2534,16 +2535,16 @@ namespace MaxMath.Intrinsics
         {
             if (elements == 3)
             {
-				ASSUME(!math.isnan(v.Double0));
-				ASSUME(!math.isnan(v.Double1));
-				ASSUME(!math.isnan(v.Double2));
+				ASSUME(!isnan(v.Double0));
+				ASSUME(!isnan(v.Double1));
+				ASSUME(!isnan(v.Double2));
             }
 			else
             {
-				ASSUME(!math.isnan(v.Double0));
-				ASSUME(!math.isnan(v.Double1));
-				ASSUME(!math.isnan(v.Double2));
-				ASSUME(!math.isnan(v.Double3));
+				ASSUME(!isnan(v.Double0));
+				ASSUME(!isnan(v.Double1));
+				ASSUME(!isnan(v.Double2));
+				ASSUME(!isnan(v.Double3));
             }
         }
 
@@ -2553,45 +2554,45 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(maxmath.ispow2(v.Byte0 ));	return;
+				case  1: ASSUME(math.ispow2(v.Byte0 ));	return;
 
-				case  2: ASSUME(maxmath.ispow2(v.Byte0 ));
-						 ASSUME(maxmath.ispow2(v.Byte1 ));	return;
+				case  2: ASSUME(math.ispow2(v.Byte0 ));
+						 ASSUME(math.ispow2(v.Byte1 ));	return;
 
-				case  3: ASSUME(maxmath.ispow2(v.Byte0 ));
-						 ASSUME(maxmath.ispow2(v.Byte1 ));
-						 ASSUME(maxmath.ispow2(v.Byte2 ));	return;
+				case  3: ASSUME(math.ispow2(v.Byte0 ));
+						 ASSUME(math.ispow2(v.Byte1 ));
+						 ASSUME(math.ispow2(v.Byte2 ));	return;
 
-				case  4: ASSUME(maxmath.ispow2(v.Byte0 ));
-						 ASSUME(maxmath.ispow2(v.Byte1 ));
-						 ASSUME(maxmath.ispow2(v.Byte2 ));
-						 ASSUME(maxmath.ispow2(v.Byte3 ));	return;
+				case  4: ASSUME(math.ispow2(v.Byte0 ));
+						 ASSUME(math.ispow2(v.Byte1 ));
+						 ASSUME(math.ispow2(v.Byte2 ));
+						 ASSUME(math.ispow2(v.Byte3 ));	return;
 
-				case  8: ASSUME(maxmath.ispow2(v.Byte0 ));
-						 ASSUME(maxmath.ispow2(v.Byte1 ));
-						 ASSUME(maxmath.ispow2(v.Byte2 ));
-						 ASSUME(maxmath.ispow2(v.Byte3 ));
-						 ASSUME(maxmath.ispow2(v.Byte4 ));
-						 ASSUME(maxmath.ispow2(v.Byte5 ));
-						 ASSUME(maxmath.ispow2(v.Byte6 ));
-						 ASSUME(maxmath.ispow2(v.Byte7 ));	return;
+				case  8: ASSUME(math.ispow2(v.Byte0 ));
+						 ASSUME(math.ispow2(v.Byte1 ));
+						 ASSUME(math.ispow2(v.Byte2 ));
+						 ASSUME(math.ispow2(v.Byte3 ));
+						 ASSUME(math.ispow2(v.Byte4 ));
+						 ASSUME(math.ispow2(v.Byte5 ));
+						 ASSUME(math.ispow2(v.Byte6 ));
+						 ASSUME(math.ispow2(v.Byte7 ));	return;
 
-				default: ASSUME(maxmath.ispow2(v.Byte0 ));
-						 ASSUME(maxmath.ispow2(v.Byte1 ));
-						 ASSUME(maxmath.ispow2(v.Byte2 ));
-						 ASSUME(maxmath.ispow2(v.Byte3 ));
-						 ASSUME(maxmath.ispow2(v.Byte4 ));
-						 ASSUME(maxmath.ispow2(v.Byte5 ));
-						 ASSUME(maxmath.ispow2(v.Byte6 ));
-						 ASSUME(maxmath.ispow2(v.Byte7 ));
-						 ASSUME(maxmath.ispow2(v.Byte8 ));
-						 ASSUME(maxmath.ispow2(v.Byte9 ));
-						 ASSUME(maxmath.ispow2(v.Byte10));
-						 ASSUME(maxmath.ispow2(v.Byte11));
-						 ASSUME(maxmath.ispow2(v.Byte12));
-						 ASSUME(maxmath.ispow2(v.Byte13));
-						 ASSUME(maxmath.ispow2(v.Byte14));
-						 ASSUME(maxmath.ispow2(v.Byte15));	return;
+				default: ASSUME(math.ispow2(v.Byte0 ));
+						 ASSUME(math.ispow2(v.Byte1 ));
+						 ASSUME(math.ispow2(v.Byte2 ));
+						 ASSUME(math.ispow2(v.Byte3 ));
+						 ASSUME(math.ispow2(v.Byte4 ));
+						 ASSUME(math.ispow2(v.Byte5 ));
+						 ASSUME(math.ispow2(v.Byte6 ));
+						 ASSUME(math.ispow2(v.Byte7 ));
+						 ASSUME(math.ispow2(v.Byte8 ));
+						 ASSUME(math.ispow2(v.Byte9 ));
+						 ASSUME(math.ispow2(v.Byte10));
+						 ASSUME(math.ispow2(v.Byte11));
+						 ASSUME(math.ispow2(v.Byte12));
+						 ASSUME(math.ispow2(v.Byte13));
+						 ASSUME(math.ispow2(v.Byte14));
+						 ASSUME(math.ispow2(v.Byte15));	return;
 			}
 		}
 
@@ -2600,28 +2601,28 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(maxmath.ispow2(v.UShort0));	return;
+				case  1: ASSUME(math.ispow2(v.UShort0));	return;
 
-				case  2: ASSUME(maxmath.ispow2(v.UShort0));
-						 ASSUME(maxmath.ispow2(v.UShort1));	return;
+				case  2: ASSUME(math.ispow2(v.UShort0));
+						 ASSUME(math.ispow2(v.UShort1));	return;
 
-				case  3: ASSUME(maxmath.ispow2(v.UShort0));
-						 ASSUME(maxmath.ispow2(v.UShort1));
-						 ASSUME(maxmath.ispow2(v.UShort2));	return;
+				case  3: ASSUME(math.ispow2(v.UShort0));
+						 ASSUME(math.ispow2(v.UShort1));
+						 ASSUME(math.ispow2(v.UShort2));	return;
 
-				case  4: ASSUME(maxmath.ispow2(v.UShort0));
-						 ASSUME(maxmath.ispow2(v.UShort1));
-						 ASSUME(maxmath.ispow2(v.UShort2));
-						 ASSUME(maxmath.ispow2(v.UShort3));	return;
+				case  4: ASSUME(math.ispow2(v.UShort0));
+						 ASSUME(math.ispow2(v.UShort1));
+						 ASSUME(math.ispow2(v.UShort2));
+						 ASSUME(math.ispow2(v.UShort3));	return;
 
-				default: ASSUME(maxmath.ispow2(v.UShort0));
-						 ASSUME(maxmath.ispow2(v.UShort1));
-						 ASSUME(maxmath.ispow2(v.UShort2));
-						 ASSUME(maxmath.ispow2(v.UShort3));
-						 ASSUME(maxmath.ispow2(v.UShort4));
-						 ASSUME(maxmath.ispow2(v.UShort5));
-						 ASSUME(maxmath.ispow2(v.UShort6));
-						 ASSUME(maxmath.ispow2(v.UShort7));	return;
+				default: ASSUME(math.ispow2(v.UShort0));
+						 ASSUME(math.ispow2(v.UShort1));
+						 ASSUME(math.ispow2(v.UShort2));
+						 ASSUME(math.ispow2(v.UShort3));
+						 ASSUME(math.ispow2(v.UShort4));
+						 ASSUME(math.ispow2(v.UShort5));
+						 ASSUME(math.ispow2(v.UShort6));
+						 ASSUME(math.ispow2(v.UShort7));	return;
 			}
 		}
 
@@ -2630,19 +2631,19 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(math.ispow2(v.UInt0));	return;
+				case  1: ASSUME(ispow2(v.UInt0));	return;
 
-				case  2: ASSUME(math.ispow2(v.UInt0));
-						 ASSUME(math.ispow2(v.UInt1));	return;
+				case  2: ASSUME(ispow2(v.UInt0));
+						 ASSUME(ispow2(v.UInt1));	return;
 
-				case  3: ASSUME(math.ispow2(v.UInt0));
-						 ASSUME(math.ispow2(v.UInt1));
-						 ASSUME(math.ispow2(v.UInt2));	return;
+				case  3: ASSUME(ispow2(v.UInt0));
+						 ASSUME(ispow2(v.UInt1));
+						 ASSUME(ispow2(v.UInt2));	return;
 
-				default: ASSUME(math.ispow2(v.UInt0));
-						 ASSUME(math.ispow2(v.UInt1));
-						 ASSUME(math.ispow2(v.UInt2));
-						 ASSUME(math.ispow2(v.UInt3));	return;
+				default: ASSUME(ispow2(v.UInt0));
+						 ASSUME(ispow2(v.UInt1));
+						 ASSUME(ispow2(v.UInt2));
+						 ASSUME(ispow2(v.UInt3));	return;
 			}
 		}
 
@@ -2651,12 +2652,12 @@ namespace MaxMath.Intrinsics
 		{
             if (elements == 1)
             {
-				ASSUME(maxmath.ispow2(v.ULong0));
+				ASSUME(math.ispow2(v.ULong0));
             }
 			else
 			{
-				ASSUME(maxmath.ispow2(v.ULong0));
-				ASSUME(maxmath.ispow2(v.ULong1));
+				ASSUME(math.ispow2(v.ULong0));
+				ASSUME(math.ispow2(v.ULong1));
 			}
 		}
 
@@ -2666,45 +2667,45 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(maxmath.ispow2(v.SByte0 ));	return;
+				case  1: ASSUME(math.ispow2(v.SByte0 ));	return;
 
-				case  2: ASSUME(maxmath.ispow2(v.SByte0 ));
-						 ASSUME(maxmath.ispow2(v.SByte1 ));	return;
+				case  2: ASSUME(math.ispow2(v.SByte0 ));
+						 ASSUME(math.ispow2(v.SByte1 ));	return;
 
-				case  3: ASSUME(maxmath.ispow2(v.SByte0 ));
-						 ASSUME(maxmath.ispow2(v.SByte1 ));
-						 ASSUME(maxmath.ispow2(v.SByte2 ));	return;
+				case  3: ASSUME(math.ispow2(v.SByte0 ));
+						 ASSUME(math.ispow2(v.SByte1 ));
+						 ASSUME(math.ispow2(v.SByte2 ));	return;
 
-				case  4: ASSUME(maxmath.ispow2(v.SByte0 ));
-						 ASSUME(maxmath.ispow2(v.SByte1 ));
-						 ASSUME(maxmath.ispow2(v.SByte2 ));
-						 ASSUME(maxmath.ispow2(v.SByte3 ));	return;
+				case  4: ASSUME(math.ispow2(v.SByte0 ));
+						 ASSUME(math.ispow2(v.SByte1 ));
+						 ASSUME(math.ispow2(v.SByte2 ));
+						 ASSUME(math.ispow2(v.SByte3 ));	return;
 
-				case  8: ASSUME(maxmath.ispow2(v.SByte0 ));
-						 ASSUME(maxmath.ispow2(v.SByte1 ));
-						 ASSUME(maxmath.ispow2(v.SByte2 ));
-						 ASSUME(maxmath.ispow2(v.SByte3 ));
-						 ASSUME(maxmath.ispow2(v.SByte4 ));
-						 ASSUME(maxmath.ispow2(v.SByte5 ));
-						 ASSUME(maxmath.ispow2(v.SByte6 ));
-						 ASSUME(maxmath.ispow2(v.SByte7 ));	return;
+				case  8: ASSUME(math.ispow2(v.SByte0 ));
+						 ASSUME(math.ispow2(v.SByte1 ));
+						 ASSUME(math.ispow2(v.SByte2 ));
+						 ASSUME(math.ispow2(v.SByte3 ));
+						 ASSUME(math.ispow2(v.SByte4 ));
+						 ASSUME(math.ispow2(v.SByte5 ));
+						 ASSUME(math.ispow2(v.SByte6 ));
+						 ASSUME(math.ispow2(v.SByte7 ));	return;
 
-				default: ASSUME(maxmath.ispow2(v.SByte0 ));
-						 ASSUME(maxmath.ispow2(v.SByte1 ));
-						 ASSUME(maxmath.ispow2(v.SByte2 ));
-						 ASSUME(maxmath.ispow2(v.SByte3 ));
-						 ASSUME(maxmath.ispow2(v.SByte4 ));
-						 ASSUME(maxmath.ispow2(v.SByte5 ));
-						 ASSUME(maxmath.ispow2(v.SByte6 ));
-						 ASSUME(maxmath.ispow2(v.SByte7 ));
-						 ASSUME(maxmath.ispow2(v.SByte8 ));
-						 ASSUME(maxmath.ispow2(v.SByte9 ));
-						 ASSUME(maxmath.ispow2(v.SByte10));
-						 ASSUME(maxmath.ispow2(v.SByte11));
-						 ASSUME(maxmath.ispow2(v.SByte12));
-						 ASSUME(maxmath.ispow2(v.SByte13));
-						 ASSUME(maxmath.ispow2(v.SByte14));
-						 ASSUME(maxmath.ispow2(v.SByte15));	return;
+				default: ASSUME(math.ispow2(v.SByte0 ));
+						 ASSUME(math.ispow2(v.SByte1 ));
+						 ASSUME(math.ispow2(v.SByte2 ));
+						 ASSUME(math.ispow2(v.SByte3 ));
+						 ASSUME(math.ispow2(v.SByte4 ));
+						 ASSUME(math.ispow2(v.SByte5 ));
+						 ASSUME(math.ispow2(v.SByte6 ));
+						 ASSUME(math.ispow2(v.SByte7 ));
+						 ASSUME(math.ispow2(v.SByte8 ));
+						 ASSUME(math.ispow2(v.SByte9 ));
+						 ASSUME(math.ispow2(v.SByte10));
+						 ASSUME(math.ispow2(v.SByte11));
+						 ASSUME(math.ispow2(v.SByte12));
+						 ASSUME(math.ispow2(v.SByte13));
+						 ASSUME(math.ispow2(v.SByte14));
+						 ASSUME(math.ispow2(v.SByte15));	return;
 			}
 		}
 
@@ -2713,28 +2714,28 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(maxmath.ispow2(v.SShort0));	return;
+				case  1: ASSUME(math.ispow2(v.SShort0));	return;
 
-				case  2: ASSUME(maxmath.ispow2(v.SShort0));
-						 ASSUME(maxmath.ispow2(v.SShort1));	return;
+				case  2: ASSUME(math.ispow2(v.SShort0));
+						 ASSUME(math.ispow2(v.SShort1));	return;
 
-				case  3: ASSUME(maxmath.ispow2(v.SShort0));
-						 ASSUME(maxmath.ispow2(v.SShort1));
-						 ASSUME(maxmath.ispow2(v.SShort2));	return;
+				case  3: ASSUME(math.ispow2(v.SShort0));
+						 ASSUME(math.ispow2(v.SShort1));
+						 ASSUME(math.ispow2(v.SShort2));	return;
 
-				case  4: ASSUME(maxmath.ispow2(v.SShort0));
-						 ASSUME(maxmath.ispow2(v.SShort1));
-						 ASSUME(maxmath.ispow2(v.SShort2));
-						 ASSUME(maxmath.ispow2(v.SShort3));	return;
+				case  4: ASSUME(math.ispow2(v.SShort0));
+						 ASSUME(math.ispow2(v.SShort1));
+						 ASSUME(math.ispow2(v.SShort2));
+						 ASSUME(math.ispow2(v.SShort3));	return;
 
-				default: ASSUME(maxmath.ispow2(v.SShort0));
-						 ASSUME(maxmath.ispow2(v.SShort1));
-						 ASSUME(maxmath.ispow2(v.SShort2));
-						 ASSUME(maxmath.ispow2(v.SShort3));
-						 ASSUME(maxmath.ispow2(v.SShort4));
-						 ASSUME(maxmath.ispow2(v.SShort5));
-						 ASSUME(maxmath.ispow2(v.SShort6));
-						 ASSUME(maxmath.ispow2(v.SShort7));	return;
+				default: ASSUME(math.ispow2(v.SShort0));
+						 ASSUME(math.ispow2(v.SShort1));
+						 ASSUME(math.ispow2(v.SShort2));
+						 ASSUME(math.ispow2(v.SShort3));
+						 ASSUME(math.ispow2(v.SShort4));
+						 ASSUME(math.ispow2(v.SShort5));
+						 ASSUME(math.ispow2(v.SShort6));
+						 ASSUME(math.ispow2(v.SShort7));	return;
 			}
 		}
 
@@ -2743,19 +2744,19 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(math.ispow2(v.SInt0));	return;
+				case  1: ASSUME(ispow2(v.SInt0));	return;
 
-				case  2: ASSUME(math.ispow2(v.SInt0));
-						 ASSUME(math.ispow2(v.SInt1));	return;
+				case  2: ASSUME(ispow2(v.SInt0));
+						 ASSUME(ispow2(v.SInt1));	return;
 
-				case  3: ASSUME(math.ispow2(v.SInt0));
-						 ASSUME(math.ispow2(v.SInt1));
-						 ASSUME(math.ispow2(v.SInt2));	return;
+				case  3: ASSUME(ispow2(v.SInt0));
+						 ASSUME(ispow2(v.SInt1));
+						 ASSUME(ispow2(v.SInt2));	return;
 
-				default: ASSUME(math.ispow2(v.SInt0));
-						 ASSUME(math.ispow2(v.SInt1));
-						 ASSUME(math.ispow2(v.SInt2));
-						 ASSUME(math.ispow2(v.SInt3));	return;
+				default: ASSUME(ispow2(v.SInt0));
+						 ASSUME(ispow2(v.SInt1));
+						 ASSUME(ispow2(v.SInt2));
+						 ASSUME(ispow2(v.SInt3));	return;
 			}
 		}
 
@@ -2764,84 +2765,84 @@ namespace MaxMath.Intrinsics
 		{
             if (elements == 1)
             {
-				ASSUME(maxmath.ispow2(v.SLong0));
+				ASSUME(math.ispow2(v.SLong0));
             }
 			else
 			{
-				ASSUME(maxmath.ispow2(v.SLong0));
-				ASSUME(maxmath.ispow2(v.SLong1));
+				ASSUME(math.ispow2(v.SLong0));
+				ASSUME(math.ispow2(v.SLong1));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_POW2_EPU8(v256 v)
 		{
-			ASSUME(maxmath.ispow2(v.Byte0 ));
-			ASSUME(maxmath.ispow2(v.Byte1 ));
-			ASSUME(maxmath.ispow2(v.Byte2 ));
-			ASSUME(maxmath.ispow2(v.Byte3 ));
-			ASSUME(maxmath.ispow2(v.Byte4 ));
-			ASSUME(maxmath.ispow2(v.Byte5 ));
-			ASSUME(maxmath.ispow2(v.Byte6 ));
-			ASSUME(maxmath.ispow2(v.Byte7 ));
-			ASSUME(maxmath.ispow2(v.Byte8 ));
-			ASSUME(maxmath.ispow2(v.Byte9 ));
-			ASSUME(maxmath.ispow2(v.Byte10));
-			ASSUME(maxmath.ispow2(v.Byte11));
-			ASSUME(maxmath.ispow2(v.Byte12));
-			ASSUME(maxmath.ispow2(v.Byte13));
-			ASSUME(maxmath.ispow2(v.Byte14));
-			ASSUME(maxmath.ispow2(v.Byte15));
-			ASSUME(maxmath.ispow2(v.Byte16));
-			ASSUME(maxmath.ispow2(v.Byte17));
-			ASSUME(maxmath.ispow2(v.Byte18));
-			ASSUME(maxmath.ispow2(v.Byte19));
-			ASSUME(maxmath.ispow2(v.Byte20));
-			ASSUME(maxmath.ispow2(v.Byte21));
-			ASSUME(maxmath.ispow2(v.Byte22));
-			ASSUME(maxmath.ispow2(v.Byte23));
-			ASSUME(maxmath.ispow2(v.Byte24));
-			ASSUME(maxmath.ispow2(v.Byte25));
-			ASSUME(maxmath.ispow2(v.Byte26));
-			ASSUME(maxmath.ispow2(v.Byte27));
-			ASSUME(maxmath.ispow2(v.Byte28));
-			ASSUME(maxmath.ispow2(v.Byte29));
-			ASSUME(maxmath.ispow2(v.Byte30));
-			ASSUME(maxmath.ispow2(v.Byte31));
+			ASSUME(math.ispow2(v.Byte0 ));
+			ASSUME(math.ispow2(v.Byte1 ));
+			ASSUME(math.ispow2(v.Byte2 ));
+			ASSUME(math.ispow2(v.Byte3 ));
+			ASSUME(math.ispow2(v.Byte4 ));
+			ASSUME(math.ispow2(v.Byte5 ));
+			ASSUME(math.ispow2(v.Byte6 ));
+			ASSUME(math.ispow2(v.Byte7 ));
+			ASSUME(math.ispow2(v.Byte8 ));
+			ASSUME(math.ispow2(v.Byte9 ));
+			ASSUME(math.ispow2(v.Byte10));
+			ASSUME(math.ispow2(v.Byte11));
+			ASSUME(math.ispow2(v.Byte12));
+			ASSUME(math.ispow2(v.Byte13));
+			ASSUME(math.ispow2(v.Byte14));
+			ASSUME(math.ispow2(v.Byte15));
+			ASSUME(math.ispow2(v.Byte16));
+			ASSUME(math.ispow2(v.Byte17));
+			ASSUME(math.ispow2(v.Byte18));
+			ASSUME(math.ispow2(v.Byte19));
+			ASSUME(math.ispow2(v.Byte20));
+			ASSUME(math.ispow2(v.Byte21));
+			ASSUME(math.ispow2(v.Byte22));
+			ASSUME(math.ispow2(v.Byte23));
+			ASSUME(math.ispow2(v.Byte24));
+			ASSUME(math.ispow2(v.Byte25));
+			ASSUME(math.ispow2(v.Byte26));
+			ASSUME(math.ispow2(v.Byte27));
+			ASSUME(math.ispow2(v.Byte28));
+			ASSUME(math.ispow2(v.Byte29));
+			ASSUME(math.ispow2(v.Byte30));
+			ASSUME(math.ispow2(v.Byte31));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_POW2_EPU16(v256 v)
 		{
-			ASSUME(maxmath.ispow2(v.UShort0 ));
-			ASSUME(maxmath.ispow2(v.UShort1 ));
-			ASSUME(maxmath.ispow2(v.UShort2 ));
-			ASSUME(maxmath.ispow2(v.UShort3 ));
-			ASSUME(maxmath.ispow2(v.UShort4 ));
-			ASSUME(maxmath.ispow2(v.UShort5 ));
-			ASSUME(maxmath.ispow2(v.UShort6 ));
-			ASSUME(maxmath.ispow2(v.UShort7 ));
-			ASSUME(maxmath.ispow2(v.UShort8 ));
-			ASSUME(maxmath.ispow2(v.UShort9 ));
-			ASSUME(maxmath.ispow2(v.UShort10));
-			ASSUME(maxmath.ispow2(v.UShort11));
-			ASSUME(maxmath.ispow2(v.UShort12));
-			ASSUME(maxmath.ispow2(v.UShort13));
-			ASSUME(maxmath.ispow2(v.UShort14));
-			ASSUME(maxmath.ispow2(v.UShort15));
+			ASSUME(math.ispow2(v.UShort0 ));
+			ASSUME(math.ispow2(v.UShort1 ));
+			ASSUME(math.ispow2(v.UShort2 ));
+			ASSUME(math.ispow2(v.UShort3 ));
+			ASSUME(math.ispow2(v.UShort4 ));
+			ASSUME(math.ispow2(v.UShort5 ));
+			ASSUME(math.ispow2(v.UShort6 ));
+			ASSUME(math.ispow2(v.UShort7 ));
+			ASSUME(math.ispow2(v.UShort8 ));
+			ASSUME(math.ispow2(v.UShort9 ));
+			ASSUME(math.ispow2(v.UShort10));
+			ASSUME(math.ispow2(v.UShort11));
+			ASSUME(math.ispow2(v.UShort12));
+			ASSUME(math.ispow2(v.UShort13));
+			ASSUME(math.ispow2(v.UShort14));
+			ASSUME(math.ispow2(v.UShort15));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_POW2_EPU32(v256 v)
 		{
-			ASSUME(math.ispow2(v.UInt0));
-			ASSUME(math.ispow2(v.UInt1));
-			ASSUME(math.ispow2(v.UInt2));
-			ASSUME(math.ispow2(v.UInt3));
-			ASSUME(math.ispow2(v.UInt4));
-			ASSUME(math.ispow2(v.UInt5));
-			ASSUME(math.ispow2(v.UInt6));
-			ASSUME(math.ispow2(v.UInt7));
+			ASSUME(ispow2(v.UInt0));
+			ASSUME(ispow2(v.UInt1));
+			ASSUME(ispow2(v.UInt2));
+			ASSUME(ispow2(v.UInt3));
+			ASSUME(ispow2(v.UInt4));
+			ASSUME(ispow2(v.UInt5));
+			ASSUME(ispow2(v.UInt6));
+			ASSUME(ispow2(v.UInt7));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2849,88 +2850,88 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				ASSUME(maxmath.ispow2(v.ULong0));
-				ASSUME(maxmath.ispow2(v.ULong1));
-				ASSUME(maxmath.ispow2(v.ULong2));
+				ASSUME(math.ispow2(v.ULong0));
+				ASSUME(math.ispow2(v.ULong1));
+				ASSUME(math.ispow2(v.ULong2));
 			}
 			else
 			{
-				ASSUME(maxmath.ispow2(v.ULong0));
-				ASSUME(maxmath.ispow2(v.ULong1));
-				ASSUME(maxmath.ispow2(v.ULong2));
-				ASSUME(maxmath.ispow2(v.ULong3));
+				ASSUME(math.ispow2(v.ULong0));
+				ASSUME(math.ispow2(v.ULong1));
+				ASSUME(math.ispow2(v.ULong2));
+				ASSUME(math.ispow2(v.ULong3));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_POW2_EPI8(v256 v)
 		{
-			ASSUME(maxmath.ispow2(v.SByte0 ));
-			ASSUME(maxmath.ispow2(v.SByte1 ));
-			ASSUME(maxmath.ispow2(v.SByte2 ));
-			ASSUME(maxmath.ispow2(v.SByte3 ));
-			ASSUME(maxmath.ispow2(v.SByte4 ));
-			ASSUME(maxmath.ispow2(v.SByte5 ));
-			ASSUME(maxmath.ispow2(v.SByte6 ));
-			ASSUME(maxmath.ispow2(v.SByte7 ));
-			ASSUME(maxmath.ispow2(v.SByte8 ));
-			ASSUME(maxmath.ispow2(v.SByte9 ));
-			ASSUME(maxmath.ispow2(v.SByte10));
-			ASSUME(maxmath.ispow2(v.SByte11));
-			ASSUME(maxmath.ispow2(v.SByte12));
-			ASSUME(maxmath.ispow2(v.SByte13));
-			ASSUME(maxmath.ispow2(v.SByte14));
-			ASSUME(maxmath.ispow2(v.SByte15));
-			ASSUME(maxmath.ispow2(v.SByte16));
-			ASSUME(maxmath.ispow2(v.SByte17));
-			ASSUME(maxmath.ispow2(v.SByte18));
-			ASSUME(maxmath.ispow2(v.SByte19));
-			ASSUME(maxmath.ispow2(v.SByte20));
-			ASSUME(maxmath.ispow2(v.SByte21));
-			ASSUME(maxmath.ispow2(v.SByte22));
-			ASSUME(maxmath.ispow2(v.SByte23));
-			ASSUME(maxmath.ispow2(v.SByte24));
-			ASSUME(maxmath.ispow2(v.SByte25));
-			ASSUME(maxmath.ispow2(v.SByte26));
-			ASSUME(maxmath.ispow2(v.SByte27));
-			ASSUME(maxmath.ispow2(v.SByte28));
-			ASSUME(maxmath.ispow2(v.SByte29));
-			ASSUME(maxmath.ispow2(v.SByte30));
-			ASSUME(maxmath.ispow2(v.SByte31));
+			ASSUME(math.ispow2(v.SByte0 ));
+			ASSUME(math.ispow2(v.SByte1 ));
+			ASSUME(math.ispow2(v.SByte2 ));
+			ASSUME(math.ispow2(v.SByte3 ));
+			ASSUME(math.ispow2(v.SByte4 ));
+			ASSUME(math.ispow2(v.SByte5 ));
+			ASSUME(math.ispow2(v.SByte6 ));
+			ASSUME(math.ispow2(v.SByte7 ));
+			ASSUME(math.ispow2(v.SByte8 ));
+			ASSUME(math.ispow2(v.SByte9 ));
+			ASSUME(math.ispow2(v.SByte10));
+			ASSUME(math.ispow2(v.SByte11));
+			ASSUME(math.ispow2(v.SByte12));
+			ASSUME(math.ispow2(v.SByte13));
+			ASSUME(math.ispow2(v.SByte14));
+			ASSUME(math.ispow2(v.SByte15));
+			ASSUME(math.ispow2(v.SByte16));
+			ASSUME(math.ispow2(v.SByte17));
+			ASSUME(math.ispow2(v.SByte18));
+			ASSUME(math.ispow2(v.SByte19));
+			ASSUME(math.ispow2(v.SByte20));
+			ASSUME(math.ispow2(v.SByte21));
+			ASSUME(math.ispow2(v.SByte22));
+			ASSUME(math.ispow2(v.SByte23));
+			ASSUME(math.ispow2(v.SByte24));
+			ASSUME(math.ispow2(v.SByte25));
+			ASSUME(math.ispow2(v.SByte26));
+			ASSUME(math.ispow2(v.SByte27));
+			ASSUME(math.ispow2(v.SByte28));
+			ASSUME(math.ispow2(v.SByte29));
+			ASSUME(math.ispow2(v.SByte30));
+			ASSUME(math.ispow2(v.SByte31));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_POW2_EPI16(v256 v)
 		{
-			ASSUME(maxmath.ispow2(v.SShort0 ));
-			ASSUME(maxmath.ispow2(v.SShort1 ));
-			ASSUME(maxmath.ispow2(v.SShort2 ));
-			ASSUME(maxmath.ispow2(v.SShort3 ));
-			ASSUME(maxmath.ispow2(v.SShort4 ));
-			ASSUME(maxmath.ispow2(v.SShort5 ));
-			ASSUME(maxmath.ispow2(v.SShort6 ));
-			ASSUME(maxmath.ispow2(v.SShort7 ));
-			ASSUME(maxmath.ispow2(v.SShort8 ));
-			ASSUME(maxmath.ispow2(v.SShort9 ));
-			ASSUME(maxmath.ispow2(v.SShort10));
-			ASSUME(maxmath.ispow2(v.SShort11));
-			ASSUME(maxmath.ispow2(v.SShort12));
-			ASSUME(maxmath.ispow2(v.SShort13));
-			ASSUME(maxmath.ispow2(v.SShort14));
-			ASSUME(maxmath.ispow2(v.SShort15));
+			ASSUME(math.ispow2(v.SShort0 ));
+			ASSUME(math.ispow2(v.SShort1 ));
+			ASSUME(math.ispow2(v.SShort2 ));
+			ASSUME(math.ispow2(v.SShort3 ));
+			ASSUME(math.ispow2(v.SShort4 ));
+			ASSUME(math.ispow2(v.SShort5 ));
+			ASSUME(math.ispow2(v.SShort6 ));
+			ASSUME(math.ispow2(v.SShort7 ));
+			ASSUME(math.ispow2(v.SShort8 ));
+			ASSUME(math.ispow2(v.SShort9 ));
+			ASSUME(math.ispow2(v.SShort10));
+			ASSUME(math.ispow2(v.SShort11));
+			ASSUME(math.ispow2(v.SShort12));
+			ASSUME(math.ispow2(v.SShort13));
+			ASSUME(math.ispow2(v.SShort14));
+			ASSUME(math.ispow2(v.SShort15));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_POW2_EPI32(v256 v)
 		{
-			ASSUME(math.ispow2(v.SInt0));
-			ASSUME(math.ispow2(v.SInt1));
-			ASSUME(math.ispow2(v.SInt2));
-			ASSUME(math.ispow2(v.SInt3));
-			ASSUME(math.ispow2(v.SInt4));
-			ASSUME(math.ispow2(v.SInt5));
-			ASSUME(math.ispow2(v.SInt6));
-			ASSUME(math.ispow2(v.SInt7));
+			ASSUME(ispow2(v.SInt0));
+			ASSUME(ispow2(v.SInt1));
+			ASSUME(ispow2(v.SInt2));
+			ASSUME(ispow2(v.SInt3));
+			ASSUME(ispow2(v.SInt4));
+			ASSUME(ispow2(v.SInt5));
+			ASSUME(ispow2(v.SInt6));
+			ASSUME(ispow2(v.SInt7));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2938,16 +2939,16 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				ASSUME(maxmath.ispow2(v.SLong0));
-				ASSUME(maxmath.ispow2(v.SLong1));
-				ASSUME(maxmath.ispow2(v.SLong2));
+				ASSUME(math.ispow2(v.SLong0));
+				ASSUME(math.ispow2(v.SLong1));
+				ASSUME(math.ispow2(v.SLong2));
 			}
 			else
 			{
-				ASSUME(maxmath.ispow2(v.SLong0));
-				ASSUME(maxmath.ispow2(v.SLong1));
-				ASSUME(maxmath.ispow2(v.SLong2));
-				ASSUME(maxmath.ispow2(v.SLong3));
+				ASSUME(math.ispow2(v.SLong0));
+				ASSUME(math.ispow2(v.SLong1));
+				ASSUME(math.ispow2(v.SLong2));
+				ASSUME(math.ispow2(v.SLong3));
 			}
 		}
 
@@ -2956,45 +2957,45 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(!maxmath.ispow2(v.Byte0 ));	return;
+				case  1: ASSUME(!math.ispow2(v.Byte0 ));	return;
 
-				case  2: ASSUME(!maxmath.ispow2(v.Byte0 ));
-						 ASSUME(!maxmath.ispow2(v.Byte1 ));	return;
+				case  2: ASSUME(!math.ispow2(v.Byte0 ));
+						 ASSUME(!math.ispow2(v.Byte1 ));	return;
 
-				case  3: ASSUME(!maxmath.ispow2(v.Byte0 ));
-						 ASSUME(!maxmath.ispow2(v.Byte1 ));
-						 ASSUME(!maxmath.ispow2(v.Byte2 ));	return;
+				case  3: ASSUME(!math.ispow2(v.Byte0 ));
+						 ASSUME(!math.ispow2(v.Byte1 ));
+						 ASSUME(!math.ispow2(v.Byte2 ));	return;
 
-				case  4: ASSUME(!maxmath.ispow2(v.Byte0 ));
-						 ASSUME(!maxmath.ispow2(v.Byte1 ));
-						 ASSUME(!maxmath.ispow2(v.Byte2 ));
-						 ASSUME(!maxmath.ispow2(v.Byte3 ));	return;
+				case  4: ASSUME(!math.ispow2(v.Byte0 ));
+						 ASSUME(!math.ispow2(v.Byte1 ));
+						 ASSUME(!math.ispow2(v.Byte2 ));
+						 ASSUME(!math.ispow2(v.Byte3 ));	return;
 
-				case  8: ASSUME(!maxmath.ispow2(v.Byte0 ));
-						 ASSUME(!maxmath.ispow2(v.Byte1 ));
-						 ASSUME(!maxmath.ispow2(v.Byte2 ));
-						 ASSUME(!maxmath.ispow2(v.Byte3 ));
-						 ASSUME(!maxmath.ispow2(v.Byte4 ));
-						 ASSUME(!maxmath.ispow2(v.Byte5 ));
-						 ASSUME(!maxmath.ispow2(v.Byte6 ));
-						 ASSUME(!maxmath.ispow2(v.Byte7 ));	return;
+				case  8: ASSUME(!math.ispow2(v.Byte0 ));
+						 ASSUME(!math.ispow2(v.Byte1 ));
+						 ASSUME(!math.ispow2(v.Byte2 ));
+						 ASSUME(!math.ispow2(v.Byte3 ));
+						 ASSUME(!math.ispow2(v.Byte4 ));
+						 ASSUME(!math.ispow2(v.Byte5 ));
+						 ASSUME(!math.ispow2(v.Byte6 ));
+						 ASSUME(!math.ispow2(v.Byte7 ));	return;
 
-				default: ASSUME(!maxmath.ispow2(v.Byte0 ));
-						 ASSUME(!maxmath.ispow2(v.Byte1 ));
-						 ASSUME(!maxmath.ispow2(v.Byte2 ));
-						 ASSUME(!maxmath.ispow2(v.Byte3 ));
-						 ASSUME(!maxmath.ispow2(v.Byte4 ));
-						 ASSUME(!maxmath.ispow2(v.Byte5 ));
-						 ASSUME(!maxmath.ispow2(v.Byte6 ));
-						 ASSUME(!maxmath.ispow2(v.Byte7 ));
-						 ASSUME(!maxmath.ispow2(v.Byte8 ));
-						 ASSUME(!maxmath.ispow2(v.Byte9 ));
-						 ASSUME(!maxmath.ispow2(v.Byte10));
-						 ASSUME(!maxmath.ispow2(v.Byte11));
-						 ASSUME(!maxmath.ispow2(v.Byte12));
-						 ASSUME(!maxmath.ispow2(v.Byte13));
-						 ASSUME(!maxmath.ispow2(v.Byte14));
-						 ASSUME(!maxmath.ispow2(v.Byte15));	return;
+				default: ASSUME(!math.ispow2(v.Byte0 ));
+						 ASSUME(!math.ispow2(v.Byte1 ));
+						 ASSUME(!math.ispow2(v.Byte2 ));
+						 ASSUME(!math.ispow2(v.Byte3 ));
+						 ASSUME(!math.ispow2(v.Byte4 ));
+						 ASSUME(!math.ispow2(v.Byte5 ));
+						 ASSUME(!math.ispow2(v.Byte6 ));
+						 ASSUME(!math.ispow2(v.Byte7 ));
+						 ASSUME(!math.ispow2(v.Byte8 ));
+						 ASSUME(!math.ispow2(v.Byte9 ));
+						 ASSUME(!math.ispow2(v.Byte10));
+						 ASSUME(!math.ispow2(v.Byte11));
+						 ASSUME(!math.ispow2(v.Byte12));
+						 ASSUME(!math.ispow2(v.Byte13));
+						 ASSUME(!math.ispow2(v.Byte14));
+						 ASSUME(!math.ispow2(v.Byte15));	return;
 			}
 		}
 
@@ -3003,28 +3004,28 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(!maxmath.ispow2(v.UShort0));	return;
+				case  1: ASSUME(!math.ispow2(v.UShort0));	return;
 
-				case  2: ASSUME(!maxmath.ispow2(v.UShort0));
-						 ASSUME(!maxmath.ispow2(v.UShort1));	return;
+				case  2: ASSUME(!math.ispow2(v.UShort0));
+						 ASSUME(!math.ispow2(v.UShort1));	return;
 
-				case  3: ASSUME(!maxmath.ispow2(v.UShort0));
-						 ASSUME(!maxmath.ispow2(v.UShort1));
-						 ASSUME(!maxmath.ispow2(v.UShort2));	return;
+				case  3: ASSUME(!math.ispow2(v.UShort0));
+						 ASSUME(!math.ispow2(v.UShort1));
+						 ASSUME(!math.ispow2(v.UShort2));	return;
 
-				case  4: ASSUME(!maxmath.ispow2(v.UShort0));
-						 ASSUME(!maxmath.ispow2(v.UShort1));
-						 ASSUME(!maxmath.ispow2(v.UShort2));
-						 ASSUME(!maxmath.ispow2(v.UShort3));	return;
+				case  4: ASSUME(!math.ispow2(v.UShort0));
+						 ASSUME(!math.ispow2(v.UShort1));
+						 ASSUME(!math.ispow2(v.UShort2));
+						 ASSUME(!math.ispow2(v.UShort3));	return;
 
-				default: ASSUME(!maxmath.ispow2(v.UShort0));
-						 ASSUME(!maxmath.ispow2(v.UShort1));
-						 ASSUME(!maxmath.ispow2(v.UShort2));
-						 ASSUME(!maxmath.ispow2(v.UShort3));
-						 ASSUME(!maxmath.ispow2(v.UShort4));
-						 ASSUME(!maxmath.ispow2(v.UShort5));
-						 ASSUME(!maxmath.ispow2(v.UShort6));
-						 ASSUME(!maxmath.ispow2(v.UShort7));	return;
+				default: ASSUME(!math.ispow2(v.UShort0));
+						 ASSUME(!math.ispow2(v.UShort1));
+						 ASSUME(!math.ispow2(v.UShort2));
+						 ASSUME(!math.ispow2(v.UShort3));
+						 ASSUME(!math.ispow2(v.UShort4));
+						 ASSUME(!math.ispow2(v.UShort5));
+						 ASSUME(!math.ispow2(v.UShort6));
+						 ASSUME(!math.ispow2(v.UShort7));	return;
 			}
 		}
 
@@ -3033,19 +3034,19 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(!math.ispow2(v.UInt0));	return;
+				case  1: ASSUME(!ispow2(v.UInt0));	return;
 
-				case  2: ASSUME(!math.ispow2(v.UInt0));
-						 ASSUME(!math.ispow2(v.UInt1));	return;
+				case  2: ASSUME(!ispow2(v.UInt0));
+						 ASSUME(!ispow2(v.UInt1));	return;
 
-				case  3: ASSUME(!math.ispow2(v.UInt0));
-						 ASSUME(!math.ispow2(v.UInt1));
-						 ASSUME(!math.ispow2(v.UInt2));	return;
+				case  3: ASSUME(!ispow2(v.UInt0));
+						 ASSUME(!ispow2(v.UInt1));
+						 ASSUME(!ispow2(v.UInt2));	return;
 
-				default: ASSUME(!math.ispow2(v.UInt0));
-						 ASSUME(!math.ispow2(v.UInt1));
-						 ASSUME(!math.ispow2(v.UInt2));
-						 ASSUME(!math.ispow2(v.UInt3));	return;
+				default: ASSUME(!ispow2(v.UInt0));
+						 ASSUME(!ispow2(v.UInt1));
+						 ASSUME(!ispow2(v.UInt2));
+						 ASSUME(!ispow2(v.UInt3));	return;
 			}
 		}
 
@@ -3054,12 +3055,12 @@ namespace MaxMath.Intrinsics
 		{
             if (elements == 1)
             {
-				ASSUME(!maxmath.ispow2(v.ULong0));
+				ASSUME(!math.ispow2(v.ULong0));
             }
 			else
 			{
-				ASSUME(!maxmath.ispow2(v.ULong0));
-				ASSUME(!maxmath.ispow2(v.ULong1));
+				ASSUME(!math.ispow2(v.ULong0));
+				ASSUME(!math.ispow2(v.ULong1));
 			}
 		}
 
@@ -3069,45 +3070,45 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(!maxmath.ispow2(v.SByte0 ));	return;
+				case  1: ASSUME(!math.ispow2(v.SByte0 ));	return;
 
-				case  2: ASSUME(!maxmath.ispow2(v.SByte0 ));
-						 ASSUME(!maxmath.ispow2(v.SByte1 ));	return;
+				case  2: ASSUME(!math.ispow2(v.SByte0 ));
+						 ASSUME(!math.ispow2(v.SByte1 ));	return;
 
-				case  3: ASSUME(!maxmath.ispow2(v.SByte0 ));
-						 ASSUME(!maxmath.ispow2(v.SByte1 ));
-						 ASSUME(!maxmath.ispow2(v.SByte2 ));	return;
+				case  3: ASSUME(!math.ispow2(v.SByte0 ));
+						 ASSUME(!math.ispow2(v.SByte1 ));
+						 ASSUME(!math.ispow2(v.SByte2 ));	return;
 
-				case  4: ASSUME(!maxmath.ispow2(v.SByte0 ));
-						 ASSUME(!maxmath.ispow2(v.SByte1 ));
-						 ASSUME(!maxmath.ispow2(v.SByte2 ));
-						 ASSUME(!maxmath.ispow2(v.SByte3 ));	return;
+				case  4: ASSUME(!math.ispow2(v.SByte0 ));
+						 ASSUME(!math.ispow2(v.SByte1 ));
+						 ASSUME(!math.ispow2(v.SByte2 ));
+						 ASSUME(!math.ispow2(v.SByte3 ));	return;
 
-				case  8: ASSUME(!maxmath.ispow2(v.SByte0 ));
-						 ASSUME(!maxmath.ispow2(v.SByte1 ));
-						 ASSUME(!maxmath.ispow2(v.SByte2 ));
-						 ASSUME(!maxmath.ispow2(v.SByte3 ));
-						 ASSUME(!maxmath.ispow2(v.SByte4 ));
-						 ASSUME(!maxmath.ispow2(v.SByte5 ));
-						 ASSUME(!maxmath.ispow2(v.SByte6 ));
-						 ASSUME(!maxmath.ispow2(v.SByte7 ));	return;
+				case  8: ASSUME(!math.ispow2(v.SByte0 ));
+						 ASSUME(!math.ispow2(v.SByte1 ));
+						 ASSUME(!math.ispow2(v.SByte2 ));
+						 ASSUME(!math.ispow2(v.SByte3 ));
+						 ASSUME(!math.ispow2(v.SByte4 ));
+						 ASSUME(!math.ispow2(v.SByte5 ));
+						 ASSUME(!math.ispow2(v.SByte6 ));
+						 ASSUME(!math.ispow2(v.SByte7 ));	return;
 
-				default: ASSUME(!maxmath.ispow2(v.SByte0 ));
-						 ASSUME(!maxmath.ispow2(v.SByte1 ));
-						 ASSUME(!maxmath.ispow2(v.SByte2 ));
-						 ASSUME(!maxmath.ispow2(v.SByte3 ));
-						 ASSUME(!maxmath.ispow2(v.SByte4 ));
-						 ASSUME(!maxmath.ispow2(v.SByte5 ));
-						 ASSUME(!maxmath.ispow2(v.SByte6 ));
-						 ASSUME(!maxmath.ispow2(v.SByte7 ));
-						 ASSUME(!maxmath.ispow2(v.SByte8 ));
-						 ASSUME(!maxmath.ispow2(v.SByte9 ));
-						 ASSUME(!maxmath.ispow2(v.SByte10));
-						 ASSUME(!maxmath.ispow2(v.SByte11));
-						 ASSUME(!maxmath.ispow2(v.SByte12));
-						 ASSUME(!maxmath.ispow2(v.SByte13));
-						 ASSUME(!maxmath.ispow2(v.SByte14));
-						 ASSUME(!maxmath.ispow2(v.SByte15));	return;
+				default: ASSUME(!math.ispow2(v.SByte0 ));
+						 ASSUME(!math.ispow2(v.SByte1 ));
+						 ASSUME(!math.ispow2(v.SByte2 ));
+						 ASSUME(!math.ispow2(v.SByte3 ));
+						 ASSUME(!math.ispow2(v.SByte4 ));
+						 ASSUME(!math.ispow2(v.SByte5 ));
+						 ASSUME(!math.ispow2(v.SByte6 ));
+						 ASSUME(!math.ispow2(v.SByte7 ));
+						 ASSUME(!math.ispow2(v.SByte8 ));
+						 ASSUME(!math.ispow2(v.SByte9 ));
+						 ASSUME(!math.ispow2(v.SByte10));
+						 ASSUME(!math.ispow2(v.SByte11));
+						 ASSUME(!math.ispow2(v.SByte12));
+						 ASSUME(!math.ispow2(v.SByte13));
+						 ASSUME(!math.ispow2(v.SByte14));
+						 ASSUME(!math.ispow2(v.SByte15));	return;
 			}
 		}
 
@@ -3116,28 +3117,28 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(!maxmath.ispow2(v.SShort0));	return;
+				case  1: ASSUME(!math.ispow2(v.SShort0));	return;
 
-				case  2: ASSUME(!maxmath.ispow2(v.SShort0));
-						 ASSUME(!maxmath.ispow2(v.SShort1));	return;
+				case  2: ASSUME(!math.ispow2(v.SShort0));
+						 ASSUME(!math.ispow2(v.SShort1));	return;
 
-				case  3: ASSUME(!maxmath.ispow2(v.SShort0));
-						 ASSUME(!maxmath.ispow2(v.SShort1));
-						 ASSUME(!maxmath.ispow2(v.SShort2));	return;
+				case  3: ASSUME(!math.ispow2(v.SShort0));
+						 ASSUME(!math.ispow2(v.SShort1));
+						 ASSUME(!math.ispow2(v.SShort2));	return;
 
-				case  4: ASSUME(!maxmath.ispow2(v.SShort0));
-						 ASSUME(!maxmath.ispow2(v.SShort1));
-						 ASSUME(!maxmath.ispow2(v.SShort2));
-						 ASSUME(!maxmath.ispow2(v.SShort3));	return;
+				case  4: ASSUME(!math.ispow2(v.SShort0));
+						 ASSUME(!math.ispow2(v.SShort1));
+						 ASSUME(!math.ispow2(v.SShort2));
+						 ASSUME(!math.ispow2(v.SShort3));	return;
 
-				default: ASSUME(!maxmath.ispow2(v.SShort0));
-						 ASSUME(!maxmath.ispow2(v.SShort1));
-						 ASSUME(!maxmath.ispow2(v.SShort2));
-						 ASSUME(!maxmath.ispow2(v.SShort3));
-						 ASSUME(!maxmath.ispow2(v.SShort4));
-						 ASSUME(!maxmath.ispow2(v.SShort5));
-						 ASSUME(!maxmath.ispow2(v.SShort6));
-						 ASSUME(!maxmath.ispow2(v.SShort7));	return;
+				default: ASSUME(!math.ispow2(v.SShort0));
+						 ASSUME(!math.ispow2(v.SShort1));
+						 ASSUME(!math.ispow2(v.SShort2));
+						 ASSUME(!math.ispow2(v.SShort3));
+						 ASSUME(!math.ispow2(v.SShort4));
+						 ASSUME(!math.ispow2(v.SShort5));
+						 ASSUME(!math.ispow2(v.SShort6));
+						 ASSUME(!math.ispow2(v.SShort7));	return;
 			}
 		}
 
@@ -3146,19 +3147,19 @@ namespace MaxMath.Intrinsics
 		{
 			switch (elements)
 			{
-				case  1: ASSUME(!math.ispow2(v.SInt0));	return;
+				case  1: ASSUME(!ispow2(v.SInt0));	return;
 
-				case  2: ASSUME(!math.ispow2(v.SInt0));
-						 ASSUME(!math.ispow2(v.SInt1));	return;
+				case  2: ASSUME(!ispow2(v.SInt0));
+						 ASSUME(!ispow2(v.SInt1));	return;
 
-				case  3: ASSUME(!math.ispow2(v.SInt0));
-						 ASSUME(!math.ispow2(v.SInt1));
-						 ASSUME(!math.ispow2(v.SInt2));	return;
+				case  3: ASSUME(!ispow2(v.SInt0));
+						 ASSUME(!ispow2(v.SInt1));
+						 ASSUME(!ispow2(v.SInt2));	return;
 
-				default: ASSUME(!math.ispow2(v.SInt0));
-						 ASSUME(!math.ispow2(v.SInt1));
-						 ASSUME(!math.ispow2(v.SInt2));
-						 ASSUME(!math.ispow2(v.SInt3));	return;
+				default: ASSUME(!ispow2(v.SInt0));
+						 ASSUME(!ispow2(v.SInt1));
+						 ASSUME(!ispow2(v.SInt2));
+						 ASSUME(!ispow2(v.SInt3));	return;
 			}
 		}
 
@@ -3167,84 +3168,84 @@ namespace MaxMath.Intrinsics
 		{
             if (elements == 1)
             {
-				ASSUME(!maxmath.ispow2(v.SLong0));
+				ASSUME(!math.ispow2(v.SLong0));
             }
 			else
 			{
-				ASSUME(!maxmath.ispow2(v.SLong0));
-				ASSUME(!maxmath.ispow2(v.SLong1));
+				ASSUME(!math.ispow2(v.SLong0));
+				ASSUME(!math.ispow2(v.SLong1));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NONE_POW2_EPU8(v256 v)
 		{
-			ASSUME(!maxmath.ispow2(v.Byte0 ));
-			ASSUME(!maxmath.ispow2(v.Byte1 ));
-			ASSUME(!maxmath.ispow2(v.Byte2 ));
-			ASSUME(!maxmath.ispow2(v.Byte3 ));
-			ASSUME(!maxmath.ispow2(v.Byte4 ));
-			ASSUME(!maxmath.ispow2(v.Byte5 ));
-			ASSUME(!maxmath.ispow2(v.Byte6 ));
-			ASSUME(!maxmath.ispow2(v.Byte7 ));
-			ASSUME(!maxmath.ispow2(v.Byte8 ));
-			ASSUME(!maxmath.ispow2(v.Byte9 ));
-			ASSUME(!maxmath.ispow2(v.Byte10));
-			ASSUME(!maxmath.ispow2(v.Byte11));
-			ASSUME(!maxmath.ispow2(v.Byte12));
-			ASSUME(!maxmath.ispow2(v.Byte13));
-			ASSUME(!maxmath.ispow2(v.Byte14));
-			ASSUME(!maxmath.ispow2(v.Byte15));
-			ASSUME(!maxmath.ispow2(v.Byte16));
-			ASSUME(!maxmath.ispow2(v.Byte17));
-			ASSUME(!maxmath.ispow2(v.Byte18));
-			ASSUME(!maxmath.ispow2(v.Byte19));
-			ASSUME(!maxmath.ispow2(v.Byte20));
-			ASSUME(!maxmath.ispow2(v.Byte21));
-			ASSUME(!maxmath.ispow2(v.Byte22));
-			ASSUME(!maxmath.ispow2(v.Byte23));
-			ASSUME(!maxmath.ispow2(v.Byte24));
-			ASSUME(!maxmath.ispow2(v.Byte25));
-			ASSUME(!maxmath.ispow2(v.Byte26));
-			ASSUME(!maxmath.ispow2(v.Byte27));
-			ASSUME(!maxmath.ispow2(v.Byte28));
-			ASSUME(!maxmath.ispow2(v.Byte29));
-			ASSUME(!maxmath.ispow2(v.Byte30));
-			ASSUME(!maxmath.ispow2(v.Byte31));
+			ASSUME(!math.ispow2(v.Byte0 ));
+			ASSUME(!math.ispow2(v.Byte1 ));
+			ASSUME(!math.ispow2(v.Byte2 ));
+			ASSUME(!math.ispow2(v.Byte3 ));
+			ASSUME(!math.ispow2(v.Byte4 ));
+			ASSUME(!math.ispow2(v.Byte5 ));
+			ASSUME(!math.ispow2(v.Byte6 ));
+			ASSUME(!math.ispow2(v.Byte7 ));
+			ASSUME(!math.ispow2(v.Byte8 ));
+			ASSUME(!math.ispow2(v.Byte9 ));
+			ASSUME(!math.ispow2(v.Byte10));
+			ASSUME(!math.ispow2(v.Byte11));
+			ASSUME(!math.ispow2(v.Byte12));
+			ASSUME(!math.ispow2(v.Byte13));
+			ASSUME(!math.ispow2(v.Byte14));
+			ASSUME(!math.ispow2(v.Byte15));
+			ASSUME(!math.ispow2(v.Byte16));
+			ASSUME(!math.ispow2(v.Byte17));
+			ASSUME(!math.ispow2(v.Byte18));
+			ASSUME(!math.ispow2(v.Byte19));
+			ASSUME(!math.ispow2(v.Byte20));
+			ASSUME(!math.ispow2(v.Byte21));
+			ASSUME(!math.ispow2(v.Byte22));
+			ASSUME(!math.ispow2(v.Byte23));
+			ASSUME(!math.ispow2(v.Byte24));
+			ASSUME(!math.ispow2(v.Byte25));
+			ASSUME(!math.ispow2(v.Byte26));
+			ASSUME(!math.ispow2(v.Byte27));
+			ASSUME(!math.ispow2(v.Byte28));
+			ASSUME(!math.ispow2(v.Byte29));
+			ASSUME(!math.ispow2(v.Byte30));
+			ASSUME(!math.ispow2(v.Byte31));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NONE_POW2_EPU16(v256 v)
 		{
-			ASSUME(!maxmath.ispow2(v.UShort0 ));
-			ASSUME(!maxmath.ispow2(v.UShort1 ));
-			ASSUME(!maxmath.ispow2(v.UShort2 ));
-			ASSUME(!maxmath.ispow2(v.UShort3 ));
-			ASSUME(!maxmath.ispow2(v.UShort4 ));
-			ASSUME(!maxmath.ispow2(v.UShort5 ));
-			ASSUME(!maxmath.ispow2(v.UShort6 ));
-			ASSUME(!maxmath.ispow2(v.UShort7 ));
-			ASSUME(!maxmath.ispow2(v.UShort8 ));
-			ASSUME(!maxmath.ispow2(v.UShort9 ));
-			ASSUME(!maxmath.ispow2(v.UShort10));
-			ASSUME(!maxmath.ispow2(v.UShort11));
-			ASSUME(!maxmath.ispow2(v.UShort12));
-			ASSUME(!maxmath.ispow2(v.UShort13));
-			ASSUME(!maxmath.ispow2(v.UShort14));
-			ASSUME(!maxmath.ispow2(v.UShort15));
+			ASSUME(!math.ispow2(v.UShort0 ));
+			ASSUME(!math.ispow2(v.UShort1 ));
+			ASSUME(!math.ispow2(v.UShort2 ));
+			ASSUME(!math.ispow2(v.UShort3 ));
+			ASSUME(!math.ispow2(v.UShort4 ));
+			ASSUME(!math.ispow2(v.UShort5 ));
+			ASSUME(!math.ispow2(v.UShort6 ));
+			ASSUME(!math.ispow2(v.UShort7 ));
+			ASSUME(!math.ispow2(v.UShort8 ));
+			ASSUME(!math.ispow2(v.UShort9 ));
+			ASSUME(!math.ispow2(v.UShort10));
+			ASSUME(!math.ispow2(v.UShort11));
+			ASSUME(!math.ispow2(v.UShort12));
+			ASSUME(!math.ispow2(v.UShort13));
+			ASSUME(!math.ispow2(v.UShort14));
+			ASSUME(!math.ispow2(v.UShort15));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NONE_POW2_EPU32(v256 v)
 		{
-			ASSUME(!math.ispow2(v.UInt0));
-			ASSUME(!math.ispow2(v.UInt1));
-			ASSUME(!math.ispow2(v.UInt2));
-			ASSUME(!math.ispow2(v.UInt3));
-			ASSUME(!math.ispow2(v.UInt4));
-			ASSUME(!math.ispow2(v.UInt5));
-			ASSUME(!math.ispow2(v.UInt6));
-			ASSUME(!math.ispow2(v.UInt7));
+			ASSUME(!ispow2(v.UInt0));
+			ASSUME(!ispow2(v.UInt1));
+			ASSUME(!ispow2(v.UInt2));
+			ASSUME(!ispow2(v.UInt3));
+			ASSUME(!ispow2(v.UInt4));
+			ASSUME(!ispow2(v.UInt5));
+			ASSUME(!ispow2(v.UInt6));
+			ASSUME(!ispow2(v.UInt7));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3252,88 +3253,88 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				ASSUME(!maxmath.ispow2(v.ULong0));
-				ASSUME(!maxmath.ispow2(v.ULong1));
-				ASSUME(!maxmath.ispow2(v.ULong2));
+				ASSUME(!math.ispow2(v.ULong0));
+				ASSUME(!math.ispow2(v.ULong1));
+				ASSUME(!math.ispow2(v.ULong2));
 			}
 			else
 			{
-				ASSUME(!maxmath.ispow2(v.ULong0));
-				ASSUME(!maxmath.ispow2(v.ULong1));
-				ASSUME(!maxmath.ispow2(v.ULong2));
-				ASSUME(!maxmath.ispow2(v.ULong3));
+				ASSUME(!math.ispow2(v.ULong0));
+				ASSUME(!math.ispow2(v.ULong1));
+				ASSUME(!math.ispow2(v.ULong2));
+				ASSUME(!math.ispow2(v.ULong3));
 			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NONE_POW2_EPI8(v256 v)
 		{
-			ASSUME(!maxmath.ispow2(v.SByte0 ));
-			ASSUME(!maxmath.ispow2(v.SByte1 ));
-			ASSUME(!maxmath.ispow2(v.SByte2 ));
-			ASSUME(!maxmath.ispow2(v.SByte3 ));
-			ASSUME(!maxmath.ispow2(v.SByte4 ));
-			ASSUME(!maxmath.ispow2(v.SByte5 ));
-			ASSUME(!maxmath.ispow2(v.SByte6 ));
-			ASSUME(!maxmath.ispow2(v.SByte7 ));
-			ASSUME(!maxmath.ispow2(v.SByte8 ));
-			ASSUME(!maxmath.ispow2(v.SByte9 ));
-			ASSUME(!maxmath.ispow2(v.SByte10));
-			ASSUME(!maxmath.ispow2(v.SByte11));
-			ASSUME(!maxmath.ispow2(v.SByte12));
-			ASSUME(!maxmath.ispow2(v.SByte13));
-			ASSUME(!maxmath.ispow2(v.SByte14));
-			ASSUME(!maxmath.ispow2(v.SByte15));
-			ASSUME(!maxmath.ispow2(v.SByte16));
-			ASSUME(!maxmath.ispow2(v.SByte17));
-			ASSUME(!maxmath.ispow2(v.SByte18));
-			ASSUME(!maxmath.ispow2(v.SByte19));
-			ASSUME(!maxmath.ispow2(v.SByte20));
-			ASSUME(!maxmath.ispow2(v.SByte21));
-			ASSUME(!maxmath.ispow2(v.SByte22));
-			ASSUME(!maxmath.ispow2(v.SByte23));
-			ASSUME(!maxmath.ispow2(v.SByte24));
-			ASSUME(!maxmath.ispow2(v.SByte25));
-			ASSUME(!maxmath.ispow2(v.SByte26));
-			ASSUME(!maxmath.ispow2(v.SByte27));
-			ASSUME(!maxmath.ispow2(v.SByte28));
-			ASSUME(!maxmath.ispow2(v.SByte29));
-			ASSUME(!maxmath.ispow2(v.SByte30));
-			ASSUME(!maxmath.ispow2(v.SByte31));
+			ASSUME(!math.ispow2(v.SByte0 ));
+			ASSUME(!math.ispow2(v.SByte1 ));
+			ASSUME(!math.ispow2(v.SByte2 ));
+			ASSUME(!math.ispow2(v.SByte3 ));
+			ASSUME(!math.ispow2(v.SByte4 ));
+			ASSUME(!math.ispow2(v.SByte5 ));
+			ASSUME(!math.ispow2(v.SByte6 ));
+			ASSUME(!math.ispow2(v.SByte7 ));
+			ASSUME(!math.ispow2(v.SByte8 ));
+			ASSUME(!math.ispow2(v.SByte9 ));
+			ASSUME(!math.ispow2(v.SByte10));
+			ASSUME(!math.ispow2(v.SByte11));
+			ASSUME(!math.ispow2(v.SByte12));
+			ASSUME(!math.ispow2(v.SByte13));
+			ASSUME(!math.ispow2(v.SByte14));
+			ASSUME(!math.ispow2(v.SByte15));
+			ASSUME(!math.ispow2(v.SByte16));
+			ASSUME(!math.ispow2(v.SByte17));
+			ASSUME(!math.ispow2(v.SByte18));
+			ASSUME(!math.ispow2(v.SByte19));
+			ASSUME(!math.ispow2(v.SByte20));
+			ASSUME(!math.ispow2(v.SByte21));
+			ASSUME(!math.ispow2(v.SByte22));
+			ASSUME(!math.ispow2(v.SByte23));
+			ASSUME(!math.ispow2(v.SByte24));
+			ASSUME(!math.ispow2(v.SByte25));
+			ASSUME(!math.ispow2(v.SByte26));
+			ASSUME(!math.ispow2(v.SByte27));
+			ASSUME(!math.ispow2(v.SByte28));
+			ASSUME(!math.ispow2(v.SByte29));
+			ASSUME(!math.ispow2(v.SByte30));
+			ASSUME(!math.ispow2(v.SByte31));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NONE_POW2_EPI16(v256 v)
 		{
-			ASSUME(!maxmath.ispow2(v.SShort0 ));
-			ASSUME(!maxmath.ispow2(v.SShort1 ));
-			ASSUME(!maxmath.ispow2(v.SShort2 ));
-			ASSUME(!maxmath.ispow2(v.SShort3 ));
-			ASSUME(!maxmath.ispow2(v.SShort4 ));
-			ASSUME(!maxmath.ispow2(v.SShort5 ));
-			ASSUME(!maxmath.ispow2(v.SShort6 ));
-			ASSUME(!maxmath.ispow2(v.SShort7 ));
-			ASSUME(!maxmath.ispow2(v.SShort8 ));
-			ASSUME(!maxmath.ispow2(v.SShort9 ));
-			ASSUME(!maxmath.ispow2(v.SShort10));
-			ASSUME(!maxmath.ispow2(v.SShort11));
-			ASSUME(!maxmath.ispow2(v.SShort12));
-			ASSUME(!maxmath.ispow2(v.SShort13));
-			ASSUME(!maxmath.ispow2(v.SShort14));
-			ASSUME(!maxmath.ispow2(v.SShort15));
+			ASSUME(!math.ispow2(v.SShort0 ));
+			ASSUME(!math.ispow2(v.SShort1 ));
+			ASSUME(!math.ispow2(v.SShort2 ));
+			ASSUME(!math.ispow2(v.SShort3 ));
+			ASSUME(!math.ispow2(v.SShort4 ));
+			ASSUME(!math.ispow2(v.SShort5 ));
+			ASSUME(!math.ispow2(v.SShort6 ));
+			ASSUME(!math.ispow2(v.SShort7 ));
+			ASSUME(!math.ispow2(v.SShort8 ));
+			ASSUME(!math.ispow2(v.SShort9 ));
+			ASSUME(!math.ispow2(v.SShort10));
+			ASSUME(!math.ispow2(v.SShort11));
+			ASSUME(!math.ispow2(v.SShort12));
+			ASSUME(!math.ispow2(v.SShort13));
+			ASSUME(!math.ispow2(v.SShort14));
+			ASSUME(!math.ispow2(v.SShort15));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void ASSUME_NONE_POW2_EPI32(v256 v)
 		{
-			ASSUME(!math.ispow2(v.SInt0));
-			ASSUME(!math.ispow2(v.SInt1));
-			ASSUME(!math.ispow2(v.SInt2));
-			ASSUME(!math.ispow2(v.SInt3));
-			ASSUME(!math.ispow2(v.SInt4));
-			ASSUME(!math.ispow2(v.SInt5));
-			ASSUME(!math.ispow2(v.SInt6));
-			ASSUME(!math.ispow2(v.SInt7));
+			ASSUME(!ispow2(v.SInt0));
+			ASSUME(!ispow2(v.SInt1));
+			ASSUME(!ispow2(v.SInt2));
+			ASSUME(!ispow2(v.SInt3));
+			ASSUME(!ispow2(v.SInt4));
+			ASSUME(!ispow2(v.SInt5));
+			ASSUME(!ispow2(v.SInt6));
+			ASSUME(!ispow2(v.SInt7));
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -3341,16 +3342,16 @@ namespace MaxMath.Intrinsics
 		{
 			if (elements == 3)
 			{
-				ASSUME(!maxmath.ispow2(v.SLong0));
-				ASSUME(!maxmath.ispow2(v.SLong1));
-				ASSUME(!maxmath.ispow2(v.SLong2));
+				ASSUME(!math.ispow2(v.SLong0));
+				ASSUME(!math.ispow2(v.SLong1));
+				ASSUME(!math.ispow2(v.SLong2));
 			}
 			else
 			{
-				ASSUME(!maxmath.ispow2(v.SLong0));
-				ASSUME(!maxmath.ispow2(v.SLong1));
-				ASSUME(!maxmath.ispow2(v.SLong2));
-				ASSUME(!maxmath.ispow2(v.SLong3));
+				ASSUME(!math.ispow2(v.SLong0));
+				ASSUME(!math.ispow2(v.SLong1));
+				ASSUME(!math.ispow2(v.SLong2));
+				ASSUME(!math.ispow2(v.SLong3));
 			}
 		}
 

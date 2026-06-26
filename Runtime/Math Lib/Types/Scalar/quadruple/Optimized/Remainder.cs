@@ -2,11 +2,11 @@ using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple
+    unsafe public partial struct quadruple
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked Remainder(quadruple.ConstChecked left, quadruple.ConstChecked right)
@@ -168,7 +168,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple fmod(quadruple x, quadruple y)

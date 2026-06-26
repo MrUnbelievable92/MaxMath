@@ -514,7 +514,15 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 mullo_epi64(v128 a, v128 b, bool unsigned_A_lessequalU32Max = false, bool unsigned_B_lessequalU32Max = false)
         {
-            if (BurstArchitecture.IsSIMDSupported)
+            if (Arm.Neon.IsNeonSupported)
+            {
+                v64 ac = Arm.Neon.vmovn_s64(a);
+                v64 pr = Arm.Neon.vmovn_s64(b);
+                v128 hi = Arm.Neon.vmulq_s32(b, Arm.Neon.vrev64q_s32(a));
+
+                return Arm.Neon.vmlal_u32(Arm.Neon.vshlq_n_s64(Arm.Neon.vpaddlq_u32(hi), 32), ac, pr);
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 if (constexpr.ALL_EQ_EPI64(a, b))
                 {
@@ -546,7 +554,7 @@ namespace MaxMath.Intrinsics
                     return add_epi64(prod32, carry32);
                 }
 
-                if (BurstArchitecture.IsMul32Supported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
                     carry32 = mullo_epi32(a, shuffle_epi32(b, Sse.SHUFFLE(2, 3, 0, 1)));
                     carry32 = hadd_epi32(carry32, setzero_si128());
@@ -598,10 +606,19 @@ namespace MaxMath.Intrinsics
 
                     return Avx2.mm256_add_epi64(prod32, carry32);
                 }
-
-                carry32 = Avx2.mm256_mullo_epi32(a, Avx2.mm256_shuffle_epi32(b, Sse.SHUFFLE(2, 3, 0, 1)));
-                carry32 = Avx2.mm256_hadd_epi32(carry32, Avx.mm256_setzero_si256());
-                carry32 = Avx2.mm256_shuffle_epi32(carry32, Sse.SHUFFLE(1, 3, 0, 3));
+                
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                {
+                    carry32 = Avx2.mm256_mullo_epi32(a, Avx2.mm256_shuffle_epi32(b, Sse.SHUFFLE(2, 3, 0, 1)));
+                    carry32 = Avx2.mm256_hadd_epi32(carry32, Avx.mm256_setzero_si256());
+                    carry32 = Avx2.mm256_shuffle_epi32(carry32, Sse.SHUFFLE(1, 3, 0, 3));
+                }
+                else
+                {
+                    v256 lCarry = Avx2.mm256_mul_epu32(a, Avx2.mm256_srli_epi64(b, 32));
+                    v256 rCarry = Avx2.mm256_mul_epu32(b, Avx2.mm256_srli_epi64(a, 32));
+                    carry32 = Avx2.mm256_slli_epi64(Avx2.mm256_add_epi64(lCarry, rCarry), 32);
+                }
 
                 return Avx2.mm256_add_epi64(prod32, carry32);
             }
@@ -677,8 +694,8 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                UInt128 x = UInt128.umul128(a.ULong0, b.ULong0);
-                UInt128 y = UInt128.umul128(a.ULong1, b.ULong1);
+                UInt128 x = MaxMath.UInt128.umul128(a.ULong0, b.ULong0);
+                UInt128 y = MaxMath.UInt128.umul128(a.ULong1, b.ULong1);
 
                 low = new v128(x.lo64, y.lo64);
                 return new v128(x.hi64, y.hi64);

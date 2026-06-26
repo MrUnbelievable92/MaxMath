@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -15,7 +15,7 @@ namespace MaxMath.Tests
                 sbyte2 l = rng.NextSByte2();
                 sbyte2 r = rng.NextSByte2(0, 8);
 
-                sbyte2 test = maxmath.shl(l, r);
+                sbyte2 test = math.shl(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -34,7 +34,7 @@ namespace MaxMath.Tests
                 sbyte3 l = rng.NextSByte3();
                 sbyte3 r = rng.NextSByte3(0, 8);
 
-                sbyte3 test = maxmath.shl(l, r);
+                sbyte3 test = math.shl(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
                 sbyte4 l = rng.NextSByte4();
                 sbyte4 r = rng.NextSByte4(0, 8);
 
-                sbyte4 test = maxmath.shl(l, r);
+                sbyte4 test = math.shl(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -72,7 +72,7 @@ namespace MaxMath.Tests
                 sbyte8 l = rng.NextSByte8();
                 sbyte8 r = rng.NextSByte8(0, 8);
 
-                sbyte8 test = maxmath.shl(l, r);
+                sbyte8 test = math.shl(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -91,7 +91,7 @@ namespace MaxMath.Tests
                 sbyte16 l = rng.NextSByte16();
                 sbyte16 r = rng.NextSByte16(0, 8);
 
-                sbyte16 test = maxmath.shl(l, r);
+                sbyte16 test = math.shl(l, r);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -110,7 +110,7 @@ namespace MaxMath.Tests
                 sbyte32 l = rng.NextSByte32();
                 sbyte32 r = rng.NextSByte32(0, 8);
 
-                sbyte32 test = maxmath.shl(l, r);
+                sbyte32 test = math.shl(l, r);
 
                 for (int j = 0; j < 32; j++)
                 {
@@ -130,7 +130,7 @@ namespace MaxMath.Tests
                 short2 l = rng.NextShort2();
                 short2 r = rng.NextShort2(0, 16);
 
-                short2 test = maxmath.shl(l, r);
+                short2 test = math.shl(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -149,7 +149,7 @@ namespace MaxMath.Tests
                 short3 l = rng.NextShort3();
                 short3 r = rng.NextShort3(0, 16);
 
-                short3 test = maxmath.shl(l, r);
+                short3 test = math.shl(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -168,7 +168,7 @@ namespace MaxMath.Tests
                 short4 l = rng.NextShort4();
                 short4 r = rng.NextShort4(0, 16);
 
-                short4 test = maxmath.shl(l, r);
+                short4 test = math.shl(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -187,7 +187,7 @@ namespace MaxMath.Tests
                 short8 l = rng.NextShort8();
                 short8 r = rng.NextShort8(0, 16);
 
-                short8 test = maxmath.shl(l, r);
+                short8 test = math.shl(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -206,7 +206,7 @@ namespace MaxMath.Tests
                 short16 l = rng.NextShort16();
                 short16 r = rng.NextShort16(0, 16);
 
-                short16 test = maxmath.shl(l, r);
+                short16 test = math.shl(l, r);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -226,7 +226,7 @@ namespace MaxMath.Tests
                 int2 l = rng.NextInt2();
                 int2 r = rng.NextInt2(0, 32);
 
-                int2 test = maxmath.shl(l, r);
+                int2 test = math.shl(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -245,7 +245,7 @@ namespace MaxMath.Tests
                 int3 l = rng.NextInt3();
                 int3 r = rng.NextInt3(0, 32);
 
-                int3 test = maxmath.shl(l, r);
+                int3 test = math.shl(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -264,7 +264,7 @@ namespace MaxMath.Tests
                 int4 l = rng.NextInt4();
                 int4 r = rng.NextInt4(0, 32);
 
-                int4 test = maxmath.shl(l, r);
+                int4 test = math.shl(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -283,7 +283,7 @@ namespace MaxMath.Tests
                 int8 l = rng.NextInt8();
                 int8 r = rng.NextInt8(0, 32);
 
-                int8 test = maxmath.shl(l, r);
+                int8 test = math.shl(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -303,7 +303,7 @@ namespace MaxMath.Tests
                 long2 l = rng.NextLong2();
                 long2 r = rng.NextLong2(0, 64);
 
-                long2 test = maxmath.shl(l, r);
+                long2 test = math.shl(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -322,7 +322,7 @@ namespace MaxMath.Tests
                 long3 l = rng.NextLong3();
                 long3 r = rng.NextLong3(0, 64);
 
-                long3 test = maxmath.shl(l, r);
+                long3 test = math.shl(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -341,7 +341,7 @@ namespace MaxMath.Tests
                 long4 l = rng.NextLong4();
                 long4 r = rng.NextLong4(0, 64);
 
-                long4 test = maxmath.shl(l, r);
+                long4 test = math.shl(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -363,7 +363,7 @@ namespace MaxMath.Tests
                 sbyte2 l = rng.NextSByte2();
                 sbyte2 r = rng.NextSByte2(0, 8);
 
-                sbyte2 test = maxmath.shrl(l, r);
+                sbyte2 test = math.shrl(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -382,7 +382,7 @@ namespace MaxMath.Tests
                 sbyte3 l = rng.NextSByte3();
                 sbyte3 r = rng.NextSByte3(0, 8);
 
-                sbyte3 test = maxmath.shrl(l, r);
+                sbyte3 test = math.shrl(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -401,7 +401,7 @@ namespace MaxMath.Tests
                 sbyte4 l = rng.NextSByte4();
                 sbyte4 r = rng.NextSByte4(0, 8);
 
-                sbyte4 test = maxmath.shrl(l, r);
+                sbyte4 test = math.shrl(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -420,7 +420,7 @@ namespace MaxMath.Tests
                 sbyte8 l = rng.NextSByte8();
                 sbyte8 r = rng.NextSByte8(0, 8);
 
-                sbyte8 test = maxmath.shrl(l, r);
+                sbyte8 test = math.shrl(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -439,7 +439,7 @@ namespace MaxMath.Tests
                 sbyte16 l = rng.NextSByte16();
                 sbyte16 r = rng.NextSByte16(0, 8);
 
-                sbyte16 test = maxmath.shrl(l, r);
+                sbyte16 test = math.shrl(l, r);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -458,7 +458,7 @@ namespace MaxMath.Tests
                 sbyte32 l = rng.NextSByte32();
                 sbyte32 r = rng.NextSByte32(0, 8);
 
-                sbyte32 test = maxmath.shrl(l, r);
+                sbyte32 test = math.shrl(l, r);
 
                 for (int j = 0; j < 32; j++)
                 {
@@ -478,7 +478,7 @@ namespace MaxMath.Tests
                 short2 l = rng.NextShort2();
                 short2 r = rng.NextShort2(0, 16);
 
-                short2 test = maxmath.shrl(l, r);
+                short2 test = math.shrl(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -497,7 +497,7 @@ namespace MaxMath.Tests
                 short3 l = rng.NextShort3();
                 short3 r = rng.NextShort3(0, 16);
 
-                short3 test = maxmath.shrl(l, r);
+                short3 test = math.shrl(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -516,7 +516,7 @@ namespace MaxMath.Tests
                 short4 l = rng.NextShort4();
                 short4 r = rng.NextShort4(0, 16);
 
-                short4 test = maxmath.shrl(l, r);
+                short4 test = math.shrl(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -535,7 +535,7 @@ namespace MaxMath.Tests
                 short8 l = rng.NextShort8();
                 short8 r = rng.NextShort8(0, 16);
 
-                short8 test = maxmath.shrl(l, r);
+                short8 test = math.shrl(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -554,7 +554,7 @@ namespace MaxMath.Tests
                 short16 l = rng.NextShort16();
                 short16 r = rng.NextShort16(0, 16);
 
-                short16 test = maxmath.shrl(l, r);
+                short16 test = math.shrl(l, r);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -574,7 +574,7 @@ namespace MaxMath.Tests
                 int2 l = rng.NextInt2();
                 int2 r = rng.NextInt2(0, 32);
 
-                int2 test = maxmath.shrl(l, r);
+                int2 test = math.shrl(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -593,7 +593,7 @@ namespace MaxMath.Tests
                 int3 l = rng.NextInt3();
                 int3 r = rng.NextInt3(0, 32);
 
-                int3 test = maxmath.shrl(l, r);
+                int3 test = math.shrl(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -612,7 +612,7 @@ namespace MaxMath.Tests
                 int4 l = rng.NextInt4();
                 int4 r = rng.NextInt4(0, 32);
 
-                int4 test = maxmath.shrl(l, r);
+                int4 test = math.shrl(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -631,7 +631,7 @@ namespace MaxMath.Tests
                 int8 l = rng.NextInt8();
                 int8 r = rng.NextInt8(0, 32);
 
-                int8 test = maxmath.shrl(l, r);
+                int8 test = math.shrl(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -651,7 +651,7 @@ namespace MaxMath.Tests
                 long2 l = rng.NextLong2();
                 long2 r = rng.NextLong2(0, 64);
 
-                long2 test = maxmath.shrl(l, r);
+                long2 test = math.shrl(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -670,7 +670,7 @@ namespace MaxMath.Tests
                 long3 l = rng.NextLong3();
                 long3 r = rng.NextLong3(0, 64);
 
-                long3 test = maxmath.shrl(l, r);
+                long3 test = math.shrl(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -689,7 +689,7 @@ namespace MaxMath.Tests
                 long4 l = rng.NextLong4();
                 long4 r = rng.NextLong4(0, 64);
 
-                long4 test = maxmath.shrl(l, r);
+                long4 test = math.shrl(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -711,7 +711,7 @@ namespace MaxMath.Tests
                 sbyte2 l = rng.NextSByte2();
                 sbyte2 r = rng.NextSByte2(0, 8);
 
-                sbyte2 test = maxmath.shra(l, r);
+                sbyte2 test = math.shra(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -730,7 +730,7 @@ namespace MaxMath.Tests
                 sbyte3 l = rng.NextSByte3();
                 sbyte3 r = rng.NextSByte3(0, 8);
 
-                sbyte3 test = maxmath.shra(l, r);
+                sbyte3 test = math.shra(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -749,7 +749,7 @@ namespace MaxMath.Tests
                 sbyte4 l = rng.NextSByte4();
                 sbyte4 r = rng.NextSByte4(0, 8);
 
-                sbyte4 test = maxmath.shra(l, r);
+                sbyte4 test = math.shra(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -768,7 +768,7 @@ namespace MaxMath.Tests
                 sbyte8 l = rng.NextSByte8();
                 sbyte8 r = rng.NextSByte8(0, 8);
 
-                sbyte8 test = maxmath.shra(l, r);
+                sbyte8 test = math.shra(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -787,7 +787,7 @@ namespace MaxMath.Tests
                 sbyte16 l = rng.NextSByte16();
                 sbyte16 r = rng.NextSByte16(0, 8);
 
-                sbyte16 test = maxmath.shra(l, r);
+                sbyte16 test = math.shra(l, r);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -806,7 +806,7 @@ namespace MaxMath.Tests
                 sbyte32 l = rng.NextSByte32();
                 sbyte32 r = rng.NextSByte32(0, 8);
 
-                sbyte32 test = maxmath.shra(l, r);
+                sbyte32 test = math.shra(l, r);
 
                 for (int j = 0; j < 32; j++)
                 {
@@ -826,7 +826,7 @@ namespace MaxMath.Tests
                 short2 l = rng.NextShort2();
                 short2 r = rng.NextShort2(0, 16);
 
-                short2 test = maxmath.shra(l, r);
+                short2 test = math.shra(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -845,7 +845,7 @@ namespace MaxMath.Tests
                 short3 l = rng.NextShort3();
                 short3 r = rng.NextShort3(0, 16);
 
-                short3 test = maxmath.shra(l, r);
+                short3 test = math.shra(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -864,7 +864,7 @@ namespace MaxMath.Tests
                 short4 l = rng.NextShort4();
                 short4 r = rng.NextShort4(0, 16);
 
-                short4 test = maxmath.shra(l, r);
+                short4 test = math.shra(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -883,7 +883,7 @@ namespace MaxMath.Tests
                 short8 l = rng.NextShort8();
                 short8 r = rng.NextShort8(0, 16);
 
-                short8 test = maxmath.shra(l, r);
+                short8 test = math.shra(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -902,7 +902,7 @@ namespace MaxMath.Tests
                 short16 l = rng.NextShort16();
                 short16 r = rng.NextShort16(0, 16);
 
-                short16 test = maxmath.shra(l, r);
+                short16 test = math.shra(l, r);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -922,7 +922,7 @@ namespace MaxMath.Tests
                 int2 l = rng.NextInt2();
                 int2 r = rng.NextInt2(0, 32);
 
-                int2 test = maxmath.shra(l, r);
+                int2 test = math.shra(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -941,7 +941,7 @@ namespace MaxMath.Tests
                 int3 l = rng.NextInt3();
                 int3 r = rng.NextInt3(0, 32);
 
-                int3 test = maxmath.shra(l, r);
+                int3 test = math.shra(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -960,7 +960,7 @@ namespace MaxMath.Tests
                 int4 l = rng.NextInt4();
                 int4 r = rng.NextInt4(0, 32);
 
-                int4 test = maxmath.shra(l, r);
+                int4 test = math.shra(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -979,7 +979,7 @@ namespace MaxMath.Tests
                 int8 l = rng.NextInt8();
                 int8 r = rng.NextInt8(0, 32);
 
-                int8 test = maxmath.shra(l, r);
+                int8 test = math.shra(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -999,7 +999,7 @@ namespace MaxMath.Tests
                 long2 l = rng.NextLong2();
                 long2 r = rng.NextLong2(0, 64);
 
-                long2 test = maxmath.shra(l, r);
+                long2 test = math.shra(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -1009,7 +1009,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong2();
                 r = rng.NextLong2(0, 33);
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -1019,7 +1019,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong2();
                 r = rng.NextLong2(32, 63);
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -1029,7 +1029,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong2();
                 r = 0;
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -1048,7 +1048,7 @@ namespace MaxMath.Tests
                 long3 l = rng.NextLong3();
                 long3 r = rng.NextLong3(0, 64);
 
-                long3 test = maxmath.shra(l, r);
+                long3 test = math.shra(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -1058,7 +1058,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong3();
                 r = rng.NextLong3(0, 33);
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -1068,7 +1068,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong3();
                 r = rng.NextLong3(32, 63);
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -1078,7 +1078,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong3();
                 r = 0;
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -1097,7 +1097,7 @@ namespace MaxMath.Tests
                 long4 l = rng.NextLong4();
                 long4 r = rng.NextLong4(0, 64);
 
-                long4 test = maxmath.shra(l, r);
+                long4 test = math.shra(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -1107,7 +1107,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong4();
                 r = rng.NextLong4(0, 33);
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -1117,7 +1117,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong4();
                 r = rng.NextLong4(32, 63);
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -1127,7 +1127,7 @@ namespace MaxMath.Tests
                 l = rng.NextLong4();
                 r = 0;
 
-                test = maxmath.shra(l, r);
+                test = math.shra(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {

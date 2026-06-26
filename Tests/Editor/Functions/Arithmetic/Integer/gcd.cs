@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -25,7 +25,7 @@ namespace MaxMath.Tests
 
         private static UInt128 _gcd(Int128 x, Int128 y)
         {
-            return _gcd((UInt128)maxmath.abs(x), (UInt128)maxmath.abs(y));
+            return _gcd((UInt128)math.abs(x), (UInt128)math.abs(y));
         }
         private static UInt128 _gcd(UInt128 x, UInt128 y)
         {
@@ -43,7 +43,7 @@ namespace MaxMath.Tests
                 Int128 x = rng.NextInt128();
                 Int128 y = rng.NextInt128();
 
-                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
+                Assert.AreEqual(_gcd(x, y), math.gcd(x, y));
 
                 Assert.AreEqual((Int128)0, x % (Int128)_gcd(x, y));
                 Assert.AreEqual((Int128)0, y % (Int128)_gcd(x, y));
@@ -60,7 +60,7 @@ namespace MaxMath.Tests
                 UInt128 x = rng.NextUInt128();
                 UInt128 y = rng.NextUInt128();
 
-                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
+                Assert.AreEqual(_gcd(x, y), math.gcd(x, y));
 
                 Assert.AreEqual((UInt128)0, x % _gcd(x, y));
                 Assert.AreEqual((UInt128)0, y % _gcd(x, y));
@@ -77,7 +77,7 @@ namespace MaxMath.Tests
                 {
                     sbyte2 x = (sbyte)i;
                     sbyte2 y = (sbyte)j;
-                    byte2 g = maxmath.gcd(x, y);
+                    byte2 g = math.gcd(x, y);
 
                     for (int h = 0; h < 2; h++)
                     {
@@ -96,7 +96,7 @@ namespace MaxMath.Tests
                 {
                     sbyte3 x = (sbyte)i;
                     sbyte3 y = (sbyte)j;
-                    byte3 g = maxmath.gcd(x, y);
+                    byte3 g = math.gcd(x, y);
 
                     for (int h = 0; h < 3; h++)
                     {
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
                 {
                     sbyte4 x = (sbyte)i;
                     sbyte4 y = (sbyte)j;
-                    byte4 g = maxmath.gcd(x, y);
+                    byte4 g = math.gcd(x, y);
 
                     for (int h = 0; h < 4; h++)
                     {
@@ -134,7 +134,7 @@ namespace MaxMath.Tests
                 {
                     sbyte8 x = (sbyte)i;
                     sbyte8 y = (sbyte)j;
-                    byte8 g = maxmath.gcd(x, y);
+                    byte8 g = math.gcd(x, y);
 
                     for (int h = 0; h < 8; h++)
                     {
@@ -153,7 +153,7 @@ namespace MaxMath.Tests
                 {
                     sbyte16 x = (sbyte)i;
                     sbyte16 y = (sbyte)j;
-                    byte16 g = maxmath.gcd(x, y);
+                    byte16 g = math.gcd(x, y);
 
                     for (int h = 0; h < 16; h++)
                     {
@@ -172,7 +172,7 @@ namespace MaxMath.Tests
                 {
                     sbyte32 x = (sbyte)i;
                     sbyte32 y = (sbyte)j;
-                    byte32 g = maxmath.gcd(x, y);
+                    byte32 g = math.gcd(x, y);
 
                     for (int h = 0; h < 32; h++)
                     {
@@ -192,7 +192,7 @@ namespace MaxMath.Tests
                 {
                     byte2 x = (byte)i;
                     byte2 y = (byte)j;
-                    byte2 g = maxmath.gcd(x, y);
+                    byte2 g = math.gcd(x, y);
 
                     for (int h = 0; h < 2; h++)
                     {
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
                 {
                     byte3 x = (byte)i;
                     byte3 y = (byte)j;
-                    byte3 g = maxmath.gcd(x, y);
+                    byte3 g = math.gcd(x, y);
 
                     for (int h = 0; h < 3; h++)
                     {
@@ -230,7 +230,7 @@ namespace MaxMath.Tests
                 {
                     byte4 x = (byte)i;
                     byte4 y = (byte)j;
-                    byte4 g = maxmath.gcd(x, y);
+                    byte4 g = math.gcd(x, y);
 
                     for (int h = 0; h < 4; h++)
                     {
@@ -249,7 +249,7 @@ namespace MaxMath.Tests
                 {
                     byte8 x = (byte)i;
                     byte8 y = (byte)j;
-                    byte8 g = maxmath.gcd(x, y);
+                    byte8 g = math.gcd(x, y);
 
                     for (int h = 0; h < 8; h++)
                     {
@@ -268,7 +268,7 @@ namespace MaxMath.Tests
                 {
                     byte16 x = (byte)i;
                     byte16 y = (byte)j;
-                    byte16 g = maxmath.gcd(x, y);
+                    byte16 g = math.gcd(x, y);
 
                     for (int h = 0; h < 16; h++)
                     {
@@ -287,7 +287,7 @@ namespace MaxMath.Tests
                 {
                     byte32 x = (byte)i;
                     byte32 y = (byte)j;
-                    byte32 g = maxmath.gcd(x, y);
+                    byte32 g = math.gcd(x, y);
 
                     for (int h = 0; h < 32; h++)
                     {
@@ -308,7 +308,7 @@ namespace MaxMath.Tests
                 short2 x = rng.NextShort2();
                 short2 y = rng.NextShort2();
 
-                Assert.AreEqual(new ushort2((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ushort2((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y)), math.gcd(x, y));
             }
         }
 
@@ -322,7 +322,7 @@ namespace MaxMath.Tests
                 short3 x = rng.NextShort3();
                 short3 y = rng.NextShort3();
 
-                Assert.AreEqual(new ushort3((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y), (ushort)_gcd(x.z, y.z)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ushort3((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y), (ushort)_gcd(x.z, y.z)), math.gcd(x, y));
             }
         }
 
@@ -336,7 +336,7 @@ namespace MaxMath.Tests
                 short4 x = rng.NextShort4();
                 short4 y = rng.NextShort4();
 
-                Assert.AreEqual(new ushort4((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y), (ushort)_gcd(x.z, y.z), (ushort)_gcd(x.w, y.w)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ushort4((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y), (ushort)_gcd(x.z, y.z), (ushort)_gcd(x.w, y.w)), math.gcd(x, y));
             }
         }
 
@@ -358,7 +358,7 @@ namespace MaxMath.Tests
                                            (ushort)_gcd(x.x5, y.x5),
                                            (ushort)_gcd(x.x6, y.x6),
                                            (ushort)_gcd(x.x7, y.x7)),
-                                maxmath.gcd(x, y));
+                                math.gcd(x, y));
             }
         }
 
@@ -388,7 +388,7 @@ namespace MaxMath.Tests
                                             (ushort)_gcd(x.x13, y.x13),
                                             (ushort)_gcd(x.x14, y.x14),
                                             (ushort)_gcd(x.x15, y.x15)),
-                                maxmath.gcd(x, y));
+                                math.gcd(x, y));
             }
         }
 
@@ -403,7 +403,7 @@ namespace MaxMath.Tests
                 ushort2 x = rng.NextUShort2();
                 ushort2 y = rng.NextUShort2();
 
-                Assert.AreEqual(new ushort2((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ushort2((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y)), math.gcd(x, y));
             }
         }
 
@@ -417,7 +417,7 @@ namespace MaxMath.Tests
                 ushort3 x = rng.NextUShort3();
                 ushort3 y = rng.NextUShort3();
 
-                Assert.AreEqual(new ushort3((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y), (ushort)_gcd(x.z, y.z)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ushort3((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y), (ushort)_gcd(x.z, y.z)), math.gcd(x, y));
             }
         }
 
@@ -431,7 +431,7 @@ namespace MaxMath.Tests
                 ushort4 x = rng.NextUShort4();
                 ushort4 y = rng.NextUShort4();
 
-                Assert.AreEqual(new ushort4((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y), (ushort)_gcd(x.z, y.z), (ushort)_gcd(x.w, y.w)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ushort4((ushort)_gcd(x.x, y.x), (ushort)_gcd(x.y, y.y), (ushort)_gcd(x.z, y.z), (ushort)_gcd(x.w, y.w)), math.gcd(x, y));
             }
         }
 
@@ -453,7 +453,7 @@ namespace MaxMath.Tests
                                             (ushort)_gcd(x.x5, y.x5),
                                             (ushort)_gcd(x.x6, y.x6),
                                             (ushort)_gcd(x.x7, y.x7)),
-                                maxmath.gcd(x, y));
+                                math.gcd(x, y));
             }
         }
 
@@ -483,7 +483,7 @@ namespace MaxMath.Tests
                                              (ushort)_gcd(x.x13, y.x13),
                                              (ushort)_gcd(x.x14, y.x14),
                                              (ushort)_gcd(x.x15, y.x15)),
-                                maxmath.gcd(x, y));
+                                math.gcd(x, y));
             }
         }
 
@@ -498,7 +498,7 @@ namespace MaxMath.Tests
                 int2 x = rng.NextInt2();
                 int2 y = rng.NextInt2();
 
-                Assert.AreEqual(new uint2((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y)), maxmath.gcd(x, y));
+                Assert.AreEqual(new uint2((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y)), math.gcd(x, y));
             }
         }
 
@@ -512,7 +512,7 @@ namespace MaxMath.Tests
                 int3 x = rng.NextInt3();
                 int3 y = rng.NextInt3();
 
-                Assert.AreEqual(new uint3((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y), (uint)_gcd(x.z, y.z)), maxmath.gcd(x, y));
+                Assert.AreEqual(new uint3((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y), (uint)_gcd(x.z, y.z)), math.gcd(x, y));
             }
         }
 
@@ -526,7 +526,7 @@ namespace MaxMath.Tests
                 int4 x = rng.NextInt4();
                 int4 y = rng.NextInt4();
 
-                Assert.AreEqual(new uint4((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y), (uint)_gcd(x.z, y.z), (uint)_gcd(x.w, y.w)), maxmath.gcd(x, y));
+                Assert.AreEqual(new uint4((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y), (uint)_gcd(x.z, y.z), (uint)_gcd(x.w, y.w)), math.gcd(x, y));
             }
         }
 
@@ -548,7 +548,7 @@ namespace MaxMath.Tests
                                          (uint)_gcd(x.x5, y.x5),
                                          (uint)_gcd(x.x6, y.x6),
                                          (uint)_gcd(x.x7, y.x7)),
-                                maxmath.gcd(x, y));
+                                math.gcd(x, y));
             }
         }
 
@@ -563,7 +563,7 @@ namespace MaxMath.Tests
                 uint2 x = rng.NextUInt2();
                 uint2 y = rng.NextUInt2();
 
-                Assert.AreEqual(new uint2((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y)), maxmath.gcd(x, y));
+                Assert.AreEqual(new uint2((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y)), math.gcd(x, y));
             }
         }
 
@@ -577,7 +577,7 @@ namespace MaxMath.Tests
                 uint3 x = rng.NextUInt3();
                 uint3 y = rng.NextUInt3();
 
-                Assert.AreEqual(new uint3((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y), (uint)_gcd(x.z, y.z)), maxmath.gcd(x, y));
+                Assert.AreEqual(new uint3((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y), (uint)_gcd(x.z, y.z)), math.gcd(x, y));
             }
         }
 
@@ -591,7 +591,7 @@ namespace MaxMath.Tests
                 uint4 x = rng.NextUInt4();
                 uint4 y = rng.NextUInt4();
 
-                Assert.AreEqual(new uint4((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y), (uint)_gcd(x.z, y.z), (uint)_gcd(x.w, y.w)), maxmath.gcd(x, y));
+                Assert.AreEqual(new uint4((uint)_gcd(x.x, y.x), (uint)_gcd(x.y, y.y), (uint)_gcd(x.z, y.z), (uint)_gcd(x.w, y.w)), math.gcd(x, y));
             }
         }
 
@@ -613,7 +613,7 @@ namespace MaxMath.Tests
                                           (uint)_gcd(x.x5, y.x5),
                                           (uint)_gcd(x.x6, y.x6),
                                           (uint)_gcd(x.x7, y.x7)),
-                                maxmath.gcd(x, y));
+                                math.gcd(x, y));
             }
         }
 
@@ -628,7 +628,7 @@ namespace MaxMath.Tests
                 long x = rng.NextLong();
                 long y = rng.NextLong();
 
-                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
+                Assert.AreEqual(_gcd(x, y), math.gcd(x, y));
 
                 Assert.AreEqual(0, x % (long)_gcd(x, y));
                 Assert.AreEqual(0, y % (long)_gcd(x, y));
@@ -645,7 +645,7 @@ namespace MaxMath.Tests
                 long2 x = rng.NextLong2();
                 long2 y = rng.NextLong2();
 
-                Assert.AreEqual(new ulong2((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ulong2((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y)), math.gcd(x, y));
             }
         }
 
@@ -659,7 +659,7 @@ namespace MaxMath.Tests
                 long3 x = rng.NextLong3();
                 long3 y = rng.NextLong3();
 
-                Assert.AreEqual(new ulong3((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y), (ulong)_gcd(x.z, y.z)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ulong3((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y), (ulong)_gcd(x.z, y.z)), math.gcd(x, y));
             }
         }
 
@@ -673,7 +673,7 @@ namespace MaxMath.Tests
                 long4 x = rng.NextLong4();
                 long4 y = rng.NextLong4();
 
-                Assert.AreEqual(new ulong4((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y), (ulong)_gcd(x.z, y.z), (ulong)_gcd(x.w, y.w)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ulong4((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y), (ulong)_gcd(x.z, y.z), (ulong)_gcd(x.w, y.w)), math.gcd(x, y));
             }
         }
 
@@ -688,7 +688,7 @@ namespace MaxMath.Tests
                 ulong x = rng.NextULong();
                 ulong y = rng.NextULong();
 
-                Assert.AreEqual(_gcd(x, y), maxmath.gcd(x, y));
+                Assert.AreEqual(_gcd(x, y), math.gcd(x, y));
 
                 Assert.AreEqual(0, x % _gcd(x, y));
                 Assert.AreEqual(0, y % _gcd(x, y));
@@ -705,7 +705,7 @@ namespace MaxMath.Tests
                 ulong2 x = rng.NextULong2();
                 ulong2 y = rng.NextULong2();
 
-                Assert.AreEqual(new ulong2((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ulong2((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y)), math.gcd(x, y));
             }
         }
 
@@ -719,7 +719,7 @@ namespace MaxMath.Tests
                 ulong3 x = rng.NextULong3();
                 ulong3 y = rng.NextULong3();
 
-                Assert.AreEqual(new ulong3((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y), (ulong)_gcd(x.z, y.z)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ulong3((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y), (ulong)_gcd(x.z, y.z)), math.gcd(x, y));
             }
         }
 
@@ -733,7 +733,7 @@ namespace MaxMath.Tests
                 ulong4 x = rng.NextULong4();
                 ulong4 y = rng.NextULong4();
 
-                Assert.AreEqual(new ulong4((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y), (ulong)_gcd(x.z, y.z), (ulong)_gcd(x.w, y.w)), maxmath.gcd(x, y));
+                Assert.AreEqual(new ulong4((ulong)_gcd(x.x, y.x), (ulong)_gcd(x.y, y.y), (ulong)_gcd(x.z, y.z), (ulong)_gcd(x.w, y.w)), math.gcd(x, y));
             }
         }
     }

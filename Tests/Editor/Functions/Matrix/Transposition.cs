@@ -11,7 +11,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new long2x2(v.c0.x, v.c0.y,
                                         v.c1.x, v.c1.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new long3x2(v.c0.x, v.c0.y,
                                         v.c1.x, v.c1.y,
                                         v.c2.x, v.c2.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace MaxMath.Tests
                                         v.c1.x, v.c1.y,
                                         v.c2.x, v.c2.y,
                                         v.c3.x, v.c3.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new long2x3(v.c0.x, v.c0.y, v.c0.z,
                                         v.c1.x, v.c1.y, v.c1.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new long3x3(v.c0.x, v.c0.y, v.c0.z,
                                         v.c1.x, v.c1.y, v.c1.z,
                                         v.c2.x, v.c2.y, v.c2.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace MaxMath.Tests
                                         v.c1.x, v.c1.y, v.c1.z,
                                         v.c2.x, v.c2.y, v.c2.z,
                                         v.c3.x, v.c3.y, v.c3.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new long2x4(v.c0.x, v.c0.y, v.c0.z, v.c0.w,
                                         v.c1.x, v.c1.y, v.c1.z, v.c1.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new long3x4(v.c0.x, v.c0.y, v.c0.z, v.c0.w,
                                         v.c1.x, v.c1.y, v.c1.z, v.c1.w,
                                         v.c2.x, v.c2.y, v.c2.z, v.c2.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace MaxMath.Tests
                                         v.c1.x, v.c1.y, v.c1.z, v.c1.w,
                                         v.c2.x, v.c2.y, v.c2.z, v.c2.w,
                                         v.c3.x, v.c3.y, v.c3.z, v.c3.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
 
@@ -111,7 +111,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new short2x2(v.c0.x, v.c0.y,
                                          v.c1.x, v.c1.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new short3x2(v.c0.x, v.c0.y,
                                          v.c1.x, v.c1.y,
                                          v.c2.x, v.c2.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -134,7 +134,7 @@ namespace MaxMath.Tests
                                          v.c1.x, v.c1.y,
                                          v.c2.x, v.c2.y,
                                          v.c3.x, v.c3.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -144,7 +144,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new short2x3(v.c0.x, v.c0.y, v.c0.z,
                                          v.c1.x, v.c1.y, v.c1.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new short3x3(v.c0.x, v.c0.y, v.c0.z,
                                          v.c1.x, v.c1.y, v.c1.z,
                                          v.c2.x, v.c2.y, v.c2.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace MaxMath.Tests
                                          v.c1.x, v.c1.y, v.c1.z,
                                          v.c2.x, v.c2.y, v.c2.z,
                                          v.c3.x, v.c3.y, v.c3.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -177,7 +177,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new short2x4(v.c0.x, v.c0.y, v.c0.z, v.c0.w,
                                          v.c1.x, v.c1.y, v.c1.z, v.c1.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -188,7 +188,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new short3x4(v.c0.x, v.c0.y, v.c0.z, v.c0.w,
                                          v.c1.x, v.c1.y, v.c1.z, v.c1.w,
                                          v.c2.x, v.c2.y, v.c2.z, v.c2.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -200,7 +200,7 @@ namespace MaxMath.Tests
                                          v.c1.x, v.c1.y, v.c1.z, v.c1.w,
                                          v.c2.x, v.c2.y, v.c2.z, v.c2.w,
                                          v.c3.x, v.c3.y, v.c3.z, v.c3.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
 
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new sbyte2x2(v.c0.x, v.c0.y,
                                          v.c1.x, v.c1.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new sbyte3x2(v.c0.x, v.c0.y,
                                          v.c1.x, v.c1.y,
                                          v.c2.x, v.c2.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -234,7 +234,7 @@ namespace MaxMath.Tests
                                          v.c1.x, v.c1.y,
                                          v.c2.x, v.c2.y,
                                          v.c3.x, v.c3.y),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -244,7 +244,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new sbyte2x3(v.c0.x, v.c0.y, v.c0.z,
                                          v.c1.x, v.c1.y, v.c1.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -255,7 +255,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new sbyte3x3(v.c0.x, v.c0.y, v.c0.z,
                                          v.c1.x, v.c1.y, v.c1.z,
                                          v.c2.x, v.c2.y, v.c2.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -267,7 +267,7 @@ namespace MaxMath.Tests
                                          v.c1.x, v.c1.y, v.c1.z,
                                          v.c2.x, v.c2.y, v.c2.z,
                                          v.c3.x, v.c3.y, v.c3.z),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -277,7 +277,7 @@ namespace MaxMath.Tests
 
             Assert.AreEqual(new sbyte2x4(v.c0.x, v.c0.y, v.c0.z, v.c0.w,
                                          v.c1.x, v.c1.y, v.c1.z, v.c1.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -288,7 +288,7 @@ namespace MaxMath.Tests
             Assert.AreEqual(new sbyte3x4(v.c0.x, v.c0.y, v.c0.z, v.c0.w,
                                          v.c1.x, v.c1.y, v.c1.z, v.c1.w,
                                          v.c2.x, v.c2.y, v.c2.z, v.c2.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
 
         [Test]
@@ -300,7 +300,7 @@ namespace MaxMath.Tests
                                          v.c1.x, v.c1.y, v.c1.z, v.c1.w,
                                          v.c2.x, v.c2.y, v.c2.z, v.c2.w,
                                          v.c3.x, v.c3.y, v.c3.z, v.c3.w),
-                            maxmath.transpose(v));
+                            math.transpose(v));
         }
     }
 }

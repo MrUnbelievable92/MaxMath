@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 byte2 b = rng.NextByte2(0, (byte)math.pow(byte.MaxValue, 1f / 2f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -27,7 +27,7 @@ namespace MaxMath.Tests
             {
                 byte3 b = rng.NextByte3(0, (byte)math.pow(byte.MaxValue, 1f / 3f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
             {
                 byte4 b = rng.NextByte4(0, (byte)math.pow(byte.MaxValue, 1f / 4f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 byte8 b = rng.NextByte8(0, (byte)math.pow(byte.MaxValue, 1f / 8f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -66,7 +66,7 @@ namespace MaxMath.Tests
             {
                 byte16 b = rng.NextByte16(0, (byte)math.pow(byte.MaxValue, 1f / 16f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -79,7 +79,7 @@ namespace MaxMath.Tests
             {
                 byte32 b = rng.NextByte32(0, (byte)math.pow(byte.MaxValue, 1f / 32f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -93,7 +93,7 @@ namespace MaxMath.Tests
             {
                 ushort2 b = rng.NextUShort2(0, (ushort)math.pow(ushort.MaxValue, 1f / 2f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -106,7 +106,7 @@ namespace MaxMath.Tests
             {
                 ushort3 b = rng.NextUShort3(0, (ushort)math.pow(ushort.MaxValue, 1f / 3f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -119,7 +119,7 @@ namespace MaxMath.Tests
             {
                 ushort4 b = rng.NextUShort4(0, (ushort)math.pow(ushort.MaxValue, 1f / 4f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -132,7 +132,7 @@ namespace MaxMath.Tests
             {
                 ushort8 b = rng.NextUShort8(0, (ushort)math.pow(ushort.MaxValue, 1f / 8f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -145,7 +145,7 @@ namespace MaxMath.Tests
             {
                 ushort16 b = rng.NextUShort16(0, (ushort)math.pow(ushort.MaxValue, 1f / 16f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -159,7 +159,7 @@ namespace MaxMath.Tests
             {
                 sbyte2 b = rng.NextSByte2((sbyte)-math.pow(sbyte.MaxValue, 1f / 2f), (sbyte)math.pow(sbyte.MaxValue, 1f / 2f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -172,7 +172,7 @@ namespace MaxMath.Tests
             {
                 sbyte3 b = rng.NextSByte3((sbyte)-math.pow(sbyte.MaxValue, 1f / 3f), (sbyte)math.pow(sbyte.MaxValue, 1f / 3f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
             {
                 sbyte4 b = rng.NextSByte4((sbyte)-math.pow(sbyte.MaxValue, 1f / 4f), (sbyte)math.pow(sbyte.MaxValue, 1f / 4f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -198,7 +198,7 @@ namespace MaxMath.Tests
             {
                 sbyte8 b = rng.NextSByte8((sbyte)-math.pow(sbyte.MaxValue, 1f / 8f), (sbyte)math.pow(sbyte.MaxValue, 1f / 8f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 b = rng.NextSByte16((sbyte)-math.pow(sbyte.MaxValue, 1f / 16f), (sbyte)math.pow(sbyte.MaxValue, 1f / 16f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -224,7 +224,7 @@ namespace MaxMath.Tests
             {
                 sbyte32 b = rng.NextSByte32((sbyte)-math.pow(sbyte.MaxValue, 1f / 32f), (sbyte)math.pow(sbyte.MaxValue, 1f / 32f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -238,7 +238,7 @@ namespace MaxMath.Tests
             {
                 short2 b = rng.NextShort2((short)-math.pow(short.MaxValue, 1f / 2f), (short)math.pow(short.MaxValue, 1f / 2f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -251,7 +251,7 @@ namespace MaxMath.Tests
             {
                 short3 b = rng.NextShort3((short)-math.pow(short.MaxValue, 1f / 3f), (short)math.pow(short.MaxValue, 1f / 3f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -264,7 +264,7 @@ namespace MaxMath.Tests
             {
                 short4 b = rng.NextShort4((short)-math.pow(short.MaxValue, 1f / 4f), (short)math.pow(short.MaxValue, 1f / 4f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -277,7 +277,7 @@ namespace MaxMath.Tests
             {
                 short8 b = rng.NextShort8((short)-math.pow(short.MaxValue, 1f / 8f), (short)math.pow(short.MaxValue, 1f / 8f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
 
@@ -290,7 +290,7 @@ namespace MaxMath.Tests
             {
                 short16 b = rng.NextShort16((short)-math.pow(short.MaxValue, 1f / 16f), (short)math.pow(short.MaxValue, 1f / 16f));
 
-                Assert.AreEqual(maxmath.cprod(b), maxmath.cprod(b, Promise.NoOverflow));
+                Assert.AreEqual(math.cprod(b), math.cprod(b, Promise.NoOverflow));
             }
         }
     }

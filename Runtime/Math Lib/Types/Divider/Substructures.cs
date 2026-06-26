@@ -1,12 +1,11 @@
 using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
@@ -1192,15 +1191,15 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(uint));
                     {
                         if (Avx2.IsAvx2Supported)
                         {
-                            return CreateFromData(RegisterConversion.ToUInt2(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider.Divisor, sizeof(uint) * index))),
-                                                  *(uint2*)((uint*)&Divider._bigM._mulLo  + 2 * index),
-                                                  *((uint2*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
-                                                  RegisterConversion.ToUInt2(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._mul,    sizeof(uint) * index))),
-                                                  RegisterConversion.ToUInt2(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._shift, sizeof(uint) * index))),
-                                                  sizeof(uint),
-                                                  2,
-                                                  sign,
-                                                  Divider._promises).Reinterpret<Divider<uint2>, Divider<T>>();
+                            return CreateFromData<uint2>(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider.Divisor, sizeof(uint) * index)),
+                                                         *(uint2*)((uint*)&Divider._bigM._mulLo  + 2 * index),
+                                                         *((uint2*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
+                                                         Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._mul,    sizeof(uint) * index)),
+                                                         Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._shift, sizeof(uint) * index)),
+                                                         sizeof(uint),
+                                                         2,
+                                                         sign,
+                                                         Divider._promises).Reinterpret<Divider<uint2>, Divider<T>>();
                         }
                         else
                         {
@@ -1236,15 +1235,15 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(uint));
                     {
                         if (Avx2.IsAvx2Supported)
                         {
-                            return CreateFromData(RegisterConversion.ToUInt3(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider.Divisor, sizeof(uint) * index))),
-                                                  *(uint3*)((uint*)&Divider._bigM._mulLo  + 2 * index),
-                                                  *((uint3*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
-                                                  RegisterConversion.ToUInt3(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._mul,    sizeof(uint) * index))),
-                                                  RegisterConversion.ToUInt3(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._shift, sizeof(uint) * index))),
-                                                  sizeof(uint),
-                                                  3,
-                                                  sign,
-                                                  Divider._promises).Reinterpret<Divider<uint3>, Divider<T>>();
+                            return CreateFromData<uint3>(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider.Divisor, sizeof(uint) * index)),
+                                                         *(uint3*)((uint*)&Divider._bigM._mulLo  + 2 * index),
+                                                         *((uint3*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
+                                                         Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._mul,    sizeof(uint) * index)),
+                                                         Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._shift, sizeof(uint) * index)),
+                                                         sizeof(uint),
+                                                         3,
+                                                         sign,
+                                                         Divider._promises).Reinterpret<Divider<uint3>, Divider<T>>();
                         }
                         else
                         {
@@ -1279,15 +1278,15 @@ Assert.IsWithinArrayBounds(index, 9 - sizeof(T) / sizeof(uint));
                     {
                         if (Avx2.IsAvx2Supported)
                         {
-                            return CreateFromData(RegisterConversion.ToUInt4(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider.Divisor, sizeof(uint) * index))),
-                                                  *(uint4*)((uint*)&Divider._bigM._mulLo  + 2 * index),
-                                                  *((uint4*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
-                                                  RegisterConversion.ToUInt4(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._mul,    sizeof(uint) * index))),
-                                                  RegisterConversion.ToUInt4(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._shift, sizeof(uint) * index))),
-                                                  sizeof(uint),
-                                                  4,
-                                                  sign,
-                                                  Divider._promises).Reinterpret<Divider<uint4>, Divider<T>>();
+                            return CreateFromData<uint4>(Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider.Divisor, sizeof(uint) * index)),
+                                                         *(uint4*)((uint*)&Divider._bigM._mulLo  + 2 * index),
+                                                         *((uint4*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
+                                                         Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._mul,    sizeof(uint) * index)),
+                                                         Avx.mm256_castsi256_si128(Xse.mm256_bsrli_si256(Divider._mulShift._shift, sizeof(uint) * index)),
+                                                         sizeof(uint),
+                                                         4,
+                                                         sign,
+                                                         Divider._promises).Reinterpret<Divider<uint4>, Divider<T>>();
                         }
                         else
                         {
@@ -1324,15 +1323,15 @@ Assert.IsWithinArrayBounds(index, 5 - sizeof(T) / sizeof(uint));
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return CreateFromData(RegisterConversion.ToUInt2(Xse.bsrli_si128(RegisterConversion.ToV128(Divider.Divisor), sizeof(uint) * index)),
-                                              *(uint2*)((uint*)&Divider._bigM._mulLo  + 2 * index),
-                                              *((uint2*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
-                                              RegisterConversion.ToUInt2(Xse.bsrli_si128(RegisterConversion.ToV128(Divider._mulShift._mul),    sizeof(uint) * index)),
-                                              RegisterConversion.ToUInt2(Xse.bsrli_si128(RegisterConversion.ToV128(Divider._mulShift._shift), sizeof(uint) * index)),
-                                              sizeof(uint),
-                                              2,
-                                              sign,
-                                              Divider._promises).Reinterpret<Divider<uint2>, Divider<T>>();
+                        return CreateFromData<uint2>(Xse.bsrli_si128(Divider.Divisor, sizeof(uint) * index),
+                                                     *(uint2*)((uint*)&Divider._bigM._mulLo  + 2 * index),
+                                                     *((uint2*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
+                                                     Xse.bsrli_si128(Divider._mulShift._mul,    sizeof(uint) * index),
+                                                     Xse.bsrli_si128(Divider._mulShift._shift, sizeof(uint) * index),
+                                                     sizeof(uint),
+                                                     2,
+                                                     sign,
+                                                     Divider._promises).Reinterpret<Divider<uint2>, Divider<T>>();
                     }
                     else
                     {
@@ -1351,15 +1350,15 @@ Assert.IsWithinArrayBounds(index, 5 - sizeof(T) / sizeof(uint));
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return CreateFromData(RegisterConversion.ToUInt3(Xse.bsrli_si128(RegisterConversion.ToV128(Divider.Divisor), sizeof(uint) * index)),
-                                              *(uint3*)((uint*)&Divider._bigM._mulLo  + 2 * index),
-                                              *((uint3*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
-                                              RegisterConversion.ToUInt3(Xse.bsrli_si128(RegisterConversion.ToV128(Divider._mulShift._mul),    sizeof(uint) * index)),
-                                              RegisterConversion.ToUInt3(Xse.bsrli_si128(RegisterConversion.ToV128(Divider._mulShift._shift), sizeof(uint) * index)),
-                                              sizeof(uint),
-                                              3,
-                                              sign,
-                                              Divider._promises).Reinterpret<Divider<uint3>, Divider<T>>();
+                        return CreateFromData<uint3>(Xse.bsrli_si128(Divider.Divisor, sizeof(uint) * index),
+                                                     *(uint3*)((uint*)&Divider._bigM._mulLo  + 2 * index),
+                                                     *((uint3*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
+                                                     Xse.bsrli_si128(Divider._mulShift._mul,    sizeof(uint) * index),
+                                                     Xse.bsrli_si128(Divider._mulShift._shift, sizeof(uint) * index),
+                                                     sizeof(uint),
+                                                     3,
+                                                     sign,
+                                                     Divider._promises).Reinterpret<Divider<uint3>, Divider<T>>();
                     }
                     else
                     {
@@ -1395,15 +1394,15 @@ Assert.IsWithinArrayBounds(index, 4 - sizeof(T) / sizeof(uint));
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return CreateFromData(RegisterConversion.ToUInt2(Xse.bsrli_si128(RegisterConversion.ToV128(Divider.Divisor), sizeof(uint) * index)),
-                                              *(uint2*)((uint*)&Divider._bigM._mulLo  + 2 * index),
-                                              *((uint2*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
-                                              RegisterConversion.ToUInt2(Xse.bsrli_si128(RegisterConversion.ToV128(Divider._mulShift._mul),    sizeof(uint) * index)),
-                                              RegisterConversion.ToUInt2(Xse.bsrli_si128(RegisterConversion.ToV128(Divider._mulShift._shift), sizeof(uint) * index)),
-                                              sizeof(uint),
-                                              2,
-                                              sign,
-                                              Divider._promises).Reinterpret<Divider<uint2>, Divider<T>>();
+                        return CreateFromData<uint2>(Xse.bsrli_si128(Divider.Divisor, sizeof(uint) * index),
+                                                     *(uint2*)((uint*)&Divider._bigM._mulLo  + 2 * index),
+                                                     *((uint2*)((uint*)&Divider._bigM._mulLo + 2 * index) + 1),
+                                                     Xse.bsrli_si128(Divider._mulShift._mul,   sizeof(uint) * index),
+                                                     Xse.bsrli_si128(Divider._mulShift._shift, sizeof(uint) * index),
+                                                     sizeof(uint),
+                                                     2,
+                                                     sign,
+                                                     Divider._promises).Reinterpret<Divider<uint2>, Divider<T>>();
                     }
                     else
                     {
@@ -4548,8 +4547,8 @@ Assert.IsWithinArrayBounds(index, 2);
                     oldShift1  = Xse.blendv_si128(oldShift1,  alignedShift1,  sameTypeMask);
 
                     v128 bigMMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(uint2))), index * sizeof(uint));
-                    v128 alignedBigM = Xse.bslli_si128(RegisterConversion.ToV128(*(uint2*)&value._bigM), index * sizeof(uint));
-                    oldBigM = RegisterConversion.ToUInt3(Xse.blendv_si128(RegisterConversion.ToV128(oldBigM), alignedBigM, bigMMask));
+                    v128 alignedBigM = Xse.bslli_si128(*(uint2*)&value._bigM, index * sizeof(uint));
+                    oldBigM = Xse.blendv_si128(oldBigM, alignedBigM, bigMMask);
                 }
                 else
                 {
@@ -4653,8 +4652,8 @@ Assert.IsWithinArrayBounds(index, 3);
                     oldShift1  = Xse.blendv_si128(oldShift1,  alignedShift1,  sameTypeMask);
 
                     v128 bigMMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(uint2))), index * sizeof(uint));
-                    v128 alignedBigM = Xse.bslli_si128(RegisterConversion.ToV128(*(uint2*)&value._bigM), index * sizeof(uint));
-                    oldBigM = RegisterConversion.ToUInt4(Xse.blendv_si128(RegisterConversion.ToV128(oldBigM), alignedBigM, bigMMask));
+                    v128 alignedBigM = Xse.bslli_si128(*(uint2*)&value._bigM, index * sizeof(uint));
+                    oldBigM = Xse.blendv_si128(oldBigM, alignedBigM, bigMMask);
                 }
                 else
                 {
@@ -4731,8 +4730,8 @@ Assert.IsWithinArrayBounds(index, 2);
                     oldShift1  = Xse.blendv_si128(oldShift1,  alignedShift1,  sameTypeMask);
 
                     v128 bigMMask = Xse.bslli_si128(new v128(-1, -1, -1, 0), index * sizeof(uint));
-                    v128 alignedBigM = Xse.bslli_si128(RegisterConversion.ToV128(*(uint3*)&value._bigM), index * sizeof(uint));
-                    oldBigM = RegisterConversion.ToUInt4(Xse.blendv_si128(RegisterConversion.ToV128(oldBigM), alignedBigM, bigMMask));
+                    v128 alignedBigM = Xse.bslli_si128(*(uint3*)&value._bigM, index * sizeof(uint));
+                    oldBigM = Xse.blendv_si128(oldBigM, alignedBigM, bigMMask);
                 }
                 else
                 {
@@ -4882,7 +4881,7 @@ Assert.IsWithinArrayBounds(index, 7);
                     if (Avx2.IsAvx2Supported)
                     {
                         v256 bigMMask = Xse.mm256_bslli_si256(Xse.mm256_cvtsi64x_si256(bitmask64(8 * sizeof(uint2))), index * sizeof(uint));
-                        v256 alignedBigM = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(*(uint2*)&value._bigM)), index * sizeof(uint));
+                        v256 alignedBigM = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(*(uint2*)&value._bigM), index * sizeof(uint));
                         oldBigM = Xse.mm256_blendv_si256(oldBigM, alignedBigM, bigMMask);
                     }
                     else
@@ -5011,7 +5010,7 @@ Assert.IsWithinArrayBounds(index, 6);
                     if (Avx2.IsAvx2Supported)
                     {
                         v256 bigMMask = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(new v128(-1, -1, -1, 0)), index * sizeof(uint));
-                        v256 alignedBigM = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(*(uint3*)&value._bigM)), index * sizeof(uint));
+                        v256 alignedBigM = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(*(uint3*)&value._bigM), index * sizeof(uint));
                         oldBigM = Xse.mm256_blendv_si256(oldBigM, alignedBigM, bigMMask);
                     }
                     else
@@ -5129,7 +5128,7 @@ Assert.IsWithinArrayBounds(index, 5);
                     if (Avx2.IsAvx2Supported)
                     {
                         v256 bigMMask = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(Xse.setall_si128()), index * sizeof(uint));
-                        v256 alignedBigM = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(*(uint4*)&value._bigM)), index * sizeof(uint));
+                        v256 alignedBigM = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(*(uint4*)&value._bigM), index * sizeof(uint));
                         oldBigM = Xse.mm256_blendv_si256(oldBigM, alignedBigM, bigMMask);
                     }
                     else
@@ -6170,12 +6169,12 @@ Assert.IsWithinArrayBounds(index, 2);
                 if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(uint2))), index * sizeof(uint));
-                    v128 alignedDivisor = Xse.bslli_si128(RegisterConversion.ToV128(value._divisor),          index * sizeof(uint));
-                    v128 alignedMul     = Xse.bslli_si128(RegisterConversion.ToV128(value._mulShift._mul),    index * sizeof(uint));
-                    v128 alignedShift1  = Xse.bslli_si128(RegisterConversion.ToV128(value._mulShift._shift), index * sizeof(uint));
-                    oldDivisor = RegisterConversion.ToUInt3(Xse.blendv_si128(RegisterConversion.ToV128(oldDivisor), alignedDivisor, sameTypeMask));
-                    oldMul     = RegisterConversion.ToUInt3(Xse.blendv_si128(RegisterConversion.ToV128(oldMul),     alignedMul,     sameTypeMask));
-                    oldShift1  = RegisterConversion.ToUInt3(Xse.blendv_si128(RegisterConversion.ToV128(oldShift1),  alignedShift1,  sameTypeMask));
+                    v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(uint));
+                    v128 alignedMul     = Xse.bslli_si128(value._mulShift._mul,    index * sizeof(uint));
+                    v128 alignedShift1  = Xse.bslli_si128(value._mulShift._shift, index * sizeof(uint));
+                    oldDivisor = Xse.blendv_si128(oldDivisor, alignedDivisor, sameTypeMask);
+                    oldMul     = Xse.blendv_si128(oldMul,     alignedMul,     sameTypeMask);
+                    oldShift1  = Xse.blendv_si128(oldShift1,  alignedShift1,  sameTypeMask);
 
                     if (Avx2.IsAvx2Supported)
                     {
@@ -6282,12 +6281,12 @@ Assert.IsWithinArrayBounds(index, 3);
                 if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(Xse.cvtsi64x_si128(bitmask64(8 * sizeof(uint2))), index * sizeof(uint));
-                    v128 alignedDivisor = Xse.bslli_si128(RegisterConversion.ToV128(value._divisor),          index * sizeof(uint));
-                    v128 alignedMul     = Xse.bslli_si128(RegisterConversion.ToV128(value._mulShift._mul),    index * sizeof(uint));
-                    v128 alignedShift1  = Xse.bslli_si128(RegisterConversion.ToV128(value._mulShift._shift), index * sizeof(uint));
-                    oldDivisor = RegisterConversion.ToUInt4(Xse.blendv_si128(RegisterConversion.ToV128(oldDivisor), alignedDivisor, sameTypeMask));
-                    oldMul     = RegisterConversion.ToUInt4(Xse.blendv_si128(RegisterConversion.ToV128(oldMul),     alignedMul,     sameTypeMask));
-                    oldShift1  = RegisterConversion.ToUInt4(Xse.blendv_si128(RegisterConversion.ToV128(oldShift1),  alignedShift1,  sameTypeMask));
+                    v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(uint));
+                    v128 alignedMul     = Xse.bslli_si128(value._mulShift._mul,    index * sizeof(uint));
+                    v128 alignedShift1  = Xse.bslli_si128(value._mulShift._shift, index * sizeof(uint));
+                    oldDivisor = Xse.blendv_si128(oldDivisor, alignedDivisor, sameTypeMask);
+                    oldMul     = Xse.blendv_si128(oldMul,     alignedMul,     sameTypeMask);
+                    oldShift1  = Xse.blendv_si128(oldShift1,  alignedShift1,  sameTypeMask);
 
                     if (Avx2.IsAvx2Supported)
                     {
@@ -6367,12 +6366,12 @@ Assert.IsWithinArrayBounds(index, 2);
                 if (BurstArchitecture.IsSIMDSupported)
                 {
                     v128 sameTypeMask = Xse.bslli_si128(new v128(-1, -1, -1, 0), index * sizeof(uint));
-                    v128 alignedDivisor = Xse.bslli_si128(RegisterConversion.ToV128(value._divisor),          index * sizeof(uint));
-                    v128 alignedMul     = Xse.bslli_si128(RegisterConversion.ToV128(value._mulShift._mul),    index * sizeof(uint));
-                    v128 alignedShift1  = Xse.bslli_si128(RegisterConversion.ToV128(value._mulShift._shift), index * sizeof(uint));
-                    oldDivisor = RegisterConversion.ToUInt4(Xse.blendv_si128(RegisterConversion.ToV128(oldDivisor), alignedDivisor, sameTypeMask));
-                    oldMul     = RegisterConversion.ToUInt4(Xse.blendv_si128(RegisterConversion.ToV128(oldMul),     alignedMul,     sameTypeMask));
-                    oldShift1  = RegisterConversion.ToUInt4(Xse.blendv_si128(RegisterConversion.ToV128(oldShift1),  alignedShift1,  sameTypeMask));
+                    v128 alignedDivisor = Xse.bslli_si128(value._divisor,          index * sizeof(uint));
+                    v128 alignedMul     = Xse.bslli_si128(value._mulShift._mul,    index * sizeof(uint));
+                    v128 alignedShift1  = Xse.bslli_si128(value._mulShift._shift, index * sizeof(uint));
+                    oldDivisor = Xse.blendv_si128(oldDivisor, alignedDivisor, sameTypeMask);
+                    oldMul     = Xse.blendv_si128(oldMul,     alignedMul,     sameTypeMask);
+                    oldShift1  = Xse.blendv_si128(oldShift1,  alignedShift1,  sameTypeMask);
 
                     if (Avx2.IsAvx2Supported)
                     {
@@ -6542,9 +6541,9 @@ Assert.IsWithinArrayBounds(index, 7);
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 sameTypeMask = Xse.mm256_bslli_si256(Xse.mm256_cvtsi64x_si256(bitmask64(8 * sizeof(uint2))),   index * sizeof(uint));
-                    v256 alignedDivisor = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._divisor)),          index * sizeof(uint));
-                    v256 alignedMul     = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._mulShift._mul)),    index * sizeof(uint));
-                    v256 alignedShift1  = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._mulShift._shift)), index * sizeof(uint));
+                    v256 alignedDivisor = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._divisor),          index * sizeof(uint));
+                    v256 alignedMul     = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._mulShift._mul),    index * sizeof(uint));
+                    v256 alignedShift1  = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._mulShift._shift), index * sizeof(uint));
                     oldDivisor = Xse.mm256_blendv_si256(oldDivisor, alignedDivisor, sameTypeMask);
                     oldMul     = Xse.mm256_blendv_si256(oldMul,     alignedMul,     sameTypeMask);
                     oldShift1  = Xse.mm256_blendv_si256(oldShift1,  alignedShift1,  sameTypeMask);
@@ -6667,9 +6666,9 @@ Assert.IsWithinArrayBounds(index, 6);
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 sameTypeMask = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(new v128(-1, -1, -1, 0)),   index * sizeof(uint));
-                    v256 alignedDivisor = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._divisor)),          index * sizeof(uint));
-                    v256 alignedMul     = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._mulShift._mul)),    index * sizeof(uint));
-                    v256 alignedShift1  = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._mulShift._shift)), index * sizeof(uint));
+                    v256 alignedDivisor = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._divisor),          index * sizeof(uint));
+                    v256 alignedMul     = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._mulShift._mul),    index * sizeof(uint));
+                    v256 alignedShift1  = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._mulShift._shift), index * sizeof(uint));
                     oldDivisor = Xse.mm256_blendv_si256(oldDivisor, alignedDivisor, sameTypeMask);
                     oldMul     = Xse.mm256_blendv_si256(oldMul,     alignedMul,     sameTypeMask);
                     oldShift1  = Xse.mm256_blendv_si256(oldShift1,  alignedShift1,  sameTypeMask);
@@ -6782,9 +6781,9 @@ Assert.IsWithinArrayBounds(index, 5);
                 if (Avx2.IsAvx2Supported)
                 {
                     v256 sameTypeMask = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(Xse.setall_si128()),   index * sizeof(uint));
-                    v256 alignedDivisor = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._divisor)),          index * sizeof(uint));
-                    v256 alignedMul     = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._mulShift._mul)),    index * sizeof(uint));
-                    v256 alignedShift1  = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(RegisterConversion.ToV128(value._mulShift._shift)), index * sizeof(uint));
+                    v256 alignedDivisor = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._divisor),          index * sizeof(uint));
+                    v256 alignedMul     = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._mulShift._mul),    index * sizeof(uint));
+                    v256 alignedShift1  = Xse.mm256_bslli_si256(Avx.mm256_castsi128_si256(value._mulShift._shift), index * sizeof(uint));
                     oldDivisor = Xse.mm256_blendv_si256(oldDivisor, alignedDivisor, sameTypeMask);
                     oldMul     = Xse.mm256_blendv_si256(oldMul,     alignedMul,     sameTypeMask);
                     oldShift1  = Xse.mm256_blendv_si256(oldShift1,  alignedShift1,  sameTypeMask);

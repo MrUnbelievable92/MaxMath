@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -15,13 +15,13 @@ namespace MaxMath.Tests
             {
                 UInt128 val = r.NextUInt128();
                 UInt128 idx = r.NextUInt128();
-                UInt128 res = maxmath.bits_depositparallel(val, idx);
+                UInt128 res = math.bits_depositparallel(val, idx);
 
                 List<int> oneBitsInMask = new List<int>(1);
 
                 for (int j = 0; j < 128; j++)
                 {
-                    if (maxmath.testbit(idx, (uint)j))
+                    if (math.testbit(idx, (uint)j))
                     {
                         oneBitsInMask.Add(j);
                     }
@@ -31,7 +31,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < oneBitsInMask.Count; j++)
                 {
-                    Assert.AreEqual(maxmath.testbit(val, (uint)current), maxmath.testbit(res, (uint)oneBitsInMask[j]));
+                    Assert.AreEqual(math.testbit(val, (uint)current), math.testbit(res, (uint)oneBitsInMask[j]));
 
                     current++;
                 }
@@ -49,7 +49,7 @@ namespace MaxMath.Tests
                 byte val = r.NextByte();
                 byte idx = r.NextByte();
 
-                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val, idx), maxmath.bits_depositparallel(val, idx));
+                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val, idx), math.bits_depositparallel(val, idx));
             }
         }
 
@@ -65,7 +65,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 2; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 3; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 4; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -116,7 +116,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 8; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -133,7 +133,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 16; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 32; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -166,7 +166,7 @@ namespace MaxMath.Tests
                 ushort val = r.NextUShort();
                 ushort idx = r.NextUShort();
 
-                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val, idx), maxmath.bits_depositparallel(val, idx));
+                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val, idx), math.bits_depositparallel(val, idx));
             }
         }
 
@@ -182,7 +182,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 2; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -199,7 +199,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 3; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -216,7 +216,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 4; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -233,7 +233,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 8; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -250,7 +250,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 16; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -266,7 +266,7 @@ namespace MaxMath.Tests
                 uint val = r.NextUInt();
                 uint idx = r.NextUInt();
 
-                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val, idx), maxmath.bits_depositparallel(val, idx));
+                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val, idx), math.bits_depositparallel(val, idx));
             }
         }
 
@@ -282,7 +282,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 2; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -299,7 +299,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 3; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -316,7 +316,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 4; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -333,7 +333,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 8; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -349,7 +349,7 @@ namespace MaxMath.Tests
                 ulong val = r.NextULong();
                 ulong idx = r.NextULong();
 
-                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val, idx), maxmath.bits_depositparallel(val, idx));
+                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val, idx), math.bits_depositparallel(val, idx));
             }
         }
 
@@ -365,7 +365,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 2; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -382,7 +382,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 3; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }
@@ -399,7 +399,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 4; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), maxmath.bits_depositparallel(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.pdep_u64(val[k], idx[k]), math.bits_depositparallel(val, idx)[k]);
                 }
             }
         }

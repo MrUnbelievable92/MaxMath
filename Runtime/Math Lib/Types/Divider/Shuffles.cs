@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 
 namespace MaxMath
 {
@@ -1864,7 +1863,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> xywz
+        public Divider<T> xywz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -2494,7 +2493,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> xzyw
+        public Divider<T> xzyw
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -2935,7 +2934,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> xzwy
+        public Divider<T> xzwy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -3565,7 +3564,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> xwyz
+        public Divider<T> xwyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -3819,7 +3818,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> xwzy
+        public Divider<T> xwzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -5012,7 +5011,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> yxzw
+        public Divider<T> yxzw
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -5266,7 +5265,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> yxwz
+        public Divider<T> yxwz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -6644,7 +6643,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> yzxw
+        public Divider<T> yzxw
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -7272,7 +7271,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> yzwx
+        public Divider<T> yzwx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -7715,7 +7714,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> ywxz
+        public Divider<T> ywxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -8156,7 +8155,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> ywzx
+        public Divider<T> ywzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -9162,7 +9161,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> zxyw
+        public Divider<T> zxyw
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -9603,7 +9602,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> zxwy
+        public Divider<T> zxwy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -10046,7 +10045,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> zyxw
+        public Divider<T> zyxw
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -10674,7 +10673,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> zywx
+        public Divider<T> zywx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -12052,7 +12051,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> zwxy
+        public Divider<T> zwxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -12306,7 +12305,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> zwyx
+        public Divider<T> zwyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -13499,7 +13498,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> wxyz
+        public Divider<T> wxyz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -13753,7 +13752,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> wxzy
+        public Divider<T> wxzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -14383,7 +14382,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> wyxz
+        public Divider<T> wyxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -14824,7 +14823,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> wyzx
+        public Divider<T> wyzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -15454,7 +15453,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> wzxy
+        public Divider<T> wzxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -15708,7 +15707,7 @@ AssertValidShuffle(4);
                 }
             }
         }
-        public          Divider<T> wzyx
+        public Divider<T> wzyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -17891,7 +17890,7 @@ AssertValidShuffle(3);
                 }
             }
         }
-        public          Divider<T> xzy
+        public Divider<T> xzy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -18198,7 +18197,7 @@ AssertValidShuffle(3);
                 }
             }
         }
-        public          Divider<T> yxz
+        public Divider<T> yxz
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -18505,7 +18504,7 @@ AssertValidShuffle(3);
                 }
             }
         }
-        public          Divider<T> yzx
+        public Divider<T> yzx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -18812,7 +18811,7 @@ AssertValidShuffle(3);
                 }
             }
         }
-        public          Divider<T> zxy
+        public Divider<T> zxy
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -18997,7 +18996,7 @@ AssertValidShuffle(3);
                 }
             }
         }
-        public          Divider<T> zyx
+        public Divider<T> zyx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get
@@ -19488,7 +19487,7 @@ AssertValidShuffle(2);
                 }
             }
         }
-        public          Divider<T> yx
+        public Divider<T> yx
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             readonly get

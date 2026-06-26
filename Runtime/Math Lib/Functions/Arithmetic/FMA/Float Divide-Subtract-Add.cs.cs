@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -7,17 +6,17 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="float2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 dsubadd(float2 a, float2 b, float2 c, bool fast = false)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-               return RegisterConversion.ToFloat2(Xse.fmaddsub_ps(RegisterConversion.ToV128(a),
-                                                  fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
-                                                  RegisterConversion.ToV128(c)));
+               return Xse.fmaddsub_ps(a,
+                                      fast ? Xse.rcp_ps(b) : rcp(b),
+                                      c);
             }
             else
             {
@@ -25,15 +24,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="float3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 dsubadd(float3 a, float3 b, float3 c, bool fast = false)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-               return RegisterConversion.ToFloat3(Xse.fmaddsub_ps(RegisterConversion.ToV128(a),
-                                                  fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
-                                                  RegisterConversion.ToV128(c)));
+               return Xse.fmaddsub_ps(a,
+                                      fast ? Xse.rcp_ps(b) : rcp(b),
+                                      c);
             }
             else
             {
@@ -41,15 +40,15 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="float4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 dsubadd(float4 a, float4 b, float4 c, bool fast = false)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-               return RegisterConversion.ToFloat4(Xse.fmaddsub_ps(RegisterConversion.ToV128(a),
-                                                  fast ? Xse.rcp_ps(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
-                                                  RegisterConversion.ToV128(c)));
+               return Xse.fmaddsub_ps(a,
+                                      fast ? Xse.rcp_ps(b) : rcp(b),
+                                      c);
             }
             else
             {
@@ -72,15 +71,15 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="double2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 dsubadd(double2 a, double2 b, double2 c, bool fast = false)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.fmaddsub_pd(RegisterConversion.ToV128(a),
-                                                    fast ? Xse.rcp_pd(RegisterConversion.ToV128(b)) : RegisterConversion.ToV128(math.rcp(b)),
-                                                    RegisterConversion.ToV128(c)));
+                return Xse.fmaddsub_pd(a,
+                                       fast ? Xse.rcp_pd(b) : rcp(b),
+                                       c);
             }
             else
             {
@@ -88,7 +87,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="double3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 dsubadd(double3 a, double3 b, double3 c, bool fast = false)
         {
@@ -98,14 +97,14 @@ namespace MaxMath
 
                 if (Avx2.IsAvx2Supported)
                 {
-                    divisor = fast ? Xse.mm256_rcp_pd(RegisterConversion.ToV256(b)) : RegisterConversion.ToV256(math.rcp(b));
+                    divisor = fast ? Xse.mm256_rcp_pd(b) : rcp(b);
                 }
                 else
                 {
-                    divisor = RegisterConversion.ToV256(math.rcp(b));
+                    divisor = rcp(b);
                 }
 
-                return RegisterConversion.ToDouble3(Xse.mm256_fmaddsub_ps(RegisterConversion.ToV256(a), divisor, RegisterConversion.ToV256(c)));
+                return Xse.mm256_fmaddsub_ps(a, divisor, c);
             }
             else
             {
@@ -113,7 +112,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="double4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 dsubadd(double4 a, double4 b, double4 c, bool fast = false)
         {
@@ -123,14 +122,14 @@ namespace MaxMath
 
                 if (Avx2.IsAvx2Supported)
                 {
-                    divisor = fast ? Xse.mm256_rcp_pd(RegisterConversion.ToV256(b)) : RegisterConversion.ToV256(math.rcp(b));
+                    divisor = fast ? Xse.mm256_rcp_pd(b) : rcp(b);
                 }
                 else
                 {
-                    divisor = RegisterConversion.ToV256(math.rcp(b));
+                    divisor = rcp(b);
                 }
 
-                return RegisterConversion.ToDouble4(Xse.mm256_fmaddsub_ps(RegisterConversion.ToV256(a), divisor, RegisterConversion.ToV256(c)));
+                return Xse.mm256_fmaddsub_ps(a, divisor, c);
             }
             else
             {

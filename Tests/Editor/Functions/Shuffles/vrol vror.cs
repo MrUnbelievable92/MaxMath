@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -16,7 +16,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    byte2 ror = maxmath.vror(test, j);
+                    byte2 ror = math.vror(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -37,7 +37,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    byte3 ror = maxmath.vror(test, j);
+                    byte3 ror = math.vror(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -58,7 +58,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    byte4 ror = maxmath.vror(test, j);
+                    byte4 ror = math.vror(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -79,7 +79,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    byte8 ror = maxmath.vror(test, j);
+                    byte8 ror = math.vror(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -100,7 +100,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 16; j++)
                 {
-                    byte16 ror = maxmath.vror(test, j);
+                    byte16 ror = math.vror(test, j);
 
                     for (int k = 0; k < 16; k++)
                     {
@@ -121,7 +121,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 32; j++)
                 {
-                    byte32 ror = maxmath.vror(test, j);
+                    byte32 ror = math.vror(test, j);
 
                     for (int k = 0; k < 32; k++)
                     {
@@ -143,7 +143,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    ushort2 ror = maxmath.vror(test, j);
+                    ushort2 ror = math.vror(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -164,7 +164,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    ushort3 ror = maxmath.vror(test, j);
+                    ushort3 ror = math.vror(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    ushort4 ror = maxmath.vror(test, j);
+                    ushort4 ror = math.vror(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -206,7 +206,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    ushort8 ror = maxmath.vror(test, j);
+                    ushort8 ror = math.vror(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -227,7 +227,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 16; j++)
                 {
-                    ushort16 ror = maxmath.vror(test, j);
+                    ushort16 ror = math.vror(test, j);
 
                     for (int k = 0; k < 16; k++)
                     {
@@ -249,7 +249,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    uint2 ror = maxmath.vror(test, j);
+                    uint2 ror = math.vror(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -270,7 +270,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    uint3 ror = maxmath.vror(test, j);
+                    uint3 ror = math.vror(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -291,7 +291,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    uint4 ror = maxmath.vror(test, j);
+                    uint4 ror = math.vror(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -312,7 +312,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    uint8 ror = maxmath.vror(test, j);
+                    uint8 ror = math.vror(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -334,7 +334,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    ulong2 ror = maxmath.vror(test, j);
+                    ulong2 ror = math.vror(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -355,7 +355,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    ulong3 ror = maxmath.vror(test, j);
+                    ulong3 ror = math.vror(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -376,7 +376,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    ulong4 ror = maxmath.vror(test, j);
+                    ulong4 ror = math.vror(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -398,7 +398,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    float2 ror = maxmath.vror(test, j);
+                    float2 ror = math.vror(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -419,7 +419,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    float3 ror = maxmath.vror(test, j);
+                    float3 ror = math.vror(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -440,7 +440,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    float4 ror = maxmath.vror(test, j);
+                    float4 ror = math.vror(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -461,7 +461,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    float8 ror = maxmath.vror(test, j);
+                    float8 ror = math.vror(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -483,7 +483,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    double2 ror = maxmath.vror(test, j);
+                    double2 ror = math.vror(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -504,7 +504,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    double3 ror = maxmath.vror(test, j);
+                    double3 ror = math.vror(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -525,7 +525,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    double4 ror = maxmath.vror(test, j);
+                    double4 ror = math.vror(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -550,7 +550,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    byte2 rol = maxmath.vrol(test, j);
+                    byte2 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -571,7 +571,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    byte3 rol = maxmath.vrol(test, j);
+                    byte3 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -592,7 +592,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    byte4 rol = maxmath.vrol(test, j);
+                    byte4 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -613,7 +613,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    byte8 rol = maxmath.vrol(test, j);
+                    byte8 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -634,7 +634,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 16; j++)
                 {
-                    byte16 rol = maxmath.vrol(test, j);
+                    byte16 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 16; k++)
                     {
@@ -655,7 +655,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 32; j++)
                 {
-                    byte32 rol = maxmath.vrol(test, j);
+                    byte32 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 32; k++)
                     {
@@ -677,7 +677,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    ushort2 rol = maxmath.vrol(test, j);
+                    ushort2 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -698,7 +698,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    ushort3 rol = maxmath.vrol(test, j);
+                    ushort3 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -719,7 +719,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    ushort4 rol = maxmath.vrol(test, j);
+                    ushort4 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -740,7 +740,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    ushort8 rol = maxmath.vrol(test, j);
+                    ushort8 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -761,7 +761,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 16; j++)
                 {
-                    ushort16 rol = maxmath.vrol(test, j);
+                    ushort16 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 16; k++)
                     {
@@ -783,7 +783,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    uint2 rol = maxmath.vrol(test, j);
+                    uint2 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -804,7 +804,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    uint3 rol = maxmath.vrol(test, j);
+                    uint3 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -825,7 +825,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    uint4 rol = maxmath.vrol(test, j);
+                    uint4 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -846,7 +846,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    uint8 rol = maxmath.vrol(test, j);
+                    uint8 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -868,7 +868,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    ulong2 rol = maxmath.vrol(test, j);
+                    ulong2 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -889,7 +889,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    ulong3 rol = maxmath.vrol(test, j);
+                    ulong3 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -910,7 +910,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    ulong4 rol = maxmath.vrol(test, j);
+                    ulong4 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -932,7 +932,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    float2 rol = maxmath.vrol(test, j);
+                    float2 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -953,7 +953,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    float3 rol = maxmath.vrol(test, j);
+                    float3 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -974,7 +974,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    float4 rol = maxmath.vrol(test, j);
+                    float4 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -995,7 +995,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    float8 rol = maxmath.vrol(test, j);
+                    float8 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -1017,7 +1017,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    double2 rol = maxmath.vrol(test, j);
+                    double2 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -1038,7 +1038,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    double3 rol = maxmath.vrol(test, j);
+                    double3 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -1059,7 +1059,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    double4 rol = maxmath.vrol(test, j);
+                    double4 rol = math.vrol(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {

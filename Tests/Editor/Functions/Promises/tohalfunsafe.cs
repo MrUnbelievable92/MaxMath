@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -16,7 +16,7 @@ namespace MaxMath.Tests
 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
             }
         }
@@ -32,7 +32,7 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
             }
         }
@@ -78,9 +78,9 @@ namespace MaxMath.Tests
             {
                 byte8 b = rng.NextByte8();
                 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
             }
         }
@@ -94,9 +94,9 @@ namespace MaxMath.Tests
             {
                 byte16 b = rng.NextByte16();
                 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half16)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
             }
         }
@@ -113,13 +113,13 @@ namespace MaxMath.Tests
 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUShort(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (b != 0 ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -134,13 +134,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUShort2(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half2)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -155,13 +155,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUShort3(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half3)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -176,13 +176,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUShort4(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half4)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -195,15 +195,15 @@ namespace MaxMath.Tests
             {
                 ushort8 b = rng.NextUShort8();
 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUShort8(0, 2048);
 
-                Promise p = Promise.Unsafe0 | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, p));
+                Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
+                Assert.AreEqual((half8)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -216,15 +216,15 @@ namespace MaxMath.Tests
             {
                 ushort16 b = rng.NextUShort16();
 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half16)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUShort16(0, 2048);
 
-                Promise p = Promise.Unsafe0 | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, p));
+                Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
+                Assert.AreEqual((half16)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -240,13 +240,13 @@ namespace MaxMath.Tests
 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUInt(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (b != 0 ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -261,13 +261,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUInt2(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, p));
             }
         }
 
@@ -282,13 +282,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUInt3(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, p));
             }
         }
 
@@ -303,13 +303,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUInt4(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, p));
             }
         }
 
@@ -322,15 +322,15 @@ namespace MaxMath.Tests
             {
                 uint8 b = rng.NextUInt8();
 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUInt8(0, 2048);
 
-                Promise p = Promise.Unsafe0 | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, p));
+                Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
+                Assert.AreEqual((half8)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -346,13 +346,13 @@ namespace MaxMath.Tests
 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextULong(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (b != 0 ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -367,13 +367,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextULong2(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half2)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -388,13 +388,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextULong3(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half3)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -409,13 +409,13 @@ namespace MaxMath.Tests
 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextULong4(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half4)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -431,13 +431,13 @@ namespace MaxMath.Tests
 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
 
                 b = rng.NextUInt128(0, 2048);
 
                 Promise p = Promise.Unsafe0 | (b != 0 ? Promise.NonZero : Promise.Nothing);
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -453,12 +453,12 @@ namespace MaxMath.Tests
                 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (b >= 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
                 }
             }
         }
@@ -474,12 +474,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
             }
         }
@@ -495,12 +495,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
             }
         }
@@ -516,12 +516,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
             }
         }
@@ -535,14 +535,14 @@ namespace MaxMath.Tests
             {
                 sbyte8 b = rng.NextSByte8();
                 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
-                if (maxmath.all(b >= 0))
+                if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
             }
         }
@@ -556,14 +556,14 @@ namespace MaxMath.Tests
             {
                 sbyte16 b = rng.NextSByte16();
                 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half16)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
-                if (maxmath.all(b >= 0))
+                if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half16)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
             }
         }
@@ -580,12 +580,12 @@ namespace MaxMath.Tests
                 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (b >= 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextShort(-2047, 2048);
@@ -601,7 +601,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -616,12 +616,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextShort2(-2047, 2048);
@@ -637,7 +637,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half2)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -652,12 +652,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextShort3(-2047, 2048);
@@ -673,7 +673,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half3)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -688,12 +688,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextShort4(-2047, 2048);
@@ -709,7 +709,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half4)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -722,30 +722,30 @@ namespace MaxMath.Tests
             {
                 short8 b = rng.NextShort8();
                 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
-                if (maxmath.all(b >= 0))
+                if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextShort8(-2047, 2048);
                 Promise p = Promise.Unsafe0;
 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
                     p |= Promise.NonZero;
                 }
                 
-                if (maxmath.all(b >= 0))
+                if (math.all(b >= 0))
                 {
-                    p |= Promise.ZeroOrGreater | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing);
+                    p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half8)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -758,30 +758,30 @@ namespace MaxMath.Tests
             {
                 short16 b = rng.NextShort16();
                 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half16)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
-                if (maxmath.all(b >= 0))
+                if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half16)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextShort16(-2047, 2048);
                 Promise p = Promise.Unsafe0;
 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
                     p |= Promise.NonZero;
                 }
                 
-                if (maxmath.all(b >= 0))
+                if (math.all(b >= 0))
                 {
-                    p |= Promise.ZeroOrGreater | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing);
+                    p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half16)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -797,12 +797,12 @@ namespace MaxMath.Tests
                 
                 if (b != 0)
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (b >= 0)
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextInt(-2047, 2048);
@@ -818,7 +818,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, p));
             }
         }
 
@@ -833,12 +833,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextInt2(-2047, 2048);
@@ -854,7 +854,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, p));
             }
         }
 
@@ -869,12 +869,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextInt3(-2047, 2048);
@@ -890,7 +890,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, p));
             }
         }
 
@@ -905,12 +905,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextInt4(-2047, 2048);
@@ -926,7 +926,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual(Helper.ToHalf(b), maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual(Helper.ToHalf(b), math.tohalfunsafe(b, p));
             }
         }
 
@@ -939,30 +939,30 @@ namespace MaxMath.Tests
             {
                 int8 b = rng.NextInt8();
                 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
-                if (maxmath.all(b >= 0))
+                if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextInt8(-2047, 2048);
                 Promise p = Promise.Unsafe0;
 
-                if (maxmath.all(b != 0))
+                if (math.all(b != 0))
                 {
                     p |= Promise.NonZero;
                 }
                 
-                if (maxmath.all(b >= 0))
+                if (math.all(b >= 0))
                 {
-                    p |= Promise.ZeroOrGreater | (maxmath.all(b != 0) ? Promise.NonZero : Promise.Nothing);
+                    p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half8)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -978,12 +978,12 @@ namespace MaxMath.Tests
                 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (b >= 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextLong(-2047, 2048);
@@ -999,7 +999,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -1014,12 +1014,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextLong2(-2047, 2048);
@@ -1035,7 +1035,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half2)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -1050,12 +1050,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextLong3(-2047, 2048);
@@ -1071,7 +1071,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half3)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -1086,12 +1086,12 @@ namespace MaxMath.Tests
                 
                 if (math.all(b != 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (math.all(b >= 0))
                 {
-                    Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextLong4(-2047, 2048);
@@ -1107,7 +1107,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (math.all(b != 0) ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half4)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -1123,12 +1123,12 @@ namespace MaxMath.Tests
                 
                 if (b != 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
                 }
                 
                 if (b >= 0)
                 {
-                    Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
+                    Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing)));
                 }
 
                 b = rng.NextInt128(-2047, 2048);
@@ -1144,7 +1144,7 @@ namespace MaxMath.Tests
                     p |= Promise.ZeroOrGreater | (b != 0 ? Promise.NonZero : Promise.Nothing);
                 }
                     
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, p));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, p));
             }
         }
 
@@ -1158,8 +1158,8 @@ namespace MaxMath.Tests
             {
                 quarter b = (quarter)rng.NextFloat(-15.5f, 15.5f);
 
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((half)maxmath.abs(b), maxmath.tohalfunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((half)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1172,8 +1172,8 @@ namespace MaxMath.Tests
             {
                 quarter2 b = (quarter2)rng.NextFloat2(-15.5f, 15.5f);
 
-                Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((half2)maxmath.abs(b), maxmath.tohalfunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((half2)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1186,8 +1186,8 @@ namespace MaxMath.Tests
             {
                 quarter3 b = (quarter3)rng.NextFloat3(-15.5f, 15.5f);
 
-                Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((half3)maxmath.abs(b), maxmath.tohalfunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((half3)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1200,8 +1200,8 @@ namespace MaxMath.Tests
             {
                 quarter4 b = (quarter4)rng.NextFloat4(-15.5f, 15.5f);
 
-                Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((half4)maxmath.abs(b), maxmath.tohalfunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((half4)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1214,8 +1214,8 @@ namespace MaxMath.Tests
             {
                 quarter8 b = (quarter8)rng.NextFloat8(-15.5f, 15.5f);
 
-                Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((half8)maxmath.abs(b), maxmath.tohalfunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((half8)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1228,8 +1228,8 @@ namespace MaxMath.Tests
             {
                 quarter16 b = new quarter16((quarter8)rng.NextFloat8(-15.5f, 15.5f), (quarter8)rng.NextFloat8(-15.5f, 15.5f));
 
-                Assert.AreEqual((half16)b, maxmath.tohalfunsafe(b, Promise.NoOverflow));
-                Assert.AreEqual((half16)maxmath.abs(b), maxmath.tohalfunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half16)b, math.tohalfunsafe(b, Promise.NoOverflow));
+                Assert.AreEqual((half16)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1243,8 +1243,8 @@ namespace MaxMath.Tests
             {
                 float b = rng.NextFloat(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half)math.abs(b), maxmath.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1257,8 +1257,8 @@ namespace MaxMath.Tests
             {
                 float2 b = rng.NextFloat2(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half2)math.abs(b), maxmath.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half2)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1271,8 +1271,8 @@ namespace MaxMath.Tests
             {
                 float3 b = rng.NextFloat3(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half3)math.abs(b), maxmath.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half3)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1285,8 +1285,8 @@ namespace MaxMath.Tests
             {
                 float4 b = rng.NextFloat4(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half4)math.abs(b), maxmath.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half4)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1299,8 +1299,8 @@ namespace MaxMath.Tests
             {
                 float8 b = rng.NextFloat8(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half8)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half8)maxmath.abs(b), maxmath.tohalfunsafe(maxmath.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half8)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half8)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1314,8 +1314,8 @@ namespace MaxMath.Tests
             {
                 double b = rng.NextDouble(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half)math.abs(b), maxmath.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1328,8 +1328,8 @@ namespace MaxMath.Tests
             {
                 double2 b = rng.NextDouble2(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half2)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half2)math.abs(b), maxmath.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half2)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half2)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1342,8 +1342,8 @@ namespace MaxMath.Tests
             {
                 double3 b = rng.NextDouble3(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half3)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half3)math.abs(b), maxmath.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half3)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half3)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
 
@@ -1356,8 +1356,8 @@ namespace MaxMath.Tests
             {
                 double4 b = rng.NextDouble4(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((half4)b, maxmath.tohalfunsafe(b, Promise.NonZero));
-                Assert.AreEqual((half4)math.abs(b), maxmath.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
+                Assert.AreEqual((half4)b, math.tohalfunsafe(b, Promise.NonZero));
+                Assert.AreEqual((half4)math.abs(b), math.tohalfunsafe(math.abs(b), Promise.NoOverflow | Promise.ZeroOrGreater));
             }
         }
     }

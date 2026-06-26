@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -22,7 +22,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 128; j++)
                 {
-                    Assert.AreEqual(bt(val, j), maxmath.testbit(val, (uint)j));
+                    Assert.AreEqual(bt(val, j), math.testbit(val, (uint)j));
                 }
             }
         }
@@ -39,7 +39,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(bt(val, j), maxmath.testbit(val, j));
+                    Assert.AreEqual(bt(val, j), math.testbit(val, j));
                 }
             }
         }
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 byte2 val = r.NextByte2();
                 byte2 idx = r.NextByte2(0, 8);
-                bool2 res = maxmath.testbit(val, idx);
+                bool2 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 2; k++)
                 {
@@ -71,7 +71,7 @@ namespace MaxMath.Tests
             {
                 byte3 val = r.NextByte3();
                 byte3 idx = r.NextByte3(0, 8);
-                bool3 res = maxmath.testbit(val, idx);
+                bool3 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 3; k++)
                 {
@@ -89,7 +89,7 @@ namespace MaxMath.Tests
             {
                 byte4 val = r.NextByte4();
                 byte4 idx = r.NextByte4(0, 8);
-                bool4 res = maxmath.testbit(val, idx);
+                bool4 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 4; k++)
                 {
@@ -107,7 +107,7 @@ namespace MaxMath.Tests
             {
                 byte8 val = r.NextByte8();
                 byte8 idx = r.NextByte8(0, 8);
-                bool8 res = maxmath.testbit(val, idx);
+                bool8 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 8; k++)
                 {
@@ -125,7 +125,7 @@ namespace MaxMath.Tests
             {
                 byte16 val = r.NextByte16();
                 byte16 idx = r.NextByte16(0, 8);
-                bool16 res = maxmath.testbit(val, idx);
+                bool16 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 16; k++)
                 {
@@ -143,7 +143,7 @@ namespace MaxMath.Tests
             {
                 byte32 val = r.NextByte32();
                 byte32 idx = r.NextByte32(0, 8);
-                bool32 res = maxmath.testbit(val, idx);
+                bool32 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 32; k++)
                 {
@@ -164,7 +164,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(bt(val, j), maxmath.testbit(val, j));
+                    Assert.AreEqual(bt(val, j), math.testbit(val, j));
                 }
             }
         }
@@ -178,7 +178,7 @@ namespace MaxMath.Tests
             {
                 ushort2 val = r.NextUShort2();
                 ushort2 idx = r.NextUShort2(0, 16);
-                bool2 res = maxmath.testbit(val, idx);
+                bool2 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 2; k++)
                 {
@@ -196,7 +196,7 @@ namespace MaxMath.Tests
             {
                 ushort3 val = r.NextUShort3();
                 ushort3 idx = r.NextUShort3(0, 16);
-                bool3 res = maxmath.testbit(val, idx);
+                bool3 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 3; k++)
                 {
@@ -214,7 +214,7 @@ namespace MaxMath.Tests
             {
                 ushort4 val = r.NextUShort4();
                 ushort4 idx = r.NextUShort4(0, 16);
-                bool4 res = maxmath.testbit(val, idx);
+                bool4 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 4; k++)
                 {
@@ -232,7 +232,7 @@ namespace MaxMath.Tests
             {
                 ushort8 val = r.NextUShort8();
                 ushort8 idx = r.NextUShort8(0, 16);
-                bool8 res = maxmath.testbit(val, idx);
+                bool8 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 8; k++)
                 {
@@ -250,7 +250,7 @@ namespace MaxMath.Tests
             {
                 ushort16 val = r.NextUShort16();
                 ushort16 idx = r.NextUShort16(0, 16);
-                bool16 res = maxmath.testbit(val, idx);
+                bool16 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 16; k++)
                 {
@@ -271,7 +271,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual(bt(val, j), maxmath.testbit(val, j));
+                    Assert.AreEqual(bt(val, j), math.testbit(val, j));
                 }
             }
         }
@@ -285,7 +285,7 @@ namespace MaxMath.Tests
             {
                 uint2 val = r.NextUInt2();
                 uint2 idx = r.NextUInt2(0, 32);
-                bool2 res = maxmath.testbit(val, idx);
+                bool2 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 2; k++)
                 {
@@ -303,7 +303,7 @@ namespace MaxMath.Tests
             {
                 uint3 val = r.NextUInt3();
                 uint3 idx = r.NextUInt3(0, 32);
-                bool3 res = maxmath.testbit(val, idx);
+                bool3 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 3; k++)
                 {
@@ -321,7 +321,7 @@ namespace MaxMath.Tests
             {
                 uint4 val = r.NextUInt4();
                 uint4 idx = r.NextUInt4(0, 32);
-                bool4 res = maxmath.testbit(val, idx);
+                bool4 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 4; k++)
                 {
@@ -339,7 +339,7 @@ namespace MaxMath.Tests
             {
                 uint8 val = r.NextUInt8();
                 uint8 idx = r.NextUInt8(0, 32);
-                bool8 res = maxmath.testbit(val, idx);
+                bool8 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 8; k++)
                 {
@@ -360,7 +360,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 64; j++)
                 {
-                    Assert.AreEqual(bt(val, j), maxmath.testbit(val, j));
+                    Assert.AreEqual(bt(val, j), math.testbit(val, j));
                 }
             }
         }
@@ -374,7 +374,7 @@ namespace MaxMath.Tests
             {
                 ulong2 val = r.NextULong2();
                 ulong2 idx = r.NextULong2(0, 64);
-                bool2 res = maxmath.testbit(val, idx);
+                bool2 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 2; k++)
                 {
@@ -392,7 +392,7 @@ namespace MaxMath.Tests
             {
                 ulong3 val = r.NextULong3();
                 ulong3 idx = r.NextULong3(0, 64);
-                bool3 res = maxmath.testbit(val, idx);
+                bool3 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 3; k++)
                 {
@@ -410,7 +410,7 @@ namespace MaxMath.Tests
             {
                 ulong4 val = r.NextULong4();
                 ulong4 idx = r.NextULong4(0, 64);
-                bool4 res = maxmath.testbit(val, idx);
+                bool4 res = math.testbit(val, idx);
 
                 for (int k = 0; k < 4; k++)
                 {

@@ -1,14 +1,13 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="MaxMath.byte2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -17,11 +16,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(2 * sizeof(byte)) & Xse.movemask_epi8(Xse.cmpeq_epi8(v, new byte2(x)))) / sizeof(byte);
+                return tzcnt(bitmask32(2 * sizeof(byte)) & Xse.movemask_epi8(Xse.cmpeq_epi8(v, new byte2(x)))) / sizeof(byte);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 2 * sizeof(byte)) & Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, new byte2(x)))) / (4 * sizeof(byte));
+                return tzcnt(bitmask64(4L * 2 * sizeof(byte)) & Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, new byte2(x)))) / (4 * sizeof(byte));
             }
             else
             {
@@ -45,11 +44,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(3 * sizeof(byte)) & Xse.movemask_epi8(Xse.cmpeq_epi8(v, new byte3(x)))) / sizeof(byte);
+                return tzcnt(bitmask32(3 * sizeof(byte)) & Xse.movemask_epi8(Xse.cmpeq_epi8(v, new byte3(x)))) / sizeof(byte);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 3 * sizeof(byte)) & Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, new byte3(x)))) / (4 * sizeof(byte));
+                return tzcnt(bitmask64(4L * 3 * sizeof(byte)) & Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, new byte3(x)))) / (4 * sizeof(byte));
             }
             else
             {
@@ -73,11 +72,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(4 * sizeof(byte)) & Xse.movemask_epi8(Xse.cmpeq_epi8(v, new byte4(x)))) / sizeof(byte);
+                return tzcnt(bitmask32(4 * sizeof(byte)) & Xse.movemask_epi8(Xse.cmpeq_epi8(v, new byte4(x)))) / sizeof(byte);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 4 * sizeof(byte)) & Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, new byte4(x)))) / (4 * sizeof(byte));
+                return tzcnt(bitmask64(4L * 4 * sizeof(byte)) & Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, new byte4(x)))) / (4 * sizeof(byte));
             }
             else
             {
@@ -101,11 +100,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(8 * sizeof(byte)) & Xse.movemask_epi8(Xse.cmpeq_epi8(v, new byte8(x)))) / sizeof(byte);
+                return tzcnt(bitmask32(8 * sizeof(byte)) & Xse.movemask_epi8(Xse.cmpeq_epi8(v, new byte8(x)))) / sizeof(byte);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 8 * sizeof(byte)) & Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, new byte8(x)))) / (4 * sizeof(byte));
+                return tzcnt(bitmask64(4L * 8 * sizeof(byte)) & Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, new byte8(x)))) / (4 * sizeof(byte));
             }
             else
             {
@@ -129,11 +128,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(Xse.movemask_epi8(Xse.cmpeq_epi8(v, Xse.set1_epi8(x)))) / sizeof(byte);
+                return tzcnt(Xse.movemask_epi8(Xse.cmpeq_epi8(v, Xse.set1_epi8(x)))) / sizeof(byte);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, Xse.set1_epi8(x)))) / (4 * sizeof(byte));
+                return tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_epi8(v, Xse.set1_epi8(x)))) / (4 * sizeof(byte));
             }
             else
             {
@@ -158,14 +157,14 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return math.tzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi8(v, new byte32(x)))) / sizeof(byte);
+                return tzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi8(v, new byte32(x)))) / sizeof(byte);
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 byte16 broadcast = x;
 
-                return math.tzcnt(Xse.movemask_epi8(Xse.cmpeq_epi8(v._v16_0, broadcast)) |
-                                  (Xse.movemask_epi8(Xse.cmpeq_epi8(v._v16_16, broadcast)) << 16)) / sizeof(byte);
+                return tzcnt(Xse.movemask_epi8(Xse.cmpeq_epi8(v.__x0, broadcast)) |
+                            (Xse.movemask_epi8(Xse.cmpeq_epi8(v.__x16, broadcast)) << 16)) / sizeof(byte);
             }
             else
             {
@@ -239,11 +238,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(2 * sizeof(ushort)) & Xse.movemask_epi8(Xse.cmpeq_epi16(v, new ushort2(x)))) / sizeof(ushort);
+                return tzcnt(bitmask32(2 * sizeof(ushort)) & Xse.movemask_epi8(Xse.cmpeq_epi16(v, new ushort2(x)))) / sizeof(ushort);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 2 * sizeof(ushort)) & Xse.movemask_epi8x4(Xse.cmpeq_epi16(v, new ushort2(x)))) / (4 * sizeof(ushort));
+                return tzcnt(bitmask64(4L * 2 * sizeof(ushort)) & Xse.movemask_epi8x4(Xse.cmpeq_epi16(v, new ushort2(x)))) / (4 * sizeof(ushort));
             }
             else
             {
@@ -267,11 +266,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(3 * sizeof(ushort)) & Xse.movemask_epi8(Xse.cmpeq_epi16(v, new ushort3(x)))) / sizeof(ushort);
+                return tzcnt(bitmask32(3 * sizeof(ushort)) & Xse.movemask_epi8(Xse.cmpeq_epi16(v, new ushort3(x)))) / sizeof(ushort);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 3 * sizeof(ushort)) & Xse.movemask_epi8x4(Xse.cmpeq_epi16(v, new ushort3(x)))) / (4 * sizeof(ushort));
+                return tzcnt(bitmask64(4L * 3 * sizeof(ushort)) & Xse.movemask_epi8x4(Xse.cmpeq_epi16(v, new ushort3(x)))) / (4 * sizeof(ushort));
             }
             else
             {
@@ -295,11 +294,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(4 * sizeof(ushort)) & Xse.movemask_epi8(Xse.cmpeq_epi16(v, new ushort4(x)))) / sizeof(ushort);
+                return tzcnt(bitmask32(4 * sizeof(ushort)) & Xse.movemask_epi8(Xse.cmpeq_epi16(v, new ushort4(x)))) / sizeof(ushort);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 4 * sizeof(ushort)) & Xse.movemask_epi8x4(Xse.cmpeq_epi16(v, new ushort4(x)))) / (4 * sizeof(ushort));
+                return tzcnt(bitmask64(4L * 4 * sizeof(ushort)) & Xse.movemask_epi8x4(Xse.cmpeq_epi16(v, new ushort4(x)))) / (4 * sizeof(ushort));
             }
             else
             {
@@ -323,11 +322,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(Xse.movemask_epi8(Xse.cmpeq_epi16(v, Xse.set1_epi16(x)))) / sizeof(ushort);
+                return tzcnt(Xse.movemask_epi8(Xse.cmpeq_epi16(v, Xse.set1_epi16(x)))) / sizeof(ushort);
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_epi16(v, Xse.set1_epi16(x)))) / (4 * sizeof(ushort));
+                return tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_epi16(v, Xse.set1_epi16(x)))) / (4 * sizeof(ushort));
             }
             else
             {
@@ -351,14 +350,14 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return math.tzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi16(v, new ushort16(x)))) / sizeof(ushort);
+                return tzcnt(Avx2.mm256_movemask_epi8(Avx2.mm256_cmpeq_epi16(v, new ushort16(x)))) / sizeof(ushort);
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 ushort8 broadcast = x;
 
-                return math.tzcnt(Xse.movemask_epi8(Xse.cmpeq_epi16(v._v8_0, broadcast)) |
-                                  (Xse.movemask_epi8(Xse.cmpeq_epi16(v._v8_8, broadcast)) << 16)) / sizeof(ushort);
+                return tzcnt(Xse.movemask_epi8(Xse.cmpeq_epi16(v.__x0, broadcast)) |
+                            (Xse.movemask_epi8(Xse.cmpeq_epi16(v.__x8, broadcast)) << 16)) / sizeof(ushort);
             }
             else
             {
@@ -417,18 +416,18 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="uint2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="MaxMath.uint2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(uint2 v, uint x)
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(2 * sizeof(uint)) & Xse.movemask_ps(Xse.cmpeq_epi32(RegisterConversion.ToV128(v), new v128(x))));
+                return tzcnt(bitmask32(2 * sizeof(uint)) & Xse.movemask_ps(Xse.cmpeq_epi32(v, new v128(x))));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 2 * sizeof(uint)) & Xse.movemask_epi8x4(Xse.cmpeq_epi32(RegisterConversion.ToV128(v), new v128(x)))) / (4 * sizeof(uint));
+                return tzcnt(bitmask64(4L * 2 * sizeof(uint)) & Xse.movemask_epi8x4(Xse.cmpeq_epi32(v, new v128(x)))) / (4 * sizeof(uint));
             }
             else
             {
@@ -445,18 +444,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="uint3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="MaxMath.uint3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(uint3 v, uint x)
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(3 * sizeof(uint)) & Xse.movemask_ps(Xse.cmpeq_epi32(RegisterConversion.ToV128(v), new v128(x))));
+                return tzcnt(bitmask32(3 * sizeof(uint)) & Xse.movemask_ps(Xse.cmpeq_epi32(v, new v128(x))));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 3 * sizeof(uint)) & Xse.movemask_epi8x4(Xse.cmpeq_epi32(RegisterConversion.ToV128(v), new v128(x)))) / (4 * sizeof(uint));
+                return tzcnt(bitmask64(4L * 3 * sizeof(uint)) & Xse.movemask_epi8x4(Xse.cmpeq_epi32(v, new v128(x)))) / (4 * sizeof(uint));
             }
             else
             {
@@ -473,18 +472,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="uint4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="MaxMath.uint4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(uint4 v, uint x)
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(Xse.movemask_ps(Xse.cmpeq_epi32(RegisterConversion.ToV128(v), new v128(x))));
+                return tzcnt(Xse.movemask_ps(Xse.cmpeq_epi32(v, new v128(x))));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_epi32(RegisterConversion.ToV128(v), new v128(x)))) / (4 * sizeof(uint));
+                return tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_epi32(v, new v128(x)))) / (4 * sizeof(uint));
             }
             else
             {
@@ -508,14 +507,14 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return math.tzcnt(Avx.mm256_movemask_ps(Avx2.mm256_cmpeq_epi32(v, new uint8(x))));
+                return tzcnt(Avx.mm256_movemask_ps(Avx2.mm256_cmpeq_epi32(v, new uint8(x))));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
-                return math.tzcnt(Xse.movemask_ps(Xse.cmpeq_epi32(RegisterConversion.ToV128(v._v4_0), broadcast)) |
-                                  (Xse.movemask_ps(Xse.cmpeq_epi32(RegisterConversion.ToV128(v._v4_4), broadcast)) << 4));
+                return tzcnt(Xse.movemask_ps(Xse.cmpeq_epi32(v.__x0, broadcast)) |
+                            (Xse.movemask_ps(Xse.cmpeq_epi32(v.__x4, broadcast)) << 4));
             }
             else
             {
@@ -533,7 +532,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="int2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="MaxMath.int2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(int2 v, int x)
@@ -541,7 +540,7 @@ namespace MaxMath
             return indexof((uint2)v, (uint)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="int3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="MaxMath.int3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(int3 v, int x)
@@ -549,7 +548,7 @@ namespace MaxMath
             return indexof((uint3)v, (uint)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="int4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="MaxMath.int4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(int4 v, int x)
@@ -573,11 +572,11 @@ namespace MaxMath
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(Xse.movemask_pd(Xse.cmpeq_epi64(v, new v128(x))));
+                return tzcnt(Xse.movemask_pd(Xse.cmpeq_epi64(v, new v128(x))));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_epi64(RegisterConversion.ToV128(v), new v128(x)))) / (4 * sizeof(ulong));
+                return tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_epi64(v, new v128(x)))) / (4 * sizeof(ulong));
             }
             else
             {
@@ -601,14 +600,14 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return math.tzcnt(bitmask32(3 * sizeof(ulong)) & Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(v, new ulong3(x))));
+                return tzcnt(bitmask32(3 * sizeof(ulong)) & Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(v, new ulong3(x))));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
-                return math.tzcnt(Xse.movemask_pd(Xse.cmpeq_epi64(v._xy, broadcast)) |
-                                  (toint(v.z == x) << 2));
+                return tzcnt(Xse.movemask_pd(Xse.cmpeq_epi64(v.__x0, broadcast)) |
+                            (toint(v.z == x) << 2));
             }
             else
             {
@@ -632,14 +631,14 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return math.tzcnt(Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(v, new ulong4(x))));
+                return tzcnt(Avx.mm256_movemask_pd(Avx2.mm256_cmpeq_epi64(v, new ulong4(x))));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
-                return math.tzcnt(Xse.movemask_pd(Xse.cmpeq_epi64(v._xy, broadcast)) |
-                                  (Xse.movemask_pd(Xse.cmpeq_epi64(v._zw, broadcast)) << 2));
+                return tzcnt(Xse.movemask_pd(Xse.cmpeq_epi64(v.__x0, broadcast)) |
+                            (Xse.movemask_pd(Xse.cmpeq_epi64(v.__x2, broadcast)) << 2));
             }
             else
             {
@@ -682,18 +681,18 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="float2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="MaxMath.float2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float2 v, float x)
         {
             if (Sse2.IsSse2Supported)
             {
-                return math.tzcnt(bitmask32(2 * sizeof(float)) & Xse.movemask_ps(Xse.cmpeq_ps(RegisterConversion.ToV128(v), new v128(x))));
+                return tzcnt(bitmask32(2 * sizeof(float)) & Xse.movemask_ps(Xse.cmpeq_ps(v, new v128(x))));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 2 * sizeof(float)) & Xse.movemask_epi8x4(Xse.cmpeq_ps(RegisterConversion.ToV128(v), new v128(x)))) / (4 * sizeof(float));
+                return tzcnt(bitmask64(4L * 2 * sizeof(float)) & Xse.movemask_epi8x4(Xse.cmpeq_ps(v, new v128(x)))) / (4 * sizeof(float));
             }
             else
             {
@@ -710,18 +709,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="float3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="MaxMath.float3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float3 v, float x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return math.tzcnt(bitmask32(3 * sizeof(float)) & Xse.movemask_ps(Xse.cmpeq_ps(RegisterConversion.ToV128(v), new v128(x))));
+                return tzcnt(bitmask32(3 * sizeof(float)) & Xse.movemask_ps(Xse.cmpeq_ps(v, new v128(x))));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(bitmask64(4L * 3 * sizeof(float)) & Xse.movemask_epi8x4(Xse.cmpeq_ps(RegisterConversion.ToV128(v), new v128(x)))) / (4 * sizeof(float));
+                return tzcnt(bitmask64(4L * 3 * sizeof(float)) & Xse.movemask_epi8x4(Xse.cmpeq_ps(v, new v128(x)))) / (4 * sizeof(float));
             }
             else
             {
@@ -738,18 +737,18 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="float4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="MaxMath.float4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float4 v, float x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return math.tzcnt(Xse.movemask_ps(Xse.cmpeq_ps(RegisterConversion.ToV128(v), new v128(x))));
+                return tzcnt(Xse.movemask_ps(Xse.cmpeq_ps(v, new v128(x))));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_ps(RegisterConversion.ToV128(v), new v128(x)))) / (4 * sizeof(float));
+                return tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_ps(v, new v128(x)))) / (4 * sizeof(float));
             }
             else
             {
@@ -773,14 +772,14 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return math.tzcnt(Avx.mm256_movemask_ps(Xse.mm256_cmpeq_ps(v, new float8(x))));
+                return tzcnt(Avx.mm256_movemask_ps(Xse.mm256_cmpeq_ps(v, new float8(x))));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
-                return math.tzcnt(Xse.movemask_ps(Xse.cmpeq_ps(RegisterConversion.ToV128(v._v4_0), broadcast)) |
-                                  (Xse.movemask_ps(Xse.cmpeq_ps(RegisterConversion.ToV128(v._v4_4), broadcast)) << 4));
+                return tzcnt(Xse.movemask_ps(Xse.cmpeq_ps(v.v4_0, broadcast)) |
+                            (Xse.movemask_ps(Xse.cmpeq_ps(v.v4_4, broadcast)) << 4));
             }
             else
             {
@@ -798,18 +797,18 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="double2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="MaxMath.double2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(double2 v, double x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return math.tzcnt(Xse.movemask_pd(Xse.cmpeq_pd(RegisterConversion.ToV128(v), new v128(x))));
+                return tzcnt(Xse.movemask_pd(Xse.cmpeq_pd(v, new v128(x))));
             }
             else if (Arm.Neon.IsNeonSupported)
             {
-                return math.tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_pd(RegisterConversion.ToV128(v), new v128(x)))) / (4 * sizeof(double));
+                return tzcnt(Xse.movemask_epi8x4(Xse.cmpeq_pd(v, new v128(x)))) / (4 * sizeof(double));
             }
             else
             {
@@ -826,21 +825,20 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="double3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="MaxMath.double3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(double3 v, double x)
         {
             if (Avx.IsAvxSupported)
             {
-                return math.tzcnt(bitmask32(3 * sizeof(double)) & Avx.mm256_movemask_pd(Xse.mm256_cmpeq_pd(RegisterConversion.ToV256(v), new v256(x))));
+                return tzcnt(bitmask32(3 * sizeof(double)) & Avx.mm256_movemask_pd(Xse.mm256_cmpeq_pd(v, new v256(x))));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
-                return math.tzcnt(Xse.movemask_pd(Xse.cmpeq_pd(RegisterConversion.ToV128(v.xy), broadcast)) |
-                                  (toint(v.z == x) << 2));
+                return tzcnt(Xse.movemask_pd(Xse.cmpeq_pd(v.xy, broadcast)) | (toint(v.z == x) << 2));
             }
             else
             {
@@ -857,21 +855,21 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="double4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="MaxMath.double4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(double4 v, double x)
         {
             if (Avx.IsAvxSupported)
             {
-                return math.tzcnt(Avx.mm256_movemask_pd(Xse.mm256_cmpeq_pd(RegisterConversion.ToV256(v), new v256(x))));
+                return tzcnt(Avx.mm256_movemask_pd(Xse.mm256_cmpeq_pd(v, new v256(x))));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 broadcast = new v128(x);
 
-                return math.tzcnt(Xse.movemask_pd(Xse.cmpeq_pd(RegisterConversion.ToV128(v.xy), broadcast)) |
-                                  (Xse.movemask_pd(Xse.cmpeq_pd(RegisterConversion.ToV128(v.zw), broadcast)) << 2));
+                return tzcnt(Xse.movemask_pd(Xse.cmpeq_pd(v.xy, broadcast)) |
+                            (Xse.movemask_pd(Xse.cmpeq_pd(v.zw, broadcast)) << 2));
             }
             else
             {

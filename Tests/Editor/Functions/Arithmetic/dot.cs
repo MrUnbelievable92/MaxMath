@@ -11,7 +11,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte32.NUM_TESTS; i++)
             {
-                uint x = maxmath.dot(t_byte32.TestData_LHS[i], t_byte32.TestData_RHS[i]);
+                uint x = math.dot(t_byte32.TestData_LHS[i], t_byte32.TestData_RHS[i]);
 
                 result &= x == (t_byte32.TestData_LHS[i].x0  * t_byte32.TestData_RHS[i].x0  +
                                 t_byte32.TestData_LHS[i].x1  * t_byte32.TestData_RHS[i].x1  +
@@ -57,7 +57,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte32.NUM_TESTS; i++)
             {
-                int x = maxmath.dot(t_sbyte32.TestData_LHS[i], t_sbyte32.TestData_RHS[i]);
+                int x = math.dot(t_sbyte32.TestData_LHS[i], t_sbyte32.TestData_RHS[i]);
 
                 result &= x == (t_sbyte32.TestData_LHS[i].x0  * t_sbyte32.TestData_RHS[i].x0  +
                                 t_sbyte32.TestData_LHS[i].x1  * t_sbyte32.TestData_RHS[i].x1  +
@@ -104,7 +104,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short2.NUM_TESTS; i++)
             {
-                int x = maxmath.dot(t_short2.TestData_LHS[i], t_short2.TestData_RHS[i]);
+                int x = math.dot(t_short2.TestData_LHS[i], t_short2.TestData_RHS[i]);
 
                 result &= x == (t_short2.TestData_LHS[i].x * t_short2.TestData_RHS[i].x +
                                 t_short2.TestData_LHS[i].y * t_short2.TestData_RHS[i].y);
@@ -120,7 +120,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short3.NUM_TESTS; i++)
             {
-                int x = maxmath.dot(t_short3.TestData_LHS[i], t_short3.TestData_RHS[i]);
+                int x = math.dot(t_short3.TestData_LHS[i], t_short3.TestData_RHS[i]);
 
                 result &= x == (t_short3.TestData_LHS[i].x * t_short3.TestData_RHS[i].x +
                                 t_short3.TestData_LHS[i].y * t_short3.TestData_RHS[i].y +
@@ -137,7 +137,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short4.NUM_TESTS; i++)
             {
-                int x = maxmath.dot(t_short4.TestData_LHS[i], t_short4.TestData_RHS[i]);
+                int x = math.dot(t_short4.TestData_LHS[i], t_short4.TestData_RHS[i]);
 
                 result &= x == (t_short4.TestData_LHS[i].x * t_short4.TestData_RHS[i].x +
                                 t_short4.TestData_LHS[i].y * t_short4.TestData_RHS[i].y +
@@ -155,7 +155,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short8.NUM_TESTS; i++)
             {
-                int x = maxmath.dot(t_short8.TestData_LHS[i], t_short8.TestData_RHS[i]);
+                int x = math.dot(t_short8.TestData_LHS[i], t_short8.TestData_RHS[i]);
 
                 result &= x == (t_short8.TestData_LHS[i].x0 * t_short8.TestData_RHS[i].x0 +
                                 t_short8.TestData_LHS[i].x1 * t_short8.TestData_RHS[i].x1 +
@@ -177,7 +177,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short16.NUM_TESTS; i++)
             {
-                int x = maxmath.dot(t_short16.TestData_LHS[i], t_short16.TestData_RHS[i]);
+                int x = math.dot(t_short16.TestData_LHS[i], t_short16.TestData_RHS[i]);
 
                 result &= x == (t_short16.TestData_LHS[i].x0  * t_short16.TestData_RHS[i].x0  +
                                 t_short16.TestData_LHS[i].x1  * t_short16.TestData_RHS[i].x1  +
@@ -208,7 +208,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort2.NUM_TESTS; i++)
             {
-                uint x = maxmath.dot(t_ushort2.TestData_LHS[i], t_ushort2.TestData_RHS[i]);
+                uint x = math.dot(t_ushort2.TestData_LHS[i], t_ushort2.TestData_RHS[i]);
 
                 result &= x == ((uint)t_ushort2.TestData_LHS[i].x * t_ushort2.TestData_RHS[i].x +
                                 (uint)t_ushort2.TestData_LHS[i].y * t_ushort2.TestData_RHS[i].y);
@@ -224,7 +224,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort3.NUM_TESTS; i++)
             {
-                uint x = maxmath.dot(t_ushort3.TestData_LHS[i], t_ushort3.TestData_RHS[i]);
+                uint x = math.dot(t_ushort3.TestData_LHS[i], t_ushort3.TestData_RHS[i]);
 
                 result &= x == ((uint)t_ushort3.TestData_LHS[i].x * t_ushort3.TestData_RHS[i].x +
                                 (uint)t_ushort3.TestData_LHS[i].y * t_ushort3.TestData_RHS[i].y +
@@ -241,7 +241,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort4.NUM_TESTS; i++)
             {
-                uint x = maxmath.dot(t_ushort4.TestData_LHS[i], t_ushort4.TestData_RHS[i]);
+                uint x = math.dot(t_ushort4.TestData_LHS[i], t_ushort4.TestData_RHS[i]);
 
                 result &= x == ((uint)t_ushort4.TestData_LHS[i].x * t_ushort4.TestData_RHS[i].x +
                                 (uint)t_ushort4.TestData_LHS[i].y * t_ushort4.TestData_RHS[i].y +
@@ -259,7 +259,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort8.NUM_TESTS; i++)
             {
-                uint x = maxmath.dot(t_ushort8.TestData_LHS[i], t_ushort8.TestData_RHS[i]);
+                uint x = math.dot(t_ushort8.TestData_LHS[i], t_ushort8.TestData_RHS[i]);
 
                 result &= x == ((uint)t_ushort8.TestData_LHS[i].x0 * t_ushort8.TestData_RHS[i].x0 +
                                 (uint)t_ushort8.TestData_LHS[i].x1 * t_ushort8.TestData_RHS[i].x1 +
@@ -281,7 +281,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort16.NUM_TESTS; i++)
             {
-                uint x = maxmath.dot(t_ushort16.TestData_LHS[i], t_ushort16.TestData_RHS[i]);
+                uint x = math.dot(t_ushort16.TestData_LHS[i], t_ushort16.TestData_RHS[i]);
 
                 result &= x == ((uint)t_ushort16.TestData_LHS[i].x0  * t_ushort16.TestData_RHS[i].x0  +
                                 (uint)t_ushort16.TestData_LHS[i].x1  * t_ushort16.TestData_RHS[i].x1  +

@@ -16,15 +16,16 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: Guid("d3cc711d-084c-435c-8c84-7d624992dc10")]
 
-[assembly: AssemblyVersion("2.9.99")]
-[assembly: AssemblyFileVersion("2.9.99")]
-[assembly: AssemblyInformationalVersion("2.9.9 Release")]
+[assembly: AssemblyVersion("3.0")]
+[assembly: AssemblyFileVersion("3.0")]
+[assembly: AssemblyInformationalVersion("3.0 Release")]
 
 // Style
 [assembly: SuppressMessage("Style", "IDE1006: Naming Styles", Justification = "Unity.Mathematics API consistency")]
 [assembly: SuppressMessage("Style", "IDE0034: Simplify 'default' expression", Justification = "Coding Guidelines")]
 [assembly: SuppressMessage("Style", "IDE0066: Use 'switch' expression", Justification = "Coding Guidelines")]
 [assembly: SuppressMessage("Style", "IDE0090: Simplify 'new' expression", Justification = "Compatibility with C#8 or less")]
+[assembly: SuppressMessage("Style", "IDE0180: Use tuple to swap values", Justification = "Preference to avoid tuples")]
 
 // Compilation
 [assembly: InternalsVisibleTo("MaxMath.Tests")]

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 Int128 x = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.abs(x), x < 0 ? -x : x);
+                Assert.AreEqual(math.abs(x), x < 0 ? -x : x);
             }
         }
 
@@ -25,7 +25,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_long2.NUM_TESTS; i++)
             {
-                long2 x = maxmath.abs(t_long2.TestData_LHS[i]);
+                long2 x = math.abs(t_long2.TestData_LHS[i]);
 
                 result &= x.x == math.abs(t_long2.TestData_LHS[i].x) &
                           x.y == math.abs(t_long2.TestData_LHS[i].y);
@@ -41,7 +41,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_long3.NUM_TESTS; i++)
             {
-                long3 x = maxmath.abs(t_long3.TestData_LHS[i]);
+                long3 x = math.abs(t_long3.TestData_LHS[i]);
 
                 result &= x.x == math.abs(t_long3.TestData_LHS[i].x) &
                           x.y == math.abs(t_long3.TestData_LHS[i].y) &
@@ -58,7 +58,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_long4.NUM_TESTS; i++)
             {
-                long4 x = maxmath.abs(t_long4.TestData_LHS[i]);
+                long4 x = math.abs(t_long4.TestData_LHS[i]);
 
                 result &= x.x == math.abs(t_long4.TestData_LHS[i].x) &
                           x.y == math.abs(t_long4.TestData_LHS[i].y) &
@@ -77,7 +77,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_float8.NUM_TESTS; i++)
             {
-                float8 x = maxmath.abs(t_float8.TestData_LHS[i]);
+                float8 x = math.abs(t_float8.TestData_LHS[i]);
 
                 result &= x.x0 == math.abs(t_float8.TestData_LHS[i].x0) &
                           x.x1 == math.abs(t_float8.TestData_LHS[i].x1) &

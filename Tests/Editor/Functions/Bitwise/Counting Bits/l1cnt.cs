@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 sbyte2 x = rng.NextSByte2();
 
-                Assert.AreEqual(new sbyte2((sbyte)maxmath.l1cnt(x.x), (sbyte)maxmath.l1cnt(x.y)), maxmath.l1cnt(x));
+                Assert.AreEqual(new sbyte2((sbyte)math.l1cnt(x.x), (sbyte)math.l1cnt(x.y)), math.l1cnt(x));
             }
         }
 
@@ -27,7 +27,7 @@ namespace MaxMath.Tests
             {
                 sbyte3 x = rng.NextSByte3();
 
-                Assert.AreEqual(new sbyte3((sbyte)maxmath.l1cnt(x.x), (sbyte)maxmath.l1cnt(x.y), (sbyte)maxmath.l1cnt(x.z)), maxmath.l1cnt(x));
+                Assert.AreEqual(new sbyte3((sbyte)math.l1cnt(x.x), (sbyte)math.l1cnt(x.y), (sbyte)math.l1cnt(x.z)), math.l1cnt(x));
             }
         }
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
             {
                 sbyte4 x = rng.NextSByte4();
 
-                Assert.AreEqual(new sbyte4((sbyte)maxmath.l1cnt(x.x), (sbyte)maxmath.l1cnt(x.y), (sbyte)maxmath.l1cnt(x.z), (sbyte)maxmath.l1cnt(x.w)), maxmath.l1cnt(x));
+                Assert.AreEqual(new sbyte4((sbyte)math.l1cnt(x.x), (sbyte)math.l1cnt(x.y), (sbyte)math.l1cnt(x.z), (sbyte)math.l1cnt(x.w)), math.l1cnt(x));
             }
         }
 
@@ -53,15 +53,15 @@ namespace MaxMath.Tests
             {
                 sbyte8 x = rng.NextSByte8();
 
-                Assert.AreEqual(new sbyte8((sbyte)maxmath.l1cnt(x.x0),
-                                           (sbyte)maxmath.l1cnt(x.x1),
-                                           (sbyte)maxmath.l1cnt(x.x2),
-                                           (sbyte)maxmath.l1cnt(x.x3),
-                                           (sbyte)maxmath.l1cnt(x.x4),
-                                           (sbyte)maxmath.l1cnt(x.x5),
-                                           (sbyte)maxmath.l1cnt(x.x6),
-                                           (sbyte)maxmath.l1cnt(x.x7)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new sbyte8((sbyte)math.l1cnt(x.x0),
+                                           (sbyte)math.l1cnt(x.x1),
+                                           (sbyte)math.l1cnt(x.x2),
+                                           (sbyte)math.l1cnt(x.x3),
+                                           (sbyte)math.l1cnt(x.x4),
+                                           (sbyte)math.l1cnt(x.x5),
+                                           (sbyte)math.l1cnt(x.x6),
+                                           (sbyte)math.l1cnt(x.x7)),
+                                math.l1cnt(x));
             }
         }
 
@@ -74,23 +74,23 @@ namespace MaxMath.Tests
             {
                 sbyte16 x = rng.NextSByte16();
 
-                Assert.AreEqual(new sbyte16((sbyte)maxmath.l1cnt(x.x0),
-                                            (sbyte)maxmath.l1cnt(x.x1),
-                                            (sbyte)maxmath.l1cnt(x.x2),
-                                            (sbyte)maxmath.l1cnt(x.x3),
-                                            (sbyte)maxmath.l1cnt(x.x4),
-                                            (sbyte)maxmath.l1cnt(x.x5),
-                                            (sbyte)maxmath.l1cnt(x.x6),
-                                            (sbyte)maxmath.l1cnt(x.x7),
-                                            (sbyte)maxmath.l1cnt(x.x8),
-                                            (sbyte)maxmath.l1cnt(x.x9),
-                                            (sbyte)maxmath.l1cnt(x.x10),
-                                            (sbyte)maxmath.l1cnt(x.x11),
-                                            (sbyte)maxmath.l1cnt(x.x12),
-                                            (sbyte)maxmath.l1cnt(x.x13),
-                                            (sbyte)maxmath.l1cnt(x.x14),
-                                            (sbyte)maxmath.l1cnt(x.x15)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new sbyte16((sbyte)math.l1cnt(x.x0),
+                                            (sbyte)math.l1cnt(x.x1),
+                                            (sbyte)math.l1cnt(x.x2),
+                                            (sbyte)math.l1cnt(x.x3),
+                                            (sbyte)math.l1cnt(x.x4),
+                                            (sbyte)math.l1cnt(x.x5),
+                                            (sbyte)math.l1cnt(x.x6),
+                                            (sbyte)math.l1cnt(x.x7),
+                                            (sbyte)math.l1cnt(x.x8),
+                                            (sbyte)math.l1cnt(x.x9),
+                                            (sbyte)math.l1cnt(x.x10),
+                                            (sbyte)math.l1cnt(x.x11),
+                                            (sbyte)math.l1cnt(x.x12),
+                                            (sbyte)math.l1cnt(x.x13),
+                                            (sbyte)math.l1cnt(x.x14),
+                                            (sbyte)math.l1cnt(x.x15)),
+                                math.l1cnt(x));
             }
         }
 
@@ -103,39 +103,39 @@ namespace MaxMath.Tests
             {
                 sbyte32 x = rng.NextSByte32();
 
-                Assert.AreEqual(new sbyte32((sbyte)maxmath.l1cnt(x.x0),
-                                            (sbyte)maxmath.l1cnt(x.x1),
-                                            (sbyte)maxmath.l1cnt(x.x2),
-                                            (sbyte)maxmath.l1cnt(x.x3),
-                                            (sbyte)maxmath.l1cnt(x.x4),
-                                            (sbyte)maxmath.l1cnt(x.x5),
-                                            (sbyte)maxmath.l1cnt(x.x6),
-                                            (sbyte)maxmath.l1cnt(x.x7),
-                                            (sbyte)maxmath.l1cnt(x.x8),
-                                            (sbyte)maxmath.l1cnt(x.x9),
-                                            (sbyte)maxmath.l1cnt(x.x10),
-                                            (sbyte)maxmath.l1cnt(x.x11),
-                                            (sbyte)maxmath.l1cnt(x.x12),
-                                            (sbyte)maxmath.l1cnt(x.x13),
-                                            (sbyte)maxmath.l1cnt(x.x14),
-                                            (sbyte)maxmath.l1cnt(x.x15),
-                                            (sbyte)maxmath.l1cnt(x.x16),
-                                            (sbyte)maxmath.l1cnt(x.x17),
-                                            (sbyte)maxmath.l1cnt(x.x18),
-                                            (sbyte)maxmath.l1cnt(x.x19),
-                                            (sbyte)maxmath.l1cnt(x.x20),
-                                            (sbyte)maxmath.l1cnt(x.x21),
-                                            (sbyte)maxmath.l1cnt(x.x22),
-                                            (sbyte)maxmath.l1cnt(x.x23),
-                                            (sbyte)maxmath.l1cnt(x.x24),
-                                            (sbyte)maxmath.l1cnt(x.x25),
-                                            (sbyte)maxmath.l1cnt(x.x26),
-                                            (sbyte)maxmath.l1cnt(x.x27),
-                                            (sbyte)maxmath.l1cnt(x.x28),
-                                            (sbyte)maxmath.l1cnt(x.x29),
-                                            (sbyte)maxmath.l1cnt(x.x30),
-                                            (sbyte)maxmath.l1cnt(x.x31)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new sbyte32((sbyte)math.l1cnt(x.x0),
+                                            (sbyte)math.l1cnt(x.x1),
+                                            (sbyte)math.l1cnt(x.x2),
+                                            (sbyte)math.l1cnt(x.x3),
+                                            (sbyte)math.l1cnt(x.x4),
+                                            (sbyte)math.l1cnt(x.x5),
+                                            (sbyte)math.l1cnt(x.x6),
+                                            (sbyte)math.l1cnt(x.x7),
+                                            (sbyte)math.l1cnt(x.x8),
+                                            (sbyte)math.l1cnt(x.x9),
+                                            (sbyte)math.l1cnt(x.x10),
+                                            (sbyte)math.l1cnt(x.x11),
+                                            (sbyte)math.l1cnt(x.x12),
+                                            (sbyte)math.l1cnt(x.x13),
+                                            (sbyte)math.l1cnt(x.x14),
+                                            (sbyte)math.l1cnt(x.x15),
+                                            (sbyte)math.l1cnt(x.x16),
+                                            (sbyte)math.l1cnt(x.x17),
+                                            (sbyte)math.l1cnt(x.x18),
+                                            (sbyte)math.l1cnt(x.x19),
+                                            (sbyte)math.l1cnt(x.x20),
+                                            (sbyte)math.l1cnt(x.x21),
+                                            (sbyte)math.l1cnt(x.x22),
+                                            (sbyte)math.l1cnt(x.x23),
+                                            (sbyte)math.l1cnt(x.x24),
+                                            (sbyte)math.l1cnt(x.x25),
+                                            (sbyte)math.l1cnt(x.x26),
+                                            (sbyte)math.l1cnt(x.x27),
+                                            (sbyte)math.l1cnt(x.x28),
+                                            (sbyte)math.l1cnt(x.x29),
+                                            (sbyte)math.l1cnt(x.x30),
+                                            (sbyte)math.l1cnt(x.x31)),
+                                math.l1cnt(x));
             }
         }
 
@@ -149,7 +149,7 @@ namespace MaxMath.Tests
             {
                 byte2 x = rng.NextByte2();
 
-                Assert.AreEqual(new byte2((byte)maxmath.l1cnt(x.x), (byte)maxmath.l1cnt(x.y)), maxmath.l1cnt(x));
+                Assert.AreEqual(new byte2((byte)math.l1cnt(x.x), (byte)math.l1cnt(x.y)), math.l1cnt(x));
             }
         }
 
@@ -162,7 +162,7 @@ namespace MaxMath.Tests
             {
                 byte3 x = rng.NextByte3();
 
-                Assert.AreEqual(new byte3((byte)maxmath.l1cnt(x.x), (byte)maxmath.l1cnt(x.y), (byte)maxmath.l1cnt(x.z)), maxmath.l1cnt(x));
+                Assert.AreEqual(new byte3((byte)math.l1cnt(x.x), (byte)math.l1cnt(x.y), (byte)math.l1cnt(x.z)), math.l1cnt(x));
             }
         }
 
@@ -175,7 +175,7 @@ namespace MaxMath.Tests
             {
                 byte4 x = rng.NextByte4();
 
-                Assert.AreEqual(new byte4((byte)maxmath.l1cnt(x.x), (byte)maxmath.l1cnt(x.y), (byte)maxmath.l1cnt(x.z), (byte)maxmath.l1cnt(x.w)), maxmath.l1cnt(x));
+                Assert.AreEqual(new byte4((byte)math.l1cnt(x.x), (byte)math.l1cnt(x.y), (byte)math.l1cnt(x.z), (byte)math.l1cnt(x.w)), math.l1cnt(x));
             }
         }
 
@@ -188,15 +188,15 @@ namespace MaxMath.Tests
             {
                 byte8 x = rng.NextByte8();
 
-                Assert.AreEqual(new byte8((byte)maxmath.l1cnt(x.x0),
-                                          (byte)maxmath.l1cnt(x.x1),
-                                          (byte)maxmath.l1cnt(x.x2),
-                                          (byte)maxmath.l1cnt(x.x3),
-                                          (byte)maxmath.l1cnt(x.x4),
-                                          (byte)maxmath.l1cnt(x.x5),
-                                          (byte)maxmath.l1cnt(x.x6),
-                                          (byte)maxmath.l1cnt(x.x7)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new byte8((byte)math.l1cnt(x.x0),
+                                          (byte)math.l1cnt(x.x1),
+                                          (byte)math.l1cnt(x.x2),
+                                          (byte)math.l1cnt(x.x3),
+                                          (byte)math.l1cnt(x.x4),
+                                          (byte)math.l1cnt(x.x5),
+                                          (byte)math.l1cnt(x.x6),
+                                          (byte)math.l1cnt(x.x7)),
+                                math.l1cnt(x));
             }
         }
 
@@ -209,23 +209,23 @@ namespace MaxMath.Tests
             {
                 byte16 x = rng.NextByte16();
 
-                Assert.AreEqual(new byte16((byte)maxmath.l1cnt(x.x0),
-                                           (byte)maxmath.l1cnt(x.x1),
-                                           (byte)maxmath.l1cnt(x.x2),
-                                           (byte)maxmath.l1cnt(x.x3),
-                                           (byte)maxmath.l1cnt(x.x4),
-                                           (byte)maxmath.l1cnt(x.x5),
-                                           (byte)maxmath.l1cnt(x.x6),
-                                           (byte)maxmath.l1cnt(x.x7),
-                                           (byte)maxmath.l1cnt(x.x8),
-                                           (byte)maxmath.l1cnt(x.x9),
-                                           (byte)maxmath.l1cnt(x.x10),
-                                           (byte)maxmath.l1cnt(x.x11),
-                                           (byte)maxmath.l1cnt(x.x12),
-                                           (byte)maxmath.l1cnt(x.x13),
-                                           (byte)maxmath.l1cnt(x.x14),
-                                           (byte)maxmath.l1cnt(x.x15)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new byte16((byte)math.l1cnt(x.x0),
+                                           (byte)math.l1cnt(x.x1),
+                                           (byte)math.l1cnt(x.x2),
+                                           (byte)math.l1cnt(x.x3),
+                                           (byte)math.l1cnt(x.x4),
+                                           (byte)math.l1cnt(x.x5),
+                                           (byte)math.l1cnt(x.x6),
+                                           (byte)math.l1cnt(x.x7),
+                                           (byte)math.l1cnt(x.x8),
+                                           (byte)math.l1cnt(x.x9),
+                                           (byte)math.l1cnt(x.x10),
+                                           (byte)math.l1cnt(x.x11),
+                                           (byte)math.l1cnt(x.x12),
+                                           (byte)math.l1cnt(x.x13),
+                                           (byte)math.l1cnt(x.x14),
+                                           (byte)math.l1cnt(x.x15)),
+                                math.l1cnt(x));
             }
         }
 
@@ -238,39 +238,39 @@ namespace MaxMath.Tests
             {
                 byte32 x = rng.NextByte32();
 
-                Assert.AreEqual(new byte32((byte)maxmath.l1cnt(x.x0),
-                                           (byte)maxmath.l1cnt(x.x1),
-                                           (byte)maxmath.l1cnt(x.x2),
-                                           (byte)maxmath.l1cnt(x.x3),
-                                           (byte)maxmath.l1cnt(x.x4),
-                                           (byte)maxmath.l1cnt(x.x5),
-                                           (byte)maxmath.l1cnt(x.x6),
-                                           (byte)maxmath.l1cnt(x.x7),
-                                           (byte)maxmath.l1cnt(x.x8),
-                                           (byte)maxmath.l1cnt(x.x9),
-                                           (byte)maxmath.l1cnt(x.x10),
-                                           (byte)maxmath.l1cnt(x.x11),
-                                           (byte)maxmath.l1cnt(x.x12),
-                                           (byte)maxmath.l1cnt(x.x13),
-                                           (byte)maxmath.l1cnt(x.x14),
-                                           (byte)maxmath.l1cnt(x.x15),
-                                           (byte)maxmath.l1cnt(x.x16),
-                                           (byte)maxmath.l1cnt(x.x17),
-                                           (byte)maxmath.l1cnt(x.x18),
-                                           (byte)maxmath.l1cnt(x.x19),
-                                           (byte)maxmath.l1cnt(x.x20),
-                                           (byte)maxmath.l1cnt(x.x21),
-                                           (byte)maxmath.l1cnt(x.x22),
-                                           (byte)maxmath.l1cnt(x.x23),
-                                           (byte)maxmath.l1cnt(x.x24),
-                                           (byte)maxmath.l1cnt(x.x25),
-                                           (byte)maxmath.l1cnt(x.x26),
-                                           (byte)maxmath.l1cnt(x.x27),
-                                           (byte)maxmath.l1cnt(x.x28),
-                                           (byte)maxmath.l1cnt(x.x29),
-                                           (byte)maxmath.l1cnt(x.x30),
-                                           (byte)maxmath.l1cnt(x.x31)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new byte32((byte)math.l1cnt(x.x0),
+                                           (byte)math.l1cnt(x.x1),
+                                           (byte)math.l1cnt(x.x2),
+                                           (byte)math.l1cnt(x.x3),
+                                           (byte)math.l1cnt(x.x4),
+                                           (byte)math.l1cnt(x.x5),
+                                           (byte)math.l1cnt(x.x6),
+                                           (byte)math.l1cnt(x.x7),
+                                           (byte)math.l1cnt(x.x8),
+                                           (byte)math.l1cnt(x.x9),
+                                           (byte)math.l1cnt(x.x10),
+                                           (byte)math.l1cnt(x.x11),
+                                           (byte)math.l1cnt(x.x12),
+                                           (byte)math.l1cnt(x.x13),
+                                           (byte)math.l1cnt(x.x14),
+                                           (byte)math.l1cnt(x.x15),
+                                           (byte)math.l1cnt(x.x16),
+                                           (byte)math.l1cnt(x.x17),
+                                           (byte)math.l1cnt(x.x18),
+                                           (byte)math.l1cnt(x.x19),
+                                           (byte)math.l1cnt(x.x20),
+                                           (byte)math.l1cnt(x.x21),
+                                           (byte)math.l1cnt(x.x22),
+                                           (byte)math.l1cnt(x.x23),
+                                           (byte)math.l1cnt(x.x24),
+                                           (byte)math.l1cnt(x.x25),
+                                           (byte)math.l1cnt(x.x26),
+                                           (byte)math.l1cnt(x.x27),
+                                           (byte)math.l1cnt(x.x28),
+                                           (byte)math.l1cnt(x.x29),
+                                           (byte)math.l1cnt(x.x30),
+                                           (byte)math.l1cnt(x.x31)),
+                                math.l1cnt(x));
             }
         }
 
@@ -284,7 +284,7 @@ namespace MaxMath.Tests
             {
                 short2 x = rng.NextShort2();
 
-                Assert.AreEqual(new short2((short)maxmath.l1cnt(x.x), (short)maxmath.l1cnt(x.y)), maxmath.l1cnt(x));
+                Assert.AreEqual(new short2((short)math.l1cnt(x.x), (short)math.l1cnt(x.y)), math.l1cnt(x));
             }
         }
 
@@ -297,7 +297,7 @@ namespace MaxMath.Tests
             {
                 short3 x = rng.NextShort3();
 
-                Assert.AreEqual(new short3((short)maxmath.l1cnt(x.x), (short)maxmath.l1cnt(x.y), (short)maxmath.l1cnt(x.z)), maxmath.l1cnt(x));
+                Assert.AreEqual(new short3((short)math.l1cnt(x.x), (short)math.l1cnt(x.y), (short)math.l1cnt(x.z)), math.l1cnt(x));
             }
         }
 
@@ -310,7 +310,7 @@ namespace MaxMath.Tests
             {
                 short4 x = rng.NextShort4();
 
-                Assert.AreEqual(new short4((short)maxmath.l1cnt(x.x), (short)maxmath.l1cnt(x.y), (short)maxmath.l1cnt(x.z), (short)maxmath.l1cnt(x.w)), maxmath.l1cnt(x));
+                Assert.AreEqual(new short4((short)math.l1cnt(x.x), (short)math.l1cnt(x.y), (short)math.l1cnt(x.z), (short)math.l1cnt(x.w)), math.l1cnt(x));
             }
         }
 
@@ -323,15 +323,15 @@ namespace MaxMath.Tests
             {
                 short8 x = rng.NextShort8();
 
-                Assert.AreEqual(new short8((short)maxmath.l1cnt(x.x0),
-                                           (short)maxmath.l1cnt(x.x1),
-                                           (short)maxmath.l1cnt(x.x2),
-                                           (short)maxmath.l1cnt(x.x3),
-                                           (short)maxmath.l1cnt(x.x4),
-                                           (short)maxmath.l1cnt(x.x5),
-                                           (short)maxmath.l1cnt(x.x6),
-                                           (short)maxmath.l1cnt(x.x7)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new short8((short)math.l1cnt(x.x0),
+                                           (short)math.l1cnt(x.x1),
+                                           (short)math.l1cnt(x.x2),
+                                           (short)math.l1cnt(x.x3),
+                                           (short)math.l1cnt(x.x4),
+                                           (short)math.l1cnt(x.x5),
+                                           (short)math.l1cnt(x.x6),
+                                           (short)math.l1cnt(x.x7)),
+                                math.l1cnt(x));
             }
         }
 
@@ -344,23 +344,23 @@ namespace MaxMath.Tests
             {
                 short16 x = rng.NextShort16();
 
-                Assert.AreEqual(new short16((short)maxmath.l1cnt(x.x0),
-                                            (short)maxmath.l1cnt(x.x1),
-                                            (short)maxmath.l1cnt(x.x2),
-                                            (short)maxmath.l1cnt(x.x3),
-                                            (short)maxmath.l1cnt(x.x4),
-                                            (short)maxmath.l1cnt(x.x5),
-                                            (short)maxmath.l1cnt(x.x6),
-                                            (short)maxmath.l1cnt(x.x7),
-                                            (short)maxmath.l1cnt(x.x8),
-                                            (short)maxmath.l1cnt(x.x9),
-                                            (short)maxmath.l1cnt(x.x10),
-                                            (short)maxmath.l1cnt(x.x11),
-                                            (short)maxmath.l1cnt(x.x12),
-                                            (short)maxmath.l1cnt(x.x13),
-                                            (short)maxmath.l1cnt(x.x14),
-                                            (short)maxmath.l1cnt(x.x15)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new short16((short)math.l1cnt(x.x0),
+                                            (short)math.l1cnt(x.x1),
+                                            (short)math.l1cnt(x.x2),
+                                            (short)math.l1cnt(x.x3),
+                                            (short)math.l1cnt(x.x4),
+                                            (short)math.l1cnt(x.x5),
+                                            (short)math.l1cnt(x.x6),
+                                            (short)math.l1cnt(x.x7),
+                                            (short)math.l1cnt(x.x8),
+                                            (short)math.l1cnt(x.x9),
+                                            (short)math.l1cnt(x.x10),
+                                            (short)math.l1cnt(x.x11),
+                                            (short)math.l1cnt(x.x12),
+                                            (short)math.l1cnt(x.x13),
+                                            (short)math.l1cnt(x.x14),
+                                            (short)math.l1cnt(x.x15)),
+                                math.l1cnt(x));
             }
         }
 
@@ -374,7 +374,7 @@ namespace MaxMath.Tests
             {
                 ushort2 x = rng.NextUShort2();
 
-                Assert.AreEqual(new ushort2((ushort)maxmath.l1cnt(x.x), (ushort)maxmath.l1cnt(x.y)), maxmath.l1cnt(x));
+                Assert.AreEqual(new ushort2((ushort)math.l1cnt(x.x), (ushort)math.l1cnt(x.y)), math.l1cnt(x));
             }
         }
 
@@ -387,7 +387,7 @@ namespace MaxMath.Tests
             {
                 ushort3 x = rng.NextUShort3();
 
-                Assert.AreEqual(new ushort3((ushort)maxmath.l1cnt(x.x), (ushort)maxmath.l1cnt(x.y), (ushort)maxmath.l1cnt(x.z)), maxmath.l1cnt(x));
+                Assert.AreEqual(new ushort3((ushort)math.l1cnt(x.x), (ushort)math.l1cnt(x.y), (ushort)math.l1cnt(x.z)), math.l1cnt(x));
             }
         }
 
@@ -400,7 +400,7 @@ namespace MaxMath.Tests
             {
                 ushort4 x = rng.NextUShort4();
 
-                Assert.AreEqual(new ushort4((ushort)maxmath.l1cnt(x.x), (ushort)maxmath.l1cnt(x.y), (ushort)maxmath.l1cnt(x.z), (ushort)maxmath.l1cnt(x.w)), maxmath.l1cnt(x));
+                Assert.AreEqual(new ushort4((ushort)math.l1cnt(x.x), (ushort)math.l1cnt(x.y), (ushort)math.l1cnt(x.z), (ushort)math.l1cnt(x.w)), math.l1cnt(x));
             }
         }
 
@@ -413,15 +413,15 @@ namespace MaxMath.Tests
             {
                 ushort8 x = rng.NextUShort8();
 
-                Assert.AreEqual(new ushort8((ushort)maxmath.l1cnt(x.x0),
-                                            (ushort)maxmath.l1cnt(x.x1),
-                                            (ushort)maxmath.l1cnt(x.x2),
-                                            (ushort)maxmath.l1cnt(x.x3),
-                                            (ushort)maxmath.l1cnt(x.x4),
-                                            (ushort)maxmath.l1cnt(x.x5),
-                                            (ushort)maxmath.l1cnt(x.x6),
-                                            (ushort)maxmath.l1cnt(x.x7)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new ushort8((ushort)math.l1cnt(x.x0),
+                                            (ushort)math.l1cnt(x.x1),
+                                            (ushort)math.l1cnt(x.x2),
+                                            (ushort)math.l1cnt(x.x3),
+                                            (ushort)math.l1cnt(x.x4),
+                                            (ushort)math.l1cnt(x.x5),
+                                            (ushort)math.l1cnt(x.x6),
+                                            (ushort)math.l1cnt(x.x7)),
+                                math.l1cnt(x));
             }
         }
 
@@ -434,23 +434,23 @@ namespace MaxMath.Tests
             {
                 ushort16 x = rng.NextUShort16();
 
-                Assert.AreEqual(new ushort16((ushort)maxmath.l1cnt(x.x0),
-                                             (ushort)maxmath.l1cnt(x.x1),
-                                             (ushort)maxmath.l1cnt(x.x2),
-                                             (ushort)maxmath.l1cnt(x.x3),
-                                             (ushort)maxmath.l1cnt(x.x4),
-                                             (ushort)maxmath.l1cnt(x.x5),
-                                             (ushort)maxmath.l1cnt(x.x6),
-                                             (ushort)maxmath.l1cnt(x.x7),
-                                             (ushort)maxmath.l1cnt(x.x8),
-                                             (ushort)maxmath.l1cnt(x.x9),
-                                             (ushort)maxmath.l1cnt(x.x10),
-                                             (ushort)maxmath.l1cnt(x.x11),
-                                             (ushort)maxmath.l1cnt(x.x12),
-                                             (ushort)maxmath.l1cnt(x.x13),
-                                             (ushort)maxmath.l1cnt(x.x14),
-                                             (ushort)maxmath.l1cnt(x.x15)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new ushort16((ushort)math.l1cnt(x.x0),
+                                             (ushort)math.l1cnt(x.x1),
+                                             (ushort)math.l1cnt(x.x2),
+                                             (ushort)math.l1cnt(x.x3),
+                                             (ushort)math.l1cnt(x.x4),
+                                             (ushort)math.l1cnt(x.x5),
+                                             (ushort)math.l1cnt(x.x6),
+                                             (ushort)math.l1cnt(x.x7),
+                                             (ushort)math.l1cnt(x.x8),
+                                             (ushort)math.l1cnt(x.x9),
+                                             (ushort)math.l1cnt(x.x10),
+                                             (ushort)math.l1cnt(x.x11),
+                                             (ushort)math.l1cnt(x.x12),
+                                             (ushort)math.l1cnt(x.x13),
+                                             (ushort)math.l1cnt(x.x14),
+                                             (ushort)math.l1cnt(x.x15)),
+                                math.l1cnt(x));
             }
         }
 
@@ -464,7 +464,7 @@ namespace MaxMath.Tests
             {
                 int2 x = rng.NextInt2();
 
-                Assert.AreEqual(new int2((int)maxmath.l1cnt(x.x), (int)maxmath.l1cnt(x.y)), maxmath.l1cnt(x));
+                Assert.AreEqual(new int2((int)math.l1cnt(x.x), (int)math.l1cnt(x.y)), math.l1cnt(x));
             }
         }
 
@@ -477,7 +477,7 @@ namespace MaxMath.Tests
             {
                 int3 x = rng.NextInt3();
 
-                Assert.AreEqual(new int3((int)maxmath.l1cnt(x.x), (int)maxmath.l1cnt(x.y), (int)maxmath.l1cnt(x.z)), maxmath.l1cnt(x));
+                Assert.AreEqual(new int3((int)math.l1cnt(x.x), (int)math.l1cnt(x.y), (int)math.l1cnt(x.z)), math.l1cnt(x));
             }
         }
 
@@ -490,7 +490,7 @@ namespace MaxMath.Tests
             {
                 int4 x = rng.NextInt4();
 
-                Assert.AreEqual(new int4((int)maxmath.l1cnt(x.x), (int)maxmath.l1cnt(x.y), (int)maxmath.l1cnt(x.z), (int)maxmath.l1cnt(x.w)), maxmath.l1cnt(x));
+                Assert.AreEqual(new int4((int)math.l1cnt(x.x), (int)math.l1cnt(x.y), (int)math.l1cnt(x.z), (int)math.l1cnt(x.w)), math.l1cnt(x));
             }
         }
 
@@ -502,17 +502,16 @@ namespace MaxMath.Tests
             for (int i = 0; i < 64; i++)
             {
                 int8 x = rng.NextInt8();
-                int8 y = rng.NextInt8();
 
-                Assert.AreEqual(new int8((int)maxmath.l1cnt(x.x0),
-                                         (int)maxmath.l1cnt(x.x1),
-                                         (int)maxmath.l1cnt(x.x2),
-                                         (int)maxmath.l1cnt(x.x3),
-                                         (int)maxmath.l1cnt(x.x4),
-                                         (int)maxmath.l1cnt(x.x5),
-                                         (int)maxmath.l1cnt(x.x6),
-                                         (int)maxmath.l1cnt(x.x7)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new int8((int)math.l1cnt(x.x0),
+                                         (int)math.l1cnt(x.x1),
+                                         (int)math.l1cnt(x.x2),
+                                         (int)math.l1cnt(x.x3),
+                                         (int)math.l1cnt(x.x4),
+                                         (int)math.l1cnt(x.x5),
+                                         (int)math.l1cnt(x.x6),
+                                         (int)math.l1cnt(x.x7)),
+                                math.l1cnt(x));
             }
         }
 
@@ -525,7 +524,7 @@ namespace MaxMath.Tests
             {
                 uint2 x = rng.NextUInt2();
 
-                Assert.AreEqual(new int2((int)maxmath.l1cnt(x.x), (int)maxmath.l1cnt(x.y)), maxmath.l1cnt(x));
+                Assert.AreEqual(new int2((int)math.l1cnt(x.x), (int)math.l1cnt(x.y)), math.l1cnt(x));
             }
         }
 
@@ -538,7 +537,7 @@ namespace MaxMath.Tests
             {
                 uint3 x = rng.NextUInt3();
 
-                Assert.AreEqual(new int3((int)maxmath.l1cnt(x.x), (int)maxmath.l1cnt(x.y), (int)maxmath.l1cnt(x.z)), maxmath.l1cnt(x));
+                Assert.AreEqual(new int3((int)math.l1cnt(x.x), (int)math.l1cnt(x.y), (int)math.l1cnt(x.z)), math.l1cnt(x));
             }
         }
 
@@ -551,7 +550,7 @@ namespace MaxMath.Tests
             {
                 uint4 x = rng.NextUInt4();
 
-                Assert.AreEqual(new int4((int)maxmath.l1cnt(x.x), (int)maxmath.l1cnt(x.y), (int)maxmath.l1cnt(x.z), (int)maxmath.l1cnt(x.w)), maxmath.l1cnt(x));
+                Assert.AreEqual(new int4((int)math.l1cnt(x.x), (int)math.l1cnt(x.y), (int)math.l1cnt(x.z), (int)math.l1cnt(x.w)), math.l1cnt(x));
             }
         }
 
@@ -563,17 +562,16 @@ namespace MaxMath.Tests
             for (uint i = 0; i < 64; i++)
             {
                 uint8 x = rng.NextUInt8();
-                uint8 y = rng.NextUInt8();
 
-                Assert.AreEqual(new int8((int)maxmath.l1cnt(x.x0),
-                                         (int)maxmath.l1cnt(x.x1),
-                                         (int)maxmath.l1cnt(x.x2),
-                                         (int)maxmath.l1cnt(x.x3),
-                                         (int)maxmath.l1cnt(x.x4),
-                                         (int)maxmath.l1cnt(x.x5),
-                                         (int)maxmath.l1cnt(x.x6),
-                                         (int)maxmath.l1cnt(x.x7)),
-                                maxmath.l1cnt(x));
+                Assert.AreEqual(new int8((int)math.l1cnt(x.x0),
+                                         (int)math.l1cnt(x.x1),
+                                         (int)math.l1cnt(x.x2),
+                                         (int)math.l1cnt(x.x3),
+                                         (int)math.l1cnt(x.x4),
+                                         (int)math.l1cnt(x.x5),
+                                         (int)math.l1cnt(x.x6),
+                                         (int)math.l1cnt(x.x7)),
+                                math.l1cnt(x));
             }
         }
 
@@ -587,7 +585,7 @@ namespace MaxMath.Tests
             {
                 long2 x = rng.NextLong2();
 
-                Assert.AreEqual(new long2((long)maxmath.l1cnt(x.x), (long)maxmath.l1cnt(x.y)), maxmath.l1cnt(x));
+                Assert.AreEqual(new long2((long)math.l1cnt(x.x), (long)math.l1cnt(x.y)), math.l1cnt(x));
             }
         }
 
@@ -600,7 +598,7 @@ namespace MaxMath.Tests
             {
                 long3 x = rng.NextLong3();
 
-                Assert.AreEqual(new long3((long)maxmath.l1cnt(x.x), (long)maxmath.l1cnt(x.y), (long)maxmath.l1cnt(x.z)), maxmath.l1cnt(x));
+                Assert.AreEqual(new long3((long)math.l1cnt(x.x), (long)math.l1cnt(x.y), (long)math.l1cnt(x.z)), math.l1cnt(x));
             }
         }
 
@@ -613,7 +611,7 @@ namespace MaxMath.Tests
             {
                 long4 x = rng.NextLong4();
 
-                Assert.AreEqual(new long4((long)maxmath.l1cnt(x.x), (long)maxmath.l1cnt(x.y), (long)maxmath.l1cnt(x.z), (long)maxmath.l1cnt(x.w)), maxmath.l1cnt(x));
+                Assert.AreEqual(new long4((long)math.l1cnt(x.x), (long)math.l1cnt(x.y), (long)math.l1cnt(x.z), (long)math.l1cnt(x.w)), math.l1cnt(x));
             }
         }
 
@@ -627,7 +625,7 @@ namespace MaxMath.Tests
             {
                 ulong2 x = rng.NextULong2();
 
-                Assert.AreEqual(new ulong2((ulong)maxmath.l1cnt(x.x), (ulong)maxmath.l1cnt(x.y)), maxmath.l1cnt(x));
+                Assert.AreEqual(new ulong2((ulong)math.l1cnt(x.x), (ulong)math.l1cnt(x.y)), math.l1cnt(x));
             }
         }
 
@@ -640,7 +638,7 @@ namespace MaxMath.Tests
             {
                 ulong3 x = rng.NextULong3();
 
-                Assert.AreEqual(new ulong3((ulong)maxmath.l1cnt(x.x), (ulong)maxmath.l1cnt(x.y), (ulong)maxmath.l1cnt(x.z)), maxmath.l1cnt(x));
+                Assert.AreEqual(new ulong3((ulong)math.l1cnt(x.x), (ulong)math.l1cnt(x.y), (ulong)math.l1cnt(x.z)), math.l1cnt(x));
             }
         }
 
@@ -653,7 +651,7 @@ namespace MaxMath.Tests
             {
                 ulong4 x = rng.NextULong4();
 
-                Assert.AreEqual(new ulong4((ulong)maxmath.l1cnt(x.x), (ulong)maxmath.l1cnt(x.y), (ulong)maxmath.l1cnt(x.z), (ulong)maxmath.l1cnt(x.w)), maxmath.l1cnt(x));
+                Assert.AreEqual(new ulong4((ulong)math.l1cnt(x.x), (ulong)math.l1cnt(x.y), (ulong)math.l1cnt(x.z), (ulong)math.l1cnt(x.w)), math.l1cnt(x));
             }
         }
     }

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -19,7 +19,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 8);
-                    byte16 test = maxmath.ror(t_byte16.TestData_LHS[i], n);
+                    byte16 test = math.ror(t_byte16.TestData_LHS[i], n);
 
                     result &= test.x0  == (byte)math.ror(t_byte16.TestData_LHS[i].x0  | (t_byte16.TestData_LHS[i].x0  << 8) | (t_byte16.TestData_LHS[i].x0  << 16) | (t_byte16.TestData_LHS[i].x0  << 24), n);
                     result &= test.x1  == (byte)math.ror(t_byte16.TestData_LHS[i].x1  | (t_byte16.TestData_LHS[i].x1  << 8) | (t_byte16.TestData_LHS[i].x1  << 16) | (t_byte16.TestData_LHS[i].x1  << 24), n);
@@ -54,7 +54,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 8);
-                    byte32 test = maxmath.ror(t_byte32.TestData_LHS[i], n);
+                    byte32 test = math.ror(t_byte32.TestData_LHS[i], n);
 
                     result &= test.x0  == (byte)math.ror(t_byte32.TestData_LHS[i].x0  | (t_byte32.TestData_LHS[i].x0  << 8) | (t_byte32.TestData_LHS[i].x0  << 16) | (t_byte32.TestData_LHS[i].x0  << 24), n);
                     result &= test.x1  == (byte)math.ror(t_byte32.TestData_LHS[i].x1  | (t_byte32.TestData_LHS[i].x1  << 8) | (t_byte32.TestData_LHS[i].x1  << 16) | (t_byte32.TestData_LHS[i].x1  << 24), n);
@@ -106,7 +106,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 16);
-                    ushort8 test = maxmath.ror(t_ushort8.TestData_LHS[i], n);
+                    ushort8 test = math.ror(t_ushort8.TestData_LHS[i], n);
 
                     result &= test.x0 == (ushort)math.ror(t_ushort8.TestData_LHS[i].x0 | (t_ushort8.TestData_LHS[i].x0 << 16), n);
                     result &= test.x1 == (ushort)math.ror(t_ushort8.TestData_LHS[i].x1 | (t_ushort8.TestData_LHS[i].x1 << 16), n);
@@ -133,7 +133,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 16);
-                    ushort16 test = maxmath.ror(t_ushort16.TestData_LHS[i], n);
+                    ushort16 test = math.ror(t_ushort16.TestData_LHS[i], n);
 
                     result &= test.x0  == (ushort)math.ror(t_ushort16.TestData_LHS[i].x0  | (t_ushort16.TestData_LHS[i].x0  << 16), n);
                     result &= test.x1  == (ushort)math.ror(t_ushort16.TestData_LHS[i].x1  | (t_ushort16.TestData_LHS[i].x1  << 16), n);
@@ -169,7 +169,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 32);
-                    uint8 test = maxmath.ror(t_uint8.TestData_LHS[i], n);
+                    uint8 test = math.ror(t_uint8.TestData_LHS[i], n);
 
                     result &= test.x0 == math.ror(t_uint8.TestData_LHS[i].x0, n);
                     result &= test.x1 == math.ror(t_uint8.TestData_LHS[i].x1, n);
@@ -197,7 +197,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 64);
-                    ulong2 test = maxmath.ror(t_ulong2.TestData_LHS[i], n);
+                    ulong2 test = math.ror(t_ulong2.TestData_LHS[i], n);
 
                     result &= test.x == math.ror(t_ulong2.TestData_LHS[i].x, n);
                     result &= test.y == math.ror(t_ulong2.TestData_LHS[i].y, n);
@@ -218,7 +218,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 64);
-                    ulong4 test = maxmath.ror(t_ulong4.TestData_LHS[i], n);
+                    ulong4 test = math.ror(t_ulong4.TestData_LHS[i], n);
 
                     result &= test.x == math.ror(t_ulong4.TestData_LHS[i].x, n);
                     result &= test.y == math.ror(t_ulong4.TestData_LHS[i].y, n);
@@ -242,7 +242,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 8);
-                    byte16 test = maxmath.rol(t_byte16.TestData_LHS[i], n);
+                    byte16 test = math.rol(t_byte16.TestData_LHS[i], n);
 
                     result &= test.x0  == (byte)math.rol(t_byte16.TestData_LHS[i].x0  | (t_byte16.TestData_LHS[i].x0  << 8) | (t_byte16.TestData_LHS[i].x0  << 16) | (t_byte16.TestData_LHS[i].x0  << 24), n);
                     result &= test.x1  == (byte)math.rol(t_byte16.TestData_LHS[i].x1  | (t_byte16.TestData_LHS[i].x1  << 8) | (t_byte16.TestData_LHS[i].x1  << 16) | (t_byte16.TestData_LHS[i].x1  << 24), n);
@@ -277,7 +277,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 8);
-                    byte32 test = maxmath.rol(t_byte32.TestData_LHS[i], n);
+                    byte32 test = math.rol(t_byte32.TestData_LHS[i], n);
 
                     result &= test.x0  == (byte)math.rol(t_byte32.TestData_LHS[i].x0  | (t_byte32.TestData_LHS[i].x0  << 8) | (t_byte32.TestData_LHS[i].x0  << 16) | (t_byte32.TestData_LHS[i].x0  << 24), n);
                     result &= test.x1  == (byte)math.rol(t_byte32.TestData_LHS[i].x1  | (t_byte32.TestData_LHS[i].x1  << 8) | (t_byte32.TestData_LHS[i].x1  << 16) | (t_byte32.TestData_LHS[i].x1  << 24), n);
@@ -329,7 +329,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 16);
-                    ushort8 test = maxmath.rol(t_ushort8.TestData_LHS[i], n);
+                    ushort8 test = math.rol(t_ushort8.TestData_LHS[i], n);
 
                     result &= test.x0 == (ushort)math.rol(t_ushort8.TestData_LHS[i].x0 | (t_ushort8.TestData_LHS[i].x0 << 16), n);
                     result &= test.x1 == (ushort)math.rol(t_ushort8.TestData_LHS[i].x1 | (t_ushort8.TestData_LHS[i].x1 << 16), n);
@@ -356,7 +356,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 16);
-                    ushort16 test = maxmath.rol(t_ushort16.TestData_LHS[i], n);
+                    ushort16 test = math.rol(t_ushort16.TestData_LHS[i], n);
 
                     result &= test.x0  == (ushort)math.rol(t_ushort16.TestData_LHS[i].x0  | (t_ushort16.TestData_LHS[i].x0  << 16), n);
                     result &= test.x1  == (ushort)math.rol(t_ushort16.TestData_LHS[i].x1  | (t_ushort16.TestData_LHS[i].x1  << 16), n);
@@ -392,7 +392,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 32);
-                    uint8 test = maxmath.rol(t_uint8.TestData_LHS[i], n);
+                    uint8 test = math.rol(t_uint8.TestData_LHS[i], n);
 
                     result &= test.x0 == math.rol(t_uint8.TestData_LHS[i].x0, n);
                     result &= test.x1 == math.rol(t_uint8.TestData_LHS[i].x1, n);
@@ -420,7 +420,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 64);
-                    ulong2 test = maxmath.rol(t_ulong2.TestData_LHS[i], n);
+                    ulong2 test = math.rol(t_ulong2.TestData_LHS[i], n);
 
                     result &= test.x == math.rol(t_ulong2.TestData_LHS[i].x, n);
                     result &= test.y == math.rol(t_ulong2.TestData_LHS[i].y, n);
@@ -441,7 +441,7 @@ namespace MaxMath.Tests
                 for (int j = 0; j < NUM_ROTATION_TESTS; j++)
                 {
                     int n = rng.NextInt(0, 64);
-                    ulong4 test = maxmath.rol(t_ulong4.TestData_LHS[i], n);
+                    ulong4 test = math.rol(t_ulong4.TestData_LHS[i], n);
 
                     result &= test.x == math.rol(t_ulong4.TestData_LHS[i].x, n);
                     result &= test.y == math.rol(t_ulong4.TestData_LHS[i].y, n);

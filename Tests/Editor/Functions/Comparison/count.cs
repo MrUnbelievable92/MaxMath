@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -30,7 +30,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                result &= test == maxmath.count(x);
+                result &= test == math.count(x);
             }
 
             Assert.AreEqual(true, result);
@@ -57,7 +57,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                result &= test == maxmath.count(x);
+                result &= test == math.count(x);
             }
 
             Assert.AreEqual(true, result);
@@ -84,7 +84,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                result &= test == maxmath.count(x);
+                result &= test == math.count(x);
             }
 
             Assert.AreEqual(true, result);
@@ -111,7 +111,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                result &= test == maxmath.count(x);
+                result &= test == math.count(x);
             }
 
             Assert.AreEqual(true, result);
@@ -138,7 +138,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                result &= test == maxmath.count(x);
+                result &= test == math.count(x);
             }
 
             Assert.AreEqual(true, result);
@@ -165,7 +165,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                result &= test == maxmath.count(x);
+                result &= test == math.count(x);
             }
 
             Assert.AreEqual(true, result);

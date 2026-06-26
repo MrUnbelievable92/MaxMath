@@ -14,7 +14,7 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return set1_epi16(maxmath.bitmask16(F16_BITS - 1));
+                    return set1_epi16(math.bitmask16(F16_BITS - 1));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -26,7 +26,7 @@ namespace MaxMath.Intrinsics
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_set1_epi16(maxmath.bitmask16(F16_BITS - 1));
+                    return mm256_set1_epi16(math.bitmask16(F16_BITS - 1));
                 }
                 else throw new IllegalInstructionException();
             }

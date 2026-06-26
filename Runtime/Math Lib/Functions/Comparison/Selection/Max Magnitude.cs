@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -342,7 +341,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the maximum of two <see cref="Int128"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>), the sign of the return value is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -358,7 +357,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte maxmag(sbyte a, sbyte b)
         {
-            return math.abs((int)a) > math.abs((int)b) ? a : b;
+            return abs((int)a) > abs((int)b) ? a : b;
         }
 
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
@@ -450,7 +449,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short maxmag(short a, short b)
         {
-            return math.abs((int)a) > math.abs((int)b) ? a : b;
+            return abs((int)a) > abs((int)b) ? a : b;
         }
 
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
@@ -530,15 +529,15 @@ namespace MaxMath
         {
             if (constexpr.IS_TRUE(a > int.MaxValue && b > int.MaxValue))
             {
-                return math.abs(a) > math.abs(b) ? a : b;
+                return abs(a) > abs(b) ? a : b;
             }
             else
             {
-                return math.abs((long)a) > math.abs((long)b) ? a : b;
+                return abs((long)a) > abs((long)b) ? a : b;
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -548,7 +547,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 2));
+                return Xse.maxmag_epi32(a, b, noOverFlow.Promises(Promise.NoOverflow), 2);
             }
             else
             {
@@ -556,7 +555,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -566,7 +565,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.maxmag_epi32(a, b, promiseNoOverflow: noOverFlow.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -574,7 +573,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -584,7 +583,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.maxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), noOverFlow.Promises(Promise.NoOverflow), 4));
+                return Xse.maxmag_epi32(a, b, noOverFlow.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -617,7 +616,7 @@ namespace MaxMath
         {
             minmax(a, b, out long min, out long max);
 
-            return (math.abs(min) >= 0) & (math.abs(max) >= math.abs(min)) ? max : min;
+            return (abs(min) >= 0) & (abs(max) >= abs(min)) ? max : min;
         }
 
         /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.long2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
@@ -681,21 +680,21 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 2).Float0;
+                return Xse.maxmag_ps(Xse.set_ss(a), Xse.set_ss(b), 2).Float0;
             }
             else
             {
-                return math.abs(a) > math.abs(b) ? a : b;
+                return abs(a) > abs(b) ? a : b;
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 maxmag(float2 a, float2 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.maxmag_ps(a, b);
             }
             else
             {
@@ -703,13 +702,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 maxmag(float3 a, float3 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.maxmag_ps(a, b);
             }
             else
             {
@@ -717,13 +716,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 maxmag(float4 a, float4 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.maxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.maxmag_ps(a, b);
             }
             else
             {
@@ -752,21 +751,21 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.maxmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)).Double0;
+                return Xse.maxmag_pd(Xse.set_sd(a), Xse.set_sd(b)).Double0;
             }
             else
             {
-                return math.abs(a) > math.abs(b) ? a : b;
+                return abs(a) > abs(b) ? a : b;
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 maxmag(double2 a, double2 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.maxmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.maxmag_pd(a, b);
             }
             else
             {
@@ -774,13 +773,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 maxmag(double3 a, double3 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_maxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 3));
+                return Xse.mm256_maxmag_pd(a, b, 3);
             }
             else
             {
@@ -788,13 +787,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 maxmag(double4 a, double4 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_maxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), 4));
+                return Xse.mm256_maxmag_pd(a, b, 4);
             }
             else
             {

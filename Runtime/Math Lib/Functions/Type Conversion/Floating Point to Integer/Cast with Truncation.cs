@@ -1,12 +1,11 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Converts a <see cref="MaxMath.quarter"/> to an <see cref="sbyte"/> while rounding towards zero.
         /// <remarks>
@@ -419,7 +418,7 @@ namespace MaxMath
             return (int)BASE_cvtf8i32(x, signed: true, trunc: true, positive: promises.Promises(Promise.Positive));
         }
 
-        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter2"/> to an <see cref="int2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter2"/> to an <see cref="MaxMath.int2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -430,7 +429,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.cvttpq_epi32(x, elements: 2, positive: promises.Promises(Promise.Positive)));
+                return Xse.cvttpq_epi32(x, elements: 2, positive: promises.Promises(Promise.Positive));
             }
             else
             {
@@ -438,7 +437,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter3"/> to an <see cref="int3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter3"/> to an <see cref="MaxMath.int3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -449,7 +448,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.cvttpq_epi32(x, elements: 3, positive: promises.Promises(Promise.Positive)));
+                return Xse.cvttpq_epi32(x, elements: 3, positive: promises.Promises(Promise.Positive));
             }
             else
             {
@@ -457,7 +456,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter4"/> to an <see cref="int4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter4"/> to an <see cref="MaxMath.int4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -468,7 +467,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.cvttpq_epi32(x, elements: 4, positive: promises.Promises(Promise.Positive)));
+                return Xse.cvttpq_epi32(x, elements: 4, positive: promises.Promises(Promise.Positive));
             }
             else
             {
@@ -503,13 +502,13 @@ namespace MaxMath
             return BASE_cvtf8i32(x, signed: false, trunc: true);
         }
 
-        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter2"/> to a <see cref="uint2"/> component while rounding towards the nearest respective uinteger value.     </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter2"/> to a <see cref="MaxMath.uint2"/> component while rounding towards the nearest respective uinteger value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 trunctouint(quarter2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.cvttpq_epu32(x, elements: 2));
+                return Xse.cvttpq_epu32(x, elements: 2);
             }
             else
             {
@@ -517,13 +516,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter3"/> to a <see cref="uint3"/> component while rounding towards the nearest respective uinteger value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter3"/> to a <see cref="MaxMath.uint3"/> component while rounding towards the nearest respective uinteger value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 trunctouint(quarter3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.cvttpq_epu32(x, elements: 3));
+                return Xse.cvttpq_epu32(x, elements: 3);
             }
             else
             {
@@ -531,13 +530,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter4"/> to a <see cref="uint4"/> component while rounding towards the nearest respective uinteger value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.quarter4"/> to a <see cref="MaxMath.uint4"/> component while rounding towards the nearest respective uinteger value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 trunctouint(quarter4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.cvttpq_epu32(x, elements: 4));
+                return Xse.cvttpq_epu32(x, elements: 4);
             }
             else
             {
@@ -698,14 +697,19 @@ namespace MaxMath
 
 
         /// <summary>       Converts a <see cref="MaxMath.quarter"/> to a <see cref="UInt128"/> while rounding towards zero.        </summary>
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 trunctouint128(quarter x, Promise promises = Promise.Nothing)
         {
-            return BASE_cvtf8i32(x, signed: false, trunc: true);
+            return BASE_cvtf8i32(x, signed: false, trunc: true, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to an <see cref="sbyte"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to an <see cref="sbyte"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -717,7 +721,7 @@ namespace MaxMath
             return (sbyte)BASE_cvtf16i32(x, signed: true, trunc: true, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Converts a each component in a <see cref="half2"/> to an <see cref="MaxMath.sbyte2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half2"/> to an <see cref="MaxMath.sbyte2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -728,7 +732,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epi8(RegisterConversion.ToV128(x), elements: 2, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epi8(x, elements: 2, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -736,7 +740,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half3"/> to an <see cref="MaxMath.sbyte3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half3"/> to an <see cref="MaxMath.sbyte3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -747,7 +751,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epi8(RegisterConversion.ToV128(x), elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epi8(x, elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -755,7 +759,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half4"/> to an <see cref="MaxMath.sbyte4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half4"/> to an <see cref="MaxMath.sbyte4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -766,7 +770,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epi8(RegisterConversion.ToV128(x), elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epi8(x, elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -813,7 +817,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to a <see cref="byte"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to a <see cref="byte"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -824,7 +828,7 @@ namespace MaxMath
             return (byte)BASE_cvtf16i32(x, signed: false, trunc: true, nonZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Converts a each component in a <see cref="half2"/> to a <see cref="MaxMath.byte2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half2"/> to a <see cref="MaxMath.byte2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -834,7 +838,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epu8(RegisterConversion.ToV128(x), elements: 2, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epu8(x, elements: 2, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -842,7 +846,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half3"/> to a <see cref="MaxMath.byte3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half3"/> to a <see cref="MaxMath.byte3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -852,7 +856,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epu8(RegisterConversion.ToV128(x), elements: 3, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epu8(x, elements: 3, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -860,7 +864,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half4"/> to a <see cref="MaxMath.byte4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half4"/> to a <see cref="MaxMath.byte4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -870,7 +874,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epu8(RegisterConversion.ToV128(x), elements: 4, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epu8(x, elements: 4, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -915,7 +919,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to a <see cref="short"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to a <see cref="short"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -927,7 +931,7 @@ namespace MaxMath
             return (short)BASE_cvtf16i32(x, signed: true, trunc: true, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Converts a each component in a <see cref="half2"/> to a <see cref="MaxMath.short2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half2"/> to a <see cref="MaxMath.short2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -938,7 +942,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epi16(RegisterConversion.ToV128(x), elements: 2, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epi16(x, elements: 2, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -946,7 +950,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half3"/> to a <see cref="MaxMath.short3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half3"/> to a <see cref="MaxMath.short3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -957,7 +961,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epi16(RegisterConversion.ToV128(x), elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epi16(x, elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -965,7 +969,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half4"/> to a <see cref="MaxMath.short4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half4"/> to a <see cref="MaxMath.short4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -976,7 +980,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epi16(RegisterConversion.ToV128(x), elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epi16(x, elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1023,7 +1027,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to a <see cref="ushort"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to a <see cref="ushort"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1034,7 +1038,7 @@ namespace MaxMath
             return (ushort)BASE_cvtf16i32(x, signed: false, trunc: true, nonZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Converts a each component in a <see cref="half2"/> to a <see cref="MaxMath.ushort2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half2"/> to a <see cref="MaxMath.ushort2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1044,7 +1048,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epu16(RegisterConversion.ToV128(x), elements: 2, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epu16(x, elements: 2, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1052,7 +1056,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half3"/> to a <see cref="MaxMath.ushort3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half3"/> to a <see cref="MaxMath.ushort3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1062,7 +1066,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epu16(RegisterConversion.ToV128(x), elements: 3, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epu16(x, elements: 3, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1070,7 +1074,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half4"/> to a <see cref="MaxMath.ushort4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half4"/> to a <see cref="MaxMath.ushort4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1080,7 +1084,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epu16(RegisterConversion.ToV128(x), elements: 4, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epu16(x, elements: 4, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1125,7 +1129,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to an <see cref="int"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to an <see cref="int"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1137,7 +1141,7 @@ namespace MaxMath
             return (int)BASE_cvtf16i32(x, signed: true, trunc: true, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Converts a each component in a <see cref="half2"/> to an <see cref="int2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half2"/> to an <see cref="MaxMath.int2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1148,7 +1152,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.cvttph_epi32(RegisterConversion.ToV128(x), elements: 2, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero)));
+                return Xse.cvttph_epi32(x, elements: 2, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1156,7 +1160,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half3"/> to an <see cref="int3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half3"/> to an <see cref="MaxMath.int3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1167,7 +1171,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.cvttph_epi32(RegisterConversion.ToV128(x), elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero)));
+                return Xse.cvttph_epi32(x, elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1175,7 +1179,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half4"/> to an <see cref="int4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half4"/> to an <see cref="MaxMath.int4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1186,7 +1190,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.cvttph_epi32(RegisterConversion.ToV128(x), elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero)));
+                return Xse.cvttph_epi32(x, elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1214,7 +1218,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to a <see cref="uint"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to a <see cref="uint"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1225,7 +1229,7 @@ namespace MaxMath
             return BASE_cvtf16i32(x, signed: false, trunc: true, nonZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Converts a each component in a <see cref="half2"/> to a <see cref="uint2"/> component while rounding towards the nearest respective uinteger value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half2"/> to a <see cref="MaxMath.uint2"/> component while rounding towards the nearest respective uinteger value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1235,7 +1239,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.cvttph_epu32(RegisterConversion.ToV128(x), elements: 2, nonZero: promises.Promises(Promise.NonZero)));
+                return Xse.cvttph_epu32(x, elements: 2, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1243,7 +1247,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half3"/> to a <see cref="uint3"/> component while rounding towards the nearest respective uinteger value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half3"/> to a <see cref="MaxMath.uint3"/> component while rounding towards the nearest respective uinteger value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1253,7 +1257,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.cvttph_epu32(RegisterConversion.ToV128(x), elements: 3, nonZero: promises.Promises(Promise.NonZero)));
+                return Xse.cvttph_epu32(x, elements: 3, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1261,7 +1265,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half4"/> to a <see cref="uint4"/> component while rounding towards the nearest respective uinteger value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half4"/> to a <see cref="MaxMath.uint4"/> component while rounding towards the nearest respective uinteger value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1271,7 +1275,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.cvttph_epu32(RegisterConversion.ToV128(x), elements: 4, nonZero: promises.Promises(Promise.NonZero)));
+                return Xse.cvttph_epu32(x, elements: 4, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1298,7 +1302,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to a <see cref="long"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to a <see cref="long"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1310,7 +1314,7 @@ namespace MaxMath
             return (int)BASE_cvtf16i32(x, signed: true, trunc: true, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Converts a each component in a <see cref="half2"/> to a <see cref="MaxMath.long2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half2"/> to a <see cref="MaxMath.long2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1321,7 +1325,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epi64(RegisterConversion.ToV128(x), positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epi64(x, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1329,7 +1333,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half3"/> to a <see cref="MaxMath.long3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half3"/> to a <see cref="MaxMath.long3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1340,7 +1344,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttph_epi64(RegisterConversion.ToV128(x), elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttph_epi64(x, elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1348,7 +1352,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half4"/> to a <see cref="MaxMath.long4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half4"/> to a <see cref="MaxMath.long4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1359,7 +1363,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttph_epi64(RegisterConversion.ToV128(x), elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttph_epi64(x, elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1368,7 +1372,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to a <see cref="ulong"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to a <see cref="ulong"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1379,7 +1383,7 @@ namespace MaxMath
             return BASE_cvtf16i32(x, signed: false, trunc: true, nonZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Converts a each component in a <see cref="half2"/> to a <see cref="MaxMath.ulong2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half2"/> to a <see cref="MaxMath.ulong2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1389,7 +1393,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttph_epu64(RegisterConversion.ToV128(x), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttph_epu64(x, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1397,7 +1401,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half3"/> to a <see cref="MaxMath.ulong3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half3"/> to a <see cref="MaxMath.ulong3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1407,7 +1411,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttph_epu64(RegisterConversion.ToV128(x), elements: 3, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttph_epu64(x, elements: 3, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1415,7 +1419,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="half4"/> to a <see cref="MaxMath.ulong4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.half4"/> to a <see cref="MaxMath.ulong4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1425,7 +1429,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttph_epu64(RegisterConversion.ToV128(x), elements: 4, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttph_epu64(x, elements: 4, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1434,7 +1438,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to an <see cref="Int128"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to an <see cref="Int128"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1447,7 +1451,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to a <see cref="UInt128"/> while rounding towards zero.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to a <see cref="UInt128"/> while rounding towards zero.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1466,21 +1470,21 @@ namespace MaxMath
             return (sbyte)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float2"/> to an <see cref="MaxMath.sbyte2"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float2"/> to an <see cref="MaxMath.sbyte2"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 trunctosbyte(float2 x)
         {
             return (sbyte2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float3"/> to an <see cref="MaxMath.sbyte3"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float3"/> to an <see cref="MaxMath.sbyte3"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 trunctosbyte(float3 x)
         {
             return (sbyte3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float4"/> to an <see cref="MaxMath.sbyte4"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float4"/> to an <see cref="MaxMath.sbyte4"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 trunctosbyte(float4 x)
         {
@@ -1502,21 +1506,21 @@ namespace MaxMath
             return (byte)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float2"/> to a <see cref="MaxMath.byte2"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float2"/> to a <see cref="MaxMath.byte2"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 trunctobyte(float2 x)
         {
             return (byte2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float3"/> to a <see cref="MaxMath.byte3"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float3"/> to a <see cref="MaxMath.byte3"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 trunctobyte(float3 x)
         {
             return (byte3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float4"/> to a <see cref="MaxMath.byte4"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float4"/> to a <see cref="MaxMath.byte4"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 trunctobyte(float4 x)
         {
@@ -1538,21 +1542,21 @@ namespace MaxMath
             return (short)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float2"/> to a <see cref="MaxMath.short2"/> component while rounding towards the nearest numerical value.     </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float2"/> to a <see cref="MaxMath.short2"/> component while rounding towards the nearest numerical value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 trunctoshort(float2 x)
         {
             return (short2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float3"/> to a <see cref="MaxMath.short3"/> component while rounding towards the nearest numerical value.     </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float3"/> to a <see cref="MaxMath.short3"/> component while rounding towards the nearest numerical value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 trunctoshort(float3 x)
         {
             return (short3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float4"/> to a <see cref="MaxMath.short4"/> component while rounding towards the nearest numerical value.     </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float4"/> to a <see cref="MaxMath.short4"/> component while rounding towards the nearest numerical value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 trunctoshort(float4 x)
         {
@@ -1574,21 +1578,21 @@ namespace MaxMath
             return (ushort)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float2"/> to a <see cref="MaxMath.ushort2"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float2"/> to a <see cref="MaxMath.ushort2"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 trunctoushort(float2 x)
         {
             return (ushort2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float3"/> to a <see cref="MaxMath.ushort3"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float3"/> to a <see cref="MaxMath.ushort3"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 trunctoushort(float3 x)
         {
             return (ushort3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float4"/> to a <see cref="MaxMath.ushort4"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float4"/> to a <see cref="MaxMath.ushort4"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 trunctoushort(float4 x)
         {
@@ -1610,21 +1614,21 @@ namespace MaxMath
             return (int)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float2"/> to an <see cref="int2"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float2"/> to an <see cref="MaxMath.int2"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 trunctoint(float2 x)
         {
             return (int2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float3"/> to an <see cref="int3"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float3"/> to an <see cref="MaxMath.int3"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 trunctoint(float3 x)
         {
             return (int3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float4"/> to an <see cref="int4"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float4"/> to an <see cref="MaxMath.int4"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 trunctoint(float4 x)
         {
@@ -1646,21 +1650,21 @@ namespace MaxMath
             return (uint)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float2"/> to a <see cref="uint2"/> component while rounding towards the nearest respective uinteger value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float2"/> to a <see cref="MaxMath.uint2"/> component while rounding towards the nearest respective uinteger value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 trunctouint(float2 x)
         {
             return (uint2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float3"/> to a <see cref="uint3"/> component while rounding towards the nearest respective uinteger value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float3"/> to a <see cref="MaxMath.uint3"/> component while rounding towards the nearest respective uinteger value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 trunctouint(float3 x)
         {
             return (uint3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float4"/> to a <see cref="uint4"/> component while rounding towards the nearest respective uinteger value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float4"/> to a <see cref="MaxMath.uint4"/> component while rounding towards the nearest respective uinteger value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 trunctouint(float4 x)
         {
@@ -1682,7 +1686,7 @@ namespace MaxMath
             return (long)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float2"/> to a <see cref="MaxMath.long2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float2"/> to a <see cref="MaxMath.long2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1693,7 +1697,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttps_epi64(RegisterConversion.ToV128(x), positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttps_epi64(x, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1701,7 +1705,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="float3"/> to a <see cref="MaxMath.long3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float3"/> to a <see cref="MaxMath.long3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1712,7 +1716,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttps_epi64(RegisterConversion.ToV128(x), elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttps_epi64(x, elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1720,7 +1724,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="float4"/> to a <see cref="MaxMath.long4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float4"/> to a <see cref="MaxMath.long4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -1731,7 +1735,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttps_epi64(RegisterConversion.ToV128(x), elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttps_epi64(x, elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1747,7 +1751,7 @@ namespace MaxMath
             return (ulong)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="float2"/> to a <see cref="MaxMath.ulong2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float2"/> to a <see cref="MaxMath.ulong2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1757,7 +1761,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttps_epu64(RegisterConversion.ToV128(x), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttps_epu64(x, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1765,7 +1769,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="float3"/> to a <see cref="MaxMath.ulong3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float3"/> to a <see cref="MaxMath.ulong3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1775,7 +1779,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttps_epu64(RegisterConversion.ToV128(x), elements: 3, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttps_epu64(x, elements: 3, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1783,7 +1787,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="float4"/> to a <see cref="MaxMath.ulong4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.float4"/> to a <see cref="MaxMath.ulong4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -1793,7 +1797,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttps_epu64(RegisterConversion.ToV128(x), elements: 4, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttps_epu64(x, elements: 4, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -1834,21 +1838,21 @@ namespace MaxMath
             return (sbyte)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double2"/> to an <see cref="MaxMath.sbyte2"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double2"/> to an <see cref="MaxMath.sbyte2"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 trunctosbyte(double2 x)
         {
             return (sbyte2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double3"/> to an <see cref="MaxMath.sbyte3"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double3"/> to an <see cref="MaxMath.sbyte3"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 trunctosbyte(double3 x)
         {
             return (sbyte3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double4"/> to an <see cref="MaxMath.sbyte4"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double4"/> to an <see cref="MaxMath.sbyte4"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 trunctosbyte(double4 x)
         {
@@ -1863,21 +1867,21 @@ namespace MaxMath
             return (byte)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double2"/> to a <see cref="MaxMath.byte2"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double2"/> to a <see cref="MaxMath.byte2"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 trunctobyte(double2 x)
         {
             return (byte2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double3"/> to a <see cref="MaxMath.byte3"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double3"/> to a <see cref="MaxMath.byte3"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 trunctobyte(double3 x)
         {
             return (byte3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double4"/> to a <see cref="MaxMath.byte4"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double4"/> to a <see cref="MaxMath.byte4"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 trunctobyte(double4 x)
         {
@@ -1892,21 +1896,21 @@ namespace MaxMath
             return (short)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double2"/> to a <see cref="MaxMath.short2"/> component while rounding towards the nearest numerical value.     </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double2"/> to a <see cref="MaxMath.short2"/> component while rounding towards the nearest numerical value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 trunctoshort(double2 x)
         {
             return (short2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double3"/> to a <see cref="MaxMath.short3"/> component while rounding towards the nearest numerical value.     </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double3"/> to a <see cref="MaxMath.short3"/> component while rounding towards the nearest numerical value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 trunctoshort(double3 x)
         {
             return (short3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double4"/> to a <see cref="MaxMath.short4"/> component while rounding towards the nearest numerical value.     </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double4"/> to a <see cref="MaxMath.short4"/> component while rounding towards the nearest numerical value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 trunctoshort(double4 x)
         {
@@ -1921,21 +1925,21 @@ namespace MaxMath
             return (ushort)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double2"/> to a <see cref="MaxMath.ushort2"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double2"/> to a <see cref="MaxMath.ushort2"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 trunctoushort(double2 x)
         {
             return (ushort2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double3"/> to a <see cref="MaxMath.ushort3"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double3"/> to a <see cref="MaxMath.ushort3"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 trunctoushort(double3 x)
         {
             return (ushort3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double4"/> to a <see cref="MaxMath.ushort4"/> component while rounding towards the nearest numerical value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double4"/> to a <see cref="MaxMath.ushort4"/> component while rounding towards the nearest numerical value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 trunctoushort(double4 x)
         {
@@ -1950,21 +1954,21 @@ namespace MaxMath
             return (int)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double2"/> to an <see cref="int2"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double2"/> to an <see cref="MaxMath.int2"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 trunctoint(double2 x)
         {
             return (int2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double3"/> to an <see cref="int3"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double3"/> to an <see cref="MaxMath.int3"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 trunctoint(double3 x)
         {
             return (int3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double4"/> to an <see cref="int4"/> component while rounding towards the nearest numerical value.      </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double4"/> to an <see cref="MaxMath.int4"/> component while rounding towards the nearest numerical value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 trunctoint(double4 x)
         {
@@ -1979,21 +1983,21 @@ namespace MaxMath
             return (uint)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double2"/> to a <see cref="uint2"/> component while rounding towards the nearest respective uinteger value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double2"/> to a <see cref="MaxMath.uint2"/> component while rounding towards the nearest respective uinteger value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 trunctouint(double2 x)
         {
             return (uint2)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double3"/> to a <see cref="uint3"/> component while rounding towards the nearest respective uinteger value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double3"/> to a <see cref="MaxMath.uint3"/> component while rounding towards the nearest respective uinteger value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 trunctouint(double3 x)
         {
             return (uint3)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double4"/> to a <see cref="uint4"/> component while rounding towards the nearest respective uinteger value.        </summary>
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double4"/> to a <see cref="MaxMath.uint4"/> component while rounding towards the nearest respective uinteger value.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 trunctouint(double4 x)
         {
@@ -2008,7 +2012,7 @@ namespace MaxMath
             return (long)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double2"/> to a <see cref="MaxMath.long2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double2"/> to a <see cref="MaxMath.long2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -2019,7 +2023,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttpd_epi64(RegisterConversion.ToV128(x), positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttpd_epi64(x, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -2027,7 +2031,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="double3"/> to a <see cref="MaxMath.long3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double3"/> to a <see cref="MaxMath.long3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -2038,7 +2042,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epi64(RegisterConversion.ToV256(x), elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttpd_epi64(x, elements: 3, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -2046,7 +2050,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="double4"/> to a <see cref="MaxMath.long4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double4"/> to a <see cref="MaxMath.long4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect values if any <paramref name="x"/> is negative or 0.       </para>
@@ -2057,7 +2061,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epi64(RegisterConversion.ToV256(x), elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttpd_epi64(x, elements: 4, positive: promises.Promises(Promise.Positive), nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -2073,7 +2077,7 @@ namespace MaxMath
             return (ulong)x;
         }
 
-        /// <summary>       Converts a each component in a <see cref="double2"/> to a <see cref="MaxMath.ulong2"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double2"/> to a <see cref="MaxMath.ulong2"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -2083,7 +2087,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvttpd_epu64(RegisterConversion.ToV128(x), nonZero: promises.Promises(Promise.NonZero));
+                return Xse.cvttpd_epu64(x, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -2091,7 +2095,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="double3"/> to a <see cref="MaxMath.ulong3"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double3"/> to a <see cref="MaxMath.ulong3"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -2101,7 +2105,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epu64(RegisterConversion.ToV256(x), elements: 3, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttpd_epu64(x, elements: 3, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {
@@ -2109,7 +2113,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts a each component in a <see cref="double4"/> to a <see cref="MaxMath.ulong4"/> component while rounding towards the nearest numerical value.
+        /// <summary>       Converts a each component in a <see cref="MaxMath.double4"/> to a <see cref="MaxMath.ulong4"/> component while rounding towards the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect values if any <paramref name="x"/> is 0.       </para>
         /// </remarks>
@@ -2119,7 +2123,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epu64(RegisterConversion.ToV256(x), elements: 4, nonZero: promises.Promises(Promise.NonZero));
+                return Xse.mm256_cvttpd_epu64(x, elements: 4, nonZero: promises.Promises(Promise.NonZero));
             }
             else
             {

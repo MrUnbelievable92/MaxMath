@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -84,8 +83,8 @@ namespace MaxMath
                 }
                 else if (BurstArchitecture.IsSIMDSupported)
                 {
-                    long lo = maxmath.l1mask(cvtsi128_si64x(a));
-                    long hi = maxmath.l1mask(cvtsi128_si64x(bsrli_si128(a, sizeof(long))));
+                    long lo = math.l1mask(cvtsi128_si64x(a));
+                    long hi = math.l1mask(cvtsi128_si64x(bsrli_si128(a, sizeof(long))));
 
                     return unpacklo_epi64(cvtsi64x_si128(lo), cvtsi64x_si128(hi));
                 }
@@ -146,7 +145,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Sets all the leading ones in the binary representation of a <see cref="UInt128"/> to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -154,7 +153,7 @@ namespace MaxMath
         {
             int __l1cnt = l1cnt(x);
 
-            return __l1cnt == 0 ? 0 : UInt128.MaxValue << (128 - __l1cnt);
+            return __l1cnt == 0 ? 0 : MaxMath.UInt128.MaxValue << (128 - __l1cnt);
         }
 
         /// <summary>       Sets all the leading ones in the binary representation of an <see cref="Int128"/> to 1 and the remaining bits to 0.    </summary>
@@ -435,13 +434,13 @@ namespace MaxMath
             return (uint)((ulong)uint.MaxValue << (32 - l1cnt(x)));
         }
 
-        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="uint2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="MaxMath.uint2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 l1mask(uint2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.l1msk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.l1msk_epi32(x);
             }
             else
             {
@@ -449,13 +448,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="uint3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="MaxMath.uint3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 l1mask(uint3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.l1msk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.l1msk_epi32(x);
             }
             else
             {
@@ -463,13 +462,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="uint4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="MaxMath.uint4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 l1mask(uint4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.l1msk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.l1msk_epi32(x);
             }
             else
             {
@@ -499,21 +498,21 @@ namespace MaxMath
             return (int)l1mask((uint)x);
         }
 
-        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="int2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="MaxMath.int2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 l1mask(int2 x)
         {
             return (int2)l1mask((uint2)x);
         }
 
-        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="int3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="MaxMath.int3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 l1mask(int3 x)
         {
             return (int3)l1mask((uint3)x);
         }
 
-        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="int4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading ones in the binary representations of each <see cref="MaxMath.int4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 l1mask(int4 x)
         {

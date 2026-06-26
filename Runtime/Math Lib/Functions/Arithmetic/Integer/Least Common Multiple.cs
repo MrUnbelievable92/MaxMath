@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
@@ -256,7 +255,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the least common multiple of two <see cref="UInt128"/>s.
         /// <remarks>
@@ -307,7 +306,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint lcm(byte x, byte y, Promise nonZero = Promise.Nothing)
         {
-            return lcm((uint)x, (uint)y);
+            return lcm((uint)x, (uint)y, nonZero);
         }
 
         /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.byte2"/>s.
@@ -476,7 +475,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint lcm(sbyte x, sbyte y, Promise nonZero = Promise.Nothing)
         {
-            return lcm((int)x, (int)y);
+            return lcm((int)x, (int)y, nonZero);
         }
 
         /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.sbyte2"/>s.
@@ -662,7 +661,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint lcm(ushort x, ushort y, Promise nonZero = Promise.Nothing)
         {
-            return lcm((uint)x, (uint)y);
+            return lcm((uint)x, (uint)y, nonZero);
         }
 
         /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.ushort2"/>s.
@@ -963,8 +962,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint lcm(int x, int y, Promise nonZero = Promise.Nothing)
         {
-            uint absX = constexpr.IS_TRUE(x >= 0) ? (uint)x : (uint)math.abs(x);
-            uint absY = constexpr.IS_TRUE(x >= 0) ? (uint)y : (uint)math.abs(y);
+            uint absX = constexpr.IS_TRUE(x >= 0) ? (uint)x : (uint)abs(x);
+            uint absY = constexpr.IS_TRUE(x >= 0) ? (uint)y : (uint)abs(y);
 
             if (constexpr.IS_CONST(absX))
             {
@@ -976,7 +975,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="int2"/>s.
+        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.int2"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -984,12 +983,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 lcm(int2 x, int2 y, Promise nonZero = Promise.Nothing)
         {
-            uint2 absX = constexpr.IS_TRUE(math.all(x >= 0)) ? (uint2)x : (uint2)abs(x);
-            uint2 absY = constexpr.IS_TRUE(math.all(x >= 0)) ? (uint2)y : (uint2)abs(y);
+            uint2 absX = constexpr.IS_TRUE(all(x >= 0)) ? (uint2)x : (uint2)abs(x);
+            uint2 absY = constexpr.IS_TRUE(all(x >= 0)) ? (uint2)y : (uint2)abs(y);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.lcm_epu32(RegisterConversion.ToV128(absX), RegisterConversion.ToV128(absY), nonZero.Promises(Promise.NonZero), 2));
+                return Xse.lcm_epu32(absX, absY, nonZero.Promises(Promise.NonZero), 2);
             }
             else
             {
@@ -1004,7 +1003,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="int3"/>s.
+        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.int3"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -1012,12 +1011,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 lcm(int3 x, int3 y, Promise nonZero = Promise.Nothing)
         {
-            uint3 absX = constexpr.IS_TRUE(math.all(x >= 0)) ? (uint3)x : (uint3)abs(x);
-            uint3 absY = constexpr.IS_TRUE(math.all(x >= 0)) ? (uint3)y : (uint3)abs(y);
+            uint3 absX = constexpr.IS_TRUE(all(x >= 0)) ? (uint3)x : (uint3)abs(x);
+            uint3 absY = constexpr.IS_TRUE(all(x >= 0)) ? (uint3)y : (uint3)abs(y);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.lcm_epu32(RegisterConversion.ToV128(absX), RegisterConversion.ToV128(absY), nonZero.Promises(Promise.NonZero), 3));
+                return Xse.lcm_epu32(absX, absY, nonZero.Promises(Promise.NonZero), 3);
             }
             else
             {
@@ -1032,7 +1031,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="int4"/>s.
+        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.int4"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -1040,12 +1039,12 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 lcm(int4 x, int4 y, Promise nonZero = Promise.Nothing)
         {
-            uint4 absX = constexpr.IS_TRUE(math.all(x >= 0)) ? (uint4)x : (uint4)abs(x);
-            uint4 absY = constexpr.IS_TRUE(math.all(x >= 0)) ? (uint4)y : (uint4)abs(y);
+            uint4 absX = constexpr.IS_TRUE(all(x >= 0)) ? (uint4)x : (uint4)abs(x);
+            uint4 absY = constexpr.IS_TRUE(all(x >= 0)) ? (uint4)y : (uint4)abs(y);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.lcm_epu32(RegisterConversion.ToV128(absX), RegisterConversion.ToV128(absY), nonZero.Promises(Promise.NonZero), 4));
+                return Xse.lcm_epu32(absX, absY, nonZero.Promises(Promise.NonZero), 4);
             }
             else
             {
@@ -1077,9 +1076,9 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.lcm_epu32x2(RegisterConversion.ToV128(absX.v4_0), RegisterConversion.ToV128(absX.v4_4), RegisterConversion.ToV128(absY.v4_0), RegisterConversion.ToV128(absY.v4_4), out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
+                Xse.lcm_epu32x2(absX.v4_0, absX.v4_4, absY.v4_0, absY.v4_4, out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
 
-                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+                return new uint8(lo, hi);
             }
             else
             {
@@ -1113,7 +1112,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="uint2"/>s.
+        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.uint2"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -1123,7 +1122,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.lcm_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 2));
+                return Xse.lcm_epu32(x, y, nonZero.Promises(Promise.NonZero), 2);
             }
             else
             {
@@ -1138,7 +1137,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="uint3"/>s.
+        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.uint3"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -1148,7 +1147,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.lcm_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 3));
+                return Xse.lcm_epu32(x, y, nonZero.Promises(Promise.NonZero), 3);
             }
             else
             {
@@ -1163,7 +1162,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="uint4"/>s.
+        /// <summary>       Returns the componentwise least common multiple of the corresponding values of two <see cref="MaxMath.uint4"/>s.
         /// <remarks>
         /// <para>          Calling this function with a <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> flag set will be stuck in an infinite loop for any <paramref name="x"/> or <paramref name="y"/> equal to 0.        </para>
         /// </remarks>
@@ -1173,7 +1172,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.lcm_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 4));
+                return Xse.lcm_epu32(x, y, nonZero.Promises(Promise.NonZero), 4);
             }
             else
             {
@@ -1202,9 +1201,9 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.lcm_epu32x2(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(y.v4_0), RegisterConversion.ToV128(y.v4_4), out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
+                Xse.lcm_epu32x2(x.v4_0, x.v4_4, y.v4_0, y.v4_4, out v128 lo, out v128 hi, nonZero.Promises(Promise.NonZero));
 
-                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+                return new uint8(lo, hi);
             }
             else
             {
@@ -1228,8 +1227,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong lcm(long x, long y, Promise nonZero = Promise.Nothing)
         {
-            ulong absX = constexpr.IS_TRUE(x >= 0) ? (ulong)x : (ulong)math.abs(x);
-            ulong absY = constexpr.IS_TRUE(x >= 0) ? (ulong)y : (ulong)math.abs(y);
+            ulong absX = constexpr.IS_TRUE(x >= 0) ? (ulong)x : (ulong)abs(x);
+            ulong absY = constexpr.IS_TRUE(x >= 0) ? (ulong)y : (ulong)abs(y);
 
             if (constexpr.IS_CONST(x))
             {

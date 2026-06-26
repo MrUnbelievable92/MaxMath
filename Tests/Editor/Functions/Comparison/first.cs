@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -20,7 +20,7 @@ namespace MaxMath.Tests
             {
                 bool2 x = rng.NextBool2();
 
-                int test = maxmath.first(x);
+                int test = math.first(x);
 
                 int j = 0;
                 while (j < 2 && !x[j])
@@ -31,9 +31,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            int testt = maxmath.first(default(bool2));
-
-            Assert.AreEqual(result && maxmath.first(default(bool2)) == 4, true);
+            Assert.AreEqual(result && math.first(default(bool2)) == 4, true);
         }
 
         [Test]
@@ -47,7 +45,7 @@ namespace MaxMath.Tests
             {
                 bool3 x = rng.NextBool3();
 
-                int test = maxmath.first(x);
+                int test = math.first(x);
 
                 int j = 0;
                 while (j < 3 && !x[j])
@@ -58,7 +56,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            Assert.AreEqual(result && maxmath.first(default(bool3)) == 4, true);
+            Assert.AreEqual(result && math.first(default(bool3)) == 4, true);
         }
 
         [Test]
@@ -72,7 +70,7 @@ namespace MaxMath.Tests
             {
                 bool4 x = rng.NextBool4();
 
-                int test = maxmath.first(x);
+                int test = math.first(x);
 
                 int j = 0;
                 while (j < 4 && !x[j])
@@ -83,7 +81,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            Assert.AreEqual(result && maxmath.first(default(bool4)) == 4, true);
+            Assert.AreEqual(result && math.first(default(bool4)) == 4, true);
         }
 
         [Test]
@@ -97,7 +95,7 @@ namespace MaxMath.Tests
             {
                 bool8 x = rng.NextBool8();
 
-                int test = maxmath.first(x);
+                int test = math.first(x);
 
                 int j = 0;
                 while (j < 8 && !x[j])
@@ -108,7 +106,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            Assert.AreEqual(result && maxmath.first(default(bool8)) == 8, true);
+            Assert.AreEqual(result && math.first(default(bool8)) == 8, true);
         }
 
         [Test]
@@ -122,7 +120,7 @@ namespace MaxMath.Tests
             {
                 bool16 x = new bool16(rng.NextBool8(), rng.NextBool8());
 
-                int test = maxmath.first(x);
+                int test = math.first(x);
 
                 int j = 0;
                 while (j < 16 && !x[j])
@@ -133,7 +131,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            Assert.AreEqual(result && maxmath.first(default(bool16)) == 32, true);
+            Assert.AreEqual(result && math.first(default(bool16)) == 32, true);
         }
 
         [Test]
@@ -147,7 +145,7 @@ namespace MaxMath.Tests
             {
                 bool32 x = new bool32(rng.NextBool8(), rng.NextBool8(), rng.NextBool8(), rng.NextBool8());
 
-                int test = maxmath.first(x);
+                int test = math.first(x);
 
                 int j = 0;
                 while (j < 32 && !x[j])
@@ -158,7 +156,7 @@ namespace MaxMath.Tests
                 result &= test == j;
             }
 
-            Assert.AreEqual(result && maxmath.first(default(bool32)) == 32, true);
+            Assert.AreEqual(result && math.first(default(bool32)) == 32, true);
         }
     }
 }

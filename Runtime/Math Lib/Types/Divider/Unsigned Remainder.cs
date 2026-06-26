@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -782,7 +781,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 2, columnCount: 1, Signed
 
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return bmrem_epu16(x, divisor, RegisterConversion.ToV128(mul), 2);
+                        return bmrem_epu16(x, divisor, mul, 2);
                     }
                     else
                     {
@@ -856,7 +855,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 3, columnCount: 1, Signed
 
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return bmrem_epu16(x, divisor, RegisterConversion.ToV128(mul), 3);
+                        return bmrem_epu16(x, divisor, mul, 3);
                     }
                     else
                     {
@@ -934,7 +933,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 4, columnCount: 1, Signed
 
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return bmrem_epu16(x, divisor, RegisterConversion.ToV128(mul), 4);
+                        return bmrem_epu16(x, divisor, mul, 4);
                     }
                     else
                     {
@@ -1026,7 +1025,7 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 8, columnCount: 1, Signed
 
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return bmrem_epu16(x, divisor, RegisterConversion.ToV128(mulLo), RegisterConversion.ToV128(mulHi));
+                        return bmrem_epu16(x, divisor, mulLo, mulHi);
                     }
                     else
                     {
@@ -1163,8 +1162,8 @@ d.AssertOperationMatchesInitialization(sizeof(ushort), 16, columnCount: 1, Signe
                     }
                     else if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return new ushort16(bmrem_epu16(x.v8_0, divisor.v8_0, RegisterConversion.ToV128(mulLo.v4_0), RegisterConversion.ToV128(mulLo.v4_4)),
-                                            bmrem_epu16(x.v8_8, divisor.v8_8, RegisterConversion.ToV128(mulHi.v4_0), RegisterConversion.ToV128(mulHi.v4_4)));
+                        return new ushort16(bmrem_epu16(x.v8_0, divisor.v8_0, mulLo.v4_0, mulLo.v4_4),
+                                            bmrem_epu16(x.v8_8, divisor.v8_8, mulHi.v4_0, mulHi.v4_4));
                     }
                     else
                     {
@@ -1226,7 +1225,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return RegisterConversion.ToUInt2(pow2_rem_epu32(RegisterConversion.ToV128(x), Xse.set1_epi32(*(uint*)&d._divisor), 2));
+                        return pow2_rem_epu32(x, Xse.set1_epi32(*(uint*)&d._divisor), 2);
                     }
                     else
                     {
@@ -1245,7 +1244,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
                         uint mul = *(uint*)&d._mulShift._mul;
                         uint shift = *(uint*)&d._mulShift._shift;
 
-                        return RegisterConversion.ToUInt2(msrem_epu32_su32(RegisterConversion.ToV128(x), divisor, mul, shift, d._promises, 2));
+                        return msrem_epu32_su32(x, divisor, mul, shift, d._promises, 2);
                     }
                     else
                     {
@@ -1262,7 +1261,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return RegisterConversion.ToUInt2(pow2_rem_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d._divisor.Reinterpret<T, uint2>()), 2));
+                        return pow2_rem_epu32(x, d._divisor.Reinterpret<T, uint2>(), 2);
                     }
                     else
                     {
@@ -1281,7 +1280,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 2, columnCount: 1, Signedne
                         uint2 mul = *(uint2*)&d._mulShift._mul;
                         uint2 shift = *(uint2*)&d._mulShift._shift;
 
-                        return RegisterConversion.ToUInt2(msrem_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(divisor), RegisterConversion.ToV128(mul), RegisterConversion.ToV128(shift), d._promises, 2));
+                        return msrem_epu32(x, divisor, mul, shift, d._promises, 2);
                     }
                     else
                     {
@@ -1305,7 +1304,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return RegisterConversion.ToUInt3(pow2_rem_epu32(RegisterConversion.ToV128(x), Xse.set1_epi32(*(uint*)&d._divisor), 3));
+                        return pow2_rem_epu32(x, Xse.set1_epi32(*(uint*)&d._divisor), 3);
                     }
                     else
                     {
@@ -1325,7 +1324,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
                         uint mul = *(uint*)&d._mulShift._mul;
                         uint shift = *(uint*)&d._mulShift._shift;
 
-                        return RegisterConversion.ToUInt3(msrem_epu32_su32(RegisterConversion.ToV128(x), divisor, mul, shift, d._promises, 3));
+                        return msrem_epu32_su32(x, divisor, mul, shift, d._promises, 3);
                     }
                     else
                     {
@@ -1343,7 +1342,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return RegisterConversion.ToUInt3(pow2_rem_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d._divisor.Reinterpret<T, uint3>()), 3));
+                        return pow2_rem_epu32(x, d._divisor.Reinterpret<T, uint3>(), 3);
                     }
                     else
                     {
@@ -1363,7 +1362,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 3, columnCount: 1, Signedne
                         uint3 mul = *(uint3*)&d._mulShift._mul;
                         uint3 shift = *(uint3*)&d._mulShift._shift;
 
-                        return RegisterConversion.ToUInt3(msrem_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(divisor), RegisterConversion.ToV128(mul), RegisterConversion.ToV128(shift), d._promises, 3));
+                        return msrem_epu32(x, divisor, mul, shift, d._promises, 3);
                     }
                     else
                     {
@@ -1388,7 +1387,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return RegisterConversion.ToUInt4(pow2_rem_epu32(RegisterConversion.ToV128(x), Xse.set1_epi32(*(uint*)&d._divisor)));
+                        return pow2_rem_epu32(x, Xse.set1_epi32(*(uint*)&d._divisor));
                     }
                     else
                     {
@@ -1409,7 +1408,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
                         uint mul = *(uint*)&d._mulShift._mul;
                         uint shift = *(uint*)&d._mulShift._shift;
 
-                        return RegisterConversion.ToUInt4(msrem_epu32_su32(RegisterConversion.ToV128(x), divisor, mul, shift, d._promises, 4));
+                        return msrem_epu32_su32(x, divisor, mul, shift, d._promises, 4);
                     }
                     else
                     {
@@ -1428,7 +1427,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return RegisterConversion.ToUInt4(pow2_rem_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d._divisor.Reinterpret<T, uint4>())));
+                        return pow2_rem_epu32(x, d._divisor.Reinterpret<T, uint4>());
                     }
                     else
                     {
@@ -1449,7 +1448,7 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 4, columnCount: 1, Signedne
                         uint4 mul = *(uint4*)&d._mulShift._mul;
                         uint4 shift = *(uint4*)&d._mulShift._shift;
 
-                        return RegisterConversion.ToUInt4(msrem_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(divisor), RegisterConversion.ToV128(mul), RegisterConversion.ToV128(shift), d._promises, 4));
+                        return msrem_epu32(x, divisor, mul, shift, d._promises, 4);
                     }
                     else
                     {
@@ -1481,8 +1480,8 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     }
                     else if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return new uint8(RegisterConversion.ToUInt4(pow2_rem_epu32(RegisterConversion.ToV128(x.v4_0), Xse.set1_epi32(divisor))),
-                                         RegisterConversion.ToUInt4(pow2_rem_epu32(RegisterConversion.ToV128(x.v4_4), Xse.set1_epi32(divisor))));
+                        return new uint8(pow2_rem_epu32(x.v4_0, Xse.set1_epi32(divisor)),
+                                         pow2_rem_epu32(x.v4_4, Xse.set1_epi32(divisor)));
                     }
                     else
                     {
@@ -1508,8 +1507,8 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     }
                     else if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return new uint8(RegisterConversion.ToUInt4(msrem_epu32_su32(RegisterConversion.ToV128(x.v4_0), divisor, mul, shift, d._promises)),
-                                         RegisterConversion.ToUInt4(msrem_epu32_su32(RegisterConversion.ToV128(x.v4_4), divisor, mul, shift, d._promises)));
+                        return new uint8(msrem_epu32_su32(x.v4_0, divisor, mul, shift, d._promises),
+                                         msrem_epu32_su32(x.v4_4, divisor, mul, shift, d._promises));
                     }
                     else
                     {
@@ -1538,8 +1537,8 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     }
                     else if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return new uint8(RegisterConversion.ToUInt4(pow2_rem_epu32(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(divisor.v4_0))),
-                                         RegisterConversion.ToUInt4(pow2_rem_epu32(RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(divisor.v4_4))));
+                        return new uint8(pow2_rem_epu32(x.v4_0, divisor.v4_0),
+                                         pow2_rem_epu32(x.v4_4, divisor.v4_4));
                     }
                     else
                     {
@@ -1565,8 +1564,8 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                     }
                     else if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return new uint8(RegisterConversion.ToUInt4(msrem_epu32(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(divisor.v4_0), RegisterConversion.ToV128(mul.v4_0), RegisterConversion.ToV128(shift.v4_0), d._promises)),
-                                         RegisterConversion.ToUInt4(msrem_epu32(RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(divisor.v4_4), RegisterConversion.ToV128(mul.v4_4), RegisterConversion.ToV128(shift.v4_4), d._promises)));
+                        return new uint8(msrem_epu32(x.v4_0, divisor.v4_0, mul.v4_0, shift.v4_0, d._promises),
+                                         msrem_epu32(x.v4_4, divisor.v4_4, mul.v4_4, shift.v4_4, d._promises));
                     }
                     else
                     {
@@ -1585,6 +1584,16 @@ d.AssertOperationMatchesInitialization(sizeof(uint), 8, columnCount: 1, Signedne
                 }
             }
         }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 operator % (Unity.Mathematics.uint2 x, Divider<T> d) => (uint2)x % d;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 operator % (Unity.Mathematics.uint3 x, Divider<T> d) => (uint3)x % d;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 operator % (Unity.Mathematics.uint4 x, Divider<T> d) => (uint4)x % d;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2029,7 +2038,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static uint bmrem_u32(uint x, uint original, ulong mul)
         {
-            uint result = (uint)UInt128.umul128(mul * x, original).hi64;
+            uint result = (uint)MaxMath.UInt128.umul128(mul * x, original).hi64;
             constexpr.ASSUME(result < original);
             return result;
         }
@@ -2039,8 +2048,8 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         {
             mul *= x;
 
-            UInt128 lo = UInt128.umul128(mul.lo64, original);
-            UInt128 hi = UInt128.umul128(mul.hi64, original);
+            UInt128 lo = MaxMath.UInt128.umul128(mul.lo64, original);
+            UInt128 hi = MaxMath.UInt128.umul128(mul.hi64, original);
 
             ulong result = (lo.hi64 + hi).hi64;
             constexpr.ASSUME(result < original);

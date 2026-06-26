@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -7,7 +6,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <see langword="true"/> if all components of a <see cref="MaxMath.byte2"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -249,13 +248,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="int2"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="MaxMath.int2"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(int2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 _c = RegisterConversion.ToV128(c);
+                v128 _c = c;
 
                 return 0 != Xse.cmpeq_epi32(_c, Xse.bsrli_si128(_c, 1 * sizeof(int))).SInt0;
             }
@@ -265,14 +264,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="int3"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="MaxMath.int3"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(int3 c)
         {
             return c.xxx.Equals(c);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="int4"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="MaxMath.int4"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(int4 c)
         {
@@ -294,21 +293,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="uint2"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="MaxMath.uint2"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(uint2 c)
         {
             return all_eq((int2)c);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="uint3"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="MaxMath.uint3"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(uint3 c)
         {
             return c.xxx.Equals(c);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="uint4"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="MaxMath.uint4"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(uint4 c)
         {
@@ -388,13 +387,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="float2"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="MaxMath.float2"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(float2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 _c = RegisterConversion.ToV128(c);
+                v128 _c = c;
 
                 return 0 != Xse.cmpeq_ps(_c, Xse.bsrli_si128(_c, 1 * sizeof(float))).SInt0;
             }
@@ -404,14 +403,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="float3"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="MaxMath.float3"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(float3 c)
         {
             return c.xxx.Equals(c);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="float4"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="MaxMath.float4"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(float4 c)
         {
@@ -433,13 +432,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="double2"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of a <see cref="MaxMath.double2"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(double2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 _c = RegisterConversion.ToV128(c);
+                v128 _c = c;
 
                 return 0 != Xse.cmpeq_pd(_c, Xse.bsrli_si128(_c, 1 * sizeof(double))).SInt0;
             }
@@ -449,14 +448,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="double3"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="MaxMath.double3"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(double3 c)
         {
             return c.xxx.Equals(c);
         }
 
-        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="double4"/> have the same value.      </summary>
+        /// <summary>       Returns <see langword="true"/> if all components of an <see cref="MaxMath.double4"/> have the same value.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool all_eq(double4 c)
         {

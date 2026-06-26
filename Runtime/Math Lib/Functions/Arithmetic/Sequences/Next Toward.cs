@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -360,7 +359,7 @@ namespace MaxMath
 
                         if (!promiseNotNanInf)
                         {
-                            v128 SIGNALING_EXPONENT = set1_epi8(quarter.SIGNALING_EXPONENT);
+                            v128 SIGNALING_EXPONENT = set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT);
 
                             v128 xInfinite = cmpeq_epi8(SIGNALING_EXPONENT, and_si128(SIGNALING_EXPONENT, a));
                             v128 eitherNaN = cmpunord_pq(a, b, elements);
@@ -388,7 +387,7 @@ namespace MaxMath
                         }
                         else
                         {
-                            v128 SIGNALING_EXPONENT = set1_epi8(quarter.SIGNALING_EXPONENT);
+                            v128 SIGNALING_EXPONENT = set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT);
 
                             v128 xInfinite = cmpeq_epi8(SIGNALING_EXPONENT, and_si128(SIGNALING_EXPONENT, a));
                             v128 eitherNaN = cmpunord_pq(a, b, elements);
@@ -441,7 +440,7 @@ namespace MaxMath
 
                         if (!promiseNotNanInf)
                         {
-                            v256 SIGNALING_EXPONENT = mm256_set1_epi8(quarter.SIGNALING_EXPONENT);
+                            v256 SIGNALING_EXPONENT = mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT);
 
                             v256 xInfinite = Avx2.mm256_cmpeq_epi8(SIGNALING_EXPONENT, Avx2.mm256_and_si256(SIGNALING_EXPONENT, a));
                             v256 eitherNaN = mm256_cmpunord_pq(a, b);
@@ -469,7 +468,7 @@ namespace MaxMath
                         }
                         else
                         {
-                            v256 SIGNALING_EXPONENT = mm256_set1_epi8(quarter.SIGNALING_EXPONENT);
+                            v256 SIGNALING_EXPONENT = mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT);
 
                             v256 xInfinite = Avx2.mm256_cmpeq_epi8(SIGNALING_EXPONENT, Avx2.mm256_and_si256(SIGNALING_EXPONENT, a));
                             v256 eitherNaN = mm256_cmpunord_pq(a, b);
@@ -1017,7 +1016,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the next closest <see cref="UInt128"/> to '<paramref name="from"/>' in the direction of '<paramref name="to"/>'.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1468,13 +1467,13 @@ namespace MaxMath
             return from - (uint)compareto(from, to);
         }
 
-        /// <summary>       Returns a <see cref="uint2"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.uint2"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 nexttoward(uint2 from, uint2 to)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.toward_epu32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 2));
+                return Xse.toward_epu32(from, to, 2);
             }
             else
             {
@@ -1483,13 +1482,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="uint3"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.uint3"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 nexttoward(uint3 from, uint3 to)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.toward_epu32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 3));
+                return Xse.toward_epu32(from, to, 3);
             }
             else
             {
@@ -1499,13 +1498,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="uint4"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.uint4"/>, where each component is the next closest <see cref="uint"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 nexttoward(uint4 from, uint4 to)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.toward_epu32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 4));
+                return Xse.toward_epu32(from, to, 4);
             }
             else
             {
@@ -1539,13 +1538,13 @@ namespace MaxMath
             return from - compareto(from, to);
         }
 
-        /// <summary>       Returns a <see cref="int2"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.int2"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 nexttoward(int2 from, int2 to)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.toward_epi32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 2));
+                return Xse.toward_epi32(from, to, 2);
             }
             else
             {
@@ -1554,13 +1553,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="int3"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.int3"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 nexttoward(int3 from, int3 to)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.toward_epi32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 3));
+                return Xse.toward_epi32(from, to, 3);
             }
             else
             {
@@ -1570,13 +1569,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="int4"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
+        /// <summary>       Returns a <see cref="MaxMath.int4"/>, where each component is the next closest <see cref="int"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 nexttoward(int4 from, int4 to)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.toward_epi32(RegisterConversion.ToV128(from), RegisterConversion.ToV128(to), 4));
+                return Xse.toward_epi32(from, to, 4);
             }
             else
             {
@@ -1714,7 +1713,7 @@ namespace MaxMath
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1744,8 +1743,8 @@ namespace MaxMath
 
             if (!promises.Promises(Promise.Unsafe0))
             {
-                int xNotInf = -tobyte((__x & quarter.SIGNALING_EXPONENT) != quarter.SIGNALING_EXPONENT);
-                int eitherNaN = -tobyte(((__x & 0x7F) > quarter.SIGNALING_EXPONENT) | ((assbyte(to) & 0x7F) > quarter.SIGNALING_EXPONENT));
+                int xNotInf = -tobyte((__x & MaxMath.quarter.SIGNALING_EXPONENT) != MaxMath.quarter.SIGNALING_EXPONENT);
+                int eitherNaN = -tobyte(((__x & 0x7F) > MaxMath.quarter.SIGNALING_EXPONENT) | ((assbyte(to) & 0x7F) > MaxMath.quarter.SIGNALING_EXPONENT));
                 summand = andnot(summand & xNotInf, eitherNaN);
                 __x |= eitherNaN;
             }
@@ -1768,7 +1767,7 @@ namespace MaxMath
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1796,7 +1795,7 @@ namespace MaxMath
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1825,7 +1824,7 @@ namespace MaxMath
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1855,7 +1854,7 @@ namespace MaxMath
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1888,7 +1887,7 @@ namespace MaxMath
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1929,7 +1928,7 @@ namespace MaxMath
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.quarter.NaN"/>.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/> as well as any '<paramref name="to"/>' that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1951,12 +1950,12 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the next closest <see cref="half"/> to '<paramref name="from"/>' in the direction of '<paramref name="to"/>'.
+        /// <summary>       Returns the next closest <see cref="MaxMath.half"/> to '<paramref name="from"/>' in the direction of '<paramref name="to"/>'.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either half.PositiveInfinity, half.NegativeInfinity or half.NaN as well as any '<paramref name="to"/>' that is half.NaN.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either MaxMath.half.PositiveInfinity, MaxMath.half.NegativeInfinity or MaxMath.half.NaN as well as any '<paramref name="to"/>' that is MaxMath.half.NaN.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2005,12 +2004,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="half2"/>, where each component is the next closest <see cref="half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.half2"/>, where each component is the next closest <see cref="MaxMath.half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either half.PositiveInfinity, half.NegativeInfinity or half.NaN as well as any '<paramref name="to"/>' that is half.NaN.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either MaxMath.half.PositiveInfinity, MaxMath.half.NegativeInfinity or MaxMath.half.NaN as well as any '<paramref name="to"/>' that is MaxMath.half.NaN.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2018,13 +2017,13 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf2(Xse.toward_ph(RegisterConversion.ToV128(from),
-                                                                RegisterConversion.ToV128(to),
+                return Xse.toward_ph(from,
+                                                                to,
                                                                 promiseNonZero: promises.Promises(Promise.NonZero),
                                                                 promiseNegative: promises.Promises(Promise.Negative),
                                                                 promisePositive: promises.Promises(Promise.Positive),
                                                                 promiseNotNanInf: promises.Promises(Promise.Unsafe0),
-                                                                elements: 2));
+                                                                elements: 2);
             }
             else
             {
@@ -2033,12 +2032,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="half3"/>, where each component is the next closest <see cref="half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.half3"/>, where each component is the next closest <see cref="MaxMath.half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either half.PositiveInfinity, half.NegativeInfinity or half.NaN as well as any '<paramref name="to"/>' that is half.NaN.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either MaxMath.half.PositiveInfinity, MaxMath.half.NegativeInfinity or MaxMath.half.NaN as well as any '<paramref name="to"/>' that is MaxMath.half.NaN.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2046,13 +2045,13 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf3(Xse.toward_ph(RegisterConversion.ToV128(from),
-                                                                RegisterConversion.ToV128(to),
+                return Xse.toward_ph(from,
+                                                                to,
                                                                 promiseNonZero: promises.Promises(Promise.NonZero),
                                                                 promiseNegative: promises.Promises(Promise.Negative),
                                                                 promisePositive: promises.Promises(Promise.Positive),
                                                                 promiseNotNanInf: promises.Promises(Promise.Unsafe0),
-                                                                elements: 3));
+                                                                elements: 3);
             }
             else
             {
@@ -2062,12 +2061,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="half4"/>, where each component is the next closest <see cref="half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.half4"/>, where each component is the next closest <see cref="MaxMath.half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either half.PositiveInfinity, half.NegativeInfinity or half.NaN as well as any '<paramref name="to"/>' that is half.NaN.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either MaxMath.half.PositiveInfinity, MaxMath.half.NegativeInfinity or MaxMath.half.NaN as well as any '<paramref name="to"/>' that is MaxMath.half.NaN.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2075,13 +2074,13 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf4(Xse.toward_ph(RegisterConversion.ToV128(from),
-                                                                RegisterConversion.ToV128(to),
+                return Xse.toward_ph(from,
+                                                                to,
                                                                 promiseNonZero: promises.Promises(Promise.NonZero),
                                                                 promiseNegative: promises.Promises(Promise.Negative),
                                                                 promisePositive: promises.Promises(Promise.Positive),
                                                                 promiseNotNanInf: promises.Promises(Promise.Unsafe0),
-                                                                elements: 4));
+                                                                elements: 4);
             }
             else
             {
@@ -2092,12 +2091,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.half8"/>, where each component is the next closest <see cref="half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.half8"/>, where each component is the next closest <see cref="MaxMath.half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either half.PositiveInfinity, half.NegativeInfinity or half.NaN as well as any '<paramref name="to"/>' that is half.NaN.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either MaxMath.half.PositiveInfinity, MaxMath.half.NegativeInfinity or MaxMath.half.NaN as well as any '<paramref name="to"/>' that is MaxMath.half.NaN.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2125,12 +2124,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.half16"/>, where each component is the next closest <see cref="half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.half16"/>, where each component is the next closest <see cref="MaxMath.half"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any '<paramref name="from"/>' that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either half.PositiveInfinity, half.NegativeInfinity or half.NaN as well as any '<paramref name="to"/>' that is half.NaN.      </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any '<paramref name="from"/>' that is either MaxMath.half.PositiveInfinity, MaxMath.half.NegativeInfinity or MaxMath.half.NaN as well as any '<paramref name="to"/>' that is MaxMath.half.NaN.      </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2165,8 +2164,8 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.toward_ps(RegisterConversion.ToV128(from),
-                                     RegisterConversion.ToV128(to),
+                return Xse.toward_ps(Xse.set_ss(from),
+                                     Xse.set_ss(to),
                                      promiseNonZero: promises.Promises(Promise.NonZero),
                                      promiseNegative: promises.Promises(Promise.Negative),
                                      promisePositive: promises.Promises(Promise.Positive),
@@ -2176,7 +2175,7 @@ namespace MaxMath
             else
             {
                 int isGreater = -tobyte(from > to);
-                int __x = math.asint(from);
+                int __x = asint(from);
                 int summand;
 
                 if (promises.Promises(Promise.NonZero))
@@ -2200,7 +2199,7 @@ namespace MaxMath
                 if (!promises.Promises(Promise.Unsafe0))
                 {
                     int xNotInf = -tobyte((__x & F32_SIGNALING_EXPONENT) != F32_SIGNALING_EXPONENT);
-                    int eitherNaN = -tobyte(((__x & 0x7FFF_FFFF) > F32_SIGNALING_EXPONENT) | ((math.asint(to) & 0x7FFF_FFFF) > F32_SIGNALING_EXPONENT));
+                    int eitherNaN = -tobyte(((__x & 0x7FFF_FFFF) > F32_SIGNALING_EXPONENT) | ((asint(to) & 0x7FFF_FFFF) > F32_SIGNALING_EXPONENT));
                     summand = andnot(summand & xNotInf, eitherNaN);
                     __x |= eitherNaN;
                 }
@@ -2210,16 +2209,16 @@ namespace MaxMath
 
                 if (promises.Promises(Promise.Negative))
                 {
-                    return math.asfloat(__x - summand);
+                    return asfloat(__x - summand);
                 }
                 else
                 {
-                    return math.asfloat(__x + summand);
+                    return asfloat(__x + summand);
                 }
             }
         }
 
-        /// <summary>       Returns a <see cref="float2"/>, where each component is the next closest <see cref="float"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.float2"/>, where each component is the next closest <see cref="float"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
@@ -2232,13 +2231,13 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.toward_ps(RegisterConversion.ToV128(from),
-                                                                 RegisterConversion.ToV128(to),
-                                                                 promiseNonZero: promises.Promises(Promise.NonZero),
-                                                                 promiseNegative: promises.Promises(Promise.Negative),
-                                                                 promisePositive: promises.Promises(Promise.Positive),
-                                                                 promiseNotNanInf: promises.Promises(Promise.Unsafe0),
-                                                                 elements: 2));
+                return Xse.toward_ps(from,
+                                     to,
+                                     promiseNonZero: promises.Promises(Promise.NonZero),
+                                     promiseNegative: promises.Promises(Promise.Negative),
+                                     promisePositive: promises.Promises(Promise.Positive),
+                                     promiseNotNanInf: promises.Promises(Promise.Unsafe0),
+                                     elements: 2);
             }
             else
             {
@@ -2247,7 +2246,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="float3"/>, where each component is the next closest <see cref="float"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.float3"/>, where each component is the next closest <see cref="float"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
@@ -2260,13 +2259,13 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.toward_ps(RegisterConversion.ToV128(from),
-                                                                 RegisterConversion.ToV128(to),
-                                                                 promiseNonZero: promises.Promises(Promise.NonZero),
-                                                                 promiseNegative: promises.Promises(Promise.Negative),
-                                                                 promisePositive: promises.Promises(Promise.Positive),
-                                                                 promiseNotNanInf: promises.Promises(Promise.Unsafe0),
-                                                                 elements: 3));
+                return Xse.toward_ps(from,
+                                     to,
+                                     promiseNonZero: promises.Promises(Promise.NonZero),
+                                     promiseNegative: promises.Promises(Promise.Negative),
+                                     promisePositive: promises.Promises(Promise.Positive),
+                                     promiseNotNanInf: promises.Promises(Promise.Unsafe0),
+                                     elements: 3);
             }
             else
             {
@@ -2276,7 +2275,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="float4"/>, where each component is the next closest <see cref="float"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.float4"/>, where each component is the next closest <see cref="float"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
@@ -2289,13 +2288,13 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.toward_ps(RegisterConversion.ToV128(from),
-                                                                 RegisterConversion.ToV128(to),
-                                                                 promiseNonZero: promises.Promises(Promise.NonZero),
-                                                                 promiseNegative: promises.Promises(Promise.Negative),
-                                                                 promisePositive: promises.Promises(Promise.Positive),
-                                                                 promiseNotNanInf: promises.Promises(Promise.Unsafe0),
-                                                                 elements: 4));
+                return Xse.toward_ps(from,
+                                     to,
+                                     promiseNonZero: promises.Promises(Promise.NonZero),
+                                     promiseNegative: promises.Promises(Promise.Negative),
+                                     promisePositive: promises.Promises(Promise.Positive),
+                                     promiseNotNanInf: promises.Promises(Promise.Unsafe0),
+                                     elements: 4);
             }
             else
             {
@@ -2347,8 +2346,8 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.toward_pd(RegisterConversion.ToV128(from),
-                                     RegisterConversion.ToV128(to),
+                return Xse.toward_pd(Xse.set_sd(from),
+                                     Xse.set_sd(to),
                                      promiseNonZero: promises.Promises(Promise.NonZero),
                                      promiseNegative: promises.Promises(Promise.Negative),
                                      promisePositive: promises.Promises(Promise.Positive),
@@ -2357,7 +2356,7 @@ namespace MaxMath
             else
             {
                 long isGreater = -(long)tobyte(from > to);
-                long __x = math.aslong(from);
+                long __x = aslong(from);
                 long summand;
 
                 if (promises.Promises(Promise.NonZero))
@@ -2381,7 +2380,7 @@ namespace MaxMath
                 if (!promises.Promises(Promise.Unsafe0))
                 {
                     long xNotInf = -(long)tobyte((__x & F64_SIGNALING_EXPONENT) != F64_SIGNALING_EXPONENT);
-                    long eitherNaN = -(long)tobyte(((__x & 0x7FFF_FFFF_FFFF_FFFF) > F64_SIGNALING_EXPONENT) | ((math.aslong(to) & 0x7FFF_FFFF_FFFF_FFFF) > F64_SIGNALING_EXPONENT));
+                    long eitherNaN = -(long)tobyte(((__x & 0x7FFF_FFFF_FFFF_FFFF) > F64_SIGNALING_EXPONENT) | ((aslong(to) & 0x7FFF_FFFF_FFFF_FFFF) > F64_SIGNALING_EXPONENT));
                     summand = andnot(summand & xNotInf, eitherNaN);
                     __x |= eitherNaN;
                 }
@@ -2391,16 +2390,16 @@ namespace MaxMath
 
                 if (promises.Promises(Promise.Negative))
                 {
-                    return math.asdouble(__x - summand);
+                    return asdouble(__x - summand);
                 }
                 else
                 {
-                    return math.asdouble(__x + summand);
+                    return asdouble(__x + summand);
                 }
             }
         }
 
-        /// <summary>       Returns a <see cref="double2"/>, where each component is the next closest <see cref="double"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.double2"/>, where each component is the next closest <see cref="double"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
@@ -2413,12 +2412,12 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.toward_pd(RegisterConversion.ToV128(from),
-                                                                  RegisterConversion.ToV128(to),
-                                                                  promiseNonZero: promises.Promises(Promise.NonZero),
-                                                                  promiseNegative: promises.Promises(Promise.Negative),
-                                                                  promisePositive: promises.Promises(Promise.Positive),
-                                                                  promiseNotNanInf: promises.Promises(Promise.Unsafe0)));
+                return Xse.toward_pd(from,
+                                     to,
+                                     promiseNonZero: promises.Promises(Promise.NonZero),
+                                     promiseNegative: promises.Promises(Promise.Negative),
+                                     promisePositive: promises.Promises(Promise.Positive),
+                                     promiseNotNanInf: promises.Promises(Promise.Unsafe0));
             }
             else
             {
@@ -2427,7 +2426,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="double3"/>, where each component is the next closest <see cref="double"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.double3"/>, where each component is the next closest <see cref="double"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
@@ -2440,13 +2439,13 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_toward_pd(RegisterConversion.ToV256(from),
-                                                                        RegisterConversion.ToV256(to),
-                                                                        promiseNonZero: promises.Promises(Promise.NonZero),
-                                                                        promiseNegative: promises.Promises(Promise.Negative),
-                                                                        promisePositive: promises.Promises(Promise.Positive),
-                                                                        promiseNotNanInf: promises.Promises(Promise.Unsafe0),
-                                                                        elements: 3));
+                return Xse.mm256_toward_pd(from,
+                                           to,
+                                           promiseNonZero: promises.Promises(Promise.NonZero),
+                                           promiseNegative: promises.Promises(Promise.Negative),
+                                           promisePositive: promises.Promises(Promise.Positive),
+                                           promiseNotNanInf: promises.Promises(Promise.Unsafe0),
+                                           elements: 3);
             }
             else
             {
@@ -2455,7 +2454,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="double4"/>, where each component is the next closest <see cref="double"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
+        /// <summary>       Returns a <see cref="MaxMath.double4"/>, where each component is the next closest <see cref="double"/> to the corresponding '<paramref name="from"/>' component in the direction of the corresponding '<paramref name="to"/>' component.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any '<paramref name="from"/>' that is negative or 0.       </para>
@@ -2468,13 +2467,13 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_toward_pd(RegisterConversion.ToV256(from),
-                                                                        RegisterConversion.ToV256(to),
-                                                                        promiseNonZero: promises.Promises(Promise.NonZero),
-                                                                        promiseNegative: promises.Promises(Promise.Negative),
-                                                                        promisePositive: promises.Promises(Promise.Positive),
-                                                                        promiseNotNanInf: promises.Promises(Promise.Unsafe0),
-                                                                        elements: 4));
+                return Xse.mm256_toward_pd(from,
+                                           to,
+                                           promiseNonZero: promises.Promises(Promise.NonZero),
+                                           promiseNegative: promises.Promises(Promise.Negative),
+                                           promisePositive: promises.Promises(Promise.Positive),
+                                           promiseNotNanInf: promises.Promises(Promise.Unsafe0),
+                                           elements: 4);
             }
             else
             {

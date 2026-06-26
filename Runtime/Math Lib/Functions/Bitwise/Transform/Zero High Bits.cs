@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -160,7 +159,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Zeros out all the high order bits in <paramref name="x"/> starting at bit <paramref name="startIndex"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -173,7 +172,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 bits_zerohigh(UInt128 x, int startIndex)
         {
-            return andnot(x, UInt128.MaxValue << startIndex);
+            return andnot(x, MaxMath.UInt128.MaxValue << startIndex);
         }
 
 
@@ -460,7 +459,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.bzhi_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(startIndex), 2));
+                return Xse.bzhi_epi32(x, startIndex, 2);
             }
             else
             {
@@ -474,7 +473,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.bzhi_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(startIndex), 3));
+                return Xse.bzhi_epi32(x, startIndex, 3);
             }
             else
             {
@@ -488,7 +487,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.bzhi_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(startIndex), 4));
+                return Xse.bzhi_epi32(x, startIndex, 4);
             }
             else
             {

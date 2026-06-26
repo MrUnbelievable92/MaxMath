@@ -1,0 +1,19 @@
+{
+    "name": "MaxMath.EditorTools",
+    "rootNamespace": "MaxMath.EditorTools",
+    "references": [
+        "GUID:d744d92b86b337c4fb86945aee2f8304",
+        "GUID:4315be1468245344b9e96f8607469877"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

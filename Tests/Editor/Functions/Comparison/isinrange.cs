@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -23,7 +23,7 @@ namespace MaxMath.Tests
                     max = t;
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual(x >= min & x <= max, math.isinrange(x, min, max));
             }
         }
 
@@ -45,7 +45,7 @@ namespace MaxMath.Tests
                     max = t;
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual(x >= min & x <= max, math.isinrange(x, min, max));
             }
         }
 
@@ -67,7 +67,7 @@ namespace MaxMath.Tests
                     max = t;
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual(x >= min & x <= max, math.isinrange(x, min, max));
             }
         }
 
@@ -89,7 +89,7 @@ namespace MaxMath.Tests
                     max = t;
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual(x >= min & x <= max, math.isinrange(x, min, max));
             }
         }
 
@@ -111,7 +111,7 @@ namespace MaxMath.Tests
                     max = t;
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual(x >= min & x <= max, math.isinrange(x, min, max));
             }
         }
 
@@ -133,7 +133,7 @@ namespace MaxMath.Tests
                     max = t;
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual(x >= min & x <= max, math.isinrange(x, min, max));
             }
         }
 
@@ -155,7 +155,7 @@ namespace MaxMath.Tests
                     max = t;
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual(x >= min & x <= max, math.isinrange(x, min, max));
             }
         }
 
@@ -177,7 +177,7 @@ namespace MaxMath.Tests
                     max = t;
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual(x >= min & x <= max, math.isinrange(x, min, max));
             }
         }
 
@@ -203,7 +203,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -228,7 +228,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -253,7 +253,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -278,7 +278,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool8)(x >= min & x <= max), (bool8)math.isinrange(x, min, max));
             }
         }
 
@@ -303,7 +303,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool16)(x >= min & x <= max), (bool16)math.isinrange(x, min, max));
             }
         }
 
@@ -328,7 +328,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool32)(x >= min & x <= max), (bool32)math.isinrange(x, min, max));
             }
         }
 
@@ -354,7 +354,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -379,7 +379,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -404,7 +404,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -429,7 +429,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool8)(x >= min & x <= max), (bool8)math.isinrange(x, min, max));
             }
         }
 
@@ -454,7 +454,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool16)(x >= min & x <= max), (bool16)math.isinrange(x, min, max));
             }
         }
 
@@ -479,7 +479,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool32)(x >= min & x <= max), (bool32)math.isinrange(x, min, max));
             }
         }
 
@@ -505,7 +505,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -530,7 +530,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -555,7 +555,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -580,7 +580,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool8)(x >= min & x <= max), (bool8)math.isinrange(x, min, max));
             }
         }
 
@@ -605,7 +605,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool16)(x >= min & x <= max), (bool16)math.isinrange(x, min, max));
             }
         }
 
@@ -631,7 +631,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -656,7 +656,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -681,7 +681,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -706,7 +706,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool8)(x >= min & x <= max), (bool8)math.isinrange(x, min, max));
             }
         }
 
@@ -731,7 +731,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool16)(x >= min & x <= max), (bool16)math.isinrange(x, min, max));
             }
         }
 
@@ -757,7 +757,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -782,7 +782,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -807,7 +807,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -832,7 +832,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool8)(x >= min & x <= max), (bool8)math.isinrange(x, min, max));
             }
         }
 
@@ -858,7 +858,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -883,7 +883,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -908,7 +908,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -933,7 +933,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool8)(x >= min & x <= max), (bool8)math.isinrange(x, min, max));
             }
         }
 
@@ -959,7 +959,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -984,7 +984,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -1009,7 +1009,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -1035,7 +1035,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -1060,7 +1060,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -1085,7 +1085,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -1111,7 +1111,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -1136,7 +1136,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -1161,7 +1161,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
 
@@ -1186,7 +1186,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool8)(x >= min & x <= max), (bool8)math.isinrange(x, min, max));
             }
         }
 
@@ -1212,7 +1212,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool2)(x >= min & x <= max), (bool2)math.isinrange(x, min, max));
             }
         }
 
@@ -1237,7 +1237,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool3)(x >= min & x <= max), (bool3)math.isinrange(x, min, max));
             }
         }
 
@@ -1262,7 +1262,7 @@ namespace MaxMath.Tests
                     }
                 }
 
-                Assert.AreEqual(x >= min & x <= max, maxmath.isinrange(x, min, max));
+                Assert.AreEqual((bool4)(x >= min & x <= max), (bool4)math.isinrange(x, min, max));
             }
         }
     }

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -10,7 +10,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < byte.MaxValue + 1; i++)
             {
-                quarter q = maxmath.asquarter((byte)i);
+                quarter q = math.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0b1000_0000)
@@ -22,15 +22,15 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                if (!maxmath.isnan(q) && !maxmath.isinf(q))
+                if (!math.isnan(q) && !math.isinf(q))
                 {
                     p |= Promise.Unsafe0;
                 }
 
-                quarter std = maxmath.round(q);
-                quarter usf = maxmath.round(q, p);
+                quarter std = math.round(q);
+                quarter usf = math.round(q, p);
 
-                if (maxmath.isnan(q))
+                if (math.isnan(q))
                 {
                     Assert.IsNaN(std);
                     Assert.IsNaN(usf);
@@ -47,7 +47,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < byte.MaxValue + 1; i++)
             {
-                quarter2 q = maxmath.asquarter((byte)i);
+                quarter2 q = math.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0b1000_0000)
@@ -59,17 +59,17 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                if (!maxmath.isnan(q.x) && !maxmath.isinf(q.x))
+                if (!math.isnan(q.x) && !math.isinf(q.x))
                 {
                     p |= Promise.Unsafe0;
                 }
 
-                quarter2 std = maxmath.round(q);
-                quarter2 usf = maxmath.round(q, p);
+                quarter2 std = math.round(q);
+                quarter2 usf = math.round(q, p);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < byte.MaxValue + 1; i++)
             {
-                quarter3 q = maxmath.asquarter((byte)i);
+                quarter3 q = math.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0b1000_0000)
@@ -99,17 +99,17 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                if (!maxmath.isnan(q.x) && !maxmath.isinf(q.x))
+                if (!math.isnan(q.x) && !math.isinf(q.x))
                 {
                     p |= Promise.Unsafe0;
                 }
 
-                quarter3 std = maxmath.round(q);
-                quarter3 usf = maxmath.round(q, p);
+                quarter3 std = math.round(q);
+                quarter3 usf = math.round(q, p);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -127,7 +127,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < byte.MaxValue + 1; i++)
             {
-                quarter4 q = maxmath.asquarter((byte)i);
+                quarter4 q = math.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0b1000_0000)
@@ -139,17 +139,17 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                if (!maxmath.isnan(q.x) && !maxmath.isinf(q.x))
+                if (!math.isnan(q.x) && !math.isinf(q.x))
                 {
                     p |= Promise.Unsafe0;
                 }
 
-                quarter4 std = maxmath.round(q);
-                quarter4 usf = maxmath.round(q, p);
+                quarter4 std = math.round(q);
+                quarter4 usf = math.round(q, p);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -167,7 +167,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < byte.MaxValue + 1; i++)
             {
-                quarter8 q = maxmath.asquarter((byte)i);
+                quarter8 q = math.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0b1000_0000)
@@ -179,17 +179,17 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                if (!maxmath.isnan(q.x0) && !maxmath.isinf(q.x0))
+                if (!math.isnan(q.x0) && !math.isinf(q.x0))
                 {
                     p |= Promise.Unsafe0;
                 }
 
-                quarter8 std = maxmath.round(q);
-                quarter8 usf = maxmath.round(q, p);
+                quarter8 std = math.round(q);
+                quarter8 usf = math.round(q, p);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -207,7 +207,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < byte.MaxValue + 1; i++)
             {
-                quarter16 q = maxmath.asquarter((byte)i);
+                quarter16 q = math.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0b1000_0000)
@@ -219,17 +219,17 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                if (!maxmath.isnan(q.x0) && !maxmath.isinf(q.x0))
+                if (!math.isnan(q.x0) && !math.isinf(q.x0))
                 {
                     p |= Promise.Unsafe0;
                 }
 
-                quarter16 std = maxmath.round(q);
-                quarter16 usf = maxmath.round(q, p);
+                quarter16 std = math.round(q);
+                quarter16 usf = math.round(q, p);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -247,7 +247,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < byte.MaxValue + 1; i++)
             {
-                quarter32 q = maxmath.asquarter((byte)i);
+                quarter32 q = math.asquarter((byte)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0b1000_0000)
@@ -259,17 +259,17 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                if (!maxmath.isnan(q.x0) && !maxmath.isinf(q.x0))
+                if (!math.isnan(q.x0) && !math.isinf(q.x0))
                 {
                     p |= Promise.Unsafe0;
                 }
 
-                quarter32 std = maxmath.round(q);
-                quarter32 usf = maxmath.round(q, p);
+                quarter32 std = math.round(q);
+                quarter32 usf = math.round(q, p);
 
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -288,7 +288,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue + 1; i++)
             {
-                half q = maxmath.ashalf((ushort)i);
+                half q = math.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0x8000)
@@ -300,10 +300,10 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                half std = maxmath.round(q);
-                half usf = maxmath.round(q, p);
+                half std = math.round(q);
+                half usf = math.round(q, p);
 
-                if (maxmath.isnan(q))
+                if (math.isnan(q))
                 {
                     Assert.IsNaN(std);
                     Assert.IsNaN(usf);
@@ -320,7 +320,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue + 1; i++)
             {
-                half2 q = maxmath.ashalf((ushort)i);
+                half2 q = math.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0x8000)
@@ -332,12 +332,12 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                half2 std = maxmath.round(q);
-                half2 usf = maxmath.round(q, p);
+                half2 std = math.round(q);
+                half2 usf = math.round(q, p);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -355,7 +355,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue + 1; i++)
             {
-                half3 q = maxmath.ashalf((ushort)i);
+                half3 q = math.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0x8000)
@@ -367,12 +367,12 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                half3 std = maxmath.round(q);
-                half3 usf = maxmath.round(q, p);
+                half3 std = math.round(q);
+                half3 usf = math.round(q, p);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -390,7 +390,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue + 1; i++)
             {
-                half4 q = maxmath.ashalf((ushort)i);
+                half4 q = math.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0x8000)
@@ -402,12 +402,12 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                half4 std = maxmath.round(q);
-                half4 usf = maxmath.round(q, p);
+                half4 std = math.round(q);
+                half4 usf = math.round(q, p);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -425,7 +425,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue + 1; i++)
             {
-                half8 q = maxmath.ashalf((ushort)i);
+                half8 q = math.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0x8000)
@@ -437,12 +437,12 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                half8 std = maxmath.round(q);
-                half8 usf = maxmath.round(q, p);
+                half8 std = math.round(q);
+                half8 usf = math.round(q, p);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);
@@ -460,7 +460,7 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue + 1; i++)
             {
-                half16 q = maxmath.ashalf((ushort)i);
+                half16 q = math.ashalf((ushort)i);
                 Promise p = Promise.Nothing;
 
                 if (i < 0x8000)
@@ -472,12 +472,12 @@ namespace MaxMath.Tests
                     p |= Promise.Negative;
                 }
 
-                half16 std = maxmath.round(q);
-                half16 usf = maxmath.round(q, p);
+                half16 std = math.round(q);
+                half16 usf = math.round(q, p);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.isnan(q[j]))
+                    if (math.isnan(q[j]))
                     {
                         Assert.IsNaN(std[j]);
                         Assert.IsNaN(usf[j]);

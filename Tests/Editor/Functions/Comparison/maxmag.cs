@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -15,17 +15,17 @@ namespace MaxMath.Tests
                 Int128 l = rng.NextInt128();
                 Int128 r = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.abs(maxmath.maxmag(l, r)), maxmath.max(maxmath.abs(l), maxmath.abs(r)));
+                Assert.AreEqual(math.abs(math.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
 
-                if (maxmath.abs(l) == maxmath.abs(r)) continue;
+                if (math.abs(l) == math.abs(r)) continue;
 
-                if (maxmath.abs(l) == maxmath.abs(maxmath.maxmag(l, r)))
+                if (math.abs(l) == math.abs(math.maxmag(l, r)))
                 {
-                    Assert.AreEqual(l, maxmath.maxmag(l, r));
+                    Assert.AreEqual(l, math.maxmag(l, r));
                 }
                 else
                 {
-                    Assert.AreEqual(r, maxmath.maxmag(l, r));
+                    Assert.AreEqual(r, math.maxmag(l, r));
                 }
             }
         }
@@ -41,17 +41,17 @@ namespace MaxMath.Tests
                 sbyte l = rng.NextSByte();
                 sbyte r = rng.NextSByte();
 
-                Assert.AreEqual(maxmath.abs(maxmath.maxmag(l, r)), maxmath.max(maxmath.abs(l), maxmath.abs(r)));
+                Assert.AreEqual(math.abs(math.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
 
-                if (maxmath.abs(l) == maxmath.abs(r)) continue;
+                if (math.abs(l) == math.abs(r)) continue;
 
-                if (maxmath.abs(l) == maxmath.abs(maxmath.maxmag(l, r)))
+                if (math.abs(l) == math.abs(math.maxmag(l, r)))
                 {
-                    Assert.AreEqual(l, maxmath.maxmag(l, r));
+                    Assert.AreEqual(l, math.maxmag(l, r));
                 }
                 else
                 {
-                    Assert.AreEqual(r, maxmath.maxmag(l, r));
+                    Assert.AreEqual(r, math.maxmag(l, r));
                 }
             }
         }
@@ -66,15 +66,15 @@ namespace MaxMath.Tests
                 sbyte2 l = rng.NextSByte2();
                 sbyte2 r = rng.NextSByte2();
 
-                sbyte2 test = maxmath.maxmag(l, r);
+                sbyte2 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -96,15 +96,15 @@ namespace MaxMath.Tests
                 sbyte3 l = rng.NextSByte3();
                 sbyte3 r = rng.NextSByte3();
 
-                sbyte3 test = maxmath.maxmag(l, r);
+                sbyte3 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -126,15 +126,15 @@ namespace MaxMath.Tests
                 sbyte4 l = rng.NextSByte4();
                 sbyte4 r = rng.NextSByte4();
 
-                sbyte4 test = maxmath.maxmag(l, r);
+                sbyte4 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -156,15 +156,15 @@ namespace MaxMath.Tests
                 sbyte8 l = rng.NextSByte8();
                 sbyte8 r = rng.NextSByte8();
 
-                sbyte8 test = maxmath.maxmag(l, r);
+                sbyte8 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -186,15 +186,15 @@ namespace MaxMath.Tests
                 sbyte16 l = rng.NextSByte16();
                 sbyte16 r = rng.NextSByte16();
 
-                sbyte16 test = maxmath.maxmag(l, r);
+                sbyte16 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -216,15 +216,15 @@ namespace MaxMath.Tests
                 sbyte32 l = rng.NextSByte32();
                 sbyte32 r = rng.NextSByte32();
 
-                sbyte32 test = maxmath.maxmag(l, r);
+                sbyte32 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -247,17 +247,17 @@ namespace MaxMath.Tests
                 short l = rng.NextShort();
                 short r = rng.NextShort();
 
-                Assert.AreEqual(maxmath.abs(maxmath.maxmag(l, r)), maxmath.max(maxmath.abs(l), maxmath.abs(r)));
+                Assert.AreEqual(math.abs(math.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
 
-                if (maxmath.abs(l) == maxmath.abs(r)) continue;
+                if (math.abs(l) == math.abs(r)) continue;
 
-                if (maxmath.abs(l) == maxmath.abs(maxmath.maxmag(l, r)))
+                if (math.abs(l) == math.abs(math.maxmag(l, r)))
                 {
-                    Assert.AreEqual(l, maxmath.maxmag(l, r));
+                    Assert.AreEqual(l, math.maxmag(l, r));
                 }
                 else
                 {
-                    Assert.AreEqual(r, maxmath.maxmag(l, r));
+                    Assert.AreEqual(r, math.maxmag(l, r));
                 }
             }
         }
@@ -272,15 +272,15 @@ namespace MaxMath.Tests
                 short2 l = rng.NextShort2();
                 short2 r = rng.NextShort2();
 
-                short2 test = maxmath.maxmag(l, r);
+                short2 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -302,15 +302,15 @@ namespace MaxMath.Tests
                 short3 l = rng.NextShort3();
                 short3 r = rng.NextShort3();
 
-                short3 test = maxmath.maxmag(l, r);
+                short3 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -332,15 +332,15 @@ namespace MaxMath.Tests
                 short4 l = rng.NextShort4();
                 short4 r = rng.NextShort4();
 
-                short4 test = maxmath.maxmag(l, r);
+                short4 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -362,15 +362,15 @@ namespace MaxMath.Tests
                 short8 l = rng.NextShort8();
                 short8 r = rng.NextShort8();
 
-                short8 test = maxmath.maxmag(l, r);
+                short8 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -392,15 +392,15 @@ namespace MaxMath.Tests
                 short16 l = rng.NextShort16();
                 short16 r = rng.NextShort16();
 
-                short16 test = maxmath.maxmag(l, r);
+                short16 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -423,17 +423,17 @@ namespace MaxMath.Tests
                 int l = rng.NextInt();
                 int r = rng.NextInt();
 
-                Assert.AreEqual(math.abs(maxmath.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
+                Assert.AreEqual(math.abs(math.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
 
                 if (math.abs(l) == math.abs(r)) continue;
 
-                if (math.abs(l) == math.abs(maxmath.maxmag(l, r)))
+                if (math.abs(l) == math.abs(math.maxmag(l, r)))
                 {
-                    Assert.AreEqual(l, maxmath.maxmag(l, r));
+                    Assert.AreEqual(l, math.maxmag(l, r));
                 }
                 else
                 {
-                    Assert.AreEqual(r, maxmath.maxmag(l, r));
+                    Assert.AreEqual(r, math.maxmag(l, r));
                 }
             }
         }
@@ -448,7 +448,7 @@ namespace MaxMath.Tests
                 int2 l = rng.NextInt2();
                 int2 r = rng.NextInt2();
 
-                int2 test = maxmath.maxmag(l, r);
+                int2 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -478,7 +478,7 @@ namespace MaxMath.Tests
                 int3 l = rng.NextInt3();
                 int3 r = rng.NextInt3();
 
-                int3 test = maxmath.maxmag(l, r);
+                int3 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -508,7 +508,7 @@ namespace MaxMath.Tests
                 int4 l = rng.NextInt4();
                 int4 r = rng.NextInt4();
 
-                int4 test = maxmath.maxmag(l, r);
+                int4 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -538,15 +538,15 @@ namespace MaxMath.Tests
                 int8 l = rng.NextInt8();
                 int8 r = rng.NextInt8();
 
-                int8 test = maxmath.maxmag(l, r);
+                int8 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(math.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == math.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -569,17 +569,17 @@ namespace MaxMath.Tests
                 long l = rng.NextLong();
                 long r = rng.NextLong();
 
-                Assert.AreEqual(math.abs(maxmath.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
+                Assert.AreEqual(math.abs(math.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
 
                 if (math.abs(l) == math.abs(r)) continue;
 
-                if (math.abs(l) == math.abs(maxmath.maxmag(l, r)))
+                if (math.abs(l) == math.abs(math.maxmag(l, r)))
                 {
-                    Assert.AreEqual(l, maxmath.maxmag(l, r));
+                    Assert.AreEqual(l, math.maxmag(l, r));
                 }
                 else
                 {
-                    Assert.AreEqual(r, maxmath.maxmag(l, r));
+                    Assert.AreEqual(r, math.maxmag(l, r));
                 }
             }
         }
@@ -594,13 +594,13 @@ namespace MaxMath.Tests
                 long2 l = rng.NextLong2();
                 long2 r = rng.NextLong2();
 
-                long2 test = maxmath.maxmag(l, r);
+                long2 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(math.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == math.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -622,13 +622,13 @@ namespace MaxMath.Tests
                 long3 l = rng.NextLong3();
                 long3 r = rng.NextLong3();
 
-                long3 test = maxmath.maxmag(l, r);
+                long3 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(math.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == math.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -650,13 +650,13 @@ namespace MaxMath.Tests
                 long4 l = rng.NextLong4();
                 long4 r = rng.NextLong4();
 
-                long4 test = maxmath.maxmag(l, r);
+                long4 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(math.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == math.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -679,17 +679,17 @@ namespace MaxMath.Tests
                 float l = rng.NextFloat();
                 float r = rng.NextFloat();
 
-                Assert.AreEqual(math.abs(maxmath.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
+                Assert.AreEqual(math.abs(math.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
 
                 if (math.abs(l) == math.abs(r)) continue;
 
-                if (math.abs(l) == math.abs(maxmath.maxmag(l, r)))
+                if (math.abs(l) == math.abs(math.maxmag(l, r)))
                 {
-                    Assert.AreEqual(l, maxmath.maxmag(l, r));
+                    Assert.AreEqual(l, math.maxmag(l, r));
                 }
                 else
                 {
-                    Assert.AreEqual(r, maxmath.maxmag(l, r));
+                    Assert.AreEqual(r, math.maxmag(l, r));
                 }
             }
         }
@@ -704,7 +704,7 @@ namespace MaxMath.Tests
                 float2 l = rng.NextFloat2();
                 float2 r = rng.NextFloat2();
 
-                float2 test = maxmath.maxmag(l, r);
+                float2 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -734,7 +734,7 @@ namespace MaxMath.Tests
                 float3 l = rng.NextFloat3();
                 float3 r = rng.NextFloat3();
 
-                float3 test = maxmath.maxmag(l, r);
+                float3 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -764,7 +764,7 @@ namespace MaxMath.Tests
                 float4 l = rng.NextFloat4();
                 float4 r = rng.NextFloat4();
 
-                float4 test = maxmath.maxmag(l, r);
+                float4 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -794,15 +794,15 @@ namespace MaxMath.Tests
                 float8 l = rng.NextFloat8();
                 float8 r = rng.NextFloat8();
 
-                float8 test = maxmath.maxmag(l, r);
+                float8 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(math.abs(test[j]), maxmath.max(maxmath.abs(l), maxmath.abs(r))[j]);
+                    Assert.AreEqual(math.abs(test[j]), math.max(math.abs(l), math.abs(r))[j]);
 
-                    if (maxmath.abs(l)[j] == maxmath.abs(r)[j]) continue;
+                    if (math.abs(l)[j] == math.abs(r)[j]) continue;
 
-                    if (maxmath.abs(l)[j] == math.abs(test[j]))
+                    if (math.abs(l)[j] == math.abs(test[j]))
                     {
                         Assert.AreEqual(l[j], test[j]);
                     }
@@ -825,17 +825,17 @@ namespace MaxMath.Tests
                 double l = rng.NextDouble();
                 double r = rng.NextDouble();
 
-                Assert.AreEqual(math.abs(maxmath.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
+                Assert.AreEqual(math.abs(math.maxmag(l, r)), math.max(math.abs(l), math.abs(r)));
 
                 if (math.abs(l) == math.abs(r)) continue;
 
-                if (math.abs(l) == math.abs(maxmath.maxmag(l, r)))
+                if (math.abs(l) == math.abs(math.maxmag(l, r)))
                 {
-                    Assert.AreEqual(l, maxmath.maxmag(l, r));
+                    Assert.AreEqual(l, math.maxmag(l, r));
                 }
                 else
                 {
-                    Assert.AreEqual(r, maxmath.maxmag(l, r));
+                    Assert.AreEqual(r, math.maxmag(l, r));
                 }
             }
         }
@@ -850,7 +850,7 @@ namespace MaxMath.Tests
                 double2 l = rng.NextDouble2();
                 double2 r = rng.NextDouble2();
 
-                double2 test = maxmath.maxmag(l, r);
+                double2 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -880,7 +880,7 @@ namespace MaxMath.Tests
                 double3 l = rng.NextDouble3();
                 double3 r = rng.NextDouble3();
 
-                double3 test = maxmath.maxmag(l, r);
+                double3 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -910,7 +910,7 @@ namespace MaxMath.Tests
                 double4 l = rng.NextDouble4();
                 double4 r = rng.NextDouble4();
 
-                double4 test = maxmath.maxmag(l, r);
+                double4 test = math.maxmag(l, r);
 
                 for (int j = 0; j < 4; j++)
                 {

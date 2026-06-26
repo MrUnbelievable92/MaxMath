@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -352,7 +351,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Transfers the sign of <paramref name="y"/> onto <paramref name="x"/> and returns the result. If <paramref name="y"/> is negative, <see langword="-"/>abs(<paramref name="x"/>) is returned and if <paramref name="y"/> is greater than or equal to zero, abs(<paramref name="x"/>) is returned.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -625,7 +624,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 2));
+                return Xse.movsign_epi32(x, y, nonZero.Promises(Promise.NonZero), 2);
             }
             else
             {
@@ -645,7 +644,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 3));
+                return Xse.movsign_epi32(x, y, nonZero.Promises(Promise.NonZero), 3);
             }
             else
             {
@@ -665,7 +664,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.movsign_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero), 4));
+                return Xse.movsign_epi32(x, y, nonZero.Promises(Promise.NonZero), 4);
             }
             else
             {
@@ -952,7 +951,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf2(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_ph(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -970,7 +969,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf3(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_ph(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -988,7 +987,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf4(Xse.movsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_ph(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -1043,15 +1042,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)).Float0;
+                return Xse.movsign_ps(Xse.set_ss(x), Xse.set_ss(y), nonZero.Promises(Promise.NonZero)).Float0;
             }
             else
             {
                 const uint SIGN_MASK = 1u << 31;
                 const uint VALUE_MASK = ~SIGN_MASK;
 
-                uint _x = math.asuint(x);
-                uint _y = math.asuint(y);
+                uint _x = asuint(x);
+                uint _y = asuint(y);
 
                 uint xAbs = _x & VALUE_MASK;
                 uint ySign;
@@ -1065,7 +1064,7 @@ namespace MaxMath
                     ySign = _y & (touint(y != 0) << 31);
                 }
 
-                return math.asfloat(xAbs | ySign);
+                return asfloat(xAbs | ySign);
             }
         }
 
@@ -1079,7 +1078,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_ps(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -1097,7 +1096,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_ps(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -1115,7 +1114,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.movsign_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_ps(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -1153,14 +1152,14 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.movsign_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)).Double0;
+                return Xse.movsign_pd(Xse.set_sd(x), Xse.set_sd(y), nonZero.Promises(Promise.NonZero)).Double0;
             }
             else
             {
                 const ulong MASK = 1ul << 63;
 
-                ulong _x = math.asulong(x);
-                ulong _y = math.asulong(y);
+                ulong _x = asulong(x);
+                ulong _y = asulong(y);
 
                 ulong xAbs = andnot(_x, MASK);
                 ulong ySign;
@@ -1174,7 +1173,7 @@ namespace MaxMath
                     ySign = _y & (toulong(y != 0) << 63);
                 }
 
-                return math.asdouble(xAbs | ySign);
+                return asdouble(xAbs | ySign);
             }
         }
 
@@ -1188,7 +1187,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.movsign_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.movsign_pd(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -1206,7 +1205,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_movsign_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.mm256_movsign_pd(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {
@@ -1225,7 +1224,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_movsign_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y), nonZero.Promises(Promise.NonZero)));
+                return Xse.mm256_movsign_pd(x, y, nonZero.Promises(Promise.NonZero));
             }
             else
             {

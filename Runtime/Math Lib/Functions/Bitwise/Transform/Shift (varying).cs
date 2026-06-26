@@ -1,12 +1,11 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <paramref name="x"/> <see langword="&lt;&lt;"/> <paramref name="n"/> for each corresponding component. Shifting by a value outside of the uinterval [0, 7] is undefined behavior.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -326,7 +325,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.sllv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 2));
+                return Xse.sllv_epi32(x, n, inRange: true, 2);
             }
             else
             {
@@ -340,7 +339,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.sllv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 3));
+                return Xse.sllv_epi32(x, n, inRange: true, 3);
             }
             else
             {
@@ -354,7 +353,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.sllv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 4));
+                return Xse.sllv_epi32(x, n, inRange: true, 4);
             }
             else
             {
@@ -459,7 +458,7 @@ namespace MaxMath
             }
             else
             {
-                return new long3(shl(x._xy, n._xy), (x.z << (int)n.z));
+                return new long3(shl(x.__x0, n.__x0), (x.z << (int)n.z));
             }
         }
 
@@ -473,7 +472,7 @@ namespace MaxMath
             }
             else
             {
-                return new long4(shl(x._xy, n._xy), shl(x._zw, n._zw));
+                return new long4(shl(x.__x0, n.__x0), shl(x.__x2, n.__x2));
             }
         }
 
@@ -832,7 +831,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.srlv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 2));
+                return Xse.srlv_epi32(x, n, inRange: true, 2);
             }
             else
             {
@@ -846,7 +845,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.srlv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 3));
+                return Xse.srlv_epi32(x, n, inRange: true, 3);
             }
             else
             {
@@ -860,7 +859,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.srlv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, 4));
+                return Xse.srlv_epi32(x, n, inRange: true, 4);
             }
             else
             {
@@ -965,7 +964,7 @@ namespace MaxMath
             }
             else
             {
-                return new long3(shrl(x._xy, n._xy), (long)((ulong)x.z >> (int)n.z));
+                return new long3(shrl(x.__x0, n.__x0), (long)((ulong)x.z >> (int)n.z));
             }
         }
 
@@ -979,7 +978,7 @@ namespace MaxMath
             }
             else
             {
-                return new long4(shrl(x._xy, n._xy), shrl(x._zw, n._zw));
+                return new long4(shrl(x.__x0, n.__x0), shrl(x.__x2, n.__x2));
             }
         }
 
@@ -1190,7 +1189,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.srav_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, elements: 2));
+                return Xse.srav_epi32(x, n, inRange: true, elements: 2);
             }
             else
             {
@@ -1204,7 +1203,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.srav_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, elements: 3));
+                return Xse.srav_epi32(x, n, inRange: true, elements: 3);
             }
             else
             {
@@ -1218,7 +1217,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.srav_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange: true, elements: 4));
+                return Xse.srav_epi32(x, n, inRange: true, elements: 4);
             }
             else
             {

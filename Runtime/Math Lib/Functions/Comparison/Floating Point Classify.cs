@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -17,7 +16,7 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    v128 cmp = and_si128(a, set1_epi8(quarter.SIGNALING_EXPONENT));
+                    v128 cmp = and_si128(a, set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT));
 
                     v128 zeroExponent = cmpeq_epi8(cmp, setzero_si128());
                     v128 nanOrInf;
@@ -28,7 +27,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        nanOrInf = cmpeq_epi8(cmp, set1_epi8(quarter.SIGNALING_EXPONENT));
+                        nanOrInf = cmpeq_epi8(cmp, set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT));
                     }
 
                     if (COMPILATION_OPTIONS.FLOAT_NO_NAN
@@ -145,7 +144,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 cmp = Avx2.mm256_and_si256(a, mm256_set1_epi8(quarter.SIGNALING_EXPONENT));
+                    v256 cmp = Avx2.mm256_and_si256(a, mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT));
 
                     v256 zeroExponent = Avx2.mm256_cmpeq_epi8(cmp, Avx.mm256_setzero_si256());
                     v256 nanOrInf;
@@ -156,7 +155,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        nanOrInf = Avx2.mm256_cmpeq_epi8(cmp, mm256_set1_epi8(quarter.SIGNALING_EXPONENT));
+                        nanOrInf = Avx2.mm256_cmpeq_epi8(cmp, mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT));
                     }
 
                     if (COMPILATION_OPTIONS.FLOAT_NO_NAN
@@ -287,7 +286,7 @@ namespace MaxMath
                         return setzero_si128();
                     }
 
-                    v128 cmp = and_si128(a, set1_epi8(quarter.SIGNALING_EXPONENT));
+                    v128 cmp = and_si128(a, set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT));
 
                     v128 zeroExponent = cmpeq_epi8(cmp, setzero_si128());
                     v128 zero;
@@ -399,7 +398,7 @@ namespace MaxMath
                         return Avx.mm256_setzero_si256();
                     }
 
-                    v256 cmp = Avx2.mm256_and_si256(a, mm256_set1_epi8(quarter.SIGNALING_EXPONENT));
+                    v256 cmp = Avx2.mm256_and_si256(a, mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT));
 
                     v256 zeroExponent = Avx2.mm256_cmpeq_epi8(cmp, Avx.mm256_setzero_si256());
                     v256 zero;
@@ -523,13 +522,13 @@ namespace MaxMath
         }
     }
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <see langword="true"/> if the <see cref="MaxMath.quarter"/> <paramref name="x"/> is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isnormal(quarter x)
         {
-            int cmp = asbyte(x) & quarter.SIGNALING_EXPONENT;
+            int cmp = asbyte(x) & MaxMath.quarter.SIGNALING_EXPONENT;
 
             bool nonZeroExponent = cmp != 0;
             bool notNanInf;
@@ -540,13 +539,13 @@ namespace MaxMath
             }
             else
             {
-                notNanInf = cmp != quarter.SIGNALING_EXPONENT;
+                notNanInf = cmp != MaxMath.quarter.SIGNALING_EXPONENT;
             }
 
             return notNanInf & nonZeroExponent;
         }
 
-        /// <summary>       Returns <see langword="true"/> if the <see cref="half"/> <paramref name="x"/> is neither 0, subnormal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> if the <see cref="MaxMath.half"/> <paramref name="x"/> is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isnormal(half x)
         {
@@ -571,7 +570,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isnormal(float x)
         {
-            int cmp = math.asint(x) & F32_SIGNALING_EXPONENT;
+            int cmp = asint(x) & F32_SIGNALING_EXPONENT;
 
             bool nonZeroExponent = cmp != 0;
             bool notNanInf;
@@ -592,7 +591,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool isnormal(double x)
         {
-            long cmp = math.aslong(x) & F64_SIGNALING_EXPONENT;
+            long cmp = aslong(x) & F64_SIGNALING_EXPONENT;
 
             bool nonZeroExponent = cmp != 0;
             bool notNanInf;
@@ -619,7 +618,7 @@ namespace MaxMath
                 return false;
             }
 
-            int cmp = asbyte(x) & quarter.SIGNALING_EXPONENT;
+            int cmp = asbyte(x) & MaxMath.quarter.SIGNALING_EXPONENT;
 
             bool zeroExponent = cmp == 0;
             bool nonZero;
@@ -635,7 +634,7 @@ namespace MaxMath
             return nonZero & zeroExponent;
         }
 
-        /// <summary>       Returns <see langword="true"/> if the <see cref="half"/> <paramref name="x"/> is neither 0, normal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> if the <see cref="MaxMath.half"/> <paramref name="x"/> is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool issubnormal(half x)
         {
@@ -669,17 +668,17 @@ namespace MaxMath
                 return false;
             }
 
-            int cmp = math.asint(x) & F32_SIGNALING_EXPONENT;
+            int cmp = asint(x) & F32_SIGNALING_EXPONENT;
 
             bool zeroExponent = cmp == 0;
             bool nonZero;
             if (COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO)
             {
-                nonZero = math.asint(x) << 1 != 0;
+                nonZero = asint(x) << 1 != 0;
             }
             else
             {
-                nonZero = math.asint(x) != 0;
+                nonZero = asint(x) != 0;
             }
 
             return nonZero & zeroExponent;
@@ -694,17 +693,17 @@ namespace MaxMath
                 return false;
             }
 
-            long cmp = math.aslong(x) & F64_SIGNALING_EXPONENT;
+            long cmp = aslong(x) & F64_SIGNALING_EXPONENT;
 
             bool zeroExponent = cmp == 0;
             bool nonZero;
             if (COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO)
             {
-                nonZero = math.aslong(x) << 1 != 0;
+                nonZero = aslong(x) << 1 != 0;
             }
             else
             {
-                nonZero = math.aslong(x) != 0;
+                nonZero = aslong(x) != 0;
             }
 
             return nonZero & zeroExponent;
@@ -713,505 +712,505 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isnormal(quarter2 x)
+        public static mask8x2 isnormal(quarter2 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.cmpnorm_pq(x)));
+        		return Xse.cmpnorm_pq(x);
         	}
         	else
         	{
-        		return new bool2(isnormal(x.x), isnormal(x.y));
+        		return new mask8x2(isnormal(x.x), isnormal(x.y));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isnormal(quarter3 x)
+        public static mask8x3 isnormal(quarter3 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.cmpnorm_pq(x)));
+        		return Xse.cmpnorm_pq(x);
         	}
         	else
         	{
-        		return new bool3(isnormal(x.x), isnormal(x.y), isnormal(x.z));
+        		return new mask8x3(isnormal(x.x), isnormal(x.y), isnormal(x.z));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isnormal(quarter4 x)
+        public static mask8x4 isnormal(quarter4 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.cmpnorm_pq(x)));
+        		return Xse.cmpnorm_pq(x);
         	}
         	else
         	{
-        		return new bool4(isnormal(x.x), isnormal(x.y), isnormal(x.z), isnormal(x.w));
+        		return new mask8x4(isnormal(x.x), isnormal(x.y), isnormal(x.z), isnormal(x.w));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isnormal(quarter8 x)
+        public static mask8x8 isnormal(quarter8 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.IsTrue8(Xse.cmpnorm_pq(x));
+        		return Xse.cmpnorm_pq(x);
         	}
         	else
         	{
-        		return new bool8(isnormal(x.x0), isnormal(x.x1), isnormal(x.x2), isnormal(x.x3), isnormal(x.x4), isnormal(x.x5), isnormal(x.x6), isnormal(x.x7));
+        		return new mask8x8(isnormal(x.x0), isnormal(x.x1), isnormal(x.x2), isnormal(x.x3), isnormal(x.x4), isnormal(x.x5), isnormal(x.x6), isnormal(x.x7));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isnormal(quarter16 x)
+        public static mask8x16 isnormal(quarter16 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.IsTrue8(Xse.cmpnorm_pq(x));
+        		return Xse.cmpnorm_pq(x);
         	}
         	else
         	{
-        		return new bool16(isnormal(x.x0), isnormal(x.x1), isnormal(x.x2), isnormal(x.x3), isnormal(x.x4), isnormal(x.x5), isnormal(x.x6), isnormal(x.x7), isnormal(x.x8), isnormal(x.x9), isnormal(x.x10), isnormal(x.x11), isnormal(x.x12), isnormal(x.x13), isnormal(x.x14), isnormal(x.x15));
+        		return new mask8x16(isnormal(x.x0), isnormal(x.x1), isnormal(x.x2), isnormal(x.x3), isnormal(x.x4), isnormal(x.x5), isnormal(x.x6), isnormal(x.x7), isnormal(x.x8), isnormal(x.x9), isnormal(x.x10), isnormal(x.x11), isnormal(x.x12), isnormal(x.x13), isnormal(x.x14), isnormal(x.x15));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 isnormal(quarter32 x)
+        public static mask8x32 isnormal(quarter32 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.IsTrue8(Xse.mm256_cmpnorm_pq(x));
+        		return Xse.mm256_cmpnorm_pq(x);
         	}
         	else
         	{
-        		return new bool32(isnormal(x.v16_0), isnormal(x.v16_16));
+        		return new mask8x32(isnormal(x.v16_0), isnormal(x.v16_16));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isnormal(half2 x)
+        public static mask16x2 isnormal(half2 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.cmpnorm_ph(RegisterConversion.ToV128(x))));
+        		return Xse.cmpnorm_ph(x);
         	}
         	else
         	{
-        		return new bool2(isnormal(x.x), isnormal(x.y));
+        		return new mask16x2(isnormal(x.x), isnormal(x.y));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isnormal(half3 x)
+        public static mask16x3 isnormal(half3 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.cmpnorm_ph(RegisterConversion.ToV128(x))));
+        		return Xse.cmpnorm_ph(x);
         	}
         	else
         	{
-        		return new bool3(isnormal(x.x), isnormal(x.y), isnormal(x.z));
+        		return new mask16x3(isnormal(x.x), isnormal(x.y), isnormal(x.z));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isnormal(half4 x)
+        public static mask16x4 isnormal(half4 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.cmpnorm_ph(RegisterConversion.ToV128(x))));
+        		return Xse.cmpnorm_ph(x);
         	}
         	else
         	{
-        		return new bool4(isnormal(x.x), isnormal(x.y), isnormal(x.z), isnormal(x.w));
+        		return new mask16x4(isnormal(x.x), isnormal(x.y), isnormal(x.z), isnormal(x.w));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isnormal(half8 x)
+        public static mask16x8 isnormal(half8 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.IsTrue16(Xse.cmpnorm_ph(x));
+        		return Xse.cmpnorm_ph(x);
         	}
         	else
         	{
-        		return new bool8(isnormal(x.x0), isnormal(x.x1), isnormal(x.x2), isnormal(x.x3), isnormal(x.x4), isnormal(x.x5), isnormal(x.x6), isnormal(x.x7));
+        		return new mask16x8(isnormal(x.x0), isnormal(x.x1), isnormal(x.x2), isnormal(x.x3), isnormal(x.x4), isnormal(x.x5), isnormal(x.x6), isnormal(x.x7));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 isnormal(half16 x)
+        public static mask16x16 isnormal(half16 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.IsTrue16(Xse.mm256_cmpnorm_ph(x));
+        		return Xse.mm256_cmpnorm_ph(x);
         	}
         	else
         	{
-        		return new bool16(isnormal(x.v8_0), isnormal(x.v8_8));
+        		return new mask16x16(isnormal(x.v8_0), isnormal(x.v8_8));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="float"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isnormal(float2 x)
+        public static mask32x2 isnormal(float2 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.cmpnorm_ps(RegisterConversion.ToV128(x))));
+        		return Xse.cmpnorm_ps(x);
         	}
         	else
         	{
-        		return new bool2(isnormal(x.x), isnormal(x.y));
+        		return new mask32x2(isnormal(x.x), isnormal(x.y));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="float"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isnormal(float3 x)
+        public static mask32x3 isnormal(float3 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.cmpnorm_ps(RegisterConversion.ToV128(x))));
+        		return Xse.cmpnorm_ps(x);
         	}
         	else
         	{
-        		return new bool3(isnormal(x.x), isnormal(x.y), isnormal(x.z));
+        		return new mask32x3(isnormal(x.x), isnormal(x.y), isnormal(x.z));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="float"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isnormal(float4 x)
+        public static mask32x4 isnormal(float4 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.cmpnorm_ps(RegisterConversion.ToV128(x))));
+        		return Xse.cmpnorm_ps(x);
         	}
         	else
         	{
-        		return new bool4(isnormal(x.x), isnormal(x.y), isnormal(x.z), isnormal(x.w));
+        		return new mask32x4(isnormal(x.x), isnormal(x.y), isnormal(x.z), isnormal(x.w));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="float"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 isnormal(float8 x)
+        public static mask32x8 isnormal(float8 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.IsTrue32(Xse.mm256_cmpnorm_ps(x));
+        		return Xse.mm256_cmpnorm_ps(x);
         	}
         	else
         	{
-        		return new bool8(isnormal(x.v4_0), isnormal(x.v4_4));
+        		return new mask32x8(isnormal(x.v4_0), isnormal(x.v4_4));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="double"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 isnormal(double2 x)
+        public static mask64x2 isnormal(double2 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpnorm_pd(RegisterConversion.ToV128(x))));
+        		return Xse.cmpnorm_pd(x);
         	}
         	else
         	{
-        		return new bool2(isnormal(x.x), isnormal(x.y));
+        		return new mask64x2(isnormal(x.x), isnormal(x.y));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="double"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 isnormal(double3 x)
+        public static mask64x3 isnormal(double3 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_cmpnorm_pd(RegisterConversion.ToV256(x))));
+        		return Xse.mm256_cmpnorm_pd(x);
         	}
         	else
         	{
-        		return new bool3(isnormal(x.xy), isnormal(x.z));
+        		return new mask64x3(isnormal(x.xy), isnormal(x.z));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="double"/> component in <paramref name="x"/> if it is neither 0, subnormal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 isnormal(double4 x)
+        public static mask64x4 isnormal(double4 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_cmpnorm_pd(RegisterConversion.ToV256(x))));
+        		return Xse.mm256_cmpnorm_pd(x);
         	}
         	else
         	{
-        		return new bool4(isnormal(x.xy), isnormal(x.zw));
+        		return new mask64x4(isnormal(x.xy), isnormal(x.zw));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 issubnormal(quarter2 x)
+        public static mask8x2 issubnormal(quarter2 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Xse.cmpsubnorm_pq(x)));
+        		return Xse.cmpsubnorm_pq(x);
         	}
         	else
         	{
-        		return new bool2(issubnormal(x.x), issubnormal(x.y));
+        		return new mask8x2(issubnormal(x.x), issubnormal(x.y));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 issubnormal(quarter3 x)
+        public static mask8x3 issubnormal(quarter3 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Xse.cmpsubnorm_pq(x)));
+        		return Xse.cmpsubnorm_pq(x);
         	}
         	else
         	{
-        		return new bool3(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z));
+        		return new mask8x3(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 issubnormal(quarter4 x)
+        public static mask8x4 issubnormal(quarter4 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Xse.cmpsubnorm_pq(x)));
+        		return Xse.cmpsubnorm_pq(x);
         	}
         	else
         	{
-        		return new bool4(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z), issubnormal(x.w));
+        		return new mask8x4(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z), issubnormal(x.w));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 issubnormal(quarter8 x)
+        public static mask8x8 issubnormal(quarter8 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.IsTrue8(Xse.cmpsubnorm_pq(x));
+        		return Xse.cmpsubnorm_pq(x);
         	}
         	else
         	{
-        		return new bool8(issubnormal(x.x0), issubnormal(x.x1), issubnormal(x.x2), issubnormal(x.x3), issubnormal(x.x4), issubnormal(x.x5), issubnormal(x.x6), issubnormal(x.x7));
+        		return new mask8x8(issubnormal(x.x0), issubnormal(x.x1), issubnormal(x.x2), issubnormal(x.x3), issubnormal(x.x4), issubnormal(x.x5), issubnormal(x.x6), issubnormal(x.x7));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 issubnormal(quarter16 x)
+        public static mask8x16 issubnormal(quarter16 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.IsTrue8(Xse.cmpsubnorm_pq(x));
+        		return Xse.cmpsubnorm_pq(x);
         	}
         	else
         	{
-        		return new bool16(issubnormal(x.x0), issubnormal(x.x1), issubnormal(x.x2), issubnormal(x.x3), issubnormal(x.x4), issubnormal(x.x5), issubnormal(x.x6), issubnormal(x.x7), issubnormal(x.x8), issubnormal(x.x9), issubnormal(x.x10), issubnormal(x.x11), issubnormal(x.x12), issubnormal(x.x13), issubnormal(x.x14), issubnormal(x.x15));
+        		return new mask8x16(issubnormal(x.x0), issubnormal(x.x1), issubnormal(x.x2), issubnormal(x.x3), issubnormal(x.x4), issubnormal(x.x5), issubnormal(x.x6), issubnormal(x.x7), issubnormal(x.x8), issubnormal(x.x9), issubnormal(x.x10), issubnormal(x.x11), issubnormal(x.x12), issubnormal(x.x13), issubnormal(x.x14), issubnormal(x.x15));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.quarter"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 issubnormal(quarter32 x)
+        public static mask8x32 issubnormal(quarter32 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.IsTrue8(Xse.mm256_cmpsubnorm_pq(x));
+        		return Xse.mm256_cmpsubnorm_pq(x);
         	}
         	else
         	{
-        		return new bool32(issubnormal(x.v16_0), issubnormal(x.v16_16));
+        		return new mask8x32(issubnormal(x.v16_0), issubnormal(x.v16_16));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 issubnormal(half2 x)
+        public static mask16x2 issubnormal(half2 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Xse.cmpsubnorm_ph(RegisterConversion.ToV128(x))));
+        		return Xse.cmpsubnorm_ph(x);
         	}
         	else
         	{
-        		return new bool2(issubnormal(x.x), issubnormal(x.y));
+        		return new mask16x2(issubnormal(x.x), issubnormal(x.y));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 issubnormal(half3 x)
+        public static mask16x3 issubnormal(half3 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Xse.cmpsubnorm_ph(RegisterConversion.ToV128(x))));
+        		return Xse.cmpsubnorm_ph(x);
         	}
         	else
         	{
-        		return new bool3(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z));
+        		return new mask16x3(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 issubnormal(half4 x)
+        public static mask16x4 issubnormal(half4 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Xse.cmpsubnorm_ph(RegisterConversion.ToV128(x))));
+        		return Xse.cmpsubnorm_ph(x);
         	}
         	else
         	{
-        		return new bool4(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z), issubnormal(x.w));
+        		return new mask16x4(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z), issubnormal(x.w));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 issubnormal(half8 x)
+        public static mask16x8 issubnormal(half8 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.IsTrue16(Xse.cmpsubnorm_ph(x));
+        		return Xse.cmpsubnorm_ph(x);
         	}
         	else
         	{
-        		return new bool8(issubnormal(x.x0), issubnormal(x.x1), issubnormal(x.x2), issubnormal(x.x3), issubnormal(x.x4), issubnormal(x.x5), issubnormal(x.x6), issubnormal(x.x7));
+        		return new mask16x8(issubnormal(x.x0), issubnormal(x.x1), issubnormal(x.x2), issubnormal(x.x3), issubnormal(x.x4), issubnormal(x.x5), issubnormal(x.x6), issubnormal(x.x7));
         	}
         }
 
-        /// <summary>       Returns <see langword="true"/> for each <see cref="half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
+        /// <summary>       Returns <see langword="true"/> for each <see cref="MaxMath.half"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 issubnormal(half16 x)
+        public static mask16x16 issubnormal(half16 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.IsTrue16(Xse.mm256_cmpsubnorm_ph(x));
+        		return Xse.mm256_cmpsubnorm_ph(x);
         	}
         	else
         	{
-        		return new bool16(issubnormal(x.v8_0), issubnormal(x.v8_8));
+        		return new mask16x16(issubnormal(x.v8_0), issubnormal(x.v8_8));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="float"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 issubnormal(float2 x)
+        public static mask32x2 issubnormal(float2 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool2(RegisterConversion.IsTrue32(Xse.cmpsubnorm_ps(RegisterConversion.ToV128(x))));
+        		return Xse.cmpsubnorm_ps(x);
         	}
         	else
         	{
-        		return new bool2(issubnormal(x.x), issubnormal(x.y));
+        		return new mask32x2(issubnormal(x.x), issubnormal(x.y));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="float"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 issubnormal(float3 x)
+        public static mask32x3 issubnormal(float3 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool3(RegisterConversion.IsTrue32(Xse.cmpsubnorm_ps(RegisterConversion.ToV128(x))));
+        		return Xse.cmpsubnorm_ps(x);
         	}
         	else
         	{
-        		return new bool3(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z));
+        		return new mask32x3(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="float"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 issubnormal(float4 x)
+        public static mask32x4 issubnormal(float4 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool4(RegisterConversion.IsTrue32(Xse.cmpsubnorm_ps(RegisterConversion.ToV128(x))));
+        		return Xse.cmpsubnorm_ps(x);
         	}
         	else
         	{
-        		return new bool4(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z), issubnormal(x.w));
+        		return new mask32x4(issubnormal(x.x), issubnormal(x.y), issubnormal(x.z), issubnormal(x.w));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="float"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 issubnormal(float8 x)
+        public static mask32x8 issubnormal(float8 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.IsTrue32(Xse.mm256_cmpsubnorm_ps(x));
+        		return Xse.mm256_cmpsubnorm_ps(x);
         	}
         	else
         	{
-        		return new bool8(issubnormal(x.v4_0), issubnormal(x.v4_4));
+        		return new mask32x8(issubnormal(x.v4_0), issubnormal(x.v4_4));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="double"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 issubnormal(double2 x)
+        public static mask64x2 issubnormal(double2 x)
         {
         	if (BurstArchitecture.IsSIMDSupported)
         	{
-        		return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Xse.cmpsubnorm_pd(RegisterConversion.ToV128(x))));
+        		return Xse.cmpsubnorm_pd(x);
         	}
         	else
         	{
-        		return new bool2(issubnormal(x.x), issubnormal(x.y));
+        		return new mask64x2(issubnormal(x.x), issubnormal(x.y));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="double"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 issubnormal(double3 x)
+        public static mask64x3 issubnormal(double3 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.ToBool3(RegisterConversion.IsTrue64(Xse.mm256_cmpsubnorm_pd(RegisterConversion.ToV256(x))));
+        		return Xse.mm256_cmpsubnorm_pd(x);
         	}
         	else
         	{
-        		return new bool3(issubnormal(x.xy), issubnormal(x.z));
+        		return new mask64x3(issubnormal(x.xy), issubnormal(x.z));
         	}
         }
 
         /// <summary>       Returns <see langword="true"/> for each <see cref="double"/> component in <paramref name="x"/> if it is neither 0, normal, infinite, nor NaN.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 issubnormal(double4 x)
+        public static mask64x4 issubnormal(double4 x)
         {
         	if (Avx2.IsAvx2Supported)
         	{
-        		return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_cmpsubnorm_pd(RegisterConversion.ToV256(x))));
+        		return Xse.mm256_cmpsubnorm_pd(x);
         	}
         	else
         	{
-        		return new bool4(issubnormal(x.xy), issubnormal(x.zw));
+        		return new mask64x4(issubnormal(x.xy), issubnormal(x.zw));
         	}
         }
     }

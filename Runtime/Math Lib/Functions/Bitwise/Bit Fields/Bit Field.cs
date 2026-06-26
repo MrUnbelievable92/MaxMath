@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -7,7 +6,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Creates a <see cref="UInt128"/> bit field from 16 <see cref="byte"/>s, where the parameter order reflects the byte order of the return value.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -204,7 +203,7 @@ namespace MaxMath
             return ((uint)x0 + ((uint)x1 << 8)) | (((uint)x2 << 16) | ((uint)x3 << 24));
         }
 
-        /// <summary>       Creates a <see cref="uint2"/> bit field vector from 4 <see cref="MaxMath.byte2"/> vectors by packing 4 <see cref="byte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint2"/> bit field vector from 4 <see cref="MaxMath.byte2"/> vectors by packing 4 <see cref="byte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bitfield(byte2 x0, byte2 x1, byte2 x2, byte2 x3)
         {
@@ -213,7 +212,7 @@ namespace MaxMath
                 v128 lo0 = Xse.unpacklo_epi8(x0, x1);
                 v128 lo1 = Xse.unpacklo_epi8(x2, x3);
 
-                return RegisterConversion.ToUInt2(Xse.unpacklo_epi16(lo0, lo1));
+                return Xse.unpacklo_epi16(lo0, lo1);
             }
             else
             {
@@ -221,7 +220,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Creates a <see cref="uint3"/> bit field vector from 4 <see cref="MaxMath.byte3"/> vectors by packing 4 <see cref="byte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint3"/> bit field vector from 4 <see cref="MaxMath.byte3"/> vectors by packing 4 <see cref="byte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bitfield(byte3 x0, byte3 x1, byte3 x2, byte3 x3)
         {
@@ -230,7 +229,7 @@ namespace MaxMath
                 v128 lo0 = Xse.unpacklo_epi8(x0, x1);
                 v128 lo1 = Xse.unpacklo_epi8(x2, x3);
 
-                return RegisterConversion.ToUInt3(Xse.unpacklo_epi16(lo0, lo1));
+                return Xse.unpacklo_epi16(lo0, lo1);
             }
             else
             {
@@ -238,7 +237,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Creates a <see cref="uint4"/> bit field vector from 4 <see cref="MaxMath.byte4"/> vectors by packing 4 <see cref="byte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint4"/> bit field vector from 4 <see cref="MaxMath.byte4"/> vectors by packing 4 <see cref="byte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bitfield(byte4 x0, byte4 x1, byte4 x2, byte4 x3)
         {
@@ -247,7 +246,7 @@ namespace MaxMath
                 v128 lo0 = Xse.unpacklo_epi8(x0, x1);
                 v128 lo1 = Xse.unpacklo_epi8(x2, x3);
 
-                return RegisterConversion.ToUInt4(Xse.unpacklo_epi16(lo0, lo1));
+                return Xse.unpacklo_epi16(lo0, lo1);
             }
             else
             {
@@ -272,7 +271,7 @@ namespace MaxMath
                 }
                 else
                 {
-                    return new uint8(RegisterConversion.ToUInt4(resultlo), RegisterConversion.ToUInt4(resulthi));
+                    return new uint8(resultlo, resulthi);
                 }
             }
             else
@@ -296,21 +295,21 @@ namespace MaxMath
             return bitfield((byte)x0, (byte)x1, (byte)x2, (byte)x3);
         }
 
-        /// <summary>       Creates a <see cref="uint2"/> bit field vector from 4 <see cref="MaxMath.sbyte2"/> vectors by packing 4 <see cref="sbyte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint2"/> bit field vector from 4 <see cref="MaxMath.sbyte2"/> vectors by packing 4 <see cref="sbyte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bitfield(sbyte2 x0, sbyte2 x1, sbyte2 x2, sbyte2 x3)
         {
             return bitfield((byte2)x0, (byte2)x1, (byte2)x2, (byte2)x3);
         }
 
-        /// <summary>       Creates a <see cref="uint3"/> bit field vector from 4 <see cref="MaxMath.sbyte3"/> vectors by packing 4 <see cref="sbyte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint3"/> bit field vector from 4 <see cref="MaxMath.sbyte3"/> vectors by packing 4 <see cref="sbyte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bitfield(sbyte3 x0, sbyte3 x1, sbyte3 x2, sbyte3 x3)
         {
             return bitfield((byte3)x0, (byte3)x1, (byte3)x2, (byte3)x3);
         }
 
-        /// <summary>       Creates a <see cref="uint4"/> bit field vector from 4 <see cref="MaxMath.sbyte4"/> vectors by packing 4 <see cref="sbyte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint4"/> bit field vector from 4 <see cref="MaxMath.sbyte4"/> vectors by packing 4 <see cref="sbyte"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bitfield(sbyte4 x0, sbyte4 x1, sbyte4 x2, sbyte4 x3)
         {
@@ -332,13 +331,13 @@ namespace MaxMath
             return (uint)x0 | ((uint)x1 << 16);
         }
 
-        /// <summary>       Creates a <see cref="uint2"/> bit field vector from 2 <see cref="MaxMath.ushort2"/> vectors by packing 2 <see cref="ushort"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint2"/> bit field vector from 2 <see cref="MaxMath.ushort2"/> vectors by packing 2 <see cref="ushort"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bitfield(ushort2 x0, ushort2 x1)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.unpacklo_epi16(x0, x1));
+                return Xse.unpacklo_epi16(x0, x1);
             }
             else
             {
@@ -346,13 +345,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Creates a <see cref="uint3"/> bit field vector from 2 <see cref="MaxMath.ushort3"/> vectors by packing 2 <see cref="ushort"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint3"/> bit field vector from 2 <see cref="MaxMath.ushort3"/> vectors by packing 2 <see cref="ushort"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bitfield(ushort3 x0, ushort3 x1)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.unpacklo_epi16(x0, x1));
+                return Xse.unpacklo_epi16(x0, x1);
             }
             else
             {
@@ -360,13 +359,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Creates a <see cref="uint4"/> bit field vector from 2 <see cref="MaxMath.ushort4"/> vectors by packing 2 <see cref="ushort"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint4"/> bit field vector from 2 <see cref="MaxMath.ushort4"/> vectors by packing 2 <see cref="ushort"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bitfield(ushort4 x0, ushort4 x1)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.unpacklo_epi16(x0, x1));
+                return Xse.unpacklo_epi16(x0, x1);
             }
             else
             {
@@ -389,7 +388,7 @@ namespace MaxMath
                 }
                 else
                 {
-                    return new uint8(RegisterConversion.ToUInt4(resultlo), RegisterConversion.ToUInt4(resulthi));
+                    return new uint8(resultlo, resulthi);
                 }
             }
             else
@@ -413,21 +412,21 @@ namespace MaxMath
             return bitfield((ushort)x0, (ushort)x1);
         }
 
-        /// <summary>       Creates a <see cref="uint2"/> bit field vector from 2 <see cref="MaxMath.short2"/> vectors by packing 2 <see cref="short"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint2"/> bit field vector from 2 <see cref="MaxMath.short2"/> vectors by packing 2 <see cref="short"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bitfield(short2 x0, short2 x1)
         {
             return bitfield((ushort2)x0, (ushort2)x1);
         }
 
-        /// <summary>       Creates a <see cref="uint3"/> bit field vector from 2 <see cref="MaxMath.short3"/> vectors by packing 2 <see cref="short"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint3"/> bit field vector from 2 <see cref="MaxMath.short3"/> vectors by packing 2 <see cref="short"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bitfield(short3 x0, short3 x1)
         {
             return bitfield((ushort3)x0, (ushort3)x1);
         }
 
-        /// <summary>       Creates a <see cref="uint4"/> bit field vector from 2 <see cref="MaxMath.short4"/> vectors by packing 2 <see cref="short"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.uint4"/> bit field vector from 2 <see cref="MaxMath.short4"/> vectors by packing 2 <see cref="short"/> components into the corresponding <see cref="uint"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bitfield(short4 x0, short4 x1)
         {
@@ -686,13 +685,13 @@ namespace MaxMath
             return (ulong)x0 | ((ulong)x1 << 32);
         }
 
-        /// <summary>       Creates a <see cref="MaxMath.ulong2"/> bit field vector from 2 <see cref="uint2"/> vectors by packing 2 <see cref="uint"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.ulong2"/> bit field vector from 2 <see cref="MaxMath.uint2"/> vectors by packing 2 <see cref="uint"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 bitfield(uint2 x0, uint2 x1)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.unpacklo_epi32(RegisterConversion.ToV128(x0), RegisterConversion.ToV128(x1));
+                return Xse.unpacklo_epi32(x0, x1);
             }
             else
             {
@@ -700,14 +699,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Creates a <see cref="MaxMath.ulong3"/> bit field vector from 2 <see cref="uint3"/> vectors by packing 2 <see cref="uint"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.ulong3"/> bit field vector from 2 <see cref="MaxMath.uint3"/> vectors by packing 2 <see cref="uint"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 bitfield(uint3 x0, uint3 x1)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 _x0 = RegisterConversion.ToV128(x0);
-                v128 _x1 = RegisterConversion.ToV128(x1);
+                v128 _x0 = x0;
+                v128 _x1 = x1;
 
                 v128 resultlo = Xse.unpacklo_epi32(_x0, _x1);
                 v128 resulthi = Xse.unpackhi_epi32(_x0, _x1);
@@ -727,14 +726,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Creates a <see cref="MaxMath.ulong4"/> bit field vector from 2 <see cref="uint4"/> vectors by packing 2 <see cref="uint"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.ulong4"/> bit field vector from 2 <see cref="MaxMath.uint4"/> vectors by packing 2 <see cref="uint"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 bitfield(uint4 x0, uint4 x1)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 _x0 = RegisterConversion.ToV128(x0);
-                v128 _x1 = RegisterConversion.ToV128(x1);
+                v128 _x0 = x0;
+                v128 _x1 = x1;
 
                 v128 resultlo = Xse.unpacklo_epi32(_x0, _x1);
                 v128 resulthi = Xse.unpackhi_epi32(_x0, _x1);
@@ -762,21 +761,21 @@ namespace MaxMath
             return bitfield((uint)x0, (uint)x1);
         }
 
-        /// <summary>       Creates a <see cref="MaxMath.ulong2"/> bit field vector from 2 <see cref="int2"/> vectors by packing 2 <see cref="int"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.ulong2"/> bit field vector from 2 <see cref="MaxMath.int2"/> vectors by packing 2 <see cref="int"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 bitfield(int2 x0, int2 x1)
         {
             return bitfield((uint2)x0, (uint2)x1);
         }
 
-        /// <summary>       Creates a <see cref="MaxMath.ulong3"/> bit field vector from 2 <see cref="int3"/> vectors by packing 2 <see cref="int"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.ulong3"/> bit field vector from 2 <see cref="MaxMath.int3"/> vectors by packing 2 <see cref="int"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 bitfield(int3 x0, int3 x1)
         {
             return bitfield((uint3)x0, (uint3)x1);
         }
 
-        /// <summary>       Creates a <see cref="MaxMath.ulong4"/> bit field vector from 2 <see cref="int4"/> vectors by packing 2 <see cref="int"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
+        /// <summary>       Creates a <see cref="MaxMath.ulong4"/> bit field vector from 2 <see cref="MaxMath.int4"/> vectors by packing 2 <see cref="int"/> components into the corresponding <see cref="ulong"/> component, where the parameter order reflects the byte order of the return value for each component.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 bitfield(int4 x0, int4 x1)
         {

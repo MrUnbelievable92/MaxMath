@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
@@ -168,7 +168,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte2 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
+                byte2 divisor = math.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
                 byte2 x = TestData_LHS[i] / divisor;
 
@@ -186,7 +186,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte2 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
+                byte2 divisor = math.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
                 byte2 x = TestData_LHS[i] % divisor;
 
@@ -730,8 +730,8 @@ namespace MaxMath.Tests
             {
                 float2 x =TestData_LHS[i];
 
-                result &= maxmath.approx(x.x, (float)TestData_LHS[i].x) &
-                          maxmath.approx(x.y, (float)TestData_LHS[i].y);
+                result &= math.approx(x.x, (float)TestData_LHS[i].x) &
+                          math.approx(x.y, (float)TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -746,8 +746,8 @@ namespace MaxMath.Tests
             {
                 double2 x = TestData_LHS[i];
 
-                result &= maxmath.approx(x.x, (double)TestData_LHS[i].x) &
-                          maxmath.approx(x.y, (double)TestData_LHS[i].y);
+                result &= math.approx(x.x, (double)TestData_LHS[i].x) &
+                          math.approx(x.y, (double)TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);

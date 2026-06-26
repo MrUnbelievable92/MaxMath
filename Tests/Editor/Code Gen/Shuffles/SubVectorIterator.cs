@@ -16,7 +16,7 @@ namespace MaxMath.Tests
             Num = num;
         }
 
-        private int Num;
+        private readonly int Num;
 
         internal List<SubVector> Generate()
         {

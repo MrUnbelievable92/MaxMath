@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -12,7 +12,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte2.NUM_TESTS; i++)
             {
-                bool2 t = maxmath.ispow2(t_byte2.TestData_LHS[i]);
+                bool2 t = math.ispow2(t_byte2.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((uint)t_byte2.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((uint)t_byte2.TestData_LHS[i].y);
@@ -28,7 +28,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte3.NUM_TESTS; i++)
             {
-                bool3 t = maxmath.ispow2(t_byte3.TestData_LHS[i]);
+                bool3 t = math.ispow2(t_byte3.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((uint)t_byte3.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((uint)t_byte3.TestData_LHS[i].y);
@@ -45,7 +45,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte4.NUM_TESTS; i++)
             {
-                bool4 t = maxmath.ispow2(t_byte4.TestData_LHS[i]);
+                bool4 t = math.ispow2(t_byte4.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((uint)t_byte4.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((uint)t_byte4.TestData_LHS[i].y);
@@ -63,7 +63,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte8.NUM_TESTS; i++)
             {
-                bool8 t = maxmath.ispow2(t_byte8.TestData_LHS[i]);
+                bool8 t = math.ispow2(t_byte8.TestData_LHS[i]);
 
                 result &= t.x0 == math.ispow2((uint)t_byte8.TestData_LHS[i].x0);
                 result &= t.x1 == math.ispow2((uint)t_byte8.TestData_LHS[i].x1);
@@ -85,7 +85,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte16.NUM_TESTS; i++)
             {
-                bool16 t = maxmath.ispow2(t_byte16.TestData_LHS[i]);
+                bool16 t = math.ispow2(t_byte16.TestData_LHS[i]);
 
                 result &= t.x0  == math.ispow2((uint)t_byte16.TestData_LHS[i].x0 );
                 result &= t.x1  == math.ispow2((uint)t_byte16.TestData_LHS[i].x1 );
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte32.NUM_TESTS; i++)
             {
-                bool32 t = maxmath.ispow2(t_byte32.TestData_LHS[i]);
+                bool32 t = math.ispow2(t_byte32.TestData_LHS[i]);
 
                 result &= t.x0  == math.ispow2((uint)t_byte32.TestData_LHS[i].x0 );
                 result &= t.x1  == math.ispow2((uint)t_byte32.TestData_LHS[i].x1 );
@@ -162,7 +162,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort2.NUM_TESTS; i++)
             {
-                bool2 t = maxmath.ispow2(t_ushort2.TestData_LHS[i]);
+                bool2 t = math.ispow2(t_ushort2.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((uint)t_ushort2.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((uint)t_ushort2.TestData_LHS[i].y);
@@ -178,7 +178,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort3.NUM_TESTS; i++)
             {
-                bool3 t = maxmath.ispow2(t_ushort3.TestData_LHS[i]);
+                bool3 t = math.ispow2(t_ushort3.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((uint)t_ushort3.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((uint)t_ushort3.TestData_LHS[i].y);
@@ -195,7 +195,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort4.NUM_TESTS; i++)
             {
-                bool4 t = maxmath.ispow2(t_ushort4.TestData_LHS[i]);
+                bool4 t = math.ispow2(t_ushort4.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((uint)t_ushort4.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((uint)t_ushort4.TestData_LHS[i].y);
@@ -213,7 +213,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort8.NUM_TESTS; i++)
             {
-                bool8 t = maxmath.ispow2(t_ushort8.TestData_LHS[i]);
+                bool8 t = math.ispow2(t_ushort8.TestData_LHS[i]);
 
                 result &= t.x0 == math.ispow2((uint)t_ushort8.TestData_LHS[i].x0);
                 result &= t.x1 == math.ispow2((uint)t_ushort8.TestData_LHS[i].x1);
@@ -235,7 +235,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort16.NUM_TESTS; i++)
             {
-                bool16 t = maxmath.ispow2(t_ushort16.TestData_LHS[i]);
+                bool16 t = math.ispow2(t_ushort16.TestData_LHS[i]);
 
                 result &= t.x0  == math.ispow2((uint)t_ushort16.TestData_LHS[i].x0 );
                 result &= t.x1  == math.ispow2((uint)t_ushort16.TestData_LHS[i].x1 );
@@ -266,7 +266,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_uint8.NUM_TESTS; i++)
             {
-                bool8 t = maxmath.ispow2(t_uint8.TestData_LHS[i]);
+                bool8 t = math.ispow2(t_uint8.TestData_LHS[i]);
 
                 result &= t.x0 == math.ispow2(t_uint8.TestData_LHS[i].x0);
                 result &= t.x1 == math.ispow2(t_uint8.TestData_LHS[i].x1);
@@ -289,10 +289,10 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ulong2.NUM_TESTS; i++)
             {
-                bool2 t = maxmath.ispow2(t_ulong2.TestData_LHS[i]);
+                bool2 t = math.ispow2(t_ulong2.TestData_LHS[i]);
 
-                result &= t.x == maxmath.ispow2(t_ulong2.TestData_LHS[i].x);
-                result &= t.y == maxmath.ispow2(t_ulong2.TestData_LHS[i].y);
+                result &= t.x == math.ispow2(t_ulong2.TestData_LHS[i].x);
+                result &= t.y == math.ispow2(t_ulong2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -305,11 +305,11 @@ namespace MaxMath.Tests
 
             for (long i = 0; i < t_ulong3.NUM_TESTS; i++)
             {
-                bool3 t = maxmath.ispow2(t_ulong3.TestData_LHS[i]);
+                bool3 t = math.ispow2(t_ulong3.TestData_LHS[i]);
 
-                result &= t.x == maxmath.ispow2(t_ulong3.TestData_LHS[i].x);
-                result &= t.y == maxmath.ispow2(t_ulong3.TestData_LHS[i].y);
-                result &= t.z == maxmath.ispow2(t_ulong3.TestData_LHS[i].z);
+                result &= t.x == math.ispow2(t_ulong3.TestData_LHS[i].x);
+                result &= t.y == math.ispow2(t_ulong3.TestData_LHS[i].y);
+                result &= t.z == math.ispow2(t_ulong3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -322,12 +322,12 @@ namespace MaxMath.Tests
 
             for (long i = 0; i < t_ulong4.NUM_TESTS; i++)
             {
-                bool4 t = maxmath.ispow2(t_ulong4.TestData_LHS[i]);
+                bool4 t = math.ispow2(t_ulong4.TestData_LHS[i]);
 
-                result &= t.x == maxmath.ispow2(t_ulong4.TestData_LHS[i].x);
-                result &= t.y == maxmath.ispow2(t_ulong4.TestData_LHS[i].y);
-                result &= t.z == maxmath.ispow2(t_ulong4.TestData_LHS[i].z);
-                result &= t.w == maxmath.ispow2(t_ulong4.TestData_LHS[i].w);
+                result &= t.x == math.ispow2(t_ulong4.TestData_LHS[i].x);
+                result &= t.y == math.ispow2(t_ulong4.TestData_LHS[i].y);
+                result &= t.z == math.ispow2(t_ulong4.TestData_LHS[i].z);
+                result &= t.w == math.ispow2(t_ulong4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -341,7 +341,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte2.NUM_TESTS; i++)
             {
-                bool2 t = maxmath.ispow2(t_sbyte2.TestData_LHS[i]);
+                bool2 t = math.ispow2(t_sbyte2.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((int)t_sbyte2.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((int)t_sbyte2.TestData_LHS[i].y);
@@ -357,7 +357,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte3.NUM_TESTS; i++)
             {
-                bool3 t = maxmath.ispow2(t_sbyte3.TestData_LHS[i]);
+                bool3 t = math.ispow2(t_sbyte3.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((int)t_sbyte3.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((int)t_sbyte3.TestData_LHS[i].y);
@@ -374,7 +374,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte4.NUM_TESTS; i++)
             {
-                bool4 t = maxmath.ispow2(t_sbyte4.TestData_LHS[i]);
+                bool4 t = math.ispow2(t_sbyte4.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((int)t_sbyte4.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((int)t_sbyte4.TestData_LHS[i].y);
@@ -392,7 +392,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte8.NUM_TESTS; i++)
             {
-                bool8 t = maxmath.ispow2(t_sbyte8.TestData_LHS[i]);
+                bool8 t = math.ispow2(t_sbyte8.TestData_LHS[i]);
 
                 result &= t.x0 == math.ispow2((int)t_sbyte8.TestData_LHS[i].x0);
                 result &= t.x1 == math.ispow2((int)t_sbyte8.TestData_LHS[i].x1);
@@ -414,7 +414,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte16.NUM_TESTS; i++)
             {
-                bool16 t = maxmath.ispow2(t_sbyte16.TestData_LHS[i]);
+                bool16 t = math.ispow2(t_sbyte16.TestData_LHS[i]);
 
                 result &= t.x0  == math.ispow2((int)t_sbyte16.TestData_LHS[i].x0 );
                 result &= t.x1  == math.ispow2((int)t_sbyte16.TestData_LHS[i].x1 );
@@ -444,7 +444,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte32.NUM_TESTS; i++)
             {
-                bool32 t = maxmath.ispow2(t_sbyte32.TestData_LHS[i]);
+                bool32 t = math.ispow2(t_sbyte32.TestData_LHS[i]);
 
                 result &= t.x0  == math.ispow2((int)t_sbyte32.TestData_LHS[i].x0 );
                 result &= t.x1  == math.ispow2((int)t_sbyte32.TestData_LHS[i].x1 );
@@ -491,7 +491,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short2.NUM_TESTS; i++)
             {
-                bool2 t = maxmath.ispow2(t_short2.TestData_LHS[i]);
+                bool2 t = math.ispow2(t_short2.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((int)t_short2.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((int)t_short2.TestData_LHS[i].y);
@@ -507,7 +507,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short3.NUM_TESTS; i++)
             {
-                bool3 t = maxmath.ispow2(t_short3.TestData_LHS[i]);
+                bool3 t = math.ispow2(t_short3.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((int)t_short3.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((int)t_short3.TestData_LHS[i].y);
@@ -524,7 +524,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short4.NUM_TESTS; i++)
             {
-                bool4 t = maxmath.ispow2(t_short4.TestData_LHS[i]);
+                bool4 t = math.ispow2(t_short4.TestData_LHS[i]);
 
                 result &= t.x == math.ispow2((int)t_short4.TestData_LHS[i].x);
                 result &= t.y == math.ispow2((int)t_short4.TestData_LHS[i].y);
@@ -542,7 +542,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short8.NUM_TESTS; i++)
             {
-                bool8 t = maxmath.ispow2(t_short8.TestData_LHS[i]);
+                bool8 t = math.ispow2(t_short8.TestData_LHS[i]);
 
                 result &= t.x0 == math.ispow2((int)t_short8.TestData_LHS[i].x0);
                 result &= t.x1 == math.ispow2((int)t_short8.TestData_LHS[i].x1);
@@ -564,7 +564,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short16.NUM_TESTS; i++)
             {
-                bool16 t = maxmath.ispow2(t_short16.TestData_LHS[i]);
+                bool16 t = math.ispow2(t_short16.TestData_LHS[i]);
 
                 result &= t.x0  == math.ispow2((int)t_short16.TestData_LHS[i].x0 );
                 result &= t.x1  == math.ispow2((int)t_short16.TestData_LHS[i].x1 );
@@ -595,7 +595,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_int8.NUM_TESTS; i++)
             {
-                bool8 t = maxmath.ispow2(t_int8.TestData_LHS[i]);
+                bool8 t = math.ispow2(t_int8.TestData_LHS[i]);
 
                 result &= t.x0 == math.ispow2(t_int8.TestData_LHS[i].x0);
                 result &= t.x1 == math.ispow2(t_int8.TestData_LHS[i].x1);
@@ -618,10 +618,10 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_long2.NUM_TESTS; i++)
             {
-                bool2 t = maxmath.ispow2(t_long2.TestData_LHS[i]);
+                bool2 t = math.ispow2(t_long2.TestData_LHS[i]);
 
-                result &= t.x == maxmath.ispow2(t_long2.TestData_LHS[i].x);
-                result &= t.y == maxmath.ispow2(t_long2.TestData_LHS[i].y);
+                result &= t.x == math.ispow2(t_long2.TestData_LHS[i].x);
+                result &= t.y == math.ispow2(t_long2.TestData_LHS[i].y);
             }
 
             Assert.AreEqual(true, result);
@@ -634,11 +634,11 @@ namespace MaxMath.Tests
 
             for (long i = 0; i < t_long3.NUM_TESTS; i++)
             {
-                bool3 t = maxmath.ispow2(t_long3.TestData_LHS[i]);
+                bool3 t = math.ispow2(t_long3.TestData_LHS[i]);
 
-                result &= t.x == maxmath.ispow2(t_long3.TestData_LHS[i].x);
-                result &= t.y == maxmath.ispow2(t_long3.TestData_LHS[i].y);
-                result &= t.z == maxmath.ispow2(t_long3.TestData_LHS[i].z);
+                result &= t.x == math.ispow2(t_long3.TestData_LHS[i].x);
+                result &= t.y == math.ispow2(t_long3.TestData_LHS[i].y);
+                result &= t.z == math.ispow2(t_long3.TestData_LHS[i].z);
             }
 
             Assert.AreEqual(true, result);
@@ -651,12 +651,12 @@ namespace MaxMath.Tests
 
             for (long i = 0; i < t_long4.NUM_TESTS; i++)
             {
-                bool4 t = maxmath.ispow2(t_long4.TestData_LHS[i]);
+                bool4 t = math.ispow2(t_long4.TestData_LHS[i]);
 
-                result &= t.x == maxmath.ispow2(t_long4.TestData_LHS[i].x);
-                result &= t.y == maxmath.ispow2(t_long4.TestData_LHS[i].y);
-                result &= t.z == maxmath.ispow2(t_long4.TestData_LHS[i].z);
-                result &= t.w == maxmath.ispow2(t_long4.TestData_LHS[i].w);
+                result &= t.x == math.ispow2(t_long4.TestData_LHS[i].x);
+                result &= t.y == math.ispow2(t_long4.TestData_LHS[i].y);
+                result &= t.z == math.ispow2(t_long4.TestData_LHS[i].z);
+                result &= t.w == math.ispow2(t_long4.TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);

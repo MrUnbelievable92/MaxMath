@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -31,7 +30,9 @@ namespace MaxMath
                     }
                     else
                     {
-                        result = popcnt_epi8(not_si128(a));
+                        a = sub_epi8(not_si128(a), andnot_si128(srli_epi16(a, 1), set1_epi8(0x55)));
+                        a = add_epi8(and_si128(a, set1_epi8(0x33)), and_si128(srli_epi16(a, 2), set1_epi8(0x33)));
+                        result = and_si128(NIBBLE_MASK, add_epi8(a, srli_epi16(a, 4)));
                     }
 
                     constexpr.ASSUME_LE_EPU8(result, 8);
@@ -182,22 +183,22 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns number of 0-bits in the binary representation of a <see cref="UInt128"/>.     </summary>
-        [return: AssumeRange(0L, 128L)]
+        [return: AssumeRange(0ul, 128ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(UInt128 x)
+        public static byte countzerobits(UInt128 x)
         {
-            return countzerobits(x.lo64) + countzerobits(x.hi64);
+            return (byte)(countzerobits(x.lo64) + countzerobits(x.hi64));
         }
 
         /// <summary>       Returns number of 0-bits in the binary representation of an <see cref="Int128"/>.     </summary>
-        [return: AssumeRange(0L, 128L)]
+        [return: AssumeRange(0ul, 128ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(Int128 x)
+        public static byte countzerobits(Int128 x)
         {
-            return countzerobits(x.lo64) + countzerobits(x.hi64);
+            return (byte)(countzerobits(x.lo64) + countzerobits(x.hi64));
         }
 
 
@@ -286,11 +287,11 @@ namespace MaxMath
         }
 
         /// <summary>       Returns number of 0-bits in the binary representation of a <see cref="byte"/>.     </summary>
-        [return: AssumeRange(0L, 8L)]
+        [return: AssumeRange(0ul, 8ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(byte x)
+        public static byte countzerobits(byte x)
         {
-            return math.countbits((uint)(byte)~x);
+            return countbits((uint)(byte)~x);
         }
 
 
@@ -337,9 +338,9 @@ namespace MaxMath
         }
 
         /// <summary>       Returns number of 0-bits in the binary representation of an <see cref="sbyte"/>.     </summary>
-        [return: AssumeRange(0L, 8L)]
+        [return: AssumeRange(0ul, 8ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(sbyte x)
+        public static byte countzerobits(sbyte x)
         {
             return countzerobits((byte)x);
         }
@@ -416,11 +417,11 @@ namespace MaxMath
         }
 
         /// <summary>       Returns number of 0-bits in the binary representation of a <see cref="ushort"/>.     </summary>
-        [return: AssumeRange(0L, 16L)]
+        [return: AssumeRange(0ul, 16ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(ushort x)
+        public static byte countzerobits(ushort x)
         {
-            return math.countbits((uint)(ushort)~x);
+            return countbits((uint)(ushort)~x);
         }
 
 
@@ -460,9 +461,9 @@ namespace MaxMath
         }
 
         /// <summary>       Returns number of 0-bits in the binary representation of a <see cref="short"/>.     </summary>
-        [return: AssumeRange(0L, 16L)]
+        [return: AssumeRange(0ul, 16ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(short x)
+        public static byte countzerobits(short x)
         {
             return countzerobits((ushort)x);
         }
@@ -482,13 +483,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="uint4"/>.     </summary>
+        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="MaxMath.uint4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 countzerobits(uint4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.unpopcnt_epi32(RegisterConversion.ToV128(x)));
+                return Xse.unpopcnt_epi32(x);
             }
             else
             {
@@ -496,13 +497,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="uint3"/>.     </summary>
+        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="MaxMath.uint3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 countzerobits(uint3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.unpopcnt_epi32(RegisterConversion.ToV128(x)));
+                return Xse.unpopcnt_epi32(x);
             }
             else
             {
@@ -510,13 +511,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="uint2"/>.     </summary>
+        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="MaxMath.uint2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 countzerobits(uint2 x)
         {
             if (Arm.Neon.IsNeonSupported)
             {
-                return RegisterConversion.ToInt2(Xse.unpopcnt_epi32(RegisterConversion.ToV128(x)));
+                return Xse.unpopcnt_epi32(x);
             }
             else
             {
@@ -525,11 +526,11 @@ namespace MaxMath
         }
 
         /// <summary>       Returns number of 0-bits in the binary representation of a <see cref="uint"/>.     </summary>
-        [return: AssumeRange(0L, 32L)]
+        [return: AssumeRange(0ul, 32ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(uint x)
+        public static byte countzerobits(uint x)
         {
-            return math.countbits(~x);
+            return countbits(~x);
         }
 
 
@@ -540,21 +541,21 @@ namespace MaxMath
             return countzerobits((uint8)x);
         }
 
-        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="int4"/>.     </summary>
+        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="MaxMath.int4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 countzerobits(int4 x)
         {
             return countzerobits((uint4)x);
         }
 
-        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="int3"/>.     </summary>
+        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="MaxMath.int3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 countzerobits(int3 x)
         {
             return countzerobits((uint3)x);
         }
 
-        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="int2"/>.     </summary>
+        /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="MaxMath.int2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 countzerobits(int2 x)
         {
@@ -564,18 +565,18 @@ namespace MaxMath
         /// <summary>       Returns number of 0-bits in the binary representation of a <see cref="int"/>.     </summary>
         [return: AssumeRange(0L, 32L)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(int x)
+        public static byte countzerobits(int x)
         {
             return countzerobits((uint)x);
         }
 
 
         /// <summary>       Returns number of 0-bits in the binary representation of a <see cref="ulong"/>.     </summary>
-        [return: AssumeRange(0L, 64L)]
+        [return: AssumeRange(0ul, 64ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(ulong x)
+        public static byte countzerobits(ulong x)
         {
-            return math.countbits(~x);
+            return countbits(~x);
         }
 
         /// <summary>       Returns component-wise number of 0-bits in the binary representation of a <see cref="MaxMath.ulong2"/>.      </summary>
@@ -622,9 +623,9 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of 0-bits in the binary representation of a <see cref="long"/>.     </summary>
-        [return: AssumeRange(0L, 64L)]
+        [return: AssumeRange(0ul, 64ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int countzerobits(long x)
+        public static byte countzerobits(long x)
         {
             return countzerobits((ulong)x);
         }

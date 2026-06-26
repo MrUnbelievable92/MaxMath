@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -95,7 +94,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Zeros out all leading ones in <paramref name="x"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -103,7 +102,7 @@ namespace MaxMath
         {
             int __l1cnt = l1cnt(x);
 
-            return (__l1cnt == 128) ? 0 : x & (UInt128.MaxValue >> __l1cnt);
+            return (__l1cnt == 128) ? 0 : x & (MaxMath.UInt128.MaxValue >> __l1cnt);
         }
 
         /// <summary>       Zeros out all leading ones in <paramref name="x"/>.       </summary>
@@ -417,7 +416,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.bl1fill_epi32(RegisterConversion.ToV128(x)));
+                return Xse.bl1fill_epi32(x);
             }
             else
             {
@@ -431,7 +430,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.bl1fill_epi32(RegisterConversion.ToV128(x)));
+                return Xse.bl1fill_epi32(x);
             }
             else
             {
@@ -445,7 +444,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.bl1fill_epi32(RegisterConversion.ToV128(x)));
+                return Xse.bl1fill_epi32(x);
             }
             else
             {

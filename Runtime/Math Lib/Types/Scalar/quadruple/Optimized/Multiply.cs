@@ -1,10 +1,10 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple
+    unsafe public partial struct quadruple
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked Multiply(quadruple.ConstChecked left, quadruple.ConstChecked right)

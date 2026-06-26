@@ -1,32 +1,64 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
+#if DEBUG
+    internal sealed class float8DebuggerProxy
+    {
+        public float x0;
+        public float x1;
+        public float x2;
+        public float x3;
+        public float x4;
+        public float x5;
+        public float x6;
+        public float x7;
+        
+        public float8DebuggerProxy(float8 v)
+        {
+            x0 = v.x0;
+            x1 = v.x1;
+            x2 = v.x2;
+            x3 = v.x3;
+            x4 = v.x4;
+            x5 = v.x5;
+            x6 = v.x6;
+            x7 = v.x7;
+        }
+    }
+
+    [System.Diagnostics.DebuggerTypeProxy(typeof(float8DebuggerProxy))]
+#endif
     [Serializable]
-    [StructLayout(LayoutKind.Explicit, Size = 8 * sizeof(float))]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     unsafe public struct float8 : IEquatable<float8>, IFormattable
     {
-        [FieldOffset(0)]  internal float4 _v4_0;
-        [FieldOffset(16)] internal float4 _v4_4;
-
-        [FieldOffset(0)]  public float x0;
-        [FieldOffset(4)]  public float x1;
-        [FieldOffset(8)]  public float x2;
-        [FieldOffset(12)] public float x3;
-        [FieldOffset(16)] public float x4;
-        [FieldOffset(20)] public float x5;
-        [FieldOffset(24)] public float x6;
-        [FieldOffset(28)] public float x7;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal float4 __x0;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal float4 __x4;
+        
+        public ref float x0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(float8* ptr = &this) { return ref *((float*)ptr + 0); } } }
+        public ref float x1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(float8* ptr = &this) { return ref *((float*)ptr + 1); } } }
+        public ref float x2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(float8* ptr = &this) { return ref *((float*)ptr + 2); } } }
+        public ref float x3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(float8* ptr = &this) { return ref *((float*)ptr + 3); } } }
+        public ref float x4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(float8* ptr = &this) { return ref *((float*)ptr + 4); } } }
+        public ref float x5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(float8* ptr = &this) { return ref *((float*)ptr + 5); } } }
+        public ref float x6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(float8* ptr = &this) { return ref *((float*)ptr + 6); } } }
+        public ref float x7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(float8* ptr = &this) { return ref *((float*)ptr + 7); } } }
 
 
         public static float8 zero => default;
@@ -35,65 +67,236 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float x0, float x1, float x2, float x3, float x4, float x5, float x6, float x7)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x0), math.asuint(x1), math.asuint(x2), math.asuint(x3), math.asuint(x4), math.asuint(x5), math.asuint(x6), math.asuint(x7)));
+            this = math.asfloat(new uint8(asuint(x0), asuint(x1), asuint(x2), asuint(x3), asuint(x4), asuint(x5), asuint(x6), asuint(x7)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float x0x8)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x0x8)));
+            this = math.asfloat(new uint8(asuint(x0x8)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float2 x23, float2 x45, float2 x67)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x01), math.asuint(x23), math.asuint(x45), math.asuint(x67)));
+            this = math.asfloat(new uint8(asuint(x01), asuint(x23), asuint(x45), asuint(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float3 x234, float3 x567)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x01), math.asuint(x234), math.asuint(x567)));
+            this = math.asfloat(new uint8(asuint(x01), asuint(x234), asuint(x567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float3 x012, float2 x34, float3 x567)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x012), math.asuint(x34), math.asuint(x567)));
+            this = math.asfloat(new uint8(asuint(x012), asuint(x34), asuint(x567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float3 x012, float3 x345, float2 x67)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x012), math.asuint(x345), math.asuint(x67)));
+            this = math.asfloat(new uint8(asuint(x012), asuint(x345), asuint(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float4 x0123, float2 x45, float2 x67)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x0123), math.asuint(x45), math.asuint(x67)));
+            this = math.asfloat(new uint8(asuint(x0123), asuint(x45), asuint(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float4 x2345, float2 x67)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x01), math.asuint(x2345), math.asuint(x67)));
+            this = math.asfloat(new uint8(asuint(x01), asuint(x2345), asuint(x67)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float2 x01, float2 x23, float4 x4567)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x01), math.asuint(x23), math.asuint(x4567)));
+            this = math.asfloat(new uint8(asuint(x01), asuint(x23), asuint(x4567)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8(float4 x0123, float4 x4567)
         {
-            this = maxmath.asfloat(new uint8(math.asuint(x0123), math.asuint(x4567)));
+            this = math.asfloat(new uint8(asuint(x0123), asuint(x4567)));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(bool v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(bool8 v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(mask8x8 v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(mask16x8 v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(mask32x8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(byte v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(byte8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(sbyte v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(sbyte8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(ushort v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(ushort8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(short v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(short8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(uint v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(uint8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(int v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(int8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(ulong v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(long v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(UInt128 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(Int128 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(quarter v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(quarter8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(half v)
+        {
+            this = (float8)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(half8 v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(double v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(quadruple v)
+        {
+            this = (float8)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float8(Unity.Mathematics.half v)
+        {
+            this = (float8)v;
         }
 
 
         #region Shuffle
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float4 v4_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -101,11 +304,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat4(Avx.mm256_castps256_ps128(this));
+                    return Avx.mm256_castps256_ps128(this);
                 }
                 else
                 {
-                    return _v4_0;
+                    return __x0;
                 }
             }
 
@@ -114,14 +317,18 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), 0b0000_1111);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(value), 0b0000_1111);
                 }
                 else
                 {
-                    this._v4_0 = value;
+                    this.__x0 = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float4 v4_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -129,14 +336,14 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat4(Xse.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float)));
+                    return Xse.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float));
                 }
                 else
                 {
-                    return math.shuffle(_v4_0, _v4_4, math.ShuffleComponent.LeftY,
-                                                      math.ShuffleComponent.LeftZ,
-                                                      math.ShuffleComponent.LeftW,
-                                                      math.ShuffleComponent.RightX);
+                    return shuffle(__x0, __x4, ShuffleComponent.LeftY,
+                                                      ShuffleComponent.LeftZ,
+                                                      ShuffleComponent.LeftW,
+                                                      ShuffleComponent.RightX);
                 }
             }
 
@@ -145,22 +352,26 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), 1), 0b0001_1110);
+                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(value), 1), 0b0001_1110);
                 }
                 else
                 {
-                    this._v4_0 = math.shuffle(_v4_0, value, math.ShuffleComponent.LeftX,
-                                                            math.ShuffleComponent.RightX,
-                                                            math.ShuffleComponent.RightY,
-                                                            math.ShuffleComponent.RightZ);
+                    this.__x0 = shuffle(__x0, value, ShuffleComponent.LeftX,
+                                                            ShuffleComponent.RightX,
+                                                            ShuffleComponent.RightY,
+                                                            ShuffleComponent.RightZ);
 
-                    this._v4_4 = math.shuffle(_v4_4, value, math.ShuffleComponent.RightW,
-                                                            math.ShuffleComponent.LeftY,
-                                                            math.ShuffleComponent.LeftZ,
-                                                            math.ShuffleComponent.LeftW);
+                    this.__x4 = shuffle(__x4, value, ShuffleComponent.RightW,
+                                                            ShuffleComponent.LeftY,
+                                                            ShuffleComponent.LeftZ,
+                                                            ShuffleComponent.LeftW);
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float4 v4_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -168,14 +379,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToFloat4(Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 2, 1))));
+                    return Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 2, 1)));
                 }
                 else
                 {
-                    return math.shuffle(_v4_0, _v4_4, math.ShuffleComponent.LeftZ,
-                                                      math.ShuffleComponent.LeftW,
-                                                      math.ShuffleComponent.RightX,
-                                                      math.ShuffleComponent.RightY);
+                    return shuffle(__x0, __x4, ShuffleComponent.LeftZ,
+                                                      ShuffleComponent.LeftW,
+                                                      ShuffleComponent.RightX,
+                                                      ShuffleComponent.RightY);
                 }
             }
 
@@ -184,22 +395,26 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), Sse.SHUFFLE(0, 1, 0, 0)), 0b0011_1100);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0011_1100);
                 }
                 else
                 {
-                    this._v4_0 = math.shuffle(_v4_0, value, math.ShuffleComponent.LeftX,
-                                                            math.ShuffleComponent.LeftY,
-                                                            math.ShuffleComponent.RightX,
-                                                            math.ShuffleComponent.RightY);
+                    this.__x0 = shuffle(__x0, value, ShuffleComponent.LeftX,
+                                                            ShuffleComponent.LeftY,
+                                                            ShuffleComponent.RightX,
+                                                            ShuffleComponent.RightY);
 
-                    this._v4_4 = math.shuffle(_v4_4, value, math.ShuffleComponent.RightZ,
-                                                            math.ShuffleComponent.RightW,
-                                                            math.ShuffleComponent.LeftZ,
-                                                            math.ShuffleComponent.LeftW);
+                    this.__x4 = shuffle(__x4, value, ShuffleComponent.RightZ,
+                                                            ShuffleComponent.RightW,
+                                                            ShuffleComponent.LeftZ,
+                                                            ShuffleComponent.LeftW);
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float4 v4_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -207,14 +422,14 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat4(Xse.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float)));
+                    return Xse.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float));
                 }
                 else
                 {
-                    return math.shuffle(_v4_0, _v4_4, math.ShuffleComponent.LeftW,
-                                                      math.ShuffleComponent.RightX,
-                                                      math.ShuffleComponent.RightY,
-                                                      math.ShuffleComponent.RightZ);
+                    return shuffle(__x0, __x4, ShuffleComponent.LeftW,
+                                                      ShuffleComponent.RightX,
+                                                      ShuffleComponent.RightY,
+                                                      ShuffleComponent.RightZ);
                 }
             }
 
@@ -223,22 +438,26 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), 3), 0b0111_1000);
+                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(value), 3), 0b0111_1000);
                 }
                 else
                 {
-                    this._v4_0 = math.shuffle(_v4_0, value, math.ShuffleComponent.LeftX,
-                                                            math.ShuffleComponent.LeftY,
-                                                            math.ShuffleComponent.LeftZ,
-                                                            math.ShuffleComponent.RightX);
+                    this.__x0 = shuffle(__x0, value, ShuffleComponent.LeftX,
+                                                            ShuffleComponent.LeftY,
+                                                            ShuffleComponent.LeftZ,
+                                                            ShuffleComponent.RightX);
 
-                    this._v4_4 = math.shuffle(_v4_4, value, math.ShuffleComponent.RightY,
-                                                            math.ShuffleComponent.RightZ,
-                                                            math.ShuffleComponent.RightW,
-                                                            math.ShuffleComponent.LeftW);
+                    this.__x4 = shuffle(__x4, value, ShuffleComponent.RightY,
+                                                            ShuffleComponent.RightZ,
+                                                            ShuffleComponent.RightW,
+                                                            ShuffleComponent.LeftW);
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float4 v4_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -246,11 +465,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat4(Avx.mm256_extractf128_ps(this, 1));
+                    return Avx.mm256_extractf128_ps(this, 1);
                 }
                 else
                 {
-                    return _v4_4;
+                    return __x4;
                 }
             }
 
@@ -259,15 +478,19 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_insertf128_ps(this, RegisterConversion.ToV128(value), 1);
+                    this = Avx.mm256_insertf128_ps(this, value, 1);
                 }
                 else
                 {
-                    this._v4_4 = value;
+                    this.__x4 = value;
                 }
             }
         }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float3 v3_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -275,11 +498,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat3(Avx.mm256_castps256_ps128(this));
+                    return Avx.mm256_castps256_ps128(this);
                 }
                 else
                 {
-                    return _v4_0.xyz;
+                    return __x0.xyz;
                 }
             }
 
@@ -288,14 +511,18 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), 0b0000_0111);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(value), 0b0000_0111);
                 }
                 else
                 {
-                    this._v4_0.xyz = value;
+                    this.__x0.xyz = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float3 v3_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -303,11 +530,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat3(Xse.bsrli_si128(Avx.mm256_castps256_ps128(this), sizeof(float)));
+                    return Xse.bsrli_si128(Avx.mm256_castps256_ps128(this), sizeof(float));
                 }
                 else
                 {
-                    return _v4_0.yzw;
+                    return __x0.yzw;
                 }
             }
 
@@ -316,14 +543,18 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Xse.shuffle_epi32(RegisterConversion.ToV128(value), Sse.SHUFFLE(2, 1, 0, 0))), 0b0000_1110);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Xse.shuffle_epi32(value, Sse.SHUFFLE(2, 1, 0, 0))), 0b0000_1110);
                 }
                 else
                 {
-                    this._v4_0.yzw = value;
+                    this.__x0.yzw = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float3 v3_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -331,11 +562,11 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToFloat3(Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 2, 1))));
+                    return Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 2, 1)));
                 }
                 else
                 {
-                    return new float3(_v4_0.zw, _v4_4.x);
+                    return new float3(__x0.zw, __x4.x);
                 }
             }
 
@@ -344,15 +575,19 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), Sse.SHUFFLE(0, 1, 0, 0)), 0b0001_1100);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(value), Sse.SHUFFLE(0, 1, 0, 0)), 0b0001_1100);
                 }
                 else
                 {
-                    this._v4_0.zw = value.xy;
-                    this._v4_4.x  = value.z;
+                    this.__x0.zw = value.xy;
+                    this.__x4.x  = value.z;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float3 v3_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -360,11 +595,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat3(Xse.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float)));
+                    return Xse.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float));
                 }
                 else
                 {
-                    return new float3(_v4_0.w, _v4_4.xy);
+                    return new float3(__x0.w, __x4.xy);
                 }
             }
 
@@ -373,15 +608,19 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), 3), 0b0011_1000);
+                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(value), 3), 0b0011_1000);
                 }
                 else
                 {
-                    this._v4_0.w  = value.x;
-                    this._v4_4.xy = value.yz;
+                    this.__x0.w  = value.x;
+                    this.__x4.xy = value.yz;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float3 v3_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -389,11 +628,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat3(Avx.mm256_extractf128_ps(this, 1));
+                    return Avx.mm256_extractf128_ps(this, 1);
                 }
                 else
                 {
-                    return _v4_4.xyz;
+                    return __x4.xyz;
                 }
             }
 
@@ -402,14 +641,18 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), Sse.SHUFFLE(1, 0, 0, 0)), 0b0111_0000);
+                    this = Avx.mm256_blend_ps(this, Avx2.mm256_permute4x64_pd(Avx.mm256_castps128_ps256(value), Sse.SHUFFLE(1, 0, 0, 0)), 0b0111_0000);
                 }
                 else
                 {
-                    this._v4_4.xyz = value;
+                    this.__x4.xyz = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float3 v3_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -417,11 +660,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat3(Xse.bsrli_si128(Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float)));
+                    return Xse.bsrli_si128(Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float));
                 }
                 else
                 {
-                    return _v4_4.yzw;
+                    return __x4.yzw;
                 }
             }
 
@@ -430,15 +673,19 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), 5), 0b1110_0000);
+                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(value), 5), 0b1110_0000);
                 }
                 else
                 {
-                    this._v4_4.yzw = value;
+                    this.__x4.yzw = value;
                 }
             }
         }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float2 v2_0
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -446,11 +693,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat2(Avx.mm256_castps256_ps128(this));
+                    return Avx.mm256_castps256_ps128(this);
                 }
                 else
                 {
-                    return _v4_0.xy;
+                    return __x0.xy;
                 }
             }
 
@@ -463,10 +710,14 @@ namespace MaxMath
                 }
                 else
                 {
-                    this._v4_0.xy = value;
+                    this.__x0.xy = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float2 v2_1
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -474,11 +725,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat2(Xse.bsrli_si128(Avx.mm256_castps256_ps128(this), sizeof(float)));
+                    return Xse.bsrli_si128(Avx.mm256_castps256_ps128(this), sizeof(float));
                 }
                 else
                 {
-                    return _v4_0.yz;
+                    return __x0.yz;
                 }
             }
 
@@ -487,14 +738,18 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Xse.shuffle_epi32(RegisterConversion.ToV128(value), Sse.SHUFFLE(0, 1, 0, 0))), 0b0000_0110);
+                    this = Avx.mm256_blend_ps(this, Avx.mm256_castps128_ps256(Xse.shuffle_epi32(value, Sse.SHUFFLE(0, 1, 0, 0))), 0b0000_0110);
                 }
                 else
                 {
-                    this._v4_0.yz = value;
+                    this.__x0.yz = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float2 v2_2
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -502,11 +757,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat2(Xse.bsrli_si128(Avx.mm256_castps256_ps128(this), 2 * sizeof(float)));
+                    return Xse.bsrli_si128(Avx.mm256_castps256_ps128(this), 2 * sizeof(float));
                 }
                 else
                 {
-                    return _v4_0.zw;
+                    return __x0.zw;
                 }
             }
 
@@ -519,10 +774,14 @@ namespace MaxMath
                 }
                 else
                 {
-                    this._v4_0.zw = value;
+                    this.__x0.zw = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float2 v2_3
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -530,11 +789,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat2(Xse.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float)));
+                    return Xse.alignr_epi8(Avx.mm256_castps256_ps128(this), Avx.mm256_extractf128_ps(this, 1), 3 * sizeof(float));
                 }
                 else
                 {
-                    return new float2(_v4_0.w, _v4_4.x);
+                    return new float2(__x0.w, __x4.x);
                 }
             }
 
@@ -543,15 +802,19 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), 3), 0b0001_1000);
+                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(value), 3), 0b0001_1000);
                 }
                 else
                 {
-                    this._v4_0.w = value.x;
-                    this._v4_4.x = value.y;
+                    this.__x0.w = value.x;
+                    this.__x4.x = value.y;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float2 v2_4
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -559,11 +822,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat2(Avx.mm256_extractf128_ps(this, 1));
+                    return Avx.mm256_extractf128_ps(this, 1);
                 }
                 else
                 {
-                    return _v4_4.xy;
+                    return __x4.xy;
                 }
             }
 
@@ -576,10 +839,14 @@ namespace MaxMath
                 }
                 else
                 {
-                    this._v4_4.xy = value;
+                    this.__x4.xy = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float2 v2_5
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -587,11 +854,11 @@ namespace MaxMath
             {
                 if (Avx.IsAvxSupported)
                 {
-                    return RegisterConversion.ToFloat2(Xse.bsrli_si128(Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float)));
+                    return Xse.bsrli_si128(Avx.mm256_extractf128_ps(this, 1), 1 * sizeof(float));
                 }
                 else
                 {
-                    return _v4_4.yz;
+                    return __x4.yz;
                 }
             }
 
@@ -600,14 +867,18 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(RegisterConversion.ToV128(value)), 5), 0b0110_0000);
+                    this = Avx.mm256_blend_ps(this, vrol((float8)Avx.mm256_castps128_ps256(value), 5), 0b0110_0000);
                 }
                 else
                 {
-                    this._v4_4.yz = value;
+                    this.__x4.yz = value;
                 }
             }
         }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public float2 v2_6
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -615,11 +886,11 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToFloat2(Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 0, 3))));
+                    return Avx.mm256_castps256_ps128(Avx2.mm256_permute4x64_pd(this, Sse.SHUFFLE(0, 0, 0, 3)));
                 }
                 else
                 {
-                    return _v4_4.zw;
+                    return __x4.zw;
                 }
             }
 
@@ -632,7 +903,7 @@ namespace MaxMath
                 }
                 else
                 {
-                    this._v4_4.zw = value;
+                    this.__x4.zw = value;
                 }
             }
         }
@@ -641,15 +912,111 @@ namespace MaxMath
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(float8 input) => RegisterConversion.ToRegister256(input);
+        public static implicit operator v256(float8 input) => asuint(input);
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float8(v256 input) => RegisterConversion.ToAbstraction256<float8>(input);
+        public static implicit operator float8(v256 input) => asfloat((uint8)input);
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator float8(bool x) => (float8)(mask32x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator float8(bool8 x) => (float8)(mask32x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator float8(mask8x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (float8)(mask32x8)x;
+            }
+            else
+            {
+                return *(byte8*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator float8(mask16x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (float8)(mask32x8)x;
+            }
+            else
+            {
+                return *(byte8*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator float8(mask32x8 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Avx.mm256_and_ps(x, Xse.mm256_set1_ps(1));
+            }
+            else
+            {
+                return new float8((float4)x.v4_0, (float4)x.v4_4);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool8(float8 x) => math.andnot(x != 0, math.isnan(x));
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask8x8(float8 x) => (mask32x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask16x8(float8 x) => (mask32x8)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask32x8(float8 x) => math.andnot(x != 0, math.isnan(x));
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float8(quarter input) => new float8((float)input);
+        public static /*implicit*/ explicit operator float8(byte x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator float8(sbyte x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator float8(ushort x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator float8(short x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(uint x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(int x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(ulong x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(long x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(UInt128 x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(Int128 x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator float8(double x) => (float)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator float8(quadruple x) => (float)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(Unity.Mathematics.half x) => (float8)(half)x;
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float8(half input) => new float8((float)input);
@@ -665,7 +1032,7 @@ namespace MaxMath
             {
 Assert.IsWithinArrayBounds(index, 8);
 
-                return math.asfloat(asuint(this)[index]);
+                return asfloat(asuint(this)[index]);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -674,7 +1041,7 @@ Assert.IsWithinArrayBounds(index, 8);
 Assert.IsWithinArrayBounds(index, 8);
 
                 uint8 cpy = asuint(this);
-                cpy[index] = math.asuint(value);
+                cpy[index] = asuint(value);
                 this = asfloat(cpy);
             }
         }
@@ -689,7 +1056,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
             else
             {
-                return new float8(left._v4_0 + right._v4_0, left._v4_4 + right._v4_4);
+                return new float8(left.__x0 + right.__x0, left.__x4 + right.__x4);
             }
         }
 
@@ -702,7 +1069,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
             else
             {
-                return new float8(left._v4_0 - right._v4_0, left._v4_4 - right._v4_4);
+                return new float8(left.__x0 - right.__x0, left.__x4 - right.__x4);
             }
         }
 
@@ -715,7 +1082,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
             else
             {
-                return new float8(left._v4_0 * right._v4_0, left._v4_4 * right._v4_4);
+                return new float8(left.__x0 * right.__x0, left.__x4 * right.__x4);
             }
         }
 
@@ -728,7 +1095,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
             else
             {
-                return new float8(left._v4_0 / right._v4_0, left._v4_4 / right._v4_4);
+                return new float8(left.__x0 / right.__x0, left.__x4 / right.__x4);
             }
         }
 
@@ -740,6 +1107,504 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, byte8 rhs) => lhs + (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, byte8 rhs) => lhs - (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, byte8 rhs) => lhs * (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, byte8 rhs) => lhs / (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, byte8 rhs) => lhs % (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (byte8 lhs, float8 rhs) => (float8)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (byte8 lhs, float8 rhs) => (float8)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (byte8 lhs, float8 rhs) => (float8)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (byte8 lhs, float8 rhs) => (float8)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (byte8 lhs, float8 rhs) => (float8)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, sbyte8 rhs) => lhs + (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, sbyte8 rhs) => lhs - (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, sbyte8 rhs) => lhs * (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, sbyte8 rhs) => lhs / (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, sbyte8 rhs) => lhs % (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (sbyte8 lhs, float8 rhs) => (float8)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (sbyte8 lhs, float8 rhs) => (float8)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (sbyte8 lhs, float8 rhs) => (float8)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (sbyte8 lhs, float8 rhs) => (float8)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (sbyte8 lhs, float8 rhs) => (float8)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, short8 rhs) => lhs + (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, short8 rhs) => lhs - (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, short8 rhs) => lhs * (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, short8 rhs) => lhs / (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, short8 rhs) => lhs % (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (short8 lhs, float8 rhs) => (float8)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (short8 lhs, float8 rhs) => (float8)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (short8 lhs, float8 rhs) => (float8)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (short8 lhs, float8 rhs) => (float8)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (short8 lhs, float8 rhs) => (float8)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, ushort8 rhs) => lhs + (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, ushort8 rhs) => lhs - (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, ushort8 rhs) => lhs * (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, ushort8 rhs) => lhs / (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, ushort8 rhs) => lhs % (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (ushort8 lhs, float8 rhs) => (float8)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (ushort8 lhs, float8 rhs) => (float8)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (ushort8 lhs, float8 rhs) => (float8)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (ushort8 lhs, float8 rhs) => (float8)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (ushort8 lhs, float8 rhs) => (float8)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, int8 rhs) => lhs + (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, int8 rhs) => lhs - (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, int8 rhs) => lhs * (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, int8 rhs) => lhs / (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, int8 rhs) => lhs % (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (int8 lhs, float8 rhs) => (float8)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (int8 lhs, float8 rhs) => (float8)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (int8 lhs, float8 rhs) => (float8)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (int8 lhs, float8 rhs) => (float8)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (int8 lhs, float8 rhs) => (float8)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, uint8 rhs) => lhs + (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, uint8 rhs) => lhs - (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, uint8 rhs) => lhs * (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, uint8 rhs) => lhs / (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, uint8 rhs) => lhs % (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (uint8 lhs, float8 rhs) => (float8)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (uint8 lhs, float8 rhs) => (float8)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (uint8 lhs, float8 rhs) => (float8)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (uint8 lhs, float8 rhs) => (float8)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (uint8 lhs, float8 rhs) => (float8)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, byte rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (byte lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, byte rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (byte lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, byte rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (byte lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, byte rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (byte lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, byte rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (byte lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, sbyte rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (sbyte lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, sbyte rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (sbyte lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, sbyte rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (sbyte lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, sbyte rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (sbyte lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, sbyte rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (sbyte lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, short rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (short lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, short rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (short lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, short rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (short lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, short rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (short lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, short rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (short lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, ushort rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (ushort lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, ushort rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (ushort lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, ushort rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (ushort lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, ushort rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (ushort lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, ushort rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (ushort lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, int rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (int lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, int rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (int lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, int rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (int lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, int rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (int lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, int rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (int lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, uint rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (uint lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, uint rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (uint lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, uint rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (uint lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, uint rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (uint lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, uint rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (uint lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, long rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (long lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, long rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (long lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, long rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (long lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, long rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (long lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, long rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (long lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, ulong rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (ulong lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, ulong rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (ulong lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, ulong rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (ulong lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, ulong rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (ulong lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, ulong rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (ulong lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, Int128 rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (Int128 lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, Int128 rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (Int128 lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, Int128 rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (Int128 lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, Int128 rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (Int128 lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, Int128 rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (Int128 lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float8 lhs, UInt128 rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (UInt128 lhs, float8 rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float8 lhs, UInt128 rhs) => lhs - (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (UInt128 lhs, float8 rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float8 lhs, UInt128 rhs) => lhs * (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (UInt128 lhs, float8 rhs) => (float)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float8 lhs, UInt128 rhs) => lhs / (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (UInt128 lhs, float8 rhs) => (float)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float8 lhs, UInt128 rhs) => lhs % (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (UInt128 lhs, float8 rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 operator - (float8 x)
         {
             if (Avx.IsAvxSupported)
@@ -748,7 +1613,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
             else
             {
-                return new float8(-x._v4_0, -x._v4_4);
+                return new float8(-x.__x0, -x.__x4);
             }
         }
 
@@ -761,7 +1626,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
             else
             {
-                return new float8(x._v4_0 + 1f, x._v4_4 + 1f);
+                return new float8(x.__x0 + 1f, x.__x4 + 1f);
             }
         }
 
@@ -774,89 +1639,696 @@ Assert.IsWithinArrayBounds(index, 8);
             }
             else
             {
-                return new float8(x._v4_0 - 1f, x._v4_4 - 1f);
+                return new float8(x.__x0 - 1f, x.__x4 - 1f);
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator == (float8 left, float8 right)
+        public static mask32x8 operator == (float8 left, float8 right)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmpeq_ps(left, right));
+                return Xse.mm256_cmpeq_ps(left, right);
             }
             else
             {
-                return new bool8(left._v4_0 == right._v4_0, left._v4_4 == right._v4_4);
+                return new mask32x8(left.__x0 == right.__x0, left.__x4 == right.__x4);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator < (float8 left, float8 right)
+        public static mask32x8 operator < (float8 left, float8 right)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmplt_ps(left, right));
+                return Xse.mm256_cmplt_ps(left, right);
             }
             else
             {
-                return new bool8(left._v4_0 < right._v4_0, left._v4_4 < right._v4_4);
+                return new mask32x8(left.__x0 < right.__x0, left.__x4 < right.__x4);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator > (float8 left, float8 right)
+        public static mask32x8 operator > (float8 left, float8 right)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmpgt_ps(left, right));
+                return Xse.mm256_cmpgt_ps(left, right);
             }
             else
             {
-                return new bool8(left._v4_0 > right._v4_0, left._v4_4 > right._v4_4);
+                return new mask32x8(left.__x0 > right.__x0, left.__x4 > right.__x4);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 left, float8 right)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Xse.mm256_cmpneq_ps(left, right);
+            }
+            else
+            {
+                return new mask32x8(left.__x0 != right.__x0, left.__x4 != right.__x4);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 left, float8 right)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Xse.mm256_cmple_ps(left, right);
+            }
+            else
+            {
+                return new mask32x8(left.__x0 <= right.__x0, left.__x4 <= right.__x4);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 left, float8 right)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Xse.mm256_cmpge_ps(left, right);
+            }
+            else
+            {
+                return new mask32x8(left.__x0 >= right.__x0, left.__x4 >= right.__x4);
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator != (float8 left, float8 right)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmpneq_ps(left, right));
-            }
-            else
-            {
-                return new bool8(left._v4_0 != right._v4_0, left._v4_4 != right._v4_4);
-            }
-        }
+        public static mask32x8 operator == (float8 lhs, byte8 rhs) => lhs == (float8)rhs;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator <= (float8 left, float8 right)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmple_ps(left, right));
-            }
-            else
-            {
-                return new bool8(left._v4_0 <= right._v4_0, left._v4_4 <= right._v4_4);
-            }
-        }
+        public static mask32x8 operator != (float8 lhs, byte8 rhs) => lhs != (float8)rhs;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 operator >= (float8 left, float8 right)
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return RegisterConversion.IsTrue32(Xse.mm256_cmpge_ps(left, right));
-            }
-            else
-            {
-                return new bool8(left._v4_0 >= right._v4_0, left._v4_4 >= right._v4_4);
-            }
-        }
+        public static mask32x8 operator < (float8 lhs, byte8 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, byte8 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, byte8 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, byte8 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (byte8 lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (byte8 lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (byte8 lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (byte8 lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (byte8 lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (byte8 lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, sbyte8 rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, sbyte8 rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, sbyte8 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, sbyte8 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, sbyte8 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, sbyte8 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (sbyte8 lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (sbyte8 lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (sbyte8 lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (sbyte8 lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (sbyte8 lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (sbyte8 lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, ushort8 rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, ushort8 rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, ushort8 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, ushort8 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, ushort8 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, ushort8 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (ushort8 lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (ushort8 lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (ushort8 lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (ushort8 lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (ushort8 lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (ushort8 lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, short8 rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, short8 rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, short8 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, short8 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, short8 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, short8 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (short8 lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (short8 lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (short8 lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (short8 lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (short8 lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (short8 lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, int8 rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, int8 rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, int8 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, int8 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, int8 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, int8 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (int8 lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (int8 lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (int8 lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (int8 lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (int8 lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (int8 lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, uint8 rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, uint8 rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, uint8 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, uint8 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, uint8 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, uint8 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (uint8 lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (uint8 lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (uint8 lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (uint8 lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (uint8 lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (uint8 lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, byte rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, byte rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, byte rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, byte rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, byte rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, byte rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (byte lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (byte lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (byte lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (byte lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (byte lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (byte lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, sbyte rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, sbyte rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, sbyte rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, sbyte rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, sbyte rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, sbyte rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (sbyte lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (sbyte lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (sbyte lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (sbyte lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (sbyte lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (sbyte lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, ushort rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, ushort rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, ushort rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, ushort rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, ushort rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, ushort rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (ushort lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (ushort lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (ushort lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (ushort lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (ushort lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (ushort lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, short rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, short rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, short rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, short rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, short rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, short rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (short lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (short lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (short lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (short lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (short lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (short lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, int rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, int rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, int rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, int rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, int rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, int rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (int lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (int lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (int lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (int lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (int lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (int lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, uint rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, uint rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, uint rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, uint rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, uint rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, uint rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (uint lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (uint lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (uint lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (uint lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (uint lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (uint lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, long rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, long rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, long rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, long rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, long rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, long rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (long lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (long lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (long lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (long lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (long lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (long lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, ulong rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, ulong rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, ulong rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, ulong rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, ulong rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, ulong rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (ulong lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (ulong lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (ulong lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (ulong lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (ulong lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (ulong lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, Int128 rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, Int128 rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, Int128 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, Int128 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, Int128 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, Int128 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (Int128 lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (Int128 lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (Int128 lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (Int128 lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (Int128 lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (Int128 lhs, float8 rhs) => (float8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float8 lhs, UInt128 rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float8 lhs, UInt128 rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float8 lhs, UInt128 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float8 lhs, UInt128 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float8 lhs, UInt128 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float8 lhs, UInt128 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (UInt128 lhs, float8 rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (UInt128 lhs, float8 rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (UInt128 lhs, float8 rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (UInt128 lhs, float8 rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (UInt128 lhs, float8 rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (UInt128 lhs, float8 rhs) => (float8)lhs >= rhs;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -868,7 +2340,7 @@ Assert.IsWithinArrayBounds(index, 8);
             }
             else
             {
-                return this._v4_0.Equals(other._v4_0) & this._v4_4.Equals(other._v4_4);
+                return this.__x0.Equals(other.__x0) & this.__x4.Equals(other.__x4);
             }
         }
 
@@ -877,21 +2349,9 @@ Assert.IsWithinArrayBounds(index, 8);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
-        {
-            if (Avx.IsAvxSupported)
-            {
-                return Hash.v256(this);
-            }
-            else
-            {
-                float8 temp = this;
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
-                return ((*(ulong*)&temp ^ *((ulong*)&temp + 1)) ^ (*((ulong*)&temp + 2) ^ *((ulong*)&temp + 3))).GetHashCode();
-            }
-        }
-
-        public override readonly string ToString() => $"float8({x0}f, {x1}f, {x2}f, {x3}f,    {x4}f, {x5}f, {x6}f, {x7}f)";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"float8({x0.ToString(format, formatProvider)}f, {x1.ToString(format, formatProvider)}f, {x2.ToString(format, formatProvider)}f, {x3.ToString(format, formatProvider)}f,    {x4.ToString(format, formatProvider)}f, {x5.ToString(format, formatProvider)}f, {x6.ToString(format, formatProvider)}f, {x7.ToString(format, formatProvider)}f)";
+        public override string ToString() => $"float8({x0}f, {x1}f, {x2}f, {x3}f,    {x4}f, {x5}f, {x6}f, {x7}f)";
+        public string ToString(string format, IFormatProvider formatProvider) => $"float8({x0.ToString(format, formatProvider)}f, {x1.ToString(format, formatProvider)}f, {x2.ToString(format, formatProvider)}f, {x3.ToString(format, formatProvider)}f,    {x4.ToString(format, formatProvider)}f, {x5.ToString(format, formatProvider)}f, {x6.ToString(format, formatProvider)}f, {x7.ToString(format, formatProvider)}f)";
     }
 }

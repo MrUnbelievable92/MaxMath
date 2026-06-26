@@ -2,7 +2,7 @@
 
 using System.Numerics;
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -17,7 +17,7 @@ namespace MaxMath.Tests
             {
                 sbyte sb = rng.NextSByte();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -30,7 +30,7 @@ namespace MaxMath.Tests
             {
                 short sb = rng.NextShort();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -43,7 +43,7 @@ namespace MaxMath.Tests
             {
                 int sb = rng.NextInt();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -56,7 +56,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -69,7 +69,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -83,7 +83,7 @@ namespace MaxMath.Tests
             {
                 ushort sb = rng.NextUShort();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -96,7 +96,7 @@ namespace MaxMath.Tests
             {
                 uint sb = rng.NextUInt();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -109,7 +109,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -122,7 +122,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -134,14 +134,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter sb = maxmath.asquarter(rng.NextByte());
+                quarter sb = math.asquarter(rng.NextByte());
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
-                    sb = maxmath.asquarter(rng.NextByte());
+                    sb = math.asquarter(rng.NextByte());
                 }
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -154,12 +154,12 @@ namespace MaxMath.Tests
             {
                 half sb = new half { value = rng.NextUShort() };
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
                     sb = new half { value = rng.NextUShort() };
                 }
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -172,7 +172,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
+                Assert.AreEqual(math.tobytesaturated(sb), (byte)(sb < byte.MinValue ? byte.MinValue : sb > byte.MaxValue ? byte.MaxValue : (byte)sb));
             }
         }
 
@@ -201,7 +201,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -217,7 +217,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -233,7 +233,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -249,7 +249,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -266,7 +266,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -282,7 +282,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -298,7 +298,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -311,16 +311,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter2 sb = maxmath.asquarter(rng.NextByte2());
+                quarter2 sb = math.asquarter(rng.NextByte2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -332,16 +332,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half2 sb = maxmath.ashalf(rng.NextUShort2());
+                half2 sb = math.ashalf(rng.NextUShort2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -357,7 +357,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -373,7 +373,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -390,7 +390,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -406,7 +406,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -422,7 +422,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -438,7 +438,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -455,7 +455,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -471,7 +471,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -487,7 +487,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -500,16 +500,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter3 sb = maxmath.asquarter(rng.NextByte3());
+                quarter3 sb = math.asquarter(rng.NextByte3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -521,16 +521,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half3 sb = maxmath.ashalf(rng.NextUShort3());
+                half3 sb = math.ashalf(rng.NextUShort3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -546,7 +546,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -562,7 +562,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -579,7 +579,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -595,7 +595,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -611,7 +611,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -627,7 +627,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -644,7 +644,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -660,7 +660,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -676,7 +676,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -689,16 +689,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter4 sb = maxmath.asquarter(rng.NextByte4());
+                quarter4 sb = math.asquarter(rng.NextByte4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -710,16 +710,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -735,7 +735,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -751,7 +751,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -768,7 +768,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -784,7 +784,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -800,7 +800,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -816,7 +816,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -832,7 +832,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -845,16 +845,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter8 sb = maxmath.asquarter(rng.NextByte8());
+                quarter8 sb = math.asquarter(rng.NextByte8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -866,16 +866,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half8 sb = maxmath.ashalf(rng.NextUShort8());
+                half8 sb = math.ashalf(rng.NextUShort8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -891,7 +891,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -908,7 +908,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -924,7 +924,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -940,7 +940,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -953,16 +953,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter16 sb = maxmath.asquarter(rng.NextByte16());
+                quarter16 sb = math.asquarter(rng.NextByte16());
 
                 for (int j = 0; j < 16; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -974,16 +974,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half16 sb = maxmath.ashalf(rng.NextUShort16());
+                half16 sb = math.ashalf(rng.NextUShort16());
 
                 for (int j = 0; j < 16; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -996,16 +996,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter32 sb = maxmath.asquarter(rng.NextByte32());
+                quarter32 sb = math.asquarter(rng.NextByte32());
 
                 for (int j = 0; j < 32; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
+                    Assert.AreEqual(math.tobytesaturated(sb)[j], (byte)(sb[j] < byte.MinValue ? byte.MinValue : sb[j] > byte.MaxValue ? byte.MaxValue : (byte)sb[j]));
                 }
             }
         }
@@ -1022,7 +1022,7 @@ namespace MaxMath.Tests
             {
                 byte sb = rng.NextByte();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1035,7 +1035,7 @@ namespace MaxMath.Tests
             {
                 short sb = rng.NextShort();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1048,7 +1048,7 @@ namespace MaxMath.Tests
             {
                 int sb = rng.NextInt();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1061,7 +1061,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1074,7 +1074,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1088,7 +1088,7 @@ namespace MaxMath.Tests
             {
                 ushort sb = rng.NextUShort();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1101,7 +1101,7 @@ namespace MaxMath.Tests
             {
                 uint sb = rng.NextUInt();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1114,7 +1114,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)((Int128)sb < sbyte.MinValue ? sbyte.MinValue : (Int128)sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)((Int128)sb < sbyte.MinValue ? sbyte.MinValue : (Int128)sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1127,7 +1127,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)((BigInteger)sb < sbyte.MinValue ? sbyte.MinValue : (BigInteger)sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)((BigInteger)sb < sbyte.MinValue ? sbyte.MinValue : (BigInteger)sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1141,12 +1141,12 @@ namespace MaxMath.Tests
             {
                 half sb = new half { value = rng.NextUShort() };
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
                     sb = new half { value = rng.NextUShort() };
                 }
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1159,7 +1159,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1172,7 +1172,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
+                Assert.AreEqual(math.tosbytesaturated(sb), (sbyte)(sb < sbyte.MinValue ? sbyte.MinValue : sb > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb));
             }
         }
 
@@ -1188,7 +1188,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1204,7 +1204,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1220,7 +1220,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1236,7 +1236,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1253,7 +1253,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1269,7 +1269,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1285,7 +1285,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)((Int128)sb[j] < sbyte.MinValue ? sbyte.MinValue : (Int128)sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)((Int128)sb[j] < sbyte.MinValue ? sbyte.MinValue : (Int128)sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1298,16 +1298,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half2 sb = maxmath.ashalf(rng.NextUShort2());
+                half2 sb = math.ashalf(rng.NextUShort2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1323,7 +1323,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1339,7 +1339,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1356,7 +1356,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1372,7 +1372,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1388,7 +1388,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1404,7 +1404,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1421,7 +1421,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1437,7 +1437,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1453,7 +1453,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)((Int128)sb[j] < sbyte.MinValue ? sbyte.MinValue : (Int128)sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)((Int128)sb[j] < sbyte.MinValue ? sbyte.MinValue : (Int128)sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1466,16 +1466,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half3 sb = maxmath.ashalf(rng.NextUShort3());
+                half3 sb = math.ashalf(rng.NextUShort3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1491,7 +1491,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1507,7 +1507,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1524,7 +1524,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1540,7 +1540,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1556,7 +1556,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1572,7 +1572,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1589,7 +1589,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1605,7 +1605,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1621,7 +1621,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)((Int128)sb[j] < sbyte.MinValue ? sbyte.MinValue : (Int128)sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)((Int128)sb[j] < sbyte.MinValue ? sbyte.MinValue : (Int128)sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1634,16 +1634,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1659,7 +1659,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1675,7 +1675,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1692,7 +1692,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1708,7 +1708,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1724,7 +1724,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1740,7 +1740,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1756,7 +1756,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1769,16 +1769,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half8 sb = maxmath.ashalf(rng.NextUShort8());
+                half8 sb = math.ashalf(rng.NextUShort8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1794,7 +1794,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1811,7 +1811,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1827,7 +1827,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1843,7 +1843,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1856,16 +1856,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half16 sb = maxmath.ashalf(rng.NextUShort16());
+                half16 sb = math.ashalf(rng.NextUShort16());
 
                 for (int j = 0; j < 16; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
+                    Assert.AreEqual(math.tosbytesaturated(sb)[j], (sbyte)(sb[j] < sbyte.MinValue ? sbyte.MinValue : sb[j] > sbyte.MaxValue ? sbyte.MaxValue : (sbyte)sb[j]));
                 }
             }
         }
@@ -1882,7 +1882,7 @@ namespace MaxMath.Tests
             {
                 sbyte sb = rng.NextSByte();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1895,7 +1895,7 @@ namespace MaxMath.Tests
             {
                 short sb = rng.NextShort();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1908,7 +1908,7 @@ namespace MaxMath.Tests
             {
                 int sb = rng.NextInt();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1921,7 +1921,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1934,7 +1934,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1948,7 +1948,7 @@ namespace MaxMath.Tests
             {
                 ushort sb = rng.NextUShort();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1961,7 +1961,7 @@ namespace MaxMath.Tests
             {
                 uint sb = rng.NextUInt();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1974,7 +1974,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1987,7 +1987,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -1999,14 +1999,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter sb = maxmath.asquarter(rng.NextByte());
+                quarter sb = math.asquarter(rng.NextByte());
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
-                    sb = maxmath.asquarter(rng.NextByte());
+                    sb = math.asquarter(rng.NextByte());
                 }
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -2019,12 +2019,12 @@ namespace MaxMath.Tests
             {
                 half sb = new half { value = rng.NextUShort() };
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
                     sb = new half { value = rng.NextUShort() };
                 }
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -2037,7 +2037,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -2050,7 +2050,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
+                Assert.AreEqual(math.toushortsaturated(sb), (ushort)(sb < ushort.MinValue ? ushort.MinValue : sb > ushort.MaxValue ? ushort.MaxValue : (ushort)sb));
             }
         }
 
@@ -2066,7 +2066,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2082,7 +2082,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2098,7 +2098,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2114,7 +2114,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2131,7 +2131,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2147,7 +2147,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2160,16 +2160,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter2 sb = maxmath.asquarter(rng.NextByte2());
+                quarter2 sb = math.asquarter(rng.NextByte2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2181,16 +2181,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half2 sb = maxmath.ashalf(rng.NextUShort2());
+                half2 sb = math.ashalf(rng.NextUShort2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2206,7 +2206,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2222,7 +2222,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2239,7 +2239,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2255,7 +2255,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2271,7 +2271,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2287,7 +2287,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2304,7 +2304,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2320,7 +2320,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2333,16 +2333,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter3 sb = maxmath.asquarter(rng.NextByte3());
+                quarter3 sb = math.asquarter(rng.NextByte3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2354,16 +2354,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half3 sb = maxmath.ashalf(rng.NextUShort3());
+                half3 sb = math.ashalf(rng.NextUShort3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2379,7 +2379,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2395,7 +2395,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2412,7 +2412,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2428,7 +2428,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2444,7 +2444,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2460,7 +2460,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2477,7 +2477,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2493,7 +2493,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2506,16 +2506,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter4 sb = maxmath.asquarter(rng.NextByte4());
+                quarter4 sb = math.asquarter(rng.NextByte4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2527,16 +2527,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2552,7 +2552,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2568,7 +2568,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2585,7 +2585,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2601,7 +2601,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2617,7 +2617,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2633,7 +2633,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2646,16 +2646,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter8 sb = maxmath.asquarter(rng.NextByte8());
+                quarter8 sb = math.asquarter(rng.NextByte8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2667,16 +2667,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half8 sb = maxmath.ashalf(rng.NextUShort8());
+                half8 sb = math.ashalf(rng.NextUShort8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2692,7 +2692,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2709,7 +2709,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2725,7 +2725,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2738,16 +2738,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter16 sb = maxmath.asquarter(rng.NextByte16());
+                quarter16 sb = math.asquarter(rng.NextByte16());
 
                 for (int j = 0; j < 16; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2759,16 +2759,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half16 sb = maxmath.ashalf(rng.NextUShort16());
+                half16 sb = math.ashalf(rng.NextUShort16());
 
                 for (int j = 0; j < 16; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
+                    Assert.AreEqual(math.toushortsaturated(sb)[j], (ushort)(sb[j] < ushort.MinValue ? ushort.MinValue : sb[j] > ushort.MaxValue ? ushort.MaxValue : (ushort)sb[j]));
                 }
             }
         }
@@ -2785,7 +2785,7 @@ namespace MaxMath.Tests
             {
                 int sb = rng.NextInt();
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2798,7 +2798,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2811,7 +2811,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2825,7 +2825,7 @@ namespace MaxMath.Tests
             {
                 ushort sb = rng.NextUShort();
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2838,7 +2838,7 @@ namespace MaxMath.Tests
             {
                 uint sb = rng.NextUInt();
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2851,7 +2851,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)((Int128)sb < short.MinValue ? short.MinValue : (Int128)sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)((Int128)sb < short.MinValue ? short.MinValue : (Int128)sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2864,7 +2864,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)((BigInteger)sb < short.MinValue ? short.MinValue : (BigInteger)sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)((BigInteger)sb < short.MinValue ? short.MinValue : (BigInteger)sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2878,12 +2878,12 @@ namespace MaxMath.Tests
             {
                 half sb = new half { value = rng.NextUShort() };
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
                     sb = new half { value = rng.NextUShort() };
                 }
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2896,7 +2896,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2909,7 +2909,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
+                Assert.AreEqual(math.toshortsaturated(sb), (short)(sb < short.MinValue ? short.MinValue : sb > short.MaxValue ? short.MaxValue : (short)sb));
             }
         }
 
@@ -2925,7 +2925,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -2941,7 +2941,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -2958,7 +2958,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -2974,7 +2974,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -2990,7 +2990,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)((Int128)sb[j] < short.MinValue ? short.MinValue : (Int128)sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)((Int128)sb[j] < short.MinValue ? short.MinValue : (Int128)sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3003,16 +3003,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half2 sb = maxmath.ashalf(rng.NextUShort2());
+                half2 sb = math.ashalf(rng.NextUShort2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3028,7 +3028,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3044,7 +3044,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3061,7 +3061,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3077,7 +3077,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3094,7 +3094,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3110,7 +3110,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3126,7 +3126,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)((Int128)sb[j] < short.MinValue ? short.MinValue : (Int128)sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)((Int128)sb[j] < short.MinValue ? short.MinValue : (Int128)sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3139,16 +3139,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half3 sb = maxmath.ashalf(rng.NextUShort3());
+                half3 sb = math.ashalf(rng.NextUShort3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3164,7 +3164,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3180,7 +3180,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3197,7 +3197,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3213,7 +3213,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3230,7 +3230,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3246,7 +3246,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3262,7 +3262,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)((Int128)sb[j] < short.MinValue ? short.MinValue : (Int128)sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)((Int128)sb[j] < short.MinValue ? short.MinValue : (Int128)sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3275,16 +3275,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3300,7 +3300,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3316,7 +3316,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3333,7 +3333,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3349,7 +3349,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3365,7 +3365,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3378,16 +3378,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half8 sb = maxmath.ashalf(rng.NextUShort8());
+                half8 sb = math.ashalf(rng.NextUShort8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3403,7 +3403,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3420,7 +3420,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3433,16 +3433,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half16 sb = maxmath.ashalf(rng.NextUShort16());
+                half16 sb = math.ashalf(rng.NextUShort16());
 
                 for (int j = 0; j < 16; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
+                    Assert.AreEqual(math.toshortsaturated(sb)[j], (short)(sb[j] < short.MinValue ? short.MinValue : sb[j] > short.MaxValue ? short.MaxValue : (short)sb[j]));
                 }
             }
         }
@@ -3459,7 +3459,7 @@ namespace MaxMath.Tests
             {
                 sbyte sb = rng.NextSByte();
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3472,7 +3472,7 @@ namespace MaxMath.Tests
             {
                 short sb = rng.NextShort();
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3485,7 +3485,7 @@ namespace MaxMath.Tests
             {
                 int sb = rng.NextInt();
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3498,7 +3498,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3511,7 +3511,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3525,7 +3525,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3538,7 +3538,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3550,14 +3550,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter sb = maxmath.asquarter(rng.NextByte());
+                quarter sb = math.asquarter(rng.NextByte());
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
-                    sb = maxmath.asquarter(rng.NextByte());
+                    sb = math.asquarter(rng.NextByte());
                 }
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3570,12 +3570,12 @@ namespace MaxMath.Tests
             {
                 half sb = new half { value = rng.NextUShort() };
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
                     sb = new half { value = rng.NextUShort() };
                 }
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3588,7 +3588,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3601,7 +3601,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
+                Assert.AreEqual(math.touintsaturated(sb), (uint)(sb < uint.MinValue ? uint.MinValue : sb > uint.MaxValue ? uint.MaxValue : (uint)sb));
             }
         }
 
@@ -3617,7 +3617,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3633,7 +3633,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3649,7 +3649,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3665,7 +3665,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3682,7 +3682,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3695,16 +3695,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter2 sb = maxmath.asquarter(rng.NextByte2());
+                quarter2 sb = math.asquarter(rng.NextByte2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3716,16 +3716,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half2 sb = maxmath.ashalf(rng.NextUShort2());
+                half2 sb = math.ashalf(rng.NextUShort2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3741,7 +3741,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3757,7 +3757,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3774,7 +3774,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3790,7 +3790,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3806,7 +3806,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3822,7 +3822,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3839,7 +3839,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3852,16 +3852,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter3 sb = maxmath.asquarter(rng.NextByte3());
+                quarter3 sb = math.asquarter(rng.NextByte3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3873,16 +3873,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half3 sb = maxmath.ashalf(rng.NextUShort3());
+                half3 sb = math.ashalf(rng.NextUShort3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3898,7 +3898,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3914,7 +3914,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3931,7 +3931,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3947,7 +3947,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3963,7 +3963,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3979,7 +3979,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -3996,7 +3996,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4009,16 +4009,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter4 sb = maxmath.asquarter(rng.NextByte4());
+                quarter4 sb = math.asquarter(rng.NextByte4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4030,16 +4030,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4055,7 +4055,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4071,7 +4071,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4088,7 +4088,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4104,7 +4104,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4120,7 +4120,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4132,16 +4132,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter8 sb = maxmath.asquarter(rng.NextByte8());
+                quarter8 sb = math.asquarter(rng.NextByte8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4153,16 +4153,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half8 sb = maxmath.ashalf(rng.NextUShort8());
+                half8 sb = math.ashalf(rng.NextUShort8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4178,7 +4178,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
+                    Assert.AreEqual(math.touintsaturated(sb)[j], (uint)(sb[j] < uint.MinValue ? uint.MinValue : sb[j] > uint.MaxValue ? uint.MaxValue : (uint)sb[j]));
                 }
             }
         }
@@ -4195,7 +4195,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
+                Assert.AreEqual(math.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
             }
         }
 
@@ -4208,7 +4208,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
+                Assert.AreEqual(math.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
             }
         }
 
@@ -4222,7 +4222,7 @@ namespace MaxMath.Tests
             {
                 uint sb = rng.NextUInt();
 
-                Assert.AreEqual(maxmath.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
+                Assert.AreEqual(math.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
             }
         }
 
@@ -4235,7 +4235,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.tointsaturated(sb), (int)((Int128)sb < int.MinValue ? int.MinValue : (Int128)sb > int.MaxValue ? int.MaxValue : (int)sb));
+                Assert.AreEqual(math.tointsaturated(sb), (int)((Int128)sb < int.MinValue ? int.MinValue : (Int128)sb > int.MaxValue ? int.MaxValue : (int)sb));
             }
         }
 
@@ -4248,7 +4248,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.tointsaturated(sb), (int)((BigInteger)sb < int.MinValue ? int.MinValue : (BigInteger)sb > int.MaxValue ? int.MaxValue : (int)sb));
+                Assert.AreEqual(math.tointsaturated(sb), (int)((BigInteger)sb < int.MinValue ? int.MinValue : (BigInteger)sb > int.MaxValue ? int.MaxValue : (int)sb));
             }
         }
 
@@ -4262,12 +4262,12 @@ namespace MaxMath.Tests
             {
                 half sb = new half { value = rng.NextUShort() };
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
                     sb = new half { value = rng.NextUShort() };
                 }
 
-                Assert.AreEqual(maxmath.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
+                Assert.AreEqual(math.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
             }
         }
 
@@ -4280,7 +4280,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
+                Assert.AreEqual(math.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
             }
         }
 
@@ -4293,7 +4293,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
+                Assert.AreEqual(math.tointsaturated(sb), (int)(sb < int.MinValue ? int.MinValue : sb > int.MaxValue ? int.MaxValue : (int)sb));
             }
         }
 
@@ -4309,7 +4309,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4325,7 +4325,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4342,7 +4342,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4358,7 +4358,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)((Int128)sb[j] < int.MinValue ? int.MinValue : (Int128)sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)((Int128)sb[j] < int.MinValue ? int.MinValue : (Int128)sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4371,16 +4371,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half2 sb = maxmath.ashalf(rng.NextUShort2());
+                half2 sb = math.ashalf(rng.NextUShort2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4396,7 +4396,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4412,7 +4412,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4429,7 +4429,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4446,7 +4446,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4462,7 +4462,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)((Int128)sb[j] < int.MinValue ? int.MinValue : (Int128)sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)((Int128)sb[j] < int.MinValue ? int.MinValue : (Int128)sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4475,16 +4475,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half3 sb = maxmath.ashalf(rng.NextUShort3());
+                half3 sb = math.ashalf(rng.NextUShort3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4500,7 +4500,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4516,7 +4516,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4533,7 +4533,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4550,7 +4550,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4566,7 +4566,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)((Int128)sb[j] < int.MinValue ? int.MinValue : (Int128)sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)((Int128)sb[j] < int.MinValue ? int.MinValue : (Int128)sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4579,16 +4579,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4604,7 +4604,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4620,7 +4620,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4637,7 +4637,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4650,16 +4650,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half8 sb = maxmath.ashalf(rng.NextUShort8());
+                half8 sb = math.ashalf(rng.NextUShort8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4675,7 +4675,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
+                    Assert.AreEqual(math.tointsaturated(sb)[j], (int)(sb[j] < int.MinValue ? int.MinValue : sb[j] > int.MaxValue ? int.MaxValue : (int)sb[j]));
                 }
             }
         }
@@ -4692,7 +4692,7 @@ namespace MaxMath.Tests
             {
                 sbyte sb = rng.NextSByte();
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)((Int128)sb < ulong.MinValue ? ulong.MinValue : (Int128)sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)((Int128)sb < ulong.MinValue ? ulong.MinValue : (Int128)sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4705,7 +4705,7 @@ namespace MaxMath.Tests
             {
                 short sb = rng.NextShort();
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)((Int128)sb < ulong.MinValue ? ulong.MinValue : (Int128)sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)((Int128)sb < ulong.MinValue ? ulong.MinValue : (Int128)sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4718,7 +4718,7 @@ namespace MaxMath.Tests
             {
                 int sb = rng.NextInt();
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)((Int128)sb < ulong.MinValue ? ulong.MinValue : (Int128)sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)((Int128)sb < ulong.MinValue ? ulong.MinValue : (Int128)sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4731,7 +4731,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)((Int128)sb < ulong.MinValue ? ulong.MinValue : (Int128)sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)((Int128)sb < ulong.MinValue ? ulong.MinValue : (Int128)sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4744,7 +4744,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4758,7 +4758,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4770,14 +4770,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter sb = maxmath.asquarter(rng.NextByte());
+                quarter sb = math.asquarter(rng.NextByte());
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
-                    sb = maxmath.asquarter(rng.NextByte());
+                    sb = math.asquarter(rng.NextByte());
                 }
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4790,12 +4790,12 @@ namespace MaxMath.Tests
             {
                 half sb = new half { value = rng.NextUShort() };
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
                     sb = new half { value = rng.NextUShort() };
                 }
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4808,7 +4808,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4821,7 +4821,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
+                Assert.AreEqual(math.toulongsaturated(sb), (ulong)(sb < ulong.MinValue ? ulong.MinValue : sb > ulong.MaxValue ? ulong.MaxValue : (ulong)sb));
             }
         }
 
@@ -4837,7 +4837,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4853,7 +4853,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4869,7 +4869,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4885,7 +4885,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4898,16 +4898,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter2 sb = maxmath.asquarter(rng.NextByte2());
+                quarter2 sb = math.asquarter(rng.NextByte2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4919,16 +4919,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half2 sb = maxmath.ashalf(rng.NextUShort2());
+                half2 sb = math.ashalf(rng.NextUShort2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4944,7 +4944,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4960,7 +4960,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4977,7 +4977,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -4993,7 +4993,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5009,7 +5009,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5025,7 +5025,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5037,16 +5037,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter3 sb = maxmath.asquarter(rng.NextByte3());
+                quarter3 sb = math.asquarter(rng.NextByte3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5058,16 +5058,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half3 sb = maxmath.ashalf(rng.NextUShort3());
+                half3 sb = math.ashalf(rng.NextUShort3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5083,7 +5083,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5099,7 +5099,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5116,7 +5116,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5132,7 +5132,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5148,7 +5148,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5164,7 +5164,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)((Int128)sb[j] < ulong.MinValue ? ulong.MinValue : (Int128)sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5176,16 +5176,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                quarter4 sb = maxmath.asquarter(rng.NextByte4());
+                quarter4 sb = math.asquarter(rng.NextByte4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
-                        sb[j] = maxmath.asquarter(rng.NextByte());
+                        sb[j] = math.asquarter(rng.NextByte());
                     }
 
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5197,16 +5197,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5222,7 +5222,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5238,7 +5238,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
+                    Assert.AreEqual(math.toulongsaturated(sb)[j], (ulong)(sb[j] < ulong.MinValue ? ulong.MinValue : sb[j] > ulong.MaxValue ? ulong.MaxValue : (ulong)sb[j]));
                 }
             }
         }
@@ -5255,7 +5255,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.tolongsaturated(sb), (long)(sb < long.MinValue ? long.MinValue : sb > long.MaxValue ? long.MaxValue : (long)sb));
+                Assert.AreEqual(math.tolongsaturated(sb), (long)(sb < long.MinValue ? long.MinValue : sb > long.MaxValue ? long.MaxValue : (long)sb));
             }
         }
 
@@ -5268,7 +5268,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.tolongsaturated(sb), (long)((Int128)sb < long.MinValue ? long.MinValue : (Int128)sb > long.MaxValue ? long.MaxValue : (long)sb));
+                Assert.AreEqual(math.tolongsaturated(sb), (long)((Int128)sb < long.MinValue ? long.MinValue : (Int128)sb > long.MaxValue ? long.MaxValue : (long)sb));
             }
         }
 
@@ -5281,7 +5281,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.tolongsaturated(sb), (long)((BigInteger)sb < long.MinValue ? long.MinValue : (BigInteger)sb > long.MaxValue ? long.MaxValue : (long)sb));
+                Assert.AreEqual(math.tolongsaturated(sb), (long)((BigInteger)sb < long.MinValue ? long.MinValue : (BigInteger)sb > long.MaxValue ? long.MaxValue : (long)sb));
             }
         }
 
@@ -5294,7 +5294,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.tolongsaturated(sb), (long)(sb < long.MinValue ? long.MinValue : sb > long.MaxValue ? long.MaxValue : (long)sb));
+                Assert.AreEqual(math.tolongsaturated(sb), (long)(sb < long.MinValue ? long.MinValue : sb > long.MaxValue ? long.MaxValue : (long)sb));
             }
         }
 
@@ -5307,7 +5307,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.tolongsaturated(sb), (long)(sb < long.MinValue ? long.MinValue : sb > long.MaxValue ? long.MaxValue : (long)sb));
+                Assert.AreEqual(math.tolongsaturated(sb), (long)(sb < long.MinValue ? long.MinValue : sb > long.MaxValue ? long.MaxValue : (long)sb));
             }
         }
 
@@ -5322,7 +5322,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)((Int128)sb[j] < long.MinValue ? long.MinValue : (Int128)sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)((Int128)sb[j] < long.MinValue ? long.MinValue : (Int128)sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5338,7 +5338,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5354,7 +5354,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5371,7 +5371,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)((Int128)sb[j] < long.MinValue ? long.MinValue : (Int128)sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)((Int128)sb[j] < long.MinValue ? long.MinValue : (Int128)sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5387,7 +5387,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5403,7 +5403,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5420,7 +5420,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)((Int128)sb[j] < long.MinValue ? long.MinValue : (Int128)sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)((Int128)sb[j] < long.MinValue ? long.MinValue : (Int128)sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5433,16 +5433,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5458,7 +5458,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5474,7 +5474,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
+                    Assert.AreEqual(math.tolongsaturated(sb)[j], (long)(sb[j] < long.MinValue ? long.MinValue : sb[j] > long.MaxValue ? long.MaxValue : (long)sb[j]));
                 }
             }
         }
@@ -5491,7 +5491,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.touint128saturated(sb), (UInt128)(sb < UInt128.MinValue ? UInt128.MinValue : (UInt128)sb));
+                Assert.AreEqual(math.touint128saturated(sb), (UInt128)(sb < UInt128.MinValue ? UInt128.MinValue : (UInt128)sb));
             }
         }
 
@@ -5504,7 +5504,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.touint128saturated(sb), (UInt128)(sb < UInt128.MinValue ? UInt128.MinValue : sb > UInt128.MaxValue ? UInt128.MaxValue : (UInt128)sb));
+                Assert.AreEqual(math.touint128saturated(sb), (UInt128)(sb < UInt128.MinValue ? UInt128.MinValue : sb > UInt128.MaxValue ? UInt128.MaxValue : (UInt128)sb));
             }
         }
     }
@@ -5520,7 +5520,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.toint128saturated(sb), (Int128)(sb < Int128.MinValue ? Int128.MinValue : sb > Int128.MaxValue ? Int128.MaxValue : (Int128)sb));
+                Assert.AreEqual(math.toint128saturated(sb), (Int128)(sb < Int128.MinValue ? Int128.MinValue : sb > Int128.MaxValue ? Int128.MaxValue : (Int128)sb));
             }
         }
 
@@ -5533,7 +5533,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.toint128saturated(sb), (Int128)(sb < Int128.MinValue ? Int128.MinValue : sb > Int128.MaxValue ? Int128.MaxValue : (Int128)sb));
+                Assert.AreEqual(math.toint128saturated(sb), (Int128)(sb < Int128.MinValue ? Int128.MinValue : sb > Int128.MaxValue ? Int128.MaxValue : (Int128)sb));
             }
         }
     }
@@ -5549,7 +5549,7 @@ namespace MaxMath.Tests
             {
                 sbyte sb = rng.NextSByte();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5562,7 +5562,7 @@ namespace MaxMath.Tests
             {
                 byte sb = rng.NextByte();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5575,7 +5575,7 @@ namespace MaxMath.Tests
             {
                 short sb = rng.NextShort();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5588,7 +5588,7 @@ namespace MaxMath.Tests
             {
                 int sb = rng.NextInt();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5601,7 +5601,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5614,7 +5614,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5628,7 +5628,7 @@ namespace MaxMath.Tests
             {
                 ushort sb = rng.NextUShort();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5641,7 +5641,7 @@ namespace MaxMath.Tests
             {
                 uint sb = rng.NextUInt();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5654,7 +5654,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5667,7 +5667,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5681,12 +5681,12 @@ namespace MaxMath.Tests
             {
                 half sb = new half { value = rng.NextUShort() };
 
-                while (maxmath.isnan(sb))
+                while (math.isnan(sb))
                 {
                     sb = new half { value = rng.NextUShort() };
                 }
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5699,7 +5699,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5712,7 +5712,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
+                Assert.AreEqual(math.toquartersaturated(sb), (quarter)(sb < quarter.MinValue ? quarter.MinValue : sb > quarter.MaxValue ? quarter.MaxValue : (quarter)sb));
             }
         }
 
@@ -5728,7 +5728,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5744,7 +5744,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5760,7 +5760,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5776,7 +5776,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5792,7 +5792,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5809,7 +5809,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5825,7 +5825,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5841,7 +5841,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5854,16 +5854,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half2 sb = maxmath.ashalf(rng.NextUShort2());
+                half2 sb = math.ashalf(rng.NextUShort2());
 
                 for (int j = 0; j < 2; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5879,7 +5879,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5895,7 +5895,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5912,7 +5912,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5929,7 +5929,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5945,7 +5945,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5961,7 +5961,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5977,7 +5977,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -5994,7 +5994,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6010,7 +6010,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6026,7 +6026,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6039,16 +6039,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half3 sb = maxmath.ashalf(rng.NextUShort3());
+                half3 sb = math.ashalf(rng.NextUShort3());
 
                 for (int j = 0; j < 3; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6064,7 +6064,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6080,7 +6080,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6097,7 +6097,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6114,7 +6114,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6130,7 +6130,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6146,7 +6146,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6162,7 +6162,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6179,7 +6179,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6195,7 +6195,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6211,7 +6211,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6223,16 +6223,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half4 sb = maxmath.ashalf(rng.NextUShort4());
+                half4 sb = math.ashalf(rng.NextUShort4());
 
                 for (int j = 0; j < 4; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6248,7 +6248,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6264,7 +6264,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6281,7 +6281,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6297,7 +6297,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6313,7 +6313,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6329,7 +6329,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6345,7 +6345,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6361,7 +6361,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6374,11 +6374,11 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 25; i++)
             {
-                half8 sb = maxmath.ashalf(rng.NextUShort8());
+                half8 sb = math.ashalf(rng.NextUShort8());
 
                 for (int j = 0; j < 8; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
@@ -6386,13 +6386,13 @@ namespace MaxMath.Tests
                     try
                     {
 
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                     }
                     catch (System.Exception)
                     {
                         UnityEngine.Debug.Log(sb[j]);
                         UnityEngine.Debug.Log((quarter)sb[j]);
-                        UnityEngine.Debug.Log(maxmath.toquartersaturated(sb)[j]);
+                        UnityEngine.Debug.Log(math.toquartersaturated(sb)[j]);
                         throw;
                     }
                 }
@@ -6410,7 +6410,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6427,7 +6427,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6443,7 +6443,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6459,7 +6459,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6475,7 +6475,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6488,16 +6488,16 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 2500; i++)
             {
-                half16 sb = maxmath.ashalf(rng.NextUShort16());
+                half16 sb = math.ashalf(rng.NextUShort16());
 
                 for (int j = 0; j < 16; j++)
                 {
-                    while (maxmath.isnan(sb[j]))
+                    while (math.isnan(sb[j]))
                     {
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6514,7 +6514,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6530,7 +6530,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual(maxmath.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
+                    Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
                 }
             }
         }
@@ -6547,7 +6547,7 @@ namespace MaxMath.Tests
             {
                 int sb = rng.NextInt();
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6560,7 +6560,7 @@ namespace MaxMath.Tests
             {
                 long sb = rng.NextLong();
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6573,7 +6573,7 @@ namespace MaxMath.Tests
             {
                 Int128 sb = rng.NextInt128();
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6587,7 +6587,7 @@ namespace MaxMath.Tests
             {
                 ushort sb = rng.NextUShort();
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6600,7 +6600,7 @@ namespace MaxMath.Tests
             {
                 uint sb = rng.NextUInt();
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6613,7 +6613,7 @@ namespace MaxMath.Tests
             {
                 ulong sb = rng.NextULong();
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6626,7 +6626,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6639,7 +6639,7 @@ namespace MaxMath.Tests
             {
                 float sb = rng.NextFloat(float.MinValue, float.MaxValue);
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6652,7 +6652,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
+                Assert.AreEqual(math.tohalfsaturated(sb), (half)(sb < half.MinValue ? half.MinValue : sb > half.MaxValue ? half.MaxValue : (half)sb));
             }
         }
 
@@ -6668,7 +6668,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6684,7 +6684,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6701,7 +6701,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6717,7 +6717,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6733,7 +6733,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6750,7 +6750,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6766,7 +6766,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6783,7 +6783,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6799,7 +6799,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6816,7 +6816,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6832,7 +6832,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6848,7 +6848,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6865,7 +6865,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6881,7 +6881,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6898,7 +6898,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6914,7 +6914,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6931,7 +6931,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6947,7 +6947,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6963,7 +6963,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6980,7 +6980,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -6996,7 +6996,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -7013,7 +7013,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -7029,7 +7029,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -7045,7 +7045,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -7062,7 +7062,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -7079,7 +7079,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
+                    Assert.AreEqual(math.tohalfsaturated(sb)[j], (half)(sb[j] < half.MinValue ? half.MinValue : sb[j] > half.MaxValue ? half.MaxValue : (half)sb[j]));
                 }
             }
         }
@@ -7096,7 +7096,7 @@ namespace MaxMath.Tests
             {
                 UInt128 sb = rng.NextUInt128();
 
-                Assert.AreEqual(maxmath.tofloatsaturated(sb), (math.isinf((float)sb) ? float.MaxValue : (float)sb));
+                Assert.AreEqual(math.tofloatsaturated(sb), (math.isinf((float)sb) ? float.MaxValue : (float)sb));
             }
         }
 
@@ -7110,7 +7110,7 @@ namespace MaxMath.Tests
             {
                 double sb = rng.NextDouble(double.MinValue / 2d, double.MaxValue / 2d);
 
-                Assert.AreEqual(maxmath.tofloatsaturated(sb), (float)(sb < float.MinValue ? float.MinValue : sb > float.MaxValue ? float.MaxValue : (float)sb));
+                Assert.AreEqual(math.tofloatsaturated(sb), (float)(sb < float.MinValue ? float.MinValue : sb > float.MaxValue ? float.MaxValue : (float)sb));
             }
         }
 
@@ -7126,7 +7126,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.tofloatsaturated(sb)[j], (float)(sb[j] < float.MinValue ? float.MinValue : sb[j] > float.MaxValue ? float.MaxValue : (float)sb[j]));
+                    Assert.AreEqual(math.tofloatsaturated(sb)[j], (float)(sb[j] < float.MinValue ? float.MinValue : sb[j] > float.MaxValue ? float.MaxValue : (float)sb[j]));
                 }
             }
         }
@@ -7142,7 +7142,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.tofloatsaturated(sb)[j], (float)(sb[j] < float.MinValue ? float.MinValue : sb[j] > float.MaxValue ? float.MaxValue : (float)sb[j]));
+                    Assert.AreEqual(math.tofloatsaturated(sb)[j], (float)(sb[j] < float.MinValue ? float.MinValue : sb[j] > float.MaxValue ? float.MaxValue : (float)sb[j]));
                 }
             }
         }
@@ -7158,7 +7158,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.tofloatsaturated(sb)[j], (float)(sb[j] < float.MinValue ? float.MinValue : sb[j] > float.MaxValue ? float.MaxValue : (float)sb[j]));
+                    Assert.AreEqual(math.tofloatsaturated(sb)[j], (float)(sb[j] < float.MinValue ? float.MinValue : sb[j] > float.MaxValue ? float.MaxValue : (float)sb[j]));
                 }
             }
         }

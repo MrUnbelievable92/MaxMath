@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -197,7 +196,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Sets the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -253,124 +252,124 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbitset(ref byte2 x, byte2 i)
+        public static mask8x2 testbitset(ref byte2 x, byte2 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool2 result = RegisterConversion.ToBool2(Xse.bts_epi8(ref __ref, i, MaskType.One, 2));
+                mask8x2 result = Xse.bts_epi8(ref __ref, i, MaskType.AllOnes, 2);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
+                return new mask8x2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbitset(ref byte3 x, byte3 i)
+        public static mask8x3 testbitset(ref byte3 x, byte3 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool3 result = RegisterConversion.ToBool3(Xse.bts_epi8(ref __ref, i, MaskType.One, 3));
+                mask8x3 result = Xse.bts_epi8(ref __ref, i, MaskType.AllOnes, 3);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
+                return new mask8x3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbitset(ref byte4 x, byte4 i)
+        public static mask8x4 testbitset(ref byte4 x, byte4 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool4 result = RegisterConversion.ToBool4(Xse.bts_epi8(ref __ref, i, MaskType.One, 4));
+                mask8x4 result = Xse.bts_epi8(ref __ref, i, MaskType.AllOnes, 4);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
+                return new mask8x4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbitset(ref byte8 x, byte8 i)
+        public static mask8x8 testbitset(ref byte8 x, byte8 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool8 result = Xse.bts_epi8(ref __ref, i, MaskType.One, 8);
+                mask8x8 result = Xse.bts_epi8(ref __ref, i, MaskType.AllOnes, 8);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool8(testbitset(ref x.x0, i.x0),
-                                 testbitset(ref x.x1, i.x1),
-                                 testbitset(ref x.x2, i.x2),
-                                 testbitset(ref x.x3, i.x3),
-                                 testbitset(ref x.x4, i.x4),
-                                 testbitset(ref x.x5, i.x5),
-                                 testbitset(ref x.x6, i.x6),
-                                 testbitset(ref x.x7, i.x7));
+                return new mask8x8(testbitset(ref x.x0, i.x0),
+                                   testbitset(ref x.x1, i.x1),
+                                   testbitset(ref x.x2, i.x2),
+                                   testbitset(ref x.x3, i.x3),
+                                   testbitset(ref x.x4, i.x4),
+                                   testbitset(ref x.x5, i.x5),
+                                   testbitset(ref x.x6, i.x6),
+                                   testbitset(ref x.x7, i.x7));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 testbitset(ref byte16 x, byte16 i)
+        public static mask8x16 testbitset(ref byte16 x, byte16 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool16 result = Xse.bts_epi8(ref __ref, i, MaskType.One, 16);
+                mask8x16 result = Xse.bts_epi8(ref __ref, i, MaskType.AllOnes, 16);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool16(testbitset(ref x.x0,  x.x0),
-                                  testbitset(ref x.x1,  x.x1),
-                                  testbitset(ref x.x2,  x.x2),
-                                  testbitset(ref x.x3,  x.x3),
-                                  testbitset(ref x.x4,  x.x4),
-                                  testbitset(ref x.x5,  x.x5),
-                                  testbitset(ref x.x6,  x.x6),
-                                  testbitset(ref x.x7,  x.x7),
-                                  testbitset(ref x.x8,  x.x8),
-                                  testbitset(ref x.x9,  x.x9),
-                                  testbitset(ref x.x10, x.x10),
-                                  testbitset(ref x.x11, x.x11),
-                                  testbitset(ref x.x12, x.x12),
-                                  testbitset(ref x.x13, x.x13),
-                                  testbitset(ref x.x14, x.x14),
-                                  testbitset(ref x.x15, x.x15));
+                return new mask8x16(testbitset(ref x.x0,  x.x0),
+                                    testbitset(ref x.x1,  x.x1),
+                                    testbitset(ref x.x2,  x.x2),
+                                    testbitset(ref x.x3,  x.x3),
+                                    testbitset(ref x.x4,  x.x4),
+                                    testbitset(ref x.x5,  x.x5),
+                                    testbitset(ref x.x6,  x.x6),
+                                    testbitset(ref x.x7,  x.x7),
+                                    testbitset(ref x.x8,  x.x8),
+                                    testbitset(ref x.x9,  x.x9),
+                                    testbitset(ref x.x10, x.x10),
+                                    testbitset(ref x.x11, x.x11),
+                                    testbitset(ref x.x12, x.x12),
+                                    testbitset(ref x.x13, x.x13),
+                                    testbitset(ref x.x14, x.x14),
+                                    testbitset(ref x.x15, x.x15));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 testbitset(ref byte32 x, byte32 i)
+        public static mask8x32 testbitset(ref byte32 x, byte32 i)
         {
             if (Avx2.IsAvx2Supported)
             {
                 v256 __ref = x;
-                bool32 result = Xse.mm256_bts_epi8(ref __ref, i, MaskType.One);
+                mask8x32 result = Xse.mm256_bts_epi8(ref __ref, i, MaskType.AllOnes);
                 x = __ref;
 
                 return result;
@@ -379,7 +378,7 @@ namespace MaxMath
             {
                 byte16 xLo = x.v16_0;
                 byte16 xHi = x.v16_16;
-                bool32 result = new bool32(testbitset(ref xLo, i.v16_0), testbitset(ref xHi, i.v16_16));
+                mask8x32 result = new mask8x32(testbitset(ref xLo, i.v16_0), testbitset(ref xHi, i.v16_16));
                 x = new byte32(xLo, xHi);
 
                 return result;
@@ -400,91 +399,91 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbitset(ref ushort2 x, ushort2 i)
+        public static mask16x2 testbitset(ref ushort2 x, ushort2 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool2 result = RegisterConversion.ToBool2(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 2), 2));
+                mask16x2 result = Xse.bts_epi16(ref __ref, i, MaskType.AllOnes, 2);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
+                return new mask16x2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbitset(ref ushort3 x, ushort3 i)
+        public static mask16x3 testbitset(ref ushort3 x, ushort3 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool3 result = RegisterConversion.ToBool3(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 3), 3));
+                mask16x3 result = Xse.bts_epi16(ref __ref, i, MaskType.AllOnes, 3);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
+                return new mask16x3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbitset(ref ushort4 x, ushort4 i)
+        public static mask16x4 testbitset(ref ushort4 x, ushort4 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool4 result = RegisterConversion.ToBool4(Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 4), 4));
+                mask16x4 result = Xse.bts_epi16(ref __ref, i, MaskType.AllOnes, 4);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
+                return new mask16x4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbitset(ref ushort8 x, ushort8 i)
+        public static mask16x8 testbitset(ref ushort8 x, ushort8 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool8 result = Xse.cvtepi16_epi8(Xse.bts_epi16(ref __ref, i, MaskType.One, 8), 8);
+                mask16x8 result = Xse.bts_epi16(ref __ref, i, MaskType.AllOnes, 8);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool8(testbitset(ref x.x0, i.x0),
-                                 testbitset(ref x.x1, i.x1),
-                                 testbitset(ref x.x2, i.x2),
-                                 testbitset(ref x.x3, i.x3),
-                                 testbitset(ref x.x4, i.x4),
-                                 testbitset(ref x.x5, i.x5),
-                                 testbitset(ref x.x6, i.x6),
-                                 testbitset(ref x.x7, i.x7));
+                return new mask16x8(testbitset(ref x.x0, i.x0),
+                                    testbitset(ref x.x1, i.x1),
+                                    testbitset(ref x.x2, i.x2),
+                                    testbitset(ref x.x3, i.x3),
+                                    testbitset(ref x.x4, i.x4),
+                                    testbitset(ref x.x5, i.x5),
+                                    testbitset(ref x.x6, i.x6),
+                                    testbitset(ref x.x7, i.x7));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 testbitset(ref ushort16 x, ushort16 i)
+        public static mask16x16 testbitset(ref ushort16 x, ushort16 i)
         {
             if (Avx2.IsAvx2Supported)
             {
                 v256 __ref = x;
-                bool16 result = Xse.mm256_cvtepi16_epi8(Xse.mm256_bts_epi16(ref __ref, i, MaskType.One));
+                mask16x16 result = Xse.mm256_bts_epi16(ref __ref, i, MaskType.AllOnes);
                 x = __ref;
 
                 return result;
@@ -493,7 +492,7 @@ namespace MaxMath
             {
                 ushort8 xLo = x.v8_0;
                 ushort8 xHi = x.v8_8;
-                bool16 result = new bool16(testbitset(ref xLo, i.v8_0), testbitset(ref xHi, i.v8_8));
+                mask16x16 result = new mask16x16(testbitset(ref xLo, i.v8_0), testbitset(ref xHi, i.v8_8));
                 x = new ushort16(xLo, xHi);
 
                 return result;
@@ -514,66 +513,66 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbitset(ref uint2 x, uint2 i)
+        public static mask32x2 testbitset(ref uint2 x, uint2 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 __ref = RegisterConversion.ToV128(x);
-                bool2 result = RegisterConversion.ToBool2(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 2), 2));
-                x = RegisterConversion.ToUInt2(__ref);
+                v128 __ref = x;
+                mask32x2 result = Xse.bts_epi32(ref __ref, i, MaskType.AllOnes, 2);
+                x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
+                return new mask32x2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbitset(ref uint3 x, uint3 i)
+        public static mask32x3 testbitset(ref uint3 x, uint3 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 __ref = RegisterConversion.ToV128(x);
-                bool3 result = RegisterConversion.ToBool3(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 3), 3));
-                x = RegisterConversion.ToUInt3(__ref);
+                v128 __ref = x;
+                mask32x3 result = Xse.bts_epi32(ref __ref, i, MaskType.AllOnes, 3);
+                x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
+                return new mask32x3(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbitset(ref uint4 x, uint4 i)
+        public static mask32x4 testbitset(ref uint4 x, uint4 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 __ref = RegisterConversion.ToV128(x);
-                bool4 result = RegisterConversion.ToBool4(Xse.cvtepi32_epi8(Xse.bts_epi32(ref __ref, RegisterConversion.ToV128(i), MaskType.One, 4), 4));
-                x = RegisterConversion.ToUInt4(__ref);
+                v128 __ref = x;
+                mask32x4 result = Xse.bts_epi32(ref __ref, i, MaskType.AllOnes, 4);
+                x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
+                return new mask32x4(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y), testbitset(ref x.z, i.z), testbitset(ref x.w, i.w));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbitset(ref uint8 x, uint8 i)
+        public static mask32x8 testbitset(ref uint8 x, uint8 i)
         {
             if (Avx2.IsAvx2Supported)
             {
                 v256 __ref = x;
-                bool8 result = Xse.mm256_cvtepi32_epi8(Xse.mm256_bts_epi32(ref __ref, i, MaskType.One));
+                mask32x8 result = Xse.mm256_bts_epi32(ref __ref, i, MaskType.AllOnes);
                 x = __ref;
 
                 return result;
@@ -582,7 +581,7 @@ namespace MaxMath
             {
                 uint4 xLo = x.v4_0;
                 uint4 xHi = x.v4_4;
-                bool8 result = new bool8(testbitset(ref xLo, i.v4_0), testbitset(ref xHi, i.v4_4));
+                mask32x8 result = new mask32x8(testbitset(ref xLo, i.v4_0), testbitset(ref xHi, i.v4_4));
                 x = new uint8(xLo, xHi);
 
                 return result;
@@ -603,30 +602,30 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbitset(ref ulong2 x, ulong2 i)
+        public static mask64x2 testbitset(ref ulong2 x, ulong2 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 __ref = x;
-                bool2 result = RegisterConversion.ToBool2(Xse.cvtepi64_epi8(Xse.bts_epi64(ref __ref, i, MaskType.One)));
+                mask64x2 result = Xse.bts_epi64(ref __ref, i, MaskType.AllOnes);
                 x = __ref;
 
                 return result;
             }
             else
             {
-                return new bool2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
+                return new mask64x2(testbitset(ref x.x, i.x), testbitset(ref x.y, i.y));
             }
         }
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbitset(ref ulong3 x, ulong3 i)
+        public static mask64x3 testbitset(ref ulong3 x, ulong3 i)
         {
             if (Avx2.IsAvx2Supported)
             {
                 v256 __ref = x;
-                bool3 result = RegisterConversion.ToBool3(Xse.mm256_cvtepi64_epi8(Xse.mm256_bts_epi64(ref __ref, i, MaskType.One)));
+                mask64x3 result = Xse.mm256_bts_epi64(ref __ref, i, MaskType.AllOnes);
                 x = __ref;
 
                 return result;
@@ -634,7 +633,7 @@ namespace MaxMath
             else
             {
                 ulong2 __ref = x.xy;
-                bool3 result = new bool3(testbitset(ref __ref, i.xy), testbitset(ref x.z, i.z));
+                mask64x3 result = new mask64x3(testbitset(ref __ref, i.xy), testbitset(ref x.z, i.z));
                 x = new ulong3(__ref, x.z);
 
                 return result;
@@ -643,12 +642,12 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbitset(ref ulong4 x, ulong4 i)
+        public static mask64x4 testbitset(ref ulong4 x, ulong4 i)
         {
             if (Avx2.IsAvx2Supported)
             {
                 v256 __ref = x;
-                bool4 result = RegisterConversion.ToBool4(Xse.mm256_cvtepi64_epi8(Xse.mm256_bts_epi64(ref __ref, i, MaskType.One)));
+                mask64x4 result = Xse.mm256_bts_epi64(ref __ref, i, MaskType.AllOnes);
                 x = __ref;
 
                 return result;
@@ -657,7 +656,7 @@ namespace MaxMath
             {
                 ulong2 __xy = x.xy;
                 ulong2 __zw = x.zw;
-                bool4 result = new bool4(testbitset(ref __xy, i.xy), testbitset(ref __zw, i.zw));
+                mask64x4 result = new mask64x4(testbitset(ref __xy, i.xy), testbitset(ref __zw, i.zw));
                 x = new ulong4(__xy, __zw);
 
                 return result;
@@ -678,10 +677,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbitset(ref sbyte2 x, sbyte2 i)
+        public static mask8x2 testbitset(ref sbyte2 x, sbyte2 i)
         {
             byte2 __ref = (byte2)x;
-            bool2 result = testbitset(ref __ref, (byte2)i);
+            mask8x2 result = testbitset(ref __ref, (byte2)i);
             x = (sbyte2)__ref;
 
             return result;
@@ -689,10 +688,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbitset(ref sbyte3 x, sbyte3 i)
+        public static mask8x3 testbitset(ref sbyte3 x, sbyte3 i)
         {
             byte3 __ref = (byte3)x;
-            bool3 result = testbitset(ref __ref, (byte3)i);
+            mask8x3 result = testbitset(ref __ref, (byte3)i);
             x = (sbyte3)__ref;
 
             return result;
@@ -700,10 +699,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbitset(ref sbyte4 x, sbyte4 i)
+        public static mask8x4 testbitset(ref sbyte4 x, sbyte4 i)
         {
             byte4 __ref = (byte4)x;
-            bool4 result = testbitset(ref __ref, (byte4)i);
+            mask8x4 result = testbitset(ref __ref, (byte4)i);
             x = (sbyte4)__ref;
 
             return result;
@@ -711,10 +710,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbitset(ref sbyte8 x, sbyte8 i)
+        public static mask8x8 testbitset(ref sbyte8 x, sbyte8 i)
         {
             byte8 __ref = (byte8)x;
-            bool8 result = testbitset(ref __ref, (byte8)i);
+            mask8x8 result = testbitset(ref __ref, (byte8)i);
             x = (sbyte8)__ref;
 
             return result;
@@ -722,10 +721,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 testbitset(ref sbyte16 x, sbyte16 i)
+        public static mask8x16 testbitset(ref sbyte16 x, sbyte16 i)
         {
             byte16 __ref = (byte16)x;
-            bool16 result = testbitset(ref __ref, (byte16)i);
+            mask8x16 result = testbitset(ref __ref, (byte16)i);
             x = (sbyte16)__ref;
 
             return result;
@@ -733,10 +732,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 testbitset(ref sbyte32 x, sbyte32 i)
+        public static mask8x32 testbitset(ref sbyte32 x, sbyte32 i)
         {
             byte32 __ref = (byte32)x;
-            bool32 result = testbitset(ref __ref, (byte32)i);
+            mask8x32 result = testbitset(ref __ref, (byte32)i);
             x = (sbyte32)__ref;
 
             return result;
@@ -756,10 +755,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbitset(ref short2 x, short2 i)
+        public static mask16x2 testbitset(ref short2 x, short2 i)
         {
             ushort2 __ref = (ushort2)x;
-            bool2 result = testbitset(ref __ref, (ushort2)i);
+            mask16x2 result = testbitset(ref __ref, (ushort2)i);
             x = (short2)__ref;
 
             return result;
@@ -767,10 +766,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbitset(ref short3 x, short3 i)
+        public static mask16x3 testbitset(ref short3 x, short3 i)
         {
             ushort3 __ref = (ushort3)x;
-            bool3 result = testbitset(ref __ref, (ushort3)i);
+            mask16x3 result = testbitset(ref __ref, (ushort3)i);
             x = (short3)__ref;
 
             return result;
@@ -778,10 +777,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbitset(ref short4 x, short4 i)
+        public static mask16x4 testbitset(ref short4 x, short4 i)
         {
             ushort4 __ref = (ushort4)x;
-            bool4 result = testbitset(ref __ref, (ushort4)i);
+            mask16x4 result = testbitset(ref __ref, (ushort4)i);
             x = (short4)__ref;
 
             return result;
@@ -789,10 +788,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbitset(ref short8 x, short8 i)
+        public static mask16x8 testbitset(ref short8 x, short8 i)
         {
             ushort8 __ref = (ushort8)x;
-            bool8 result = testbitset(ref __ref, (ushort8)i);
+            mask16x8 result = testbitset(ref __ref, (ushort8)i);
             x = (short8)__ref;
 
             return result;
@@ -800,10 +799,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 testbitset(ref short16 x, short16 i)
+        public static mask16x16 testbitset(ref short16 x, short16 i)
         {
             ushort16 __ref = (ushort16)x;
-            bool16 result = testbitset(ref __ref, (ushort16)i);
+            mask16x16 result = testbitset(ref __ref, (ushort16)i);
             x = (short16)__ref;
 
             return result;
@@ -823,10 +822,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbitset(ref int2 x, int2 i)
+        public static mask32x2 testbitset(ref int2 x, int2 i)
         {
             uint2 __ref = (uint2)x;
-            bool2 result = testbitset(ref __ref, (uint2)i);
+            mask32x2 result = testbitset(ref __ref, (uint2)i);
             x = (int2)__ref;
 
             return result;
@@ -834,10 +833,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbitset(ref int3 x, int3 i)
+        public static mask32x3 testbitset(ref int3 x, int3 i)
         {
             uint3 __ref = (uint3)x;
-            bool3 result = testbitset(ref __ref, (uint3)i);
+            mask32x3 result = testbitset(ref __ref, (uint3)i);
             x = (int3)__ref;
 
             return result;
@@ -845,10 +844,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbitset(ref int4 x, int4 i)
+        public static mask32x4 testbitset(ref int4 x, int4 i)
         {
             uint4 __ref = (uint4)x;
-            bool4 result = testbitset(ref __ref, (uint4)i);
+            mask32x4 result = testbitset(ref __ref, (uint4)i);
             x = (int4)__ref;
 
             return result;
@@ -856,10 +855,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbitset(ref int8 x, int8 i)
+        public static mask32x8 testbitset(ref int8 x, int8 i)
         {
             uint8 __ref = (uint8)x;
-            bool8 result = testbitset(ref __ref, (uint8)i);
+            mask32x8 result = testbitset(ref __ref, (uint8)i);
             x = (int8)__ref;
 
             return result;
@@ -879,10 +878,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbitset(ref long2 x, long2 i)
+        public static mask64x2 testbitset(ref long2 x, long2 i)
         {
             ulong2 __ref = (ulong2)x;
-            bool2 result = testbitset(ref __ref, (ulong2)i);
+            mask64x2 result = testbitset(ref __ref, (ulong2)i);
             x = (long2)__ref;
 
             return result;
@@ -890,10 +889,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbitset(ref long3 x, long3 i)
+        public static mask64x3 testbitset(ref long3 x, long3 i)
         {
             ulong3 __ref = (ulong3)x;
-            bool3 result = testbitset(ref __ref, (ulong3)i);
+            mask64x3 result = testbitset(ref __ref, (ulong3)i);
             x = (long3)__ref;
 
             return result;
@@ -901,10 +900,10 @@ namespace MaxMath
 
         /// <summary>       Sets the bit in each component of <paramref name="x"/> at the corresponding index in <paramref name="i"/> in LSB order to 1 and returns <see langword="true"/> for that component if the bit was previously set, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbitset(ref long4 x, long4 i)
+        public static mask64x4 testbitset(ref long4 x, long4 i)
         {
             ulong4 __ref = (ulong4)x;
-            bool4 result = testbitset(ref __ref, (ulong4)i);
+            mask64x4 result = testbitset(ref __ref, (ulong4)i);
             x = (long4)__ref;
 
             return result;

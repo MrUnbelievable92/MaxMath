@@ -4,7 +4,6 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 
 namespace MaxMath
 {
@@ -15,10 +14,13 @@ namespace MaxMath
     /// <para>  For valid <see cref="Promise"/> arguments, please refer to: <see cref="PROMISE_NOT_MIN_VALUE"/>, <see cref="PROMISE_NOT_ONE"/>, <see cref="PROMISE_POW2"/>, <see cref="PROMISE_NOT_POW2"/>, <see cref="PROMISE_POSITIVE"/>, <see cref="PROMISE_NEGATIVE"/>, <see cref="PROMISE_SAME_VALUE"/>, <see cref="PROMISE_LZCNT_NOT_0"/></para>
     /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
+#if DEBUG
     [DebuggerTypeProxy(typeof(Divider<>.DebuggerProxy))]
+#endif
     unsafe public partial struct Divider<T> : IEquatable<T>, IEquatable<Divider<T>>, IFormattable
         where T : unmanaged, IEquatable<T>, IFormattable
     {
+#if DEBUG
         internal sealed class DebuggerProxy
         {
             public T Divisor;
@@ -28,6 +30,7 @@ namespace MaxMath
                 Divisor = d.Divisor;
             }
         }
+#endif
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         internal struct BigM
@@ -121,7 +124,7 @@ namespace MaxMath
 
             else if (typeof(T) == typeof(UInt128))  this = ctor_UInt128(*(UInt128*)&divisor, promises);
 
-            else throw new TypeInitializationException($"{typeof(Divider<T>)}", null);
+            else throw new TypeInitializationException($"{nameof(Divider<T>)}", null);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -147,23 +150,21 @@ namespace MaxMath
             }
 #endif
         }
-
-        public override readonly int GetHashCode()
-        {
-            return Divisor.GetHashCode();
-        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override readonly int GetHashCode() => Divisor.GetHashCode();
 
         public readonly bool Equals(Divider<T> other)
         {
             return this.Divisor.Equals(other.Divisor)
-        #if TESTING
+#if TESTING
                 && this._bigM._mulLo.Equals(other._bigM._mulLo)
                 && this._bigM._mulHi.Equals(other._bigM._mulHi)
                 && this._mulShift._mul.Equals(other._mulShift._mul)
                 && this._mulShift._shift.Equals(other._mulShift._shift)
                 && this._typeInfo.Equals(other._typeInfo)
                 && ((Promise)this._promises).Equals((Promise)other._promises)
-        #endif
+#endif
             ;
         }
         public readonly bool Equals(T other)
@@ -190,11 +191,11 @@ namespace MaxMath
         }
         public readonly string ToString(string format, IFormatProvider formatProvider)
         {
-        #if TESTING
+#if TESTING
             return $"DIVISOR: {Divisor}, BIGM: ({_bigM._mulLo}, {_bigM._mulHi}), MULSHIFT: ({_mulShift._mul}, {_mulShift._shift}), PROMISES: {(byte)(Promise)_promises}, TYPEINFO: {_typeInfo}";
-        #else
+#else
             return Divisor.ToString(format, formatProvider);
-        #endif
+#endif
         }
     }
 }

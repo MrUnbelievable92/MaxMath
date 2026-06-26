@@ -2,7 +2,6 @@ using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 using Unity.Burst;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 using DevTools;
 
@@ -315,8 +314,8 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                             {
                                 case 2:
                                 {
-                                    return unpacklo_epi8(cvtsi64x_si128(maxmath.perm((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe1)),
-                                                         cvtsi64x_si128(maxmath.perm((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe1)));
+                                    return unpacklo_epi8(cvtsi64x_si128(math.perm((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe1)),
+                                                         cvtsi64x_si128(math.perm((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe1)));
                                 }
 
                                 case 3:
@@ -328,10 +327,10 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                                     }
                                     else
                                     {
-                                        return new v128((byte)maxmath.perm((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe1),
-                                                        (byte)maxmath.perm((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe1),
-                                                        (byte)maxmath.perm((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), Promise.Unsafe1),
-                                                        (byte)(elements == 4 ? maxmath.perm((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), Promise.Unsafe1) : 0),
+                                        return new v128((byte)math.perm((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe1),
+                                                        (byte)math.perm((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe1),
+                                                        (byte)math.perm((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), Promise.Unsafe1),
+                                                        (byte)(elements == 4 ? math.perm((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), Promise.Unsafe1) : 0),
                                                         0,
                                                         0,
                                                         0,
@@ -366,10 +365,10 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                                         v128 _0_1 = naiveperm_epu64(cvtepu8_epi64(n), cvtepu8_epi64(k), true);
                                         v128 _2_3 = naiveperm_epu64(cvtepu8_epi64(bsrli_si128(n, 2 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 2 * sizeof(byte))), true);
 
-                                        v128 _4 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 4), (ulong)extract_epi8(k, 4), Promise.Unsafe1));
-                                        v128 _5 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 5), (ulong)extract_epi8(k, 5), Promise.Unsafe1));
-                                        v128 _6 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 6), (ulong)extract_epi8(k, 6), Promise.Unsafe1));
-                                        v128 _7 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 7), (ulong)extract_epi8(k, 7), Promise.Unsafe1));
+                                        v128 _4 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 4), (ulong)extract_epi8(k, 4), Promise.Unsafe1));
+                                        v128 _5 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 5), (ulong)extract_epi8(k, 5), Promise.Unsafe1));
+                                        v128 _6 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 6), (ulong)extract_epi8(k, 6), Promise.Unsafe1));
+                                        v128 _7 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 7), (ulong)extract_epi8(k, 7), Promise.Unsafe1));
 
                                         v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
                                         v128 _4_5 = unpacklo_epi8(_4, _5);
@@ -407,14 +406,14 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                                         v128 _4_5 = naiveperm_epu64(cvtepu8_epi64(bsrli_si128(n, 4 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 4 * sizeof(byte))), true);
                                         v128 _6_7 = naiveperm_epu64(cvtepu8_epi64(bsrli_si128(n, 6 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 6 * sizeof(byte))), true);
 
-                                        v128 _8  = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 8),  (ulong)extract_epi8(k, 8),  Promise.Unsafe1));
-                                        v128 _9  = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 9),  (ulong)extract_epi8(k, 9),  Promise.Unsafe1));
-                                        v128 _10 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 10), (ulong)extract_epi8(k, 10), Promise.Unsafe1));
-                                        v128 _11 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 11), (ulong)extract_epi8(k, 11), Promise.Unsafe1));
-                                        v128 _12 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 12), (ulong)extract_epi8(k, 12), Promise.Unsafe1));
-                                        v128 _13 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 13), (ulong)extract_epi8(k, 13), Promise.Unsafe1));
-                                        v128 _14 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 14), (ulong)extract_epi8(k, 14), Promise.Unsafe1));
-                                        v128 _15 = cvtsi32_si128((byte)maxmath.perm((ulong)extract_epi8(n, 15), (ulong)extract_epi8(k, 15), Promise.Unsafe1));
+                                        v128 _8  = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 8),  (ulong)extract_epi8(k, 8),  Promise.Unsafe1));
+                                        v128 _9  = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 9),  (ulong)extract_epi8(k, 9),  Promise.Unsafe1));
+                                        v128 _10 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 10), (ulong)extract_epi8(k, 10), Promise.Unsafe1));
+                                        v128 _11 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 11), (ulong)extract_epi8(k, 11), Promise.Unsafe1));
+                                        v128 _12 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 12), (ulong)extract_epi8(k, 12), Promise.Unsafe1));
+                                        v128 _13 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 13), (ulong)extract_epi8(k, 13), Promise.Unsafe1));
+                                        v128 _14 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 14), (ulong)extract_epi8(k, 14), Promise.Unsafe1));
+                                        v128 _15 = cvtsi32_si128((byte)math.perm((ulong)extract_epi8(n, 15), (ulong)extract_epi8(k, 15), Promise.Unsafe1));
 
                                         v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
                                         v128 _4_5_6_7 = unpacklo_epi16(cvtepi64_epi8(_4_5), cvtepi64_epi8(_6_7));
@@ -646,7 +645,7 @@ VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void LOOP_perm_epu16([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 results, byte elements = 8)
+            private static void LOOP_perm_epu16([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] ref v128 doneMask, [NoAlias] ref v128 results)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -720,8 +719,8 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
                             {
                                 case 2:
                                 {
-                                    return unpacklo_epi16(cvtsi32_si128((ushort)maxmath.perm((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe1)),
-                                                          cvtsi32_si128((ushort)maxmath.perm((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe1)));
+                                    return unpacklo_epi16(cvtsi32_si128((ushort)math.perm((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe1)),
+                                                          cvtsi32_si128((ushort)math.perm((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe1)));
                                 }
 
                                 case 3:
@@ -733,10 +732,10 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
                                     }
                                     else
                                     {
-                                        return new v128((ushort)maxmath.perm((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe1),
-                                                        (ushort)maxmath.perm((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe1),
-                                                        (ushort)maxmath.perm((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), Promise.Unsafe1),
-                                                        (ushort)(elements == 4 ? maxmath.perm((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), Promise.Unsafe1) : 0),
+                                        return new v128((ushort)math.perm((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe1),
+                                                        (ushort)math.perm((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe1),
+                                                        (ushort)math.perm((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), Promise.Unsafe1),
+                                                        (ushort)(elements == 4 ? math.perm((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), Promise.Unsafe1) : 0),
                                                         0,
                                                         0,
                                                         0,
@@ -763,10 +762,10 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
                                         v128 _0_1 = naiveperm_epu64(cvtepu16_epi64(n), cvtepu16_epi64(k), true);
                                         v128 _2_3 = naiveperm_epu64(cvtepu16_epi64(bsrli_si128(n, 2 * sizeof(ushort))), cvtepu16_epi64(bsrli_si128(k, 2 * sizeof(ushort))), true);
 
-                                        v128 _4 =cvtsi32_si128((ushort)maxmath.perm((ulong)extract_epi16(n, 4), (ulong)extract_epi16(k, 4), Promise.Unsafe1));
-                                        v128 _5 =cvtsi32_si128((ushort)maxmath.perm((ulong)extract_epi16(n, 5), (ulong)extract_epi16(k, 5), Promise.Unsafe1));
-                                        v128 _6 =cvtsi32_si128((ushort)maxmath.perm((ulong)extract_epi16(n, 6), (ulong)extract_epi16(k, 6), Promise.Unsafe1));
-                                        v128 _7 =cvtsi32_si128((ushort)maxmath.perm((ulong)extract_epi16(n, 7), (ulong)extract_epi16(k, 7), Promise.Unsafe1));
+                                        v128 _4 =cvtsi32_si128((ushort)math.perm((ulong)extract_epi16(n, 4), (ulong)extract_epi16(k, 4), Promise.Unsafe1));
+                                        v128 _5 =cvtsi32_si128((ushort)math.perm((ulong)extract_epi16(n, 5), (ulong)extract_epi16(k, 5), Promise.Unsafe1));
+                                        v128 _6 =cvtsi32_si128((ushort)math.perm((ulong)extract_epi16(n, 6), (ulong)extract_epi16(k, 6), Promise.Unsafe1));
+                                        v128 _7 =cvtsi32_si128((ushort)math.perm((ulong)extract_epi16(n, 7), (ulong)extract_epi16(k, 7), Promise.Unsafe1));
 
                                         v128 _0_1_2_3 = unpacklo_epi32(cvtepi64_epi16(_0_1), cvtepi64_epi16(_2_3));
                                         v128 _4_5 = unpacklo_epi16(_4, _5);
@@ -785,7 +784,7 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
 
                     while (ContinueLoop(doneMask, k, elements))
                     {
-                        LOOP_perm_epu16(ref n, ref k, ref doneMask, ref results, elements);
+                        LOOP_perm_epu16(ref n, ref k, ref doneMask, ref results);
                     }
 
                     return results;
@@ -989,7 +988,7 @@ VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterConversion.ToUInt4(n), elements);
+VectorAssert.IsNotGreater<uint4, uint>(k, n, elements);
 
                     if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64, elements))
                     {
@@ -1007,13 +1006,13 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
                                 }
                                 else
                                 {
-                                    v128 lo = unpacklo_epi32(cvtsi32_si128((int)maxmath.perm((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe1)),
-                                                              cvtsi32_si128((int)maxmath.perm((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe1)));
-                                    v128 hi = cvtsi32_si128((int)maxmath.perm((ulong)extract_epi32(n, 2), (ulong)extract_epi32(k, 2), Promise.Unsafe1));
+                                    v128 lo = unpacklo_epi32(cvtsi32_si128((int)math.perm((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe1)),
+                                                              cvtsi32_si128((int)math.perm((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe1)));
+                                    v128 hi = cvtsi32_si128((int)math.perm((ulong)extract_epi32(n, 2), (ulong)extract_epi32(k, 2), Promise.Unsafe1));
 
                                     if (elements == 4)
                                     {
-                                        hi = unpacklo_epi32(hi, cvtsi32_si128((int)maxmath.perm((ulong)extract_epi32(n, 3), (ulong)extract_epi32(k, 3), Promise.Unsafe1)));
+                                        hi = unpacklo_epi32(hi, cvtsi32_si128((int)math.perm((ulong)extract_epi32(n, 3), (ulong)extract_epi32(k, 3), Promise.Unsafe1)));
                                     }
 
                                     return unpacklo_epi64(lo, hi);
@@ -1021,8 +1020,8 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
                             }
                             else
                             {
-                                return unpacklo_epi32(cvtsi32_si128((int)maxmath.perm((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe1)),
-                                                      cvtsi32_si128((int)maxmath.perm((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe1)));
+                                return unpacklo_epi32(cvtsi32_si128((int)math.perm((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe1)),
+                                                      cvtsi32_si128((int)math.perm((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe1)));
                             }
                         }
                     }
@@ -1062,8 +1061,8 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k0), RegisterConversion.ToUInt4(n0), 4);
-VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k1), RegisterConversion.ToUInt4(n1), 4);
+VectorAssert.IsNotGreater<uint4, uint>(k0, n0, 4);
+VectorAssert.IsNotGreater<uint4, uint>(k1, n1, 4);
 
                     if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU32(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU32(n1, MAX_INVERSE_FACTORIAL_U64)))
                     {
@@ -1222,8 +1221,8 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
                         }
                         else
                         {
-                            return unpacklo_epi64(cvtsi64x_si128(maxmath.perm(extract_epi64(n, 0), extract_epi64(k, 0), Promise.Unsafe1)),
-                                                  cvtsi64x_si128(maxmath.perm(extract_epi64(n, 1), extract_epi64(k, 1), Promise.Unsafe1)));
+                            return unpacklo_epi64(cvtsi64x_si128(math.perm(extract_epi64(n, 0), extract_epi64(k, 0), Promise.Unsafe1)),
+                                                  cvtsi64x_si128(math.perm(extract_epi64(n, 1), extract_epi64(k, 1), Promise.Unsafe1)));
                         }
                     }
 
@@ -1340,7 +1339,7 @@ VectorAssert.IsNotGreater<ulong4, ulong>(k, n, elements);
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and with order. Also known as "<paramref name="k"/>-permutations of <paramref name="n"/>".
         /// <remarks>
@@ -2037,7 +2036,7 @@ Assert.IsNotGreater(k, n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.perm_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 2));
+                return Xse.perm_epu32(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 2);
             }
             else
             {
@@ -2057,7 +2056,7 @@ Assert.IsNotGreater(k, n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.perm_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 3));
+                return Xse.perm_epu32(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 3);
             }
             else
             {
@@ -2078,7 +2077,7 @@ Assert.IsNotGreater(k, n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.perm_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 4));
+                return Xse.perm_epu32(n, k, unsafeLevels: useFactorial.CountUnsafeLevels(), elements: 4);
             }
             else
             {
@@ -2104,9 +2103,9 @@ Assert.IsNotGreater(k, n);
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.perm_epu32x2(RegisterConversion.ToV128(n.v4_0), RegisterConversion.ToV128(n.v4_4), RegisterConversion.ToV128(k.v4_0), RegisterConversion.ToV128(k.v4_4), out v128 lo, out v128 hi, unsafeLevels: useFactorial.CountUnsafeLevels());
+                Xse.perm_epu32x2(n.v4_0, n.v4_4, k.v4_0, k.v4_4, out v128 lo, out v128 hi, unsafeLevels: useFactorial.CountUnsafeLevels());
 
-                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+                return new uint8(lo, hi);
             }
             else
             {

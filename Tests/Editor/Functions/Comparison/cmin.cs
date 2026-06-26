@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -12,7 +12,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte2.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_byte2.TestData_LHS[i]);
+                int x = math.cmin(t_byte2.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_byte2.TestData_LHS[i].x,
                                         (int)t_byte2.TestData_LHS[i].y);
@@ -28,7 +28,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte3.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_byte3.TestData_LHS[i]);
+                int x = math.cmin(t_byte3.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_byte3.TestData_LHS[i].x,
                                math.min((int)t_byte3.TestData_LHS[i].y,
@@ -45,7 +45,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte4.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_byte4.TestData_LHS[i]);
+                int x = math.cmin(t_byte4.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_byte4.TestData_LHS[i].x,
                                math.min((int)t_byte4.TestData_LHS[i].y,
@@ -63,7 +63,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte8.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_byte8.TestData_LHS[i]);
+                int x = math.cmin(t_byte8.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_byte8.TestData_LHS[i].x0,
                                math.min((int)t_byte8.TestData_LHS[i].x1,
@@ -85,7 +85,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte16.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_byte16.TestData_LHS[i]);
+                int x = math.cmin(t_byte16.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_byte16.TestData_LHS[i].x0,
                                math.min((int)t_byte16.TestData_LHS[i].x1,
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte32.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_byte32.TestData_LHS[i]);
+                int x = math.cmin(t_byte32.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_byte32.TestData_LHS[i].x0,
                                math.min((int)t_byte32.TestData_LHS[i].x1,
@@ -162,7 +162,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte2.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_sbyte2.TestData_LHS[i]);
+                int x = math.cmin(t_sbyte2.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_sbyte2.TestData_LHS[i].x,
                                         (int)t_sbyte2.TestData_LHS[i].y);
@@ -178,7 +178,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte3.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_sbyte3.TestData_LHS[i]);
+                int x = math.cmin(t_sbyte3.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_sbyte3.TestData_LHS[i].x,
                                math.min((int)t_sbyte3.TestData_LHS[i].y,
@@ -195,7 +195,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte4.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_sbyte4.TestData_LHS[i]);
+                int x = math.cmin(t_sbyte4.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_sbyte4.TestData_LHS[i].x,
                                math.min((int)t_sbyte4.TestData_LHS[i].y,
@@ -213,7 +213,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte8.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_sbyte8.TestData_LHS[i]);
+                int x = math.cmin(t_sbyte8.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_sbyte8.TestData_LHS[i].x0,
                                math.min((int)t_sbyte8.TestData_LHS[i].x1,
@@ -235,7 +235,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte16.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_sbyte16.TestData_LHS[i]);
+                int x = math.cmin(t_sbyte16.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_sbyte16.TestData_LHS[i].x0,
                                math.min((int)t_sbyte16.TestData_LHS[i].x1,
@@ -265,7 +265,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte32.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_sbyte32.TestData_LHS[i]);
+                int x = math.cmin(t_sbyte32.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_sbyte32.TestData_LHS[i].x0,
                                math.min((int)t_sbyte32.TestData_LHS[i].x1,
@@ -312,7 +312,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short2.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_short2.TestData_LHS[i]);
+                int x = math.cmin(t_short2.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_short2.TestData_LHS[i].x,
                                         (int)t_short2.TestData_LHS[i].y);
@@ -328,7 +328,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short3.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_short3.TestData_LHS[i]);
+                int x = math.cmin(t_short3.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_short3.TestData_LHS[i].x,
                                math.min((int)t_short3.TestData_LHS[i].y,
@@ -345,7 +345,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short4.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_short4.TestData_LHS[i]);
+                int x = math.cmin(t_short4.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_short4.TestData_LHS[i].x,
                                math.min((int)t_short4.TestData_LHS[i].y,
@@ -363,7 +363,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short8.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_short8.TestData_LHS[i]);
+                int x = math.cmin(t_short8.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_short8.TestData_LHS[i].x0,
                                math.min((int)t_short8.TestData_LHS[i].x1,
@@ -385,7 +385,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_short16.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_short16.TestData_LHS[i]);
+                int x = math.cmin(t_short16.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_short16.TestData_LHS[i].x0,
                                math.min((int)t_short16.TestData_LHS[i].x1,
@@ -416,7 +416,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort2.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_ushort2.TestData_LHS[i]);
+                int x = math.cmin(t_ushort2.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_ushort2.TestData_LHS[i].x,
                                         (int)t_ushort2.TestData_LHS[i].y);
@@ -432,7 +432,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort3.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_ushort3.TestData_LHS[i]);
+                int x = math.cmin(t_ushort3.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_ushort3.TestData_LHS[i].x,
                                math.min((int)t_ushort3.TestData_LHS[i].y,
@@ -449,7 +449,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort4.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_ushort4.TestData_LHS[i]);
+                int x = math.cmin(t_ushort4.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_ushort4.TestData_LHS[i].x,
                                math.min((int)t_ushort4.TestData_LHS[i].y,
@@ -467,7 +467,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort8.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_ushort8.TestData_LHS[i]);
+                int x = math.cmin(t_ushort8.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_ushort8.TestData_LHS[i].x0,
                                math.min((int)t_ushort8.TestData_LHS[i].x1,
@@ -489,7 +489,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ushort16.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_ushort16.TestData_LHS[i]);
+                int x = math.cmin(t_ushort16.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_ushort16.TestData_LHS[i].x0,
                                math.min((int)t_ushort16.TestData_LHS[i].x1,
@@ -520,7 +520,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_int8.NUM_TESTS; i++)
             {
-                int x = maxmath.cmin(t_int8.TestData_LHS[i]);
+                int x = math.cmin(t_int8.TestData_LHS[i]);
 
                 result &= x == math.min((int)t_int8.TestData_LHS[i].x0,
                                math.min((int)t_int8.TestData_LHS[i].x1,
@@ -543,7 +543,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_uint8.NUM_TESTS; i++)
             {
-                uint x = maxmath.cmin(t_uint8.TestData_LHS[i]);
+                uint x = math.cmin(t_uint8.TestData_LHS[i]);
 
                 result &= x == math.min(t_uint8.TestData_LHS[i].x0,
                                math.min(t_uint8.TestData_LHS[i].x1,
@@ -566,7 +566,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_long2.NUM_TESTS; i++)
             {
-                long x = maxmath.cmin(t_long2.TestData_LHS[i]);
+                long x = math.cmin(t_long2.TestData_LHS[i]);
 
                 result &= x == math.min(t_long2.TestData_LHS[i].x,
                                         t_long2.TestData_LHS[i].y);
@@ -582,7 +582,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_long3.NUM_TESTS; i++)
             {
-                long x = maxmath.cmin(t_long3.TestData_LHS[i]);
+                long x = math.cmin(t_long3.TestData_LHS[i]);
 
                 result &= x == math.min(t_long3.TestData_LHS[i].x,
                                math.min(t_long3.TestData_LHS[i].y,
@@ -599,7 +599,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_long4.NUM_TESTS; i++)
             {
-                long x = maxmath.cmin(t_long4.TestData_LHS[i]);
+                long x = math.cmin(t_long4.TestData_LHS[i]);
 
                 result &= x == math.min(t_long4.TestData_LHS[i].x,
                                math.min(t_long4.TestData_LHS[i].y,
@@ -618,7 +618,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ulong2.NUM_TESTS; i++)
             {
-                ulong x = maxmath.cmin(t_ulong2.TestData_LHS[i]);
+                ulong x = math.cmin(t_ulong2.TestData_LHS[i]);
 
                 result &= x == math.min(t_ulong2.TestData_LHS[i].x,
                                         t_ulong2.TestData_LHS[i].y);
@@ -634,7 +634,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ulong3.NUM_TESTS; i++)
             {
-                ulong x = maxmath.cmin(t_ulong3.TestData_LHS[i]);
+                ulong x = math.cmin(t_ulong3.TestData_LHS[i]);
 
                 result &= x == math.min(t_ulong3.TestData_LHS[i].x,
                                math.min(t_ulong3.TestData_LHS[i].y,
@@ -651,7 +651,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_ulong4.NUM_TESTS; i++)
             {
-                ulong x = maxmath.cmin(t_ulong4.TestData_LHS[i]);
+                ulong x = math.cmin(t_ulong4.TestData_LHS[i]);
 
                 result &= x == math.min(t_ulong4.TestData_LHS[i].x,
                                math.min(t_ulong4.TestData_LHS[i].y,
@@ -670,7 +670,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_float8.NUM_TESTS; i++)
             {
-                float x = maxmath.cmin(t_float8.TestData_LHS[i]);
+                float x = math.cmin(t_float8.TestData_LHS[i]);
 
                 result &= x == math.min(t_float8.TestData_LHS[i].x0,
                                math.min(t_float8.TestData_LHS[i].x1,

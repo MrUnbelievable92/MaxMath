@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -84,8 +83,8 @@ namespace MaxMath
                 }
                 else if (BurstArchitecture.IsSIMDSupported)
                 {
-                    long lo = maxmath.lzmask(cvtsi128_si64x(a));
-                    long hi = maxmath.lzmask(cvtsi128_si64x(bsrli_si128(a, sizeof(long))));
+                    long lo = math.lzmask(cvtsi128_si64x(a));
+                    long hi = math.lzmask(cvtsi128_si64x(bsrli_si128(a, sizeof(long))));
 
                     return unpacklo_epi64(cvtsi64x_si128(lo), cvtsi64x_si128(hi));
                 }
@@ -146,7 +145,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Sets all the leading zeros in the binary representation of a <see cref="UInt128"/> to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -154,7 +153,7 @@ namespace MaxMath
         {
             int __lzcnt = lzcnt(x);
 
-            return __lzcnt == 0 ? 0 : UInt128.MaxValue << (128 - __lzcnt);
+            return __lzcnt == 0 ? 0 : MaxMath.UInt128.MaxValue << (128 - __lzcnt);
         }
 
         /// <summary>       Sets all the leading zeros in the binary representation of an <see cref="Int128"/> to 1 and the remaining bits to 0.    </summary>
@@ -432,16 +431,16 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint lzmask(uint x)
         {
-            return (uint)((ulong)uint.MaxValue << (32 - math.lzcnt(x)));
+            return (uint)((ulong)uint.MaxValue << (32 - lzcnt(x)));
         }
 
-        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="uint2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.uint2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 lzmask(uint2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.lzmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.lzmsk_epi32(x);
             }
             else
             {
@@ -449,13 +448,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="uint3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.uint3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 lzmask(uint3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.lzmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.lzmsk_epi32(x);
             }
             else
             {
@@ -463,13 +462,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="uint4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.uint4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 lzmask(uint4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.lzmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.lzmsk_epi32(x);
             }
             else
             {
@@ -499,21 +498,21 @@ namespace MaxMath
             return (int)lzmask((uint)x);
         }
 
-        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="int2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.int2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 lzmask(int2 x)
         {
             return (int2)lzmask((uint2)x);
         }
 
-        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="int3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.int3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 lzmask(int3 x)
         {
             return (int3)lzmask((uint3)x);
         }
 
-        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="int4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.int4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 lzmask(int4 x)
         {
@@ -532,7 +531,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong lzmask(ulong x)
         {
-            return (ulong)((UInt128)ulong.MaxValue << (64 - math.lzcnt(x)));
+            return (ulong)((UInt128)ulong.MaxValue << (64 - lzcnt(x)));
         }
 
         /// <summary>       Sets all the leading zeros in the binary representations of each <see cref="MaxMath.ulong2"/> component to 1 and the remaining bits to 0.    </summary>

@@ -1,12 +1,10 @@
 using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
@@ -227,7 +225,7 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 1, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<sbyte2> d, sbyte2 x)
+        public static mask8x2 EvenlyDivides(this Divider<sbyte2> d, sbyte2 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -235,17 +233,17 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 2, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Divider<sbyte2>.bmdivisible_epi8(x, d.Divisor, mul, d._promises, 2)));
+                return Divider<sbyte2>.bmdivisible_epi8(x, d.Divisor, mul, d._promises, 2);
             }
             else
             {
-                return new bool2(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask8x2(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[1], d.Divisor[1], mul[1], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<sbyte3> d, sbyte3 x)
+        public static mask8x3 EvenlyDivides(this Divider<sbyte3> d, sbyte3 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -253,18 +251,18 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 3, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Divider<sbyte3>.bmdivisible_epi8(x, d.Divisor, mul, d._promises, 3)));
+                return Divider<sbyte3>.bmdivisible_epi8(x, d.Divisor, mul, d._promises, 3);
             }
             else
             {
-                return new bool3(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask8x3(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[2], d.Divisor[2], mul[2], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<sbyte4> d, sbyte4 x)
+        public static mask8x4 EvenlyDivides(this Divider<sbyte4> d, sbyte4 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -272,11 +270,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Divider<sbyte4>.bmdivisible_epi8(x, d.Divisor, mul, d._promises, 4)));
+                return Divider<sbyte4>.bmdivisible_epi8(x, d.Divisor, mul, d._promises, 4);
             }
             else
             {
-                return new bool4(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask8x4(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[2], d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[3], d.Divisor[3], mul[3], (Promise)d._promises));
@@ -284,7 +282,7 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<sbyte8> d, sbyte8 x)
+        public static mask8x8 EvenlyDivides(this Divider<sbyte8> d, sbyte8 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -292,11 +290,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Divider<sbyte8>.bmdivisible_epi8(x, d.Divisor, mul, d._promises, 8));
+                return Divider<sbyte8>.bmdivisible_epi8(x, d.Divisor, mul, d._promises, 8);
             }
             else
             {
-                return new bool8(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask8x8(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[2], d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[3], d.Divisor[3], mul[3], (Promise)d._promises),
@@ -308,7 +306,7 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 EvenlyDivides(this Divider<sbyte16> d, sbyte16 x)
+        public static mask8x16 EvenlyDivides(this Divider<sbyte16> d, sbyte16 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -316,11 +314,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signed
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Divider<sbyte16>.bmdivisible_epi8(x, d.Divisor, mul.v8_0, mul.v8_8, d._promises));
+                return Divider<sbyte16>.bmdivisible_epi8(x, d.Divisor, mul.v8_0, mul.v8_8, d._promises);
             }
             else
             {
-                return new bool16(Divider<sbyte>.bmdivisible_i8(x[0],  d.Divisor[0],  mul[0],  (Promise)d._promises),
+                return new mask8x16(Divider<sbyte>.bmdivisible_i8(x[0],  d.Divisor[0],  mul[0],  (Promise)d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x[1],  d.Divisor[1],  mul[1],  (Promise)d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x[2],  d.Divisor[2],  mul[2],  (Promise)d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x[3],  d.Divisor[3],  mul[3],  (Promise)d._promises),
@@ -340,24 +338,24 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signed
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 EvenlyDivides(this Divider<sbyte32> d, sbyte32 x)
+        public static mask8x32 EvenlyDivides(this Divider<sbyte32> d, sbyte32 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 32, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue8(Divider<sbyte32>.mm256_bmdivisible_epi8(x, d.Divisor, *(ushort16*)&d._bigM._mulLo, *(ushort16*)&d._bigM._mulHi, d._promises));
+                return Divider<sbyte32>.mm256_bmdivisible_epi8(x, d.Divisor, *(ushort16*)&d._bigM._mulLo, *(ushort16*)&d._bigM._mulHi, d._promises);
             }
             else
             {
-                return new bool32(d.GetInnerDivider<sbyte16>(0).EvenlyDivides(x.v16_0),
+                return new mask8x32(d.GetInnerDivider<sbyte16>(0).EvenlyDivides(x.v16_0),
                                   d.GetInnerDivider<sbyte16>(16).EvenlyDivides(x.v16_16));
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<sbyte2> d, sbyte x)
+        public static mask8x2 EvenlyDivides(this Divider<sbyte2> d, sbyte x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -365,17 +363,17 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 2, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Divider<sbyte2>.bmdivisible_epi8((sbyte2)x, d.Divisor, mul, d._promises, 2)));
+                return Divider<sbyte2>.bmdivisible_epi8((sbyte2)x, d.Divisor, mul, d._promises, 2);
             }
             else
             {
-                return new bool2(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask8x2(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[1], mul[1], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<sbyte3> d, sbyte x)
+        public static mask8x3 EvenlyDivides(this Divider<sbyte3> d, sbyte x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -383,18 +381,18 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 3, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Divider<sbyte3>.bmdivisible_epi8((sbyte3)x, d.Divisor, mul, d._promises, 3)));
+                return Divider<sbyte3>.bmdivisible_epi8((sbyte3)x, d.Divisor, mul, d._promises, 3);
             }
             else
             {
-                return new bool3(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask8x3(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[2], mul[2], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<sbyte4> d, sbyte x)
+        public static mask8x4 EvenlyDivides(this Divider<sbyte4> d, sbyte x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -402,11 +400,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Divider<sbyte4>.bmdivisible_epi8((sbyte4)x, d.Divisor, mul, d._promises, 4)));
+                return Divider<sbyte4>.bmdivisible_epi8((sbyte4)x, d.Divisor, mul, d._promises, 4);
             }
             else
             {
-                return new bool4(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask8x4(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[3], mul[3], (Promise)d._promises));
@@ -414,7 +412,7 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<sbyte8> d, sbyte x)
+        public static mask8x8 EvenlyDivides(this Divider<sbyte8> d, sbyte x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -422,11 +420,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Divider<sbyte8>.bmdivisible_epi8((sbyte8)x, d.Divisor, mul, d._promises, 8));
+                return Divider<sbyte8>.bmdivisible_epi8((sbyte8)x, d.Divisor, mul, d._promises, 8);
             }
             else
             {
-                return new bool8(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask8x8(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x, d.Divisor[3], mul[3], (Promise)d._promises),
@@ -438,7 +436,7 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 EvenlyDivides(this Divider<sbyte16> d, sbyte x)
+        public static mask8x16 EvenlyDivides(this Divider<sbyte16> d, sbyte x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -446,11 +444,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signed
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Divider<sbyte16>.bmdivisible_epi8((sbyte16)x, d.Divisor, mul.v8_0, mul.v8_8, d._promises));
+                return Divider<sbyte16>.bmdivisible_epi8((sbyte16)x, d.Divisor, mul.v8_0, mul.v8_8, d._promises);
             }
             else
             {
-                return new bool16(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0],  mul[0],  (Promise)d._promises),
+                return new mask8x16(Divider<sbyte>.bmdivisible_i8(x, d.Divisor[0],  mul[0],  (Promise)d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x, d.Divisor[1],  mul[1],  (Promise)d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x, d.Divisor[2],  mul[2],  (Promise)d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x, d.Divisor[3],  mul[3],  (Promise)d._promises),
@@ -470,24 +468,24 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signed
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 EvenlyDivides(this Divider<sbyte32> d, sbyte x)
+        public static mask8x32 EvenlyDivides(this Divider<sbyte32> d, sbyte x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 32, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue8(Divider<sbyte32>.mm256_bmdivisible_epi8((sbyte32)x, d.Divisor, *(ushort16*)&d._bigM._mulLo, *(ushort16*)&d._bigM._mulHi, d._promises));
+                return Divider<sbyte32>.mm256_bmdivisible_epi8((sbyte32)x, d.Divisor, *(ushort16*)&d._bigM._mulLo, *(ushort16*)&d._bigM._mulHi, d._promises);
             }
             else
             {
-                return new bool32(d.GetInnerDivider<sbyte16>(0).EvenlyDivides(x),
+                return new mask8x32(d.GetInnerDivider<sbyte16>(0).EvenlyDivides(x),
                                   d.GetInnerDivider<sbyte16>(16).EvenlyDivides(x));
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<sbyte> d, sbyte2 x)
+        public static mask8x2 EvenlyDivides(this Divider<sbyte> d, sbyte2 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -495,17 +493,17 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 2, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue8(Divider<sbyte2>.bmdivisible_epi8(x, (sbyte2)d.Divisor, (ushort2)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte2>.DividerPromise>(), 2)));
+                return Divider<sbyte2>.bmdivisible_epi8(x, (sbyte2)d.Divisor, (ushort2)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte2>.DividerPromise>(), 2);
             }
             else
             {
-                return new bool2(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor, mul, d._promises),
+                return new mask8x2(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[1], d.Divisor, mul, d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<sbyte> d, sbyte3 x)
+        public static mask8x3 EvenlyDivides(this Divider<sbyte> d, sbyte3 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -513,18 +511,18 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 3, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue8(Divider<sbyte3>.bmdivisible_epi8(x, (sbyte3)d.Divisor, (ushort3)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte3>.DividerPromise>(), 3)));
+                return Divider<sbyte3>.bmdivisible_epi8(x, (sbyte3)d.Divisor, (ushort3)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte3>.DividerPromise>(), 3);
             }
             else
             {
-                return new bool3(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor, mul, d._promises),
+                return new mask8x3(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[1], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[2], d.Divisor, mul, d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<sbyte> d, sbyte4 x)
+        public static mask8x4 EvenlyDivides(this Divider<sbyte> d, sbyte4 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -532,11 +530,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue8(Divider<sbyte4>.bmdivisible_epi8(x, (sbyte4)d.Divisor, (ushort4)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte4>.DividerPromise>(), 4)));
+                return Divider<sbyte4>.bmdivisible_epi8(x, (sbyte4)d.Divisor, (ushort4)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte4>.DividerPromise>(), 4);
             }
             else
             {
-                return new bool4(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor, mul, d._promises),
+                return new mask8x4(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[1], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[2], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[3], d.Divisor, mul, d._promises));
@@ -544,7 +542,7 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 4, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<sbyte> d, sbyte8 x)
+        public static mask8x8 EvenlyDivides(this Divider<sbyte> d, sbyte8 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -552,11 +550,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Divider<sbyte8>.bmdivisible_epi8(x, (sbyte8)d.Divisor, (ushort8)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte8>.DividerPromise>(), 8));
+                return Divider<sbyte8>.bmdivisible_epi8(x, (sbyte8)d.Divisor, (ushort8)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte8>.DividerPromise>(), 8);
             }
             else
             {
-                return new bool8(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor, mul, d._promises),
+                return new mask8x8(Divider<sbyte>.bmdivisible_i8(x[0], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[1], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[2], d.Divisor, mul, d._promises),
                                  Divider<sbyte>.bmdivisible_i8(x[3], d.Divisor, mul, d._promises),
@@ -568,7 +566,7 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 8, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 EvenlyDivides(this Divider<sbyte> d, sbyte16 x)
+        public static mask8x16 EvenlyDivides(this Divider<sbyte> d, sbyte16 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -576,11 +574,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signed
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Divider<sbyte16>.bmdivisible_epi8(x, (sbyte16)d.Divisor, (ushort8)mul, (ushort8)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte16>.DividerPromise>()));
+                return Divider<sbyte16>.bmdivisible_epi8(x, (sbyte16)d.Divisor, (ushort8)mul, (ushort8)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte16>.DividerPromise>());
             }
             else
             {
-                return new bool16(Divider<sbyte>.bmdivisible_i8(x[0],  d.Divisor, mul, d._promises),
+                return new mask8x16(Divider<sbyte>.bmdivisible_i8(x[0],  d.Divisor, mul, d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x[1],  d.Divisor, mul, d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x[2],  d.Divisor, mul, d._promises),
                                   Divider<sbyte>.bmdivisible_i8(x[3],  d.Divisor, mul, d._promises),
@@ -600,7 +598,7 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 16, columnCount: 1, Signed
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 EvenlyDivides(this Divider<sbyte> d, sbyte32 x)
+        public static mask8x32 EvenlyDivides(this Divider<sbyte> d, sbyte32 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(sbyte), 32, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -608,11 +606,11 @@ d.AssertOperationMatchesInitialization(sizeof(sbyte), 32, columnCount: 1, Signed
             {
                 ushort mul = *(ushort*)&d._bigM;
 
-                return RegisterConversion.IsTrue8(Divider<sbyte32>.mm256_bmdivisible_epi8(x, (sbyte32)d.Divisor, (ushort16)mul, (ushort16)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte32>.DividerPromise>()));
+                return Divider<sbyte32>.mm256_bmdivisible_epi8(x, (sbyte32)d.Divisor, (ushort16)mul, (ushort16)mul, d._promises.Reinterpret<Divider<sbyte>.DividerPromise, Divider<sbyte32>.DividerPromise>());
             }
             else
             {
-                return new bool32(d.EvenlyDivides(x.v16_0),
+                return new mask8x32(d.EvenlyDivides(x.v16_0),
                                   d.EvenlyDivides(x.v16_16));
             }
         }
@@ -627,7 +625,7 @@ d.AssertOperationMatchesInitialization(sizeof(short), 1, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<short2> d, short2 x)
+        public static mask16x2 EvenlyDivides(this Divider<short2> d, short2 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -635,17 +633,17 @@ d.AssertOperationMatchesInitialization(sizeof(short), 2, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Divider<short2>.bmdivisible_epi16(x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 2)));
+                return Divider<short2>.bmdivisible_epi16(x, d.Divisor, mul, d._promises, 2);
             }
             else
             {
-                return new bool2(Divider<short>.bmdivisible_i16(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask16x2(Divider<short>.bmdivisible_i16(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[1], d.Divisor[1], mul[1], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<short3> d, short3 x)
+        public static mask16x3 EvenlyDivides(this Divider<short3> d, short3 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -653,18 +651,18 @@ d.AssertOperationMatchesInitialization(sizeof(short), 3, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Divider<short3>.bmdivisible_epi16(x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 3)));
+                return Divider<short3>.bmdivisible_epi16(x, d.Divisor, mul, d._promises, 3);
             }
             else
             {
-                return new bool3(Divider<short>.bmdivisible_i16(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask16x3(Divider<short>.bmdivisible_i16(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[2], d.Divisor[2], mul[2], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<short4> d, short4 x)
+        public static mask16x4 EvenlyDivides(this Divider<short4> d, short4 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -672,11 +670,11 @@ d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Divider<short4>.bmdivisible_epi16(x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 4)));
+                return Divider<short4>.bmdivisible_epi16(x, d.Divisor, mul, d._promises, 4);
             }
             else
             {
-                return new bool4(Divider<short>.bmdivisible_i16(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask16x4(Divider<short>.bmdivisible_i16(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[2], d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[3], d.Divisor[3], mul[3], (Promise)d._promises));
@@ -684,7 +682,7 @@ d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<short8> d, short8 x)
+        public static mask16x8 EvenlyDivides(this Divider<short8> d, short8 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -692,11 +690,11 @@ d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue16(Divider<short8>.bmdivisible_epi16(x, d.Divisor, RegisterConversion.ToV128(mul.v4_0), RegisterConversion.ToV128(mul.v4_4), d._promises));
+                return Divider<short8>.bmdivisible_epi16(x, d.Divisor, mul.v4_0, mul.v4_4, d._promises);
             }
             else
             {
-                return new bool8(Divider<short>.bmdivisible_i16(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask16x8(Divider<short>.bmdivisible_i16(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[2], d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x[3], d.Divisor[3], mul[3], (Promise)d._promises),
@@ -708,24 +706,24 @@ d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 EvenlyDivides(this Divider<short16> d, short16 x)
+        public static mask16x16 EvenlyDivides(this Divider<short16> d, short16 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 16, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue16(Divider<short16>.mm256_bmdivisible_epi16(x, d.Divisor, *(uint8*)&d._bigM._mulLo, *(uint8*)&d._bigM._mulHi, d._promises));
+                return Divider<short16>.mm256_bmdivisible_epi16(x, d.Divisor, *(uint8*)&d._bigM._mulLo, *(uint8*)&d._bigM._mulHi, d._promises);
             }
             else
             {
-                return new bool16(d.GetInnerDivider<short8>(0).EvenlyDivides(x.v8_0),
+                return new mask16x16(d.GetInnerDivider<short8>(0).EvenlyDivides(x.v8_0),
                                   d.GetInnerDivider<short8>(8).EvenlyDivides(x.v8_8));
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<short2> d, short x)
+        public static mask16x2 EvenlyDivides(this Divider<short2> d, short x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -733,17 +731,17 @@ d.AssertOperationMatchesInitialization(sizeof(short), 2, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Divider<short2>.bmdivisible_epi16((short2)x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 2)));
+                return Divider<short2>.bmdivisible_epi16((short2)x, d.Divisor, mul, d._promises, 2);
             }
             else
             {
-                return new bool2(Divider<short>.bmdivisible_i16(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask16x2(Divider<short>.bmdivisible_i16(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[1], mul[1], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<short3> d, short x)
+        public static mask16x3 EvenlyDivides(this Divider<short3> d, short x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -751,18 +749,18 @@ d.AssertOperationMatchesInitialization(sizeof(short), 3, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Divider<short3>.bmdivisible_epi16((short3)x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 3)));
+                return Divider<short3>.bmdivisible_epi16((short3)x, d.Divisor, mul, d._promises, 3);
             }
             else
             {
-                return new bool3(Divider<short>.bmdivisible_i16(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask16x3(Divider<short>.bmdivisible_i16(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[2], mul[2], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<short4> d, short x)
+        public static mask16x4 EvenlyDivides(this Divider<short4> d, short x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -770,11 +768,11 @@ d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Divider<short4>.bmdivisible_epi16((short4)x, d.Divisor, RegisterConversion.ToV128(mul), d._promises, 4)));
+                return Divider<short4>.bmdivisible_epi16((short4)x, d.Divisor, mul, d._promises, 4);
             }
             else
             {
-                return new bool4(Divider<short>.bmdivisible_i16(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask16x4(Divider<short>.bmdivisible_i16(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[3], mul[3], (Promise)d._promises));
@@ -782,7 +780,7 @@ d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<short8> d, short x)
+        public static mask16x8 EvenlyDivides(this Divider<short8> d, short x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -790,11 +788,11 @@ d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue16(Divider<short8>.bmdivisible_epi16((short8)x, d.Divisor, RegisterConversion.ToV128(mul.v4_0), RegisterConversion.ToV128(mul.v4_4), d._promises));
+                return Divider<short8>.bmdivisible_epi16((short8)x, d.Divisor, mul.v4_0, mul.v4_4, d._promises);
             }
             else
             {
-                return new bool8(Divider<short>.bmdivisible_i16(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask16x8(Divider<short>.bmdivisible_i16(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<short>.bmdivisible_i16(x, d.Divisor[3], mul[3], (Promise)d._promises),
@@ -806,24 +804,24 @@ d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 EvenlyDivides(this Divider<short16> d, short x)
+        public static mask16x16 EvenlyDivides(this Divider<short16> d, short x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 16, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsTrue16(Divider<short16>.mm256_bmdivisible_epi16((short16)x, d.Divisor, *(uint8*)&d._bigM._mulLo, *(uint8*)&d._bigM._mulHi, d._promises));
+                return Divider<short16>.mm256_bmdivisible_epi16((short16)x, d.Divisor, *(uint8*)&d._bigM._mulLo, *(uint8*)&d._bigM._mulHi, d._promises);
             }
             else
             {
-                return new bool16(d.GetInnerDivider<short8>(0).EvenlyDivides(x),
+                return new mask16x16(d.GetInnerDivider<short8>(0).EvenlyDivides(x),
                                   d.GetInnerDivider<short8>(8).EvenlyDivides(x));
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<short> d, short2 x)
+        public static mask16x2 EvenlyDivides(this Divider<short> d, short2 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -831,17 +829,17 @@ d.AssertOperationMatchesInitialization(sizeof(short), 2, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue16(Divider<short2>.bmdivisible_epi16(x, (short2)d.Divisor, RegisterConversion.ToV128((uint2)mul), d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short2>.DividerPromise>(), 2)));
+                return Divider<short2>.bmdivisible_epi16(x, (short2)d.Divisor, (uint2)mul, d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short2>.DividerPromise>(), 2);
             }
             else
             {
-                return new bool2(Divider<short>.bmdivisible_i16(x[0], d.Divisor, mul, d._promises),
+                return new mask16x2(Divider<short>.bmdivisible_i16(x[0], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[1], d.Divisor, mul, d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<short> d, short3 x)
+        public static mask16x3 EvenlyDivides(this Divider<short> d, short3 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -849,18 +847,18 @@ d.AssertOperationMatchesInitialization(sizeof(short), 3, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsTrue16(Divider<short3>.bmdivisible_epi16(x, (short3)d.Divisor, RegisterConversion.ToV128((uint3)mul), d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short3>.DividerPromise>(), 3)));
+                return Divider<short3>.bmdivisible_epi16(x, (short3)d.Divisor, (uint3)mul, d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short3>.DividerPromise>(), 3);
             }
             else
             {
-                return new bool3(Divider<short>.bmdivisible_i16(x[0], d.Divisor, mul, d._promises),
+                return new mask16x3(Divider<short>.bmdivisible_i16(x[0], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[1], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[2], d.Divisor, mul, d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<short> d, short4 x)
+        public static mask16x4 EvenlyDivides(this Divider<short> d, short4 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -868,11 +866,11 @@ d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsTrue16(Divider<short4>.bmdivisible_epi16(x, (short4)d.Divisor, RegisterConversion.ToV128((uint4)mul), d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short4>.DividerPromise>(), 4)));
+                return Divider<short4>.bmdivisible_epi16(x, (short4)d.Divisor, (uint4)mul, d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short4>.DividerPromise>(), 4);
             }
             else
             {
-                return new bool4(Divider<short>.bmdivisible_i16(x[0], d.Divisor, mul, d._promises),
+                return new mask16x4(Divider<short>.bmdivisible_i16(x[0], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[1], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[2], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[3], d.Divisor, mul, d._promises));
@@ -880,7 +878,7 @@ d.AssertOperationMatchesInitialization(sizeof(short), 4, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<short> d, short8 x)
+        public static mask16x8 EvenlyDivides(this Divider<short> d, short8 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -888,11 +886,11 @@ d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedn
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue16(Divider<short8>.bmdivisible_epi16(x, (short8)d.Divisor, RegisterConversion.ToV128((uint4)mul), RegisterConversion.ToV128((uint4)mul), d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short8>.DividerPromise>()));
+                return Divider<short8>.bmdivisible_epi16(x, (short8)d.Divisor, (uint4)mul, (uint4)mul, d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short8>.DividerPromise>());
             }
             else
             {
-                return new bool8(Divider<short>.bmdivisible_i16(x[0], d.Divisor, mul, d._promises),
+                return new mask16x8(Divider<short>.bmdivisible_i16(x[0], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[1], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[2], d.Divisor, mul, d._promises),
                                  Divider<short>.bmdivisible_i16(x[3], d.Divisor, mul, d._promises),
@@ -904,7 +902,7 @@ d.AssertOperationMatchesInitialization(sizeof(short), 8, columnCount: 1, Signedn
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 EvenlyDivides(this Divider<short> d, short16 x)
+        public static mask16x16 EvenlyDivides(this Divider<short> d, short16 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(short), 16, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -912,11 +910,11 @@ d.AssertOperationMatchesInitialization(sizeof(short), 16, columnCount: 1, Signed
             {
                 uint mul = *(uint*)&d._bigM;
 
-                return RegisterConversion.IsTrue16(Divider<short16>.mm256_bmdivisible_epi16(x, (short16)d.Divisor, (uint8)mul, (uint8)mul, d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short16>.DividerPromise>()));
+                return Divider<short16>.mm256_bmdivisible_epi16(x, (short16)d.Divisor, (uint8)mul, (uint8)mul, d._promises.Reinterpret<Divider<short>.DividerPromise, Divider<short16>.DividerPromise>());
             }
             else
             {
-                return new bool16(d.EvenlyDivides(x.v8_0),
+                return new mask16x16(d.EvenlyDivides(x.v8_0),
                                   d.EvenlyDivides(x.v8_8));
             }
         }
@@ -931,7 +929,7 @@ d.AssertOperationMatchesInitialization(sizeof(int), 1, columnCount: 1, Signednes
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<int2> d, int2 x)
+        public static mask32x2 EvenlyDivides(this Divider<int2> d, int2 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -939,17 +937,17 @@ d.AssertOperationMatchesInitialization(sizeof(int), 2, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsFalse32(Divider<int2>.bmnotdivisible_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d.Divisor), mul, d._promises)));
+                return Xse.not_si128(Divider<int2>.bmnotdivisible_epi32(x, d.Divisor, mul, d._promises));
             }
             else
             {
-                return new bool2(Divider<int>.bmdivisible_i32(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask32x2(Divider<int>.bmdivisible_i32(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x[1], d.Divisor[1], mul[1], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<int3> d, int3 x)
+        public static mask32x3 EvenlyDivides(this Divider<int3> d, int3 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -957,18 +955,18 @@ d.AssertOperationMatchesInitialization(sizeof(int), 3, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsFalse32(Divider<int3>.bmnotdivisible_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d.Divisor), mul.xy, mul.zz, d._promises, 3)));
+                return Xse.not_si128(Divider<int3>.bmnotdivisible_epi32(x, d.Divisor, mul.xy, mul.zz, d._promises, 3));
             }
             else
             {
-                return new bool3(Divider<int>.bmdivisible_i32(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask32x3(Divider<int>.bmdivisible_i32(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x[2], d.Divisor[2], mul[2], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<int4> d, int4 x)
+        public static mask32x4 EvenlyDivides(this Divider<int4> d, int4 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -976,11 +974,11 @@ d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsFalse32(Divider<int4>.bmnotdivisible_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(d.Divisor), mul.xy, mul.zw, d._promises)));
+                return Xse.not_si128(Divider<int4>.bmnotdivisible_epi32(x, d.Divisor, mul.xy, mul.zw, d._promises));
             }
             else
             {
-                return new bool4(Divider<int>.bmdivisible_i32(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask32x4(Divider<int>.bmdivisible_i32(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x[2], d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x[3], d.Divisor[3], mul[3], (Promise)d._promises));
@@ -988,24 +986,24 @@ d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signednes
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<int8> d, int8 x)
+        public static mask32x8 EvenlyDivides(this Divider<int8> d, int8 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsFalse32(Divider<int8>.mm256_bmnotdivisible_epi32(x, d.Divisor, *(long4*)&d._bigM._mulLo, *(long4*)&d._bigM._mulHi, d._promises));
+                return Xse.mm256_not_si256(Divider<int8>.mm256_bmnotdivisible_epi32(x, d.Divisor, *(long4*)&d._bigM._mulLo, *(long4*)&d._bigM._mulHi, d._promises));
             }
             else
             {
-                return new bool8(d.GetInnerDivider<int4>(0).EvenlyDivides(x.v4_0),
-                                 d.GetInnerDivider<int4>(4).EvenlyDivides(x.v4_4));
+                return new mask32x8(d.GetInnerDivider<int4>(0).EvenlyDivides(x.v4_0),
+                                    d.GetInnerDivider<int4>(4).EvenlyDivides(x.v4_4));
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<int2> d, int x)
+        public static mask32x2 EvenlyDivides(this Divider<int2> d, int x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1013,17 +1011,17 @@ d.AssertOperationMatchesInitialization(sizeof(int), 2, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsFalse32(Divider<int2>.bmnotdivisible_epi32(RegisterConversion.ToV128((int2)x), RegisterConversion.ToV128(d.Divisor), mul, d._promises)));
+                return Xse.not_si128(Divider<int2>.bmnotdivisible_epi32((int2)x, d.Divisor, mul, d._promises));
             }
             else
             {
-                return new bool2(Divider<int>.bmdivisible_i32(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask32x2(Divider<int>.bmdivisible_i32(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x, d.Divisor[1], mul[1], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<int3> d, int x)
+        public static mask32x3 EvenlyDivides(this Divider<int3> d, int x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1031,18 +1029,18 @@ d.AssertOperationMatchesInitialization(sizeof(int), 3, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsFalse32(Divider<int3>.bmnotdivisible_epi32(RegisterConversion.ToV128((int3)x), RegisterConversion.ToV128(d.Divisor), mul.xy, mul.zz, d._promises, 3)));
+                return Xse.not_si128(Divider<int3>.bmnotdivisible_epi32((int3)x, d.Divisor, mul.xy, mul.zz, d._promises, 3));
             }
             else
             {
-                return new bool3(Divider<int>.bmdivisible_i32(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask32x3(Divider<int>.bmdivisible_i32(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x, d.Divisor[2], mul[2], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<int4> d, int x)
+        public static mask32x4 EvenlyDivides(this Divider<int4> d, int x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1050,11 +1048,11 @@ d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsFalse32(Divider<int4>.bmnotdivisible_epi32(RegisterConversion.ToV128((int4)x), RegisterConversion.ToV128(d.Divisor), mul.xy, mul.zw, d._promises)));
+                return Xse.not_si128(Divider<int4>.bmnotdivisible_epi32((int4)x, d.Divisor, mul.xy, mul.zw, d._promises));
             }
             else
             {
-                return new bool4(Divider<int>.bmdivisible_i32(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask32x4(Divider<int>.bmdivisible_i32(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x, d.Divisor[2], mul[2], (Promise)d._promises),
                                  Divider<int>.bmdivisible_i32(x, d.Divisor[3], mul[3], (Promise)d._promises));
@@ -1062,24 +1060,24 @@ d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signednes
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<int8> d, int x)
+        public static mask32x8 EvenlyDivides(this Divider<int8> d, int x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.IsFalse32(Divider<int8>.mm256_bmnotdivisible_epi32((int8)x, d.Divisor, *(long4*)&d._bigM._mulLo, *(long4*)&d._bigM._mulHi, d._promises));
+                return Xse.mm256_not_si256(Divider<int8>.mm256_bmnotdivisible_epi32((int8)x, d.Divisor, *(long4*)&d._bigM._mulLo, *(long4*)&d._bigM._mulHi, d._promises));
             }
             else
             {
-                return new bool8(d.GetInnerDivider<int4>(0).EvenlyDivides(x),
-                                 d.GetInnerDivider<int4>(4).EvenlyDivides(x));
+                return new mask32x8(d.GetInnerDivider<int4>(0).EvenlyDivides(x),
+                                    d.GetInnerDivider<int4>(4).EvenlyDivides(x));
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<int> d, int2 x)
+        public static mask32x2 EvenlyDivides(this Divider<int> d, int2 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1087,17 +1085,17 @@ d.AssertOperationMatchesInitialization(sizeof(int), 2, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsFalse32(Divider<int2>.bmnotdivisible_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128((int2)d.Divisor), (ulong2)mul, d._promises.Reinterpret<Divider<int>.DividerPromise, Divider<int2>.DividerPromise>())));
+                return Xse.not_si128(Divider<int2>.bmnotdivisible_epi32(x, (int2)d.Divisor, (ulong2)mul, d._promises.Reinterpret<Divider<int>.DividerPromise, Divider<int2>.DividerPromise>()));
             }
             else
             {
-                return new bool2(Divider<int>.bmdivisible_i32(x[0], d.Divisor, mul, d._promises),
+                return new mask32x2(Divider<int>.bmdivisible_i32(x[0], d.Divisor, mul, d._promises),
                                  Divider<int>.bmdivisible_i32(x[1], d.Divisor, mul, d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<int> d, int3 x)
+        public static mask32x3 EvenlyDivides(this Divider<int> d, int3 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1105,18 +1103,18 @@ d.AssertOperationMatchesInitialization(sizeof(int), 3, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(RegisterConversion.IsFalse32(Divider<int3>.bmnotdivisible_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128((int3)d.Divisor), (ulong2)mul, (ulong2)mul, d._promises.Reinterpret<Divider<int>.DividerPromise, Divider<int3>.DividerPromise>(), 3)));
+                return Xse.not_si128(Divider<int3>.bmnotdivisible_epi32(x, (int3)d.Divisor, (ulong2)mul, (ulong2)mul, d._promises.Reinterpret<Divider<int>.DividerPromise, Divider<int3>.DividerPromise>(), 3));
             }
             else
             {
-                return new bool3(Divider<int>.bmdivisible_i32(x[0], d.Divisor, mul, d._promises),
+                return new mask32x3(Divider<int>.bmdivisible_i32(x[0], d.Divisor, mul, d._promises),
                                  Divider<int>.bmdivisible_i32(x[1], d.Divisor, mul, d._promises),
                                  Divider<int>.bmdivisible_i32(x[2], d.Divisor, mul, d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<int> d, int4 x)
+        public static mask32x4 EvenlyDivides(this Divider<int> d, int4 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1124,11 +1122,11 @@ d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signednes
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(RegisterConversion.IsFalse32(Divider<int4>.bmnotdivisible_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128((int4)d.Divisor), (ulong2)mul, (ulong2)mul, d._promises.Reinterpret<Divider<int>.DividerPromise, Divider<int4>.DividerPromise>())));
+                return Xse.not_si128(Divider<int4>.bmnotdivisible_epi32(x, (int4)d.Divisor, (ulong2)mul, (ulong2)mul, d._promises.Reinterpret<Divider<int>.DividerPromise, Divider<int4>.DividerPromise>()));
             }
             else
             {
-                return new bool4(Divider<int>.bmdivisible_i32(x[0], d.Divisor, mul, d._promises),
+                return new mask32x4(Divider<int>.bmdivisible_i32(x[0], d.Divisor, mul, d._promises),
                                  Divider<int>.bmdivisible_i32(x[1], d.Divisor, mul, d._promises),
                                  Divider<int>.bmdivisible_i32(x[2], d.Divisor, mul, d._promises),
                                  Divider<int>.bmdivisible_i32(x[3], d.Divisor, mul, d._promises));
@@ -1136,7 +1134,7 @@ d.AssertOperationMatchesInitialization(sizeof(int), 4, columnCount: 1, Signednes
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 EvenlyDivides(this Divider<int> d, int8 x)
+        public static mask32x8 EvenlyDivides(this Divider<int> d, int8 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(int), 8, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1144,12 +1142,12 @@ d.AssertOperationMatchesInitialization(sizeof(int), 8, columnCount: 1, Signednes
             {
                 ulong mul = *(ulong*)&d._bigM;
 
-                return RegisterConversion.IsFalse32(Divider<int8>.mm256_bmnotdivisible_epi32(x, (int8)d.Divisor, (ulong4)mul, (ulong4)mul, d._promises.Reinterpret<Divider<int>.DividerPromise, Divider<int8>.DividerPromise>()));
+                return Xse.mm256_not_si256(Divider<int8>.mm256_bmnotdivisible_epi32(x, (int8)d.Divisor, (ulong4)mul, (ulong4)mul, d._promises.Reinterpret<Divider<int>.DividerPromise, Divider<int8>.DividerPromise>()));
             }
             else
             {
-                return new bool8(d.EvenlyDivides(x.v4_0),
-                                 d.EvenlyDivides(x.v4_4));
+                return new mask32x8(d.EvenlyDivides(x.v4_0),
+                                    d.EvenlyDivides(x.v4_4));
             }
         }
 
@@ -1163,7 +1161,7 @@ d.AssertOperationMatchesInitialization(sizeof(long), 1, columnCount: 1, Signedne
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<long2> d, long2 x)
+        public static mask64x2 EvenlyDivides(this Divider<long2> d, long2 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1171,17 +1169,17 @@ d.AssertOperationMatchesInitialization(sizeof(long), 2, columnCount: 1, Signedne
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<long2>.bmdivisible_epi64(x, d.Divisor, mul[0], mul[1], d._promises)));
+                return Divider<long2>.bmdivisible_epi64(x, d.Divisor, mul[0], mul[1], d._promises);
             }
             else
             {
-                return new bool2(Divider<long>.bmdivisible_i64(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask64x2(Divider<long>.bmdivisible_i64(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<long>.bmdivisible_i64(x[1], d.Divisor[1], mul[1], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<long3> d, long3 x)
+        public static mask64x3 EvenlyDivides(this Divider<long3> d, long3 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1191,25 +1189,25 @@ d.AssertOperationMatchesInitialization(sizeof(long), 3, columnCount: 1, Signedne
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Divider<long3>.mm256_bmnotdivisible_epi64(x, d.Divisor, default(v256), default(v256), (Promise)d._promises, 3)));
+                    return Xse.mm256_not_si256(Divider<long3>.mm256_bmnotdivisible_epi64(x, d.Divisor, default(v256), default(v256), (Promise)d._promises, 3));
                 }
             }
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return new bool3(RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epi64(x.xy, d.Divisor.xy, mul[0], mul[1], (Promise)d._promises))),
+                return new mask64x3(Divider<ulong2>.bmdivisible_epi64(x.xy, d.Divisor.xy, mul[0], mul[1], (Promise)d._promises),
                                  Divider<ulong>.bmdivisible_i64(x[2], d._divisor[2], mul[2], (Promise)d._promises));
             }
             else
             {
-                return new bool3(Divider<long>.bmdivisible_i64(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask64x3(Divider<long>.bmdivisible_i64(x[0], d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<long>.bmdivisible_i64(x[1], d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<long>.bmdivisible_i64(x[2], d.Divisor[2], mul[2], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<long4> d, long4 x)
+        public static mask64x4 EvenlyDivides(this Divider<long4> d, long4 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1220,18 +1218,18 @@ d.AssertOperationMatchesInitialization(sizeof(long), 4, columnCount: 1, Signedne
                 long4 mulLo = Avx2.mm256_i64gather_epi64(mul, new long4(0, 2, 4, 6), sizeof(long));
                 long4 mulHi = Avx2.mm256_i64gather_epi64(mul, new long4(1, 3, 5, 7), sizeof(long));
 
-                return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Divider<long4>.mm256_bmnotdivisible_epi64(x, d.Divisor, mulLo, mulHi, d._promises)));
+                return Xse.mm256_not_si256(Divider<long4>.mm256_bmnotdivisible_epi64(x, d.Divisor, mulLo, mulHi, d._promises));
             }
             else
             {
-                return new bool4(d.GetInnerDivider<long2>(0).EvenlyDivides(x.xy),
+                return new mask64x4(d.GetInnerDivider<long2>(0).EvenlyDivides(x.xy),
                                  d.GetInnerDivider<long2>(2).EvenlyDivides(x.zw));
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<long2> d, long x)
+        public static mask64x2 EvenlyDivides(this Divider<long2> d, long x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1239,17 +1237,17 @@ d.AssertOperationMatchesInitialization(sizeof(long), 2, columnCount: 1, Signedne
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<long2>.bmdivisible_epi64((long2)x, d.Divisor, mul[0], mul[1], d._promises)));
+                return Divider<long2>.bmdivisible_epi64((long2)x, d.Divisor, mul[0], mul[1], d._promises);
             }
             else
             {
-                return new bool2(Divider<long>.bmdivisible_i64(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask64x2(Divider<long>.bmdivisible_i64(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<long>.bmdivisible_i64(x, d.Divisor[1], mul[1], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<long3> d, long x)
+        public static mask64x3 EvenlyDivides(this Divider<long3> d, long x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1259,25 +1257,25 @@ d.AssertOperationMatchesInitialization(sizeof(long), 3, columnCount: 1, Signedne
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Divider<long3>.mm256_bmnotdivisible_epi64(Xse.mm256_set1_epi64x(x), d.Divisor, default(v256), default(v256), (Promise)d._promises, 3)));
+                    return Xse.mm256_not_si256(Divider<long3>.mm256_bmnotdivisible_epi64(Xse.mm256_set1_epi64x(x), d.Divisor, default(v256), default(v256), (Promise)d._promises, 3));
                 }
             }
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return new bool3(RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epi64(Xse.set1_epi64x(x), d.Divisor.xy, mul[0], mul[1], (Promise)d._promises))),
+                return new mask64x3(Divider<ulong2>.bmdivisible_epi64(Xse.set1_epi64x(x), d.Divisor.xy, mul[0], mul[1], (Promise)d._promises),
                                  Divider<ulong>.bmdivisible_i64(x, d._divisor[2], mul[2], (Promise)d._promises));
             }
             else
             {
-                return new bool3(Divider<long>.bmdivisible_i64(x, d.Divisor[0], mul[0], (Promise)d._promises),
+                return new mask64x3(Divider<long>.bmdivisible_i64(x, d.Divisor[0], mul[0], (Promise)d._promises),
                                  Divider<long>.bmdivisible_i64(x, d.Divisor[1], mul[1], (Promise)d._promises),
                                  Divider<long>.bmdivisible_i64(x, d.Divisor[2], mul[2], (Promise)d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<long4> d, long x)
+        public static mask64x4 EvenlyDivides(this Divider<long4> d, long x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1288,18 +1286,18 @@ d.AssertOperationMatchesInitialization(sizeof(long), 4, columnCount: 1, Signedne
                 long4 mulLo = Avx2.mm256_i64gather_epi64(mul, new long4(0, 2, 4, 6), sizeof(long));
                 long4 mulHi = Avx2.mm256_i64gather_epi64(mul, new long4(1, 3, 5, 7), sizeof(long));
 
-                return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Divider<long4>.mm256_bmnotdivisible_epi64((long4)x, d.Divisor, mulLo, mulHi, d._promises)));
+                return Xse.mm256_not_si256(Divider<long4>.mm256_bmnotdivisible_epi64((long4)x, d.Divisor, mulLo, mulHi, d._promises));
             }
             else
             {
-                return new bool4(d.GetInnerDivider<long2>(0).EvenlyDivides(x),
+                return new mask64x4(d.GetInnerDivider<long2>(0).EvenlyDivides(x),
                                  d.GetInnerDivider<long2>(2).EvenlyDivides(x));
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 EvenlyDivides(this Divider<long> d, long2 x)
+        public static mask64x2 EvenlyDivides(this Divider<long> d, long2 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 2, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1307,17 +1305,17 @@ d.AssertOperationMatchesInitialization(sizeof(long), 2, columnCount: 1, Signedne
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<long2>.bmdivisible_epi64(x, (long2)d.Divisor, mul, mul, d._promises.Reinterpret<Divider<long>.DividerPromise, Divider<long2>.DividerPromise>())));
+                return Divider<long2>.bmdivisible_epi64(x, (long2)d.Divisor, mul, mul, d._promises.Reinterpret<Divider<long>.DividerPromise, Divider<long2>.DividerPromise>());
             }
             else
             {
-                return new bool2(Divider<long>.bmdivisible_i64(x[0], d.Divisor, mul, d._promises),
+                return new mask64x2(Divider<long>.bmdivisible_i64(x[0], d.Divisor, mul, d._promises),
                                  Divider<long>.bmdivisible_i64(x[1], d.Divisor, mul, d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 EvenlyDivides(this Divider<long> d, long3 x)
+        public static mask64x3 EvenlyDivides(this Divider<long> d, long3 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 3, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1327,24 +1325,24 @@ d.AssertOperationMatchesInitialization(sizeof(long), 3, columnCount: 1, Signedne
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return RegisterConversion.ToBool3(RegisterConversion.IsFalse64(Divider<long3>.mm256_bmnotdivisible_epi64(x, Xse.mm256_set1_epi64x(d.Divisor), default(v256), default(v256), (Promise)d._promises, 3)));
+                    return Xse.mm256_not_si256(Divider<long3>.mm256_bmnotdivisible_epi64(x, Xse.mm256_set1_epi64x(d.Divisor), default(v256), default(v256), (Promise)d._promises, 3));
                 }
             }
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return new bool3(RegisterConversion.ToBool2(RegisterConversion.IsTrue64(Divider<ulong2>.bmdivisible_epi64(x.xy, Xse.set1_epi64x(d.Divisor), mul, mul, (Promise)d._promises))),
+                return new mask64x3(Divider<ulong2>.bmdivisible_epi64(x.xy, Xse.set1_epi64x(d.Divisor), mul, mul, (Promise)d._promises),
                                  Divider<ulong>.bmdivisible_i64(x[2], d._divisor, mul, (Promise)d._promises));
             }
             {
-                return new bool3(Divider<long>.bmdivisible_i64(x[0], d.Divisor, mul, d._promises),
+                return new mask64x3(Divider<long>.bmdivisible_i64(x[0], d.Divisor, mul, d._promises),
                                  Divider<long>.bmdivisible_i64(x[1], d.Divisor, mul, d._promises),
                                  Divider<long>.bmdivisible_i64(x[2], d.Divisor, mul, d._promises));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 EvenlyDivides(this Divider<long> d, long4 x)
+        public static mask64x4 EvenlyDivides(this Divider<long> d, long4 x)
         {
 d.AssertOperationMatchesInitialization(sizeof(long), 4, columnCount: 1, Signedness.Signed, NumericDataType.Integer);
 
@@ -1352,11 +1350,11 @@ d.AssertOperationMatchesInitialization(sizeof(long), 4, columnCount: 1, Signedne
             {
                 UInt128 mul = *(UInt128*)&d._bigM;
 
-                return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Divider<long4>.mm256_bmnotdivisible_epi64(x, (long4)d.Divisor, (ulong4)mul.lo64, (ulong4)mul.hi64, d._promises.Reinterpret<Divider<long>.DividerPromise, Divider<long4>.DividerPromise>())));
+                return Xse.mm256_not_si256(Divider<long4>.mm256_bmnotdivisible_epi64(x, (long4)d.Divisor, (ulong4)mul.lo64, (ulong4)mul.hi64, d._promises.Reinterpret<Divider<long>.DividerPromise, Divider<long4>.DividerPromise>()));
             }
             else
             {
-                return new bool4(d.EvenlyDivides(x.xy),
+                return new mask64x4(d.EvenlyDivides(x.xy),
                                  d.EvenlyDivides(x.zw));
             }
         }
