@@ -10,8 +10,7 @@ using Unity.Burst;
 using MaxMath.Intrinsics;
 using DevTools;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
@@ -120,7 +119,7 @@ if (divisor.IsZero) throw new DivideByZeroException();
             dividend = new UInt128(dividend.lo64, dividend.hi64 < scaledHi ? dividend.hi64 : dividend.hi64 - scaledHi);
             ulong scaledLo = (new UInt128(fallback__usf__udivrem128x64(dividend, scaledHi, out _), roundBit) << shift).hi64;
             scaledHi = scaledLo * divisor.hi64;
-            dividend = UInt128.umul128(divisor.lo64, scaledLo);
+            dividend = MaxMath.UInt128.umul128(divisor.lo64, scaledLo);
 
             remainder -= dividend;
             ulong quotient = scaledLo - tobyte(remainder.hi64 < scaledHi);

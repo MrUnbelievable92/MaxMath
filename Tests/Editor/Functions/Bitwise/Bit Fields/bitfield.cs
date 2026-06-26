@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -99,7 +99,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ushort bf = maxmath.bitfield(bytes[0], bytes[1]);
+                ushort bf = math.bitfield(bytes[0], bytes[1]);
                 testbitfield16(bf, bytes);
             }
 
@@ -111,7 +111,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                uint bf = maxmath.bitfield(bytes[0], bytes[1], bytes[2], bytes[3]);
+                uint bf = math.bitfield(bytes[0], bytes[1], bytes[2], bytes[3]);
                 testbitfield32(bf, bytes);
             }
 
@@ -123,7 +123,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ulong bf = maxmath.bitfield(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]);
+                ulong bf = math.bitfield(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]);
                 testbitfield64(bf, bytes);
             }
 
@@ -135,7 +135,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                UInt128 bf = maxmath.bitfield(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7], bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
+                UInt128 bf = math.bitfield(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7], bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]);
                 testbitfield128(bf, bytes);
             }
         }
@@ -153,7 +153,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ushort2 bf = maxmath.bitfield(new byte2(bytes[0], bytes[1]),
+                ushort2 bf = math.bitfield(new byte2(bytes[0], bytes[1]),
                                               new byte2(bytes[2], bytes[3]));
                 testbitfield16(bf.x, new byte[] { bytes[0], bytes[2] });
                 testbitfield16(bf.y, new byte[] { bytes[1], bytes[3] });
@@ -167,7 +167,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                uint2 bf = maxmath.bitfield(new byte2(bytes[0], bytes[1]),
+                uint2 bf = math.bitfield(new byte2(bytes[0], bytes[1]),
                                             new byte2(bytes[2], bytes[3]),
                                             new byte2(bytes[4], bytes[5]),
                                             new byte2(bytes[6], bytes[7]));
@@ -184,7 +184,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ulong2 bf = maxmath.bitfield(new byte2(bytes[0],  bytes[1]),
+                ulong2 bf = math.bitfield(new byte2(bytes[0],  bytes[1]),
                                              new byte2(bytes[2],  bytes[3]),
                                              new byte2(bytes[4],  bytes[5]),
                                              new byte2(bytes[6],  bytes[7]),
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ushort3 bf = maxmath.bitfield(new byte3(bytes[0], bytes[1], bytes[2]),
+                ushort3 bf = math.bitfield(new byte3(bytes[0], bytes[1], bytes[2]),
                                               new byte3(bytes[3], bytes[4], bytes[5]));
                 testbitfield16(bf.x, new byte[] { bytes[0], bytes[3] });
                 testbitfield16(bf.y, new byte[] { bytes[1], bytes[4] });
@@ -226,7 +226,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                uint3 bf = maxmath.bitfield(new byte3(bytes[0],  bytes[1],  bytes[2]),
+                uint3 bf = math.bitfield(new byte3(bytes[0],  bytes[1],  bytes[2]),
                                             new byte3(bytes[3],  bytes[4],  bytes[5]),
                                             new byte3(bytes[6],  bytes[7],  bytes[8]),
                                             new byte3(bytes[9],  bytes[10], bytes[11]));
@@ -243,7 +243,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ulong3 bf = maxmath.bitfield(new byte3(bytes[0],  bytes[1],  bytes[2]),
+                ulong3 bf = math.bitfield(new byte3(bytes[0],  bytes[1],  bytes[2]),
                                              new byte3(bytes[3],  bytes[4],  bytes[5]),
                                              new byte3(bytes[6],  bytes[7],  bytes[8]),
                                              new byte3(bytes[9],  bytes[10], bytes[11]),
@@ -270,7 +270,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ushort4 bf = maxmath.bitfield(new byte4(bytes[0], bytes[1], bytes[2], bytes[3]),
+                ushort4 bf = math.bitfield(new byte4(bytes[0], bytes[1], bytes[2], bytes[3]),
                                               new byte4(bytes[4], bytes[5], bytes[6], bytes[7]));
                 testbitfield16(bf.x, new byte[] { bytes[0], bytes[4] });
                 testbitfield16(bf.y, new byte[] { bytes[1], bytes[5] });
@@ -286,7 +286,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                uint4 bf = maxmath.bitfield(new byte4(bytes[0],  bytes[1],  bytes[2],  bytes[3]),
+                uint4 bf = math.bitfield(new byte4(bytes[0],  bytes[1],  bytes[2],  bytes[3]),
                                             new byte4(bytes[4],  bytes[5],  bytes[6],  bytes[7]),
                                             new byte4(bytes[8],  bytes[9],  bytes[10], bytes[11]),
                                             new byte4(bytes[12], bytes[13], bytes[14], bytes[15]));
@@ -304,7 +304,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ulong4 bf = maxmath.bitfield(new byte4(bytes[0],  bytes[1],  bytes[2],  bytes[3]),
+                ulong4 bf = math.bitfield(new byte4(bytes[0],  bytes[1],  bytes[2],  bytes[3]),
                                              new byte4(bytes[4],  bytes[5],  bytes[6],  bytes[7]),
                                              new byte4(bytes[8],  bytes[9],  bytes[10], bytes[11]),
                                              new byte4(bytes[12], bytes[13], bytes[14], bytes[15]),
@@ -332,7 +332,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ushort8 bf = maxmath.bitfield(new byte8(bytes[0], bytes[1], bytes[2],  bytes[3],  bytes[4],  bytes[5],  bytes[6],  bytes[7]),
+                ushort8 bf = math.bitfield(new byte8(bytes[0], bytes[1], bytes[2],  bytes[3],  bytes[4],  bytes[5],  bytes[6],  bytes[7]),
                                               new byte8(bytes[8], bytes[9], bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]));
                 testbitfield16(bf.x0, new byte[] { bytes[0], bytes[8] });
                 testbitfield16(bf.x1, new byte[] { bytes[1], bytes[9] });
@@ -352,7 +352,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                uint8 bf = maxmath.bitfield(new byte8(bytes[0],  bytes[1],  bytes[2],  bytes[3],  bytes[4],  bytes[5],  bytes[6],  bytes[7]),
+                uint8 bf = math.bitfield(new byte8(bytes[0],  bytes[1],  bytes[2],  bytes[3],  bytes[4],  bytes[5],  bytes[6],  bytes[7]),
                                             new byte8(bytes[8],  bytes[9],  bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]),
                                             new byte8(bytes[16], bytes[17], bytes[18], bytes[19], bytes[20], bytes[21], bytes[22], bytes[23]),
                                             new byte8(bytes[24], bytes[25], bytes[26], bytes[27], bytes[28], bytes[29], bytes[30], bytes[31]));
@@ -380,7 +380,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextByte();
                 }
 
-                ushort16 bf = maxmath.bitfield(new byte16(bytes[0],  bytes[1],  bytes[2],   bytes[3],   bytes[4],   bytes[5],   bytes[6],   bytes[7],  bytes[8],  bytes[9],  bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]),
+                ushort16 bf = math.bitfield(new byte16(bytes[0],  bytes[1],  bytes[2],   bytes[3],   bytes[4],   bytes[5],   bytes[6],   bytes[7],  bytes[8],  bytes[9],  bytes[10], bytes[11], bytes[12], bytes[13], bytes[14], bytes[15]),
                                                new byte16(bytes[16], bytes[17], bytes[18],  bytes[19],  bytes[20],  bytes[21],  bytes[22],  bytes[23], bytes[24], bytes[25], bytes[26], bytes[27], bytes[28], bytes[29], bytes[30], bytes[31]));
                 testbitfield16(bf.x0,  new byte[] { bytes[0],  bytes[16] });
                 testbitfield16(bf.x1,  new byte[] { bytes[1],  bytes[17] });
@@ -415,7 +415,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                uint bf = maxmath.bitfield(ushorts[0], ushorts[1]);
+                uint bf = math.bitfield(ushorts[0], ushorts[1]);
                 testbitfield32(bf, ushorts);
             }
 
@@ -427,7 +427,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                ulong bf = maxmath.bitfield(ushorts[0], ushorts[1], ushorts[2], ushorts[3]);
+                ulong bf = math.bitfield(ushorts[0], ushorts[1], ushorts[2], ushorts[3]);
                 testbitfield64(bf, ushorts);
             }
 
@@ -439,7 +439,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                UInt128 bf = maxmath.bitfield(ushorts[0], ushorts[1], ushorts[2], ushorts[3], ushorts[4], ushorts[5], ushorts[6], ushorts[7]);
+                UInt128 bf = math.bitfield(ushorts[0], ushorts[1], ushorts[2], ushorts[3], ushorts[4], ushorts[5], ushorts[6], ushorts[7]);
                 testbitfield128(bf, ushorts);
             }
         }
@@ -457,7 +457,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                uint2 bf = maxmath.bitfield(new ushort2(ushorts[0], ushorts[1]),
+                uint2 bf = math.bitfield(new ushort2(ushorts[0], ushorts[1]),
                                             new ushort2(ushorts[2], ushorts[3]));
                 testbitfield32(bf.x, new ushort[] { ushorts[0], ushorts[2] });
                 testbitfield32(bf.y, new ushort[] { ushorts[1], ushorts[3] });
@@ -471,7 +471,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                ulong2 bf = maxmath.bitfield(new ushort2(ushorts[0], ushorts[1]),
+                ulong2 bf = math.bitfield(new ushort2(ushorts[0], ushorts[1]),
                                              new ushort2(ushorts[2], ushorts[3]),
                                              new ushort2(ushorts[4], ushorts[5]),
                                              new ushort2(ushorts[6], ushorts[7]));
@@ -494,7 +494,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                uint3 bf = maxmath.bitfield(new ushort3(ushorts[0], ushorts[1], ushorts[2]),
+                uint3 bf = math.bitfield(new ushort3(ushorts[0], ushorts[1], ushorts[2]),
                                             new ushort3(ushorts[3], ushorts[4], ushorts[5]));
                 testbitfield32(bf.x, new ushort[] { ushorts[0], ushorts[3] });
                 testbitfield32(bf.y, new ushort[] { ushorts[1], ushorts[4] });
@@ -509,7 +509,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                ulong3 bf = maxmath.bitfield(new ushort3(ushorts[0],  ushorts[1],  ushorts[2]),
+                ulong3 bf = math.bitfield(new ushort3(ushorts[0],  ushorts[1],  ushorts[2]),
                                              new ushort3(ushorts[3],  ushorts[4],  ushorts[5]),
                                              new ushort3(ushorts[6],  ushorts[7],  ushorts[8]),
                                              new ushort3(ushorts[9],  ushorts[10], ushorts[11]));
@@ -532,7 +532,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                uint4 bf = maxmath.bitfield(new ushort4(ushorts[0], ushorts[1], ushorts[2], ushorts[3]),
+                uint4 bf = math.bitfield(new ushort4(ushorts[0], ushorts[1], ushorts[2], ushorts[3]),
                                             new ushort4(ushorts[4], ushorts[5], ushorts[6], ushorts[7]));
                 testbitfield32(bf.x, new ushort[] { ushorts[0], ushorts[4] });
                 testbitfield32(bf.y, new ushort[] { ushorts[1], ushorts[5] });
@@ -548,7 +548,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                ulong4 bf = maxmath.bitfield(new ushort4(ushorts[0],  ushorts[1],  ushorts[2],  ushorts[3]),
+                ulong4 bf = math.bitfield(new ushort4(ushorts[0],  ushorts[1],  ushorts[2],  ushorts[3]),
                                              new ushort4(ushorts[4],  ushorts[5],  ushorts[6],  ushorts[7]),
                                              new ushort4(ushorts[8],  ushorts[9],  ushorts[10], ushorts[11]),
                                              new ushort4(ushorts[12], ushorts[13], ushorts[14], ushorts[15]));
@@ -572,7 +572,7 @@ namespace MaxMath.Tests
                     ushorts[j] = rng.NextUShort();
                 }
 
-                uint8 bf = maxmath.bitfield(new ushort8(ushorts[0], ushorts[1], ushorts[2],  ushorts[3],  ushorts[4],  ushorts[5],  ushorts[6],  ushorts[7]),
+                uint8 bf = math.bitfield(new ushort8(ushorts[0], ushorts[1], ushorts[2],  ushorts[3],  ushorts[4],  ushorts[5],  ushorts[6],  ushorts[7]),
                                             new ushort8(ushorts[8], ushorts[9], ushorts[10], ushorts[11], ushorts[12], ushorts[13], ushorts[14], ushorts[15]));
                 testbitfield32(bf.x0, new ushort[] { ushorts[0], ushorts[8] });
                 testbitfield32(bf.x1, new ushort[] { ushorts[1], ushorts[9] });
@@ -599,7 +599,7 @@ namespace MaxMath.Tests
                     uints[j] = rng.NextUInt();
                 }
 
-                ulong bf = maxmath.bitfield(uints[0], uints[1]);
+                ulong bf = math.bitfield(uints[0], uints[1]);
                 testbitfield64(bf, uints);
             }
 
@@ -611,7 +611,7 @@ namespace MaxMath.Tests
                     uints[j] = rng.NextUInt();
                 }
 
-                UInt128 bf = maxmath.bitfield(uints[0], uints[1], uints[2], uints[3]);
+                UInt128 bf = math.bitfield(uints[0], uints[1], uints[2], uints[3]);
                 testbitfield128(bf, uints);
             }
         }
@@ -629,7 +629,7 @@ namespace MaxMath.Tests
                     uints[j] = rng.NextUInt();
                 }
 
-                ulong2 bf = maxmath.bitfield(new uint2(uints[0], uints[1]),
+                ulong2 bf = math.bitfield(new uint2(uints[0], uints[1]),
                                              new uint2(uints[2], uints[3]));
                 testbitfield64(bf.x, new uint[] { uints[0], uints[2] });
                 testbitfield64(bf.y, new uint[] { uints[1], uints[3] });
@@ -649,7 +649,7 @@ namespace MaxMath.Tests
                     uints[j] = rng.NextUInt();
                 }
 
-                ulong3 bf = maxmath.bitfield(new uint3(uints[0], uints[1], uints[2]),
+                ulong3 bf = math.bitfield(new uint3(uints[0], uints[1], uints[2]),
                                              new uint3(uints[3], uints[4], uints[5]));
                 testbitfield64(bf.x, new uint[] { uints[0], uints[3] });
                 testbitfield64(bf.y, new uint[] { uints[1], uints[4] });
@@ -670,7 +670,7 @@ namespace MaxMath.Tests
                     uints[j] = rng.NextUInt();
                 }
 
-                ulong4 bf = maxmath.bitfield(new uint4(uints[0], uints[1], uints[2], uints[3]),
+                ulong4 bf = math.bitfield(new uint4(uints[0], uints[1], uints[2], uints[3]),
                                              new uint4(uints[4], uints[5], uints[6], uints[7]));
                 testbitfield64(bf.x, new uint[] { uints[0], uints[4] });
                 testbitfield64(bf.y, new uint[] { uints[1], uints[5] });
@@ -693,7 +693,7 @@ namespace MaxMath.Tests
                     bytes[j] = rng.NextULong();
                 }
 
-                UInt128 bf = maxmath.bitfield(bytes[0], bytes[1]);
+                UInt128 bf = math.bitfield(bytes[0], bytes[1]);
                 testbitfield128(bf, bytes);
             }
         }

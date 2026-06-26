@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -111,7 +110,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Shifts a bitfield in <paramref name="x"/> of length <paramref name="length"/> and starting at bit <paramref name="index"/> to the least significant bit of an <see cref="Int128"/> and sets each remaining bit to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -411,7 +410,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 2));
+                return Xse.bextr_epi32(x, index, length, 2);
             }
             else
             {
@@ -425,7 +424,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 3));
+                return Xse.bextr_epi32(x, index, length, 3);
             }
             else
             {
@@ -439,7 +438,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.bextr_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(index), RegisterConversion.ToV128(length), 4));
+                return Xse.bextr_epi32(x, index, length, 4);
             }
             else
             {

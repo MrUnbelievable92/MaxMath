@@ -132,7 +132,10 @@ namespace MaxMath.Intrinsics
                         }
                         default:
                         {
-                            return Sse2.set1_epi8((sbyte)a);
+                            lo = unpacklo_epi8(lo, lo);
+                            lo =  shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 0, 0));
+
+                            return unpacklo_epi64(lo, lo);
                         }
                     }
                 }
@@ -171,7 +174,9 @@ namespace MaxMath.Intrinsics
                         }
                         default:
                         {
-                            return Sse2.set1_epi16((short)a);
+                            lo = shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 0, 0));
+                            
+                            return unpacklo_epi64(lo, lo);
                         }
                     }
                 }
@@ -194,7 +199,7 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    return Sse2.set1_epi32((int)a);
+                    return shuffle_epi32(cvtsi32_si128(a), Sse.SHUFFLE(0, 0, 0, 0));
                 }
             }
             else if (Arm.Neon.IsNeonSupported)
@@ -215,7 +220,7 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    return Sse2.set1_epi64x((long)a);
+                    return unpacklo_epi64(cvtsi64x_si128(a), cvtsi64x_si128(a));
                 }
             }
             else if (Arm.Neon.IsNeonSupported)
@@ -225,6 +230,28 @@ namespace MaxMath.Intrinsics
             else throw new IllegalInstructionException();
         }
 
+        
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 set1_pq(quarter a, byte elements = 16)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return set1_epi8(a.value, elements);
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 set1_ph(half a, byte elements = 8)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return set1_epi16(a.value, elements);
+            }
+            else throw new IllegalInstructionException();
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 set1_epi8(sbyte a, byte elements = 16)
@@ -376,6 +403,26 @@ namespace MaxMath.Intrinsics
             else throw new IllegalInstructionException();
         }
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_set1_pq(quarter a)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return mm256_set1_epi8(a.value);
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_set1_ph(half a)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return mm256_set1_epi16(a.value);
+            }
+            else throw new IllegalInstructionException();
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mm256_set1_ps(float a)

@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,8 +14,8 @@ namespace MaxMath.Tests
             {
                 int2 l = rng.NextInt2(int.MinValue / 2, int.MaxValue / 2);
 
-                maxmath.cminmaxmag(l, out int safeMin, out int safeMax);
-                maxmath.cminmaxmag(l, out int unsafeMin, out int unsafeMax, Promise.NoOverflow);
+                math.cminmaxmag(l, out int safeMin, out int safeMax);
+                math.cminmaxmag(l, out int unsafeMin, out int unsafeMax, Promise.NoOverflow);
 
                 Assert.AreEqual(safeMin, unsafeMin);
                 Assert.AreEqual(safeMax, unsafeMax);
@@ -31,8 +31,8 @@ namespace MaxMath.Tests
             {
                 int3 l = rng.NextInt3(int.MinValue / 2, int.MaxValue / 2);
 
-                maxmath.cminmaxmag(l, out int safeMin, out int safeMax);
-                maxmath.cminmaxmag(l, out int unsafeMin, out int unsafeMax, Promise.NoOverflow);
+                math.cminmaxmag(l, out int safeMin, out int safeMax);
+                math.cminmaxmag(l, out int unsafeMin, out int unsafeMax, Promise.NoOverflow);
 
                 Assert.AreEqual(safeMin, unsafeMin);
                 Assert.AreEqual(safeMax, unsafeMax);
@@ -48,8 +48,8 @@ namespace MaxMath.Tests
             {
                 int4 l = rng.NextInt4(int.MinValue / 2, int.MaxValue / 2);
 
-                maxmath.cminmaxmag(l, out int safeMin, out int safeMax);
-                maxmath.cminmaxmag(l, out int unsafeMin, out int unsafeMax, Promise.NoOverflow);
+                math.cminmaxmag(l, out int safeMin, out int safeMax);
+                math.cminmaxmag(l, out int unsafeMin, out int unsafeMax, Promise.NoOverflow);
 
                 Assert.AreEqual(safeMin, unsafeMin);
                 Assert.AreEqual(safeMax, unsafeMax);
@@ -65,8 +65,8 @@ namespace MaxMath.Tests
             {
                 int8 l = rng.NextInt8(int.MinValue / 2, int.MaxValue / 2);
 
-                maxmath.cminmaxmag(l, out int safeMin, out int safeMax);
-                maxmath.cminmaxmag(l, out int unsafeMin, out int unsafeMax, Promise.NoOverflow);
+                math.cminmaxmag(l, out int safeMin, out int safeMax);
+                math.cminmaxmag(l, out int unsafeMin, out int unsafeMax, Promise.NoOverflow);
 
                 Assert.AreEqual(safeMin, unsafeMin);
                 Assert.AreEqual(safeMax, unsafeMax);

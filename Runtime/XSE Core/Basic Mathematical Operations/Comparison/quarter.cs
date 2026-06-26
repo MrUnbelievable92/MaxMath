@@ -15,7 +15,7 @@ namespace MaxMath
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return set1_epi8(maxmath.bitmask8(quarter.BITS - 1));
+                        return set1_epi8(math.bitmask8(MaxMath.quarter.BITS - 1));
                     }
                     else throw new IllegalInstructionException();
                 }
@@ -27,7 +27,7 @@ namespace MaxMath
                 {
                     if (Avx2.IsAvx2Supported)
                     {
-                        return mm256_set1_epi8(maxmath.bitmask8(quarter.BITS - 1));
+                        return mm256_set1_epi8(math.bitmask8(MaxMath.quarter.BITS - 1));
                     }
                     else throw new IllegalInstructionException();
                 }
@@ -41,13 +41,13 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_LT_EPU8(a, 1 << 7, elements) && constexpr.ALL_LT_EPU8(b, 1 << 7, elements))
                     {
-                        return and_si128(cmpgt_epi8(set1_epi8(quarter.SIGNALING_EXPONENT + 1), a),
-                                         cmpgt_epi8(set1_epi8(quarter.SIGNALING_EXPONENT + 1), b));
+                        return and_si128(cmpgt_epi8(set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT + 1), a),
+                                         cmpgt_epi8(set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT + 1), b));
                     }
                     else
                     {
-                        return and_si128(cmpgt_epi8(set1_epi8(quarter.SIGNALING_EXPONENT + 1), and_si128(a, ABS_MASK_PQ)),
-                                         cmpgt_epi8(set1_epi8(quarter.SIGNALING_EXPONENT + 1), and_si128(b, ABS_MASK_PQ)));
+                        return and_si128(cmpgt_epi8(set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT + 1), and_si128(a, ABS_MASK_PQ)),
+                                         cmpgt_epi8(set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT + 1), and_si128(b, ABS_MASK_PQ)));
                     }
 
                 }
@@ -61,13 +61,13 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_LT_EPU8(a, 1 << 7, elements) && constexpr.ALL_LT_EPU8(b, 1 << 7, elements))
                     {
-                        return or_si128(cmpgt_epi8(and_si128(a, ABS_MASK_PQ), set1_epi8(quarter.SIGNALING_EXPONENT)),
-                                        cmpgt_epi8(and_si128(b, ABS_MASK_PQ), set1_epi8(quarter.SIGNALING_EXPONENT)));
+                        return or_si128(cmpgt_epi8(and_si128(a, ABS_MASK_PQ), set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)),
+                                        cmpgt_epi8(and_si128(b, ABS_MASK_PQ), set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)));
                     }
                     else
                     {
-                        return or_si128(cmpgt_epi8(a, set1_epi8(quarter.SIGNALING_EXPONENT)),
-                                        cmpgt_epi8(b, set1_epi8(quarter.SIGNALING_EXPONENT)));
+                        return or_si128(cmpgt_epi8(a, set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)),
+                                        cmpgt_epi8(b, set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)));
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -433,13 +433,13 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_LT_EPU8(a, 1 << 7) && constexpr.ALL_LT_EPU8(b, 1 << 7))
                     {
-                        return Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi8(mm256_set1_epi8(quarter.SIGNALING_EXPONENT + 1), a),
-                                                    Avx2.mm256_cmpgt_epi8(mm256_set1_epi8(quarter.SIGNALING_EXPONENT + 1), b));
+                        return Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi8(mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT + 1), a),
+                                                    Avx2.mm256_cmpgt_epi8(mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT + 1), b));
                     }
                     else
                     {
-                        return Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi8(mm256_set1_epi8(quarter.SIGNALING_EXPONENT + 1), Avx2.mm256_and_si256(a, MM256_ABS_MASK_PQ)),
-                                                    Avx2.mm256_cmpgt_epi8(mm256_set1_epi8(quarter.SIGNALING_EXPONENT + 1), Avx2.mm256_and_si256(b, MM256_ABS_MASK_PQ)));
+                        return Avx2.mm256_and_si256(Avx2.mm256_cmpgt_epi8(mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT + 1), Avx2.mm256_and_si256(a, MM256_ABS_MASK_PQ)),
+                                                    Avx2.mm256_cmpgt_epi8(mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT + 1), Avx2.mm256_and_si256(b, MM256_ABS_MASK_PQ)));
                     }
 
                 }
@@ -453,13 +453,13 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_LT_EPU8(a, 1 << 7) && constexpr.ALL_LT_EPU8(b, 1 << 7))
                     {
-                        return Avx2.mm256_or_si256(Avx2.mm256_cmpgt_epi8(Avx2.mm256_and_si256(a, MM256_ABS_MASK_PQ), mm256_set1_epi8(quarter.SIGNALING_EXPONENT)),
-                                                   Avx2.mm256_cmpgt_epi8(Avx2.mm256_and_si256(b, MM256_ABS_MASK_PQ), mm256_set1_epi8(quarter.SIGNALING_EXPONENT)));
+                        return Avx2.mm256_or_si256(Avx2.mm256_cmpgt_epi8(Avx2.mm256_and_si256(a, MM256_ABS_MASK_PQ), mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)),
+                                                   Avx2.mm256_cmpgt_epi8(Avx2.mm256_and_si256(b, MM256_ABS_MASK_PQ), mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)));
                     }
                     else
                     {
-                        return Avx2.mm256_or_si256(Avx2.mm256_cmpgt_epi8(a, mm256_set1_epi8(quarter.SIGNALING_EXPONENT)),
-                                                   Avx2.mm256_cmpgt_epi8(b, mm256_set1_epi8(quarter.SIGNALING_EXPONENT)));
+                        return Avx2.mm256_or_si256(Avx2.mm256_cmpgt_epi8(a, mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)),
+                                                   Avx2.mm256_cmpgt_epi8(b, mm256_set1_epi8(MaxMath.quarter.SIGNALING_EXPONENT)));
                     }
                 }
                 else throw new IllegalInstructionException();

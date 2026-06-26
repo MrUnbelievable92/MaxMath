@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -3844,7 +3843,7 @@ namespace MaxMath
 					}
 					else if (BurstArchitecture.IsSIMDSupported)
 				    {
-						int wzyx = maxmath.reversebytes(Xse.cvtsi128_si32(x));
+						int wzyx = math.reversebytes(Xse.cvtsi128_si32(x));
 
 						return Xse.cvtsi32_si128(wzyx);
 					}

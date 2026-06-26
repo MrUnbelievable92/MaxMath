@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -75,7 +74,7 @@ namespace MaxMath
                     }
                     else if (elements == 2)
                     {
-                        return cvtsi32_si128(maxmath.avg(a.SByte0, a.SByte1));
+                        return cvtsi32_si128(math.avg(a.SByte0, a.SByte1));
                     }
 
                     v128 offset = cvtsi32_si128(elements - 1);
@@ -129,7 +128,7 @@ namespace MaxMath
                     }
                     else if (elements == 2)
                     {
-                        return cvtsi32_si128(maxmath.avg(a.SShort0, a.SShort1));
+                        return cvtsi32_si128(math.avg(a.SShort0, a.SShort1));
                     }
 
                     v128 offset = cvtsi32_si128(elements - 1);
@@ -183,7 +182,7 @@ namespace MaxMath
                     }
                     else if (elements == 2)
                     {
-                        return cvtsi64x_si128(maxmath.avg(a.SInt0, a.SInt1));
+                        return cvtsi64x_si128(math.avg(a.SInt0, a.SInt1));
                     }
 
                     v128 offset = cvtsi32_si128(elements - 1);
@@ -222,7 +221,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>      Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.byte2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -776,7 +775,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="uint2"/>.
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.uint2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 1 overflows.       </para>
         /// </remarks>
@@ -786,7 +785,7 @@ namespace MaxMath
         {
             if (noOverflow.Promises(Promise.NoOverflow))
             {
-                return (1u + math.csum(c)) / 2;
+                return (1u + csum(c)) / 2;
             }
             else
             {
@@ -794,7 +793,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="uint3"/>.
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.uint3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 2 overflows.       </para>
         /// </remarks>
@@ -804,7 +803,7 @@ namespace MaxMath
         {
             if (noOverflow.Promises(Promise.NoOverflow))
             {
-                return (2u + math.csum(c)) / 3;
+                return (2u + csum(c)) / 3;
             }
             else
             {
@@ -812,7 +811,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="uint4"/>.
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.uint4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if the horizontal sum of <paramref name="c"/> <see langword="+"/> 3 overflows.       </para>
         /// </remarks>
@@ -822,7 +821,7 @@ namespace MaxMath
         {
             if (noOverflow.Promises(Promise.NoOverflow))
             {
-                return (3u + math.csum(c)) / 4;
+                return (3u + csum(c)) / 4;
             }
             else
             {
@@ -830,7 +829,7 @@ namespace MaxMath
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    v128 c64Lo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(c), out v128 c64Hi);
+                    v128 c64Lo = Xse.cvt2x2epu32_epi64(c, out v128 c64Hi);
                     v128 sum = Xse.add_epi64(c64Lo, c64Hi);
                     __csum = Xse.add_epi64(sum, Xse.bsrli_si128(sum, sizeof(long))).ULong0;
                 }
@@ -867,8 +866,8 @@ namespace MaxMath
                 }
                 else if (BurstArchitecture.IsSIMDSupported)
                 {
-                    v128 c64LoLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(c.v4_0), out v128 c64LoHi);
-                    v128 c64HiLo = Xse.cvt2x2epu32_epi64(RegisterConversion.ToV128(c.v4_4), out v128 c64HiHi);
+                    v128 c64LoLo = Xse.cvt2x2epu32_epi64(c.v4_0, out v128 c64LoHi);
+                    v128 c64HiLo = Xse.cvt2x2epu32_epi64(c.v4_4, out v128 c64HiHi);
                     c64LoLo = Xse.add_epi64(c64LoLo, c64LoHi);
                     c64HiLo = Xse.add_epi64(c64HiLo, c64HiHi);
                     v128 sum = Xse.add_epi64(c64LoLo, c64HiLo);
@@ -888,7 +887,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="int2"/>.
+        /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.int2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 1 is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -898,7 +897,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vavg_epi32(RegisterConversion.ToV128(c), noOverflow.Promises(Promise.NoOverflow), 2).SInt0;
+                return Xse.vavg_epi32(c, noOverflow.Promises(Promise.NoOverflow), 2).SInt0;
             }
             else
             {
@@ -906,7 +905,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="int3"/>.
+        /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.int3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 2 is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -916,7 +915,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vavg_epi32(RegisterConversion.ToV128(c), noOverflow.Promises(Promise.NoOverflow), 3).SInt0;
+                return Xse.vavg_epi32(c, noOverflow.Promises(Promise.NoOverflow), 3).SInt0;
             }
             else
             {
@@ -926,7 +925,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="int4"/>.
+        /// <summary>       Returns the ceiling of the horizontal average value of components in an <see cref="MaxMath.int4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> <paramref name="noOverflow"/> withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 ('+' if the column sum is positive, '-' otherwise) that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> <see langword="+"/> or <see langword="-"/> 3 is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -936,7 +935,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vavg_epi32(RegisterConversion.ToV128(c), noOverflow.Promises(Promise.NoOverflow), 4).SInt0;
+                return Xse.vavg_epi32(c, noOverflow.Promises(Promise.NoOverflow), 4).SInt0;
             }
             else
             {
@@ -970,7 +969,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        csum = Xse.vsum_epi32(Xse.add_epi32(RegisterConversion.ToV128(c.v4_0), RegisterConversion.ToV128(c.v4_4)), true, 4);
+                        csum = Xse.vsum_epi32(Xse.add_epi32(c.v4_0, c.v4_4), true, 4);
                     }
 
                     v128 signedOffset;
@@ -1010,8 +1009,8 @@ namespace MaxMath
                     }
                     else
                     {
-                        v128 c64LoLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(c.v4_0), out v128 c64LoHi);
-                        v128 c64HiLo = Xse.cvt2x2epi32_epi64(RegisterConversion.ToV128(c.v4_4), out v128 c64HiHi);
+                        v128 c64LoLo = Xse.cvt2x2epi32_epi64(c.v4_0, out v128 c64LoHi);
+                        v128 c64HiLo = Xse.cvt2x2epi32_epi64(c.v4_4, out v128 c64HiHi);
                         c64LoLo = Xse.add_epi64(c64LoLo, c64LoHi);
                         c64HiLo = Xse.add_epi64(c64HiLo, c64HiHi);
                         v128 sum = Xse.add_epi64(c64LoLo, c64HiLo);
@@ -1167,25 +1166,25 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="float2"/>.     </summary>
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.float2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cavg(float2 c)
         {
-            return 0.5f * math.csum(c);
+            return 0.5f * csum(c);
         }
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="float3"/>.     </summary>
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.float3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cavg(float3 c)
         {
-            return (1f / 3f) * math.csum(c);
+            return (1f / 3f) * csum(c);
         }
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="float4"/>.     </summary>
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.float4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cavg(float4 c)
         {
-            return 0.25f * math.csum(c);
+            return 0.25f * csum(c);
         }
 
         /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.float8"/>.     </summary>
@@ -1196,25 +1195,25 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="double2"/>.     </summary>
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.double2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cavg(double2 c)
         {
-            return 0.5d * math.csum(c);
+            return 0.5d * csum(c);
         }
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="double3"/>.     </summary>
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.double3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cavg(double3 c)
         {
-            return (1d / 3d) * math.csum(c);
+            return (1d / 3d) * csum(c);
         }
 
-        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="double4"/>.     </summary>
+        /// <summary>       Returns the ceiling of the horizontal average value of components in a <see cref="MaxMath.double4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cavg(double4 c)
         {
-            return 0.25d * math.csum(c);
+            return 0.25d * csum(c);
         }
     }
 }

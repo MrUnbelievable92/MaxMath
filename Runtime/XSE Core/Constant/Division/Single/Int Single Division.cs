@@ -14,9 +14,9 @@ namespace MaxMath.Intrinsics
 		    {
 				switch (elements)
 				{
-					case  2: return RegisterConversion.ToV128(RegisterConversion.ToInt2(vector) / new Divider<int>(divisor));
-					case  3: return RegisterConversion.ToV128(RegisterConversion.ToInt3(vector) / new Divider<int>(divisor));
-					default: return RegisterConversion.ToV128(RegisterConversion.ToInt4(vector) / new Divider<int>(divisor));
+					case  2: return (int2)vector / new Divider<int>(divisor);
+					case  3: return (int3)vector / new Divider<int>(divisor);
+					default: return (int4)vector / new Divider<int>(divisor);
 				}
 		    }
 			else throw new IllegalInstructionException();

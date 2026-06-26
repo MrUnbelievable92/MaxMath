@@ -2,7 +2,6 @@ using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 using DevTools;
 
@@ -116,8 +115,8 @@ VectorAssert.IsNonNegative<short8, short>(k1, 8, NumericDataType.Integer);
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(n), elements, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(k), elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(n, elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(k, elements, NumericDataType.Integer);
 
                     return comb_ep32(n, k, true, unsafeLevels, elements);
                 }
@@ -137,10 +136,10 @@ VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(k), elements, Nu
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(n0), 4, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(k0), 4, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(n1), 4, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int4, int>(RegisterConversion.ToInt4(k1), 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(n0, 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(k0, 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(n1, 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(k1, 4, NumericDataType.Integer);
 
                     comb_ep32x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
                 }
@@ -346,9 +345,9 @@ VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
                     if (Hint.Unlikely(indexCurrentDivider == 0))
                     {
                     #if DEBUG
-                        d = new Divider<uint4>(RegisterConversion.ToUInt4(adds_epu32(RegisterConversion.ToV128(d.Divisor), set1_epi32(4))), d._promises);
+                        d = new Divider<uint4>(adds_epu32(d.Divisor, set1_epi32(4)), d._promises);
                     #else
-                        d = new Divider<uint4>(RegisterConversion.ToUInt4(add_epi32(RegisterConversion.ToV128(d.Divisor), set1_epi32(4))), d._promises);
+                        d = new Divider<uint4>(add_epi32(d.Divisor, set1_epi32(4)), d._promises);
                     #endif
                     }
                 }
@@ -746,9 +745,9 @@ VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
                             }
                             switch (elements)
                             {
-                                case 2:  c = RegisterConversion.ToV128(RegisterConversion.ToUInt2(c) / currentDivider); break;
-                                case 3:  c = RegisterConversion.ToV128(RegisterConversion.ToUInt3(c) / currentDivider); break;
-                                default: c = RegisterConversion.ToV128(RegisterConversion.ToUInt4(c) / currentDivider); break;
+                                case 2:  c = (uint2)c / currentDivider; break;
+                                case 3:  c = (uint3)c / currentDivider; break;
+                                default: c = (uint4)c / currentDivider; break;
                             }
                         }
 
@@ -1180,8 +1179,8 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                             {
                                 case 2:
                                 {
-                                    return unpacklo_epi8(cvtsi64x_si128(maxmath.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0)),
-                                                         cvtsi64x_si128(maxmath.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0)));
+                                    return unpacklo_epi8(cvtsi64x_si128(math.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0)),
+                                                         cvtsi64x_si128(math.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0)));
                                 }
 
                                 case 3:
@@ -1193,10 +1192,10 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                                     }
                                     else
                                     {
-                                        return new v128((byte)maxmath.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0),
-                                                        (byte)maxmath.comb((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), Promise.Unsafe0),
-                                                        (byte)(elements == 4 ? maxmath.comb((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), Promise.Unsafe0) : 0),
+                                        return new v128((byte)math.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0),
+                                                        (byte)math.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0),
+                                                        (byte)math.comb((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), Promise.Unsafe0),
+                                                        (byte)(elements == 4 ? math.comb((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), Promise.Unsafe0) : 0),
                                                         0,
                                                         0,
                                                         0,
@@ -1231,10 +1230,10 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                                         v128 _0_1 = naivecomb_epu64(cvtepu8_epi64(n), cvtepu8_epi64(k), true);
                                         v128 _2_3 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 2 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 2 * sizeof(byte))), true);
 
-                                        v128 _4 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 4), (ulong)extract_epi8(k, 4), Promise.Unsafe0));
-                                        v128 _5 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 5), (ulong)extract_epi8(k, 5), Promise.Unsafe0));
-                                        v128 _6 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 6), (ulong)extract_epi8(k, 6), Promise.Unsafe0));
-                                        v128 _7 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 7), (ulong)extract_epi8(k, 7), Promise.Unsafe0));
+                                        v128 _4 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 4), (ulong)extract_epi8(k, 4), Promise.Unsafe0));
+                                        v128 _5 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 5), (ulong)extract_epi8(k, 5), Promise.Unsafe0));
+                                        v128 _6 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 6), (ulong)extract_epi8(k, 6), Promise.Unsafe0));
+                                        v128 _7 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 7), (ulong)extract_epi8(k, 7), Promise.Unsafe0));
 
                                         v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
                                         v128 _4_5 = unpacklo_epi8(_4, _5);
@@ -1272,14 +1271,14 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
                                         v128 _4_5 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 4 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 4 * sizeof(byte))), true);
                                         v128 _6_7 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 6 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 6 * sizeof(byte))), true);
 
-                                        v128 _8  = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 8),  (ulong)extract_epi8(k, 8),  Promise.Unsafe0));
-                                        v128 _9  = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 9),  (ulong)extract_epi8(k, 9),  Promise.Unsafe0));
-                                        v128 _10 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 10), (ulong)extract_epi8(k, 10), Promise.Unsafe0));
-                                        v128 _11 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 11), (ulong)extract_epi8(k, 11), Promise.Unsafe0));
-                                        v128 _12 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 12), (ulong)extract_epi8(k, 12), Promise.Unsafe0));
-                                        v128 _13 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 13), (ulong)extract_epi8(k, 13), Promise.Unsafe0));
-                                        v128 _14 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 14), (ulong)extract_epi8(k, 14), Promise.Unsafe0));
-                                        v128 _15 = cvtsi32_si128((byte)maxmath.comb((ulong)extract_epi8(n, 15), (ulong)extract_epi8(k, 15), Promise.Unsafe0));
+                                        v128 _8  = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 8),  (ulong)extract_epi8(k, 8),  Promise.Unsafe0));
+                                        v128 _9  = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 9),  (ulong)extract_epi8(k, 9),  Promise.Unsafe0));
+                                        v128 _10 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 10), (ulong)extract_epi8(k, 10), Promise.Unsafe0));
+                                        v128 _11 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 11), (ulong)extract_epi8(k, 11), Promise.Unsafe0));
+                                        v128 _12 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 12), (ulong)extract_epi8(k, 12), Promise.Unsafe0));
+                                        v128 _13 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 13), (ulong)extract_epi8(k, 13), Promise.Unsafe0));
+                                        v128 _14 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 14), (ulong)extract_epi8(k, 14), Promise.Unsafe0));
+                                        v128 _15 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 15), (ulong)extract_epi8(k, 15), Promise.Unsafe0));
 
                                         v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
                                         v128 _4_5_6_7 = unpacklo_epi16(cvtepi64_epi8(_4_5), cvtepi64_epi8(_6_7));
@@ -1582,8 +1581,8 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
                             {
                                 case 2:
                                 {
-                                    return unpacklo_epi16(cvtsi32_si128((int)maxmath.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0)),
-                                                          cvtsi32_si128((int)maxmath.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0)));
+                                    return unpacklo_epi16(cvtsi32_si128((int)math.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0)),
+                                                          cvtsi32_si128((int)math.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0)));
                                 }
 
                                 case 3:
@@ -1595,10 +1594,10 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
                                     }
                                     else
                                     {
-                                        return new v128((ushort)maxmath.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0),
-                                                        (ushort)maxmath.comb((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), Promise.Unsafe0),
-                                                        (ushort)(elements == 4 ? maxmath.comb((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), Promise.Unsafe0) : 0),
+                                        return new v128((ushort)math.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0),
+                                                        (ushort)math.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0),
+                                                        (ushort)math.comb((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), Promise.Unsafe0),
+                                                        (ushort)(elements == 4 ? math.comb((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), Promise.Unsafe0) : 0),
                                                         0,
                                                         0,
                                                         0,
@@ -1625,10 +1624,10 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
                                         v128 _0_1 = naivecomb_epu64(cvtepu16_epi64(n), cvtepu16_epi64(k), true);
                                         v128 _2_3 = naivecomb_epu64(cvtepu16_epi64(bsrli_si128(n, 2 * sizeof(ushort))), cvtepu16_epi64(bsrli_si128(k, 2 * sizeof(ushort))), true);
 
-                                        v128 _4 = cvtsi32_si128((ushort)maxmath.comb((ulong)extract_epi16(n, 4), (ulong)extract_epi16(k, 4), Promise.Unsafe0));
-                                        v128 _5 = cvtsi32_si128((ushort)maxmath.comb((ulong)extract_epi16(n, 5), (ulong)extract_epi16(k, 5), Promise.Unsafe0));
-                                        v128 _6 = cvtsi32_si128((ushort)maxmath.comb((ulong)extract_epi16(n, 6), (ulong)extract_epi16(k, 6), Promise.Unsafe0));
-                                        v128 _7 = cvtsi32_si128((ushort)maxmath.comb((ulong)extract_epi16(n, 7), (ulong)extract_epi16(k, 7), Promise.Unsafe0));
+                                        v128 _4 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 4), (ulong)extract_epi16(k, 4), Promise.Unsafe0));
+                                        v128 _5 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 5), (ulong)extract_epi16(k, 5), Promise.Unsafe0));
+                                        v128 _6 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 6), (ulong)extract_epi16(k, 6), Promise.Unsafe0));
+                                        v128 _7 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 7), (ulong)extract_epi16(k, 7), Promise.Unsafe0));
 
                                         v128 _0_1_2_3 = unpacklo_epi32(cvtepi64_epi16(_0_1), cvtepi64_epi16(_2_3));
                                         v128 _4_5 = unpacklo_epi16(_4, _5);
@@ -1913,18 +1912,18 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
                         }
                         if (elements == 2)
                         {
-                            uint2 q = currentDivider.DivRem(RegisterConversion.ToUInt2(c), out uint2 r);
-                            c = add_epi32(mullo_epi32(RegisterConversion.ToV128(q), n, 2), RegisterConversion.ToV128(RegisterConversion.ToUInt2(mullo_epi32(RegisterConversion.ToV128(r), n, 2)) / currentDivider));
+                            uint2 q = currentDivider.DivRem(c, out uint2 r);
+                            c = (uint2)add_epi32(mullo_epi32(q, n, 2), mullo_epi32(r, n, 2)) / currentDivider;
                         }
                         else if (elements == 3)
                         {
-                            uint3 q = currentDivider.DivRem(RegisterConversion.ToUInt3(c), out uint3 r);
-                            c = add_epi32(mullo_epi32(RegisterConversion.ToV128(q), n, 3), RegisterConversion.ToV128(RegisterConversion.ToUInt3(mullo_epi32(RegisterConversion.ToV128(r), n, 3)) / currentDivider));
+                            uint3 q = currentDivider.DivRem(c, out uint3 r);
+                            c = (uint3)add_epi32(mullo_epi32(q, n, 3), mullo_epi32(r, n, 3)) / currentDivider;
                         }
                         else
                         {
-                            uint4 q = currentDivider.DivRem(RegisterConversion.ToUInt4(c), out uint4 r);
-                            c = add_epi32(mullo_epi32(RegisterConversion.ToV128(q), n, 4), RegisterConversion.ToV128(RegisterConversion.ToUInt4(mullo_epi32(RegisterConversion.ToV128(r), n, 4)) / currentDivider));
+                            uint4 q = currentDivider.DivRem(c, out uint4 r);
+                            c = (uint4)add_epi32(mullo_epi32(q, n, 4), mullo_epi32(r, n, 4)) / currentDivider;
                         }
                     }
 
@@ -1981,7 +1980,7 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterConversion.ToUInt4(n), elements);
+VectorAssert.IsNotGreater<uint4, uint>(k, n, elements);
 
                     if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64, elements))
                     {
@@ -1999,13 +1998,13 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
                                 }
                                 else
                                 {
-                                    v128 lo = unpacklo_epi32(cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
-                                                             cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
-                                    v128 hi = cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 2), (ulong)extract_epi32(k, 2), Promise.Unsafe0));
+                                    v128 lo = unpacklo_epi32(cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
+                                                             cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
+                                    v128 hi = cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 2), (ulong)extract_epi32(k, 2), Promise.Unsafe0));
 
                                     if (elements == 4)
                                     {
-                                        hi = unpacklo_epi32(hi, cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 3), (ulong)extract_epi32(k, 3), Promise.Unsafe0)));
+                                        hi = unpacklo_epi32(hi, cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 3), (ulong)extract_epi32(k, 3), Promise.Unsafe0)));
                                     }
 
                                     return unpacklo_epi64(lo, hi);
@@ -2013,8 +2012,8 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
                             }
                             else
                             {
-                                return unpacklo_epi32(cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
-                                                      cvtsi32_si128((int)maxmath.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
+                                return unpacklo_epi32(cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
+                                                      cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
                             }
                         }
                     }
@@ -2076,8 +2075,8 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k), RegisterCo
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k0), RegisterConversion.ToUInt4(n0), 4);
-VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k1), RegisterConversion.ToUInt4(n1), 4);
+VectorAssert.IsNotGreater<uint4, uint>(k0, n0, 4);
+VectorAssert.IsNotGreater<uint4, uint>(k1, n1, 4);
 
                     if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU32(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU32(n1, MAX_INVERSE_FACTORIAL_U64)))
                     {
@@ -2240,7 +2239,7 @@ VectorAssert.IsNotGreater<uint4, uint>(RegisterConversion.ToUInt4(k1), RegisterC
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void LOOP_comb_ep64([NoAlias] ref v128 n, [NoAlias] ref v128 i, [NoAlias] ref v128 c, [NoAlias] ref v128 results, [NoAlias] ref Divider<ulong4> loopDividerAVX, [NoAlias] ref int indexCurrentDivider, v128 cmp, bool CMP_EPI, bool nextDividerTest)
+            private static void LOOP_comb_ep64([NoAlias] ref v128 n, [NoAlias] ref v128 i, [NoAlias] ref v128 c, [NoAlias] ref v128 results, [NoAlias] ref Divider<ulong4> loopDividerAVX, [NoAlias] ref int indexCurrentDivider, v128 cmp, bool nextDividerTest)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -2303,8 +2302,8 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
                         }
                         else
                         {
-                            return unpacklo_epi64(cvtsi64x_si128(maxmath.comb(extract_epi64(n, 0), extract_epi64(k, 0), Promise.Unsafe0)),
-                                                  cvtsi64x_si128(maxmath.comb(extract_epi64(n, 1), extract_epi64(k, 1), Promise.Unsafe0)));
+                            return unpacklo_epi64(cvtsi64x_si128(math.comb(extract_epi64(n, 0), extract_epi64(k, 0), Promise.Unsafe0)),
+                                                  cvtsi64x_si128(math.comb(extract_epi64(n, 1), extract_epi64(k, 1), Promise.Unsafe0)));
                         }
                     }
 
@@ -2314,12 +2313,11 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
 
                     PRELOOP_comb_ep64(ref n, ref k, out v128 results, out v128 i, out v128 c, signed);
 
-                    v128 cmp = Uninitialized<ulong2>.Create();
-
+                    v128 cmp;
                     while (notallfalse_epi128<ulong>(cmp = CMP_EPI ? cmpgt_epi64(k, i)
                                                                    : cmpgt_epu64(k, i)))
                     {
-                        LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDividerAVX, ref indexCurrentDivider, cmp, CMP_EPI, true);
+                        LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDividerAVX, ref indexCurrentDivider, cmp, true);
                     }
 
                     return results;
@@ -2376,8 +2374,8 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k1, n1, 2);
 
                     while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
                     {
-                        LOOP_comb_ep64(ref n0, ref i, ref c0, ref r0, ref loopDividerAVX, ref indexCurrentDivider, cmp0, CMP_EPI, nextDividerTest: false);
-                        LOOP_comb_ep64(ref n1, ref i, ref c1, ref r1, ref loopDividerAVX, ref indexCurrentDivider, cmp1, CMP_EPI, nextDividerTest: true);
+                        LOOP_comb_ep64(ref n0, ref i, ref c0, ref r0, ref loopDividerAVX, ref indexCurrentDivider, cmp0, nextDividerTest: false);
+                        LOOP_comb_ep64(ref n1, ref i, ref c1, ref r1, ref loopDividerAVX, ref indexCurrentDivider, cmp1, nextDividerTest: true);
                     }
                 }
                 else throw new IllegalInstructionException();
@@ -2958,7 +2956,7 @@ VectorAssert.IsNotGreater<ulong4, ulong>(k, n, elements);
                         //}
                     }
 
-                    while (mm256_notallfalse_epi256<ulong>(cmp = CMP_EPI ? mm256_cmpgt_epi64(k, i, elements)
+                    while (mm256_notallfalse_epi256<ulong>(cmp = CMP_EPI ? Avx2.mm256_cmpgt_epi64(k, i)
                                                                          : mm256_cmpgt_epu64(k, i, elements), elements))
                     {
                         i = Avx2.mm256_add_epi64(i, ONE);
@@ -2996,7 +2994,7 @@ VectorAssert.IsNotGreater<ulong4, ulong>(k, n, elements);
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the number of ways to choose <paramref name="k"/> items from <paramref name="n"/> items without repetition and without order. Also known as the binomial coefficient or "<paramref name="n"/> choose <paramref name="k"/>". Results from arguments that produce an unsigned 128 bit overflow are undefined.
         /// <remarks>
@@ -3997,7 +3995,7 @@ Assert.IsNotGreater(k, n);
 
             ulong i;
             ulong c = n;
-            k = math.min(k, n - k);
+            k = min(k, n - k);
 
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {
@@ -4062,7 +4060,7 @@ Assert.IsNotGreater(k, n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.comb_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 2));
+                return Xse.comb_epu32(n, k, useFactorial.CountUnsafeLevels(), 2);
             }
             else
             {
@@ -4082,7 +4080,7 @@ Assert.IsNotGreater(k, n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.comb_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 3));
+                return Xse.comb_epu32(n, k, useFactorial.CountUnsafeLevels(), 3);
             }
             else
             {
@@ -4103,7 +4101,7 @@ Assert.IsNotGreater(k, n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.comb_epu32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 4));
+                return Xse.comb_epu32(n, k, useFactorial.CountUnsafeLevels(), 4);
             }
             else
             {
@@ -4129,9 +4127,9 @@ Assert.IsNotGreater(k, n);
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.comb_epu32x2(RegisterConversion.ToV128(n.v4_0), RegisterConversion.ToV128(n.v4_4), RegisterConversion.ToV128(k.v4_0), RegisterConversion.ToV128(k.v4_4), out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+                Xse.comb_epu32x2(n.v4_0, n.v4_4, k.v4_0, k.v4_4, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
 
-                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+                return new uint8(lo, hi);
             }
             else
             {
@@ -4167,7 +4165,7 @@ Assert.IsNonNegative(n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.comb_epi32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 2));
+                return Xse.comb_epi32(n, k, useFactorial.CountUnsafeLevels(), 2);
             }
             else
             {
@@ -4187,7 +4185,7 @@ Assert.IsNonNegative(n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.comb_epi32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 3));
+                return Xse.comb_epi32(n, k, useFactorial.CountUnsafeLevels(), 3);
             }
             else
             {
@@ -4208,7 +4206,7 @@ Assert.IsNonNegative(n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.comb_epi32(RegisterConversion.ToV128(n), RegisterConversion.ToV128(k), useFactorial.CountUnsafeLevels(), 4));
+                return Xse.comb_epi32(n, k, useFactorial.CountUnsafeLevels(), 4);
             }
             else
             {
@@ -4234,9 +4232,9 @@ Assert.IsNonNegative(n);
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.comb_epi32x2(RegisterConversion.ToV128(n.v4_0), RegisterConversion.ToV128(n.v4_4), RegisterConversion.ToV128(k.v4_0), RegisterConversion.ToV128(k.v4_4), out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
+                Xse.comb_epi32x2(n.v4_0, n.v4_4, k.v4_0, k.v4_4, out v128 lo, out v128 hi, useFactorial.CountUnsafeLevels());
 
-                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+                return new uint8(lo, hi);
             }
             else
             {
@@ -4280,7 +4278,7 @@ Assert.IsNotGreater(k, n);
 
             ulong i;
             ulong c = n;
-            k = math.min(k, n - k);
+            k = min(k, n - k);
 
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
             {

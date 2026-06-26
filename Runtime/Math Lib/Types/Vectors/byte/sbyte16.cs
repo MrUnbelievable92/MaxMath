@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
@@ -10,68 +9,78 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
+#if DEBUG
+    internal sealed class sbyte16DebuggerProxy
+    {
+        public sbyte x0;
+        public sbyte x1;
+        public sbyte x2;
+        public sbyte x3;
+        public sbyte x4;
+        public sbyte x5;
+        public sbyte x6;
+        public sbyte x7;
+        public sbyte x8;
+        public sbyte x9;
+        public sbyte x10;
+        public sbyte x11;
+        public sbyte x12;
+        public sbyte x13;
+        public sbyte x14;
+        public sbyte x15;
+        
+        public sbyte16DebuggerProxy(sbyte16 v)
+        {
+            x0  = v.x0;
+            x1  = v.x1;
+            x2  = v.x2;
+            x3  = v.x3;
+            x4  = v.x4;
+            x5  = v.x5;
+            x6  = v.x6;
+            x7  = v.x7;
+            x8  = v.x8;
+            x9  = v.x9;
+            x10 = v.x10;
+            x11 = v.x11;
+            x12 = v.x12;
+            x13 = v.x13;
+            x14 = v.x14;
+            x15 = v.x15;
+        }
+    }
+
+    [System.Diagnostics.DebuggerTypeProxy(typeof(sbyte16DebuggerProxy))]
+#endif
     [Serializable]
-    [StructLayout(LayoutKind.Explicit, Size = 16 * sizeof(sbyte))]
-    [DebuggerTypeProxy(typeof(sbyte16.DebuggerProxy))]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     unsafe public struct sbyte16 : IEquatable<sbyte16>, IFormattable
     {
-        internal sealed class DebuggerProxy
-        {
-            public sbyte x0;
-            public sbyte x1;
-            public sbyte x2;
-            public sbyte x3;
-            public sbyte x4;
-            public sbyte x5;
-            public sbyte x6;
-            public sbyte x7;
-            public sbyte x8;
-            public sbyte x9;
-            public sbyte x10;
-            public sbyte x11;
-            public sbyte x12;
-            public sbyte x13;
-            public sbyte x14;
-            public sbyte x15;
-
-            public DebuggerProxy(sbyte16 v)
-            {
-                x0  = v.x0;
-                x1  = v.x1;
-                x2  = v.x2;
-                x3  = v.x3;
-                x4  = v.x4;
-                x5  = v.x5;
-                x6  = v.x6;
-                x7  = v.x7;
-                x8  = v.x8;
-                x9  = v.x9;
-                x10 = v.x10;
-                x11 = v.x11;
-                x12 = v.x12;
-                x13 = v.x13;
-                x14 = v.x14;
-                x15 = v.x15;
-            }
-        }
-
-
-        [FieldOffset(0)]  public sbyte x0;
-        [FieldOffset(1)]  public sbyte x1;
-        [FieldOffset(2)]  public sbyte x2;
-        [FieldOffset(3)]  public sbyte x3;
-        [FieldOffset(4)]  public sbyte x4;
-        [FieldOffset(5)]  public sbyte x5;
-        [FieldOffset(6)]  public sbyte x6;
-        [FieldOffset(7)]  public sbyte x7;
-        [FieldOffset(8)]  public sbyte x8;
-        [FieldOffset(9)]  public sbyte x9;
-        [FieldOffset(10)] public sbyte x10;
-        [FieldOffset(11)] public sbyte x11;
-        [FieldOffset(12)] public sbyte x12;
-        [FieldOffset(13)] public sbyte x13;
-        [FieldOffset(14)] public sbyte x14;
-        [FieldOffset(15)] public sbyte x15;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal ulong __x0;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal ulong __x8;
+        
+        public ref sbyte x0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  0); } } }
+        public ref sbyte x1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  1); } } }
+        public ref sbyte x2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  2); } } }
+        public ref sbyte x3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  3); } } }
+        public ref sbyte x4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  4); } } }
+        public ref sbyte x5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  5); } } }
+        public ref sbyte x6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  6); } } }
+        public ref sbyte x7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  7); } } }
+        public ref sbyte x8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  8); } } }
+        public ref sbyte x9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr +  9); } } }
+        public ref sbyte x10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr + 10); } } }
+        public ref sbyte x11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr + 11); } } }
+        public ref sbyte x12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr + 12); } } }
+        public ref sbyte x13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr + 13); } } }
+        public ref sbyte x14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr + 14); } } }
+        public ref sbyte x15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(sbyte16* ptr = &this) { return ref *((sbyte*)ptr + 15); } } }
 
 
         public static sbyte16 zero => default;
@@ -154,73 +163,514 @@ namespace MaxMath
         {
             this = (sbyte16)new byte16((byte8)x01234567, (byte8)x8_9_10_11_12_13_14_15);
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(bool v)
+        {
+            this = (sbyte16)v;
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(bool16 v)
+        {
+            this = (sbyte16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(mask8x16 v)
+        {
+            this = (sbyte16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(mask16x16 v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(byte v)
+        {
+            this = (sbyte16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(byte16 v)
+        {
+            this = (sbyte16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(sbyte16 v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(ushort v)
+        {
+            this = (sbyte16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(ushort16 v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(short v)
+        {
+            this = (sbyte16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(short16 v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(uint v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(int v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(ulong v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(long v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(UInt128 v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(Int128 v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(quarter v)
+        {
+            this = (sbyte16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(quarter16 v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(half v)
+        {
+            this = (sbyte16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(half16 v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(float v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(double v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(quadruple v)
+        {
+            this = (sbyte16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public sbyte16(Unity.Mathematics.half v)
+        {
+            this = (sbyte16)v;
+        }
 
         #region Shuffle
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_0  { readonly get => (sbyte8)((byte16)this).v8_0;    set { byte16 _this = (byte16)this; _this.v8_0  = (byte8)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_1  { readonly get => (sbyte8)((byte16)this).v8_1;    set { byte16 _this = (byte16)this; _this.v8_1  = (byte8)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_2  { readonly get => (sbyte8)((byte16)this).v8_2;    set { byte16 _this = (byte16)this; _this.v8_2  = (byte8)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_3  { readonly get => (sbyte8)((byte16)this).v8_3;    set { byte16 _this = (byte16)this; _this.v8_3  = (byte8)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_4  { readonly get => (sbyte8)((byte16)this).v8_4;    set { byte16 _this = (byte16)this; _this.v8_4  = (byte8)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_5  { readonly get => (sbyte8)((byte16)this).v8_5;    set { byte16 _this = (byte16)this; _this.v8_5  = (byte8)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_6  { readonly get => (sbyte8)((byte16)this).v8_6;    set { byte16 _this = (byte16)this; _this.v8_6  = (byte8)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_7  { readonly get => (sbyte8)((byte16)this).v8_7;    set { byte16 _this = (byte16)this; _this.v8_7  = (byte8)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte8 v8_8  { readonly get => (sbyte8)((byte16)this).v8_8;    set { byte16 _this = (byte16)this; _this.v8_8  = (byte8)value; this = (sbyte16)_this; } }
 
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_0  { readonly get => (sbyte4)((byte16)this).v4_0;    set { byte16 _this = (byte16)this; _this.v4_0  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_1  { readonly get => (sbyte4)((byte16)this).v4_1;    set { byte16 _this = (byte16)this; _this.v4_1  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_2  { readonly get => (sbyte4)((byte16)this).v4_2;    set { byte16 _this = (byte16)this; _this.v4_2  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_3  { readonly get => (sbyte4)((byte16)this).v4_3;    set { byte16 _this = (byte16)this; _this.v4_3  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_4  { readonly get => (sbyte4)((byte16)this).v4_4;    set { byte16 _this = (byte16)this; _this.v4_4  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_5  { readonly get => (sbyte4)((byte16)this).v4_5;    set { byte16 _this = (byte16)this; _this.v4_5  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_6  { readonly get => (sbyte4)((byte16)this).v4_6;    set { byte16 _this = (byte16)this; _this.v4_6  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_7  { readonly get => (sbyte4)((byte16)this).v4_7;    set { byte16 _this = (byte16)this; _this.v4_7  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_8  { readonly get => (sbyte4)((byte16)this).v4_8;    set { byte16 _this = (byte16)this; _this.v4_8  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_9  { readonly get => (sbyte4)((byte16)this).v4_9;    set { byte16 _this = (byte16)this; _this.v4_9  = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_10 { readonly get => (sbyte4)((byte16)this).v4_10;   set { byte16 _this = (byte16)this; _this.v4_10 = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_11 { readonly get => (sbyte4)((byte16)this).v4_11;   set { byte16 _this = (byte16)this; _this.v4_11 = (byte4)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte4 v4_12 { readonly get => (sbyte4)((byte16)this).v4_12;   set { byte16 _this = (byte16)this; _this.v4_12 = (byte4)value; this = (sbyte16)_this; } }
 
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_0  { readonly get => (sbyte3)((byte16)this).v3_0;    set { byte16 _this = (byte16)this; _this.v3_0  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_1  { readonly get => (sbyte3)((byte16)this).v3_1;    set { byte16 _this = (byte16)this; _this.v3_1  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_2  { readonly get => (sbyte3)((byte16)this).v3_2;    set { byte16 _this = (byte16)this; _this.v3_2  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_3  { readonly get => (sbyte3)((byte16)this).v3_3;    set { byte16 _this = (byte16)this; _this.v3_3  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_4  { readonly get => (sbyte3)((byte16)this).v3_4;    set { byte16 _this = (byte16)this; _this.v3_4  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_5  { readonly get => (sbyte3)((byte16)this).v3_5;    set { byte16 _this = (byte16)this; _this.v3_5  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_6  { readonly get => (sbyte3)((byte16)this).v3_6;    set { byte16 _this = (byte16)this; _this.v3_6  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_7  { readonly get => (sbyte3)((byte16)this).v3_7;    set { byte16 _this = (byte16)this; _this.v3_7  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_8  { readonly get => (sbyte3)((byte16)this).v3_8;    set { byte16 _this = (byte16)this; _this.v3_8  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_9  { readonly get => (sbyte3)((byte16)this).v3_9;    set { byte16 _this = (byte16)this; _this.v3_9  = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_10 { readonly get => (sbyte3)((byte16)this).v3_10;   set { byte16 _this = (byte16)this; _this.v3_10 = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_11 { readonly get => (sbyte3)((byte16)this).v3_11;   set { byte16 _this = (byte16)this; _this.v3_11 = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_12 { readonly get => (sbyte3)((byte16)this).v3_12;   set { byte16 _this = (byte16)this; _this.v3_12 = (byte3)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte3 v3_13 { readonly get => (sbyte3)((byte16)this).v3_13;   set { byte16 _this = (byte16)this; _this.v3_13 = (byte3)value; this = (sbyte16)_this; } }
 
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_0  { readonly get => (sbyte2)((byte16)this).v2_0;    set { byte16 _this = (byte16)this; _this.v2_0  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_1  { readonly get => (sbyte2)((byte16)this).v2_1;    set { byte16 _this = (byte16)this; _this.v2_1  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_2  { readonly get => (sbyte2)((byte16)this).v2_2;    set { byte16 _this = (byte16)this; _this.v2_2  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_3  { readonly get => (sbyte2)((byte16)this).v2_3;    set { byte16 _this = (byte16)this; _this.v2_3  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_4  { readonly get => (sbyte2)((byte16)this).v2_4;    set { byte16 _this = (byte16)this; _this.v2_4  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_5  { readonly get => (sbyte2)((byte16)this).v2_5;    set { byte16 _this = (byte16)this; _this.v2_5  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_6  { readonly get => (sbyte2)((byte16)this).v2_6;    set { byte16 _this = (byte16)this; _this.v2_6  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_7  { readonly get => (sbyte2)((byte16)this).v2_7;    set { byte16 _this = (byte16)this; _this.v2_7  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_8  { readonly get => (sbyte2)((byte16)this).v2_8;    set { byte16 _this = (byte16)this; _this.v2_8  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_9  { readonly get => (sbyte2)((byte16)this).v2_9;    set { byte16 _this = (byte16)this; _this.v2_9  = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_10 { readonly get => (sbyte2)((byte16)this).v2_10;   set { byte16 _this = (byte16)this; _this.v2_10 = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_11 { readonly get => (sbyte2)((byte16)this).v2_11;   set { byte16 _this = (byte16)this; _this.v2_11 = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_12 { readonly get => (sbyte2)((byte16)this).v2_12;   set { byte16 _this = (byte16)this; _this.v2_12 = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_13 { readonly get => (sbyte2)((byte16)this).v2_13;   set { byte16 _this = (byte16)this; _this.v2_13 = (byte2)value; this = (sbyte16)_this; } }
+ 
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public sbyte2 v2_14 { readonly get => (sbyte2)((byte16)this).v2_14;   set { byte16 _this = (byte16)this; _this.v2_14 = (byte2)value; this = (sbyte16)_this; } }
         #endregion
 
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(sbyte16 input) => RegisterConversion.ToRegister128(input);
+        public static implicit operator v128(sbyte16 input) => (byte16)input;
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator sbyte16(v128 input) => RegisterConversion.ToAbstraction128<sbyte16>(input);
+        public static implicit operator sbyte16(v128 input) => (sbyte16)(byte16)input;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(bool x) => math.tosbyte(x);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(bool16 x) => (sbyte16)(mask8x16)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(mask8x16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.neg_epi8(x);
+            }
+            else
+            {
+                return *(sbyte16*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(mask16x16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (sbyte16)(mask8x16)x;
+            }
+            else
+            {
+                return *(sbyte16*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool16(sbyte16 x) => (mask8x16)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask8x16(sbyte16 x) => x != 0;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask16x16(sbyte16 x) => (mask8x16)x;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(byte x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(ushort x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(short x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(uint x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(int x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(ulong x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(long x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(UInt128 x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(Int128 x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(quarter x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(half x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(float x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(double x) => (sbyte)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(quadruple x) => (sbyte)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator sbyte16(Unity.Mathematics.half x) => (sbyte16)(half)x;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -343,6 +793,18 @@ namespace MaxMath
             }
         }
 
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator + (sbyte16 left, sbyte right) => left + (sbyte16)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator + (sbyte left, sbyte16 right) => (sbyte16)left + right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator - (sbyte16 left, sbyte right) => left - (sbyte16)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator - (sbyte left, sbyte16 right) => (sbyte16)left - right;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 operator * (sbyte left, sbyte16 right) => right * left;
@@ -350,14 +812,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 operator * (sbyte16 left, sbyte right)
         {
-            if (constexpr.IS_CONST(right))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return new sbyte16((sbyte)(left.x0 * right), (sbyte)(left.x1 * right), (sbyte)(left.x2 * right), (sbyte)(left.x3 * right), (sbyte)(left.x4 * right), (sbyte)(left.x5 * right), (sbyte)(left.x6 * right), (sbyte)(left.x7 * right), (sbyte)(left.x8 * right), (sbyte)(left.x9 * right), (sbyte)(left.x10 * right), (sbyte)(left.x11 * right), (sbyte)(left.x12 * right), (sbyte)(left.x13 * right), (sbyte)(left.x14 * right), (sbyte)(left.x15 * right));
+                if (constexpr.IS_CONST(right))
+                {
+                    return Xse.constmullo_epi8(left, right, 16);
+                }
             }
-            else
-            {
-                return left * (sbyte16)right;
-            }
+
+            return left * (sbyte16)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -367,12 +830,15 @@ namespace MaxMath
             {
                 if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constdiv_epi8(left, right, 16);
+					return Xse.constdiv_epi8(left, right, 16);
                 }
             }
 
             return left / (sbyte16)right;
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator / (sbyte left, sbyte16 right) => (sbyte16)left / right;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 operator % (sbyte16 left, sbyte right)
@@ -381,12 +847,15 @@ namespace MaxMath
             {
                 if (constexpr.IS_CONST(right))
                 {
-                    return Xse.constrem_epi8(left, right, 16);
+					return Xse.constrem_epi8(left, right, 16);
                 }
             }
 
             return left % (sbyte16)right;
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte16 operator % (sbyte left, sbyte16 right) => (sbyte16)left % right;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -460,61 +929,60 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (sbyte16 left, sbyte16 right) => (byte16)left == (byte16)right;
+        public static mask8x16 operator == (sbyte16 left, sbyte16 right) => (byte16)left == (byte16)right;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (sbyte16 left, sbyte16 right)
+        public static mask8x16 operator < (sbyte16 left, sbyte16 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmplt_epi8(left, right));
+                return Xse.cmplt_epi8(left, right);
             }
             else
             {
-                return new bool16(left.x0 < right.x0, left.x1 < right.x1, left.x2 < right.x2, left.x3 < right.x3, left.x4 < right.x4, left.x5 < right.x5, left.x6 < right.x6, left.x7 < right.x7, left.x8 < right.x8, left.x9 < right.x9, left.x10 < right.x10, left.x11 < right.x11, left.x12 < right.x12, left.x13 < right.x13, left.x14 < right.x14, left.x15 < right.x15);
+                return new mask8x16(left.x0 < right.x0, left.x1 < right.x1, left.x2 < right.x2, left.x3 < right.x3, left.x4 < right.x4, left.x5 < right.x5, left.x6 < right.x6, left.x7 < right.x7, left.x8 < right.x8, left.x9 < right.x9, left.x10 < right.x10, left.x11 < right.x11, left.x12 < right.x12, left.x13 < right.x13, left.x14 < right.x14, left.x15 < right.x15);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (sbyte16 left, sbyte16 right)
+        public static mask8x16 operator > (sbyte16 left, sbyte16 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmpgt_epi8(left, right));
+                return Xse.cmpgt_epi8(left, right);
             }
             else
             {
-                return new bool16(left.x0 > right.x0, left.x1 > right.x1, left.x2 > right.x2, left.x3 > right.x3, left.x4 > right.x4, left.x5 > right.x5, left.x6 > right.x6, left.x7 > right.x7, left.x8 > right.x8, left.x9 > right.x9, left.x10 > right.x10, left.x11 > right.x11, left.x12 > right.x12, left.x13 > right.x13, left.x14 > right.x14, left.x15 > right.x15);
-            }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (sbyte16 left, sbyte16 right) => (byte16)left != (byte16)right;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (sbyte16 left, sbyte16 right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                return RegisterConversion.IsFalse8(Xse.cmpgt_epi8(left, right));
-            }
-            else
-            {
-                return new bool16(left.x0 <= right.x0, left.x1 <= right.x1, left.x2 <= right.x2, left.x3 <= right.x3, left.x4 <= right.x4, left.x5 <= right.x5, left.x6 <= right.x6, left.x7 <= right.x7, left.x8 <= right.x8, left.x9 <= right.x9, left.x10 <= right.x10, left.x11 <= right.x11, left.x12 <= right.x12, left.x13 <= right.x13, left.x14 <= right.x14, left.x15 <= right.x15);
+                return new mask8x16(left.x0 > right.x0, left.x1 > right.x1, left.x2 > right.x2, left.x3 > right.x3, left.x4 > right.x4, left.x5 > right.x5, left.x6 > right.x6, left.x7 > right.x7, left.x8 > right.x8, left.x9 > right.x9, left.x10 > right.x10, left.x11 > right.x11, left.x12 > right.x12, left.x13 > right.x13, left.x14 > right.x14, left.x15 > right.x15);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (sbyte16 left, sbyte16 right)
+        public static mask8x16 operator != (sbyte16 left, sbyte16 right) => (byte16)left != (byte16)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator <= (sbyte16 left, sbyte16 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsFalse8(Xse.cmplt_epi8(left, right));
+                return Xse.not_si128(Xse.cmpgt_epi8(left, right));
             }
             else
             {
-                return new bool16(left.x0 >= right.x0, left.x1 >= right.x1, left.x2 >= right.x2, left.x3 >= right.x3, left.x4 >= right.x4, left.x5 >= right.x5, left.x6 >= right.x6, left.x7 >= right.x7, left.x8 >= right.x8, left.x9 >= right.x9, left.x10 >= right.x10, left.x11 >= right.x11, left.x12 >= right.x12, left.x13 >= right.x13, left.x14 >= right.x14, left.x15 >= right.x15);
+                return new mask8x16(left.x0 <= right.x0, left.x1 <= right.x1, left.x2 <= right.x2, left.x3 <= right.x3, left.x4 <= right.x4, left.x5 <= right.x5, left.x6 <= right.x6, left.x7 <= right.x7, left.x8 <= right.x8, left.x9 <= right.x9, left.x10 <= right.x10, left.x11 <= right.x11, left.x12 <= right.x12, left.x13 <= right.x13, left.x14 <= right.x14, left.x15 <= right.x15);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator >= (sbyte16 left, sbyte16 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.not_si128(Xse.cmplt_epi8(left, right));
+            }
+            else
+            {
+                return new mask8x16(left.x0 >= right.x0, left.x1 >= right.x1, left.x2 >= right.x2, left.x3 >= right.x3, left.x4 >= right.x4, left.x5 >= right.x5, left.x6 >= right.x6, left.x7 >= right.x7, left.x8 >= right.x8, left.x9 >= right.x9, left.x10 >= right.x10, left.x11 >= right.x11, left.x12 >= right.x12, left.x13 >= right.x13, left.x14 >= right.x14, left.x15 >= right.x15);
             }
         }
 
@@ -526,10 +994,10 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => ((byte16)this).GetHashCode();
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
 
-        public override readonly string ToString() => $"({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"sbyte16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
+        public override string ToString() => $"({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"sbyte16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
     }
 }

@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -43,7 +42,7 @@ namespace MaxMath
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 divs_epi64(v128 a, v128 b, byte elements = 4)
+            public static v128 divs_epi64(v128 a, v128 b)
             {
                 return new v128((a.SLong0 == long.MinValue & b.SLong0 == -1) ? long.MaxValue : a.SLong0 / b.SLong0,
                                 (a.SLong1 == long.MinValue & b.SLong1 == -1) ? long.MaxValue : a.SLong1 / b.SLong1);
@@ -67,13 +66,13 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Divides <paramref name="x"/> by <paramref name="y"/> and returns the result, which is clamped to <see cref="Int128.MaxValue"/> if overflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 divsaturated(Int128 x, Int128 y)
         {
-            return (x == Int128.MinValue & ((y.lo64 & y.hi64) == ulong.MaxValue)) ? Int128.MaxValue : x / y;
+            return (x == MaxMath.Int128.MinValue & ((y.lo64 & y.hi64) == ulong.MaxValue)) ? MaxMath.Int128.MaxValue : x / y;
         }
 
 
@@ -303,7 +302,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                return Xse.divs_epi32(x, y, 2);
             }
             else
             {
@@ -318,7 +317,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                return Xse.divs_epi32(x, y, 3);
             }
             else
             {
@@ -334,7 +333,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.divs_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                return Xse.divs_epi32(x, y, 4);
             }
             else
             {
@@ -418,28 +417,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float divsaturated(float x, float y)
         {
-            return math.clamp(x / y, float.MinValue, float.MaxValue);
+            return clamp(x / y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Divides each component of <paramref name="x"/> by <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 divsaturated(float2 x, float2 y)
         {
-            return math.clamp(x / y, float.MinValue, float.MaxValue);
+            return clamp(x / y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Divides each component of <paramref name="x"/> by <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 divsaturated(float3 x, float3 y)
         {
-            return math.clamp(x / y, float.MinValue, float.MaxValue);
+            return clamp(x / y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Divides each component of <paramref name="x"/> by <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 divsaturated(float4 x, float4 y)
         {
-            return math.clamp(x / y, float.MinValue, float.MaxValue);
+            return clamp(x / y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Divides each component of <paramref name="x"/> by <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
@@ -453,28 +452,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double divsaturated(double x, double y)
         {
-            return math.clamp(x / y, double.MinValue, double.MaxValue);
+            return clamp(x / y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Divides each component of <paramref name="x"/> by <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 divsaturated(double2 x, double2 y)
         {
-            return math.clamp(x / y, double.MinValue, double.MaxValue);
+            return clamp(x / y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Divides each component of <paramref name="x"/> by <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 divsaturated(double3 x, double3 y)
         {
-            return math.clamp(x / y, double.MinValue, double.MaxValue);
+            return clamp(x / y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Divides each component of <paramref name="x"/> by <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 divsaturated(double4 x, double4 y)
         {
-            return math.clamp(x / y, double.MinValue, double.MaxValue);
+            return clamp(x / y, double.MinValue, double.MaxValue);
         }
     }
 }

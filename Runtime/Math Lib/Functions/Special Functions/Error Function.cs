@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
@@ -131,7 +130,7 @@ namespace MaxMath
 							v256 mulExp1_256 = Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mulExp1), mulExp1, 1);
 
                             pq = mm256_fdadd_ps(Avx.mm256_permute2f128_ps(pq, pq, 0b0000_0001), pq, mulExp1_256);
-							v256 exp = maxmath.exp(Avx.mm256_permute2f128_ps(Avx.mm256_castps128_ps256(exp0), pq, 0b0011_0000));
+							v256 exp = math.exp((float8)Avx.mm256_permute2f128_ps(Avx.mm256_castps128_ps256(exp0), pq, 0b0011_0000));
 							result5 = mul_ps(Avx.mm256_castps256_ps128(exp), Avx.mm256_extractf128_ps(exp, 1));
                         }
 						else
@@ -146,8 +145,8 @@ namespace MaxMath
 							q = blendv_si128(qFalse, qTrue, bound5Mask);
 
 							v128 exp1 = fdadd_ps(p, q, mulExp1);
-							result5 = mul_ps(RegisterConversion.ToV128(math.exp(RegisterConversion.ToFloat4(exp0))),
-											 RegisterConversion.ToV128(math.exp(RegisterConversion.ToFloat4(exp1))));
+							result5 = mul_ps(math.exp((float4)exp0),
+											 math.exp((float4)exp1));
 						}
 					}
 					else
@@ -183,7 +182,7 @@ namespace MaxMath
 						pq = div_ps(pq, bsrli_si128(pq, 2 * sizeof(float)));
 						pq = add_ps(pq, mulExp1_128);
 						v128 exp = unpacklo_pd(exp0, pq);
-						exp = RegisterConversion.ToV128(math.exp(RegisterConversion.ToFloat4(exp)));
+						exp = math.exp((float4)exp);
 						result5 = mul_ps(exp, bsrli_si128(exp, 2 * sizeof(float)));
 					}
 
@@ -313,7 +312,7 @@ namespace MaxMath
 					q = Avx.mm256_blendv_ps(qFalse, qTrue, bound5Mask);
 
 					v256 exp1 = mm256_fdadd_ps(p, q, mulExp1);
-					v256 result5 = Avx.mm256_mul_ps(maxmath.exp(exp0), maxmath.exp(exp1));
+					v256 result5 = Avx.mm256_mul_ps(math.exp((float8)exp0), math.exp((float8)exp1));
 					result5 = mm256_fnmsub_ps(result5, rcp, ONE);
 
 					return Avx.mm256_blendv_ps(result5, result, allResultsFoundMask);
@@ -477,8 +476,7 @@ namespace MaxMath
 						pq = Avx.mm256_div_pd(Avx.mm256_permute2f128_pd(pq, pq, 0b0000_0001), pq);
 						pq = Avx.mm256_add_pd(pq, mulExp1_256);
 						v256 exp = Avx.mm256_permute2f128_pd(Avx.mm256_castpd128_pd256(exp0), pq, 0b0011_0000);
-						double4 exp4 = math.exp(*(double4*)&exp);
-						exp = *(v256*)&exp4;
+						exp = math.exp((double4)exp);
 						result5 = mul_pd(Avx.mm256_castpd256_pd128(exp), Avx.mm256_extractf128_pd(exp, 1));
 					}
 					else
@@ -493,8 +491,8 @@ namespace MaxMath
 						q = blend(qFalse, qTrue, bound5Mask);
 
 						v128 exp1 = add_pd(div_pd(p, q), mulExp1);
-						double2 r0 = math.exp(*(double2*)&exp0);
-						double2 r1 = math.exp(*(double2*)&exp1);
+						v128 r0 = math.exp((double2)exp0);
+						v128 r1 = math.exp((double2)exp1);
 						result5 = mul_pd(*(v128*)&r0, *(v128*)&r1);
 					}
 
@@ -632,8 +630,8 @@ namespace MaxMath
 					q = Avx.mm256_blendv_pd(qFalse, qTrue, bound5Mask);
 
 					v256 exp1 = Avx.mm256_add_pd(Avx.mm256_div_pd(p, q), mulExp1);
-					double4 r0 = math.exp(*(double4*)&exp0);
-					double4 r1 = math.exp(*(double4*)&exp1);
+					v256 r0 = math.exp((double4)exp0);
+					v256 r1 = math.exp((double4)exp1);
 					result5 = Avx.mm256_mul_pd(*(v256*)&r0, *(v256*)&r1);
 
 					result5 = mm256_fnmsub_pd(result5, rcp, ONE);
@@ -761,7 +759,7 @@ namespace MaxMath
 							v256 pq = Avx.mm256_blendv_ps(pqFalse, pqTrue, mask);
 							pq = mm256_fdadd_ps(Avx.mm256_permute2f128_ps(pq, pq, 0b0000_0001), pq, mulExp1_256);
 							v256 exp = Avx.mm256_permute2f128_ps(Avx.mm256_castps128_ps256(exp0), pq, 0b0011_0000);
-							exp = maxmath.exp(exp);
+							exp = math.exp((float8)exp);
 							result4 = mul_ps(Avx.mm256_castps256_ps128(exp), Avx.mm256_extractf128_ps(exp, 1));
 						}
 						else
@@ -776,9 +774,9 @@ namespace MaxMath
 							q = blendv_si128(qFalse, qTrue, bound4Mask);
 
 							v128 exp1 = fdadd_ps(p, q, mulExp1);
-							float4 r0 = math.exp(*(float4*)&exp0);
-							float4 r1 = math.exp(*(float4*)&exp1);
-							result4 = mul_ps(*(v128*)&r0, *(v128*)&r1);
+							v128 r0 = math.exp((float4)exp0);
+							v128 r1 = math.exp((float4)exp1);
+							result4 = mul_ps(r0, r1);
 						}
                     }
 					else
@@ -815,8 +813,7 @@ namespace MaxMath
 						pq = div_ps(pq, bsrli_si128(pq, 2 * sizeof(float)));
 						pq = add_ps(pq, mulExp1_128);
 						v128 exp = unpacklo_pd(exp0, pq);
-						float4 exp4 = math.exp(*(float4*)&exp);
-						exp = *(v128*)&exp4;
+						exp = math.exp((float4)exp);
 						result4 = mul_ps(exp, bsrli_si128(exp, 2 * sizeof(float)));
 					}
 
@@ -942,7 +939,7 @@ namespace MaxMath
 					q = Avx.mm256_blendv_ps(qFalse, qTrue, bound4Mask);
 
 					v256 exp1 = mm256_fdadd_ps(p, q, mulExp1);
-					result4 = Avx.mm256_mul_ps(maxmath.exp(exp0), maxmath.exp(exp1));
+					result4 = Avx.mm256_mul_ps(math.exp((float8)exp0), math.exp((float8)exp1));
 					result4 = mm256_fmadd_ps(result4, rcp, summands);
 
 					return Avx.mm256_blendv_ps(result4, result, allResultsFoundMask);
@@ -1098,8 +1095,7 @@ namespace MaxMath
 						pq = Avx.mm256_div_pd(Avx.mm256_permute2f128_pd(pq, pq, 0b0000_0001), pq);
 						pq = Avx.mm256_add_pd(pq, mulExp1_256);
 						v256 exp = Avx.mm256_permute2f128_pd(Avx.mm256_castpd128_pd256(exp0), pq, 0b0011_0000);
-						double4 exp4 = math.exp(*(double4*)&exp);
-						exp = *(v256*)&exp4;
+						exp = math.exp((double4)exp);
 						result4 = mul_pd(Avx.mm256_castpd256_pd128(exp), Avx.mm256_extractf128_pd(exp, 1));
 					}
 					else
@@ -1254,7 +1250,7 @@ namespace MaxMath
 	}
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the value of the error function for <paramref name="x"/>.
         /// <remarks>
@@ -1263,14 +1259,14 @@ namespace MaxMath
         /// </summary>
         public static float erf(float x, Promise promises = Promise.Nothing)
         {
-			int asInt = math.asint(x);
+			int asInt = asint(x);
 			int absAsInt = asInt & 0x7FFF_FFFF;
 
 			if (promises.Promises(Promise.Unsafe0))
 			{
 				if (Hint.Unlikely(absAsInt >= 0x7F80_0000))
 				{
-				    return math.rcp(x) + copysign(1f, asInt, Promise.NonZero);
+				    return rcp(x) + copysign(1f, asInt, Promise.NonZero);
 				}
 			}
 
@@ -1282,52 +1278,52 @@ namespace MaxMath
 			    }
 
 			    float sq = x * x;
-			    float p = math.mad(math.mad(math.mad(math.mad(F32_PP4, sq, F32_PP3), sq, F32_PP2), sq, F32_PP1), sq, F32_PP0);
-			    float q = math.mad(math.mad(math.mad(math.mad(math.mad(F32_QQ5, sq, F32_QQ4), sq, F32_QQ3), sq, F32_QQ2), sq, F32_QQ1), sq, 1f);
+			    float p = mad(mad(mad(mad(F32_PP4, sq, F32_PP3), sq, F32_PP2), sq, F32_PP1), sq, F32_PP0);
+			    float q = mad(mad(mad(mad(mad(F32_QQ5, sq, F32_QQ4), sq, F32_QQ3), sq, F32_QQ2), sq, F32_QQ1), sq, 1f);
 
-			    return math.mad(x, p / q, x);
+			    return mad(x, p / q, x);
 			}
 			else
 			{
-				float abs = math.asfloat(absAsInt);
+				float abs = asfloat(absAsInt);
 				int signX = tobyte(x < 0) << 31;
 
 				if (absAsInt > 0x40BF_FFFF)
 				{
-					return math.asfloat(signX ^ math.asint(1f - F32_TINY));
+					return asfloat(signX ^ asint(1f - F32_TINY));
 				}
 				else if (absAsInt < 0x3FA0_0000)
 				{
 				    float s = abs - 1f;
-				    float p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_PA6, s, F32_PA5), s, F32_PA4), s, F32_PA3), s, F32_PA2), s, F32_PA1), s, F32_PA0);
-				    float q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_QA6, s, F32_QA5), s, F32_QA4), s, F32_QA3), s, F32_QA2), s, F32_QA1), s, 1f);
-					int resultI32 = signX ^ math.asint(p / q);
+				    float p = mad(mad(mad(mad(mad(mad(F32_PA6, s, F32_PA5), s, F32_PA4), s, F32_PA3), s, F32_PA2), s, F32_PA1), s, F32_PA0);
+				    float q = mad(mad(mad(mad(mad(mad(F32_QA6, s, F32_QA5), s, F32_QA4), s, F32_QA3), s, F32_QA2), s, F32_QA1), s, 1f);
+					int resultI32 = signX ^ asint(p / q);
 
-					return math.asfloat(resultI32) + math.asfloat(math.asint(F32_ERX) ^ signX);
+					return asfloat(resultI32) + asfloat(asint(F32_ERX) ^ signX);
 				}
 				else
 				{
-					float rcp = math.rcp(x);
-		 			float s = rcp * rcp;
+					float _rcp = rcp(x);
+		 			float s = _rcp * _rcp;
 					float p;
 					float q;
 					if (absAsInt < 0x4036_DB6D)
 					{
-					    p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_RA7, s, F32_RA6), s, F32_RA5), s, F32_RA4), s, F32_RA3), s, F32_RA2), s, F32_RA1), s, F32_RA0);
-					    q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_SA8, s, F32_SA7), s, F32_SA6), s, F32_SA5), s, F32_SA4), s, F32_SA3), s, F32_SA2), s, F32_SA1), s, 1f);
+					    p = mad(mad(mad(mad(mad(mad(mad(F32_RA7, s, F32_RA6), s, F32_RA5), s, F32_RA4), s, F32_RA3), s, F32_RA2), s, F32_RA1), s, F32_RA0);
+					    q = mad(mad(mad(mad(mad(mad(mad(mad(F32_SA8, s, F32_SA7), s, F32_SA6), s, F32_SA5), s, F32_SA4), s, F32_SA3), s, F32_SA2), s, F32_SA1), s, 1f);
 					}
 					else
 					{
-					    p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_RB6, s, F32_RB5), s, F32_RB4), s, F32_RB3), s, F32_RB2), s, F32_RB1), s, F32_RB0);
-					    q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_SB7, s, F32_SB6), s, F32_SB5), s, F32_SB4), s, F32_SB3), s, F32_SB2), s, F32_SB1), s, 1f);
+					    p = mad(mad(mad(mad(mad(mad(F32_RB6, s, F32_RB5), s, F32_RB4), s, F32_RB3), s, F32_RB2), s, F32_RB1), s, F32_RB0);
+					    q = mad(mad(mad(mad(mad(mad(mad(F32_SB7, s, F32_SB6), s, F32_SB5), s, F32_SB4), s, F32_SB3), s, F32_SB2), s, F32_SB1), s, 1f);
 					}
 
 
-					float z = math.asfloat(math.asuint(x) & 0xFFFF_E000);
-					float2 exp = math.exp(new float2(-z * z - 0.5625f, math.mad(z, z, -(abs * abs)) + p / q));
-					float result = cprod(exp);
+					float z = asfloat(asuint(x) & 0xFFFF_E000);
+					float2 _exp = exp(new float2(-z * z - 0.5625f, mad(z, z, -(x * x)) + p / q));
+					float result = cprod(_exp);
 
-					return math.mad(-rcp, result, math.asfloat(math.asint(1f) ^ signX));
+					return mad(-_rcp, result, asfloat(asint(1f) ^ signX));
 				}
 			}
         }
@@ -1342,7 +1338,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat2(Xse.erf_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Unsafe0)));
+				return Xse.erf_ps(x, 2, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1360,7 +1356,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat3(Xse.erf_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Unsafe0)));
+				return Xse.erf_ps(x, 3, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1378,7 +1374,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat4(Xse.erf_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Unsafe0)));
+				return Xse.erf_ps(x, 4, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1420,7 +1416,7 @@ namespace MaxMath
 			{
 				if (Hint.Unlikely(hiAbs >= 0x7FF0_0000))
 				{
-				    return math.rcp(x) + copysign(1d, hiInt, Promise.NonZero);
+				    return rcp(x) + copysign(1d, hiInt, Promise.NonZero);
 				}
 			}
 
@@ -1437,10 +1433,10 @@ namespace MaxMath
 			    }
 
 			    double sq = x * x;
-			    double p = math.mad(math.mad(math.mad(math.mad(F64_PP4, sq, F64_PP3), sq, F64_PP2), sq, F64_PP1), sq, F64_PP0);
-			    double q = math.mad(math.mad(math.mad(math.mad(math.mad(F64_QQ5, sq, F64_QQ4), sq, F64_QQ3), sq, F64_QQ2), sq, F64_QQ1), sq, 1d);
+			    double p = mad(mad(mad(mad(F64_PP4, sq, F64_PP3), sq, F64_PP2), sq, F64_PP1), sq, F64_PP0);
+			    double q = mad(mad(mad(mad(mad(F64_QQ5, sq, F64_QQ4), sq, F64_QQ3), sq, F64_QQ2), sq, F64_QQ1), sq, 1d);
 
-			    return math.mad(x, p / q, x);
+			    return mad(x, p / q, x);
 			}
 			else
 			{
@@ -1448,40 +1444,39 @@ namespace MaxMath
 
 				if (hiAbs > 0x4017_FFFF)
 				{
-					return math.asdouble(signX ^ math.asulong(1d - F64_TINY));
+					return asdouble(signX ^ asulong(1d - F64_TINY));
 				}
 				else if (hiAbs < 0x3FF4_0000)
 				{
-				    double s = math.abs(x) - 1d;
-				    double p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_PA6, s, F64_PA5), s, F64_PA4), s, F64_PA3), s, F64_PA2), s, F64_PA1), s, F64_PA0);
-				    double q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_QA6, s, F64_QA5), s, F64_QA4), s, F64_QA3), s, F64_QA2), s, F64_QA1), s, 1d);
-					ulong resultI64 = signX ^ math.asulong(p / q);
+				    double s = abs(x) - 1d;
+				    double p = mad(mad(mad(mad(mad(mad(F64_PA6, s, F64_PA5), s, F64_PA4), s, F64_PA3), s, F64_PA2), s, F64_PA1), s, F64_PA0);
+				    double q = mad(mad(mad(mad(mad(mad(F64_QA6, s, F64_QA5), s, F64_QA4), s, F64_QA3), s, F64_QA2), s, F64_QA1), s, 1d);
+					ulong resultI64 = signX ^ asulong(p / q);
 
-					return math.asdouble(resultI64) + math.asdouble(math.asulong(F64_ERX) ^ signX);
+					return asdouble(resultI64) + asdouble(asulong(F64_ERX) ^ signX);
 				}
 				else
 				{
-					double rcp = math.rcp(x);
-		 			double s = rcp * rcp;
+					double _rcp = rcp(x);
+		 			double s = _rcp * _rcp;
 					double p;
 					double q;
 					if (hiAbs < 0x4006_DB6E)
 					{
-					    p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_RA7, s, F64_RA6), s, F64_RA5), s, F64_RA4), s, F64_RA3), s, F64_RA2), s, F64_RA1), s, F64_RA0);
-					    q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_SA8, s, F64_SA7), s, F64_SA6), s, F64_SA5), s, F64_SA4), s, F64_SA3), s, F64_SA2), s, F64_SA1), s, 1d);
+					    p = mad(mad(mad(mad(mad(mad(mad(F64_RA7, s, F64_RA6), s, F64_RA5), s, F64_RA4), s, F64_RA3), s, F64_RA2), s, F64_RA1), s, F64_RA0);
+					    q = mad(mad(mad(mad(mad(mad(mad(mad(F64_SA8, s, F64_SA7), s, F64_SA6), s, F64_SA5), s, F64_SA4), s, F64_SA3), s, F64_SA2), s, F64_SA1), s, 1d);
 					}
 					else
 					{
-					    p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_RB6, s, F64_RB5), s, F64_RB4), s, F64_RB3), s, F64_RB2), s, F64_RB1), s, F64_RB0);
-					    q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_SB7, s, F64_SB6), s, F64_SB5), s, F64_SB4), s, F64_SB3), s, F64_SB2), s, F64_SB1), s, 1d);
+					    p = mad(mad(mad(mad(mad(mad(F64_RB6, s, F64_RB5), s, F64_RB4), s, F64_RB3), s, F64_RB2), s, F64_RB1), s, F64_RB0);
+					    q = mad(mad(mad(mad(mad(mad(mad(F64_SB7, s, F64_SB6), s, F64_SB5), s, F64_SB4), s, F64_SB3), s, F64_SB2), s, F64_SB1), s, 1d);
 					}
 
-					double abs = math.abs(x);
-					double z = math.asdouble(0xFFFF_FFFF_0000_0000 & math.asulong(abs));
-					double2 exp = math.exp(new double2(-z * z - 0.5625, math.mad(z, z, -(abs * abs)) + p / q));
-					double result = cprod(exp);
+					double z = asdouble(0x7FFF_FFFF_0000_0000 & asulong(x));
+					double2 _exp = exp(new double2(-z * z - 0.5625, mad(z, z, -(x * x)) + p / q));
+					double result = cprod(_exp);
 
-					return math.mad(-rcp, result, math.asdouble(math.asulong(1d) ^ signX));
+					return mad(-_rcp, result, asdouble(asulong(1d) ^ signX));
 				}
 			}
 		}
@@ -1496,7 +1491,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToDouble2(Xse.erf_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Unsafe0)));
+				return Xse.erf_pd(x, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1514,7 +1509,7 @@ namespace MaxMath
 		{
             if (Avx.IsAvxSupported)
             {
-				return RegisterConversion.ToDouble3(Xse.mm256_erf_pd(RegisterConversion.ToV256(x), 3, promises.Promises(Promise.Unsafe0)));
+				return Xse.mm256_erf_pd(x, 3, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1532,7 +1527,7 @@ namespace MaxMath
 		{
             if (Avx.IsAvxSupported)
             {
-				return RegisterConversion.ToDouble4(Xse.mm256_erf_pd(RegisterConversion.ToV256(x), 4, promises.Promises(Promise.Unsafe0)));
+				return Xse.mm256_erf_pd(x, 4, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1549,7 +1544,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float erfc(float x, Promise promises = Promise.Nothing)
 		{
-			int asInt = math.asint(x);
+			int asInt = asint(x);
 			int absAsInt = asInt & 0x7FFF_FFFF;
 		    int signX = tobyte(x < 0f);
 
@@ -1557,7 +1552,7 @@ namespace MaxMath
 			{
 				if (Hint.Unlikely(absAsInt > 0x7F7F_FFFF))
 				{
-				    return (signX << 1) + math.rcp(x);
+				    return (signX << 1) + rcp(x);
 				}
 			}
 
@@ -1571,8 +1566,8 @@ namespace MaxMath
 				}
 
 				float sq = x * x;
-				float p = math.mad(math.mad(math.mad(math.mad(F32_PP4, sq, F32_PP3), sq, F32_PP2), sq, F32_PP1), sq, F32_PP0);
-				float q = math.mad(math.mad(math.mad(math.mad(math.mad(F32_QQ5, sq, F32_QQ4), sq, F32_QQ3), sq, F32_QQ2), sq, F32_QQ1), sq, 1f);
+				float p = mad(mad(mad(mad(F32_PP4, sq, F32_PP3), sq, F32_PP2), sq, F32_PP1), sq, F32_PP0);
+				float q = mad(mad(mad(mad(mad(F32_QQ5, sq, F32_QQ4), sq, F32_QQ3), sq, F32_QQ2), sq, F32_QQ1), sq, 1f);
 		        float y = p / q;
 
 				return oneMinus - x * y;
@@ -1587,35 +1582,35 @@ namespace MaxMath
 
 				if (absAsInt < 0x3FA0_0000)
 				{
-				    float s = math.abs(x) - 1f;
-				    float p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_PA6, s, F32_PA5), s, F32_PA4), s, F32_PA3), s, F32_PA2), s, F32_PA1), s, F32_PA0);
-				    float q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_QA6, s, F32_QA5), s, F32_QA4), s, F32_QA3), s, F32_QA2), s, F32_QA1), s, 1f);
+				    float s = abs(x) - 1f;
+				    float p = mad(mad(mad(mad(mad(mad(F32_PA6, s, F32_PA5), s, F32_PA4), s, F32_PA3), s, F32_PA2), s, F32_PA1), s, F32_PA0);
+				    float q = mad(mad(mad(mad(mad(mad(F32_QA6, s, F32_QA5), s, F32_QA4), s, F32_QA3), s, F32_QA2), s, F32_QA1), s, 1f);
 
 					int sign = signX << 31;
 
-					return (summand + math.asfloat(sign ^ math.asint(1f - F32_ERX))) - math.asfloat(sign ^ math.asint(p / q));
+					return (summand + asfloat(sign ^ asint(1f - F32_ERX))) - asfloat(sign ^ asint(p / q));
 				}
 				else
 				{
-					float rcp = math.rcp(x);
-		 			float s = rcp * rcp;
+					float _rcp = rcp(x);
+		 			float s = _rcp * _rcp;
 					float p;
 					float q;
 					if (absAsInt < 0x4006_DB6D)
 					{
-					    p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_RA7, s, F32_RA6), s, F32_RA5), s, F32_RA4), s, F32_RA3), s, F32_RA2), s, F32_RA1), s, F32_RA0);
-					    q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_SA8, s, F32_SA7), s, F32_SA6), s, F32_SA5), s, F32_SA4), s, F32_SA3), s, F32_SA2), s, F32_SA1), s, 1f);
+					    p = mad(mad(mad(mad(mad(mad(mad(F32_RA7, s, F32_RA6), s, F32_RA5), s, F32_RA4), s, F32_RA3), s, F32_RA2), s, F32_RA1), s, F32_RA0);
+					    q = mad(mad(mad(mad(mad(mad(mad(mad(F32_SA8, s, F32_SA7), s, F32_SA6), s, F32_SA5), s, F32_SA4), s, F32_SA3), s, F32_SA2), s, F32_SA1), s, 1f);
 					}
 					else
 					{
-					    p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_RB6, s, F32_RB5), s, F32_RB4), s, F32_RB3), s, F32_RB2), s, F32_RB1), s, F32_RB0);
-					    q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F32_SB7, s, F32_SB6), s, F32_SB5), s, F32_SB4), s, F32_SB3), s, F32_SB2), s, F32_SB1), s, 1f);
+					    p = mad(mad(mad(mad(mad(mad(F32_RB6, s, F32_RB5), s, F32_RB4), s, F32_RB3), s, F32_RB2), s, F32_RB1), s, F32_RB0);
+					    q = mad(mad(mad(mad(mad(mad(mad(F32_SB7, s, F32_SB6), s, F32_SB5), s, F32_SB4), s, F32_SB3), s, F32_SB2), s, F32_SB1), s, 1f);
 					}
 
-					float z = math.asfloat(0xFFFF_E000u & (uint)absAsInt);
-					float2 exp = math.exp(new float2(-z * z - 0.5625f, math.mad(z, z, -(math.asfloat(absAsInt) * math.asfloat(absAsInt))) + p / q));
+					float z = asfloat(0x7FFF_E000u & (uint)absAsInt);
+					float2 _exp = exp(new float2(-z * z - 0.5625f, mad(z, z, -(asfloat(absAsInt) * asfloat(absAsInt))) + p / q));
 
-					return math.mad(cprod(exp), rcp, summand);
+					return mad(cprod(_exp), _rcp, summand);
 				}
 			}
 		}
@@ -1630,7 +1625,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat2(Xse.erfc_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Unsafe0)));
+				return Xse.erfc_ps(x, 2, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1648,7 +1643,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat3(Xse.erfc_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Unsafe0)));
+				return Xse.erfc_ps(x, 3, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1666,7 +1661,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToFloat4(Xse.erfc_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Unsafe0)));
+				return Xse.erfc_ps(x, 4, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1709,7 +1704,7 @@ namespace MaxMath
 			{
 				if (Hint.Unlikely(hiAbs > 0x7FEF_FFFF))
 				{
-				    return (signX << 1) + math.rcp(x);
+				    return (signX << 1) + rcp(x);
 				}
 			}
 
@@ -1723,15 +1718,15 @@ namespace MaxMath
 				}
 
 				double sq = x * x;
-				double p = math.mad(math.mad(math.mad(math.mad(F64_PP4, sq, F64_PP3), sq, F64_PP2), sq, F64_PP1), sq, F64_PP0);
-				double q = math.mad(math.mad(math.mad(math.mad(math.mad(F64_QQ5, sq, F64_QQ4), sq, F64_QQ3), sq, F64_QQ2), sq, F64_QQ1), sq, 1d);
+				double p = mad(mad(mad(mad(F64_PP4, sq, F64_PP3), sq, F64_PP2), sq, F64_PP1), sq, F64_PP0);
+				double q = mad(mad(mad(mad(mad(F64_QQ5, sq, F64_QQ4), sq, F64_QQ3), sq, F64_QQ2), sq, F64_QQ1), sq, 1d);
 		        double y = p / q;
 
 				return oneMinus - x * y;
 		    }
 		    else if (hiAbs > 0x403E_FFFF)
 			{
-				return tobool(signX) ? 2 - math.asdouble(0x0010_0000_0000_0000) : math.asdouble(0x0010_0000_0000_0000) * math.asdouble(0x0010_0000_0000_0000);
+				return tobool(signX) ? 2 - asdouble(0x0010_0000_0000_0000) : asdouble(0x0010_0000_0000_0000) * asdouble(0x0010_0000_0000_0000);
 		    }
 			else
 			{
@@ -1739,36 +1734,35 @@ namespace MaxMath
 
 				if (hiAbs < 0x3FF4_0000)
 				{
-				    double s = math.abs(x) - 1d;
-				    double p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_PA6, s, F64_PA5), s, F64_PA4), s, F64_PA3), s, F64_PA2), s, F64_PA1), s, F64_PA0);
-				    double q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_QA6, s, F64_QA5), s, F64_QA4), s, F64_QA3), s, F64_QA2), s, F64_QA1), s, 1d);
+				    double s = abs(x) - 1d;
+				    double p = mad(mad(mad(mad(mad(mad(F64_PA6, s, F64_PA5), s, F64_PA4), s, F64_PA3), s, F64_PA2), s, F64_PA1), s, F64_PA0);
+				    double q = mad(mad(mad(mad(mad(mad(F64_QA6, s, F64_QA5), s, F64_QA4), s, F64_QA3), s, F64_QA2), s, F64_QA1), s, 1d);
 
 					ulong sign = (ulong)signX << 63;
 
-					return (summand + math.asdouble(sign ^ math.asulong(1d - F64_ERX))) - math.asdouble(sign ^ math.asulong(p / q));
+					return (summand + asdouble(sign ^ asulong(1d - F64_ERX))) - asdouble(sign ^ asulong(p / q));
 				}
 				else
 				{
-					double rcp = math.rcp(x);
-		 			double s = rcp * rcp;
+					double _rcp = rcp(x);
+		 			double s = _rcp * _rcp;
 					double p;
 					double q;
 					if (hiAbs < 0x4006_DB6D)
 					{
-					    p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_RA7, s, F64_RA6), s, F64_RA5), s, F64_RA4), s, F64_RA3), s, F64_RA2), s, F64_RA1), s, F64_RA0);
-					    q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_SA8, s, F64_SA7), s, F64_SA6), s, F64_SA5), s, F64_SA4), s, F64_SA3), s, F64_SA2), s, F64_SA1), s, 1d);
+					    p = mad(mad(mad(mad(mad(mad(mad(F64_RA7, s, F64_RA6), s, F64_RA5), s, F64_RA4), s, F64_RA3), s, F64_RA2), s, F64_RA1), s, F64_RA0);
+					    q = mad(mad(mad(mad(mad(mad(mad(mad(F64_SA8, s, F64_SA7), s, F64_SA6), s, F64_SA5), s, F64_SA4), s, F64_SA3), s, F64_SA2), s, F64_SA1), s, 1d);
 					}
 					else
 					{
-					    p = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_RB6, s, F64_RB5), s, F64_RB4), s, F64_RB3), s, F64_RB2), s, F64_RB1), s, F64_RB0);
-					    q = math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(math.mad(F64_SB7, s, F64_SB6), s, F64_SB5), s, F64_SB4), s, F64_SB3), s, F64_SB2), s, F64_SB1), s, 1d);
+					    p = mad(mad(mad(mad(mad(mad(F64_RB6, s, F64_RB5), s, F64_RB4), s, F64_RB3), s, F64_RB2), s, F64_RB1), s, F64_RB0);
+					    q = mad(mad(mad(mad(mad(mad(mad(F64_SB7, s, F64_SB6), s, F64_SB5), s, F64_SB4), s, F64_SB3), s, F64_SB2), s, F64_SB1), s, 1d);
 					}
 
-					double abs = math.abs(x);
-					double z = math.asdouble(0xFFFF_FFFF_0000_0000 & math.asulong(abs));
-					double2 exp = math.exp(new double2(-z * z - 0.5625, math.mad(z, z, -(abs * abs)) + p / q));
+					double z = asdouble(0x7FFF_FFFF_0000_0000 & asulong(x));
+					double2 _exp = exp(new double2(-z * z - 0.5625, mad(z, z, -(x * x)) + p / q));
 
-					return math.mad(cprod(exp), rcp, summand);
+					return mad(cprod(_exp), _rcp, summand);
 				}
 			}
 		}
@@ -1783,7 +1777,7 @@ namespace MaxMath
 		{
             if (BurstArchitecture.IsSIMDSupported)
             {
-				return RegisterConversion.ToDouble2(Xse.erfc_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Unsafe0)));
+				return Xse.erfc_pd(x, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1801,7 +1795,7 @@ namespace MaxMath
 		{
             if (Avx.IsAvxSupported)
             {
-				return RegisterConversion.ToDouble3(Xse.mm256_erfc_pd(RegisterConversion.ToV256(x), 3, promises.Promises(Promise.Unsafe0)));
+				return Xse.mm256_erfc_pd(x, 3, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{
@@ -1819,7 +1813,7 @@ namespace MaxMath
 		{
             if (Avx.IsAvxSupported)
             {
-				return RegisterConversion.ToDouble4(Xse.mm256_erfc_pd(RegisterConversion.ToV256(x), 4, promises.Promises(Promise.Unsafe0)));
+				return Xse.mm256_erfc_pd(x, 4, promises.Promises(Promise.Unsafe0));
             }
 			else
 			{

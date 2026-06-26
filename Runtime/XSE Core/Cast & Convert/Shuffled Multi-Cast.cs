@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.CVT_INT_FP;
@@ -451,7 +450,7 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtt2x2pd_epi32(v128 lo, v128 hi, bool nonZero = false)
+        public static v128 cvtt2x2pd_epi32(v128 lo, v128 hi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -1121,6 +1120,58 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 cvt2x2epu8_ps(v128 a, out v128 hi)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                v128 lo = cvt2x2epu8_epi32(a, out hi);
+                lo = cvtepi32_ps(lo);
+                hi = cvtepi32_ps(hi);
+
+                constexpr.ASSUME(lo.Float0 == a.Byte0);
+                constexpr.ASSUME(lo.Float1 == a.Byte1);
+                constexpr.ASSUME(lo.Float2 == a.Byte2);
+                constexpr.ASSUME(lo.Float3 == a.Byte3);
+                constexpr.ASSUME(hi.Float0 == a.Byte4);
+                constexpr.ASSUME(hi.Float1 == a.Byte5);
+                constexpr.ASSUME(hi.Float2 == a.Byte6);
+                constexpr.ASSUME(hi.Float3 == a.Byte7);
+                constexpr.ASSUME_LE_PS(lo, byte.MaxValue);
+                constexpr.ASSUME_LE_PS(hi, byte.MaxValue);
+
+                return lo;
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        /// <summary>       <para>  LO: | 0 1 2 3 |  </para>      <para>  HI: | 4 5 6 7 |  </para>       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 cvt2x2epi8_ps(v128 a, out v128 hi)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                v128 lo = cvt2x2epi8_epi32(a, out hi);
+
+                hi = cvtepi32_ps(hi);
+                lo = cvtepi32_ps(lo);
+
+                constexpr.ASSUME(lo.Float0 == a.SByte0);
+                constexpr.ASSUME(lo.Float1 == a.SByte1);
+                constexpr.ASSUME(lo.Float2 == a.SByte2);
+                constexpr.ASSUME(lo.Float3 == a.SByte3);
+                constexpr.ASSUME(hi.Float0 == a.SByte4);
+                constexpr.ASSUME(hi.Float1 == a.SByte5);
+                constexpr.ASSUME(hi.Float2 == a.SByte6);
+                constexpr.ASSUME(hi.Float3 == a.SByte7);
+                constexpr.ASSUME_RANGE_PS(lo, sbyte.MinValue, sbyte.MaxValue);
+                constexpr.ASSUME_RANGE_PS(hi, sbyte.MinValue, sbyte.MaxValue);
+
+                return lo;
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cvt4x4epu8_epi32(v128 a, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3)
         {
             if (BurstArchitecture.IsSIMDSupported)
@@ -1258,9 +1309,9 @@ namespace MaxMath.Intrinsics
                 {
                     cvt4x4epu8_epi32(a, out v128 r32_0, out v128 r32_1, out v128 r32_2, out v128 r32_3);
                     r0 = cvt2x2epu32_epi64(r32_0, out r1);
-                    r2 = cvt2x2epu32_epi64(r32_0, out r3);
-                    r4 = cvt2x2epu32_epi64(r32_0, out r5);
-                    r6 = cvt2x2epu32_epi64(r32_0, out r7);
+                    r2 = cvt2x2epu32_epi64(r32_1, out r3);
+                    r4 = cvt2x2epu32_epi64(r32_2, out r5);
+                    r6 = cvt2x2epu32_epi64(r32_3, out r7);
                 }
 
                 constexpr.ASSUME(r0.ULong0 == a.Byte0);
@@ -1462,6 +1513,39 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME(hi.UInt7 == a.Byte23);
                 constexpr.ASSUME_LE_EPU32(lo, byte.MaxValue);
                 constexpr.ASSUME_LE_EPU32(hi, byte.MaxValue);
+
+                return lo;
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_cvt2x2epu8_ps(v256 a, out v256 hi)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 lo = mm256_cvt2x2epu8_epi32(a, out hi);
+                lo = Avx.mm256_cvtepi32_ps(lo);
+                hi = Avx.mm256_cvtepi32_ps(hi);
+
+                constexpr.ASSUME(lo.Float0 == a.Byte0);
+                constexpr.ASSUME(lo.Float1 == a.Byte1);
+                constexpr.ASSUME(lo.Float2 == a.Byte2);
+                constexpr.ASSUME(lo.Float3 == a.Byte3);
+                constexpr.ASSUME(lo.Float4 == a.Byte16);
+                constexpr.ASSUME(lo.Float5 == a.Byte17);
+                constexpr.ASSUME(lo.Float6 == a.Byte18);
+                constexpr.ASSUME(lo.Float7 == a.Byte19);
+                constexpr.ASSUME(hi.Float0 == a.Byte4);
+                constexpr.ASSUME(hi.Float1 == a.Byte5);
+                constexpr.ASSUME(hi.Float2 == a.Byte6);
+                constexpr.ASSUME(hi.Float3 == a.Byte7);
+                constexpr.ASSUME(hi.Float4 == a.Byte20);
+                constexpr.ASSUME(hi.Float5 == a.Byte21);
+                constexpr.ASSUME(hi.Float6 == a.Byte22);
+                constexpr.ASSUME(hi.Float7 == a.Byte23);
+                constexpr.ASSUME_LE_PS(lo, byte.MaxValue);
+                constexpr.ASSUME_LE_PS(hi, byte.MaxValue);
 
                 return lo;
             }

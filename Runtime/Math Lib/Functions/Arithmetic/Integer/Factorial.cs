@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
@@ -20,7 +19,7 @@ namespace MaxMath
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        return cvtsi64x_si128(maxmath.bitfield((byte)1, 1, 2, 6, 24, 120, byte.MaxValue, 0));
+                        return cvtsi64x_si128(math.bitfield((byte)1, 1, 2, 6, 24, 120, byte.MaxValue, 0));
                     }
                     else throw new IllegalInstructionException();
                 }
@@ -87,7 +86,7 @@ namespace MaxMath
                     }
                     else
                     {
-                        ulong TABLE = maxmath.bitfield(1, 1, 2, 6, 24, 120, byte.MaxValue, byte.MaxValue);
+                        ulong TABLE = math.bitfield(1, 1, 2, 6, 24, 120, byte.MaxValue, byte.MaxValue);
 
                         if (!promiseNoOverflow)
                         {
@@ -349,9 +348,9 @@ namespace MaxMath
 
                         switch (elements)
                         {
-                            case 2:  return RegisterConversion.ToV128(new uint2(*(uint*)((byte*)TABLE + a.UInt0), *(uint*)((byte*)TABLE + a.UInt1)));
-                            case 3:  return RegisterConversion.ToV128(new uint3(*(uint*)((byte*)TABLE + a.UInt0), *(uint*)((byte*)TABLE + a.UInt1), *(uint*)((byte*)TABLE + a.UInt2)));
-                            default: return RegisterConversion.ToV128(new uint4(*(uint*)((byte*)TABLE + a.UInt0), *(uint*)((byte*)TABLE + a.UInt1), *(uint*)((byte*)TABLE + a.UInt2), *(uint*)((byte*)TABLE + a.UInt3)));
+                            case 2:  return new uint2(*(uint*)((byte*)TABLE + a.UInt0), *(uint*)((byte*)TABLE + a.UInt1));
+                            case 3:  return new uint3(*(uint*)((byte*)TABLE + a.UInt0), *(uint*)((byte*)TABLE + a.UInt1), *(uint*)((byte*)TABLE + a.UInt2));
+                            default: return new uint4(*(uint*)((byte*)TABLE + a.UInt0), *(uint*)((byte*)TABLE + a.UInt1), *(uint*)((byte*)TABLE + a.UInt2), *(uint*)((byte*)TABLE + a.UInt3));
                         }
                     }
                 }
@@ -459,9 +458,9 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="UInt128.MaxValue"/>.
+        /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="MaxMath.UInt128.MaxValue"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 34].       </para>
         /// </remarks>
@@ -517,12 +516,12 @@ namespace MaxMath
                 /*263_130_836_933_693_530_167_218_012_160_000_000*/new UInt128(0xAC18_B9A5_8000_0000, 0x0032_AD5A_155C_6748),
                 /*8_683_317_618_811_886_495_518_194_401_280_000_000*/new UInt128(0x2F2F_EE55_8000_0000, 0x0688_589C_C0E9_505E),
                 /*295_232_799_039_604_140_847_618_609_643_520_000_000*/new UInt128(0x445D_A75B_0000_0000, 0xDE1B_C4D1_9EFC_AC82),
-                UInt128.MaxValue
+                MaxMath.UInt128.MaxValue
             };
 
             ulong offset = noOverflow.Promises(Promise.NoOverflow)
                            ? (ulong)sizeof(UInt128) * x.lo64
-                           : math.min((ulong)sizeof(UInt128) * x.lo64, (ulong)sizeof(UInt128) * 35ul);
+                           : min((ulong)sizeof(UInt128) * x.lo64, (ulong)sizeof(UInt128) * 35ul);
 
             return *(UInt128*)((byte*)TABLE + offset);
         }
@@ -589,12 +588,12 @@ namespace MaxMath
                 /*8_222_838_654_177_922_817_725_562_880_000_000*/new Int128(0x4560_C5CD_2C00_0000, 0x0001_956A_D0AA_E33A),
                 /*263_130_836_933_693_530_167_218_012_160_000_000*/new Int128(0xAC18_B9A5_8000_0000, 0x0032_AD5A_155C_6748),
                 /*8_683_317_618_811_886_495_518_194_401_280_000_000*/new Int128(0x2F2F_EE55_8000_0000, 0x0688_589C_C0E9_505E),
-                Int128.MaxValue
+                MaxMath.Int128.MaxValue
             };
 
             int offset = noOverflow.Promises(Promise.NoOverflow)
                          ? sizeof(Int128) * (int)x.lo64
-                         : (int)math.min((uint)(sizeof(Int128) * (uint)x), (uint)sizeof(Int128) * 34u);
+                         : (int)min((uint)(sizeof(Int128) * (uint)x), (uint)sizeof(Int128) * 34u);
 
             return *(Int128*)((byte*)TABLE + offset);
         }
@@ -617,7 +616,7 @@ namespace MaxMath
 
             uint offset = noOverflow.Promises(Promise.NoOverflow)
                           ? sizeof(byte) * (uint)x
-                          : math.min(sizeof(byte) * (uint)x, sizeof(byte) * 7);
+                          : min(sizeof(byte) * (uint)x, sizeof(byte) * 7);
 
             return *((byte*)&TABLE + offset);
         }
@@ -749,7 +748,7 @@ namespace MaxMath
 
             int offset = noOverflow.Promises(Promise.NoOverflow)
                          ? sizeof(byte) * (int)x
-                         : (int)math.min((uint)(sizeof(byte) * (byte)x), (uint)sizeof(byte) * 7u);
+                         : (int)min((uint)(sizeof(byte) * (byte)x), (uint)sizeof(byte) * 7u);
 
             return *((sbyte*)&TABLE + offset);
         }
@@ -886,7 +885,7 @@ namespace MaxMath
 
             uint offset = noOverflow.Promises(Promise.NoOverflow)
                           ? sizeof(ushort) * (uint)x
-                          : math.min(sizeof(ushort) * (uint)x, sizeof(ushort) * 9);
+                          : min(sizeof(ushort) * (uint)x, sizeof(ushort) * 9);
 
             return *(ushort*)((byte*)TABLE + offset);
         }
@@ -1005,7 +1004,7 @@ namespace MaxMath
 
             int offset = noOverflow.Promises(Promise.NoOverflow)
                          ? sizeof(short) * (int)x
-                         : (int)math.min((uint)(sizeof(short) * (ushort)x), (uint)sizeof(short) * 8u);
+                         : (int)min((uint)(sizeof(short) * (ushort)x), (uint)sizeof(short) * 8u);
 
             return *(short*)((byte*)TABLE + offset);
         }
@@ -1124,7 +1123,7 @@ namespace MaxMath
 
             uint offset = noOverflow.Promises(Promise.NoOverflow)
                           ? sizeof(uint) * (uint)x
-                          : math.min(sizeof(uint) * (uint)x, sizeof(uint) * 13);
+                          : min(sizeof(uint) * (uint)x, sizeof(uint) * 13);
 
             return *(uint*)((byte*)TABLE + offset);
         }
@@ -1139,7 +1138,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 2));
+                return Xse.gamma_epu32(x, noOverflow.Promises(Promise.NoOverflow), 2);
             }
             else
             {
@@ -1157,7 +1156,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 3));
+                return Xse.gamma_epu32(x, noOverflow.Promises(Promise.NoOverflow), 3);
             }
             else
             {
@@ -1175,7 +1174,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 4));
+                return Xse.gamma_epu32(x, noOverflow.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -1232,7 +1231,7 @@ namespace MaxMath
 
             int offset = noOverflow.Promises(Promise.NoOverflow)
                          ? sizeof(int) * (int)x
-                         : (int)math.min((uint)(sizeof(int) * (uint)x), (uint)sizeof(int) * 13u);
+                         : (int)min((uint)(sizeof(int) * (uint)x), (uint)sizeof(int) * 13u);
 
             return *(int*)((byte*)TABLE + offset);
         }
@@ -1247,7 +1246,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 2));
+                return Xse.gamma_epu32(x, noOverflow.Promises(Promise.NoOverflow), 2);
             }
             else
             {
@@ -1265,7 +1264,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 3));
+                return Xse.gamma_epu32(x, noOverflow.Promises(Promise.NoOverflow), 3);
             }
             else
             {
@@ -1283,7 +1282,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.gamma_epu32(RegisterConversion.ToV128(x), noOverflow.Promises(Promise.NoOverflow), 4));
+                return Xse.gamma_epu32(x, noOverflow.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -1333,7 +1332,7 @@ namespace MaxMath
 
             ulong offset = noOverflow.Promises(Promise.NoOverflow)
                            ? sizeof(ulong) * (ulong)x
-                           : math.min(sizeof(ulong) * (ulong)x, sizeof(ulong) * 21);
+                           : min(sizeof(ulong) * (ulong)x, sizeof(ulong) * 21);
 
             return *(ulong*)((byte*)TABLE + offset);
         }
@@ -1423,7 +1422,7 @@ namespace MaxMath
 
             int offset = noOverflow.Promises(Promise.NoOverflow)
                          ? sizeof(long) * (int)x
-                         : (int)math.min((uint)(sizeof(long) * (uint)x), (uint)sizeof(long) * 21u);
+                         : (int)min((uint)(sizeof(long) * (uint)x), (uint)sizeof(long) * 21u);
 
             return *(long*)((byte*)TABLE + offset);
         }

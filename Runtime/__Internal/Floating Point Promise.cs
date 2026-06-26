@@ -1,10 +1,8 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 using DevTools;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 using static MaxMath.LUT.FLOATING_POINT;
 
 namespace MaxMath
@@ -41,8 +39,8 @@ namespace MaxMath
                 {
                     switch (sizeof(T))
                     {
-                        case 1:  return quarter.NegativeInfinity.Reinterpret<quarter, T>();
-                        case 2:  return ((Unity.Mathematics.half)float.NegativeInfinity).Reinterpret<half, T>();
+                        case 1:  return MaxMath.quarter.NegativeInfinity.Reinterpret<quarter, T>();
+                        case 2:  return ((half)float.NegativeInfinity).Reinterpret<half, T>();
                         case 4:  return float.NegativeInfinity.Reinterpret<float, T>();
                         case 8:  return double.NegativeInfinity.Reinterpret<double, T>();
                         case 16: return quadruple.NegativeInfinity.Reinterpret<quadruple, T>();
@@ -74,8 +72,8 @@ namespace MaxMath
                 {
                     switch (sizeof(T))
                     {
-                        case 1:  return quarter.PositiveInfinity.Reinterpret<quarter, T>();
-                        case 2:  return ((Unity.Mathematics.half)float.PositiveInfinity).Reinterpret<half, T>();
+                        case 1:  return MaxMath.quarter.PositiveInfinity.Reinterpret<quarter, T>();
+                        case 2:  return ((half)float.PositiveInfinity).Reinterpret<half, T>();
                         case 4:  return float.PositiveInfinity.Reinterpret<float, T>();
                         case 8:  return double.PositiveInfinity.Reinterpret<double, T>();
                         case 16: return quadruple.PositiveInfinity.Reinterpret<quadruple, T>();
@@ -128,15 +126,15 @@ namespace MaxMath
                     _promises |= constexpr.IS_TRUE((byte)(f8.value + f8.value) != 0 || (byte)(f8.value << 1) != 0)                        ? NON_ZERO : Promise.Nothing;
                     if (NonZero && NotNaN && NotInf)
                     {
-                        _promises |= constexpr.IS_TRUE((f8.value & bitmask8((uint)quarter.EXPONENT_BITS, quarter.MANTISSA_BITS)) != 0)    ? NOT_SUBNORMAL : Promise.Nothing;
+                        _promises |= constexpr.IS_TRUE((f8.value & bitmask8((uint)MaxMath.quarter.EXPONENT_BITS, MaxMath.quarter.MANTISSA_BITS)) != 0)    ? NOT_SUBNORMAL : Promise.Nothing;
                     }
                     else
                     {
                         _promises |= constexpr.IS_FALSE(issubnormal(f8)) || constexpr.IS_TRUE(isnormal(f8))                               ? NOT_SUBNORMAL : Promise.Nothing;
                     }
 
-                    _promises |= constexpr.IS_TRUE(isinrange(f8.value, (byte)0, quarter.MaxValue.value))                                  ? ZERO_OR_GREATER : Promise.Nothing;
-                    _promises |= constexpr.IS_TRUE(isinrange((sbyte)f8.value, (sbyte)quarter.MinValue.value, (sbyte)0))                   ? ZERO_OR_LESS : Promise.Nothing;
+                    _promises |= constexpr.IS_TRUE(isinrange(f8.value, (byte)0, MaxMath.quarter.MaxValue.value))                                  ? ZERO_OR_GREATER : Promise.Nothing;
+                    _promises |= constexpr.IS_TRUE(isinrange((sbyte)f8.value, (sbyte)MaxMath.quarter.MinValue.value, (sbyte)0))                   ? ZERO_OR_LESS : Promise.Nothing;
 
                     break;
                 }
@@ -157,8 +155,8 @@ namespace MaxMath
                         _promises |= constexpr.IS_FALSE(issubnormal(f16)) || constexpr.IS_TRUE(isnormal(f16))                                   ? NOT_SUBNORMAL : Promise.Nothing;
                     }
 
-                    _promises |= constexpr.IS_TRUE(isinrange(f16.value, (ushort)0, Unity.Mathematics.half.MaxValueAsHalf.value))                ? ZERO_OR_GREATER : Promise.Nothing;
-                    _promises |= constexpr.IS_TRUE(isinrange((short)f16.value, (short)Unity.Mathematics.half.MinValueAsHalf.value, (short)0))   ? ZERO_OR_LESS : Promise.Nothing;
+                    _promises |= constexpr.IS_TRUE(isinrange(f16.value, (ushort)0, MaxMath.half.MaxValue.value))                ? ZERO_OR_GREATER : Promise.Nothing;
+                    _promises |= constexpr.IS_TRUE(isinrange((short)f16.value, (short)MaxMath.half.MinValue.value, (short)0))   ? ZERO_OR_LESS : Promise.Nothing;
 
                     break;
                 }

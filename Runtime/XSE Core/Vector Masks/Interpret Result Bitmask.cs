@@ -11,7 +11,7 @@ namespace MaxMath.Intrinsics
 		{
 			if (Arm.Neon.IsNeonSupported)
 			{
-				return Arm.Neon.vget_lane_s64(Arm.Neon.vshrn_n_u16(a, 4), 0);
+				return (long)Arm.Neon.vget_lane_u64(Arm.Neon.vshrn_n_u16(a, 4), 0);
 			}
 			else throw new IllegalInstructionException();
 		}
@@ -33,11 +33,11 @@ namespace MaxMath.Intrinsics
 		{
 			if (Sse2.IsSse2Supported)
 			{
-				return maxmath.bitmask64(sizeof(T) * elements);
+				return math.bitmask64(sizeof(T) * elements);
 			}
 			else if (Arm.Neon.IsNeonSupported)
 			{
-				return maxmath.bitmask64(4 * sizeof(T) * elements);
+				return math.bitmask64(4 * sizeof(T) * elements);
 			}
 			else throw new IllegalInstructionException();
 		}
@@ -48,7 +48,7 @@ namespace MaxMath.Intrinsics
 		{
 			if (Sse2.IsSse2Supported)
 			{
-				return (UInt128.MaxValue >> (128 - (8 * sizeof(T) * elements))).Reinterpret<UInt128, v128>();
+				return (MaxMath.UInt128.MaxValue >> (128 - (8 * sizeof(T) * elements))).Reinterpret<UInt128, v128>();
 			}
 			else throw new IllegalInstructionException();
 		}

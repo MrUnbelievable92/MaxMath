@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -95,7 +94,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Sets all the low order bits up to and including the lowest clear bit in <paramref name="x"/> to 1 and the remaining bits to 0.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -415,7 +414,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.blcmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.blcmsk_epi32(x);
             }
             else
             {
@@ -429,7 +428,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.blcmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.blcmsk_epi32(x);
             }
             else
             {
@@ -443,7 +442,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.blcmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.blcmsk_epi32(x);
             }
             else
             {

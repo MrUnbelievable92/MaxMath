@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -8,329 +8,539 @@ namespace MaxMath.Tests
         [Test]
         public static void _quarter()
         {
-            Assert.IsTrue(maxmath.isnan(maxmath.floor(quarter.NaN)));
-            Assert.AreEqual(quarter.NegativeInfinity, maxmath.floor(quarter.NegativeInfinity));
-            Assert.AreEqual(quarter.PositiveInfinity, maxmath.floor(quarter.PositiveInfinity));
+            Assert.IsTrue(math.isnan(math.floor(quarter.NaN)));
+            Assert.AreEqual(quarter.NegativeInfinity, math.floor(quarter.NegativeInfinity));
+            Assert.AreEqual(quarter.PositiveInfinity, math.floor(quarter.PositiveInfinity));
 
             quarter q = quarter.MinValue;
-            Assert.AreEqual(maxmath.floor(q), quarter.NegativeInfinity);
-            q = maxmath.nextgreater(q);
+            Assert.AreEqual(math.floor(q), quarter.NegativeInfinity);
+            q = math.nextgreater(q);
 
             while (q != quarter.MaxValue)
             {
-                Assert.AreEqual(math.floor((float)q), (float)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float)q), (float)math.floor(q));
 
                 if (q < 0f && q > -1f)
                 {
-                    Assert.IsTrue((maxmath.floor(q).value & 0b1000_0000) == 0b1000_0000);
+                    Assert.IsTrue((math.floor(q).value & 0b1000_0000) == 0b1000_0000);
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
 
-            Assert.AreEqual(math.floor((float)q), (float)maxmath.floor(q));
+            Assert.AreEqual(math.floor((float)q), (float)math.floor(q));
         }
 
         [Test]
         public static void _quarter2()
         {
-            Assert.IsTrue(math.all(maxmath.isnan(maxmath.floor((quarter2)quarter.NaN))));
-            Assert.AreEqual((quarter2)quarter.NegativeInfinity, maxmath.floor((quarter2)quarter.NegativeInfinity));
-            Assert.AreEqual((quarter2)quarter.PositiveInfinity, maxmath.floor((quarter2)quarter.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((quarter2)quarter.NaN))));
+            Assert.AreEqual((quarter2)quarter.NegativeInfinity, math.floor((quarter2)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter2)quarter.PositiveInfinity, math.floor((quarter2)quarter.PositiveInfinity));
 
             quarter2 q = quarter.MinValue;
-            Assert.AreEqual((quarter2)quarter.NegativeInfinity, maxmath.floor(q));
-            q = maxmath.nextgreater(q);
+            Assert.AreEqual((quarter2)quarter.NegativeInfinity, math.floor(q));
+            q = math.nextgreater(q);
 
             while (q.x != quarter.MaxValue)
             {
-                Assert.AreEqual(math.floor((float2)q), (float2)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float2)q), (float2)math.floor(q));
 
                 if (math.all(q < 0f) && math.all(q > -1f))
                 {
-                    Assert.IsTrue(math.all((maxmath.asbyte(maxmath.floor(q)) & 0b1000_0000) == 0b1000_0000));
+                    Assert.IsTrue(math.all((math.asbyte(math.floor(q)) & 0b1000_0000) == 0b1000_0000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
         }
 
         [Test]
         public static void _quarter3()
         {
-            Assert.IsTrue(math.all(maxmath.isnan(maxmath.floor((quarter3)quarter.NaN))));
-            Assert.AreEqual((quarter3)quarter.NegativeInfinity, maxmath.floor((quarter3)quarter.NegativeInfinity));
-            Assert.AreEqual((quarter3)quarter.PositiveInfinity, maxmath.floor((quarter3)quarter.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((quarter3)quarter.NaN))));
+            Assert.AreEqual((quarter3)quarter.NegativeInfinity, math.floor((quarter3)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter3)quarter.PositiveInfinity, math.floor((quarter3)quarter.PositiveInfinity));
 
             quarter3 q = quarter.MinValue;
-            Assert.AreEqual((quarter3)quarter.NegativeInfinity, maxmath.floor(q));
-            q = maxmath.nextgreater(q);
+            Assert.AreEqual((quarter3)quarter.NegativeInfinity, math.floor(q));
+            q = math.nextgreater(q);
 
             while (q.x != quarter.MaxValue)
             {
-                Assert.AreEqual(math.floor((float3)q), (float3)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float3)q), (float3)math.floor(q));
 
                 if (math.all(q < 0f) && math.all(q > -1f))
                 {
-                    Assert.IsTrue(math.all((maxmath.asbyte(maxmath.floor(q)) & 0b1000_0000) == 0b1000_0000));
+                    Assert.IsTrue(math.all((math.asbyte(math.floor(q)) & 0b1000_0000) == 0b1000_0000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
 
-            Assert.AreEqual(math.floor((float3)q), (float3)maxmath.floor(q));
+            Assert.AreEqual(math.floor((float3)q), (float3)math.floor(q));
         }
 
         [Test]
         public static void _quarter4()
         {
-            Assert.IsTrue(math.all(maxmath.isnan(maxmath.floor((quarter4)quarter.NaN))));
-            Assert.AreEqual((quarter4)quarter.NegativeInfinity, maxmath.floor((quarter4)quarter.NegativeInfinity));
-            Assert.AreEqual((quarter4)quarter.PositiveInfinity, maxmath.floor((quarter4)quarter.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((quarter4)quarter.NaN))));
+            Assert.AreEqual((quarter4)quarter.NegativeInfinity, math.floor((quarter4)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter4)quarter.PositiveInfinity, math.floor((quarter4)quarter.PositiveInfinity));
 
             quarter4 q = quarter.MinValue;
-            Assert.AreEqual((quarter4)quarter.NegativeInfinity, maxmath.floor(q));
-            q = maxmath.nextgreater(q);
+            Assert.AreEqual((quarter4)quarter.NegativeInfinity, math.floor(q));
+            q = math.nextgreater(q);
 
             while (q.x != quarter.MaxValue)
             {
-                Assert.AreEqual(math.floor((float4)q), (float4)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float4)q), (float4)math.floor(q));
 
                 if (math.all(q < 0f) && math.all(q > -1f))
                 {
-                    Assert.IsTrue(math.all((maxmath.asbyte(maxmath.floor(q)) & 0b1000_0000) == 0b1000_0000));
+                    Assert.IsTrue(math.all((math.asbyte(math.floor(q)) & 0b1000_0000) == 0b1000_0000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
 
-            Assert.AreEqual(math.floor((float4)q), (float4)maxmath.floor(q));
+            Assert.AreEqual(math.floor((float4)q), (float4)math.floor(q));
         }
 
         [Test]
         public static void _quarter8()
         {
-            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.floor((quarter8)quarter.NaN))));
-            Assert.AreEqual((quarter8)quarter.NegativeInfinity, maxmath.floor((quarter8)quarter.NegativeInfinity));
-            Assert.AreEqual((quarter8)quarter.PositiveInfinity, maxmath.floor((quarter8)quarter.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((quarter8)quarter.NaN))));
+            Assert.AreEqual((quarter8)quarter.NegativeInfinity, math.floor((quarter8)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter8)quarter.PositiveInfinity, math.floor((quarter8)quarter.PositiveInfinity));
 
             quarter8 q = quarter.MinValue;
-            Assert.AreEqual((quarter8)quarter.NegativeInfinity, maxmath.floor(q));
-            q = maxmath.nextgreater(q);
+            Assert.AreEqual((quarter8)quarter.NegativeInfinity, math.floor(q));
+            q = math.nextgreater(q);
 
             while (q.x0 != quarter.MaxValue)
             {
-                Assert.AreEqual(maxmath.floor((float8)q), (float8)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float8)q), (float8)math.floor(q));
 
-                if (maxmath.all(q < 0f) && maxmath.all(q > -1f))
+                if (math.all(q < 0f) && math.all(q > -1f))
                 {
-                    Assert.IsTrue(maxmath.all((maxmath.asbyte(maxmath.floor(q)) & 0b1000_0000) == 0b1000_0000));
+                    Assert.IsTrue(math.all((math.asbyte(math.floor(q)) & 0b1000_0000) == 0b1000_0000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
 
-            Assert.AreEqual(maxmath.floor((float8)q), (float8)maxmath.floor(q));
+            Assert.AreEqual(math.floor((float8)q), (float8)math.floor(q));
         }
 
         [Test]
         public static void _quarter16()
         {
-            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.floor((quarter16)quarter.NaN))));
-            Assert.AreEqual((quarter16)quarter.NegativeInfinity, maxmath.floor((quarter16)quarter.NegativeInfinity));
-            Assert.AreEqual((quarter16)quarter.PositiveInfinity, maxmath.floor((quarter16)quarter.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((quarter16)quarter.NaN))));
+            Assert.AreEqual((quarter16)quarter.NegativeInfinity, math.floor((quarter16)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter16)quarter.PositiveInfinity, math.floor((quarter16)quarter.PositiveInfinity));
 
             quarter16 q = quarter.MinValue;
-            Assert.AreEqual((quarter16)quarter.NegativeInfinity, maxmath.floor(q));
-            q = maxmath.nextgreater(q);
+            Assert.AreEqual((quarter16)quarter.NegativeInfinity, math.floor(q));
+            q = math.nextgreater(q);
 
             while (q.x0 != quarter.MaxValue)
             {
-                Assert.AreEqual(maxmath.floor((float8)q.v8_0), (float8)maxmath.floor(q).v8_0);
-                Assert.AreEqual(maxmath.floor((float8)q.v8_8), (float8)maxmath.floor(q).v8_8);
+                Assert.AreEqual(math.floor((float8)q.v8_0), (float8)math.floor(q).v8_0);
+                Assert.AreEqual(math.floor((float8)q.v8_8), (float8)math.floor(q).v8_8);
 
-                if (maxmath.all(q < 0f) && maxmath.all(q > -1f))
+                if (math.all(q < 0f) && math.all(q > -1f))
                 {
-                    Assert.IsTrue(maxmath.all((maxmath.asbyte(maxmath.floor(q)) & 0b1000_0000) == 0b1000_0000));
+                    Assert.IsTrue(math.all((math.asbyte(math.floor(q)) & 0b1000_0000) == 0b1000_0000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
 
-            Assert.AreEqual(maxmath.floor((float8)q.v8_0), (float8)maxmath.floor(q).v8_0);
-            Assert.AreEqual(maxmath.floor((float8)q.v8_8), (float8)maxmath.floor(q).v8_8);
+            Assert.AreEqual(math.floor((float8)q.v8_0), (float8)math.floor(q).v8_0);
+            Assert.AreEqual(math.floor((float8)q.v8_8), (float8)math.floor(q).v8_8);
         }
 
         [Test]
         public static void _quarter32()
         {
-            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.floor((quarter32)quarter.NaN))));
-            Assert.AreEqual((quarter32)quarter.NegativeInfinity, maxmath.floor((quarter32)quarter.NegativeInfinity));
-            Assert.AreEqual((quarter32)quarter.PositiveInfinity, maxmath.floor((quarter32)quarter.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((quarter32)quarter.NaN))));
+            Assert.AreEqual((quarter32)quarter.NegativeInfinity, math.floor((quarter32)quarter.NegativeInfinity));
+            Assert.AreEqual((quarter32)quarter.PositiveInfinity, math.floor((quarter32)quarter.PositiveInfinity));
 
             quarter32 q = quarter.MinValue;
-            Assert.AreEqual((quarter32)quarter.NegativeInfinity, maxmath.floor(q));
-            q = maxmath.nextgreater(q);
+            Assert.AreEqual((quarter32)quarter.NegativeInfinity, math.floor(q));
+            q = math.nextgreater(q);
 
             while (q.x0 != quarter.MaxValue)
             {
-                Assert.AreEqual(maxmath.floor((float8)q.v8_0),  (float8)maxmath.floor(q).v8_0);
-                Assert.AreEqual(maxmath.floor((float8)q.v8_8),  (float8)maxmath.floor(q).v8_8);
-                Assert.AreEqual(maxmath.floor((float8)q.v8_16), (float8)maxmath.floor(q).v8_16);
-                Assert.AreEqual(maxmath.floor((float8)q.v8_24), (float8)maxmath.floor(q).v8_24);
+                Assert.AreEqual(math.floor((float8)q.v8_0),  (float8)math.floor(q).v8_0);
+                Assert.AreEqual(math.floor((float8)q.v8_8),  (float8)math.floor(q).v8_8);
+                Assert.AreEqual(math.floor((float8)q.v8_16), (float8)math.floor(q).v8_16);
+                Assert.AreEqual(math.floor((float8)q.v8_24), (float8)math.floor(q).v8_24);
 
-                if (maxmath.all(q < 0f) && maxmath.all(q > -1f))
+                if (math.all(q < 0f) && math.all(q > -1f))
                 {
-                    Assert.IsTrue(maxmath.all((maxmath.asbyte(maxmath.floor(q)) & 0b1000_0000) == 0b1000_0000));
+                    Assert.IsTrue(math.all((math.asbyte(math.floor(q)) & 0b1000_0000) == 0b1000_0000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
 
-            Assert.AreEqual(maxmath.floor((float8)q.v8_0),  (float8)maxmath.floor(q).v8_0);
-            Assert.AreEqual(maxmath.floor((float8)q.v8_8),  (float8)maxmath.floor(q).v8_8);
-            Assert.AreEqual(maxmath.floor((float8)q.v8_16), (float8)maxmath.floor(q).v8_16);
-            Assert.AreEqual(maxmath.floor((float8)q.v8_24), (float8)maxmath.floor(q).v8_24);
+            Assert.AreEqual(math.floor((float8)q.v8_0),  (float8)math.floor(q).v8_0);
+            Assert.AreEqual(math.floor((float8)q.v8_8),  (float8)math.floor(q).v8_8);
+            Assert.AreEqual(math.floor((float8)q.v8_16), (float8)math.floor(q).v8_16);
+            Assert.AreEqual(math.floor((float8)q.v8_24), (float8)math.floor(q).v8_24);
         }
 
 
         [Test]
         public static void _half()
         {
-            Assert.IsTrue(maxmath.isnan(maxmath.floor((half)float.NaN)));
-            Assert.AreEqual((half)float.NegativeInfinity, maxmath.floor((half)float.NegativeInfinity));
-            Assert.AreEqual((half)float.PositiveInfinity, maxmath.floor((half)float.PositiveInfinity));
+            Assert.IsTrue(math.isnan(math.floor((half)float.NaN)));
+            Assert.AreEqual((half)float.NegativeInfinity, math.floor((half)float.NegativeInfinity));
+            Assert.AreEqual((half)float.PositiveInfinity, math.floor((half)float.PositiveInfinity));
 
-            half q = half.MinValueAsHalf;
-            Assert.AreEqual(math.floor((float)half.MaxValueAsHalf), (float)maxmath.floor(half.MaxValueAsHalf));
+            half q = half.MinValue;
+            Assert.AreEqual(math.floor((float)half.MaxValue), (float)math.floor(half.MaxValue));
 
-            while (q != half.MaxValueAsHalf)
+            while (q != half.MaxValue)
             {
-                Assert.AreEqual(math.floor((float)q), (float)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float)q), (float)math.floor(q));
 
                 if (q < 0f && q > -1f)
                 {
-                    Assert.AreEqual(maxmath.floor(q).value & 0x8000, 0x8000);
+                    Assert.AreEqual(math.floor(q).value & 0x8000, 0x8000);
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
         }
 
         [Test]
         public static void _half2()
         {
-            Assert.IsTrue(math.all(maxmath.isnan(maxmath.floor((half2)float.NaN))));
-            Assert.AreEqual((half2)float.NegativeInfinity, maxmath.floor((half2)float.NegativeInfinity));
-            Assert.AreEqual((half2)float.PositiveInfinity, maxmath.floor((half2)float.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((half2)float.NaN))));
+            Assert.AreEqual((half2)float.NegativeInfinity, math.floor((half2)float.NegativeInfinity));
+            Assert.AreEqual((half2)float.PositiveInfinity, math.floor((half2)float.PositiveInfinity));
 
-            half2 q = half.MinValueAsHalf;
-            Assert.AreEqual(math.floor((float2)half.MaxValueAsHalf), (float2)maxmath.floor((half2)half.MaxValueAsHalf));
+            half2 q = half.MinValue;
+            Assert.AreEqual(math.floor((float2)half.MaxValue), (float2)math.floor((half2)half.MaxValue));
 
-            while (q.x != half.MaxValueAsHalf)
+            while (q.x != half.MaxValue)
             {
-                Assert.AreEqual(math.floor((float2)q), (float2)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float2)q), (float2)math.floor(q));
 
                 if (math.all((float2)q < 0f) && math.all((float2)q > -1f))
                 {
-                    Assert.IsTrue(math.all((maxmath.asushort(maxmath.floor(q)) & 0x8000) == 0x8000));
+                    Assert.IsTrue(math.all((math.asushort(math.floor(q)) & 0x8000) == 0x8000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
         }
 
         [Test]
         public static void _half3()
         {
-            Assert.IsTrue(math.all(maxmath.isnan(maxmath.floor((half3)float.NaN))));
-            Assert.AreEqual((half3)float.NegativeInfinity, maxmath.floor((half3)float.NegativeInfinity));
-            Assert.AreEqual((half3)float.PositiveInfinity, maxmath.floor((half3)float.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((half3)float.NaN))));
+            Assert.AreEqual((half3)float.NegativeInfinity, math.floor((half3)float.NegativeInfinity));
+            Assert.AreEqual((half3)float.PositiveInfinity, math.floor((half3)float.PositiveInfinity));
 
-            half3 q = half.MinValueAsHalf;
-            Assert.AreEqual(math.floor((float3)half.MaxValueAsHalf), (float3)maxmath.floor((half3)half.MaxValueAsHalf));
+            half3 q = half.MinValue;
+            Assert.AreEqual(math.floor((float3)half.MaxValue), (float3)math.floor((half3)half.MaxValue));
 
-            while (q.x != half.MaxValueAsHalf)
+            while (q.x != half.MaxValue)
             {
-                Assert.AreEqual(math.floor((float3)q), (float3)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float3)q), (float3)math.floor(q));
 
                 if (math.all((float3)q < 0f) && math.all((float3)q > -1f))
                 {
-                    Assert.IsTrue(math.all((maxmath.asushort(maxmath.floor(q)) & 0x8000) == 0x8000));
+                    Assert.IsTrue(math.all((math.asushort(math.floor(q)) & 0x8000) == 0x8000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
         }
 
         [Test]
         public static void _half4()
         {
-            Assert.IsTrue(math.all(maxmath.isnan(maxmath.floor((half4)float.NaN))));
-            Assert.AreEqual((half4)float.NegativeInfinity, maxmath.floor((half4)float.NegativeInfinity));
-            Assert.AreEqual((half4)float.PositiveInfinity, maxmath.floor((half4)float.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((half4)float.NaN))));
+            Assert.AreEqual((half4)float.NegativeInfinity, math.floor((half4)float.NegativeInfinity));
+            Assert.AreEqual((half4)float.PositiveInfinity, math.floor((half4)float.PositiveInfinity));
 
-            half4 q = half.MinValueAsHalf;
-            Assert.AreEqual(math.floor((float4)half.MaxValueAsHalf), (float4)maxmath.floor((half4)half.MaxValueAsHalf));
+            half4 q = half.MinValue;
+            Assert.AreEqual(math.floor((float4)half.MaxValue), (float4)math.floor((half4)half.MaxValue));
 
-            while (q.x != half.MaxValueAsHalf)
+            while (q.x != half.MaxValue)
             {
-                Assert.AreEqual(math.floor((float4)q), (float4)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float4)q), (float4)math.floor(q));
 
                 if (math.all((float4)q < 0f) && math.all((float4)q > -1f))
                 {
-                    Assert.IsTrue(math.all((maxmath.asushort(maxmath.floor(q)) & 0x8000) == 0x8000));
+                    Assert.IsTrue(math.all((math.asushort(math.floor(q)) & 0x8000) == 0x8000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
         }
 
         [Test]
         public static void _half8()
         {
-            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.floor((half8)float.NaN))));
-            Assert.AreEqual((half8)float.NegativeInfinity, maxmath.floor((half8)float.NegativeInfinity));
-            Assert.AreEqual((half8)float.PositiveInfinity, maxmath.floor((half8)float.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((half8)float.NaN))));
+            Assert.AreEqual((half8)float.NegativeInfinity, math.floor((half8)float.NegativeInfinity));
+            Assert.AreEqual((half8)float.PositiveInfinity, math.floor((half8)float.PositiveInfinity));
 
-            half8 q = half.MinValueAsHalf;
-            Assert.AreEqual(maxmath.floor((float8)half.MaxValueAsHalf), (float8)maxmath.floor((half8)half.MaxValueAsHalf));
+            half8 q = half.MinValue;
+            Assert.AreEqual(math.floor((float8)half.MaxValue), (float8)math.floor((half8)half.MaxValue));
 
-            while (q.x0 != half.MaxValueAsHalf)
+            while (q.x0 != half.MaxValue)
             {
-                Assert.AreEqual(maxmath.floor((float8)q), (float8)maxmath.floor(q));
+                Assert.AreEqual(math.floor((float8)q), (float8)math.floor(q));
 
-                if (maxmath.all((float8)q < 0f) && maxmath.all((float8)q > -1f))
+                if (math.all((float8)q < 0f) && math.all((float8)q > -1f))
                 {
-                    Assert.IsTrue(maxmath.all((maxmath.asushort(maxmath.floor(q)) & 0x8000) == 0x8000));
+                    Assert.IsTrue(math.all((math.asushort(math.floor(q)) & 0x8000) == 0x8000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
             }
         }
 
         [Test]
         public static void _half16()
         {
-            Assert.IsTrue(maxmath.all(maxmath.isnan(maxmath.floor((half16)float.NaN))));
-            Assert.AreEqual((half16)float.NegativeInfinity, maxmath.floor((half16)float.NegativeInfinity));
-            Assert.AreEqual((half16)float.PositiveInfinity, maxmath.floor((half16)float.PositiveInfinity));
+            Assert.IsTrue(math.all(math.isnan(math.floor((half16)float.NaN))));
+            Assert.AreEqual((half16)float.NegativeInfinity, math.floor((half16)float.NegativeInfinity));
+            Assert.AreEqual((half16)float.PositiveInfinity, math.floor((half16)float.PositiveInfinity));
 
-            half16 q = half.MinValueAsHalf;
-            Assert.AreEqual(maxmath.floor((float8)(((half16)half.MaxValueAsHalf)).v8_0), (float8)maxmath.floor(((half16)half.MaxValueAsHalf)).v8_0);
-            Assert.AreEqual(maxmath.floor((float8)(((half16)half.MaxValueAsHalf)).v8_8), (float8)maxmath.floor(((half16)half.MaxValueAsHalf)).v8_8);
+            half16 q = half.MinValue;
+            Assert.AreEqual(math.floor((float8)(((half16)half.MaxValue)).v8_0), (float8)math.floor(((half16)half.MaxValue)).v8_0);
+            Assert.AreEqual(math.floor((float8)(((half16)half.MaxValue)).v8_8), (float8)math.floor(((half16)half.MaxValue)).v8_8);
 
-            while (q.x0 != half.MaxValueAsHalf)
+            while (q.x0 != half.MaxValue)
             {
-                Assert.AreEqual(maxmath.floor((float8)q.v8_0), (float8)maxmath.floor(q).v8_0);
-                Assert.AreEqual(maxmath.floor((float8)q.v8_8), (float8)maxmath.floor(q).v8_8);
+                Assert.AreEqual(math.floor((float8)q.v8_0), (float8)math.floor(q).v8_0);
+                Assert.AreEqual(math.floor((float8)q.v8_8), (float8)math.floor(q).v8_8);
 
                 if ((float)q.x0 < 0f && (float)q.x0 > -1f)
                 {
-                    Assert.IsTrue(maxmath.all((maxmath.asushort(maxmath.floor(q)) & 0x8000) == 0x8000));
+                    Assert.IsTrue(math.all((math.asushort(math.floor(q)) & 0x8000) == 0x8000));
                 }
 
-                q = maxmath.nextgreater(q);
+                q = math.nextgreater(q);
+            }
+        }
+
+
+        [Test]
+        public static void _float()
+        {
+            Assert.IsTrue(math.isnan(math.floor((float)float.NaN)));
+            Assert.AreEqual((float)float.NegativeInfinity, math.floor((float)float.NegativeInfinity));
+            Assert.AreEqual((float)float.PositiveInfinity, math.floor((float)float.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor((float)float.MaxValue), (float)math.floor(float.MaxValue));
+
+            Random32 rng = Random32.New;
+            for (int i = 0; i < 256; i++)
+            {
+                float q = rng.NextFloat(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor((float)q), (float)math.floor(q));
+
+                if (q < 0f && q > -1f)
+                {
+                    Assert.AreEqual(math.asuint(math.floor(q)) & 0x8000_0000u, 0x8000_0000u);
+                }
+            }
+        }
+
+        [Test]
+        public static void _float2()
+        {
+            Assert.IsTrue(math.all(math.isnan(math.floor((float2)float.NaN))));
+            Assert.AreEqual((float2)float.NegativeInfinity, math.floor((float2)float.NegativeInfinity));
+            Assert.AreEqual((float2)float.PositiveInfinity, math.floor((float2)float.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor((float2)float.MaxValue), (float2)math.floor((float2)float.MaxValue));
+            
+            Random32 rng = Random32.New;
+            for (int i = 0; i < 256; i++)
+            {
+                float2 q = rng.NextFloat2(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor((float2)q), (float2)math.floor(q));
+
+                if (math.all((float2)q < 0f) && math.all((float2)q > -1f))
+                {
+                    Assert.IsTrue(math.all((math.asuint(math.floor(q)) & 0x8000_0000u) == 0x8000_0000u));
+                }
+            }
+        }
+
+        [Test]
+        public static void _float3()
+        {
+            Assert.IsTrue(math.all(math.isnan(math.floor((float3)float.NaN))));
+            Assert.AreEqual((float3)float.NegativeInfinity, math.floor((float3)float.NegativeInfinity));
+            Assert.AreEqual((float3)float.PositiveInfinity, math.floor((float3)float.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor((float3)float.MaxValue), (float3)math.floor((float3)float.MaxValue));
+            
+            Random32 rng = Random32.New;
+            for (int i = 0; i < 256; i++)
+            {
+                float3 q = rng.NextFloat3(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor((float3)q), (float3)math.floor(q));
+
+                if (math.all((float3)q < 0f) && math.all((float3)q > -1f))
+                {
+                    Assert.IsTrue(math.all((math.asuint(math.floor(q)) & 0x8000_0000u) == 0x8000_0000u));
+                }
+            }
+        }
+
+        [Test]
+        public static void _float4()
+        {
+            Assert.IsTrue(math.all(math.isnan(math.floor((float4)float.NaN))));
+            Assert.AreEqual((float4)float.NegativeInfinity, math.floor((float4)float.NegativeInfinity));
+            Assert.AreEqual((float4)float.PositiveInfinity, math.floor((float4)float.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor((float4)float.MaxValue), (float4)math.floor((float4)float.MaxValue));
+            
+            Random32 rng = Random32.New;
+            for (int i = 0; i < 256; i++)
+            {
+                float4 q = rng.NextFloat4(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor((float4)q), (float4)math.floor(q));
+
+                if (math.all((float4)q < 0f) && math.all((float4)q > -1f))
+                {
+                    Assert.IsTrue(math.all((math.asuint(math.floor(q)) & 0x8000_0000u) == 0x8000_0000u));
+                }
+            }
+        }
+
+        [Test]
+        public static void _float8()
+        {
+            Assert.IsTrue(math.all(math.isnan(math.floor((float8)float.NaN))));
+            Assert.AreEqual((float8)float.NegativeInfinity, math.floor((float8)float.NegativeInfinity));
+            Assert.AreEqual((float8)float.PositiveInfinity, math.floor((float8)float.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor(((float8)float.MaxValue).v4_0), math.floor((float8)float.MaxValue).v4_0);
+            
+            Random32 rng = Random32.New;
+            for (int i = 0; i < 256; i++)
+            {
+                float8 q = rng.NextFloat8(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor(q.v4_0), math.floor(q).v4_0);
+                Assert.AreEqual(Unity.Mathematics.math.floor(q.v4_4), math.floor(q).v4_4);
+
+                if (math.all((float8)q < 0f) && math.all((float8)q > -1f))
+                {
+                    Assert.IsTrue(math.all((math.asuint(math.floor(q)) & 0x8000_0000u) == 0x8000_0000u));
+                }
+            }
+        }
+
+
+        [Test]
+        public static void _double()
+        {
+            Assert.IsTrue(math.isnan(math.floor((double)double.NaN)));
+            Assert.AreEqual((double)double.NegativeInfinity, math.floor((double)double.NegativeInfinity));
+            Assert.AreEqual((double)double.PositiveInfinity, math.floor((double)double.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor((double)double.MaxValue), (double)math.floor(double.MaxValue));
+
+            Random64 rng = Random64.New;
+            for (int i = 0; i < 256; i++)
+            {
+                double q = rng.NextDouble(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor((double)q), (double)math.floor(q));
+
+                if (q < 0f && q > -1f)
+                {
+                    Assert.AreEqual(math.asulong(math.floor(q)) & 0x8000_0000_0000_0000ul, 0x8000_0000_0000_0000ul);
+                }
+            }
+        }
+
+        [Test]
+        public static void _double2()
+        {
+            Assert.IsTrue(math.all(math.isnan(math.floor((double2)double.NaN))));
+            Assert.AreEqual((double2)double.NegativeInfinity, math.floor((double2)double.NegativeInfinity));
+            Assert.AreEqual((double2)double.PositiveInfinity, math.floor((double2)double.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor((double2)double.MaxValue), (double2)math.floor((double2)double.MaxValue));
+            
+            Random64 rng = Random64.New;
+            for (int i = 0; i < 256; i++)
+            {
+                double2 q = rng.NextDouble2(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor((double2)q), (double2)math.floor(q));
+
+                if (math.all((double2)q < 0f) && math.all((double2)q > -1f))
+                {
+                    Assert.IsTrue(math.all((math.asulong(math.floor(q)) & 0x8000_0000_0000_0000ul) == 0x8000_0000_0000_0000ul));
+                }
+            }
+        }
+
+        [Test]
+        public static void _double3()
+        {
+            Assert.IsTrue(math.all(math.isnan(math.floor((double3)double.NaN))));
+            Assert.AreEqual((double3)double.NegativeInfinity, math.floor((double3)double.NegativeInfinity));
+            Assert.AreEqual((double3)double.PositiveInfinity, math.floor((double3)double.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor((double3)double.MaxValue), (double3)math.floor((double3)double.MaxValue));
+            
+            Random64 rng = Random64.New;
+            for (int i = 0; i < 256; i++)
+            {
+                double3 q = rng.NextDouble3(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor((double3)q), (double3)math.floor(q));
+
+                if (math.all((double3)q < 0f) && math.all((double3)q > -1f))
+                {
+                    Assert.IsTrue(math.all((math.asulong(math.floor(q)) & 0x8000_0000_0000_0000ul) == 0x8000_0000_0000_0000ul));
+                }
+            }
+        }
+
+        [Test]
+        public static void _double4()
+        {
+            Assert.IsTrue(math.all(math.isnan(math.floor((double4)double.NaN))));
+            Assert.AreEqual((double4)double.NegativeInfinity, math.floor((double4)double.NegativeInfinity));
+            Assert.AreEqual((double4)double.PositiveInfinity, math.floor((double4)double.PositiveInfinity));
+
+            Assert.AreEqual(Unity.Mathematics.math.floor((double4)double.MaxValue), (double4)math.floor((double4)double.MaxValue));
+            
+            Random64 rng = Random64.New;
+            for (int i = 0; i < 256; i++)
+            {
+                double4 q = rng.NextDouble4(-100_000, 100_000);
+
+                Assert.AreEqual(Unity.Mathematics.math.floor((double4)q), (double4)math.floor(q));
+
+                if (math.all((double4)q < 0f) && math.all((double4)q > -1f))
+                {
+                    Assert.IsTrue(math.all((math.asulong(math.floor(q)) & 0x8000_0000_0000_0000ul) == 0x8000_0000_0000_0000ul));
+                }
             }
         }
     }

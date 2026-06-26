@@ -1,7 +1,6 @@
 using MaxMath.Intrinsics;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -114,7 +113,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the result of performing a reversal of the bit pattern of a <see cref="UInt128"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -433,6 +432,34 @@ namespace MaxMath
             return (short16)reversebits((ushort16)x);
         }
 
+        
+        /// <summary>       Returns the result of performing a reversal of the bit pattern of a <see cref="uint"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint reversebits(uint x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
+
+        /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of a <see cref="MaxMath.uint2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint2 reversebits(uint2 x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
+
+        /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of a <see cref="MaxMath.uint3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint3 reversebits(uint3 x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
+
+        /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of a <see cref="MaxMath.uint4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint4 reversebits(uint4 x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
 
         /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of a <see cref="MaxMath.uint8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -444,14 +471,42 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return new uint8(RegisterConversion.ToUInt4(Xse.bitswap_epi32(RegisterConversion.ToV128(x.v4_0))), RegisterConversion.ToUInt4(Xse.bitswap_epi32(RegisterConversion.ToV128(x.v4_4))));
+                return new uint8(Xse.bitswap_epi32(x.v4_0), Xse.bitswap_epi32(x.v4_4));
             }
             else
             {
-                return new uint8(math.reversebits(x.v4_0), math.reversebits(x.v4_4));
+                return new uint8(reversebits(x.v4_0), reversebits(x.v4_4));
             }
         }
 
+        
+        /// <summary>       Returns the result of performing a reversal of the bit pattern of an <see cref="int"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int reversebits(int x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
+
+        /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of an <see cref="MaxMath.int2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 reversebits(int2 x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
+
+        /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of an <see cref="MaxMath.int3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 reversebits(int3 x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
+
+        /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of an <see cref="MaxMath.int4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 reversebits(int4 x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
 
         /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of an <see cref="MaxMath.int8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -460,6 +515,13 @@ namespace MaxMath
             return (int8)reversebits((uint8)x);
         }
 
+        
+        /// <summary>       Returns the result of performing a reversal of the bit pattern of a <see cref="ulong"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong reversebits(ulong x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
 
         /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of a <see cref="MaxMath.ulong2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -471,7 +533,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong2(math.reversebits(x.x), math.reversebits(x.y));
+                return new ulong2(reversebits(x.x), reversebits(x.y));
             }
         }
 
@@ -495,7 +557,7 @@ namespace MaxMath
             }
             else
             {
-                return new ulong3(math.reversebits(x.x), math.reversebits(x.y), math.reversebits(x.z));
+                return new ulong3(reversebits(x.x), reversebits(x.y), reversebits(x.z));
             }
         }
 
@@ -509,10 +571,17 @@ namespace MaxMath
             }
             else
             {
-                return new ulong4(math.reversebits(x.x), math.reversebits(x.y), math.reversebits(x.z), math.reversebits(x.w));
+                return new ulong4(reversebits(x.x), reversebits(x.y), reversebits(x.z), reversebits(x.w));
             }
         }
 
+        
+        /// <summary>       Returns the result of performing a reversal of the bit pattern of a <see cref="long"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long reversebits(long x)
+        {
+            return Unity.Mathematics.math.reversebits(x);
+        }
 
         /// <summary>       Returns the result of performing a componentwise reversal of the bit pattern of a <see cref="MaxMath.long2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

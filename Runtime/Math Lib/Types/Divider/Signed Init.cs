@@ -2,13 +2,11 @@ using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
@@ -52,7 +50,7 @@ result._typeInfo = new TypeInfo(sizeof(sbyte), 2, columnCount: 1, Signedness.Sig
                 }
                 else
                 {
-                    ushort2 mul;
+                    ushort2 mul = Uninitialized<ushort2>.Create();
                     bminit_i8(divisor.x, out mul.x, result._promises);
                     bminit_i8(divisor.y, out mul.y, result._promises);
 
@@ -86,7 +84,7 @@ result._typeInfo = new TypeInfo(sizeof(sbyte), 3, columnCount: 1, Signedness.Sig
                 }
                 else
                 {
-                    ushort3 mul;
+                    ushort3 mul = Uninitialized<ushort3>.Create();
                     bminit_i8(divisor.x, out mul.x, result._promises);
                     bminit_i8(divisor.y, out mul.y, result._promises);
                     bminit_i8(divisor.z, out mul.z, result._promises);
@@ -121,7 +119,7 @@ result._typeInfo = new TypeInfo(sizeof(sbyte), 4, columnCount: 1, Signedness.Sig
                 }
                 else
                 {
-                    ushort4 mul;
+                    ushort4 mul = Uninitialized<ushort4>.Create();
                     bminit_i8(divisor.x, out mul.x, result._promises);
                     bminit_i8(divisor.y, out mul.y, result._promises);
                     bminit_i8(divisor.z, out mul.z, result._promises);
@@ -157,7 +155,7 @@ result._typeInfo = new TypeInfo(sizeof(sbyte), 8, columnCount: 1, Signedness.Sig
                 }
                 else
                 {
-                    ushort8 mul;
+                    ushort8 mul = Uninitialized<ushort8>.Create();
                     bminit_i8(divisor.x0, out mul.x0, result._promises);
                     bminit_i8(divisor.x1, out mul.x1, result._promises);
                     bminit_i8(divisor.x2, out mul.x2, result._promises);
@@ -341,13 +339,13 @@ result._typeInfo = new TypeInfo(sizeof(short), 2, columnCount: 1, Signedness.Sig
 
                     result._mulShift._mul = ((short2)mul).Reinterpret<short2, T>();
                     result._mulShift._shift = ((short2)shift).Reinterpret<short2, T>();
-                    result._bigM = RegisterConversion.ToUInt2(mul32).Reinterpret<uint2, BigM>();
+                    result._bigM = ((uint2)mul32).Reinterpret<uint2, BigM>();
                 }
                 else
                 {
-                    short2 mul;
-                    short2 shift;
-                    uint2 mul32;
+                    short2 mul = Uninitialized<short2>.Create();
+                    short2 shift = Uninitialized<short2>.Create();
+                    uint2 mul32 = Uninitialized<uint2>.Create();
                     bminit_i16(divisor.x, out mul32.x, result._promises);
                     bminit_i16(divisor.y, out mul32.y, result._promises);
                     msinit_i16(divisor.x, out mul.x, out shift.x, result._promises);
@@ -387,13 +385,13 @@ result._typeInfo = new TypeInfo(sizeof(short), 3, columnCount: 1, Signedness.Sig
 
                     result._mulShift._mul = ((short3)mul).Reinterpret<short3, T>();
                     result._mulShift._shift = ((short3)shift).Reinterpret<short3, T>();
-                    result._bigM = RegisterConversion.ToUInt3(mul32).Reinterpret<uint3, BigM>();
+                    result._bigM = ((uint3)mul32).Reinterpret<uint3, BigM>();
                 }
                 else
                 {
-                    short3 mul;
-                    short3 shift;
-                    uint3 mul32;
+                    short3 mul = Uninitialized<short3>.Create();
+                    short3 shift = Uninitialized<short3>.Create();
+                    uint3 mul32 = Uninitialized<uint3>.Create();
                     bminit_i16(divisor.x, out mul32.x, result._promises);
                     bminit_i16(divisor.y, out mul32.y, result._promises);
                     bminit_i16(divisor.z, out mul32.z, result._promises);
@@ -435,13 +433,13 @@ result._typeInfo = new TypeInfo(sizeof(short), 4, columnCount: 1, Signedness.Sig
 
                     result._mulShift._mul = ((short4)mul).Reinterpret<short4, T>();
                     result._mulShift._shift = ((short4)shift).Reinterpret<short4, T>();
-                    result._bigM = RegisterConversion.ToUInt4(mul32).Reinterpret<uint4, BigM>();
+                    result._bigM = ((uint4)mul32).Reinterpret<uint4, BigM>();
                 }
                 else
                 {
-                    short4 mul;
-                    short4 shift;
-                    uint4 mul32;
+                    short4 mul = Uninitialized<short4>.Create();
+                    short4 shift = Uninitialized<short4>.Create();
+                    uint4 mul32 = Uninitialized<uint4>.Create();
                     bminit_i16(divisor.x, out mul32.x, result._promises);
                     bminit_i16(divisor.y, out mul32.y, result._promises);
                     bminit_i16(divisor.z, out mul32.z, result._promises);
@@ -485,12 +483,12 @@ result._typeInfo = new TypeInfo(sizeof(short), 8, columnCount: 1, Signedness.Sig
 
                     result._mulShift._mul = ((short8)mul).Reinterpret<short8, T>();
                     result._mulShift._shift = ((short8)shift).Reinterpret<short8, T>();
-                    result._bigM = new uint8(RegisterConversion.ToUInt4(mulLo), RegisterConversion.ToUInt4(mulHi)).Reinterpret<uint8, BigM>();
+                    result._bigM = new uint8(mulLo, mulHi).Reinterpret<uint8, BigM>();
                 }
                 else
                 {
-                    short8 mul;
-                    short8 shift;
+                    short8 mul = Uninitialized<short8>.Create();
+                    short8 shift = Uninitialized<short8>.Create();
                     uint8 mul32 = Uninitialized<uint8>.Create();
                     bminit_i16(divisor.x0, out mul32.x0, result._promises);
                     bminit_i16(divisor.x1, out mul32.x1, result._promises);
@@ -556,8 +554,8 @@ result._typeInfo = new TypeInfo(sizeof(short), 16, columnCount: 1, Signedness.Si
 
                     result._mulShift._mul = new short16(mulLo, mulHi).Reinterpret<short16, T>();
                     result._mulShift._shift = new short16(shiftLo, shiftHi).Reinterpret<short16, T>();
-                    result._bigM._mulLo = new uint8(RegisterConversion.ToUInt4(mul32_0), RegisterConversion.ToUInt4(mul32_1)).Reinterpret<uint8, T>();
-                    result._bigM._mulHi = new uint8(RegisterConversion.ToUInt4(mul32_2), RegisterConversion.ToUInt4(mul32_3)).Reinterpret<uint8, T>();
+                    result._bigM._mulLo = new uint8(mul32_0, mul32_1).Reinterpret<uint8, T>();
+                    result._bigM._mulHi = new uint8(mul32_2, mul32_3).Reinterpret<uint8, T>();
                 }
                 else
                 {
@@ -646,18 +644,18 @@ result._typeInfo = new TypeInfo(sizeof(int), 2, columnCount: 1, Signedness.Signe
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    msinit_epi32(RegisterConversion.ToV128(divisor), out v128 mul, out v128 shift, result._promises, 2);
-                    bminit_epi32(RegisterConversion.ToV128(divisor), out v128 mul64, result._promises);
+                    msinit_epi32(divisor, out v128 mul, out v128 shift, result._promises, 2);
+                    bminit_epi32(divisor, out v128 mul64, result._promises);
 
-                    result._mulShift._mul = RegisterConversion.ToInt2(mul).Reinterpret<int2, T>();
-                    result._mulShift._shift = RegisterConversion.ToInt2(shift).Reinterpret<int2, T>();
+                    result._mulShift._mul = ((int2)mul).Reinterpret<int2, T>();
+                    result._mulShift._shift = ((int2)shift).Reinterpret<int2, T>();
                     result._bigM = ((ulong2)mul64).Reinterpret<ulong2, BigM>();
                 }
                 else
                 {
-                    int2 mul;
-                    int2 shift;
-                    ulong2 mul64;
+                    int2 mul = Uninitialized<int2>.Create();
+                    int2 shift = Uninitialized<int2>.Create();
+                    ulong2 mul64 = Uninitialized<ulong2>.Create();
                     bminit_i32(divisor.x, out mul64.x, result._promises);
                     bminit_i32(divisor.y, out mul64.y, result._promises);
                     msinit_i32(divisor.x, out mul.x, out shift.x, result._promises);
@@ -692,17 +690,17 @@ result._typeInfo = new TypeInfo(sizeof(int), 3, columnCount: 1, Signedness.Signe
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    msinit_epi32(RegisterConversion.ToV128(divisor), out v128 mul, out v128 shift, result._promises, 3);
-                    bminit_epi32(RegisterConversion.ToV128(divisor), out v128 mulLo, out v128 mulHi, result._promises, 3);
+                    msinit_epi32(divisor, out v128 mul, out v128 shift, result._promises, 3);
+                    bminit_epi32(divisor, out v128 mulLo, out v128 mulHi, result._promises, 3);
 
-                    result._mulShift._mul = RegisterConversion.ToInt3(mul).Reinterpret<int3, T>();
-                    result._mulShift._shift = RegisterConversion.ToInt3(shift).Reinterpret<int3, T>();
+                    result._mulShift._mul = ((int3)mul).Reinterpret<int3, T>();
+                    result._mulShift._shift = ((int3)shift).Reinterpret<int3, T>();
                     result._bigM = new ulong3(mulLo, mulHi.ULong0).Reinterpret<ulong3, BigM>();
                 }
                 else
                 {
-                    int3 mul;
-                    int3 shift;
+                    int3 mul = Uninitialized<int3>.Create();
+                    int3 shift = Uninitialized<int3>.Create();
                     ulong3 mul64 = Uninitialized<ulong3>.Create();
                     bminit_i32(divisor.x, out mul64.x, result._promises);
                     bminit_i32(divisor.y, out mul64.y, result._promises);
@@ -740,17 +738,17 @@ result._typeInfo = new TypeInfo(sizeof(int), 4, columnCount: 1, Signedness.Signe
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    msinit_epi32(RegisterConversion.ToV128(divisor), out v128 mul, out v128 shift, result._promises, 4);
-                    bminit_epi32(RegisterConversion.ToV128(divisor), out v128 mulLo, out v128 mulHi, result._promises, 4);
+                    msinit_epi32(divisor, out v128 mul, out v128 shift, result._promises, 4);
+                    bminit_epi32(divisor, out v128 mulLo, out v128 mulHi, result._promises, 4);
 
-                    result._mulShift._mul = RegisterConversion.ToInt4(mul).Reinterpret<int4, T>();
-                    result._mulShift._shift = RegisterConversion.ToInt4(shift).Reinterpret<int4, T>();
+                    result._mulShift._mul = ((int4)mul).Reinterpret<int4, T>();
+                    result._mulShift._shift = ((int4)shift).Reinterpret<int4, T>();
                     result._bigM = new ulong4(mulLo, mulHi).Reinterpret<ulong4, BigM>();
                 }
                 else
                 {
-                    int4 mul;
-                    int4 shift;
+                    int4 mul = Uninitialized<int4>.Create();
+                    int4 shift = Uninitialized<int4>.Create();
                     ulong4 mul64 = Uninitialized<ulong4>.Create();
                     bminit_i32(divisor.x, out mul64.x, result._promises);
                     bminit_i32(divisor.y, out mul64.y, result._promises);
@@ -801,13 +799,13 @@ result._typeInfo = new TypeInfo(sizeof(int), 8, columnCount: 1, Signedness.Signe
                 }
                 else if (BurstArchitecture.IsSIMDSupported)
                 {
-                    msinit_epi32(RegisterConversion.ToV128(divisor.v4_0), out v128 mulLo, out v128 shiftLo, result._promises, 4);
-                    msinit_epi32(RegisterConversion.ToV128(divisor.v4_4), out v128 mulHi, out v128 shiftHi, result._promises, 4);
-                    bminit_epi32(RegisterConversion.ToV128(divisor.v4_0), out v128 mul64_0, out v128 mul64_1, result._promises, 4);
-                    bminit_epi32(RegisterConversion.ToV128(divisor.v4_4), out v128 mul64_2, out v128 mul64_3, result._promises, 4);
+                    msinit_epi32(divisor.v4_0, out v128 mulLo, out v128 shiftLo, result._promises, 4);
+                    msinit_epi32(divisor.v4_4, out v128 mulHi, out v128 shiftHi, result._promises, 4);
+                    bminit_epi32(divisor.v4_0, out v128 mul64_0, out v128 mul64_1, result._promises, 4);
+                    bminit_epi32(divisor.v4_4, out v128 mul64_2, out v128 mul64_3, result._promises, 4);
 
-                    result._mulShift._mul = new int8(RegisterConversion.ToInt4(mulLo), RegisterConversion.ToInt4(mulHi)).Reinterpret<int8, T>();
-                    result._mulShift._shift = new int8(RegisterConversion.ToInt4(shiftLo), RegisterConversion.ToInt4(shiftHi)).Reinterpret<int8, T>();
+                    result._mulShift._mul = new int8(mulLo, mulHi).Reinterpret<int8, T>();
+                    result._mulShift._shift = new int8(shiftLo, shiftHi).Reinterpret<int8, T>();
                     result._bigM._mulLo = new ulong4(mul64_0, mul64_1).Reinterpret<ulong4, T>();
                     result._bigM._mulHi = new ulong4(mul64_2, mul64_3).Reinterpret<ulong4, T>();
                 }
@@ -890,12 +888,11 @@ result._typeInfo = new TypeInfo(sizeof(long), 2, columnCount: 1, Signedness.Sign
                 }
                 else
                 {
-                    ulong2 mul;
-                    ulong2 shift;
-
+                    ulong2 mul = Uninitialized<ulong2>.Create();
+                    ulong2 shift = Uninitialized<ulong2>.Create();
                     msbminit_i64(divisor.x, out mul.x, out shift.x, out UInt128 mul128Lo,
-                                   divisor.y, out mul.y, out shift.y, out UInt128 mul128Hi,
-                                   result._promises);
+                                 divisor.y, out mul.y, out shift.y, out UInt128 mul128Hi,
+                                 result._promises);
 
                     result._mulShift._mul = mul.Reinterpret<ulong2, T>();
                     result._mulShift._shift = shift.Reinterpret<ulong2, T>();

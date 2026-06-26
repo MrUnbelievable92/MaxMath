@@ -1,10 +1,10 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple
+    unsafe public partial struct quadruple
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quadruple.ConstChecked SquareRoot(quadruple.ConstChecked a)
@@ -51,7 +51,7 @@ namespace MaxMath
                && a.Promise.NotInf)
              && Hint.Unlikely(expA == SIGNALING_EXPONENT.hi64))
             {
-                byte negativeINF = tobyte(a.Promise.ZeroOrGreater ? false : (a.Promise.Negative || signA != 0));
+                byte negativeINF = tobyte(!a.Promise.ZeroOrGreater && (a.Promise.Negative || signA != 0));
                 ulong lo = a.Promise.NotNaN ? 0ul : a.Value.value.lo64;
 
                 return new quadruple.ConstChecked(new quadruple(lo | negativeINF, a.Value.value.hi64), finalPromise);
@@ -154,12 +154,12 @@ namespace MaxMath
         }
     }
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple sqrt(quadruple a)
         {
-            return quadruple.SquareRoot(a);
+            return MaxMath.quadruple.SquareRoot(a);
         }
     }
 }

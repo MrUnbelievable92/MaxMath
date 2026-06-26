@@ -1,77 +1,98 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool2x2"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2x2"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool2x2 x)
         {
-            return math.any(x.c0 | x.c1);
+            return any(x.c0 | x.c1);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool2x3"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2x3"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool2x3 x)
         {
-            return math.any(x.c0 | x.c1 | x.c2);
+            return any(x.c0 | x.c1 | x.c2);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool2x4"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2x4"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool2x4 x)
         {
-            return math.any(x.c0 | x.c1 | x.c2 | x.c3);
+            return any(x.c0 | x.c1 | x.c2 | x.c3);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool3x2"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3x2"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool3x2 x)
         {
-            return math.any(x.c0 | x.c1);
+            return any(x.c0 | x.c1);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool3x3"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3x3"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool3x3 x)
         {
-            return math.any(x.c0 | x.c1 | x.c2);
+            return any(x.c0 | x.c1 | x.c2);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool3x4"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3x4"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool3x4 x)
         {
-            return math.any(x.c0 | x.c1 | x.c2 | x.c3);
+            return any(x.c0 | x.c1 | x.c2 | x.c3);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool4x2"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4x2"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool4x2 x)
         {
-            return math.any(x.c0 | x.c1);
+            return any(x.c0 | x.c1);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool4x3"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4x3"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool4x3 x)
         {
-            return math.any(x.c0 | x.c1 | x.c2);
+            return any(x.c0 | x.c1 | x.c2);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="bool4x4"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4x4"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool4x4 x)
         {
-            return math.any(x.c0 | x.c1 | x.c2 | x.c3);
+            return any(x.c0 | x.c1 | x.c2 | x.c3);
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool8"/> is true, <see langword="false"/> otherwise.      </summary>
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(bool2 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(bool3 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(bool4 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool8"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool8 x)
         {
@@ -87,7 +108,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool16"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool16"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool16 x)
         {
@@ -101,7 +122,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
         }
 
-        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool32"/> is true, <see langword="false"/> otherwise.      </summary>
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool32"/> is <see langword="true"/>, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(bool32 x)
         {
@@ -116,6 +137,275 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
         }
 
 
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(Unity.Mathematics.bool2 x) => any((bool2)x);
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(Unity.Mathematics.bool3 x) => any((bool3)x);
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(Unity.Mathematics.bool4 x) => any((bool4)x);
+
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask8x2 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<byte>(x, 2);
+            }
+            else
+            {
+                return any((bool2)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask8x3 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<byte>(x, 3);
+            }
+            else
+            {
+                return any((bool3)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask8x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<byte>(x, 4);
+            }
+            else
+            {
+                return any((bool4)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool8"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask8x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<byte>(x, 8);
+            }
+            else
+            {
+                return any((bool8)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool16"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask8x16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<byte>(x);
+            }
+            else
+            {
+                return any(x.v8_0 & x.v8_8);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool32"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask8x32 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_notallfalse_epi256<byte>(x);
+            }
+            else
+            {
+                return any(x.v16_0 & x.v16_16);
+            }
+        }
+
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask16x2 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<ushort>(x, 2);
+            }
+            else
+            {
+                return any((bool2)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask16x3 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<ushort>(x, 3);
+            }
+            else
+            {
+                return any((bool3)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask16x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<ushort>(x, 4);
+            }
+            else
+            {
+                return any((bool4)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool8"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask16x8 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<ushort>(x, 8);
+            }
+            else
+            {
+                return any((bool8)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool16"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask16x16 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_notallfalse_epi256<ushort>(x);
+            }
+            else
+            {
+                return any(x.v8_0 & x.v8_8);
+            }
+        }
+
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask32x2 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<uint>(x, 2);
+            }
+            else
+            {
+                return any((bool2)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask32x3 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<uint>(x, 3);
+            }
+            else
+            {
+                return any((bool3)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask32x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<uint>(x, 4);
+            }
+            else
+            {
+                return any((bool4)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool8"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask32x8 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_notallfalse_epi256<uint>(x);
+            }
+            else
+            {
+                return any((bool8)x);
+            }
+        }
+
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool2"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask64x2 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.notallfalse_epi128<ulong>(x, 2);
+            }
+            else
+            {
+                return any((bool2)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool3"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask64x3 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_notallfalse_epi256<ulong>(x, 3);
+            }
+            else
+            {
+                return any((bool3)x);
+            }
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.bool4"/> is <see langword="true"/>, <see langword="false"/> otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(mask64x4 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_notallfalse_epi256<ulong>(x, 4);
+            }
+            else
+            {
+                return any((bool4)x);
+            }
+        }
+
+
         /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.byte2"/> is non-zero, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool any(byte2 x)
@@ -126,7 +416,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x != 0);
+                return any(x != 0);
             }
         }
 
@@ -140,7 +430,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x != 0);
+                return any(x != 0);
             }
         }
 
@@ -154,7 +444,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x != 0);
+                return any(x != 0);
             }
         }
 
@@ -254,7 +544,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x != 0);
+                return any(x != 0);
             }
         }
 
@@ -268,7 +558,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x != 0);
+                return any(x != 0);
             }
         }
 
@@ -282,7 +572,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x != 0);
+                return any(x != 0);
             }
         }
 
@@ -296,7 +586,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return any(x != 0);
+                return any(x != (short)0);
             }
         }
 
@@ -350,6 +640,27 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             return any((short16)x);
         }
 
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.int2"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(int2 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.int3"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(int3 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.int4"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(int4 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
 
         /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.int8"/> is non-zero, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -361,8 +672,30 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x.v4_0 | x.v4_4);
+                return any(x.v4_0 | x.v4_4);
             }
+        }
+
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.uint2"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(uint2 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.uint3"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(uint3 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.uint4"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(uint4 x)
+        {
+            return Unity.Mathematics.math.any(x);
         }
 
         /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.uint8"/> is non-zero, <see langword="false"/> otherwise.      </summary>
@@ -383,7 +716,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x != 0);
+                return any(x != 0);
             }
         }
 
@@ -437,6 +770,106 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             return any((long4)x);
         }
 
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.quarter2"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(quarter2 x)
+        {
+            return any(x != (quarter)0f);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.quarter3"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(quarter3 x)
+        {
+            return any(x != (quarter)0f);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.quarter4"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(quarter4 x)
+        {
+            return any(x != (quarter)0f);
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.quarter8"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(quarter8 x)
+        {
+            return any(x != (quarter)0f);
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.quarter16"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(quarter16 x)
+        {
+            return any(x != (quarter)0f);
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.quarter32"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(quarter32 x)
+        {
+            return any(x != (quarter)0f);
+        }
+
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.half2"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(half2 x)
+        {
+            return any(x != (half)0f);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.half3"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(half3 x)
+        {
+            return any(x != (half)0f);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.half4"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(half4 x)
+        {
+            return any(x != (half)0f);
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.half8"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(half8 x)
+        {
+            return any(x != (half)0f);
+        }
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.half16"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(half16 x)
+        {
+            return any(x != (half)0f);
+        }
+
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.float2"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(float2 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.float3"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(float3 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.float4"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(float4 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
 
         /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.float8"/> is non-zero, <see langword="false"/> otherwise.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -448,8 +881,30 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
             else
             {
-                return math.any(x.v4_0) | math.any(x.v4_4);
+                return any(x.v4_0) | any(x.v4_4);
             }
+        }
+
+
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.double2"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(double2 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.double3"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(double3 x)
+        {
+            return Unity.Mathematics.math.any(x);
+        }
+        
+        /// <summary>       Returns <see langword="true"/> if any of the components of the input <see cref="MaxMath.double4"/> is non-zero, <see langword="false"/> otherwise.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool any(double4 x)
+        {
+            return Unity.Mathematics.math.any(x);
         }
     }
 }

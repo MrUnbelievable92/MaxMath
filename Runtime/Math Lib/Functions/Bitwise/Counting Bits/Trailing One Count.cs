@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
@@ -150,16 +149,16 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns number of trailing ones in the binary representation of a <see cref="UInt128"/>.    </summary>
-        [return: AssumeRange(0L, 128L)]
+        [return: AssumeRange(0ul, 128ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int t1cnt(UInt128 x)
+        public static byte t1cnt(UInt128 x)
         {
             if (x.lo64 == ulong.MaxValue)
             {
-                return 64 + t1cnt(x.hi64);
+                return (byte)(64 + t1cnt(x.hi64));
             }
             else
             {
@@ -168,9 +167,9 @@ namespace MaxMath
         }
 
         /// <summary>       Returns number of trailing ones in the binary representation of an <see cref="Int128"/>.    </summary>
-        [return: AssumeRange(0L, 128L)]
+        [return: AssumeRange(0ul, 128ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int t1cnt(Int128 x)
+        public static byte t1cnt(Int128 x)
         {
             return t1cnt(x.value);
         }
@@ -270,11 +269,11 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of trailing ones in the binary representation of an <see cref="sbyte"/>.    </summary>
-        [return: AssumeRange(0, 8)]
+        [return: AssumeRange(0ul, 8ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte t1cnt(sbyte x)
+        public static byte t1cnt(sbyte x)
         {
-            return (sbyte)t1cnt((byte)x);
+            return t1cnt((byte)x);
         }
 
         /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="MaxMath.sbyte2"/>.    </summary>
@@ -323,7 +322,7 @@ namespace MaxMath
         /// <summary>       Returns number of trailing ones in the binary representation of a <see cref="ushort"/>.    </summary>
         [return: AssumeRange(0ul, 16ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort t1cnt(ushort x)
+        public static byte t1cnt(ushort x)
         {
             return tzcnt((ushort)~x);
         }
@@ -400,11 +399,11 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of trailing ones in the binary representation of a <see cref="short"/>.    </summary>
-        [return: AssumeRange(0, 16)]
+        [return: AssumeRange(0ul, 16ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short t1cnt(short x)
+        public static byte t1cnt(short x)
         {
-            return (short)t1cnt((ushort)x);
+            return t1cnt((ushort)x);
         }
 
         /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.short2"/>.    </summary>
@@ -444,20 +443,20 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of trailing ones in the binary representation of a <see cref="uint"/>.    </summary>
-        [return: AssumeRange(0L, 32L)]
+        [return: AssumeRange(0ul, 32ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int t1cnt(uint x)
+        public static byte t1cnt(uint x)
         {
-            return math.tzcnt(~x);
+            return tzcnt(~x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="uint2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.uint2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 t1cnt(uint2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.t1cnt_epi32(RegisterConversion.ToV128(x), 2));
+                return Xse.t1cnt_epi32(x, 2);
             }
             else
             {
@@ -465,13 +464,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="uint3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.uint3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 t1cnt(uint3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.t1cnt_epi32(RegisterConversion.ToV128(x), 3));
+                return Xse.t1cnt_epi32(x, 3);
             }
             else
             {
@@ -479,13 +478,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="uint4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.uint4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 t1cnt(uint4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.t1cnt_epi32(RegisterConversion.ToV128(x), 4));
+                return Xse.t1cnt_epi32(x, 4);
             }
             else
             {
@@ -509,28 +508,28 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of trailing ones in the binary representation of a <see cref="int"/>.    </summary>
-        [return: AssumeRange(0, 32)]
+        [return: AssumeRange(0ul, 32ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int t1cnt(int x)
+        public static byte t1cnt(int x)
         {
             return t1cnt((uint)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="int2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 t1cnt(int2 x)
         {
             return t1cnt((uint2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="int3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 t1cnt(int3 x)
         {
             return t1cnt((uint3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="int4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 t1cnt(int4 x)
         {
@@ -546,11 +545,11 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of trailing ones in the binary representation of a <see cref="ulong"/>.    </summary>
-        [return: AssumeRange(0, 64)]
+        [return: AssumeRange(0ul, 64ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int t1cnt(ulong x)
+        public static byte t1cnt(ulong x)
         {
-            return math.tzcnt(~x);
+            return tzcnt(~x);
         }
 
         /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ulong2"/>.    </summary>
@@ -597,9 +596,9 @@ namespace MaxMath
 
 
         /// <summary>       Returns number of trailing ones in the binary representation of a <see cref="long"/>.    </summary>
-        [return: AssumeRange(0, 64)]
+        [return: AssumeRange(0ul, 64ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int t1cnt(long x)
+        public static byte t1cnt(long x)
         {
             return t1cnt((ulong)x);
         }

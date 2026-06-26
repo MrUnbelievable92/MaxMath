@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
 
@@ -310,7 +309,7 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v128 cvtpq_epi32(v128 a, byte elements = 4, bool nonZero = false, bool positive = false)
+        public static v128 cvtpq_epi32(v128 a, byte elements = 4, bool positive = false)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -466,7 +465,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -522,7 +521,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -578,7 +577,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -634,7 +633,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -690,15 +689,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                        v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-
-                        return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
-                    }
+                    v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                    v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                
+                    return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
                 }
 
                 return mm256_cvtepi16_epi8(mm256_cvttph_epi16(a, positive: positive, nonZero: nonZero));
@@ -711,15 +707,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                        v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-
-                        return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
-                    }
+                    v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                    v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                
+                    return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
                 }
 
                 return mm256_cvtepi16_epi8(mm256_cvtph_epi16(a, positive: positive, nonZero: nonZero));
@@ -732,17 +725,14 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                        v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-
-                        return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
-                    }
+                    v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                    v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                
+                    return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
                 }
-
+                
                 return mm256_cvtepi16_epi8(mm256_cvttph_epu16(a, nonZero: nonZero));
             }
             else throw new IllegalInstructionException();
@@ -753,15 +743,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                        v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-
-                        return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
-                    }
+                    v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                    v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                
+                    return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
                 }
 
                 return mm256_cvtepi16_epi8(mm256_cvtph_epu16(a, nonZero: nonZero));
@@ -775,7 +762,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -810,7 +797,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -845,7 +832,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -873,7 +860,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -901,15 +888,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                        v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-
-                        return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
-                    }
+                    v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                    v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                
+                    return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
                 }
 
                 return BASE__mm256_cvtph_epi16(a, signed: true, trunc: true, nonZero: nonZero, positive: positive);
@@ -922,15 +906,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                        v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-
-                        return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
-                    }
+                    v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                    v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                
+                    return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
                 }
 
                 return BASE__mm256_cvtph_epi16(a, signed: true, trunc: false, nonZero: nonZero, positive: positive);
@@ -943,15 +924,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                        v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-
-                        return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
-                    }
+                    v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                    v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                
+                    return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
                 }
 
                 return BASE__mm256_cvtph_epi16(a, signed: false, trunc: true, nonZero: nonZero);
@@ -964,15 +942,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                        v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-
-                        return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
-                    }
+                    v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                    v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                
+                    return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
                 }
 
                 return BASE__mm256_cvtph_epi16(a, signed: false, trunc: false, nonZero: nonZero);
@@ -986,7 +961,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -1004,7 +979,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -1022,7 +997,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -1040,7 +1015,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -1058,14 +1033,11 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        return Avx.mm256_cvttps_epi32(mm256_cvtph_ps(a));
-                    }
+                    return Avx.mm256_cvttps_epi32(mm256_cvtph_ps(a));
                 }
-
+                
                 return BASE__mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: true);
             }
             else throw new IllegalInstructionException();
@@ -1076,12 +1048,9 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        return Avx.mm256_cvtps_epi32(mm256_cvtph_ps(a));
-                    }
+                    return Avx.mm256_cvtps_epi32(mm256_cvtph_ps(a));
                 }
 
                 return BASE__mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false);
@@ -1094,12 +1063,9 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        return Avx.mm256_cvttps_epi32(mm256_cvtph_ps(a));
-                    }
+                    return Avx.mm256_cvttps_epi32(mm256_cvtph_ps(a));
                 }
 
                 return BASE__mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: true);
@@ -1112,12 +1078,9 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        return Avx.mm256_cvtps_epi32(mm256_cvtph_ps(a));
-                    }
+                    return Avx.mm256_cvtps_epi32(mm256_cvtph_ps(a));
                 }
 
                 return BASE__mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: false);
@@ -1131,7 +1094,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -1149,7 +1112,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -1167,7 +1130,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -1185,7 +1148,7 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (F16C.IsF16CSupported)
+                if (BurstArchitecture.IsF16Supported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
@@ -1203,12 +1166,9 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        return Avx2.mm256_cvtepi32_epi64(cvttps_epi32(cvtph_ps(a)));
-                    }
+                    return Avx2.mm256_cvtepi32_epi64(cvttps_epi32(cvtph_ps(a)));
                 }
 
                 return BASE__mm256_cvtph_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements);
@@ -1221,12 +1181,9 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        return Avx2.mm256_cvtepi32_epi64(cvtps_epi32(cvtph_ps(a)));
-                    }
+                    return Avx2.mm256_cvtepi32_epi64(cvtps_epi32(cvtph_ps(a)));
                 }
 
                 return BASE__mm256_cvtph_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements);
@@ -1239,12 +1196,9 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        return Avx2.mm256_cvtepu32_epi64(cvttps_epi32(cvtph_ps(a)));
-                    }
+                    return Avx2.mm256_cvtepu32_epi64(cvttps_epi32(cvtph_ps(a)));
                 }
 
                 return BASE__mm256_cvtph_epi64(a, signed: false, nonZero: nonZero, trunc: true, elements: elements);
@@ -1257,12 +1211,9 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (F16C.IsF16CSupported)
+                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                    {
-                        return Avx2.mm256_cvtepu32_epi64(cvtps_epi32(cvtph_ps(a)));
-                    }
+                    return Avx2.mm256_cvtepu32_epi64(cvtps_epi32(cvtph_ps(a)));
                 }
 
                 return BASE__mm256_cvtph_epi64(a, signed: false, nonZero: nonZero, trunc: false, elements: elements);
@@ -1846,8 +1797,8 @@ namespace MaxMath.Intrinsics
             {
                 positive |= (constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_LT_EPU8(a, 1 << 7, elements));
 
-                v128 exp = srli_epi8(a, quarter.MANTISSA_BITS);
-                v128 mantissa = and_si128(a, set1_epi8(maxmath.bitmask8(quarter.MANTISSA_BITS)));
+                v128 exp = srli_epi8(a, MaxMath.quarter.MANTISSA_BITS);
+                v128 mantissa = and_si128(a, set1_epi8(math.bitmask8(MaxMath.quarter.MANTISSA_BITS)));
 
                 v128 lo;
                 v128 hi;
@@ -1875,7 +1826,7 @@ namespace MaxMath.Intrinsics
                     v128 absExp = exp;
                     if (signed && !positive)
                     {
-                        absExp = and_si128(absExp, set1_epi8(maxmath.bitmask8(quarter.EXPONENT_BITS)));
+                        absExp = and_si128(absExp, set1_epi8(math.bitmask8(MaxMath.quarter.EXPONENT_BITS)));
                     }
 
                     v128 expGT2 = cmpgt_epi8(absExp, set1_epi8(2));
@@ -1917,8 +1868,8 @@ namespace MaxMath.Intrinsics
             {
                 positive |= (constexpr.ALL_GT_EPU8(a, 0) && constexpr.ALL_LT_EPU8(a, 1 << 7));
 
-                v256 exp = mm256_srli_epi8(a, quarter.MANTISSA_BITS);
-                v256 mantissa = Avx2.mm256_and_si256(a, mm256_set1_epi8(maxmath.bitmask8(quarter.MANTISSA_BITS)));
+                v256 exp = mm256_srli_epi8(a, MaxMath.quarter.MANTISSA_BITS);
+                v256 mantissa = Avx2.mm256_and_si256(a, mm256_set1_epi8(math.bitmask8(MaxMath.quarter.MANTISSA_BITS)));
 
                 v256 shr = Avx2.mm256_shuffle_epi8(new v256(4, 4, 4, 4, 3, 2, 1, 0,   4, 4, 4, 4, 3, 2, 1, 0,
                                                             4, 4, 4, 4, 3, 2, 1, 0,   4, 4, 4, 4, 3, 2, 1, 0), exp);
@@ -1944,9 +1895,9 @@ namespace MaxMath.Intrinsics
                 nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0) && constexpr.ALL_NEQ_EPU8(a, 1 << 7));
                 positive |= (constexpr.ALL_GT_EPU8(a, 0) && constexpr.ALL_LT_EPU8(a, 1 << 7));
 
-                v256 IMPLICIT_ONE = mm256_set1_epi16(1 << quarter.MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi16(maxmath.bitmask16(quarter.MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi16((ushort)(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS));
+                v256 IMPLICIT_ONE = mm256_set1_epi16(1 << MaxMath.quarter.MANTISSA_BITS);
+                v256 MANTISSA_MASK = mm256_set1_epi16(math.bitmask16(MaxMath.quarter.MANTISSA_BITS));
+                v256 EXP = mm256_set1_epi16((ushort)(math.abs(MaxMath.quarter.EXPONENT_BIAS) + MaxMath.quarter.MANTISSA_BITS));
 
                 v256 a16 = lo ? Avx2.mm256_unpacklo_epi8(a, Avx.mm256_setzero_si256()) : Avx2.mm256_unpackhi_epi8(a, Avx.mm256_setzero_si256());
 
@@ -1954,12 +1905,12 @@ namespace MaxMath.Intrinsics
                 v256 isZero;
                 if (positive || !signed)
                 {
-                    biasedExponent = Avx2.mm256_srli_epi16(a16, quarter.MANTISSA_BITS);
+                    biasedExponent = Avx2.mm256_srli_epi16(a16, MaxMath.quarter.MANTISSA_BITS);
                     isZero = Avx2.mm256_cmpgt_epi16(mm256_set1_epi16(((quarter)0.5f).value), a16);
                 }
                 else
                 {
-                    biasedExponent = Avx2.mm256_srli_epi16(Avx2.mm256_slli_epi16(a16, 1 + 8), quarter.MANTISSA_BITS + 1 + 8);
+                    biasedExponent = Avx2.mm256_srli_epi16(Avx2.mm256_slli_epi16(a16, 1 + 8), MaxMath.quarter.MANTISSA_BITS + 1 + 8);
                     isZero = mm256_cmpgt_epu16(Avx2.mm256_slli_epi16(mm256_set1_epi16(((quarter)0.5f).value), 1 + 8), Avx2.mm256_slli_epi16(a16, 1 + 8));
                 }
 
@@ -2060,9 +2011,9 @@ namespace MaxMath.Intrinsics
                 nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0, elements) && constexpr.ALL_NEQ_EPU8(a, 1 << 7, elements));
                 positive |= (constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_LT_EPU8(a, 1 << 7, elements));
 
-                v128 IMPLICIT_ONE = set1_epi16(1 << quarter.MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi16(maxmath.bitmask16(quarter.MANTISSA_BITS));
-                v128 EXP = set1_epi16((ushort)(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS));
+                v128 IMPLICIT_ONE = set1_epi16(1 << MaxMath.quarter.MANTISSA_BITS);
+                v128 MANTISSA_MASK = set1_epi16(math.bitmask16(MaxMath.quarter.MANTISSA_BITS));
+                v128 EXP = set1_epi16((ushort)(math.abs(MaxMath.quarter.EXPONENT_BIAS) + MaxMath.quarter.MANTISSA_BITS));
 
                 v128 a16 = cvtepu8_epi16(a);
 
@@ -2070,12 +2021,12 @@ namespace MaxMath.Intrinsics
                 v128 isZero;
                 if (positive || !signed)
                 {
-                    biasedExponent = srli_epi16(a16, quarter.MANTISSA_BITS);
+                    biasedExponent = srli_epi16(a16, MaxMath.quarter.MANTISSA_BITS);
                     isZero = cmpgt_epi16(set1_epi16(((quarter)(trunc ? 1f : 0.5f)).value), a16);
                 }
                 else
                 {
-                    biasedExponent = srli_epi16(slli_epi16(a16, 1 + 8), quarter.MANTISSA_BITS + 1 + 8);
+                    biasedExponent = srli_epi16(slli_epi16(a16, 1 + 8), MaxMath.quarter.MANTISSA_BITS + 1 + 8);
                     isZero = cmpgt_epu16(slli_epi16(set1_epi16(((quarter)(trunc ? 1f : 0.5f)).value), 1 + 8), slli_epi16(a16, 1 + 8));
                 }
 
@@ -2189,9 +2140,9 @@ namespace MaxMath.Intrinsics
                 nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0) && constexpr.ALL_NEQ_EPU8(a, 1 << 7));
                 positive |= (constexpr.ALL_GT_EPU8(a, 0) && constexpr.ALL_LT_EPU8(a, 1 << 7));
 
-                v256 IMPLICIT_ONE = mm256_set1_epi16(1 << quarter.MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi16(maxmath.bitmask16(quarter.MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi16((ushort)(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS));
+                v256 IMPLICIT_ONE = mm256_set1_epi16(1 << MaxMath.quarter.MANTISSA_BITS);
+                v256 MANTISSA_MASK = mm256_set1_epi16(math.bitmask16(MaxMath.quarter.MANTISSA_BITS));
+                v256 EXP = mm256_set1_epi16((ushort)(math.abs(MaxMath.quarter.EXPONENT_BIAS) + MaxMath.quarter.MANTISSA_BITS));
 
                 v256 a16 = Avx2.mm256_cvtepu8_epi16(a);
 
@@ -2199,12 +2150,12 @@ namespace MaxMath.Intrinsics
                 v256 isZero;
                 if (positive || !signed)
                 {
-                    biasedExponent = Avx2.mm256_srli_epi16(a16, quarter.MANTISSA_BITS);
+                    biasedExponent = Avx2.mm256_srli_epi16(a16, MaxMath.quarter.MANTISSA_BITS);
                     isZero = Avx2.mm256_cmpgt_epi16(mm256_set1_epi16(((quarter)(trunc ? 1f : 0.5f)).value), a16);
                 }
                 else
                 {
-                    biasedExponent = Avx2.mm256_srli_epi16(Avx2.mm256_slli_epi16(a16, 1 + 8), quarter.MANTISSA_BITS + 1 + 8);
+                    biasedExponent = Avx2.mm256_srli_epi16(Avx2.mm256_slli_epi16(a16, 1 + 8), MaxMath.quarter.MANTISSA_BITS + 1 + 8);
                     isZero = mm256_cmpgt_epu16(Avx2.mm256_slli_epi16(mm256_set1_epi16(((quarter)(trunc ? 1f : 0.5f)).value), 1 + 8), Avx2.mm256_slli_epi16(a16, 1 + 8));
                 }
 
@@ -2287,9 +2238,9 @@ namespace MaxMath.Intrinsics
             {
                 positive |= (constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_LT_EPU8(a, 1 << 7, elements));
 
-                v128 IMPLICIT_ONE = set1_epi32(1u << quarter.MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi32(maxmath.bitmask32(quarter.MANTISSA_BITS));
-                v128 EXP = set1_epi32(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS);
+                v128 IMPLICIT_ONE = set1_epi32(1u << MaxMath.quarter.MANTISSA_BITS);
+                v128 MANTISSA_MASK = set1_epi32(math.bitmask32(MaxMath.quarter.MANTISSA_BITS));
+                v128 EXP = set1_epi32(math.abs(MaxMath.quarter.EXPONENT_BIAS) + MaxMath.quarter.MANTISSA_BITS);
 
                 v128 a32 = cvtepu8_epi32(a);
 
@@ -2297,12 +2248,12 @@ namespace MaxMath.Intrinsics
                 v128 isZero;
                 if (positive || !signed)
                 {
-                    biasedExponent = srli_epi32(a32, quarter.MANTISSA_BITS);
+                    biasedExponent = srli_epi32(a32, MaxMath.quarter.MANTISSA_BITS);
                     isZero = cmpgt_epi32(set1_epi32(((quarter)0.5f).value), a32);
                 }
                 else
                 {
-                    biasedExponent = srli_epi32(slli_epi32(a32, 1 + 24), quarter.MANTISSA_BITS + 1 + 24);
+                    biasedExponent = srli_epi32(slli_epi32(a32, 1 + 24), MaxMath.quarter.MANTISSA_BITS + 1 + 24);
                     isZero = cmpgt_epu32(slli_epi32(set1_epi32(((quarter)0.5f).value), 1 + 24), slli_epi32(a32, 1 + 24));
                 }
 
@@ -2357,9 +2308,9 @@ namespace MaxMath.Intrinsics
                 nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0, 8) && constexpr.ALL_NEQ_EPU8(a, 1 << 7, 8));
                 positive |= (constexpr.ALL_GT_EPU8(a, 0, 8) && constexpr.ALL_LT_EPU8(a, 1 << 7, 8));
 
-                v256 IMPLICIT_ONE = mm256_set1_epi32(1u << quarter.MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi32(maxmath.bitmask32(quarter.MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi32(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS);
+                v256 IMPLICIT_ONE = mm256_set1_epi32(1u << MaxMath.quarter.MANTISSA_BITS);
+                v256 MANTISSA_MASK = mm256_set1_epi32(math.bitmask32(MaxMath.quarter.MANTISSA_BITS));
+                v256 EXP = mm256_set1_epi32(math.abs(MaxMath.quarter.EXPONENT_BIAS) + MaxMath.quarter.MANTISSA_BITS);
 
                 v256 a32 = Avx2.mm256_cvtepu8_epi32(a);
 
@@ -2367,12 +2318,12 @@ namespace MaxMath.Intrinsics
                 v256 isZero;
                 if (positive || !signed)
                 {
-                    biasedExponent = Avx2.mm256_srli_epi32(a32, quarter.MANTISSA_BITS);
+                    biasedExponent = Avx2.mm256_srli_epi32(a32, MaxMath.quarter.MANTISSA_BITS);
                     isZero = Avx2.mm256_cmpgt_epi32(mm256_set1_epi32(((quarter)(trunc ? 1f : 0.5f)).value), a32);
                 }
                 else
                 {
-                    biasedExponent = Avx2.mm256_srli_epi32(Avx2.mm256_slli_epi32(a32, 1 + 24), quarter.MANTISSA_BITS + 1 + 24);
+                    biasedExponent = Avx2.mm256_srli_epi32(Avx2.mm256_slli_epi32(a32, 1 + 24), MaxMath.quarter.MANTISSA_BITS + 1 + 24);
                     isZero = mm256_cmpgt_epu32(Avx2.mm256_slli_epi32(mm256_set1_epi32(((quarter)(trunc ? 1f : 0.5f)).value), 1 + 24), Avx2.mm256_slli_epi32(a32, 1 + 24));
                 }
 
@@ -2421,9 +2372,9 @@ namespace MaxMath.Intrinsics
                 nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0, 2) && constexpr.ALL_NEQ_EPU8(a, 1 << 7, 2));
                 positive |= (constexpr.ALL_GT_EPU8(a, 0, 2) && constexpr.ALL_LT_EPU8(a, 1 << 7, 2));
 
-                v128 IMPLICIT_ONE = set1_epi64x(1u << quarter.MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask32(quarter.MANTISSA_BITS));
-                v128 EXP = set1_epi64x(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS);
+                v128 IMPLICIT_ONE = set1_epi64x(1u << MaxMath.quarter.MANTISSA_BITS);
+                v128 MANTISSA_MASK = set1_epi64x(math.bitmask32(MaxMath.quarter.MANTISSA_BITS));
+                v128 EXP = set1_epi64x(math.abs(MaxMath.quarter.EXPONENT_BIAS) + MaxMath.quarter.MANTISSA_BITS);
 
                 v128 a64 = cvtepu8_epi64(a);
 
@@ -2431,12 +2382,12 @@ namespace MaxMath.Intrinsics
                 v128 isZero;
                 if (positive || !signed)
                 {
-                    biasedExponent = srli_epi64(a64, quarter.MANTISSA_BITS);
+                    biasedExponent = srli_epi64(a64, MaxMath.quarter.MANTISSA_BITS);
                     isZero = shuffle_epi32(cmpgt_epi32(set1_epi32(((quarter)(trunc ? 1f : 0.5f)).value), a64), Sse.SHUFFLE(2, 2, 0, 0));
                 }
                 else
                 {
-                    biasedExponent = srli_epi64(slli_epi64(a64, 1 + 56), quarter.MANTISSA_BITS + 1 + 56);
+                    biasedExponent = srli_epi64(slli_epi64(a64, 1 + 56), MaxMath.quarter.MANTISSA_BITS + 1 + 56);
                     isZero = shuffle_epi32(cmpgt_epu32(slli_epi64(set1_epi64x(((quarter)(trunc ? 1f : 0.5f)).value), 1 + 56 - 32), slli_epi64(a64, 1 + 56 - 32)), Sse.SHUFFLE(3, 3, 1, 1));
                 }
 
@@ -2485,9 +2436,9 @@ namespace MaxMath.Intrinsics
                 nonZero |= (constexpr.ALL_NEQ_EPU8(a, 0, elements) && constexpr.ALL_NEQ_EPU8(a, 1 << 7, elements));
                 positive |= (constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_LT_EPU8(a, 1 << 7, elements));
 
-                v256 IMPLICIT_ONE = mm256_set1_epi64x(1u << quarter.MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask32(quarter.MANTISSA_BITS));
-                v256 EXP = mm256_set1_epi64x(math.abs(quarter.EXPONENT_BIAS) + quarter.MANTISSA_BITS);
+                v256 IMPLICIT_ONE = mm256_set1_epi64x(1u << MaxMath.quarter.MANTISSA_BITS);
+                v256 MANTISSA_MASK = mm256_set1_epi64x(math.bitmask32(MaxMath.quarter.MANTISSA_BITS));
+                v256 EXP = mm256_set1_epi64x(math.abs(MaxMath.quarter.EXPONENT_BIAS) + MaxMath.quarter.MANTISSA_BITS);
 
                 v256 a64 = Avx2.mm256_cvtepu8_epi64(a);
 
@@ -2495,12 +2446,12 @@ namespace MaxMath.Intrinsics
                 v256 isZero;
                 if (positive || !signed)
                 {
-                    biasedExponent = Avx2.mm256_srli_epi64(a64, quarter.MANTISSA_BITS);
+                    biasedExponent = Avx2.mm256_srli_epi64(a64, MaxMath.quarter.MANTISSA_BITS);
                     isZero = Avx2.mm256_shuffle_epi32(Avx2.mm256_cmpgt_epi32(mm256_set1_epi64x(((quarter)(trunc ? 1f : 0.5f)).value), a64), Sse.SHUFFLE(2, 2, 0, 0));
                 }
                 else
                 {
-                    biasedExponent = Avx2.mm256_srli_epi64(Avx2.mm256_slli_epi64(a64, 1 + 56), quarter.MANTISSA_BITS + 1 + 56);
+                    biasedExponent = Avx2.mm256_srli_epi64(Avx2.mm256_slli_epi64(a64, 1 + 56), MaxMath.quarter.MANTISSA_BITS + 1 + 56);
                     isZero = Avx2.mm256_shuffle_epi32(mm256_cmpgt_epu32(Avx2.mm256_slli_epi64(mm256_set1_epi64x(((quarter)(trunc ? 1f : 0.5f)).value), 56 + 1), Avx2.mm256_slli_epi64(a64, 56 + 1)), Sse.SHUFFLE(3, 3, 1, 1));
                 }
 
@@ -2574,7 +2525,7 @@ namespace MaxMath.Intrinsics
                 positive |= (constexpr.ALL_GT_EPU16(a, 0, elements) && constexpr.ALL_LT_EPU16(a, 1 << 15, elements));
 
                 v128 IMPLICIT_ONE = set1_epi16(1 << F16_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi16(maxmath.bitmask16(F16_MANTISSA_BITS));
+                v128 MANTISSA_MASK = set1_epi16(math.bitmask16(F16_MANTISSA_BITS));
                 v128 EXP = set1_epi16((ushort)(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS));
 
                 v128 biasedExponent;
@@ -2699,7 +2650,7 @@ namespace MaxMath.Intrinsics
                 positive |= (constexpr.ALL_GT_EPU16(a, 0) && constexpr.ALL_LT_EPU16(a, 1 << 15));
 
                 v256 IMPLICIT_ONE = mm256_set1_epi16(1 << F16_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi16(maxmath.bitmask16(F16_MANTISSA_BITS));
+                v256 MANTISSA_MASK = mm256_set1_epi16(math.bitmask16(F16_MANTISSA_BITS));
                 v256 EXP = mm256_set1_epi16((ushort)(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS));
 
                 v256 biasedExponent;
@@ -2797,7 +2748,7 @@ namespace MaxMath.Intrinsics
                 positive |= (constexpr.ALL_GT_EPU16(a, 0, elements) && constexpr.ALL_LT_EPU16(a, 1 << 15, elements));
 
                 v128 IMPLICIT_ONE = set1_epi32(1u << F16_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi32(maxmath.bitmask32(F16_MANTISSA_BITS));
+                v128 MANTISSA_MASK = set1_epi32(math.bitmask32(F16_MANTISSA_BITS));
                 v128 EXP = set1_epi32(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS);
 
                 v128 a32 = cvtepu16_epi32(a);
@@ -2870,7 +2821,7 @@ namespace MaxMath.Intrinsics
                 positive |= (constexpr.ALL_GT_EPU16(a, 0, 8) && constexpr.ALL_LT_EPU16(a, 1 << 15, 8));
 
                 v256 IMPLICIT_ONE = mm256_set1_epi32(1u << F16_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi32(maxmath.bitmask32(F16_MANTISSA_BITS));
+                v256 MANTISSA_MASK = mm256_set1_epi32(math.bitmask32(F16_MANTISSA_BITS));
                 v256 EXP = mm256_set1_epi32(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS);
 
                 v256 a32 = Avx2.mm256_cvtepu16_epi32(a);
@@ -2934,7 +2885,7 @@ namespace MaxMath.Intrinsics
                 positive |= (constexpr.ALL_GT_EPU16(a, 0, 2) && constexpr.ALL_LT_EPU16(a, 1 << 15, 2));
 
                 v128 IMPLICIT_ONE = set1_epi64x(1u << F16_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask32(F16_MANTISSA_BITS));
+                v128 MANTISSA_MASK = set1_epi64x(math.bitmask32(F16_MANTISSA_BITS));
                 v128 EXP = set1_epi64x(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS);
 
                 v128 a64 = cvtepu16_epi64(a);
@@ -2998,7 +2949,7 @@ namespace MaxMath.Intrinsics
                 positive |= (constexpr.ALL_GT_EPU16(a, 0, elements) && constexpr.ALL_LT_EPU16(a, 1 << 15, elements));
 
                 v256 IMPLICIT_ONE = mm256_set1_epi64x(1u << F16_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask32(F16_MANTISSA_BITS));
+                v256 MANTISSA_MASK = mm256_set1_epi64x(math.bitmask32(F16_MANTISSA_BITS));
                 v256 EXP = mm256_set1_epi64x(math.abs(F16_EXPONENT_BIAS) + F16_MANTISSA_BITS);
 
                 v256 a64 = Avx2.mm256_cvtepu16_epi64(a);
@@ -3074,7 +3025,7 @@ namespace MaxMath.Intrinsics
                     if (trunc)
                     {
                         v128 IMPLICIT_ONE = set1_epi32(1u << F32_MANTISSA_BITS);
-                        v128 MANTISSA_MASK = set1_epi32(maxmath.bitmask32(F32_MANTISSA_BITS));
+                        v128 MANTISSA_MASK = set1_epi32(math.bitmask32(F32_MANTISSA_BITS));
                         v128 EXP = set1_epi32(math.abs(F32_EXPONENT_BIAS) + F32_MANTISSA_BITS);
 
                         v128 biasedExponent = srli_epi32(a, F32_MANTISSA_BITS);
@@ -3170,7 +3121,7 @@ namespace MaxMath.Intrinsics
                 if (trunc)
                 {
                     v256 IMPLICIT_ONE = mm256_set1_epi32(1u << F32_MANTISSA_BITS);
-                    v256 MANTISSA_MASK = mm256_set1_epi32(maxmath.bitmask32(F32_MANTISSA_BITS));
+                    v256 MANTISSA_MASK = mm256_set1_epi32(math.bitmask32(F32_MANTISSA_BITS));
                     v256 EXP = mm256_set1_epi32(math.abs(F32_EXPONENT_BIAS) + F32_MANTISSA_BITS);
 
                     v256 biasedExponent = Avx2.mm256_srli_epi32(a, F32_MANTISSA_BITS);
@@ -3231,7 +3182,7 @@ namespace MaxMath.Intrinsics
                 positive |= constexpr.ALL_GT_PS(a, 0, 2);
 
                 v128 IMPLICIT_ONE = set1_epi64x(1L << F32_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask64((long)F32_MANTISSA_BITS));
+                v128 MANTISSA_MASK = set1_epi64x(math.bitmask64((long)F32_MANTISSA_BITS));
                 v128 EXP = set1_epi64x(math.abs(F32_EXPONENT_BIAS) + F32_MANTISSA_BITS);
 
                 v128 a64 = cvtepu32_epi64(a);
@@ -3292,7 +3243,7 @@ namespace MaxMath.Intrinsics
                 positive |= constexpr.ALL_GT_PS(a, 0, elements);
 
                 v256 IMPLICIT_ONE = mm256_set1_epi64x(1L << F32_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask64((long)F32_MANTISSA_BITS));
+                v256 MANTISSA_MASK = mm256_set1_epi64x(math.bitmask64((long)F32_MANTISSA_BITS));
                 v256 EXP = mm256_set1_epi64x(math.abs(F32_EXPONENT_BIAS) + F32_MANTISSA_BITS);
 
                 v256 a64 = Avx2.mm256_cvtepu32_epi64(a);
@@ -3390,7 +3341,7 @@ namespace MaxMath.Intrinsics
                 positive |= constexpr.ALL_GT_PD(a, 0, 2);
 
                 v128 IMPLICIT_ONE = set1_epi64x(1L << F64_MANTISSA_BITS);
-                v128 MANTISSA_MASK = set1_epi64x(maxmath.bitmask64((long)F64_MANTISSA_BITS));
+                v128 MANTISSA_MASK = set1_epi64x(math.bitmask64((long)F64_MANTISSA_BITS));
                 v128 EXP = set1_epi64x(math.abs(F64_EXPONENT_BIAS) + F64_MANTISSA_BITS);
 
                 v128 biasedExponent;
@@ -3492,7 +3443,7 @@ namespace MaxMath.Intrinsics
                 positive |= constexpr.ALL_GT_PD(a, 0, elements);
 
                 v256 IMPLICIT_ONE = mm256_set1_epi64x(1L << F64_MANTISSA_BITS);
-                v256 MANTISSA_MASK = mm256_set1_epi64x(maxmath.bitmask64((long)F64_MANTISSA_BITS));
+                v256 MANTISSA_MASK = mm256_set1_epi64x(math.bitmask64((long)F64_MANTISSA_BITS));
                 v256 EXP = mm256_set1_epi64x(math.abs(F64_EXPONENT_BIAS) + F64_MANTISSA_BITS);
 
                 v256 biasedExponent;

@@ -1,8 +1,8 @@
 using NUnit.Framework;
-using Unity.Mathematics;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+
+
+using static MaxMath.math;
 
 namespace MaxMath.Tests
 {

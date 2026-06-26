@@ -5254,7 +5254,7 @@ namespace MaxMath.Intrinsics
 			}
             else if (IsNeonSupported)
             {
-                v128 rnd = round_pd(a, FROUND_CUR_DIRECTION);
+                v128 rnd = round_pd(a);
                 return set_epi32(0, 0, (int)rnd.Double1, (int)rnd.Double0);
             }
 			else throw new IllegalInstructionException();

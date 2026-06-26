@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
@@ -115,7 +114,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 cmp = mm256_cmpgt_epi64(b, a, elements);
+                    v256 cmp = Avx2.mm256_cmpgt_epi64(b, a);
                     min = mm256_blendv_si256(b, a, cmp);
                     max = mm256_blendv_si256(a, b, cmp);
                 }
@@ -164,12 +163,12 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsMinMaxSupported)
                 {
-                    min = min_epu32(b, a);
-                    max = max_epu32(b, a);
+                    min = min_epu32(b, a, elements);
+                    max = max_epu32(b, a, elements);
                 }
                 else if (BurstArchitecture.IsSIMDSupported)
                 {
-                    v128 cmp = cmpgt_epu32(b, a);
+                    v128 cmp = cmpgt_epu32(b, a, elements);
                     min = blendv_si128(b, a, cmp);
                     max = blendv_si128(a, b, cmp);
                 }
@@ -332,7 +331,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="UInt128"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -377,6 +376,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<byte2>.Create();
+                max = Uninitialized<byte2>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
             }
@@ -394,6 +396,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<byte3>.Create();
+                max = Uninitialized<byte3>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -412,6 +417,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<byte4>.Create();
+                max = Uninitialized<byte4>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -431,6 +439,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<byte8>.Create();
+                max = Uninitialized<byte8>.Create();
+
                 minmax(a.x0, b.x0, out min.x0, out max.x0);
                 minmax(a.x1, b.x1, out min.x1, out max.x1);
                 minmax(a.x2, b.x2, out min.x2, out max.x2);
@@ -454,6 +465,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<byte16>.Create();
+                max = Uninitialized<byte16>.Create();
+
                 minmax(a.x0,  b.x0,  out min.x0,  out max.x0);
                 minmax(a.x1,  b.x1,  out min.x1,  out max.x1);
                 minmax(a.x2,  b.x2,  out min.x2,  out max.x2);
@@ -516,6 +530,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<sbyte2>.Create();
+                max = Uninitialized<sbyte2>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
             }
@@ -533,6 +550,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<sbyte3>.Create();
+                max = Uninitialized<sbyte3>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -551,6 +571,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<sbyte4>.Create();
+                max = Uninitialized<sbyte4>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -570,6 +593,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<sbyte8>.Create();
+                max = Uninitialized<sbyte8>.Create();
+
                 minmax(a.x0, b.x0, out min.x0, out max.x0);
                 minmax(a.x1, b.x1, out min.x1, out max.x1);
                 minmax(a.x2, b.x2, out min.x2, out max.x2);
@@ -593,6 +619,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<sbyte16>.Create();
+                max = Uninitialized<sbyte16>.Create();
+
                 minmax(a.x0,  b.x0,  out min.x0,  out max.x0);
                 minmax(a.x1,  b.x1,  out min.x1,  out max.x1);
                 minmax(a.x2,  b.x2,  out min.x2,  out max.x2);
@@ -655,6 +684,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<ushort2>.Create();
+                max = Uninitialized<ushort2>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
             }
@@ -672,6 +704,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<ushort3>.Create();
+                max = Uninitialized<ushort3>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -690,6 +725,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<ushort4>.Create();
+                max = Uninitialized<ushort4>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -709,6 +747,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<ushort8>.Create();
+                max = Uninitialized<ushort8>.Create();
+
                 minmax(a.x0, b.x0, out min.x0, out max.x0);
                 minmax(a.x1, b.x1, out min.x1, out max.x1);
                 minmax(a.x2, b.x2, out min.x2, out max.x2);
@@ -763,6 +804,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<short2>.Create();
+                max = Uninitialized<short2>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
             }
@@ -780,6 +824,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<short3>.Create();
+                max = Uninitialized<short3>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -798,6 +845,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<short4>.Create();
+                max = Uninitialized<short4>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -817,6 +867,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<short8>.Create();
+                max = Uninitialized<short8>.Create();
+
                 minmax(a.x0, b.x0, out min.x0, out max.x0);
                 minmax(a.x1, b.x1, out min.x1, out max.x1);
                 minmax(a.x2, b.x2, out min.x2, out max.x2);
@@ -859,53 +912,62 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="int2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.int2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(int2 a, int2 b, [NoAlias] out int2 min, [NoAlias] out int2 max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmax_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToInt2(_min);
-                max = RegisterConversion.ToInt2(_max);
+                Xse.minmax_epi32(a, b, out v128 _min, out v128 _max);
+                min = _min;
+                max = _max;
             }
             else
             {
+                min = Uninitialized<int2>.Create();
+                max = Uninitialized<int2>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="int3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.int3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(int3 a, int3 b, [NoAlias] out int3 min, [NoAlias] out int3 max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmax_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToInt3(_min);
-                max = RegisterConversion.ToInt3(_max);
+                Xse.minmax_epi32(a, b, out v128 _min, out v128 _max);
+                min = _min;
+                max = _max;
             }
             else
             {
+                min = Uninitialized<int3>.Create();
+                max = Uninitialized<int3>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="int4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.int4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(int4 a, int4 b, [NoAlias] out int4 min, [NoAlias] out int4 max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmax_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToInt4(_min);
-                max = RegisterConversion.ToInt4(_max);
+                Xse.minmax_epi32(a, b, out v128 _min, out v128 _max);
+                min = _min;
+                max = _max;
             }
             else
             {
+                min = Uninitialized<int4>.Create();
+                max = Uninitialized<int4>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -944,53 +1006,62 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="uint2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.uint2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(uint2 a, uint2 b, [NoAlias] out uint2 min, [NoAlias] out uint2 max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmax_epu32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToUInt2(_min);
-                max = RegisterConversion.ToUInt2(_max);
+                Xse.minmax_epu32(a, b, out v128 _min, out v128 _max);
+                min = _min;
+                max = _max;
             }
             else
             {
+                min = Uninitialized<uint2>.Create();
+                max = Uninitialized<uint2>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="uint3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.uint3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(uint3 a, uint3 b, [NoAlias] out uint3 min, [NoAlias] out uint3 max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmax_epu32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToUInt3(_min);
-                max = RegisterConversion.ToUInt3(_max);
+                Xse.minmax_epu32(a, b, out v128 _min, out v128 _max);
+                min = _min;
+                max = _max;
             }
             else
             {
+                min = Uninitialized<uint3>.Create();
+                max = Uninitialized<uint3>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="uint4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.uint4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(uint4 a, uint4 b, [NoAlias] out uint4 min, [NoAlias] out uint4 max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmax_epu32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToUInt4(_min);
-                max = RegisterConversion.ToUInt4(_max);
+                Xse.minmax_epu32(a, b, out v128 _min, out v128 _max);
+                min = _min;
+                max = _max;
             }
             else
             {
+                min = Uninitialized<uint4>.Create();
+                max = Uninitialized<uint4>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
                 minmax(a.z, b.z, out min.z, out max.z);
@@ -1041,6 +1112,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<ulong2>.Create();
+                max = Uninitialized<ulong2>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
             }
@@ -1107,6 +1181,9 @@ namespace MaxMath
             }
             else
             {
+                min = Uninitialized<long2>.Create();
+                max = Uninitialized<long2>.Create();
+
                 minmax(a.x, b.x, out min.x, out max.x);
                 minmax(a.y, b.y, out min.y, out max.y);
             }
@@ -1152,481 +1229,283 @@ namespace MaxMath
 
 
         /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="float"/>s.    </summary>
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(float a, float b, [NoAlias] out float min, [NoAlias] out float max)
+        public static void minmax(float a, float b, [NoAlias] out float min, [NoAlias] out float max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                min = math.min(a, b);
-                max = math.max(a, b);
-            }
-            else
-            {
-                bool aLTb = a < b;
-
-                min = aLTb ? a : b;
-                max = aLTb ? b : a;
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="float2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float2"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(float2 a, float2 b, [NoAlias] out float2 min, [NoAlias] out float2 max)
+        public static void minmax(float2 a, float2 b, [NoAlias] out float2 min, [NoAlias] out float2 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToFloat2(_min);
-                max = RegisterConversion.ToFloat2(_max);
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="float3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float3"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(float3 a, float3 b, [NoAlias] out float3 min, [NoAlias] out float3 max)
+        public static void minmax(float3 a, float3 b, [NoAlias] out float3 min, [NoAlias] out float3 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToFloat3(_min);
-                max = RegisterConversion.ToFloat3(_max);
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-                minmax(a.z, b.z, out min.z, out max.z);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="float4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float4"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(float4 a, float4 b, [NoAlias] out float4 min, [NoAlias] out float4 max)
+        public static void minmax(float4 a, float4 b, [NoAlias] out float4 min, [NoAlias] out float4 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToFloat4(_min);
-                max = RegisterConversion.ToFloat4(_max);
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-                minmax(a.z, b.z, out min.z, out max.z);
-                minmax(a.w, b.w, out min.w, out max.w);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float8"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(float8 a, float8 b, [NoAlias] out float8 min, [NoAlias] out float8 max)
+        public static void minmax(float8 a, float8 b, [NoAlias] out float8 min, [NoAlias] out float8 max, Promise promises = Promise.Nothing)
         {
-            if (Avx.IsAvxSupported)
-            {
-                Xse.mm256_minmax_ps(a, b, out v256 _min, out v256 _max);
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.v4_0, b.v4_0, out float4 minLo, out float4 maxLo);
-                minmax(a.v4_4, b.v4_4, out float4 minHi, out float4 maxHi);
-
-                min = new float8(minLo, minHi);
-                max = new float8(maxLo, maxHi);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
 
-        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double"/>s.    </summary>
+        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(double a, double b, [NoAlias] out double min, [NoAlias] out double max)
+        public static void minmax(double a, double b, [NoAlias] out double min, [NoAlias] out double max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                min = math.min(a, b);
-                max = math.max(a, b);
-            }
-            else
-            {
-                bool aLTb = a < b;
-
-                min = aLTb ? a : b;
-                max = aLTb ? b : a;
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double2"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(double2 a, double2 b, [NoAlias] out double2 min, [NoAlias] out double2 max)
+        public static void minmax(double2 a, double2 b, [NoAlias] out double2 min, [NoAlias] out double2 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max);
-                min = RegisterConversion.ToDouble2(_min);
-                max = RegisterConversion.ToDouble2(_max);
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double3"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(double3 a, double3 b, [NoAlias] out double3 min, [NoAlias] out double3 max)
+        public static void minmax(double3 a, double3 b, [NoAlias] out double3 min, [NoAlias] out double3 max, Promise promises = Promise.Nothing)
         {
-            if (Avx.IsAvxSupported)
-            {
-                Xse.mm256_minmax_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 _min, out v256 _max);
-                min = RegisterConversion.ToDouble3(_min);
-                max = RegisterConversion.ToDouble3(_max);
-            }
-            else
-            {
-                minmax(a.xy, b.xy, out double2 minxy, out double2 maxxy);
-                minmax(a.z, b.z, out double minz, out double maxz);
-                min = new double3(minxy, minz);
-                max = new double3(maxxy, maxz);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double4"/>s.
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
+        /// </remarks>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void minmax(double4 a, double4 b, [NoAlias] out double4 min, [NoAlias] out double4 max)
+        public static void minmax(double4 a, double4 b, [NoAlias] out double4 min, [NoAlias] out double4 max, Promise promises = Promise.Nothing)
         {
-            if (Avx.IsAvxSupported)
-            {
-                Xse.mm256_minmax_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 _min, out v256 _max);
-                min = RegisterConversion.ToDouble4(_min);
-                max = RegisterConversion.ToDouble4(_max);
-            }
-            else
-            {
-                minmax(a.xy, b.xy, out double2 minxy, out double2 maxxy);
-                minmax(a.zw, b.zw, out double2 minzw, out double2 maxzw);
-                min = new double4(minxy, minzw);
-                max = new double4(maxxy, maxzw);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
 
         /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(quarter a, quarter b, [NoAlias] out quarter min, [NoAlias] out quarter max, Promise promises = Promise.Nothing)
         {
-            bool aLTb = a.IsLessThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero));
-
-            min = aLTb ? a : b;
-            max = aLTb ? b : a;
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
         /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(quarter2 a, quarter2 b, [NoAlias] out quarter2 min, [NoAlias] out quarter2 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_pq(a, b, out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 2);
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
         /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(quarter3 a, quarter3 b, [NoAlias] out quarter3 min, [NoAlias] out quarter3 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_pq(a, b, out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 3);
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-                minmax(a.z, b.z, out min.z, out max.z);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
         /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(quarter4 a, quarter4 b, [NoAlias] out quarter4 min, [NoAlias] out quarter4 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_pq(a, b, out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 4);
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-                minmax(a.z, b.z, out min.z, out max.z);
-                minmax(a.w, b.w, out min.w, out max.w);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
         /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(quarter8 a, quarter8 b, [NoAlias] out quarter8 min, [NoAlias] out quarter8 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_pq(a, b, out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 8);
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.x0, b.x0, out min.x0, out max.x0);
-                minmax(a.x1, b.x1, out min.x1, out max.x1);
-                minmax(a.x2, b.x2, out min.x2, out max.x2);
-                minmax(a.x3, b.x3, out min.x3, out max.x3);
-                minmax(a.x4, b.x4, out min.x4, out max.x4);
-                minmax(a.x5, b.x5, out min.x5, out max.x5);
-                minmax(a.x6, b.x6, out min.x6, out max.x6);
-                minmax(a.x7, b.x7, out min.x7, out max.x7);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
         /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(quarter16 a, quarter16 b, [NoAlias] out quarter16 min, [NoAlias] out quarter16 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_pq(a, b, out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.x0,  b.x0,  out min.x0,  out max.x0);
-                minmax(a.x1,  b.x1,  out min.x1,  out max.x1);
-                minmax(a.x2,  b.x2,  out min.x2,  out max.x2);
-                minmax(a.x3,  b.x3,  out min.x3,  out max.x3);
-                minmax(a.x4,  b.x4,  out min.x4,  out max.x4);
-                minmax(a.x5,  b.x5,  out min.x5,  out max.x5);
-                minmax(a.x6,  b.x6,  out min.x6,  out max.x6);
-                minmax(a.x7,  b.x7,  out min.x7,  out max.x7);
-                minmax(a.x8,  b.x8,  out min.x8,  out max.x8);
-                minmax(a.x9,  b.x9,  out min.x9,  out max.x9);
-                minmax(a.x10, b.x10, out min.x10, out max.x10);
-                minmax(a.x11, b.x11, out min.x11, out max.x11);
-                minmax(a.x12, b.x12, out min.x12, out max.x12);
-                minmax(a.x13, b.x13, out min.x13, out max.x13);
-                minmax(a.x14, b.x14, out min.x14, out max.x14);
-                minmax(a.x15, b.x15, out min.x15, out max.x15);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
         /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter32"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(quarter32 a, quarter32 b, [NoAlias] out quarter32 min, [NoAlias] out quarter32 max, Promise promises = Promise.Nothing)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                Xse.mm256_minmax_pq(a, b, out v256 _min, out v256 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.v16_0,  b.v16_0,  out quarter16 minLo, out quarter16 maxLo);
-                minmax(a.v16_16, b.v16_16, out quarter16 minHi, out quarter16 maxHi);
-
-                min = new quarter32(minLo, minHi);
-                max = new quarter32(maxLo, maxHi);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
 
-        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half"/>s.
+        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(half a, half b, [NoAlias] out half min, [NoAlias] out half max, Promise promises = Promise.Nothing)
         {
-            bool aLTb = a.IsLessThan(b, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero));
-
-            min = aLTb ? a : b;
-            max = aLTb ? b : a;
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half2"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(half2 a, half2 b, [NoAlias] out half2 min, [NoAlias] out half2 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 2);
-                min = RegisterConversion.ToHalf2(_min);
-                max = RegisterConversion.ToHalf2(_max);
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half3"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(half3 a, half3 b, [NoAlias] out half3 min, [NoAlias] out half3 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 3);
-                min = RegisterConversion.ToHalf3(_min);
-                max = RegisterConversion.ToHalf3(_max);
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-                minmax(a.z, b.z, out min.z, out max.z);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half4"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(half4 a, half4 b, [NoAlias] out half4 min, [NoAlias] out half4 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_ph(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 4);
-                min = RegisterConversion.ToHalf4(_min);
-                max = RegisterConversion.ToHalf4(_max);
-            }
-            else
-            {
-                minmax(a.x, b.x, out min.x, out max.x);
-                minmax(a.y, b.y, out min.y, out max.y);
-                minmax(a.z, b.z, out min.z, out max.z);
-                minmax(a.w, b.w, out min.w, out max.w);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
         /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(half8 a, half8 b, [NoAlias] out half8 min, [NoAlias] out half8 max, Promise promises = Promise.Nothing)
         {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                Xse.minmax_ph(a, b, out v128 _min, out v128 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero), elements: 8);
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.x0, b.x0, out min.x0, out max.x0);
-                minmax(a.x1, b.x1, out min.x1, out max.x1);
-                minmax(a.x2, b.x2, out min.x2, out max.x2);
-                minmax(a.x3, b.x3, out min.x3, out max.x3);
-                minmax(a.x4, b.x4, out min.x4, out max.x4);
-                minmax(a.x5, b.x5, out min.x5, out max.x5);
-                minmax(a.x6, b.x6, out min.x6, out max.x6);
-                minmax(a.x7, b.x7, out min.x7, out max.x7);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
 
         /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(half16 a, half16 b, [NoAlias] out half16 min, [NoAlias] out half16 max, Promise promises = Promise.Nothing)
         {
-            if (Avx2.IsAvx2Supported)
-            {
-                Xse.mm256_minmax_ph(a, b, out v256 _min, out v256 _max, noNaNs: promises.Promises(Promise.Unsafe0), noZeros: promises.Promises(Promise.NonZero));
-                min = _min;
-                max = _max;
-            }
-            else
-            {
-                minmax(a.v8_0, b.v8_0, out half8 minLo, out half8 maxLo);
-                minmax(a.v8_8, b.v8_8, out half8 minHi, out half8 maxHi);
-
-                min = new half16(minLo, minHi);
-                max = new half16(maxLo, maxHi);
-            }
+            min = math.min(a, b, promises);
+            max = math.max(a, b, promises);
         }
     }
 }

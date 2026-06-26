@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -152,7 +152,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    r[j] = maxmath.select(r[j], 1, r[j] == 0);
+                    r[j] = math.select(r[j], 1, r[j] == 0);
                 }
 
                 short2x2 test = l / r;
@@ -189,7 +189,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    r[j] = maxmath.select(r[j], 1, r[j] == 0);
+                    r[j] = math.select(r[j], 1, r[j] == 0);
                 }
 
                 short l = rng.NextShort();
@@ -215,7 +215,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    r[j] = maxmath.select(r[j], 1, r[j] == 0);
+                    r[j] = math.select(r[j], 1, r[j] == 0);
                 }
 
                 short2x2 test = l % r;
@@ -252,7 +252,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    r[j] = maxmath.select(r[j], 1, r[j] == 0);
+                    r[j] = math.select(r[j], 1, r[j] == 0);
                 }
 
                 short l = rng.NextShort();
@@ -394,7 +394,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    Assert.AreEqual(test[j], l[j] == r[j]);
+                    Assert.AreEqual(test[j], (bool2)(l[j] == r[j]));
                 }
             }
         }
@@ -413,7 +413,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    Assert.AreEqual(test[j], l[j] != r[j]);
+                    Assert.AreEqual(test[j], (bool2)(l[j] != r[j]));
                 }
             }
         }
@@ -432,7 +432,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    Assert.AreEqual(test[j], l[j] < r[j]);
+                    Assert.AreEqual(test[j], (bool2)(l[j] < r[j]));
                 }
             }
         }
@@ -451,7 +451,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    Assert.AreEqual(test[j], l[j] > r[j]);
+                    Assert.AreEqual(test[j], (bool2)(l[j] > r[j]));
                 }
             }
         }
@@ -470,7 +470,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    Assert.AreEqual(test[j], l[j] <= r[j]);
+                    Assert.AreEqual(test[j], (bool2)(l[j] <= r[j]));
                 }
             }
         }
@@ -489,7 +489,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < COLUMNS; j++)
                 {
-                    Assert.AreEqual(test[j], l[j] >= r[j]);
+                    Assert.AreEqual(test[j], (bool2)(l[j] >= r[j]));
                 }
             }
         }

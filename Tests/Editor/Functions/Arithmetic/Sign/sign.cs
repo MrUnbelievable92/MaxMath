@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -8,7 +8,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _int128()
         {
-            Assert.AreEqual((Int128)0, maxmath.sign((Int128)0));
+            Assert.AreEqual((Int128)0, math.sign((Int128)0));
 
             Random128 rng = Random128.New;
 
@@ -16,7 +16,7 @@ namespace MaxMath.Tests
             {
                 Int128 value = rng.NextInt128();
 
-                Assert.AreEqual((int)maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
+                Assert.AreEqual((int)math.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
         }
 
@@ -24,7 +24,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _sbyte()
         {
-            Assert.AreEqual(0, maxmath.sign((sbyte)0));
+            Assert.AreEqual(0, math.sign((sbyte)0));
 
             Random8 rng = Random8.New;
 
@@ -32,14 +32,14 @@ namespace MaxMath.Tests
             {
                 sbyte value = rng.NextSByte();
 
-                Assert.AreEqual(maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
+                Assert.AreEqual(math.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
         }
 
         [Test]
         public static void _sbyte2()
         {
-            Assert.AreEqual((sbyte2)0, maxmath.sign((sbyte2)0));
+            Assert.AreEqual((sbyte2)0, math.sign((sbyte2)0));
 
             Random8 rng = Random8.New;
 
@@ -49,7 +49,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _sbyte3()
         {
-            Assert.AreEqual((sbyte3)0, maxmath.sign((sbyte3)0));
+            Assert.AreEqual((sbyte3)0, math.sign((sbyte3)0));
 
             Random8 rng = Random8.New;
 
@@ -67,7 +67,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -75,7 +75,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _sbyte4()
         {
-            Assert.AreEqual((sbyte4)0, maxmath.sign((sbyte4)0));
+            Assert.AreEqual((sbyte4)0, math.sign((sbyte4)0));
 
             Random8 rng = Random8.New;
 
@@ -85,7 +85,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _sbyte8()
         {
-            Assert.AreEqual((sbyte8)0, maxmath.sign((sbyte8)0));
+            Assert.AreEqual((sbyte8)0, math.sign((sbyte8)0));
 
             Random8 rng = Random8.New;
 
@@ -103,7 +103,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _sbyte16()
         {
-            Assert.AreEqual((sbyte16)0, maxmath.sign((sbyte16)0));
+            Assert.AreEqual((sbyte16)0, math.sign((sbyte16)0));
 
             Random8 rng = Random8.New;
 
@@ -121,7 +121,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -129,7 +129,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _sbyte32()
         {
-            Assert.AreEqual((sbyte32)0, maxmath.sign((sbyte32)0));
+            Assert.AreEqual((sbyte32)0, math.sign((sbyte32)0));
 
             Random8 rng = Random8.New;
 
@@ -139,7 +139,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -148,7 +148,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _short()
         {
-            Assert.AreEqual(0, maxmath.sign((short)0));
+            Assert.AreEqual(0, math.sign((short)0));
 
             Random16 rng = Random16.New;
 
@@ -156,14 +156,14 @@ namespace MaxMath.Tests
             {
                 short value = rng.NextShort();
 
-                Assert.AreEqual(maxmath.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
+                Assert.AreEqual(math.sign(value), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
         }
 
         [Test]
         public static void _short2()
         {
-            Assert.AreEqual((short2)0, maxmath.sign((short2)0));
+            Assert.AreEqual((short2)0, math.sign((short2)0));
 
             Random16 rng = Random16.New;
 
@@ -173,7 +173,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -181,7 +181,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _short3()
         {
-            Assert.AreEqual((short3)0, maxmath.sign((short3)0));
+            Assert.AreEqual((short3)0, math.sign((short3)0));
 
             Random16 rng = Random16.New;
 
@@ -191,7 +191,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -199,7 +199,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _short4()
         {
-            Assert.AreEqual((short4)0, maxmath.sign((short4)0));
+            Assert.AreEqual((short4)0, math.sign((short4)0));
 
             Random16 rng = Random16.New;
 
@@ -209,7 +209,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -217,7 +217,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _short8()
         {
-            Assert.AreEqual((short8)0, maxmath.sign((short8)0));
+            Assert.AreEqual((short8)0, math.sign((short8)0));
 
             Random16 rng = Random16.New;
 
@@ -227,7 +227,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _short16()
         {
-            Assert.AreEqual((short16)0, maxmath.sign((short16)0));
+            Assert.AreEqual((short16)0, math.sign((short16)0));
 
             Random16 rng = Random16.New;
 
@@ -245,7 +245,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -254,7 +254,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _int()
         {
-            Assert.AreEqual(0, maxmath.sign((int)0));
+            Assert.AreEqual(0, math.sign((int)0));
 
             Random32 rng = Random32.New;
 
@@ -262,14 +262,14 @@ namespace MaxMath.Tests
             {
                 int value = rng.NextInt();
 
-                Assert.AreEqual(maxmath.sign(value, Promise.Nothing), value < 0 ? -1 : value == 0 ? 0 : 1);
+                Assert.AreEqual(math.sign(value, Promise.Nothing), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
         }
 
         [Test]
         public static void _int2()
         {
-            Assert.AreEqual((int2)0, maxmath.sign((int2)0));
+            Assert.AreEqual((int2)0, math.sign((int2)0));
 
             Random32 rng = Random32.New;
 
@@ -279,7 +279,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -287,7 +287,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _int3()
         {
-            Assert.AreEqual((int3)0, maxmath.sign((int3)0));
+            Assert.AreEqual((int3)0, math.sign((int3)0));
 
             Random32 rng = Random32.New;
 
@@ -297,7 +297,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -305,7 +305,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _int4()
         {
-            Assert.AreEqual((int4)0, maxmath.sign((int4)0));
+            Assert.AreEqual((int4)0, math.sign((int4)0));
 
             Random32 rng = Random32.New;
 
@@ -315,7 +315,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -323,7 +323,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _int8()
         {
-            Assert.AreEqual((int8)0, maxmath.sign((int8)0));
+            Assert.AreEqual((int8)0, math.sign((int8)0));
 
             Random32 rng = Random32.New;
 
@@ -333,7 +333,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -342,7 +342,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _long()
         {
-            Assert.AreEqual(0, maxmath.sign((long)0, Promise.Nothing));
+            Assert.AreEqual(0, math.sign((long)0, Promise.Nothing));
 
             Random64 rng = Random64.New;
 
@@ -350,14 +350,14 @@ namespace MaxMath.Tests
             {
                 long value = rng.NextLong();
 
-                Assert.AreEqual(maxmath.sign(value, Promise.Nothing), value < 0 ? -1 : value == 0 ? 0 : 1);
+                Assert.AreEqual(math.sign(value, Promise.Nothing), value < 0 ? -1 : value == 0 ? 0 : 1);
             }
         }
 
         [Test]
         public static void _long2()
         {
-            Assert.AreEqual((long2)0, maxmath.sign((long2)0));
+            Assert.AreEqual((long2)0, math.sign((long2)0));
 
             Random64 rng = Random64.New;
 
@@ -367,7 +367,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -375,7 +375,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _long3()
         {
-            Assert.AreEqual((long3)0, maxmath.sign((long3)0));
+            Assert.AreEqual((long3)0, math.sign((long3)0));
 
             Random64 rng = Random64.New;
 
@@ -385,7 +385,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -393,7 +393,7 @@ namespace MaxMath.Tests
         [Test]
         public static void _long4()
         {
-            Assert.AreEqual((long4)0, maxmath.sign((long4)0));
+            Assert.AreEqual((long4)0, math.sign((long4)0));
 
             Random64 rng = Random64.New;
 
@@ -403,7 +403,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0 ? -1 : value[j] == 0 ? 0 : 1);
                 }
             }
         }
@@ -412,8 +412,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _quarter()
         {
-            Assert.AreEqual(0f, (float)maxmath.sign((quarter)0));
-            Assert.AreEqual(0f, (float)maxmath.sign(maxmath.asquarter((byte)(1 << 7))));
+            Assert.AreEqual(0f, (float)math.sign((quarter)0));
+            Assert.AreEqual(0f, (float)math.sign(math.asquarter((byte)(1 << 7))));
 
             Random32 rng = Random32.New;
 
@@ -421,15 +421,15 @@ namespace MaxMath.Tests
             {
                 quarter value = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
 
-                Assert.AreEqual((float)maxmath.sign(value), value < 0f ? -1f : value == 0f ? 0f : 1f);
+                Assert.AreEqual((float)math.sign(value), value < 0f ? -1f : value == 0f ? 0f : 1f);
             }
         }
 
         [Test]
         public static void _quarter2()
         {
-            Assert.AreEqual((float2)0f, (float2)maxmath.sign((quarter2)0));
-            Assert.AreEqual((float2)0f, (float2)maxmath.sign(maxmath.asquarter((byte2)(1 << 7))));
+            Assert.AreEqual((float2)0f, (float2)math.sign((quarter2)0));
+            Assert.AreEqual((float2)0f, (float2)math.sign(math.asquarter((byte2)(1 << 7))));
 
             Random32 rng = Random32.New;
 
@@ -439,7 +439,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -447,8 +447,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _quarter3()
         {
-            Assert.AreEqual((float3)0f, (float3)maxmath.sign((quarter3)0));
-            Assert.AreEqual((float3)0f, (float3)maxmath.sign(maxmath.asquarter((byte3)(1 << 7))));
+            Assert.AreEqual((float3)0f, (float3)math.sign((quarter3)0));
+            Assert.AreEqual((float3)0f, (float3)math.sign(math.asquarter((byte3)(1 << 7))));
 
             Random32 rng = Random32.New;
 
@@ -458,7 +458,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -466,8 +466,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _quarter4()
         {
-            Assert.AreEqual((float4)0f, (float4)maxmath.sign((quarter4)0));
-            Assert.AreEqual((float4)0f, (float4)maxmath.sign(maxmath.asquarter((byte4)(1 << 7))));
+            Assert.AreEqual((float4)0f, (float4)math.sign((quarter4)0));
+            Assert.AreEqual((float4)0f, (float4)math.sign(math.asquarter((byte4)(1 << 7))));
 
             Random32 rng = Random32.New;
 
@@ -477,7 +477,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -485,8 +485,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _quarter8()
         {
-            Assert.AreEqual((float8)0f, (float8)maxmath.sign((quarter8)0));
-            Assert.AreEqual((float8)0f, (float8)maxmath.sign(maxmath.asquarter((byte8)(1 << 7))));
+            Assert.AreEqual((float8)0f, (float8)math.sign((quarter8)0));
+            Assert.AreEqual((float8)0f, (float8)math.sign(math.asquarter((byte8)(1 << 7))));
 
             Random32 rng = Random32.New;
 
@@ -496,7 +496,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -504,8 +504,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _quarter16()
         {
-            Assert.AreEqual((quarter16)0f, maxmath.sign((quarter16)0));
-            Assert.AreEqual((quarter16)0f, maxmath.sign(maxmath.asquarter((byte16)(1 << 7))));
+            Assert.AreEqual((quarter16)0f, math.sign((quarter16)0));
+            Assert.AreEqual((quarter16)0f, math.sign(math.asquarter((byte16)(1 << 7))));
 
             Random32 rng = Random32.New;
 
@@ -515,7 +515,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -523,8 +523,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _quarter32()
         {
-            Assert.AreEqual((quarter32)0f, maxmath.sign((quarter32)0));
-            Assert.AreEqual((quarter32)0f, maxmath.sign(maxmath.asquarter((byte32)(1 << 7))));
+            Assert.AreEqual((quarter32)0f, math.sign((quarter32)0));
+            Assert.AreEqual((quarter32)0f, math.sign(math.asquarter((byte32)(1 << 7))));
 
             Random32 rng = Random32.New;
 
@@ -534,7 +534,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -543,8 +543,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _half()
         {
-            Assert.AreEqual(0f, (float)maxmath.sign((half)0));
-            Assert.AreEqual(0f, (float)maxmath.sign(maxmath.ashalf((ushort)(1 << 15))));
+            Assert.AreEqual(0f, (float)math.sign((half)0));
+            Assert.AreEqual(0f, (float)math.sign(math.ashalf((ushort)(1 << 15))));
 
             Random32 rng = Random32.New;
 
@@ -552,15 +552,15 @@ namespace MaxMath.Tests
             {
                 half value = (half)rng.NextFloat(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((float)maxmath.sign(value), value < 0f ? -1f : value == 0f ? 0f : 1f);
+                Assert.AreEqual((float)math.sign(value), value < 0f ? -1f : value == 0f ? 0f : 1f);
             }
         }
 
         [Test]
         public static void _half2()
         {
-            Assert.AreEqual((float2)0f, (float2)maxmath.sign((half2)0));
-            Assert.AreEqual((float2)0f, (float2)maxmath.sign(maxmath.ashalf((ushort2)(1 << 15))));
+            Assert.AreEqual((float2)0f, (float2)math.sign((half2)0));
+            Assert.AreEqual((float2)0f, (float2)math.sign(math.ashalf((ushort2)(1 << 15))));
 
             Random32 rng = Random32.New;
 
@@ -570,7 +570,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -578,8 +578,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _half3()
         {
-            Assert.AreEqual((float3)0f, (float3)maxmath.sign((half3)0));
-            Assert.AreEqual((float3)0f, (float3)maxmath.sign(maxmath.ashalf((ushort3)(1 << 15))));
+            Assert.AreEqual((float3)0f, (float3)math.sign((half3)0));
+            Assert.AreEqual((float3)0f, (float3)math.sign(math.ashalf((ushort3)(1 << 15))));
 
             Random32 rng = Random32.New;
 
@@ -589,7 +589,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -597,8 +597,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _half4()
         {
-            Assert.AreEqual((float4)0f, (float4)maxmath.sign((half4)0));
-            Assert.AreEqual((float4)0f, (float4)maxmath.sign(maxmath.ashalf((ushort4)(1 << 15))));
+            Assert.AreEqual((float4)0f, (float4)math.sign((half4)0));
+            Assert.AreEqual((float4)0f, (float4)math.sign(math.ashalf((ushort4)(1 << 15))));
 
             Random32 rng = Random32.New;
 
@@ -608,7 +608,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -616,8 +616,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _half8()
         {
-            Assert.AreEqual((float8)0f, (float8)maxmath.sign((half8)0));
-            Assert.AreEqual((float8)0f, (float8)maxmath.sign(maxmath.ashalf((ushort8)(1 << 15))));
+            Assert.AreEqual((float8)0f, (float8)math.sign((half8)0));
+            Assert.AreEqual((float8)0f, (float8)math.sign(math.ashalf((ushort8)(1 << 15))));
 
             Random32 rng = Random32.New;
 
@@ -627,7 +627,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -635,8 +635,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _half16()
         {
-            Assert.AreEqual((half16)0f, maxmath.sign((half16)0));
-            Assert.AreEqual((half16)0f, maxmath.sign(maxmath.ashalf((ushort16)(1 << 15))));
+            Assert.AreEqual((half16)0f, math.sign((half16)0));
+            Assert.AreEqual((half16)0f, math.sign(math.ashalf((ushort16)(1 << 15))));
 
             Random32 rng = Random32.New;
 
@@ -646,7 +646,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual((float)maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual((float)math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }
@@ -655,8 +655,8 @@ namespace MaxMath.Tests
         [Test]
         public static void _float8()
         {
-            Assert.AreEqual((float8)0f, maxmath.sign((float8)0));
-            Assert.AreEqual((float8)0f, maxmath.sign(maxmath.asfloat((int8)1 << 31)));
+            Assert.AreEqual((float8)0f, math.sign((float8)0));
+            Assert.AreEqual((float8)0f, math.sign(math.asfloat((int8)1 << 31)));
 
             Random32 rng = Random32.New;
 
@@ -666,7 +666,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(maxmath.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
+                    Assert.AreEqual(math.sign(value)[j], value[j] < 0f ? -1f : value[j] == 0f ? 0f : 1f);
                 }
             }
         }

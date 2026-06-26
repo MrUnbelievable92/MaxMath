@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -17,16 +17,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -42,16 +42,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -68,16 +68,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -91,7 +91,7 @@ namespace MaxMath.Tests
                 byte2 left = rng.NextByte2();
                 byte2 right = rng.NextByte2();
 
-                sbyte2 cmp = maxmath.compareto(left, right);
+                sbyte2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -100,7 +100,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -114,7 +114,7 @@ namespace MaxMath.Tests
                 byte3 left = rng.NextByte3();
                 byte3 right = rng.NextByte3();
 
-                sbyte3 cmp = maxmath.compareto(left, right);
+                sbyte3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -123,7 +123,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -137,7 +137,7 @@ namespace MaxMath.Tests
                 byte4 left = rng.NextByte4();
                 byte4 right = rng.NextByte4();
 
-                sbyte4 cmp = maxmath.compareto(left, right);
+                sbyte4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -146,7 +146,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -160,7 +160,7 @@ namespace MaxMath.Tests
                 byte8 left = rng.NextByte8();
                 byte8 right = rng.NextByte8();
 
-                sbyte8 cmp = maxmath.compareto(left, right);
+                sbyte8 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 8;k++)
                 {
@@ -169,7 +169,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -183,7 +183,7 @@ namespace MaxMath.Tests
                 byte16 left = rng.NextByte16();
                 byte16 right = rng.NextByte16();
 
-                sbyte16 cmp = maxmath.compareto(left, right);
+                sbyte16 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 16;k++)
                 {
@@ -192,7 +192,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -206,7 +206,7 @@ namespace MaxMath.Tests
                 byte32 left = rng.NextByte32();
                 byte32 right = rng.NextByte32();
 
-                sbyte32 cmp = maxmath.compareto(left, right);
+                sbyte32 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 32;k++)
                 {
@@ -215,7 +215,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -232,16 +232,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -255,7 +255,7 @@ namespace MaxMath.Tests
                 sbyte2 left = rng.NextSByte2();
                 sbyte2 right = rng.NextSByte2();
 
-                sbyte2 cmp = maxmath.compareto(left, right);
+                sbyte2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -264,7 +264,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -278,7 +278,7 @@ namespace MaxMath.Tests
                 sbyte3 left = rng.NextSByte3();
                 sbyte3 right = rng.NextSByte3();
 
-                sbyte3 cmp = maxmath.compareto(left, right);
+                sbyte3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -287,7 +287,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -301,7 +301,7 @@ namespace MaxMath.Tests
                 sbyte4 left = rng.NextSByte4();
                 sbyte4 right = rng.NextSByte4();
 
-                sbyte4 cmp = maxmath.compareto(left, right);
+                sbyte4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -310,7 +310,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -324,7 +324,7 @@ namespace MaxMath.Tests
                 sbyte8 left = rng.NextSByte8();
                 sbyte8 right = rng.NextSByte8();
 
-                sbyte8 cmp = maxmath.compareto(left, right);
+                sbyte8 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 8;k++)
                 {
@@ -333,7 +333,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -347,7 +347,7 @@ namespace MaxMath.Tests
                 sbyte16 left = rng.NextSByte16();
                 sbyte16 right = rng.NextSByte16();
 
-                sbyte16 cmp = maxmath.compareto(left, right);
+                sbyte16 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 16;k++)
                 {
@@ -356,7 +356,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -370,7 +370,7 @@ namespace MaxMath.Tests
                 sbyte32 left = rng.NextSByte32();
                 sbyte32 right = rng.NextSByte32();
 
-                sbyte32 cmp = maxmath.compareto(left, right);
+                sbyte32 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 32;k++)
                 {
@@ -379,7 +379,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -396,16 +396,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -419,7 +419,7 @@ namespace MaxMath.Tests
                 ushort2 left = rng.NextUShort2();
                 ushort2 right = rng.NextUShort2();
 
-                short2 cmp = maxmath.compareto(left, right);
+                short2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -428,7 +428,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -442,7 +442,7 @@ namespace MaxMath.Tests
                 ushort3 left = rng.NextUShort3();
                 ushort3 right = rng.NextUShort3();
 
-                short3 cmp = maxmath.compareto(left, right);
+                short3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -451,7 +451,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -465,7 +465,7 @@ namespace MaxMath.Tests
                 ushort4 left = rng.NextUShort4();
                 ushort4 right = rng.NextUShort4();
 
-                short4 cmp = maxmath.compareto(left, right);
+                short4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -474,7 +474,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -488,7 +488,7 @@ namespace MaxMath.Tests
                 ushort8 left = rng.NextUShort8();
                 ushort8 right = rng.NextUShort8();
 
-                short8 cmp = maxmath.compareto(left, right);
+                short8 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 8;k++)
                 {
@@ -497,7 +497,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -511,7 +511,7 @@ namespace MaxMath.Tests
                 ushort16 left = rng.NextUShort16();
                 ushort16 right = rng.NextUShort16();
 
-                short16 cmp = maxmath.compareto(left, right);
+                short16 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 16;k++)
                 {
@@ -520,7 +520,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -537,16 +537,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -560,7 +560,7 @@ namespace MaxMath.Tests
                 short2 left = rng.NextShort2();
                 short2 right = rng.NextShort2();
 
-                short2 cmp = maxmath.compareto(left, right);
+                short2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -569,7 +569,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -583,7 +583,7 @@ namespace MaxMath.Tests
                 short3 left = rng.NextShort3();
                 short3 right = rng.NextShort3();
 
-                short3 cmp = maxmath.compareto(left, right);
+                short3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -592,7 +592,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -606,7 +606,7 @@ namespace MaxMath.Tests
                 short4 left = rng.NextShort4();
                 short4 right = rng.NextShort4();
 
-                short4 cmp = maxmath.compareto(left, right);
+                short4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -615,7 +615,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -629,7 +629,7 @@ namespace MaxMath.Tests
                 short8 left = rng.NextShort8();
                 short8 right = rng.NextShort8();
 
-                short8 cmp = maxmath.compareto(left, right);
+                short8 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 8;k++)
                 {
@@ -638,7 +638,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -652,7 +652,7 @@ namespace MaxMath.Tests
                 short16 left = rng.NextShort16();
                 short16 right = rng.NextShort16();
 
-                short16 cmp = maxmath.compareto(left, right);
+                short16 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 16;k++)
                 {
@@ -661,7 +661,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -678,16 +678,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -701,7 +701,7 @@ namespace MaxMath.Tests
                 uint2 left = rng.NextUInt2();
                 uint2 right = rng.NextUInt2();
 
-                int2 cmp = maxmath.compareto(left, right);
+                int2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -710,7 +710,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -724,7 +724,7 @@ namespace MaxMath.Tests
                 uint3 left = rng.NextUInt3();
                 uint3 right = rng.NextUInt3();
 
-                int3 cmp = maxmath.compareto(left, right);
+                int3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -733,7 +733,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -747,7 +747,7 @@ namespace MaxMath.Tests
                 uint4 left = rng.NextUInt4();
                 uint4 right = rng.NextUInt4();
 
-                int4 cmp = maxmath.compareto(left, right);
+                int4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -756,7 +756,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -770,7 +770,7 @@ namespace MaxMath.Tests
                 uint8 left = rng.NextUInt8();
                 uint8 right = rng.NextUInt8();
 
-                int8 cmp = maxmath.compareto(left, right);
+                int8 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 8;k++)
                 {
@@ -779,7 +779,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -796,16 +796,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -819,7 +819,7 @@ namespace MaxMath.Tests
                 int2 left = rng.NextInt2();
                 int2 right = rng.NextInt2();
 
-                int2 cmp = maxmath.compareto(left, right);
+                int2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -828,7 +828,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -842,7 +842,7 @@ namespace MaxMath.Tests
                 int3 left = rng.NextInt3();
                 int3 right = rng.NextInt3();
 
-                int3 cmp = maxmath.compareto(left, right);
+                int3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -851,7 +851,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -865,7 +865,7 @@ namespace MaxMath.Tests
                 int4 left = rng.NextInt4();
                 int4 right = rng.NextInt4();
 
-                int4 cmp = maxmath.compareto(left, right);
+                int4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -874,7 +874,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -888,7 +888,7 @@ namespace MaxMath.Tests
                 int8 left = rng.NextInt8();
                 int8 right = rng.NextInt8();
 
-                int8 cmp = maxmath.compareto(left, right);
+                int8 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 8;k++)
                 {
@@ -897,7 +897,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -914,16 +914,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -937,7 +937,7 @@ namespace MaxMath.Tests
                 ulong2 left = rng.NextULong2();
                 ulong2 right = rng.NextULong2();
 
-                long2 cmp = maxmath.compareto(left, right);
+                long2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -946,7 +946,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -960,7 +960,7 @@ namespace MaxMath.Tests
                 ulong3 left = rng.NextULong3();
                 ulong3 right = rng.NextULong3();
 
-                long3 cmp = maxmath.compareto(left, right);
+                long3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -969,7 +969,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -983,7 +983,7 @@ namespace MaxMath.Tests
                 ulong4 left = rng.NextULong4();
                 ulong4 right = rng.NextULong4();
 
-                long4 cmp = maxmath.compareto(left, right);
+                long4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -992,7 +992,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1009,16 +1009,16 @@ namespace MaxMath.Tests
 
                 if (left < right)
                 {
-                    Assert.AreEqual(-1, maxmath.compareto(left, right));
+                    Assert.AreEqual(-1, math.compareto(left, right));
                 }
                 else if (left > right)
                 {
-                    Assert.AreEqual(1, maxmath.compareto(left, right));
+                    Assert.AreEqual(1, math.compareto(left, right));
                 }
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right));
+                Assert.AreEqual(0, math.compareto(left, right));
             }
         }
 
@@ -1032,7 +1032,7 @@ namespace MaxMath.Tests
                 long2 left = rng.NextLong2();
                 long2 right = rng.NextLong2();
 
-                long2 cmp = maxmath.compareto(left, right);
+                long2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -1041,7 +1041,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1055,7 +1055,7 @@ namespace MaxMath.Tests
                 long3 left = rng.NextLong3();
                 long3 right = rng.NextLong3();
 
-                long3 cmp = maxmath.compareto(left, right);
+                long3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -1064,7 +1064,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1078,7 +1078,7 @@ namespace MaxMath.Tests
                 long4 left = rng.NextLong4();
                 long4 right = rng.NextLong4();
 
-                long4 cmp = maxmath.compareto(left, right);
+                long4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -1087,7 +1087,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1102,7 +1102,7 @@ namespace MaxMath.Tests
                 quarter l = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
                 quarter r = (quarter)rng.NextFloat(quarter.MinValue, quarter.MaxValue);
 
-                Assert.AreEqual(((float)l).CompareTo(r), maxmath.compareto(l, r));
+                Assert.AreEqual(((float)l).CompareTo(r), math.compareto(l, r));
             }
         }
 
@@ -1118,7 +1118,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1135,7 +1135,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1152,7 +1152,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1169,7 +1169,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1186,7 +1186,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1203,7 +1203,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 32; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1218,7 +1218,7 @@ namespace MaxMath.Tests
                 half l = (half)rng.NextFloat(half.MinValue, half.MaxValue);
                 half r = (half)rng.NextFloat(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual(((float)l).CompareTo(r), maxmath.compareto(l, r));
+                Assert.AreEqual(((float)l).CompareTo(r), math.compareto(l, r));
             }
         }
 
@@ -1234,7 +1234,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 2; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1251,7 +1251,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1268,7 +1268,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 4; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1285,7 +1285,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 8; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1302,7 +1302,7 @@ namespace MaxMath.Tests
 
                 for (int j = 0; j < 16; j++)
                 {
-                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), maxmath.compareto(l, r)[j]);
+                    Assert.AreEqual(((float)l[j]).CompareTo(r[j]), math.compareto(l, r)[j]);
                 }
             }
         }
@@ -1318,7 +1318,7 @@ namespace MaxMath.Tests
                 float l = rng.NextFloat(float.MinValue / 2, float.MaxValue / 2);
                 float r = rng.NextFloat(float.MinValue / 2, float.MaxValue / 2);
 
-                Assert.AreEqual(l.CompareTo(r), maxmath.compareto(l, r));
+                Assert.AreEqual(l.CompareTo(r), math.compareto(l, r));
             }
         }
 
@@ -1332,7 +1332,7 @@ namespace MaxMath.Tests
                 float2 left = rng.NextFloat2();
                 float2 right = rng.NextFloat2();
 
-                int2 cmp = maxmath.compareto(left, right);
+                int2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -1341,7 +1341,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1355,7 +1355,7 @@ namespace MaxMath.Tests
                 float3 left = rng.NextFloat3();
                 float3 right = rng.NextFloat3();
 
-                int3 cmp = maxmath.compareto(left, right);
+                int3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -1364,7 +1364,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1378,7 +1378,7 @@ namespace MaxMath.Tests
                 float4 left = rng.NextFloat4();
                 float4 right = rng.NextFloat4();
 
-                int4 cmp = maxmath.compareto(left, right);
+                int4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -1387,7 +1387,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1401,7 +1401,7 @@ namespace MaxMath.Tests
                 float8 left = rng.NextFloat8();
                 float8 right = rng.NextFloat8();
 
-                int8 cmp = maxmath.compareto(left, right);
+                int8 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 8;k++)
                 {
@@ -1410,7 +1410,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x0);
+                Assert.AreEqual(0, math.compareto(left, right).x0);
             }
         }
 
@@ -1425,7 +1425,7 @@ namespace MaxMath.Tests
                 double l = rng.NextDouble(double.MinValue / 2, double.MaxValue / 2);
                 double r = rng.NextDouble(double.MinValue / 2, double.MaxValue / 2);
 
-                Assert.AreEqual(l.CompareTo(r), maxmath.compareto(l, r));
+                Assert.AreEqual(l.CompareTo(r), math.compareto(l, r));
             }
         }
 
@@ -1439,7 +1439,7 @@ namespace MaxMath.Tests
                 double2 left = rng.NextDouble2();
                 double2 right = rng.NextDouble2();
 
-                long2 cmp = maxmath.compareto(left, right);
+                long2 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 2;k++)
                 {
@@ -1448,7 +1448,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1462,7 +1462,7 @@ namespace MaxMath.Tests
                 double3 left = rng.NextDouble3();
                 double3 right = rng.NextDouble3();
 
-                long3 cmp = maxmath.compareto(left, right);
+                long3 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 3;k++)
                 {
@@ -1471,7 +1471,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
 
@@ -1485,7 +1485,7 @@ namespace MaxMath.Tests
                 double4 left = rng.NextDouble4();
                 double4 right = rng.NextDouble4();
 
-                long4 cmp = maxmath.compareto(left, right);
+                long4 cmp = math.compareto(left, right);
 
                 for (int k = 0;k < 4;k++)
                 {
@@ -1494,7 +1494,7 @@ namespace MaxMath.Tests
 
                 left = right;
 
-                Assert.AreEqual(0, maxmath.compareto(left, right).x);
+                Assert.AreEqual(0, math.compareto(left, right).x);
             }
         }
     }

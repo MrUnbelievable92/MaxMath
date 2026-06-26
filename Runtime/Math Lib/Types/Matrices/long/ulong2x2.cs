@@ -1,21 +1,19 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
+using System.Runtime.CompilerServices;
 using DevTools;
 
 namespace MaxMath
 {
-    [Serializable] 
-    [StructLayout(LayoutKind.Sequential, Size = 2 * 2 * sizeof(ulong))]
-    unsafe public struct ulong2x2 : IEquatable<ulong2x2>, IFormattable
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    unsafe public partial struct ulong2x2 : IEquatable<ulong2x2>, IFormattable
     {
         public ulong2 c0;
         public ulong2 c1;
-
+        
 
         public static ulong2x2 identity => new ulong2x2(1, 0,   0, 1);
-
         public static ulong2x2 zero => default;
 
 
@@ -35,200 +33,1290 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ulong2x2(ulong v)
+        public ulong2x2(bool v)
         {
-            this.c0 = v;
-            this.c1 = v;
+            this = (ulong2x2)v;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(bool2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ulong2x2(ulong v) => new ulong2x2(v);
+        public ulong2x2(mask8x2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(mask16x2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(mask32x2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(mask64x2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(byte v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(byte2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(sbyte v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(sbyte2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(ushort v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(ushort2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(short v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(short2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(uint v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(uint2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(int v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(int2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(long v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(long2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(ulong v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(ulong2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(UInt128 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(Int128 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(quarter v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(half v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(float v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(float2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(double v)
+        {
+            this = (ulong2x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(double2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(quadruple v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(Unity.Mathematics.bool2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(Unity.Mathematics.uint2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(Unity.Mathematics.int2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(Unity.Mathematics.half v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(Unity.Mathematics.float2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong2x2(Unity.Mathematics.double2x2 v)
+        {
+            this = (ulong2x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(UInt128 x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(Int128 x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(quarter x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(quadruple x) => (ulong)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool2x2(ulong2x2 v) => new bool2x2 { c0 = (bool2)v.c0, c1 = (bool2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(Unity.Mathematics.bool2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool2x2(ulong2x2 v) => new Unity.Mathematics.bool2x2 { c0 = (bool2)v.c0, c1 = (bool2)v.c1 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(Unity.Mathematics.int2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.int2x2(ulong2x2 v) => new int2x2 { c0 = (int2)v.c0, c1 = (int2)v.c1 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ulong2x2(Unity.Mathematics.uint2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint2x2(ulong2x2 v) => new uint2x2 { c0 = (uint2)v.c0, c1 = (uint2)v.c1 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(Unity.Mathematics.half v) => (ulong2x2)(half)v;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(Unity.Mathematics.float2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float2x2(ulong2x2 v) => new float2x2 { c0 = (float2)v.c0, c1 = (float2)v.c1 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(Unity.Mathematics.double2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double2x2(ulong2x2 v) => new double2x2 { c0 = (double2)v.c0, c1 = (double2)v.c1 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong2x2(long2x2 input) => new ulong2x2((ulong2)input.c0, (ulong2)input.c1);
+        public static implicit operator ulong2x2(ulong v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(bool v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(bool2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(sbyte v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(sbyte2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(short v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(short2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(int v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(int2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator ulong2x2(byte v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ulong2x2(byte2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator ulong2x2(ushort v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ulong2x2(ushort2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ulong2x2(uint v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ulong2x2(uint2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(long v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(long2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(half v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(float v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(float2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(double v) => new ulong2x2 { c0 = (ulong2)v, c1 = (ulong2)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong2x2(double2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong2x2(int2x2 input) => new ulong2x2((ulong2)input.c0, (ulong2)input.c1);
+        public static explicit operator ulong2x2(mask8x2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ulong2x2(uint2x2 input) => new ulong2x2((ulong2)input.c0, (ulong2)input.c1);
+        public static explicit operator ulong2x2(mask16x2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator int2x2(ulong2x2 input) => new int2x2((int2)input.c0, (int2)input.c1);
+        public static explicit operator ulong2x2(mask32x2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator uint2x2(ulong2x2 input) => new uint2x2((uint2)input.c0, (uint2)input.c1);
+        public static explicit operator ulong2x2(mask64x2x2 v) => new ulong2x2 { c0 = (ulong2)v.c0, c1 = (ulong2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask8x2x2(ulong2x2 v) => new mask8x2x2 { c0 = (mask8x2)v.c0, c1 = (mask8x2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask16x2x2(ulong2x2 v) => new mask16x2x2 { c0 = (mask16x2)v.c0, c1 = (mask16x2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask32x2x2(ulong2x2 v) => new mask32x2x2 { c0 = (mask32x2)v.c0, c1 = (mask32x2)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask64x2x2(ulong2x2 v) => new mask64x2x2 { c0 = (mask64x2)v.c0, c1 = (mask64x2)v.c1 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong2x2(float2x2 input) => new ulong2x2((ulong2)input.c0, (ulong2)input.c1);
+        public static ulong2x2 operator ++ (ulong2x2 val) => new ulong2x2 { c0 = val.c0 + 1, c1 = val.c1 + 1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong2x2(double2x2 input) => new ulong2x2((ulong2)input.c0, (ulong2)input.c1);
+        public static ulong2x2 operator -- (ulong2x2 val) => new ulong2x2 { c0 = val.c0 - 1, c1 = val.c1 - 1 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float2x2(ulong2x2 input) => new float2x2((float2)input.c0, (float2)input.c1);
+        public static ulong2x2 operator + (ulong2x2 lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator double2x2(ulong2x2 input) => new double2x2((double2)input.c0, (double2)input.c1);
+        public static ulong2x2 operator + (ulong2x2 lhs, ulong rhs) => new ulong2x2 { c0 = lhs.c0 + rhs, c1 = lhs.c1 + rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ulong lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs + rhs.c0, c1 = lhs + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, ulong rhs) => new ulong2x2 { c0 = lhs.c0 - rhs, c1 = lhs.c1 - rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs - rhs.c0, c1 = lhs - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, ulong rhs) => new ulong2x2 { c0 = lhs.c0 * rhs, c1 = lhs.c1 * rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs * rhs.c0, c1 = lhs * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, ulong rhs) => new ulong2x2 { c0 = lhs.c0 / rhs, c1 = lhs.c1 / rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs / rhs.c0, c1 = lhs / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, ulong rhs) => new ulong2x2 { c0 = lhs.c0 % rhs, c1 = lhs.c1 % rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs % rhs.c0, c1 = lhs % rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ulong2x2 lhs, byte2x2 rhs) => new ulong2x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, byte2x2 rhs) => new ulong2x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, byte2x2 rhs) => new ulong2x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, byte2x2 rhs) => new ulong2x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, byte2x2 rhs) => new ulong2x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ulong2x2 lhs, ushort2x2 rhs) => new ulong2x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, ushort2x2 rhs) => new ulong2x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, ushort2x2 rhs) => new ulong2x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, ushort2x2 rhs) => new ulong2x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, ushort2x2 rhs) => new ulong2x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ulong2x2 lhs, uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => new ulong2x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator + (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs + (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator - (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs - (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator * (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs * (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator / (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs / (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator % (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs % (float2x2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator + (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator - (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator * (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator / (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2x2 operator % (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator + (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs + (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator - (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs - (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator * (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs * (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator / (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs / (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator % (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs % (double2x2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator + (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator - (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator * (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator / (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2x2 operator % (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ulong2x2 lhs, byte rhs) => new ulong2x2 { c0 = lhs.c0 + rhs, c1 = lhs.c1 + rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (byte lhs, ulong2x2 rhs) => (ulong)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, byte rhs) => new ulong2x2 { c0 = lhs.c0 - rhs, c1 = lhs.c1 - rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (byte lhs, ulong2x2 rhs) => (ulong)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, byte rhs) => new ulong2x2 { c0 = lhs.c0 * rhs, c1 = lhs.c1 * rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (byte lhs, ulong2x2 rhs) => (ulong)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, byte rhs) => new ulong2x2 { c0 = lhs.c0 / rhs, c1 = lhs.c1 / rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (byte lhs, ulong2x2 rhs) => (ulong)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, byte rhs) => new ulong2x2 { c0 = lhs.c0 % rhs, c1 = lhs.c1 % rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (byte lhs, ulong2x2 rhs) => (ulong)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ulong2x2 lhs, ushort rhs) => new ulong2x2 { c0 = lhs.c0 + rhs, c1 = lhs.c1 + rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ushort lhs, ulong2x2 rhs) => (ulong)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, ushort rhs) => new ulong2x2 { c0 = lhs.c0 - rhs, c1 = lhs.c1 - rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ushort lhs, ulong2x2 rhs) => (ulong)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, ushort rhs) => new ulong2x2 { c0 = lhs.c0 * rhs, c1 = lhs.c1 * rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ushort lhs, ulong2x2 rhs) => (ulong)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, ushort rhs) => new ulong2x2 { c0 = lhs.c0 / rhs, c1 = lhs.c1 / rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ushort lhs, ulong2x2 rhs) => (ulong)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, ushort rhs) => new ulong2x2 { c0 = lhs.c0 % rhs, c1 = lhs.c1 % rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ushort lhs, ulong2x2 rhs) => (ulong)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (ulong2x2 lhs, uint rhs) => new ulong2x2 { c0 = lhs.c0 + rhs, c1 = lhs.c1 + rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator + (uint lhs, ulong2x2 rhs) => (ulong)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (ulong2x2 lhs, uint rhs) => new ulong2x2 { c0 = lhs.c0 - rhs, c1 = lhs.c1 - rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator - (uint lhs, ulong2x2 rhs) => (ulong)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (ulong2x2 lhs, uint rhs) => new ulong2x2 { c0 = lhs.c0 * rhs, c1 = lhs.c1 * rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator * (uint lhs, ulong2x2 rhs) => (ulong)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (ulong2x2 lhs, uint rhs) => new ulong2x2 { c0 = lhs.c0 / rhs, c1 = lhs.c1 / rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator / (uint lhs, ulong2x2 rhs) => (ulong)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (ulong2x2 lhs, uint rhs) => new ulong2x2 { c0 = lhs.c0 % rhs, c1 = lhs.c1 % rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator % (uint lhs, ulong2x2 rhs) => (ulong)lhs % rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ~ (ulong2x2 val) => new ulong2x2 { c0 = ~val.c0, c1 = ~val.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator << (ulong2x2 val, int n) => new ulong2x2 { c0 = val.c0 << n, c1 = val.c1 << n };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator >> (ulong2x2 val, int n) => new ulong2x2 { c0 = val.c0 >> n, c1 = val.c1 >> n };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs.c0 & rhs.c0, c1 = lhs.c1 & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, ulong rhs) => new ulong2x2 { c0 = lhs.c0 & rhs, c1 = lhs.c1 & rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs & rhs.c0, c1 = lhs & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs.c0 | rhs.c0, c1 = lhs.c1 | rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, ulong rhs) => new ulong2x2 { c0 = lhs.c0 | rhs, c1 = lhs.c1 | rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs | rhs.c0, c1 = lhs | rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs.c0 ^ rhs.c0, c1 = lhs.c1 ^ rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, ulong rhs) => new ulong2x2 { c0 = lhs.c0 ^ rhs, c1 = lhs.c1 ^ rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong lhs, ulong2x2 rhs) => new ulong2x2 { c0 = lhs ^ rhs.c0, c1 = lhs ^ rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, byte2x2 rhs) => lhs & (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, byte2x2 rhs) => lhs | (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, byte2x2 rhs) => lhs ^ (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs | rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, ushort2x2 rhs) => lhs & (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, ushort2x2 rhs) => lhs | (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, ushort2x2 rhs) => lhs ^ (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs | rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, uint2x2 rhs) => lhs & (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, uint2x2 rhs) => lhs | (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, uint2x2 rhs) => lhs ^ (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs | rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs & (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs | (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs ^ (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs | rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs == (uint2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs != (uint2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs < (uint2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs > (uint2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs <= (uint2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, Unity.Mathematics.uint2x2 rhs) => lhs >= (uint2x2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (uint2x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (uint2x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (uint2x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (uint2x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (uint2x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (Unity.Mathematics.uint2x2 lhs, ulong2x2 rhs) => (uint2x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator == (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs == (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator != (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs != (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator < (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs < (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator > (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs > (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator <= (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs <= (float2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator >= (ulong2x2 lhs, Unity.Mathematics.float2x2 rhs) => lhs >= (float2x2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator == (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator != (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator < (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator > (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator <= (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2x2 operator >= (Unity.Mathematics.float2x2 lhs, ulong2x2 rhs) => (float2x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs == (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs != (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs < (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs > (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs <= (double2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, Unity.Mathematics.double2x2 rhs) => lhs >= (double2x2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (Unity.Mathematics.double2x2 lhs, ulong2x2 rhs) => (double2x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, byte rhs) => lhs & (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (byte lhs, ulong2x2 rhs) => (ulong)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, byte rhs) => lhs | (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (byte lhs, ulong2x2 rhs) => (ulong)lhs | rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, byte rhs) => lhs ^ (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (byte lhs, ulong2x2 rhs) => (ulong)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, ushort rhs) => lhs & (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ushort lhs, ulong2x2 rhs) => (ulong)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, ushort rhs) => lhs | (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ushort lhs, ulong2x2 rhs) => (ulong)lhs | rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, ushort rhs) => lhs ^ (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ushort lhs, ulong2x2 rhs) => (ulong)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (ulong2x2 lhs, uint rhs) => lhs & (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator & (uint lhs, ulong2x2 rhs) => (ulong)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (ulong2x2 lhs, uint rhs) => lhs | (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator | (uint lhs, ulong2x2 rhs) => (ulong)lhs | rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (ulong2x2 lhs, uint rhs) => lhs ^ (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong2x2 operator ^ (uint lhs, ulong2x2 rhs) => (ulong)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs.c0 == rhs.c0, c1 = lhs.c1 == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, ulong rhs) => new mask64x2x2 { c0 = lhs.c0 == rhs, c1 = lhs.c1 == rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs == rhs.c0, c1 = lhs == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs.c0 != rhs.c0, c1 = lhs.c1 != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, ulong rhs) => new mask64x2x2 { c0 = lhs.c0 != rhs, c1 = lhs.c1 != rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs != rhs.c0, c1 = lhs != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs.c0 < rhs.c0, c1 = lhs.c1 < rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, ulong rhs) => new mask64x2x2 { c0 = lhs.c0 < rhs, c1 = lhs.c1 < rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs < rhs.c0, c1 = lhs < rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs.c0 > rhs.c0, c1 = lhs.c1 > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, ulong rhs) => new mask64x2x2 { c0 = lhs.c0 > rhs, c1 = lhs.c1 > rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs > rhs.c0, c1 = lhs > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs.c0 <= rhs.c0, c1 = lhs.c1 <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, ulong rhs) => new mask64x2x2 { c0 = lhs.c0 <= rhs, c1 = lhs.c1 <= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs <= rhs.c0, c1 = lhs <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs.c0 >= rhs.c0, c1 = lhs.c1 >= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, ulong rhs) => new mask64x2x2 { c0 = lhs.c0 >= rhs, c1 = lhs.c1 >= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong lhs, ulong2x2 rhs) => new mask64x2x2 { c0 = lhs >= rhs.c0, c1 = lhs >= rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, byte2x2 rhs) => lhs == (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, byte2x2 rhs) => lhs != (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, byte2x2 rhs) => lhs < (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, byte2x2 rhs) => lhs > (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, byte2x2 rhs) => lhs <= (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, byte2x2 rhs) => lhs >= (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (byte2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, ushort2x2 rhs) => lhs == (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, ushort2x2 rhs) => lhs != (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, ushort2x2 rhs) => lhs < (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, ushort2x2 rhs) => lhs > (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, ushort2x2 rhs) => lhs <= (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, ushort2x2 rhs) => lhs >= (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ushort2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, uint2x2 rhs) => lhs == (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, uint2x2 rhs) => lhs != (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, uint2x2 rhs) => lhs < (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, uint2x2 rhs) => lhs > (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, uint2x2 rhs) => lhs <= (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, uint2x2 rhs) => lhs >= (ulong2x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (uint2x2 lhs, ulong2x2 rhs) => (ulong2x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, byte rhs) => lhs == (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (byte lhs, ulong2x2 rhs) => (ulong)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, byte rhs) => lhs != (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (byte lhs, ulong2x2 rhs) => (ulong)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, byte rhs) => lhs < (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (byte lhs, ulong2x2 rhs) => (ulong)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, byte rhs) => lhs > (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (byte lhs, ulong2x2 rhs) => (ulong)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, byte rhs) => lhs <= (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (byte lhs, ulong2x2 rhs) => (ulong)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, byte rhs) => lhs >= (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (byte lhs, ulong2x2 rhs) => (ulong)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, ushort rhs) => lhs == (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ushort lhs, ulong2x2 rhs) => (ulong)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, ushort rhs) => lhs != (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ushort lhs, ulong2x2 rhs) => (ulong)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, ushort rhs) => lhs < (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ushort lhs, ulong2x2 rhs) => (ulong)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, ushort rhs) => lhs > (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ushort lhs, ulong2x2 rhs) => (ulong)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, ushort rhs) => lhs <= (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ushort lhs, ulong2x2 rhs) => (ulong)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, ushort rhs) => lhs >= (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ushort lhs, ulong2x2 rhs) => (ulong)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (ulong2x2 lhs, uint rhs) => lhs == (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator == (uint lhs, ulong2x2 rhs) => (ulong)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (ulong2x2 lhs, uint rhs) => lhs != (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator != (uint lhs, ulong2x2 rhs) => (ulong)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (ulong2x2 lhs, uint rhs) => lhs < (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator < (uint lhs, ulong2x2 rhs) => (ulong)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (ulong2x2 lhs, uint rhs) => lhs > (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator > (uint lhs, ulong2x2 rhs) => (ulong)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (ulong2x2 lhs, uint rhs) => lhs <= (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator <= (uint lhs, ulong2x2 rhs) => (ulong)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (ulong2x2 lhs, uint rhs) => lhs >= (ulong)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2x2 operator >= (uint lhs, ulong2x2 rhs) => (ulong)lhs >= rhs;
 
 
         public ref ulong2 this[int index]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
 Assert.IsWithinArrayBounds(index, 2);
 
-                fixed (void* ptr = &this)
-                {
-                    return ref ((ulong2*)ptr)[index];
-                }
+                fixed (ulong2x2* array = &this) { return ref ((ulong2*)array)[index]; }
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator + (ulong2x2 left, ulong2x2 right) => new ulong2x2 (left.c0 + right.c0, left.c1 + right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator - (ulong2x2 left, ulong2x2 right) => new ulong2x2 (left.c0 - right.c0, left.c1 - right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (ulong2x2 left, ulong2x2 right) => new ulong2x2(left.c0 * right.c0, left.c1 * right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator / (ulong2x2 left, byte2x2 right) => new ulong2x2 (left.c0 / right.c0, left.c1 / right.c1);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator / (ulong2x2 left, ushort2x2 right) => new ulong2x2 (left.c0 / right.c0, left.c1 / right.c1);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator / (ulong2x2 left, uint2x2 right) => new ulong2x2 (left.c0 / right.c0, left.c1 / right.c1);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator / (ulong2x2 left, ulong2x2 right) => new ulong2x2 (left.c0 / right.c0, left.c1 / right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator % (ulong2x2 left, byte2x2 right) => new ulong2x2 (left.c0 % right.c0, left.c1 % right.c1);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator % (ulong2x2 left, ushort2x2 right) => new ulong2x2 (left.c0 % right.c0, left.c1 % right.c1);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator % (ulong2x2 left, uint2x2 right) => new ulong2x2 (left.c0 % right.c0, left.c1 % right.c1);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator % (ulong2x2 left, ulong2x2 right) => new ulong2x2 (left.c0 % right.c0, left.c1 % right.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (ulong2x2 left, uint2x2 right) => new ulong2x2(left.c0 * right.c0, left.c1 * right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (ulong2x2 left, ushort2x2 right) => new ulong2x2(left.c0 * right.c0, left.c1 * right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (ulong2x2 left, byte2x2 right) => new ulong2x2(left.c0 * right.c0, left.c1 * right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (uint2x2 left, ulong2x2 right) => right * left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (ushort2x2 left, ulong2x2 right) => right * left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (byte2x2 left, ulong2x2 right) => right * left;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (ulong2x2 left, ulong right) => right * left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator * (ulong left, ulong2x2 right) => new ulong2x2 (left * right.c0, left * right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator / (ulong2x2 left, byte right) => new ulong2x2 (left.c0 / right, left.c1 / right);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator / (ulong2x2 left, ushort right) => new ulong2x2 (left.c0 / right, left.c1 / right);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator / (ulong2x2 left, uint right) => new ulong2x2 (left.c0 / right, left.c1 / right);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator / (ulong2x2 left, ulong right) => new ulong2x2 (left.c0 / right, left.c1 / right);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator % (ulong2x2 left, byte right) => new ulong2x2 (left.c0 % right, left.c1 % right);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator % (ulong2x2 left, ushort right) => new ulong2x2 (left.c0 % right, left.c1 % right);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator % (ulong2x2 left, uint right) => new ulong2x2 (left.c0 % right, left.c1 % right);
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator % (ulong2x2 left, ulong right) => new ulong2x2 (left.c0 % right, left.c1 % right);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator & (ulong2x2 left, ulong2x2 right) => new ulong2x2 (left.c0 & right.c0, left.c1 & right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator | (ulong2x2 left, ulong2x2 right) => new ulong2x2 (left.c0 | right.c0, left.c1 | right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator ^ (ulong2x2 left, ulong2x2 right) => new ulong2x2 (left.c0 ^ right.c0, left.c1 ^ right.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator ++ (ulong2x2 val) => new ulong2x2 (++val.c0, ++val.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator -- (ulong2x2 val) => new ulong2x2 (--val.c0, --val.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator ~ (ulong2x2 val) => new ulong2x2 (~val.c0, ~val.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator << (ulong2x2 x, int n) => new ulong2x2 (x.c0 << n, x.c1 << n);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2x2 operator >> (ulong2x2 x, int n) => new ulong2x2 (x.c0 >> n, x.c1 >> n);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator == (ulong2x2 left, ulong2x2 right) => new bool2x2 (left.c0 == right.c0, left.c1 == right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator < (ulong2x2 left, ulong2x2 right) => new bool2x2 (left.c0 < right.c0, left.c1 < right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator > (ulong2x2 left, ulong2x2 right) => new bool2x2 (left.c0 > right.c0, left.c1 > right.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator != (ulong2x2 left, ulong2x2 right) => new bool2x2 (left.c0 != right.c0, left.c1 != right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator <= (ulong2x2 left, ulong2x2 right) => new bool2x2 (left.c0 <= right.c0, left.c1 <= right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2x2 operator >= (ulong2x2 left, ulong2x2 right) => new bool2x2 (left.c0 >= right.c0, left.c1 >= right.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(ulong2x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public readonly bool Equals(ulong2x2 other) => math.all(this.c0 == other.c0 & this.c1 == other.c1);
         public override readonly bool Equals(object obj) => obj is ulong2x2 converted && this.Equals(converted);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
 
         public override readonly string ToString() => $"ulong2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";

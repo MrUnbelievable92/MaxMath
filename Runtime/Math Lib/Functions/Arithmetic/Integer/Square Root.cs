@@ -5,7 +5,6 @@ using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst;
 using DevTools;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -93,7 +92,7 @@ namespace MaxMath
                         a = packus_epi16(shortsLo, shortsHi);
                     }
 
-                    constexpr.ASSUME_LE_EPU8(a, 15);
+                    constexpr.ASSUME_LE_EPU8(a, 11);
 
                     return a;
                 }
@@ -291,7 +290,7 @@ namespace MaxMath
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_epi16(v128 a, byte elements = 8)
+            public static v128 sqrt_epi16(v128 a, byte elements = 8, bool signed = true)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -323,7 +322,7 @@ namespace MaxMath
                         ints = cvttps_epi32(sqrt);
                         a = packs_epi32(ints, ints);
 
-                        constexpr.ASSUME_LE_EPU16(a, byte.MaxValue);
+                        constexpr.ASSUME_LE_EPU16(a, signed ? (byte)181 : byte.MaxValue);
 
                         return a;
                     }
@@ -357,7 +356,7 @@ namespace MaxMath
                         sqrt_hi = sqrt_ps(hi);
                         shorts = packs_epi32(cvttps_epi32(sqrt_lo), cvttps_epi32(sqrt_hi));
 
-                        constexpr.ASSUME_LE_EPU16(shorts, byte.MaxValue);
+                        constexpr.ASSUME_LE_EPU16(shorts, signed ? (byte)181 : byte.MaxValue);
 
                         return shorts;
                     }
@@ -366,7 +365,7 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_sqrt_epi16(v256 a)
+            public static v256 mm256_sqrt_epi16(v256 a, bool signed = true)
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -393,7 +392,7 @@ namespace MaxMath
                         v256 sqrtHi = Avx.mm256_sqrt_ps(intsHi);
                         v256 shorts = Avx2.mm256_packus_epi32(Avx.mm256_cvttps_epi32(sqrtLo), Avx.mm256_cvttps_epi32(sqrtHi));
 
-                        constexpr.ASSUME_LE_EPU16(shorts, byte.MaxValue);
+                        constexpr.ASSUME_LE_EPU16(shorts, signed ? (byte)181 : byte.MaxValue);
 
                         return shorts;
                     }
@@ -407,7 +406,7 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return sqrt_epi16(a, elements);
+                    return sqrt_epi16(a, elements, false);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -417,7 +416,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_sqrt_epi16(a);
+                    return mm256_sqrt_epi16(a, false);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -462,6 +461,18 @@ namespace MaxMath
                         }
                         else
                         {
+                            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                            {
+                                if (Avx.IsAvxSupported)
+                                {
+                                    a = Avx.mm256_cvttpd_epi32(Avx.mm256_sqrt_pd(Avx.mm256_cvtepi32_pd(a)));
+
+                                    constexpr.ASSUME_LE_EPU32(a, 46_340);
+
+                                    return a;
+                                }
+                            }
+
                             v128 sqrtLo = cvt2x2epi32_pd(a, out v128 sqrtHi);
 
                             sqrtLo = cvttpd_epi32(sqrt_pd(sqrtLo));
@@ -470,7 +481,7 @@ namespace MaxMath
                             a = unpacklo_epi64(sqrtLo, sqrtHi);
                         }
 
-                        constexpr.ASSUME_LE_EPU32(a, ushort.MaxValue);
+                        constexpr.ASSUME_LE_EPU32(a, 46_340);
 
                         return a;
                     }
@@ -516,7 +527,7 @@ namespace MaxMath
 
                         a = mm256_cvtt2x2pd_epu32(sqrtLo, sqrtHi, positive: true, nonZero: constexpr.ALL_NEQ_EPI32(a, 0));
 
-                        constexpr.ASSUME_LE_EPU32(a, ushort.MaxValue);
+                        constexpr.ASSUME_LE_EPU32(a, 46_340);
 
                         return a;
                     }
@@ -564,6 +575,18 @@ namespace MaxMath
                         }
                         else
                         {
+                            if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                            {
+                                if (Avx.IsAvxSupported)
+                                {
+                                    a = Avx.mm256_cvttpd_epi32(Avx.mm256_sqrt_pd(mm256_cvtepu32_pd(a)));
+
+                                    constexpr.ASSUME_LE_EPU32(a, ushort.MaxValue);
+
+                                    return a;
+                                }
+                            }
+
                             v128 sqrtLo = cvt2x2epu32_pd(a, out v128 sqrtHi);
 
                             sqrtLo = cvttpd_epi32(sqrt_pd(sqrtLo));
@@ -921,7 +944,7 @@ namespace MaxMath
                         }
                     }
 
-                    constexpr.ASSUME_LE_EPU64(result, uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(result, signed ? 3_037_000_499 : uint.MaxValue);
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -1016,8 +1039,8 @@ namespace MaxMath
                         }
                     }
 
-                    constexpr.ASSUME_LE_EPU64(r0, uint.MaxValue);
-                    constexpr.ASSUME_LE_EPU64(r1, uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(r0, signed ? 3_037_000_499 : uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(r1, signed ? 3_037_000_499 : uint.MaxValue);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1141,10 +1164,10 @@ namespace MaxMath
                         }
                     }
 
-                    constexpr.ASSUME_LE_EPU64(r0, uint.MaxValue);
-                    constexpr.ASSUME_LE_EPU64(r1, uint.MaxValue);
-                    constexpr.ASSUME_LE_EPU64(r2, uint.MaxValue);
-                    constexpr.ASSUME_LE_EPU64(r3, uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(r0, signed ? 3_037_000_499 : uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(r1, signed ? 3_037_000_499 : uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(r2, signed ? 3_037_000_499 : uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(r3, signed ? 3_037_000_499 : uint.MaxValue);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1161,10 +1184,10 @@ namespace MaxMath
                     mask = new v256(1ul << 62);
                     mask = mm256_zeromissing_epi64(mask, elements);
                     mask = Avx2.mm256_srlv_epi64(mask, Avx2.mm256_andnot_si256(ONE, mm256_lzcnt_epi64(a)));
-                    mask = Avx2.mm256_srlv_epi64(mask, Avx2.mm256_and_si256(TWO, signed ? mm256_cmpgt_epi64(mask, a, elements) : mm256_cmpgt_epu64(mask, a, elements)));
+                    mask = Avx2.mm256_srlv_epi64(mask, Avx2.mm256_and_si256(TWO, signed ? Avx2.mm256_cmpgt_epi64(mask, a) : mm256_cmpgt_epu64(mask, a, elements)));
 
                     result = mask;
-                    a = Avx2.mm256_sub_epi64(a, Avx2.mm256_andnot_si256(signed ? mm256_cmpgt_epi64(mask, a, elements) : mm256_cmpgt_epu64(mask, a, elements), mask));
+                    a = Avx2.mm256_sub_epi64(a, Avx2.mm256_andnot_si256(signed ? Avx2.mm256_cmpgt_epi64(mask, a) : mm256_cmpgt_epu64(mask, a, elements), mask));
                     mask = Avx2.mm256_srli_epi64(mask, 2);
 
                     //if (Avx512.IsAvx512Supported)
@@ -1199,7 +1222,7 @@ namespace MaxMath
                     v256 cmp;
                     if (signed)
                     {
-                        cmp = mm256_cmpgt_epi64(resultAdded, a, elements);
+                        cmp = Avx2.mm256_cmpgt_epi64(resultAdded, a);
                     }
                     else
                     {
@@ -1211,7 +1234,7 @@ namespace MaxMath
                         {
                             cmp = COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size
                                 ? mm256_cmpgt_epu64(resultAdded, a)
-                                : mm256_cmpgt_epi64(resultAdded, a);
+                                : Avx2.mm256_cmpgt_epi64(resultAdded, a);
                         }
                     }
                     result = Avx2.mm256_srlv_epi64(result, Avx2.mm256_andnot_si256(Avx2.mm256_cmpeq_epi64(mask, ZERO), ONE));
@@ -1276,13 +1299,13 @@ namespace MaxMath
 
                         //// 64bit division by itself is worse than a pipeline flush
                         //// branch evaluation runs in parallel to cvt + sqrt + cvtt (~28 cycles), minimizing branch misprediction penalty
-                        if (mm256_allfalse_epi256<ulong>(signed ? mm256_cmpgt_epi64(a, mm256_set1_epi64x(MAX_ACCURATE_INT_SQRT_F64)) : mm256_cmpgt_epu64(a, mm256_set1_epi64x(MAX_ACCURATE_INT_SQRT_F64)), elements))
+                        if (mm256_allfalse_epi256<ulong>(signed ? Avx2.mm256_cmpgt_epi64(a, mm256_set1_epi64x(MAX_ACCURATE_INT_SQRT_F64)) : mm256_cmpgt_epu64(a, mm256_set1_epi64x(MAX_ACCURATE_INT_SQRT_F64)), elements))
                         {
                             return cvtt;
                         }
 
                         result = mm256_srli_epi64(Avx2.mm256_add_epi64(cvtt, mm256_div_epu64(a, truncSqrtDbl, bIsDbl: true, elements: elements)), 1);
-                        result = Avx2.mm256_add_epi64(result, signed ? mm256_cmpgt_epi64(mm256_square_epi64(result, elements), a, elements) : mm256_cmpgt_epu64(mm256_square_epi64(result, elements), a, elements));
+                        result = Avx2.mm256_add_epi64(result, signed ? Avx2.mm256_cmpgt_epi64(mm256_square_epi64(result, elements), a) : mm256_cmpgt_epu64(mm256_square_epi64(result, elements), a, elements));
                     }
                     else
                     {
@@ -1295,7 +1318,7 @@ namespace MaxMath
                         }
                     }
 
-                    constexpr.ASSUME_LE_EPU64(result, uint.MaxValue, elements);
+                    constexpr.ASSUME_LE_EPU64(result, signed ? 3_037_000_499 : uint.MaxValue, elements);
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -1377,8 +1400,8 @@ namespace MaxMath
                         }
                     }
 
-                    constexpr.ASSUME_LE_EPU64(r0, uint.MaxValue);
-                    constexpr.ASSUME_LE_EPU64(r1, uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(r0, signed ? 3_037_000_499 : uint.MaxValue);
+                    constexpr.ASSUME_LE_EPU64(r1, signed ? 3_037_000_499 : uint.MaxValue);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1834,7 +1857,7 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static v256 mm256_sqrt_ep128(v256 aLo, v256 aHi, bool signed, bool nonZero = false, byte elements = 4)
             {
-                static bool ContinueLoop(v256 doneMask, v256 maskLo, v256 maskHi)
+                static bool ContinueLoop(v256 maskLo, v256 maskHi)
                 {
                     if (Avx2.IsAvx2Supported)
                     {
@@ -1904,8 +1927,9 @@ namespace MaxMath
                         v256 doneMask;
                         maskHi = mm256_zeromissing_epi64(maskHi, elements);
 
-                        while (ContinueLoop(doneMask = mm256_cmpeq_epi128(maskLo, maskHi, Avx.mm256_setzero_si256(), Avx.mm256_setzero_si256(), elements), maskLo, maskHi))
+                        while (ContinueLoop(maskLo, maskHi))
                         {
+                            doneMask = mm256_cmpeq_epi128(maskLo, maskHi, Avx.mm256_setzero_si256(), Avx.mm256_setzero_si256(), elements);
                             LOOP_sqrt_ep128(ref aLo, ref aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed, elements);
                         }
 
@@ -1925,7 +1949,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static byte bytesqrt(byte x, bool unsigned)
@@ -1959,7 +1983,7 @@ namespace MaxMath
             else
 #endif
             {
-                return (byte)math.sqrt(x);
+                return (byte)sqrt(x);
             }
         }
 
@@ -1981,7 +2005,7 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsX86Win64Supported)
                 {
-                    double sqrtDbl = math.sqrt((double)x);
+                    double sqrtDbl = sqrt((double)x);
 
                     if (!(nonZero.Promises(Promise.NonZero) || x.IsNotZero))
                     {
@@ -1992,12 +2016,12 @@ namespace MaxMath
                     }
 
                     UInt128 v = (UInt128)sqrtDbl;
-                    ulong v64 = math.select(v.lo64, ulong.MaxValue, sqrtDbl >= ulong.MaxValue);
+                    ulong v64 = select(v.lo64, ulong.MaxValue, sqrtDbl >= ulong.MaxValue);
 
                     v = (v + (x / v64)) >> 1;
                     bool overshoot = v.hi64 != 0;
 
-                    return math.select(v.lo64 - tobyte(square(v) > x), ulong.MaxValue, overshoot);
+                    return select(v.lo64 - tobyte(square(v) > x), ulong.MaxValue, overshoot);
                 }
             }
 
@@ -2090,7 +2114,7 @@ Assert.IsNotSmaller(x, 0);
             }
             else
             {
-                return (byte2)math.sqrt(x);
+                return (byte2)sqrt(x);
             }
         }
 
@@ -2104,7 +2128,7 @@ Assert.IsNotSmaller(x, 0);
             }
             else
             {
-                return (byte3)math.sqrt(x);
+                return (byte3)sqrt(x);
             }
         }
 
@@ -2118,7 +2142,7 @@ Assert.IsNotSmaller(x, 0);
             }
             else
             {
-                return (byte4)math.sqrt(x);
+                return (byte4)sqrt(x);
             }
         }
 
@@ -2191,7 +2215,7 @@ VectorAssert.IsNotSmaller<sbyte2, sbyte>(x, 0, 2);
             }
             else
             {
-                return (sbyte2)math.sqrt(x);
+                return (sbyte2)sqrt(x);
             }
         }
 
@@ -2207,7 +2231,7 @@ VectorAssert.IsNotSmaller<sbyte3, sbyte>(x, 0, 3);
             }
             else
             {
-                return (sbyte3)math.sqrt(x);
+                return (sbyte3)sqrt(x);
             }
         }
 
@@ -2223,7 +2247,7 @@ VectorAssert.IsNotSmaller<sbyte4, sbyte>(x, 0, 4);
             }
             else
             {
-                return (sbyte4)math.sqrt(x);
+                return (sbyte4)sqrt(x);
             }
         }
 
@@ -2291,7 +2315,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             }
             else
             {
-                return (ushort)math.sqrt(x);
+                return (ushort)sqrt(x);
             }
         }
 
@@ -2305,7 +2329,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             }
             else
             {
-                return (ushort2)(math.sqrt(x));
+                return (ushort2)(sqrt(x));
             }
         }
 
@@ -2319,7 +2343,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             }
             else
             {
-                return (ushort3)(math.sqrt(x));
+                return (ushort3)(sqrt(x));
             }
         }
 
@@ -2333,7 +2357,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             }
             else
             {
-                return (ushort4)(math.sqrt(x));
+                return (ushort4)(sqrt(x));
             }
         }
 
@@ -2395,7 +2419,7 @@ VectorAssert.IsNotSmaller<short2, short>(x, 0, 2);
             }
             else
             {
-                return (short2)(math.sqrt(x));
+                return (short2)(sqrt(x));
             }
         }
 
@@ -2411,7 +2435,7 @@ VectorAssert.IsNotSmaller<short3, short>(x, 0, 3);
             }
             else
             {
-                return (short3)(math.sqrt(x));
+                return (short3)(sqrt(x));
             }
         }
 
@@ -2427,7 +2451,7 @@ VectorAssert.IsNotSmaller<short4, short>(x, 0, 4);
             }
             else
             {
-                return (short4)(math.sqrt(x));
+                return (short4)(sqrt(x));
             }
         }
 
@@ -2477,58 +2501,58 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
             {
                 if (constexpr.IS_TRUE(x <= MAX_ACCURATE_INT_SQRT_F32))
                 {
-                    return (uint)math.sqrt((float)x);
+                    return (uint)sqrt((float)x);
                 }
                 else if (constexpr.IS_TRUE(x <= int.MaxValue))
                 {
-                    return (uint)math.sqrt((double)(int)x);
+                    return (uint)sqrt((double)(int)x);
                 }
                 else
                 {
-                    return (uint)math.sqrt((double)x);
+                    return (uint)sqrt((double)x);
                 }
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="uint2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.uint2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 intsqrt(uint2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 2));
+                return Xse.sqrt_epu32(x, 2);
             }
             else
             {
-                return (uint2)math.sqrt((double2)x);
+                return (uint2)sqrt((double2)x);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="uint3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.uint3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 intsqrt(uint3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 3));
+                return Xse.sqrt_epu32(x, 3);
             }
             else
             {
-                return (uint3)math.sqrt((double3)x);
+                return (uint3)sqrt((double3)x);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="uint4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.uint4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 intsqrt(uint4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.sqrt_epu32(RegisterConversion.ToV128(x), 4));
+                return Xse.sqrt_epu32(x, 4);
             }
             else
             {
-                return (uint4)math.sqrt((double4)x);
+                return (uint4)sqrt((double4)x);
             }
         }
 
@@ -2564,7 +2588,7 @@ Assert.IsNonNegative(x);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="int2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 intsqrt(int2 x)
         {
@@ -2572,15 +2596,15 @@ VectorAssert.IsNotSmaller<int2, int>(x, 0, 2);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 2));
+                return Xse.sqrt_epi32(x, 2);
             }
             else
             {
-                return (int2)math.sqrt((double2)x);
+                return (int2)sqrt((double2)x);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="int3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 intsqrt(int3 x)
         {
@@ -2588,15 +2612,15 @@ VectorAssert.IsNotSmaller<int3, int>(x, 0, 3);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 3));
+                return Xse.sqrt_epi32(x, 3);
             }
             else
             {
-                return (int3)math.sqrt((double3)x);
+                return (int3)sqrt((double3)x);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="int4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 intsqrt(int4 x)
         {
@@ -2604,11 +2628,11 @@ VectorAssert.IsNotSmaller<int4, int>(x, 0, 4);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.sqrt_epi32(RegisterConversion.ToV128(x), 4));
+                return Xse.sqrt_epi32(x, 4);
             }
             else
             {
-                return (int4)math.sqrt((double4)x);
+                return (int4)sqrt((double4)x);
             }
         }
 
@@ -2639,7 +2663,7 @@ VectorAssert.IsNotSmaller<int8, int>(x, 0, 8);
                 return intsqrt((uint)x);
             }
 
-            double sqrtDbl = math.sqrt((double)x);
+            double sqrtDbl = sqrt((double)x);
             ulong cvtt = (ulong)(long)sqrtDbl;
             // 64bit division by itself is worse than a pipeline flush
             // branch evaluation runs in parallel to cvt + sqrt + cvtt (~28 cycles), minimizing branch misprediction penalty
@@ -2719,7 +2743,7 @@ Assert.IsNonNegative(x);
                 return intsqrt((uint)x);
             }
 
-            double sqrtDbl = math.sqrt((double)x);
+            double sqrtDbl = sqrt((double)x);
             ulong cvtt = (ulong)(long)sqrtDbl;
             // 64bit division by itself is worse than a pipeline flush
             // branch evaluation runs in parallel to cvt + sqrt + cvtt (~28 cycles), minimizing branch misprediction penalty

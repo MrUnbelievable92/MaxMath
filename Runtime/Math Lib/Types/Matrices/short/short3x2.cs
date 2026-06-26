@@ -1,18 +1,16 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
+using System.Runtime.CompilerServices;
 using DevTools;
 
 namespace MaxMath
 {
-    [Serializable] 
-    [StructLayout(LayoutKind.Sequential, Size = 3 * 2 * sizeof(short))]
-    unsafe public struct short3x2 : IEquatable<short3x2>, IFormattable
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    unsafe public partial struct short3x2 : IEquatable<short3x2>, IFormattable
     {
         public short3 c0;
         public short3 c1;
-
 
         public static short3x2 zero => default;
 
@@ -34,159 +32,1096 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public short3x2(short v)
+        public short3x2(bool v)
         {
-            this.c0 = v;
-            this.c1 = v;
+            this = (short3x2)v;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(bool3x2 v)
+        {
+            this = (short3x2)v;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator short3x2(short v) => new short3x2(v);
+        public short3x2(mask8x3x2 v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(mask16x3x2 v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(mask32x3x2 v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(mask64x3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(byte v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(byte3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(sbyte v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(sbyte3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(short v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(short3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(ushort v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(ushort3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(uint v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(uint3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(int v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(int3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(long v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(long3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(ulong v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(ulong3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(UInt128 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(Int128 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(quarter v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(half v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(float v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(float3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(double v)
+        {
+            this = (short3x2)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(double3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(quadruple v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(Unity.Mathematics.bool3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(Unity.Mathematics.uint3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(Unity.Mathematics.int3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(Unity.Mathematics.half v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(Unity.Mathematics.float3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public short3x2(Unity.Mathematics.double3x2 v)
+        {
+            this = (short3x2)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(UInt128 x) => (short)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(Int128 x) => (short)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(quarter x) => (short)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(quadruple x) => (short)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool3x2(short3x2 v) => new bool3x2 { c0 = (bool3)v.c0, c1 = (bool3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(Unity.Mathematics.bool3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool3x2(short3x2 v) => new Unity.Mathematics.bool3x2 { c0 = (bool3)v.c0, c1 = (bool3)v.c1 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(Unity.Mathematics.int3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.int3x2(short3x2 v) => new int3x2 { c0 = (int3)v.c0, c1 = (int3)v.c1 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(Unity.Mathematics.uint3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint3x2(short3x2 v) => new uint3x2 { c0 = (uint3)v.c0, c1 = (uint3)v.c1 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(Unity.Mathematics.half v) => (short3x2)(half)v;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(Unity.Mathematics.float3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float3x2(short3x2 v) => new float3x2 { c0 = (float3)v.c0, c1 = (float3)v.c1 };
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(Unity.Mathematics.double3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double3x2(short3x2 v) => new double3x2 { c0 = (double3)v.c0, c1 = (double3)v.c1 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short3x2(ushort3x2 input) => new short3x2((short3)input.c0, (short3)input.c1);
+        public static implicit operator short3x2(short v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(bool v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(bool3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator short3x2(sbyte v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator short3x2(sbyte3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(int v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(int3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(long v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(long3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator short3x2(byte v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator short3x2(byte3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(ushort v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(ushort3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(uint v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(uint3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(ulong v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(ulong3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(half v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(float v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(float3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(double v) => new short3x2 { c0 = (short3)v, c1 = (short3)v };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator short3x2(double3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short3x2(int3x2 input) => new short3x2((short3)input.c0, (short3)input.c1);
+        public static explicit operator short3x2(mask8x3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short3x2(uint3x2 input) => new short3x2((short3)input.c0, (short3)input.c1);
+        public static explicit operator short3x2(mask16x3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short3x2(long3x2 input) => new short3x2((short3)input.c0, (short3)input.c1);
+        public static explicit operator short3x2(mask32x3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short3x2(ulong3x2 input) => new short3x2((short3)input.c0, (short3)input.c1);
+        public static explicit operator short3x2(mask64x3x2 v) => new short3x2 { c0 = (short3)v.c0, c1 = (short3)v.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short3x2(float3x2 input) => new short3x2((short3)input.c0, (short3)input.c1);
+        public static explicit operator mask8x3x2(short3x2 v) => new mask8x3x2 { c0 = (mask8x3)v.c0, c1 = (mask8x3)v.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator short3x2(double3x2 input) => new short3x2((short3)input.c0, (short3)input.c1);
+        public static explicit operator mask16x3x2(short3x2 v) => new mask16x3x2 { c0 = (mask16x3)v.c0, c1 = (mask16x3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask32x3x2(short3x2 v) => new mask32x3x2 { c0 = (mask32x3)v.c0, c1 = (mask32x3)v.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask64x3x2(short3x2 v) => new mask64x3x2 { c0 = (mask64x3)v.c0, c1 = (mask64x3)v.c1 };
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (short3x2 val) => new short3x2 { c0 = -val.c0, c1 = -val.c1 };
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ++ (short3x2 val) => new short3x2 { c0 = val.c0 + (short)1, c1 = val.c1 + (short)1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator -- (short3x2 val) => new short3x2 { c0 = val.c0 - (short)1, c1 = val.c1 - (short)1 };
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator int3x2(short3x2 input) => new int3x2((int3)input.c0, (int3)input.c1);
+        public static short3x2 operator + (short3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator uint3x2(short3x2 input) => new uint3x2((uint3)input.c0, (uint3)input.c1);
+        public static short3x2 operator + (short3x2 lhs, short rhs) => new short3x2 { c0 = lhs.c0 + rhs, c1 = lhs.c1 + rhs };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator long3x2(short3x2 input) => new long3x2((long3)input.c0, (long3)input.c1);
+        public static short3x2 operator + (short lhs, short3x2 rhs) => new short3x2 { c0 = lhs + rhs.c0, c1 = lhs + rhs.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong3x2(short3x2 input) => new ulong3x2((ulong3)input.c0, (ulong3)input.c1);
+        public static short3x2 operator - (short3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator float3x2(short3x2 input) => new float3x2((float3)input.c0, (float3)input.c1);
+        public static short3x2 operator - (short3x2 lhs, short rhs) => new short3x2 { c0 = lhs.c0 - rhs, c1 = lhs.c1 - rhs };
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator double3x2(short3x2 input) => new double3x2((double3)input.c0, (double3)input.c1);
+        public static short3x2 operator - (short lhs, short3x2 rhs) => new short3x2 { c0 = lhs - rhs.c0, c1 = lhs - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (short3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (short3x2 lhs, short rhs) => new short3x2 { c0 = lhs.c0 * rhs, c1 = lhs.c1 * rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (short lhs, short3x2 rhs) => new short3x2 { c0 = lhs * rhs.c0, c1 = lhs * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (short3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (short3x2 lhs, short rhs) => new short3x2 { c0 = lhs.c0 / rhs, c1 = lhs.c1 / rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (short lhs, short3x2 rhs) => new short3x2 { c0 = lhs / rhs.c0, c1 = lhs / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (short3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (short3x2 lhs, short rhs) => new short3x2 { c0 = lhs.c0 % rhs, c1 = lhs.c1 % rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (short lhs, short3x2 rhs) => new short3x2 { c0 = lhs % rhs.c0, c1 = lhs % rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator + (short3x2 lhs, byte3x2 rhs) => new short3x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (short3x2 lhs, byte3x2 rhs) => new short3x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (short3x2 lhs, byte3x2 rhs) => new short3x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (short3x2 lhs, byte3x2 rhs) => new short3x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (short3x2 lhs, byte3x2 rhs) => new short3x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator + (byte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (byte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (byte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (byte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (byte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator + (short3x2 lhs, sbyte3x2 rhs) => new short3x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (short3x2 lhs, sbyte3x2 rhs) => new short3x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (short3x2 lhs, sbyte3x2 rhs) => new short3x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (short3x2 lhs, sbyte3x2 rhs) => new short3x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (short3x2 lhs, sbyte3x2 rhs) => new short3x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator + (sbyte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 + rhs.c0, c1 = lhs.c1 + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (sbyte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 - rhs.c0, c1 = lhs.c1 - rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (sbyte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 * rhs.c0, c1 = lhs.c1 * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (sbyte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 / rhs.c0, c1 = lhs.c1 / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (sbyte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 % rhs.c0, c1 = lhs.c1 % rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator + (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs + (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator - (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs - (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator * (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs * (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator / (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs / (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator % (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs % (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator + (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator - (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator * (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator / (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator % (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator + (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs + (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator - (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs - (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator * (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs * (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator / (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs / (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator % (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs % (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator + (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator - (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator * (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator / (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3x2 operator % (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator + (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs + (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator - (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs - (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator * (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs * (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator / (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs / (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator % (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs % (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator + (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator - (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator * (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator / (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3x2 operator % (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator + (short3x2 lhs, byte rhs) => new short3x2 { c0 = lhs.c0 + rhs, c1 = lhs.c1 + rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator + (byte lhs, short3x2 rhs) => new short3x2 { c0 = lhs + rhs.c0, c1 = lhs + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (short3x2 lhs, byte rhs) => new short3x2 { c0 = lhs.c0 - rhs, c1 = lhs.c1 - rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (byte lhs, short3x2 rhs) => new short3x2 { c0 = lhs - rhs.c0, c1 = lhs - rhs.c1 };
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (short3x2 lhs, byte rhs) => new short3x2 { c0 = lhs.c0 * rhs, c1 = lhs.c1 * rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (byte lhs, short3x2 rhs) => new short3x2 { c0 = lhs * rhs.c0, c1 = lhs * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (short3x2 lhs, byte rhs) => new short3x2 { c0 = lhs.c0 / rhs, c1 = lhs.c1 / rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (byte lhs, short3x2 rhs) => new short3x2 { c0 = lhs / rhs.c0, c1 = lhs / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (short3x2 lhs, byte rhs) => new short3x2 { c0 = lhs.c0 % rhs, c1 = lhs.c1 % rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (byte lhs, short3x2 rhs) => new short3x2 { c0 = lhs % rhs.c0, c1 = lhs % rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator + (short3x2 lhs, sbyte rhs) => new short3x2 { c0 = lhs.c0 + rhs, c1 = lhs.c1 + rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator + (sbyte lhs, short3x2 rhs) => new short3x2 { c0 = lhs + rhs.c0, c1 = lhs + rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (short3x2 lhs, sbyte rhs) => new short3x2 { c0 = lhs.c0 - rhs, c1 = lhs.c1 - rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator - (sbyte lhs, short3x2 rhs) => new short3x2 { c0 = lhs - rhs.c0, c1 = lhs - rhs.c1 };
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (short3x2 lhs, sbyte rhs) => new short3x2 { c0 = lhs.c0 * rhs, c1 = lhs.c1 * rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator * (sbyte lhs, short3x2 rhs) => new short3x2 { c0 = lhs * rhs.c0, c1 = lhs * rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (short3x2 lhs, sbyte rhs) => new short3x2 { c0 = lhs.c0 / rhs, c1 = lhs.c1 / rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator / (sbyte lhs, short3x2 rhs) => new short3x2 { c0 = lhs / rhs.c0, c1 = lhs / rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (short3x2 lhs, sbyte rhs) => new short3x2 { c0 = lhs.c0 % rhs, c1 = lhs.c1 % rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator % (sbyte lhs, short3x2 rhs) => new short3x2 { c0 = lhs % rhs.c0, c1 = lhs % rhs.c1 };
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ~ (short3x2 val) => new short3x2 { c0 = ~val.c0, c1 = ~val.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator << (short3x2 val, int n) => new short3x2 { c0 = val.c0 << n, c1 = val.c1 << n };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator >> (short3x2 val, int n) => new short3x2 { c0 = val.c0 >> n, c1 = val.c1 >> n };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (short3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 & rhs.c0, c1 = lhs.c1 & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (short3x2 lhs, short rhs) => new short3x2 { c0 = lhs.c0 & rhs, c1 = lhs.c1 & rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (short lhs, short3x2 rhs) => new short3x2 { c0 = lhs & rhs.c0, c1 = lhs & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (short3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 | rhs.c0, c1 = lhs.c1 | rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (short3x2 lhs, short rhs) => new short3x2 { c0 = lhs.c0 | rhs, c1 = lhs.c1 | rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (short lhs, short3x2 rhs) => new short3x2 { c0 = lhs | rhs.c0, c1 = lhs | rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (short3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 ^ rhs.c0, c1 = lhs.c1 ^ rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (short3x2 lhs, short rhs) => new short3x2 { c0 = lhs.c0 ^ rhs, c1 = lhs.c1 ^ rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (short lhs, short3x2 rhs) => new short3x2 { c0 = lhs ^ rhs.c0, c1 = lhs ^ rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (short3x2 lhs, byte3x2 rhs) => new short3x2 { c0 = lhs.c0 & rhs.c0, c1 = lhs.c1 & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (short3x2 lhs, byte3x2 rhs) => new short3x2 { c0 = lhs.c0 | rhs.c0, c1 = lhs.c1 | rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (short3x2 lhs, byte3x2 rhs) => new short3x2 { c0 = lhs.c0 ^ rhs.c0, c1 = lhs.c1 ^ rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (byte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 & rhs.c0, c1 = lhs.c1 & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (byte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 | rhs.c0, c1 = lhs.c1 | rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (byte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 ^ rhs.c0, c1 = lhs.c1 ^ rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (short3x2 lhs, sbyte3x2 rhs) => new short3x2 { c0 = lhs.c0 & rhs.c0, c1 = lhs.c1 & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (short3x2 lhs, sbyte3x2 rhs) => new short3x2 { c0 = lhs.c0 | rhs.c0, c1 = lhs.c1 | rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (short3x2 lhs, sbyte3x2 rhs) => new short3x2 { c0 = lhs.c0 ^ rhs.c0, c1 = lhs.c1 ^ rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (sbyte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 & rhs.c0, c1 = lhs.c1 & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (sbyte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 | rhs.c0, c1 = lhs.c1 | rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (sbyte3x2 lhs, short3x2 rhs) => new short3x2 { c0 = lhs.c0 ^ rhs.c0, c1 = lhs.c1 ^ rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator & (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs & (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator | (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs | (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator ^ (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs ^ (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator & (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator | (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs | rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3x2 operator ^ (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (short3x2 lhs, byte rhs) => new short3x2 { c0 = lhs.c0 & rhs, c1 = lhs.c1 & rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator & (byte lhs, short3x2 rhs) => new short3x2 { c0 = lhs & rhs.c0, c1 = lhs & rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (short3x2 lhs, byte rhs) => new short3x2 { c0 = lhs.c0 | rhs, c1 = lhs.c1 | rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator | (byte lhs, short3x2 rhs) => new short3x2 { c0 = lhs | rhs.c0, c1 = lhs | rhs.c1 };
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (short3x2 lhs, byte rhs) => new short3x2 { c0 = lhs.c0 ^ rhs, c1 = lhs.c1 ^ rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short3x2 operator ^ (byte lhs, short3x2 rhs) => new short3x2 { c0 = lhs ^ rhs.c0, c1 = lhs ^ rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (short3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 == rhs.c0, c1 = lhs.c1 == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (short3x2 lhs, short rhs) => new mask16x3x2 { c0 = lhs.c0 == rhs, c1 = lhs.c1 == rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (short lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs == rhs.c0, c1 = lhs == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (short3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 != rhs.c0, c1 = lhs.c1 != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (short3x2 lhs, short rhs) => new mask16x3x2 { c0 = lhs.c0 != rhs, c1 = lhs.c1 != rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (short lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs != rhs.c0, c1 = lhs != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (short3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 < rhs.c0, c1 = lhs.c1 < rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (short3x2 lhs, short rhs) => new mask16x3x2 { c0 = lhs.c0 < rhs, c1 = lhs.c1 < rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (short lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs < rhs.c0, c1 = lhs < rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (short3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 > rhs.c0, c1 = lhs.c1 > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (short3x2 lhs, short rhs) => new mask16x3x2 { c0 = lhs.c0 > rhs, c1 = lhs.c1 > rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (short lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs > rhs.c0, c1 = lhs > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (short3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 <= rhs.c0, c1 = lhs.c1 <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (short3x2 lhs, short rhs) => new mask16x3x2 { c0 = lhs.c0 <= rhs, c1 = lhs.c1 <= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (short lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs <= rhs.c0, c1 = lhs <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (short3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 >= rhs.c0, c1 = lhs.c1 >= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (short3x2 lhs, short rhs) => new mask16x3x2 { c0 = lhs.c0 >= rhs, c1 = lhs.c1 >= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (short lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs >= rhs.c0, c1 = lhs >= rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (short3x2 lhs, byte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 == rhs.c0, c1 = lhs.c1 == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (short3x2 lhs, byte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 != rhs.c0, c1 = lhs.c1 != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (short3x2 lhs, byte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 < rhs.c0, c1 = lhs.c1 < rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (short3x2 lhs, byte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 > rhs.c0, c1 = lhs.c1 > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (short3x2 lhs, byte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 <= rhs.c0, c1 = lhs.c1 <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (short3x2 lhs, byte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 >= rhs.c0, c1 = lhs.c1 >= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (byte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 == rhs.c0, c1 = lhs.c1 == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (byte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 != rhs.c0, c1 = lhs.c1 != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (byte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 < rhs.c0, c1 = lhs.c1 < rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (byte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 > rhs.c0, c1 = lhs.c1 > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (byte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 <= rhs.c0, c1 = lhs.c1 <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (byte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 >= rhs.c0, c1 = lhs.c1 >= rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (short3x2 lhs, sbyte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 == rhs.c0, c1 = lhs.c1 == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (short3x2 lhs, sbyte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 != rhs.c0, c1 = lhs.c1 != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (short3x2 lhs, sbyte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 < rhs.c0, c1 = lhs.c1 < rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (short3x2 lhs, sbyte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 > rhs.c0, c1 = lhs.c1 > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (short3x2 lhs, sbyte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 <= rhs.c0, c1 = lhs.c1 <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (short3x2 lhs, sbyte3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 >= rhs.c0, c1 = lhs.c1 >= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (sbyte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 == rhs.c0, c1 = lhs.c1 == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (sbyte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 != rhs.c0, c1 = lhs.c1 != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (sbyte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 < rhs.c0, c1 = lhs.c1 < rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (sbyte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 > rhs.c0, c1 = lhs.c1 > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (sbyte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 <= rhs.c0, c1 = lhs.c1 <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (sbyte3x2 lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs.c0 >= rhs.c0, c1 = lhs.c1 >= rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator == (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs == (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator != (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs != (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator < (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs < (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator > (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs > (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator <= (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs <= (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator >= (short3x2 lhs, Unity.Mathematics.int3x2 rhs) => lhs >= (int3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator == (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator != (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator < (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator > (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator <= (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator >= (Unity.Mathematics.int3x2 lhs, short3x2 rhs) => (int3x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator == (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs == (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator != (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs != (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator < (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs < (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator > (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs > (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator <= (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs <= (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator >= (short3x2 lhs, Unity.Mathematics.float3x2 rhs) => lhs >= (float3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator == (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator != (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator < (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator > (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator <= (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3x2 operator >= (Unity.Mathematics.float3x2 lhs, short3x2 rhs) => (float3x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator == (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs == (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator != (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs != (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator < (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs < (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator > (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs > (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator <= (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs <= (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator >= (short3x2 lhs, Unity.Mathematics.double3x2 rhs) => lhs >= (double3x2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator == (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator != (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator < (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator > (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator <= (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3x2 operator >= (Unity.Mathematics.double3x2 lhs, short3x2 rhs) => (double3x2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (short3x2 lhs, byte rhs) => new mask16x3x2 { c0 = lhs.c0 == rhs, c1 = lhs.c1 == rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (byte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs == rhs.c0, c1 = lhs == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (short3x2 lhs, byte rhs) => new mask16x3x2 { c0 = lhs.c0 != rhs, c1 = lhs.c1 != rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (byte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs != rhs.c0, c1 = lhs != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (short3x2 lhs, byte rhs) => new mask16x3x2 { c0 = lhs.c0 < rhs, c1 = lhs.c1 < rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (byte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs < rhs.c0, c1 = lhs < rhs.c1 };
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (short3x2 lhs, byte rhs) => new mask16x3x2 { c0 = lhs.c0 > rhs, c1 = lhs.c1 > rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (byte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs > rhs.c0, c1 = lhs > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (short3x2 lhs, byte rhs) => new mask16x3x2 { c0 = lhs.c0 <= rhs, c1 = lhs.c1 <= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (byte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs <= rhs.c0, c1 = lhs <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (short3x2 lhs, byte rhs) => new mask16x3x2 { c0 = lhs.c0 >= rhs, c1 = lhs.c1 >= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (byte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs >= rhs.c0, c1 = lhs >= rhs.c1 };
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (short3x2 lhs, sbyte rhs) => new mask16x3x2 { c0 = lhs.c0 == rhs, c1 = lhs.c1 == rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator == (sbyte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs == rhs.c0, c1 = lhs == rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (short3x2 lhs, sbyte rhs) => new mask16x3x2 { c0 = lhs.c0 != rhs, c1 = lhs.c1 != rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator != (sbyte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs != rhs.c0, c1 = lhs != rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (short3x2 lhs, sbyte rhs) => new mask16x3x2 { c0 = lhs.c0 < rhs, c1 = lhs.c1 < rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator < (sbyte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs < rhs.c0, c1 = lhs < rhs.c1 };
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (short3x2 lhs, sbyte rhs) => new mask16x3x2 { c0 = lhs.c0 > rhs, c1 = lhs.c1 > rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator > (sbyte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs > rhs.c0, c1 = lhs > rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (short3x2 lhs, sbyte rhs) => new mask16x3x2 { c0 = lhs.c0 <= rhs, c1 = lhs.c1 <= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator <= (sbyte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs <= rhs.c0, c1 = lhs <= rhs.c1 };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (short3x2 lhs, sbyte rhs) => new mask16x3x2 { c0 = lhs.c0 >= rhs, c1 = lhs.c1 >= rhs };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3x2 operator >= (sbyte lhs, short3x2 rhs) => new mask16x3x2 { c0 = lhs >= rhs.c0, c1 = lhs >= rhs.c1 };
 
 
         public ref short3 this[int index]
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
 Assert.IsWithinArrayBounds(index, 2);
 
-                fixed (void* ptr = &this)
-                {
-                    return ref ((short3*)ptr)[index];
-                }
+                fixed (short3x2* array = &this) { return ref ((short3*)array)[index]; }
             }
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator + (short3x2 left, short3x2 right) => new short3x2 (left.c0 + right.c0, left.c1 + right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator - (short3x2 left, short3x2 right) => new short3x2 (left.c0 - right.c0, left.c1 - right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator * (short3x2 left, short3x2 right) => new short3x2(left.c0 * right.c0, left.c1 * right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator / (short3x2 left, short3x2 right) => new short3x2(left.c0 / right.c0, left.c1 / right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator % (short3x2 left, short3x2 right) => new short3x2(left.c0 % right.c0, left.c1 % right.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator * (short3x2 left, short right) => right * left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator * (short left, short3x2 right) => new short3x2 (left * right.c0, left * right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator / (short3x2 left, short right) => new short3x2(left.c0 / right, left.c1 / right);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator % (short3x2 left, short right) => new short3x2(left.c0 % right, left.c1 % right);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator & (short3x2 left, short3x2 right) => new short3x2 (left.c0 & right.c0, left.c1 & right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator | (short3x2 left, short3x2 right) => new short3x2 (left.c0 | right.c0, left.c1 | right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator ^ (short3x2 left, short3x2 right) => new short3x2 (left.c0 ^ right.c0, left.c1 ^ right.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator - (short3x2 val) => new short3x2 (-val.c0, -val.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator ++ (short3x2 val) => new short3x2 (++val.c0, ++val.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator -- (short3x2 val) => new short3x2 (--val.c0, --val.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator ~ (short3x2 val) => new short3x2 (~val.c0, ~val.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator << (short3x2 x, int n) => new short3x2 (x.c0 << n, x.c1 << n);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short3x2 operator >> (short3x2 x, int n) => new short3x2 (x.c0 >> n, x.c1 >> n);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator == (short3x2 left, short3x2 right) => new bool3x2 (left.c0 == right.c0, left.c1 == right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator < (short3x2 left, short3x2 right) => new bool3x2 (left.c0 < right.c0, left.c1 < right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator > (short3x2 left, short3x2 right) => new bool3x2 (left.c0 > right.c0, left.c1 > right.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator != (short3x2 left, short3x2 right) => new bool3x2 (left.c0 != right.c0, left.c1 != right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator <= (short3x2 left, short3x2 right) => new bool3x2 (left.c0 <= right.c0, left.c1 <= right.c1);
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3x2 operator >= (short3x2 left, short3x2 right) => new bool3x2 (left.c0 >= right.c0, left.c1 >= right.c1);
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly bool Equals(short3x2 other) => this.c0.Equals(other.c0) & this.c1.Equals(other.c1);
+        public readonly bool Equals(short3x2 other) => math.all(this.c0 == other.c0 & this.c1 == other.c1);
         public override readonly bool Equals(object obj) => obj is short3x2 converted && this.Equals(converted);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode() => c0.GetHashCode() ^ c1.GetHashCode();
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
 
         public override readonly string ToString() => $"short3x2({c0.x}, {c1.x},  {c0.y}, {c1.y},  {c0.z}, {c1.z})";

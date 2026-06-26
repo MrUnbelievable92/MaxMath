@@ -12,7 +12,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static UInt128 blendmask(bool b)
         {
-            long _64 = -maxmath.tolong(b);
+            long _64 = -math.tolong(b);
 
             return new UInt128(_64, _64);
         }
@@ -221,7 +221,7 @@ Assert.IsBetween(n, 0, 128);
                 }
             }
 
-            return maxmath.ror(x, n);
+            return math.ror(x, n);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -235,7 +235,7 @@ Assert.IsBetween(n, 0, 128);
                 }
             }
 
-            return maxmath.rol(x, n);
+            return math.rol(x, n);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -354,7 +354,7 @@ Assert.IsBetween(n, 0, 128);
             }
             else
             {
-                return maxmath.andnot(x, y);
+                return math.andnot(x, y);
             }
         }
 

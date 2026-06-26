@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests

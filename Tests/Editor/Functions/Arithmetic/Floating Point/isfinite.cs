@@ -1,8 +1,8 @@
 using NUnit.Framework;
-using Unity.Mathematics;
 
-using static MaxMath.maxmath;
-using static Unity.Mathematics.math;
+
+using static MaxMath.math;
+
 
 namespace MaxMath.Tests
 {
@@ -17,7 +17,7 @@ namespace MaxMath.Tests
             {
                 quarter q = asquarter(rng.NextByte());
 
-                Assert.AreEqual(isfinite(q), isfinite((float)q));
+                Assert.AreEqual((bool)isfinite(q), (bool)isfinite((float)q));
             }
         }
 
@@ -30,7 +30,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = asquarter(rng.NextByte2());
 
-                Assert.AreEqual(isfinite(q), isfinite((float2)q));
+                Assert.AreEqual((bool2)isfinite(q), (bool2)isfinite((float2)q));
             }
         }
 
@@ -43,7 +43,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = asquarter(rng.NextByte3());
 
-                Assert.AreEqual(isfinite(q), isfinite((float3)q));
+                Assert.AreEqual((bool3)isfinite(q), (bool3)isfinite((float3)q));
             }
         }
 
@@ -56,7 +56,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = asquarter(rng.NextByte4());
 
-                Assert.AreEqual(isfinite(q), isfinite((float4)q));
+                Assert.AreEqual((bool4)isfinite(q), (bool4)isfinite((float4)q));
             }
         }
 
@@ -69,7 +69,7 @@ namespace MaxMath.Tests
             {
                 quarter8 q = asquarter(rng.NextByte8());
 
-                Assert.AreEqual(isfinite(q), isfinite((float8)q));
+                Assert.AreEqual((bool8)isfinite(q), (bool8)isfinite((float8)q));
             }
         }
 
@@ -82,8 +82,8 @@ namespace MaxMath.Tests
             {
                 quarter16 q = asquarter(rng.NextByte16());
 
-                Assert.AreEqual(isfinite(q).v8_0, isfinite((float8)q.v8_0));
-                Assert.AreEqual(isfinite(q).v8_8, isfinite((float8)q.v8_8));
+                Assert.AreEqual((bool8)isfinite(q).v8_0, (bool8)isfinite((float8)q.v8_0));
+                Assert.AreEqual((bool8)isfinite(q).v8_8, (bool8)isfinite((float8)q.v8_8));
             }
         }
 
@@ -96,10 +96,10 @@ namespace MaxMath.Tests
             {
                 quarter32 q = asquarter(rng.NextByte32());
 
-                Assert.AreEqual(isfinite(q).v8_0, isfinite((float8)q.v8_0));
-                Assert.AreEqual(isfinite(q).v8_8, isfinite((float8)q.v8_8));
-                Assert.AreEqual(isfinite(q).v8_16, isfinite((float8)q.v8_16));
-                Assert.AreEqual(isfinite(q).v8_24, isfinite((float8)q.v8_24));
+                Assert.AreEqual((bool8)isfinite(q).v8_0, (bool8)isfinite((float8)q.v8_0));
+                Assert.AreEqual((bool8)isfinite(q).v8_8, (bool8)isfinite((float8)q.v8_8));
+                Assert.AreEqual((bool8)isfinite(q).v8_16, (bool8)isfinite((float8)q.v8_16));
+                Assert.AreEqual((bool8)isfinite(q).v8_24, (bool8)isfinite((float8)q.v8_24));
             }
         }
 
@@ -113,7 +113,7 @@ namespace MaxMath.Tests
             {
                 half q = ashalf(rng.NextUShort());
 
-                Assert.AreEqual(isfinite(q), isfinite((float)q));
+                Assert.AreEqual((bool)isfinite(q), (bool)isfinite((float)q));
             }
         }
 
@@ -126,7 +126,7 @@ namespace MaxMath.Tests
             {
                 half2 q = ashalf(rng.NextUShort2());
 
-                Assert.AreEqual(isfinite(q), isfinite((float2)q));
+                Assert.AreEqual((bool2)isfinite(q), (bool2)isfinite((float2)q));
             }
         }
 
@@ -139,7 +139,7 @@ namespace MaxMath.Tests
             {
                 half3 q = ashalf(rng.NextUShort3());
 
-                Assert.AreEqual(isfinite(q), isfinite((float3)q));
+                Assert.AreEqual((bool3)isfinite(q), (bool3)isfinite((float3)q));
             }
         }
 
@@ -152,7 +152,7 @@ namespace MaxMath.Tests
             {
                 half4 q = ashalf(rng.NextUShort4());
 
-                Assert.AreEqual(isfinite(q), isfinite((float4)q));
+                Assert.AreEqual((bool4)isfinite(q), (bool4)isfinite((float4)q));
             }
         }
 
@@ -165,7 +165,7 @@ namespace MaxMath.Tests
             {
                 half8 q = ashalf(rng.NextUShort8());
 
-                Assert.AreEqual(isfinite(q), isfinite((float8)q));
+                Assert.AreEqual((bool8)isfinite(q), (bool8)isfinite((float8)q));
             }
         }
 
@@ -178,8 +178,8 @@ namespace MaxMath.Tests
             {
                 half16 q = ashalf(rng.NextUShort16());
 
-                Assert.AreEqual(isfinite(q).v8_0, isfinite((float8)q.v8_0));
-                Assert.AreEqual(isfinite(q).v8_8, isfinite((float8)q.v8_8));
+                Assert.AreEqual((bool8)isfinite(q).v8_0, (bool8)isfinite((float8)q.v8_0));
+                Assert.AreEqual((bool8)isfinite(q).v8_8, (bool8)isfinite((float8)q.v8_8));
             }
         }
     }

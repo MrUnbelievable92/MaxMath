@@ -1,7 +1,10 @@
+using System;
+using System.Reflection;
+using System.Collections.Generic;
 using DevTools;
 using MaxMath.Intrinsics;
-using System.Collections.Generic;
-using Unity.Mathematics;
+using System.Linq;
+
 
 namespace MaxMath.Tests
 {
@@ -13,14 +16,71 @@ namespace MaxMath.Tests
             BitWidth = bitWidth;
         }
 
-        private int Num;
-        private int BitWidth;
+        private readonly int Num;
+        private readonly int BitWidth;
 
         private bool UseV128 => Num * BitWidth <= 128;
         private bool UseV256 => !UseV128;
         private string BaseType => BitWidth == 64 ? "ulong" : (BitWidth == 32 ? "uint" : (BitWidth == 16 ? "ushort" : "byte"));
         private string BaseVector => BaseType + (UseV128 ? (BitWidth == 64 ? "2" : (BitWidth == 32 ? "4" : (BitWidth == 16 ? "8"  : "16"))) 
                                                          : (BitWidth == 64 ? "4" : (BitWidth == 32 ? "8" : (BitWidth == 16 ? "16" : "32"))));
+        private string LoHalf
+        {
+            get
+            {
+                switch (Num)
+                {
+                    case 3:
+                    case 4:
+                    {
+                        return "xy";
+                    }
+                    case 8:
+                    {
+                        return "v4_0";
+                    }
+                    case 16:
+                    {
+                        return "v8_0";
+                    }
+                    case 32:
+                    {
+                        return "v16_0";
+                    }
+                
+                    default: throw Assert.Unreachable();
+                }
+            }
+        }
+        private string HiHalf
+        {
+            get
+            {
+                switch (Num)
+                {
+                    case 3:
+                    case 4:
+                    {
+                        return "zw";
+                    }
+                    case 8:
+                    {
+                        return "v4_4";
+                    }
+                    case 16:
+                    {
+                        return "v8_8";
+                    }
+                    case 32:
+                    {
+                        return "v16_16";
+                    }
+                
+                    default: throw Assert.Unreachable();
+                }
+            }
+        }
+
 
         private string GetField(int i)
         {
@@ -35,11 +95,12 @@ namespace MaxMath.Tests
         }
         private string CreateReferences()
         {
-            return "using System;\r\n" +
-                   "using System.Diagnostics;\r\n" +
+            return "using System.Diagnostics;\r\n" +
                    "using System.Runtime.CompilerServices;\r\n" +
                    "using System.Runtime.InteropServices;\r\n" +
+                   "using Unity.Burst.Intrinsics;\r\n" +
                    "using DevTools;\r\n" +
+                   "using MaxMath.Intrinsics;\r\n" +
                    "\r\n" +
                    "using static MaxMath.Intrinsics.Xse;\r\n" +
                    "using static Unity.Burst.Intrinsics.X86;\r\n" +
@@ -47,7 +108,7 @@ namespace MaxMath.Tests
         }
         private string CreateAttributes()
         {
-            return $"\t[StructLayout(LayoutKind.Explicit, Size = {(UseV128 ? "16" : "32")})]\r\n" +
+            return $"\t[StructLayout(LayoutKind.Sequential, Pack = 1)]\r\n" +
                    $"\t[DebuggerTypeProxy(typeof(mask{BitWidth}x{Num}.DebuggerProxy))]";
         }
         private string CreateDebuggerProxy()
@@ -71,7 +132,7 @@ namespace MaxMath.Tests
             {
                 baseType[1] = char.ToUpper(baseType[1]);
 
-                result += "\t\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result += "\t\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                           "\t\t\t\t{\r\n";
                 for (int i = 0; i < Num; i++)
                 {
@@ -99,6 +160,145 @@ namespace MaxMath.Tests
 
             return result;
         }
+        
+        internal string GenerateCTORCopies()
+        {
+            string result = string.Empty;
+            foreach (Type type in typeof(MaxMath.math).Assembly.GetTypes())
+            {
+                if (type.Name != $"bool{Num}")
+                {
+                    continue;
+                }
+
+                bool newV256ForFallback = !UseV128
+                                       && !(BitWidth == 8 
+                                         && Num == 32);
+
+                foreach (ConstructorInfo ctor in type.GetConstructors())
+                {
+                    if (!ctor.IsPublic)
+                    {
+                        continue;
+                    }
+
+                    result += $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n";
+
+                    ParameterInfo[] parameters = ctor.GetParameters();
+
+                    if (parameters.Length != 1)
+                    {
+                        string signature = $"\t\tpublic mask{BitWidth}x{Num}(";
+                        string body;
+
+                        if (parameters.Any(p => p.ParameterType == typeof(bool)))
+                        {
+                            string bodySIMD = $"this = ({(UseV128 ? "v128" : "v256")})new {BaseType}{Num}(";
+                            string bodyFallback;
+                            if (newV256ForFallback)
+                            {
+                                bodyFallback = $"this = new v256((v128)new byte{Num}(";
+                            }
+                            else
+                            {
+                                bodyFallback = $"this = ({(UseV128 ? "v128" : "v256")})new byte{Num}(";
+                            }
+
+                            for (int i = 0; i < parameters.Length; i++)
+                            {
+                                string typeName = Reflection.GetTypeName(parameters[i].ParameterType, removeNamespace: false);
+                                if (typeName != "bool")
+                                {
+                                    string width = typeName.Substring(typeName.IndexOf("l") + 1);
+                                    typeName = typeName.Replace("bool", $"mask{BitWidth}x");
+                                    bodySIMD += $"({BaseType}{width})(v128){parameters[i].Name}";
+                                    bodyFallback += $"tobyte({parameters[i].Name})";
+                                }
+                                else
+                                {
+                                    string signedType = BitWidth == 64 ? "long" : "byte";
+                                    bodySIMD += $"({BaseType})-to{signedType}({parameters[i].Name})";
+                                    bodyFallback += $"tobyte({parameters[i].Name})";
+                                }
+
+                                signature += $"{typeName} {parameters[i].Name}";
+                                if (i != parameters.Length - 1)
+                                {
+                                    signature += ", ";
+                                    bodySIMD += ", ";
+                                    bodyFallback += ", ";
+                                }
+                                else
+                                {
+                                    signature += $")\r\n";
+                                    bodySIMD += $");";
+                                    bodyFallback += ")";
+                                }
+                            }
+                            
+                            if (newV256ForFallback)
+                            {
+                                bodyFallback += ", default(v128));";
+                            }
+                            else
+                            {
+                                bodyFallback += ";";
+                            }
+
+                            body =  "\t\t{\r\n"
+                                 +  "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n"
+                                 +  "\t\t\t{\r\n"
+                                 + $"\t\t\t\t{bodySIMD}\r\n"
+                                 +  "\t\t\t}\r\n"
+                                 +  "\t\t\telse\r\n"
+                                 +  "\t\t\t{\r\n"
+                                 + $"\t\t\t\t{bodyFallback}\r\n"
+                                 +  "\t\t\t}\r\n"
+                                 +  "\t\t}\r\n";
+
+                        }
+                        else
+                        {
+                            body = $" => this = ({(UseV128 ? "v128" : "v256")})new {BaseType}{Num}(";
+
+                            for (int i = 0; i < parameters.Length; i++)
+                            {
+                                string typeName = Reflection.GetTypeName(parameters[i].ParameterType, removeNamespace: false);
+                                string width = typeName.Substring(typeName.IndexOf("l") + 1);
+                                typeName = typeName.Replace("bool", $"mask{BitWidth}x");
+                                body += $"({BaseType}{width})(v128){parameters[i].Name}";
+
+                                signature += $"{typeName} {parameters[i].Name}";
+                                if (i != parameters.Length - 1)
+                                {
+                                    signature += ", ";
+                                    body += ", ";
+                                }
+                                else
+                                {
+                                    signature += $")";
+                                    body += $");";
+                                }
+                            }
+                        }
+
+                        result += signature;
+                        result += body;
+                    }
+                    else
+                    {
+                        string parameterType = Reflection.GetTypeName(parameters[0].ParameterType, removeNamespace: false);
+                        string conversion = $"(mask{BitWidth}x{Num})" + (parameterType.Contains("Unity.Mathematics.") ? $"({parameters[0].ParameterType.Name})" : string.Empty) + parameters[0].Name;
+
+                        result += $"\t\tpublic mask{BitWidth}x{Num}({parameterType} {parameters[0].Name}) => this = {conversion};";
+                    }
+                    result += "\r\n\r\n";
+                }
+            }
+
+            result = result.Replace("MaxMath.", string.Empty);
+            return result;
+        }
         private string CreateCTORs()
         {
             string result =  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
@@ -107,271 +307,27 @@ namespace MaxMath.Tests
                              "\t\t\tthis.mask = mask;\r\n" +
                              "\t\t}\r\n";
 
-            if (UseV256)
+            if (Num != 2)
             {
                 result += "\r\n";
                 result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
                           $"\t\tinternal mask{BitWidth}x{Num}(v128 maskLo, v128 maskHi)\r\n" +
-                           "\t\t{\r\n" +
-                           "\t\t\tthis.mask = new ulong4(maskLo, maskHi);\r\n" +
-                           "\t\t}\r\n";
-            }
+                           "\t\t{\r\n";
 
-            result += "\r\n";
+                if (UseV256)
+                {
+                    result += "\t\t\tthis.mask = new ulong4(maskLo, maskHi);\r\n";
+                }
+                else
+                {
+                    result += $"\t\t\tthis.mask = (v128)new {BaseType}{(Num == 3 ? "4" : Num.ToString())}(({BaseType}{math.max(Num / 2, 2)})maskLo, ({BaseType}{math.max(Num / 2, 2)})maskHi);\r\n";
+                }
+
+                result += "\t\t}\r\n";
+            }
             
-     //     string cvtSplat = $"({BaseType})-tolong(v)";
-     //     switch (Num)
-     //     {
-     //         case 2:
-     //         {
-     //             result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
-     //                       $"\t\tpublic mask{BitWidth}x{Num}(bool x, bool y)\r\n" +
-     //                        "\t\t{\r\n" +
-     //                       $"\t\t\t{BaseVector} v = Uninitialized<{BaseVector}>.Create()\r\n" +
-     //                       $"\t\t\tv[0] = to{BaseType}(x);\r\n" +
-     //                       $"\t\t\tv[1] = to{BaseType}(y);\r\n" +
-     //                        "\r\n" +
-     //                        "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                        "\t\t\t{\r\n" +
-     //                       $"\t\t\t\tv = 0 - v;\r\n" +
-     //                        "\t\t\t}\r\n" +
-     //                        "\r\n" +
-     //                       $"\t\t\tmask = *(ulong{(UseV128 ? "2" : "4")}*)&v;\r\n" +
-     //                        "\t\t}\r\n";
-     //             
-     //             result += "\r\n";
-     //
-     //             result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
-     //                       $"\t\tpublic mask{BitWidth}x{Num}(bool v)\r\n" +
-     //                        "\t\t{\r\n" +
-     //                       $"\t\t\t{BaseType} cvt = {cvtSplat};\r\n" +
-     //                        "\r\n";
-     //
-     //
-     //             if (UseV256)
-     //             {
-     //                 result +=  "\t\t\tif (Avx2.IsAvx2Supported)\r\n" +
-     //                            "\t\t\t{\r\n" +
-     //                           $"\t\t\t\tmask = Xse.mm256_set_epi{BitWidth}(cvt);\r\n" +
-     //                            "\t\t\t}\r\n" +  
-     //                            "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                            "\t\t\t{\r\n" +
-     //                           $"\t\t\t\tmask = new ulong4(Xse.set_epi{BitWidth}(cvt), Xse.set_epi{BitWidth}(cvt));\r\n" +
-     //                            "\t\t\t}\r\n" +
-     //                            "\t\t\telse\r\n" +
-     //                            "\t\t\t{\r\n" +
-     //                           $"\t\t\t\t{BaseVector} v = Uninitialized<{BaseVector}>.Create()\r\n" +
-     //                           $"\t\t\t\tv[0] = cvt;\r\n" +
-     //                           $"\t\t\t\tv[1] = cvt;\r\n" +
-     //                           $"\t\t\t\tmask = *(ulong4*)&v;\r\n" +
-     //                            "\t\t\t}\r\n" +
-     //                            "\t\t}\r\n";
-     //             }
-     //             else
-     //             {
-     //                 result +=  "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                            "\t\t\t{\r\n" +
-     //                           $"\t\t\t\tmask = Xse.set_epi{BitWidth}(cvt);\r\n" +
-     //                            "\t\t\t}\r\n" +
-     //                            "\t\t\telse\r\n" +
-     //                            "\t\t\t{\r\n" +
-     //                           $"\t\t\t\t{BaseVector} v = Uninitialized<{BaseVector}>.Create()\r\n" +
-     //                           $"\t\t\t\tv[0] = cvt;\r\n" +
-     //                           $"\t\t\t\tv[1] = cvt;\r\n" +
-     //                           $"\t\t\t\tmask = *(ulong2*)&v;\r\n" +
-     //                            "\t\t\t}\r\n" +
-     //                            "\t\t}\r\n";
-     //             }
-     //
-     //             return result;
-     //         }
-     //         case 3:
-     //         {
-     //             result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
-     //                       $"\t\tpublic mask{BitWidth}x{Num}(bool x, bool y, bool z)\r\n" +
-     //                        "\t\t{\r\n" +
-     //                       $"\t\t\t{BaseVector} v = Uninitialized<{BaseVector}>.Create()\r\n" +
-     //                       $"\t\t\tv[0] = to{BaseType}(x);\r\n" +
-     //                       $"\t\t\tv[1] = to{BaseType}(y);\r\n" +
-     //                       $"\t\t\tv[2] = to{BaseType}(z);\r\n" +
-     //                        "\r\n" +
-     //                        "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                        "\t\t\t{\r\n" +
-     //                       $"\t\t\t\tv = 0 - v;\r\n" +
-     //                        "\t\t\t}\r\n" +
-     //                        "\r\n" +
-     //                       $"\t\t\tmask = *(ulong{(UseV128 ? "2" : "4")}*)&v;\r\n" +
-     //                        "\t\t}\r\n";
-     //             
-     //             result += "\r\n";
-     //
-     //             result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
-     //                       $"\t\tpublic mask{BitWidth}x{Num}(bool x, mask{BitWidth}x2 yz)\r\n" +
-     //                        "\t\t{\r\n" +
-     //                        "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                        "\t\t\t{\r\n" +
-     //                       $"\t\t\t\t\r\n" +
-     //                        "\t\t\t}\r\n" +
-     //                        "\t\t\telse\r\n" +
-     //                        "\t\t\t{\r\n" +
-     //                       $"\t\t\t\t\r\n" +
-     //                        "\t\t\t}\r\n" +
-     //                        "\t\t}\r\n";
-     //             
-     //             result += "\r\n";
-     //
-     // /// <summary>Constructs a bool3 vector from a bool2 vector and a bool value.</summary>
-     // /// <param name="xy">The constructed vector's xy components will be set to this value.</param>
-     // /// <param name="z">The constructed vector's z component will be set to this value.</param>
-     // [MethodImpl(MethodImplOptions.AggressiveInlining)]
-     // public bool3(bool2 xy, bool z)
-     // {
-     //     this.x = xy.x;
-     //     this.y = xy.y;
-     //     this.z = z;
-     // }
-     //
-     // /// <summary>Constructs a bool3 vector from a single bool value by assigning it to every component.</summary>
-     // /// <param name="v">bool to convert to bool3</param>
-     // [MethodImpl(MethodImplOptions.AggressiveInlining)]
-     // public bool3(bool v)
-     // {
-     //     this.x = v;
-     //     this.y = v;
-     //     this.z = v;
-     // }
-     //         }
-     //           case 4:
-     //           {
-     //               result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
-     //                         $"\t\tpublic mask{BitWidth}x{Num}(bool x, bool y, bool z, bool w)\r\n" +
-     //                          "\t\t{\r\n" +
-     //                         $"\t\t\t{BaseVector} v = Uninitialized<{BaseVector}>.Create()\r\n" +
-     //                         $"\t\t\tv[0] = to{BaseType}(x);\r\n" +
-     //                         $"\t\t\tv[1] = to{BaseType}(y);\r\n" +
-     //                         $"\t\t\tv[2] = to{BaseType}(z);\r\n" +
-     //                         $"\t\t\tv[3] = to{BaseType}(w);\r\n" +
-     //                          "\r\n" +
-     //                          "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                          "\t\t\t{\r\n" +
-     //                         $"\t\t\t\tv = 0 - v;\r\n" +
-     //                          "\t\t\t}\r\n" +
-     //                          "\r\n" +
-     //                         $"\t\t\tmask = *(ulong{(UseV128 ? "2" : "4")}*)&v;\r\n" +
-     //                          "\t\t}\r\n";
-     //               
-     //               result += "\r\n";
-     //           }
-     //           case 8:
-     //           {
-     //               result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
-     //                         $"\t\tpublic mask{BitWidth}x{Num}(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, bool x7)\r\n" +
-     //                          "\t\t{\r\n" +
-     //                         $"\t\t\t{BaseVector} v = Uninitialized<{BaseVector}>.Create()\r\n" +
-     //                         $"\t\t\tv[0] = to{BaseType}(x0);\r\n" +
-     //                         $"\t\t\tv[1] = to{BaseType}(x1);\r\n" +
-     //                         $"\t\t\tv[2] = to{BaseType}(x2);\r\n" +
-     //                         $"\t\t\tv[3] = to{BaseType}(x3);\r\n" +
-     //                         $"\t\t\tv[4] = to{BaseType}(x4);\r\n" +
-     //                         $"\t\t\tv[5] = to{BaseType}(x5);\r\n" +
-     //                         $"\t\t\tv[6] = to{BaseType}(x6);\r\n" +
-     //                         $"\t\t\tv[7] = to{BaseType}(x7);\r\n" +
-     //                          "\r\n" +
-     //                          "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                          "\t\t\t{\r\n" +
-     //                         $"\t\t\t\tv = 0 - v;\r\n" +
-     //                          "\t\t\t}\r\n" +
-     //                          "\r\n" +
-     //                         $"\t\t\tmask = *(ulong{(UseV128 ? "2" : "4")}*)&v;\r\n" +
-     //                          "\t\t}\r\n";
-     //               
-     //               result += "\r\n";
-     //           }
-     //           case 16:
-     //           {
-     //               result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
-     //                         $"\t\tpublic mask{BitWidth}x{Num}(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, bool x7, bool x8, bool x9, bool x10, bool x11, bool x12, bool x13, bool x14, bool x15)\r\n" +
-     //                          "\t\t{\r\n" +
-     //                         $"\t\t\t{BaseVector} v = Uninitialized<{BaseVector}>.Create()\r\n" +
-     //                         $"\t\t\tv[0]  = to{BaseType}(x0);\r\n"  +
-     //                         $"\t\t\tv[1]  = to{BaseType}(x1);\r\n"  +
-     //                         $"\t\t\tv[2]  = to{BaseType}(x2);\r\n"  +
-     //                         $"\t\t\tv[3]  = to{BaseType}(x3);\r\n"  +
-     //                         $"\t\t\tv[4]  = to{BaseType}(x4);\r\n"  +
-     //                         $"\t\t\tv[5]  = to{BaseType}(x5);\r\n"  +
-     //                         $"\t\t\tv[6]  = to{BaseType}(x6);\r\n"  +
-     //                         $"\t\t\tv[7]  = to{BaseType}(x7);\r\n"  +
-     //                         $"\t\t\tv[8]  = to{BaseType}(x8);\r\n"  +
-     //                         $"\t\t\tv[9]  = to{BaseType}(x9);\r\n"  +
-     //                         $"\t\t\tv[10] = to{BaseType}(x10);\r\n" +
-     //                         $"\t\t\tv[11] = to{BaseType}(x11);\r\n" +
-     //                         $"\t\t\tv[12] = to{BaseType}(x12);\r\n" +
-     //                         $"\t\t\tv[13] = to{BaseType}(x13);\r\n" +
-     //                         $"\t\t\tv[14] = to{BaseType}(x14);\r\n" +
-     //                         $"\t\t\tv[15] = to{BaseType}(x15);\r\n" +
-     //                          "\r\n" +
-     //                          "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                          "\t\t\t{\r\n" +
-     //                         $"\t\t\t\tv = 0 - v;\r\n" +
-     //                          "\t\t\t}\r\n" +
-     //                          "\r\n" +
-     //                         $"\t\t\tmask = *(ulong{(UseV128 ? "2" : "4")}*)&v;\r\n" +
-     //                          "\t\t}\r\n";
-     //               
-     //               result += "\r\n";
-     //           }
-     //           case 32:
-     //           {
-     //               result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" + 
-     //                         $"\t\tpublic mask{BitWidth}x{Num}(bool x0, bool x1, bool x2, bool x3, bool x4, bool x5, bool x6, bool x7, bool x8, bool x9, bool x10, bool x11, bool x12, bool x13, bool x14, bool x15, bool x16, bool x17, bool x18, bool x19, bool x20, bool x21, bool x22, bool x23, bool x24, bool x25, bool x26, bool x27, bool x28, bool x29, bool x30, bool x31)\r\n" +
-     //                          "\t\t{\r\n" +
-     //                         $"\t\t\t{BaseVector} v = Uninitialized<{BaseVector}>.Create()\r\n" +
-     //                         $"\t\t\tv[0]  = to{BaseType}(x0);\r\n"  +
-     //                         $"\t\t\tv[1]  = to{BaseType}(x1);\r\n"  +
-     //                         $"\t\t\tv[2]  = to{BaseType}(x2);\r\n"  +
-     //                         $"\t\t\tv[3]  = to{BaseType}(x3);\r\n"  +
-     //                         $"\t\t\tv[4]  = to{BaseType}(x4);\r\n"  +
-     //                         $"\t\t\tv[5]  = to{BaseType}(x5);\r\n"  +
-     //                         $"\t\t\tv[6]  = to{BaseType}(x6);\r\n"  +
-     //                         $"\t\t\tv[7]  = to{BaseType}(x7);\r\n"  +
-     //                         $"\t\t\tv[8]  = to{BaseType}(x8);\r\n"  +
-     //                         $"\t\t\tv[9]  = to{BaseType}(x9);\r\n"  +
-     //                         $"\t\t\tv[10] = to{BaseType}(x10);\r\n" +
-     //                         $"\t\t\tv[11] = to{BaseType}(x11);\r\n" +
-     //                         $"\t\t\tv[12] = to{BaseType}(x12);\r\n" +
-     //                         $"\t\t\tv[13] = to{BaseType}(x13);\r\n" +
-     //                         $"\t\t\tv[14] = to{BaseType}(x14);\r\n" +
-     //                         $"\t\t\tv[15] = to{BaseType}(x15);\r\n" +
-     //                         $"\t\t\tv[16] = to{BaseType}(x16);\r\n" +
-     //                         $"\t\t\tv[17] = to{BaseType}(x17);\r\n" +
-     //                         $"\t\t\tv[18] = to{BaseType}(x18);\r\n" +
-     //                         $"\t\t\tv[19] = to{BaseType}(x19);\r\n" +
-     //                         $"\t\t\tv[20] = to{BaseType}(x20);\r\n" +
-     //                         $"\t\t\tv[21] = to{BaseType}(x21);\r\n" +
-     //                         $"\t\t\tv[22] = to{BaseType}(x22);\r\n" +
-     //                         $"\t\t\tv[23] = to{BaseType}(x23);\r\n" +
-     //                         $"\t\t\tv[24] = to{BaseType}(x24);\r\n" +
-     //                         $"\t\t\tv[25] = to{BaseType}(x25);\r\n" +
-     //                         $"\t\t\tv[26] = to{BaseType}(x26);\r\n" +
-     //                         $"\t\t\tv[27] = to{BaseType}(x27);\r\n" +
-     //                         $"\t\t\tv[28] = to{BaseType}(x28);\r\n" +
-     //                         $"\t\t\tv[29] = to{BaseType}(x29);\r\n" +
-     //                         $"\t\t\tv[30] = to{BaseType}(x30);\r\n" +
-     //                         $"\t\t\tv[31] = to{BaseType}(x31);\r\n" +
-     //                          "\r\n" +
-     //                          "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
-     //                          "\t\t\t{\r\n" +
-     //                         $"\t\t\t\tv = 0 - v;\r\n" +
-     //                          "\t\t\t}\r\n" +
-     //                          "\r\n" +
-     //                         $"\t\t\tmask = *(ulong{(UseV128 ? "2" : "4")}*)&v;\r\n" +
-     //                          "\t\t}\r\n";
-     //               
-     //               result += "\r\n";
-     //           }
-     //
-     //         default: throw Assert.Unreachable();
-     //     }
+            result += "\r\n";
+            result += GenerateCTORCopies();
             return result;
         }
         private string CreateFieldsAsProperties()
@@ -394,24 +350,18 @@ namespace MaxMath.Tests
         }
         private string CreateSIMDRegisterConversionOperators()
         {
-            string result = $"\t\tpublic static implicit operator v{(UseV128 ? "128" : "256")}(mask{BitWidth}x{Num} input)\r\n" +
+            string result = $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                            $"\t\tpublic static implicit operator v{(UseV128 ? "128" : "256")}(mask{BitWidth}x{Num} input)\r\n" +
                              "\t\t{\r\n" +
-                            $"\t\t\tif ({(UseV128 ? "ArchitectureInfo.IsSIMDSupported" : "Avx2.IsAvx2Supported")})\r\n" +
-                             "\t\t\t{\r\n" +
-                             "\t\t\t\treturn mask.mask;\r\n" +
-                             "\t\t\t}\r\n" +
-                             "\t\t\telse throw new IllegalInstructionException();\r\n" +
+                            $"\t\t\treturn input.mask;\r\n" +
                              "\t\t}\r\n";
 
             result += "\r\n";
 
-            result += $"\t\tpublic static implicit operator mask{BitWidth}x{Num}(v{(UseV128 ? "128" : "256")} input)\r\n" +
+            result += $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static implicit operator mask{BitWidth}x{Num}(v{(UseV128 ? "128" : "256")} input)\r\n" +
                        "\t\t{\r\n" +
-                      $"\t\t\tif ({(UseV128 ? "ArchitectureInfo.IsSIMDSupported" : "Avx2.IsAvx2Supported")})\r\n" +
-                       "\t\t\t{\r\n" +
-                      $"\t\t\t\treturn new mask{BitWidth}x{Num}(input);\r\n" +
-                       "\t\t\t}\r\n" +
-                       "\t\t\telse throw new IllegalInstructionException();\r\n" +
+                      $"\t\t\treturn new mask{BitWidth}x{Num} {{ mask = input }};\r\n" +
                        "\t\t}\r\n";
 
             return result;
@@ -420,11 +370,12 @@ namespace MaxMath.Tests
         {
             static string CreateConvertWithin128(int num, int from, int to)
             {
-                return $"\t\tpublic static implicit operator mask{to}x{num}(mask{from}x{num} input)\r\n" +
+                return $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                       $"\t\tpublic static implicit operator mask{to}x{num}(mask{from}x{num} input)\r\n" +
                         "\t\t{\r\n" +
-                        "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                        "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                         "\t\t\t{\r\n" +
-                       $"\t\t\t\treturn cvtepi{from}_epi{to}(input, {num});\r\n" +
+                       $"\t\t\t\treturn cvtepi{from}_epi{to}(input);\r\n" +
                         "\t\t\t}\r\n" +
                         "\t\t\telse\r\n" +
                         "\t\t\t{\r\n" +
@@ -435,13 +386,14 @@ namespace MaxMath.Tests
 
             static string CreateConvertTo256(int num, int from, int to)
             {
-                string result = $"\t\tpublic static implicit operator mask{to}x{num}(mask{from}x{num} input)\r\n" +
+                string result = $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                $"\t\tpublic static implicit operator mask{to}x{num}(mask{from}x{num} input)\r\n" +
                                  "\t\t{\r\n" +
                                  "\t\t\tif (Avx2.IsAvx2Supported)\r\n" +
                                  "\t\t\t{\r\n" +
                                 $"\t\t\t\treturn Avx2.mm256_cvtepi{from}_epi{to}(input);\r\n" +
                                  "\t\t\t}\r\n" +
-                                 "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                                 "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
                                  "\t\t\t{\r\n";
 
                 switch (from)
@@ -504,12 +456,7 @@ namespace MaxMath.Tests
                 result +=  "\t\t\t}\r\n" +
                            "\t\t\telse\r\n" +
                            "\t\t\t{\r\n" +
-                          $"\t\t\t\tvoid* stack = stackalloc mask{from}x{num}[2]\r\n" +
-                           "\t\t\t\t{\r\n" +
-                           "\t\t\t\t\tinput,\r\n" +
-                           "\t\t\t\t\tdefault\r\n" +
-                           "\t\t\t\t}\r\n" +
-                          $"\t\t\t\treturn *(mask{to}x{num}*)stack;\r\n" +
+                          $"\t\t\t\treturn (bool{num})input;\r\n" +
                            "\t\t\t}\r\n" +
                            "\t\t}\r\n";
 
@@ -518,13 +465,14 @@ namespace MaxMath.Tests
 
             static string CreateConvertFrom256(int num, int from, int to)
             {
-                string result = $"\t\tpublic static implicit operator mask{to}x{num}(mask{from}x{num} input)\r\n" +
+                string result = $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                $"\t\tpublic static implicit operator mask{to}x{num}(mask{from}x{num} input)\r\n" +
                                  "\t\t{\r\n" +
                                  "\t\t\tif (Avx2.IsAvx2Supported)\r\n" +
                                  "\t\t\t{\r\n" +
                                 $"\t\t\t\treturn mm256_cvtepi{from}_epi{to}(input);\r\n" +
                                  "\t\t\t}\r\n" +
-                                 "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                                 "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
                                  "\t\t\t{\r\n";
 
                 switch (from)
@@ -553,7 +501,7 @@ namespace MaxMath.Tests
                         {
                             case 16:
                             {
-                                result += "\t\t\t\treturn cvt2x2epi32_epi16(input.mask.xy, input.mask.zw);\r\n";
+                                result += "\t\t\t\treturn packs_epi32(input.mask.xy, input.mask.zw);\r\n";
                                 break;
                             }
                             default:
@@ -567,7 +515,7 @@ namespace MaxMath.Tests
                     }
                     case 16:
                     {
-                        result += "\t\t\t\treturn cvt2x2epi16_epi8(input.mask.xy, input.mask.zw);\r\n";
+                        result += "\t\t\t\treturn packs_epi16(input.mask.xy, input.mask.zw);\r\n";
                         break;
                     }
 
@@ -577,7 +525,7 @@ namespace MaxMath.Tests
                 result +=  "\t\t\t}\r\n" +
                            "\t\t\telse\r\n" +
                            "\t\t\t{\r\n" +
-                          $"\t\t\t\treturn new mask{to}x{num}((v128)input, default);\r\n" +
+                          $"\t\t\t\treturn (bool{num})input;\r\n" +
                            "\t\t\t}\r\n" +
                            "\t\t}\r\n";
 
@@ -711,9 +659,9 @@ namespace MaxMath.Tests
                     }
                     else if (BitWidth == 16)
                     {
-                        return CreateConvertFrom256(Num, 64, BitWidth) +
+                        return CreateConvertFrom256(Num, 32, BitWidth) +
                                "\r\n" +
-                               CreateConvertTo256(Num, BitWidth, 64);
+                               CreateConvertTo256(Num, BitWidth, 32);
                     }
                     else
                     {
@@ -743,58 +691,33 @@ namespace MaxMath.Tests
         }
         private string CreateboolXConversionOperators()
         {
-            string result = $"\t\tpublic static implicit operator bool{Num}(mask{BitWidth}x{Num} input)\r\n" +
+            string result = $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                            $"\t\tpublic static implicit operator bool{Num}(mask{BitWidth}x{Num} input)\r\n" +
                              "\t\t{\r\n";
 
             if (UseV128)
             {
-                result +=  "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result +=  "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
-                          $"\t\t\t\treturn RegisterConversion.ToBool{Num}(RegisterConversion.IsTrue{BitWidth}(input));\r\n";
+                          $"\t\t\t\treturn RegisterConversion.IsTrue{BitWidth}(input);\r\n";
             }
             else
             {
-                string boolHalf = string.Empty;
-                switch (BitWidth)
-                {
-                    case 8:
-                    {
-                        boolHalf = "16";
-                        break;
-                    }
-                    case 16:
-                    {
-                        boolHalf = "8";
-                        break;
-                    }
-                    case 32:
-                    {
-                        boolHalf = "4";
-                        break;
-                    }
-                    case 64:
-                    {
-                        boolHalf = "2";
-                        break;
-                    }
-
-                    default: throw DevTools.Assert.Unreachable();
-                }
                 result +=  "\t\t\tif (Avx2.IsAvx2Supported)\r\n" +
                            "\t\t\t{\r\n" +
-                          $"\t\t\t\treturn RegisterConversion.ToBool{Num}(RegisterConversion.IsTrue{BitWidth}(input));\r\n" +
+                          $"\t\t\t\treturn RegisterConversion.IsTrue{BitWidth}(input);\r\n" +
                            "\t\t\t}\r\n" +
-                           "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                           "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
-                          $"\t\t\t\tv128 lo = RegisterConversion.ToBool{boolHalf}(RegisterConversion.IsTrue{BitWidth}(input.xy));\r\n" +
-                          $"\t\t\t\tv128 hi = RegisterConversion.ToBool{boolHalf}(RegisterConversion.IsTrue{BitWidth}(input.zw));\r\n" +
+                          $"\t\t\t\tv128 lo = RegisterConversion.IsTrue{BitWidth}(input.{(BitWidth == 64 ? "mask." : string.Empty)}{LoHalf});\r\n" +
+                          $"\t\t\t\tv128 hi = RegisterConversion.IsTrue{BitWidth}(input.{(BitWidth == 64 ? "mask." : string.Empty)}{HiHalf});\r\n" +
                            "\r\n";
 
                 switch (BitWidth)
                 {
                     case 8:
                     {
-                        result += "\t\t\t\treturn new bool32((bool16)lo, (bool16)hi);\r\n";
+                        result += "\t\t\t\treturn new bool32 {__x0 = lo, __x16 = hi };\r\n";
                         break;
                     }
                     case 16:
@@ -826,32 +749,33 @@ namespace MaxMath.Tests
 
             result += "\r\n";
 
-            result += $"\t\tpublic static implicit operator mask{BitWidth}x{Num}(bool{Num} input)\r\n" +
+            result += $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static implicit operator mask{BitWidth}x{Num}(bool{Num} input)\r\n" +
                        "\t\t{\r\n";
 
             if (UseV128)
             {
-                result +=  "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result +=  "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n";
 
-                string cast = string.Empty;
+                string cast;
                 if (BitWidth == 8)
                 {
                     cast = "input";
                 }
                 else
                 {
-                    cast = $"cvtepu8_epi{BitWidth}(input, {Num})";
+                    cast = $"cvtepu8_epi{BitWidth}(input)";
                 }
 
-                result +=  $"\t\t\t\treturn cmpeq_epi{BitWidth}({cast}, set1_epi{BitWidth}{(BitWidth == 64 ? "x" : string.Empty)}(1));\r\n";
+                result +=  $"\t\t\t\treturn neg_epi{BitWidth}({cast});\r\n";
             }
             else
             {
                 result += "\t\t\tif (Avx2.IsAvx2Supported)\r\n" +
                           "\t\t\t{\r\n";
 
-                string cast = string.Empty;
+                string cast;
                 if (BitWidth == 8)
                 {
                     cast = "input";
@@ -861,13 +785,13 @@ namespace MaxMath.Tests
                     cast = $"Avx2.mm256_cvtepu8_epi{BitWidth}(input)";
                 }
 
-                result += $"\t\t\t\treturn Avx2.mm256_cmpeq_epi{BitWidth}({cast}, mm256_set1_epi{BitWidth}{(BitWidth == 64 ? "x" : string.Empty)}(1));\r\n" +
+                result += $"\t\t\t\treturn mm256_neg_epi{BitWidth}({cast});\r\n" +
                            "\t\t\t}\r\n" +
-                           "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                           "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n";
 
-                string lo = string.Empty;
-                string hi = string.Empty;
+                string lo;
+                string hi;
                 switch (BitWidth)
                 {
                     case 8:
@@ -897,44 +821,57 @@ namespace MaxMath.Tests
                         }
                         else
                         {
-                            hi = "cvtsi64x_si128(*(byte*)&input.z)";
+                            hi = "cvtsi64x_si128(tobyte(input.z))";
                         }
                         break;
                     }
                     default: throw DevTools.Assert.Unreachable();
                 }
-                result += $"\t\t\t\treturn new mask{BitWidth}x{Num}(cmpeq_epi{BitWidth}({lo}, set1_epi{BitWidth}{(BitWidth == 64 ? "x" : string.Empty)}(1)), cmpeq_epi{BitWidth}({hi}, set1_epi{BitWidth}{(BitWidth == 64 ? "x" : string.Empty)}(1)))\r\n";
+                result += $"\t\t\t\treturn new mask{BitWidth}x{Num}(neg_epi{BitWidth}({lo}), neg_epi{BitWidth}({hi}));\r\n";
 
             }
 
             result +=  "\t\t\t}\r\n" +
                        "\t\t\telse\r\n" +
                        "\t\t\t{\r\n" +
-                      $"\t\t\t\treturn *(mask{BitWidth}x{Num}*)&input;\r\n" +
+                      $"\t\t\t\tmask{BitWidth}x{Num} result = default(mask{BitWidth}x{Num});\r\n" +
+                      $"\t\t\t\t*(bool{Num}*)&result = input;\r\n" +
+                      $"\t\t\t\treturn result;\r\n" +
                        "\t\t\t}\r\n" +
                        "\t\t}\r\n";
+
+            if (Num <= 4)
+            {
+                result += "\r\n";
+                result += $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                          $"\t\tpublic static implicit operator Unity.Mathematics.bool{Num}(mask{BitWidth}x{Num} input) => (bool{Num})input;\r\n" +
+                           "\r\n" +
+                          $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                          $"\t\tpublic static implicit operator mask{BitWidth}x{Num}(Unity.Mathematics.bool{Num} input) => (bool{Num})input;\r\n";
+            }
 
             return result;
         }
         private string CreateboolConversionOperator()
         {
-            string result = $"\t\tpublic static implicit operator mask{BitWidth}x{Num}(bool input)\r\n" +
+            string result = $"\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                            $"\t\tpublic static implicit operator mask{BitWidth}x{Num}(bool input)\r\n" +
                              "\t\t{\r\n";
 
             if (UseV128)
             {
-                result += "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result += "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                           "\t\t\t{\r\n" +
                           "\t\t\t\treturn set1_epi64x(-tolong(input));\r\n" +
                           "\t\t\t}\r\n";
             }
             else
             {
-                result += "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result += "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                           "\t\t\t{\r\n" +
                           "\t\t\t\treturn mm256_set1_epi64x(-tolong(input));\r\n" +
                           "\t\t\t}\r\n" +
-                          "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                          "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
                           "\t\t\t{\r\n" +
                          $"\t\t\t\treturn new mask{BitWidth}x{Num}(set1_epi64x(-tolong(input)), set1_epi64x(-tolong(input)));\r\n" +
                           "\t\t\t}\r\n";
@@ -961,30 +898,30 @@ namespace MaxMath.Tests
                                "\t\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
                               $"\t\t\treadonly get\r\n" +
                                "\t\t\t{\r\n" +
-                               "\t\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                               "\t\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                                "\t\t\t\t{\r\n" +
-                              $"\t\t\t\t\treturn (mask.Reinterpret<{(UseV128 ? "ulong2" : "ulong4")}, {BaseVector}>()).{subVector.Name};\r\n" +
+                              $"\t\t\t\t\treturn (v128)(({BaseVector}){(UseV128 ? "(v128)" : "(v256)")}mask).{subVector.Name};\r\n" +
                                "\t\t\t\t}\r\n" +
                                "\t\t\t\telse\r\n" +
                                "\t\t\t\t{\r\n" +
-                              $"\t\t\t\t\treturn (mask.Reinterpret<{(UseV128 ? "ulong2" : "ulong4")}, {(UseV128 ? "byte16" : "byte32")}>()).{subVector.Name};\r\n" +
+                              $"\t\t\t\t\treturn ((bool{Num})this).{subVector.Name};\r\n" +
                                "\t\t\t\t}\r\n" +
                                "\t\t\t}\r\n" +
                                "\r\n" +
                                "\t\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
                                "\t\t\tset\r\n" +
                                "\t\t\t{\r\n" +
-                               "\t\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                               "\t\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                                "\t\t\t\t{\r\n" +
-                              $"\t\t\t\t\t{BaseVector} reinterpret = mask.Reinterpret<{(UseV128 ? "ulong2" : "ulong4")}, {BaseVector}>();\r\n" +
-                              $"\t\t\t\t\treinterpret.{subVector.Name} = value;\r\n" +
-                              $"\t\t\t\t\tthis = reinterpret.Reinterpret<{BaseVector}, mask{BitWidth}x{Num}>();\r\n" +
+                              $"\t\t\t\t\t{BaseVector} reinterpret = (({BaseVector}){(UseV128 ? "(v128)" : "(v256)")}mask);\r\n" +
+                              $"\t\t\t\t\treinterpret.{subVector.Name} = (v128)value;\r\n" +
+                              $"\t\t\t\t\tthis = {(UseV128 ? "(v128)" : "(v256)")}reinterpret;\r\n" +
                                "\t\t\t\t}\r\n" +
                                "\t\t\t\telse\r\n" +
                                "\t\t\t\t{\r\n" +
-                              $"\t\t\t\t\t{BaseVector} reinterpret = mask.Reinterpret<{(UseV128 ? "ulong2" : "ulong4")}, {(UseV128 ? "byte16" : "byte32")}>();\r\n" +
-                              $"\t\t\t\t\treinterpret.{subVector.Name} = value;\r\n" +
-                              $"\t\t\t\t\tthis = reinterpret.Reinterpret<{(UseV128 ? "byte16" : "byte32")}, mask{BitWidth}x{Num}>();\r\n" +
+                              $"\t\t\t\t\tbool{Num} stack = this;\r\n" +
+                              $"\t\t\t\t\tstack.{subVector.Name} = value;\r\n" +
+                              $"\t\t\t\t\tthis = stack;\r\n" +
                                "\t\t\t\t}\r\n" +
                                "\t\t\t}\r\n" +
                                "\t\t}\r\n";
@@ -992,22 +929,22 @@ namespace MaxMath.Tests
             }
             else
             {
+                string cast = UseV128 ? "v128" : "v256";
                 foreach (Swizzle swizzle in new SwizzleIterator(Num).Generate())
                 {
-                    result += $"\t\tpublic mask{BitWidth}x{swizzle.Indices.Length} {swizzle.Name}\r\n" +
+                    result += $"\t\tpublic {(swizzle.AllUnique ? string.Empty : "readonly ")}mask{BitWidth}x{swizzle.Indices.Length} {swizzle.Name}\r\n" +
                                "\t\t{\r\n"+
                                "\t\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
-                              $"\t\t\treadonly get\r\n" +
+                              $"\t\t\t{(swizzle.AllUnique ? "readonly " : string.Empty)}get\r\n" +
                                "\t\t\t{\r\n" +
-                               "\t\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                               "\t\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                                "\t\t\t\t{\r\n" +
-                              $"\t\t\t\t\tmask{BitWidth}x{Num} stack = this;\r\n" +
-                              $"\t\t\t\t\treturn (*({BaseType}{(Num == 2 ? "2" : "4")}*)&stack).{swizzle.Name};\r\n" +
+                              $"\t\t\t\t\t{cast} stack = this;\r\n" +
+                              $"\t\t\t\t\treturn ({(Num > 2 ? (BitWidth == 64 && swizzle.Name.Length == 2 ? "v128" : cast) : (BitWidth == 64 && swizzle.Name.Length > 2 ? "v256" : cast))})((({BaseType}{(Num == 2 ? "2" : "4")})stack).{swizzle.Name});\r\n" +
                                "\t\t\t\t}\r\n" +
                                "\t\t\t\telse\r\n" +
                                "\t\t\t\t{\r\n" +
-                              $"\t\t\t\t\tmask{BitWidth}x{Num} stack = this;\r\n" +
-                              $"\t\t\t\t\treturn (*(bool4*)&stack).{swizzle.Name};\r\n" +
+                              $"\t\t\t\t\treturn ((bool{Num})this).{swizzle.Name};\r\n" +
                                "\t\t\t\t}\r\n" +
                                "\t\t\t}\r\n";
 
@@ -1017,20 +954,17 @@ namespace MaxMath.Tests
                                    "\t\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
                                   $"\t\t\tset\r\n" +
                                    "\t\t\t{\r\n" +
-                                   "\t\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                                   "\t\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                                    "\t\t\t\t{\r\n" +
-                                  $"\t\t\t\t\tmask{BitWidth}x{Num} stack = this;\r\n" +
-                                  $"\t\t\t\t\t{BaseType}{(Num == 2 ? "2" : "4")} slice = *({BaseType}{(Num == 2 ? "2" : "4")}*)&stack;\r\n" +
-                                  $"\t\t\t\t\tslice.{swizzle.Name} = value;\r\n" +
-                                  $"\t\t\t\t\t*({BaseType}{(Num == 2 ? "2" : "4")}*)&stack = slice;\r\n" +
-                                  $"\t\t\t\t\tthis = stack;\r\n" +
+                                  $"\t\t\t\t\t{cast} stack = this;\r\n" +
+                                  $"\t\t\t\t\t{BaseType}{(Num == 2 ? "2" : "4")} slice = ({BaseType}{(Num == 2 ? "2" : "4")})stack;\r\n" +
+                                  $"\t\t\t\t\tslice.{swizzle.Name} = ({(BitWidth * swizzle.Name.Length > 128 ? "v256" : "v128")})value;\r\n" +
+                                  $"\t\t\t\t\tthis = ({cast})slice;\r\n" +
                                    "\t\t\t\t}\r\n" +
                                    "\t\t\t\telse\r\n" +
                                    "\t\t\t\t{\r\n" +
-                                  $"\t\t\t\t\tmask{BitWidth}x{Num} stack = this;\r\n" +
-                                   "\t\t\t\t\tbool4 slice = *(bool4*)&stack;\r\n" +
-                                  $"\t\t\t\t\tslice.{swizzle.Name} = value;\r\n" +
-                                  $"\t\t\t\t\t*(bool4*)&stack = slice;\r\n" +
+                                  $"\t\t\t\t\tbool{Num} stack = this;\r\n" +
+                                  $"\t\t\t\t\tstack.{swizzle.Name} = value;\r\n" +
                                   $"\t\t\t\t\tthis = stack;\r\n" +
                                    "\t\t\t\t}\r\n" +
                                    "\t\t\t}\r\n";
@@ -1052,7 +986,7 @@ namespace MaxMath.Tests
                             "\t\t\t{\r\n" +
                            $"Assert.IsWithinArrayBounds(index, {Num});\r\n" +
                             "\r\n" +
-                            "\t\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                            "\t\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                             "\t\t\t\t{\r\n" +
                            $"\t\t\t\t\treturn mask.Reinterpret<{(UseV128 ? "ulong2" : "ulong4")}, {BaseVector}>()[index] != 0;\r\n" +
                             "\t\t\t\t}\r\n" +
@@ -1068,7 +1002,7 @@ namespace MaxMath.Tests
                        "\t\t\t{\r\n" +
                       $"Assert.IsWithinArrayBounds(index, {Num});\r\n" +
                        "\r\n" +
-                       "\t\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                       "\t\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                        "\t\t\t\t{\r\n" +
                       $"\t\t\t\t\t{BaseVector} reinterpret = mask.Reinterpret<{(UseV128 ? "ulong2" : "ulong4")}, {BaseVector}>();\r\n" +
                       $"\t\t\t\t\treinterpret[index] = ({BaseType})-tolong(value);\r\n" +
@@ -1085,6 +1019,88 @@ namespace MaxMath.Tests
 
             return result;
         }
+        private string CreateOperatorsBetweenMaskTypes(string _operator)
+        {
+            string result = string.Empty;
+            switch (BitWidth)
+            {
+                case 8:
+                {
+                    if (Num != 32)
+                    {
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask16x{Num} operator {_operator} (mask{BitWidth}x{Num} left, mask16x{Num} right) => (mask16x{Num})left {_operator} right;\r\n"; 
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask16x{Num} operator {_operator} (mask16x{Num} left, mask{BitWidth}x{Num} right) => left {_operator} (mask16x{Num})right;\r\n"; 
+                    }
+                    if (Num < 16)
+                    {
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask32x{Num} operator {_operator} (mask{BitWidth}x{Num} left, mask32x{Num} right) => (mask32x{Num})left {_operator} right;\r\n"; 
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask32x{Num} operator {_operator} (mask32x{Num} left, mask{BitWidth}x{Num} right) => left {_operator} (mask32x{Num})right;\r\n"; 
+                    }
+                    if (Num < 8)
+                    {
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask64x{Num} operator {_operator} (mask{BitWidth}x{Num} left, mask64x{Num} right) => (mask64x{Num})left {_operator} right;\r\n"; 
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask64x{Num} operator {_operator} (mask64x{Num} left, mask{BitWidth}x{Num} right) => left {_operator} (mask64x{Num})right;\r\n"; 
+                    }
+
+                    return result;
+                }
+                case 16:
+                {
+                    if (Num != 16)
+                    {
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask32x{Num} operator {_operator} (mask{BitWidth}x{Num} left, mask32x{Num} right) => (mask32x{Num})left {_operator} right;\r\n"; 
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask32x{Num} operator {_operator} (mask32x{Num} left, mask{BitWidth}x{Num} right) => left {_operator} (mask32x{Num})right;\r\n"; 
+                    }
+                    if (Num < 8)
+                    {
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask64x{Num} operator {_operator} (mask{BitWidth}x{Num} left, mask64x{Num} right) => (mask64x{Num})left {_operator} right;\r\n"; 
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask64x{Num} operator {_operator} (mask64x{Num} left, mask{BitWidth}x{Num} right) => left {_operator} (mask64x{Num})right;\r\n"; 
+                    }
+
+                    return result;
+                }
+                case 32:
+                {
+                    if (Num != 8)
+                    {
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask64x{Num} operator {_operator} (mask{BitWidth}x{Num} left, mask64x{Num} right) => (mask64x{Num})left {_operator} right;\r\n"; 
+                        result += "\r\n";
+                        result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                                  $"\t\tpublic static mask64x{Num} operator {_operator} (mask64x{Num} left, mask{BitWidth}x{Num} right) => left {_operator} (mask64x{Num})right;\r\n"; 
+                    }
+
+                    return result;
+                }
+                case 64:
+                {
+                    return result;
+                }
+
+                default: throw Assert.Unreachable();
+            }
+        }
         private string CreateBitwiseOperator(char bitwiseOperator)
         {
             string operatorToString = bitwiseOperator == '&' ? "and" : (bitwiseOperator == '|' ? "or" : "xor");
@@ -1095,7 +1111,7 @@ namespace MaxMath.Tests
 
             if (UseV128)
             {
-                result +=  "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result +=  "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
                           $"\t\t\t\treturn {operatorToString}_si128(left, right);\r\n";
             }
@@ -1105,7 +1121,7 @@ namespace MaxMath.Tests
                            "\t\t\t{\r\n" +
                            $"\t\t\t\treturn Avx2.mm256_{operatorToString}_si256(left, right);\r\n" +
                            "\t\t\t}\r\n" +
-                           "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                           "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
                           $"\t\t\t\treturn new mask{BitWidth}x{Num}({operatorToString}_si128(left.mask.xy, right.mask.xy), {operatorToString}_si128(left.mask.zw, right.mask.zw));\r\n";
             }
@@ -1116,6 +1132,32 @@ namespace MaxMath.Tests
                       $"\t\t\t\treturn (bool{Num})left {bitwiseOperator} (bool{Num})right;\r\n" +
                        "\t\t\t}\r\n" +
                        "\t\t}\r\n";
+            
+            result +=  "\r\n";
+            result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static mask{BitWidth}x{Num} operator {bitwiseOperator} (mask{BitWidth}x{Num} left, bool right) => left {bitwiseOperator} (mask{BitWidth}x{Num})right;\r\n"; 
+            result += "\r\n";
+            result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static mask{BitWidth}x{Num} operator {bitwiseOperator} (bool left, mask{BitWidth}x{Num} right) => (mask{BitWidth}x{Num})left {bitwiseOperator} right;\r\n";
+            result += "\r\n";
+            
+            result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static mask{BitWidth}x{Num} operator {bitwiseOperator} (mask{BitWidth}x{Num} left, bool{Num} right) => left {bitwiseOperator} (mask{BitWidth}x{Num})right;\r\n"; 
+            result += "\r\n";
+            result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static mask{BitWidth}x{Num} operator {bitwiseOperator} (bool{Num} left, mask{BitWidth}x{Num} right) => (mask{BitWidth}x{Num})left {bitwiseOperator} right;\r\n";
+
+            if (Num <= 4)
+            {
+                result += "\r\n";
+                result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                          $"\t\tpublic static mask{BitWidth}x{Num} operator {bitwiseOperator} (mask{BitWidth}x{Num} left, Unity.Mathematics.bool{Num} right) => left {bitwiseOperator} (mask{BitWidth}x{Num})right;\r\n"; 
+                result += "\r\n";
+                result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                          $"\t\tpublic static mask{BitWidth}x{Num} operator {bitwiseOperator} (Unity.Mathematics.bool{Num} left, mask{BitWidth}x{Num} right) => (mask{BitWidth}x{Num})left {bitwiseOperator} right;\r\n"; 
+            }
+
+            result += CreateOperatorsBetweenMaskTypes(bitwiseOperator.ToString());
 
             return result;
         }
@@ -1127,7 +1169,7 @@ namespace MaxMath.Tests
 
             if (UseV128)
             {
-                result +=  "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result +=  "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
                           $"\t\t\t\treturn not_si128(value);\r\n";
             }
@@ -1137,7 +1179,7 @@ namespace MaxMath.Tests
                            "\t\t\t{\r\n" +
                            $"\t\t\t\treturn mm256_not_si256(value);\r\n" +
                            "\t\t\t}\r\n" +
-                           "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                           "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
                           $"\t\t\t\treturn new mask{BitWidth}x{Num}(not_si128(value.mask.xy), not_si128(value.mask.zw));\r\n";
             }
@@ -1156,22 +1198,30 @@ namespace MaxMath.Tests
             string result =  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
                             $"\t\tpublic static mask{BitWidth}x{Num} operator {(notEqual ? "!=" : "==")} (mask{BitWidth}x{Num} left, mask{BitWidth}x{Num} right)\r\n" +
                              "\t\t{\r\n";
-
+            
             if (UseV128)
             {
-                result +=  "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result +=  "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
                           $"\t\t\t\treturn {(notEqual ? $"xor_si128(left, right)" : $"cmpeq_epi{BitWidth}(left, right)")};\r\n";
             }
             else
             {
+
                 result +=  "\t\t\tif (Avx2.IsAvx2Supported)\r\n" +
                            "\t\t\t{\r\n" +
                           $"\t\t\t\treturn {(notEqual ? $"Avx2.mm256_xor_si256(left, right)" : $"Avx2.mm256_cmpeq_epi{BitWidth}(left, right)")};\r\n" +
                            "\t\t\t}\r\n" +
-                           "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
-                           "\t\t\t{\r\n" +
-                          $"\t\t\t\treturn new mask{BitWidth}x{Num}({(notEqual ? $"xor_si128(left.xy, right.xy)" : $"cmpeq_epi{BitWidth}(left.xy, right.xy)")}, {(notEqual ? $"xor_si128(left.zw, right.zw)" : $"cmpeq_epi{BitWidth}(left.zw, right.zw)")});\r\n";
+                           "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
+                           "\t\t\t{\r\n";
+                if (BitWidth == 64)
+                {
+                    result += $"\t\t\t\treturn new mask{BitWidth}x{Num}({(notEqual ? $"xor_si128(left.mask.xy, right.mask.xy)" : $"cmpeq_epi{BitWidth}(left.mask.xy, right.mask.xy)")}, {(notEqual ? $"xor_si128(left.mask.zw, right.mask.zw)" : $"cmpeq_epi{BitWidth}(left.mask.zw, right.mask.zw)")});\r\n";
+                }
+                else
+                {
+                    result += $"\t\t\t\treturn new mask{BitWidth}x{Num}({(notEqual ? $"xor_si128(left.{LoHalf}, right.{LoHalf})" : $"cmpeq_epi{BitWidth}(left.{LoHalf}, right.{LoHalf})")}, {(notEqual ? $"xor_si128(left.{HiHalf}, right.{HiHalf})" : $"cmpeq_epi{BitWidth}(left.{HiHalf}, right.{HiHalf})")});\r\n";
+                }
             }
 
             result +=  "\t\t\t}\r\n" +
@@ -1180,6 +1230,32 @@ namespace MaxMath.Tests
                       $"\t\t\t\treturn (bool{Num})left {(notEqual ? "!=" : "==")} (bool{Num})right;\r\n" +
                        "\t\t\t}\r\n" +
                        "\t\t}\r\n";
+            result += "\r\n";
+
+            result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static mask{BitWidth}x{Num} operator {(notEqual ? "!=" : "==")} (mask{BitWidth}x{Num} left, bool right) => left {(notEqual ? "!=" : "==")} (mask{BitWidth}x{Num})right;\r\n"; 
+            result += "\r\n";
+            result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static mask{BitWidth}x{Num} operator {(notEqual ? "!=" : "==")} (bool left, mask{BitWidth}x{Num} right) => (mask{BitWidth}x{Num})left {(notEqual ? "!=" : "==")} right;\r\n"; 
+            result += "\r\n";
+
+            result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static mask{BitWidth}x{Num} operator {(notEqual ? "!=" : "==")} (mask{BitWidth}x{Num} left, bool{Num} right) => left {(notEqual ? "!=" : "==")} (mask{BitWidth}x{Num})right;\r\n"; 
+            result += "\r\n";
+            result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                      $"\t\tpublic static mask{BitWidth}x{Num} operator {(notEqual ? "!=" : "==")} (bool{Num} left, mask{BitWidth}x{Num} right) => (mask{BitWidth}x{Num})left {(notEqual ? "!=" : "==")} right;\r\n"; 
+
+            if (Num <= 4)
+            {
+                result += "\r\n";
+                result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                          $"\t\tpublic static mask{BitWidth}x{Num} operator {(notEqual ? "!=" : "==")} (mask{BitWidth}x{Num} left, Unity.Mathematics.bool{Num} right) => left {(notEqual ? "!=" : "==")} (mask{BitWidth}x{Num})right;\r\n"; 
+                result += "\r\n";
+                result +=  "\t\t[MethodImpl(MethodImplOptions.AggressiveInlining)]\r\n" +
+                          $"\t\tpublic static mask{BitWidth}x{Num} operator {(notEqual ? "!=" : "==")} (Unity.Mathematics.bool{Num} left, mask{BitWidth}x{Num} right) => (mask{BitWidth}x{Num})left {(notEqual ? "!=" : "==")} right;\r\n"; 
+            }
+
+            result += CreateOperatorsBetweenMaskTypes((notEqual ? "!=" : "=="));
 
             return result;
         }
@@ -1192,21 +1268,21 @@ namespace MaxMath.Tests
 
             if (UseV128)
             {
-                result +=  "\t\t\tif (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                result +=  "\t\t\tif (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
-                          $"\t\t\t\treturn alltrue_si128<{BaseType}>(cmpeq_epi{BitWidth}(this, other, {Num}));\r\n";
+                          $"\t\t\t\treturn alltrue_epi128<{BaseType}>(cmpeq_epi{BitWidth}(this, other){(BitWidth == 64 ? string.Empty : $", {Num}")});\r\n";
 
             }
             else
             {
                 result +=  "\t\t\tif (Avx2.IsAvx2Supported)\r\n" +
                            "\t\t\t{\r\n" +
-                          $"\t\t\t\treturn mm256_alltrue_si256<{BaseType}>(Avx2.mm256_cmpeq_epi{BitWidth}(this, other, {Num}));\r\n" +
+                          $"\t\t\t\treturn mm256_alltrue_epi256<{BaseType}>(Avx2.mm256_cmpeq_epi{BitWidth}(this, other){(Num == 3 ? string.Empty : $", {Num}")});\r\n" +
                            "\t\t\t}\r\n" +
-                           "\t\t\telse if (ArchitectureInfo.IsSIMDSupported)\r\n" +
+                           "\t\t\telse if (BurstArchitecture.IsSIMDSupported)\r\n" +
                            "\t\t\t{\r\n" +
-                          $"\t\t\t\tbool lo = alltrue_si128<{BaseType}>(cmpeq_epi{BitWidth}(this.mask.xy, other.mask.xy, {Num / 2}));\r\n" +
-                          $"\t\t\t\tbool hi = {(Num == 3 ? "this.mask.z == other.mask.z;" : $"alltrue_si128<{BaseType}>(cmpeq_epi{BitWidth}(this.mask.zw, other.mask.zw, {Num / 2}));")}\r\n" +
+                          $"\t\t\t\tbool lo = alltrue_epi128<{BaseType}>(cmpeq_epi{BitWidth}(this.mask.xy, other.mask.xy));\r\n" +
+                          $"\t\t\t\tbool hi = {(Num == 3 ? "this.mask.z == other.mask.z;" : $"alltrue_epi128<{BaseType}>(cmpeq_epi{BitWidth}(this.mask.zw, other.mask.zw));")}\r\n" +
                            "\t\t\t\treturn lo & hi;\r\n";
             }
 
@@ -1239,20 +1315,22 @@ namespace MaxMath.Tests
         {
             string result = CreateReferences();
             result += "\r\n";
+            result += "#pragma warning disable CS0660\r\n";
+            result += "\r\n";
 
             result += "namespace MaxMath\r\n{\r\n";
 
             result += CreateAttributes();
             result += "\r\n";
 
-            result += $"\tunsafe public readonly ref struct mask{BitWidth}x{Num} : IEquatable<mask{BitWidth}x{Num}>\r\n" +
+            result += $"\tunsafe public ref struct mask{BitWidth}x{Num}\r\n" +
                        "\t{\r\n";
 
             result += CreateDebuggerProxy();
             result += "\r\n";
             result += "\r\n";
 
-            result += $"\t\tprivate readonly ulong{(UseV128 ? "2" : "4")} mask;\r\n";
+            result += $"\t\tinternal ulong{(UseV128 ? "2" : "4")} mask;\r\n";
             result += "\r\n";
             result += "\r\n";
 
@@ -1306,12 +1384,13 @@ namespace MaxMath.Tests
 
             result += "\t}\r\n";
             result += "}\r\n";
+            result += "#pragma warning restore CS0660\r\n";
             return result;
         }
 
-        internal static (string, string)[] GenerateAllMasks()
+        internal static (string type, string code)[] GenerateAllMasks()
         {
-            return new (string, string)[]
+            return new (string type, string code)[]
             {
                 (("mask8x2"),   new MaskGenerator(2,  8).ToString()),
                 (("mask8x3"),   new MaskGenerator(3,  8).ToString()),

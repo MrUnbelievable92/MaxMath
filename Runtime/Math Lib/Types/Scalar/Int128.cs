@@ -3,13 +3,11 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Numerics;
 using System.Diagnostics;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 using DevTools;
 using MaxMath.Intrinsics;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
@@ -51,9 +49,123 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Int128(long lo, long hi)
             : this((ulong)lo, (ulong)hi) { }
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(bool x)
+        {
+            this = new Int128(x ? 1 : 0, 0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(byte x)
+        {
+            this = (Int128)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(sbyte x)
+        {
+            this = (Int128)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(ushort x)
+        {
+            this = (Int128)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(short x)
+        {
+            this = (Int128)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(uint f)
+        {
+            this = (Int128)f;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(int f)
+        {
+            this = (Int128)f;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(ulong d)
+        {
+            this = (Int128)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(long d)
+        {
+            this = (Int128)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(UInt128 d)
+        {
+            this = (Int128)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(Int128 d)
+        {
+            this = (Int128)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(quarter x)
+        {
+            this = (Int128)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(half x)
+        {
+            this = (Int128)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(float f)
+        {
+            this = (Int128)f;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(double d)
+        {
+            this = (Int128)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int128(quadruple d)
+        {
+            this = (Int128)d;
+        }
 
 
         #region Conversion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Int128(bool q) => q ? (Int128)1 : (Int128)0;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool(Int128 q) => q.IsNotZero;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool2(Int128 q) => (bool)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool3(Int128 q) => (bool)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool4(Int128 q) => (bool)q;
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static implicit operator Int128(Guid value)
         {
@@ -108,12 +220,6 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static explicit operator Int128(half value)
-        {
-            return (int)BASE_cvtf16i32(value, signed: true, trunc: true);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static explicit operator Int128(float value)
         {
             return (Int128)BASE_cvtf32i128(value, signed: true, trunc: true);
@@ -129,6 +235,13 @@ namespace MaxMath
 		public static explicit operator Int128(decimal value)
         {
             return negate((Int128)(UInt128)value, value < 0);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Int128(Unity.Mathematics.half value)
+        {
+            return (Int128)(half)value;
         }
 
 
@@ -163,12 +276,6 @@ namespace MaxMath
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static explicit operator long(Int128 value) => (long)value.value;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static explicit operator half(Int128 value)
-        {
-            return (half)(float)value;
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static implicit operator float(Int128 value)
@@ -220,6 +327,103 @@ namespace MaxMath
             {
                 return (BigInteger)(UInt128)value;
             }
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.half(Int128 value)
+        {
+            return (half)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.half2(Int128 value)
+        {
+            return (half2)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.half3(Int128 value)
+        {
+            return (half3)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.half4(Int128 value)
+        {
+            return (half4)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float2(Int128 value)
+        {
+            return (float2)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float3(Int128 value)
+        {
+            return (float3)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float4(Int128 value)
+        {
+            return (float4)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double2(Int128 value)
+        {
+            return (double2)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double3(Int128 value)
+        {
+            return (double3)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double4(Int128 value)
+        {
+            return (double4)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint2(Int128 value)
+        {
+            return (uint2)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint3(Int128 value)
+        {
+            return (uint3)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint4(Int128 value)
+        {
+            return (uint4)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.int2(Int128 value)
+        {
+            return (int2)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.int3(Int128 value)
+        {
+            return (int3)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.int4(Int128 value)
+        {
+            return (int4)value;
         }
         #endregion
 
@@ -314,14 +518,14 @@ namespace MaxMath
         {
             if (constexpr.IS_CONST(left))
             {
-                return (Int128)UInt128.__const.imul(right, left);
+                return (Int128)MaxMath.UInt128.__const.imul(right, left);
             }
             else if (constexpr.IS_CONST(right))
             {
-                return (Int128)UInt128.__const.imul(left, right);
+                return (Int128)MaxMath.UInt128.__const.imul(left, right);
             }
 
-            return UInt128.imul(left, right);
+            return MaxMath.UInt128.imul(left, right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -329,14 +533,14 @@ namespace MaxMath
         {
             if (constexpr.IS_CONST(left))
             {
-                return (Int128)UInt128.__const.imul(right, left);
+                return (Int128)MaxMath.UInt128.__const.imul(right, left);
             }
             else if (constexpr.IS_CONST(right))
             {
-                return (Int128)UInt128.__const.imul(left, right);
+                return (Int128)MaxMath.UInt128.__const.imul(left, right);
             }
 
-            return UInt128.imul(left, right);
+            return MaxMath.UInt128.imul(left, right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -353,14 +557,14 @@ namespace MaxMath
         {
             if (constexpr.IS_CONST(left))
             {
-                return (Int128)UInt128.__const.umul((UInt128)right, (UInt128)left);
+                return (Int128)MaxMath.UInt128.__const.umul((UInt128)right, (UInt128)left);
             }
             else if (constexpr.IS_CONST(right))
             {
-                return (Int128)UInt128.__const.umul((UInt128)left, (UInt128)right);
+                return (Int128)MaxMath.UInt128.__const.umul((UInt128)left, (UInt128)right);
             }
 
-            return UInt128.imul(left, right);
+            return MaxMath.UInt128.imul(left, right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -380,7 +584,7 @@ Assert.AreNotEqual(right, (Int128)0);
 
             if (constexpr.IS_CONST(right))
             {
-                return UInt128.__const.idiv(left, right);
+                return MaxMath.UInt128.__const.idiv(left, right);
             }
             else
             {
@@ -395,7 +599,7 @@ Assert.AreNotEqual(right, 0);
 
             if (constexpr.IS_CONST(right))
             {
-                return UInt128.__const.idiv(left, right);
+                return MaxMath.UInt128.__const.idiv(left, right);
             }
             else
             {
@@ -410,7 +614,7 @@ Assert.AreNotEqual(right, 0u);
 
             if (constexpr.IS_CONST(right))
             {
-                return UInt128.__const.idiv(left, right);
+                return MaxMath.UInt128.__const.idiv(left, right);
             }
             else
             {
@@ -426,7 +630,7 @@ Assert.AreNotEqual(right, 0);
 
             if (constexpr.IS_CONST(right))
             {
-                return UInt128.__const.irem(left, right);
+                return MaxMath.UInt128.__const.irem(left, right);
             }
             else
             {
@@ -443,7 +647,7 @@ Assert.AreNotEqual(right, 0);
 
             if (constexpr.IS_CONST(right))
             {
-                return UInt128.__const.irem(left, right);
+                return MaxMath.UInt128.__const.irem(left, right);
             }
             else
             {
@@ -460,7 +664,7 @@ Assert.AreNotEqual(right, 0u);
 
             if (constexpr.IS_CONST(right))
             {
-                return UInt128.__const.irem(left, right);
+                return MaxMath.UInt128.__const.irem(left, right);
             }
             else
             {
@@ -469,6 +673,262 @@ Assert.AreNotEqual(right, 0u);
                 return result;
             }
         }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (float lhs, Int128 rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (float lhs, Int128 rhs) => lhs - (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (float lhs, Int128 rhs) => lhs * (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (float lhs, Int128 rhs) => lhs / (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (float lhs, Int128 rhs) => lhs % (float)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (Int128 lhs, float rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (Int128 lhs, float rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (Int128 lhs, float rhs) => (float)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (Int128 lhs, float rhs) => (float)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (Int128 lhs, float rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator + (double lhs, Int128 rhs) => lhs + (double)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator - (double lhs, Int128 rhs) => lhs - (double)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator * (double lhs, Int128 rhs) => lhs * (double)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator / (double lhs, Int128 rhs) => lhs / (double)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator % (double lhs, Int128 rhs) => lhs % (double)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator + (Int128 lhs, double rhs) => (double)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator - (Int128 lhs, double rhs) => (double)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator * (Int128 lhs, double rhs) => (double)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator / (Int128 lhs, double rhs) => (double)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double operator % (Int128 lhs, double rhs) => (double)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs + (float2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs - (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs * (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs / (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs % (float2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs + (float3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs - (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs * (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs / (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs % (float3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs + (float4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs - (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs * (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs / (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs % (float4)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator + (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs + (double2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator - (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs - (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator * (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs * (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator / (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs / (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator % (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs % (double2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator + (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator - (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator * (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator / (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator % (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator + (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs + (double3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator - (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs - (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator * (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs * (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator / (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs / (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator % (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs % (double3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator + (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator - (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator * (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator / (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator % (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator + (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs + (double4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator - (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs - (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator * (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs * (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator / (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs / (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator % (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs % (double4)rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator + (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator - (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator * (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator / (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator % (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs % rhs;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -481,7 +941,7 @@ Assert.AreNotEqual(right, 0u);
 
             if (constexpr.IS_CONST(n))
             {
-                return UInt128.__const.sarint128(left, n);
+                return MaxMath.UInt128.__const.sarint128(left, n);
             }
             else
             {
@@ -848,6 +1308,310 @@ Assert.AreNotEqual(right, 0u);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator >= (uint left, Int128 right) => right <= left;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (float lhs, Int128 rhs) => lhs == (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (float lhs, Int128 rhs) => lhs != (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (float lhs, Int128 rhs) => lhs < (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (float lhs, Int128 rhs) => lhs > (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (float lhs, Int128 rhs) => lhs <= (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (float lhs, Int128 rhs) => lhs >= (float)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (Int128 lhs, float rhs) => (float)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (Int128 lhs, float rhs) => (float)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (Int128 lhs, float rhs) => (float)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (Int128 lhs, float rhs) => (float)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (Int128 lhs, float rhs) => (float)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (Int128 lhs, float rhs) => (float)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (double lhs, Int128 rhs) => lhs == (double)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (double lhs, Int128 rhs) => lhs != (double)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (double lhs, Int128 rhs) => lhs < (double)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (double lhs, Int128 rhs) => lhs > (double)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (double lhs, Int128 rhs) => lhs <= (double)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (double lhs, Int128 rhs) => lhs >= (double)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (Int128 lhs, double rhs) => (double)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (Int128 lhs, double rhs) => (double)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (Int128 lhs, double rhs) => (double)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (Int128 lhs, double rhs) => (double)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (Int128 lhs, double rhs) => (double)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (Int128 lhs, double rhs) => (double)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs == (float2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs != (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs < (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs > (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs <= (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (Unity.Mathematics.float2 lhs, Int128 rhs) => lhs >= (float2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (Int128 lhs, Unity.Mathematics.float2 rhs) => (float2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs == (float3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs != (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs < (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs > (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs <= (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (Unity.Mathematics.float3 lhs, Int128 rhs) => lhs >= (float3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (Int128 lhs, Unity.Mathematics.float3 rhs) => (float3)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs == (float4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs != (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs < (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs > (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs <= (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (Unity.Mathematics.float4 lhs, Int128 rhs) => lhs >= (float4)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (Int128 lhs, Unity.Mathematics.float4 rhs) => (float4)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs == (double2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs != (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs < (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs > (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs <= (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (Unity.Mathematics.double2 lhs, Int128 rhs) => lhs >= (double2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (Int128 lhs, Unity.Mathematics.double2 rhs) => (double2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs == (double3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs != (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs < (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs > (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs <= (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (Unity.Mathematics.double3 lhs, Int128 rhs) => lhs >= (double3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (Int128 lhs, Unity.Mathematics.double3 rhs) => (double3)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs == (double4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs != (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs < (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs > (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs <= (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (Unity.Mathematics.double4 lhs, Int128 rhs) => lhs >= (double4)rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (Int128 lhs, Unity.Mathematics.double4 rhs) => (double4)lhs >= rhs;
         #endregion
 
 
@@ -890,10 +1654,7 @@ Assert.AreNotEqual(right, 0u);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override readonly int GetHashCode()
-        {
-            return value.GetHashCode();
-        }
+		public override readonly int GetHashCode() => (int)math.hash(this);
 
 
         #region string
@@ -914,7 +1675,7 @@ Assert.AreNotEqual(right, 0u);
 
             while (cpy >= 10u)
             {
-                cpy = UInt128.__const.divrem10(cpy, out ulong rem);
+                cpy = MaxMath.UInt128.__const.divrem10(cpy, out ulong rem);
 
                 *currentDigit-- = DECIMAL_DIGITS[rem];
             }

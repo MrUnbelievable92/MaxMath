@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -20,9 +19,9 @@ namespace MaxMath.Intrinsics
 
 				switch (elements)
 				{
-					case  2: return RegisterConversion.ToV128(RegisterConversion.ToUInt2(vector) % new Divider<uint2>(RegisterConversion.ToUInt2(divisor)));
-					case  3: return RegisterConversion.ToV128(RegisterConversion.ToUInt3(vector) % new Divider<uint3>(RegisterConversion.ToUInt3(divisor)));
-					default: return RegisterConversion.ToV128(RegisterConversion.ToUInt4(vector) % new Divider<uint4>(RegisterConversion.ToUInt4(divisor)));
+					case  2: return (uint2)vector % new Divider<uint2>(divisor);
+					case  3: return (uint3)vector % new Divider<uint3>(divisor);
+					default: return (uint4)vector % new Divider<uint4>(divisor);
 				}
 		    }
 			else throw new IllegalInstructionException();

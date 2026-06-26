@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
@@ -12,35 +10,42 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
+#if DEBUG
+    internal sealed class ulong4DebuggerProxy
+    {
+	    public ulong x;
+	    public ulong y;
+	    public ulong z;
+	    public ulong w;
+        
+	    public ulong4DebuggerProxy(ulong4 v)
+	    {
+	    	x = v.x;
+	    	y = v.y;
+	    	z = v.z;
+	    	w = v.w;
+	    }
+    }
+
+    [System.Diagnostics.DebuggerTypeProxy(typeof(ulong4DebuggerProxy))]
+#endif
     [Serializable]
-	[StructLayout(LayoutKind.Explicit, Size = 4 * sizeof(ulong))]
-	[DebuggerTypeProxy(typeof(ulong4.DebuggerProxy))]
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
     unsafe public struct ulong4 : IEquatable<ulong4>, IFormattable
     {
-        internal sealed class DebuggerProxy
-        {
-            public ulong x;
-            public ulong y;
-            public ulong z;
-            public ulong w;
-
-            public DebuggerProxy(ulong4 v)
-            {
-                x = v.x;
-                y = v.y;
-                z = v.z;
-                w = v.w;
-            }
-        }
-
-
-        [FieldOffset(0)]  internal ulong2 _xy;
-        [FieldOffset(16)] internal ulong2 _zw;
-
-        [FieldOffset(0)]  public ulong x;
-        [FieldOffset(8)]  public ulong y;
-        [FieldOffset(16)] public ulong z;
-        [FieldOffset(24)] public ulong w;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal ulong2 __x0;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal ulong2 __x2;
+		
+        public ref ulong x { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(ulong4* ptr = &this) { return ref *((ulong*)ptr + 0); } } }
+        public ref ulong y { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(ulong4* ptr = &this) { return ref *((ulong*)ptr + 1); } } }
+        public ref ulong z { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(ulong4* ptr = &this) { return ref *((ulong*)ptr + 2); } } }
+        public ref ulong w { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(ulong4* ptr = &this) { return ref *((ulong*)ptr + 3); } } }
 
 
         public static ulong4 zero => default;
@@ -57,8 +62,8 @@ namespace MaxMath
             {
                 this = new ulong4
                 {
-                    _xy = new ulong2(x, y),
-                    _zw = new ulong2(z, w)
+                    __x0 = new ulong2(x, y),
+                    __x2 = new ulong2(z, w)
                 };
             }
             else
@@ -84,8 +89,8 @@ namespace MaxMath
             {
                 this = new ulong4
                 {
-                    _xy = new ulong2(xyzw),
-                    _zw = new ulong2(xyzw)
+                    __x0 = new ulong2(xyzw),
+                    __x2 = new ulong2(xyzw)
                 };
             }
             else
@@ -111,8 +116,8 @@ namespace MaxMath
             {
                 this = new ulong4
                 {
-                    _xy = xy,
-                    _zw = new ulong2(z, w)
+                    __x0 = xy,
+                    __x2 = new ulong2(z, w)
                 };
             }
             else
@@ -148,8 +153,8 @@ namespace MaxMath
 
                 this = new ulong4
                 {
-                    _xy = lo,
-                    _zw = hi
+                    __x0 = lo,
+                    __x2 = hi
                 };
             }
             else
@@ -175,8 +180,8 @@ namespace MaxMath
             {
                 this = new ulong4
                 {
-                    _xy = new ulong2(x, y),
-                    _zw = zw
+                    __x0 = new ulong2(x, y),
+                    __x2 = zw
                 };
             }
             else
@@ -202,8 +207,8 @@ namespace MaxMath
             {
                 this = new ulong4
                 {
-                    _xy = xy,
-                    _zw = zw
+                    __x0 = xy,
+                    __x2 = zw
                 };
             }
             else
@@ -229,8 +234,8 @@ namespace MaxMath
             {
                 this = new ulong4
                 {
-                    _xy = xyz._xy,
-                    _zw = new ulong2(xyz.z, w)
+                    __x0 = xyz.__x0,
+                    __x2 = new ulong2(xyz.z, w)
                 };
             }
             else
@@ -254,14 +259,14 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 lo = Xse.shuffle_epi32(yzw._xy, Sse.SHUFFLE(1, 0, 1, 0));
+                v128 lo = Xse.shuffle_epi32(yzw.__x0, Sse.SHUFFLE(1, 0, 1, 0));
                 lo.ULong0 = x;
                 ulong2 hi = yzw.yz;
 
                 this = new ulong4
                 {
-                    _xy = lo,
-                    _zw = hi
+                    __x0 = lo,
+                    __x2 = hi
                 };
             }
             else
@@ -276,9 +281,245 @@ namespace MaxMath
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(bool v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(bool4 v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(mask8x4 v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(mask16x4 v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(mask32x4 v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(mask64x4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(byte v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(byte4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(sbyte v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(sbyte4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(ushort v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(ushort4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(short v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(short4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(uint v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(uint4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(int v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(int4 v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(ulong4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(long v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(long4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(UInt128 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(Int128 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(quarter v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(quarter4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(half v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(half4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(float v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(float4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(double v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(double4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(quadruple v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(Unity.Mathematics.bool4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(Unity.Mathematics.uint4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(Unity.Mathematics.int4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(Unity.Mathematics.half v)
+        {
+            this = (ulong4)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(Unity.Mathematics.half4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(Unity.Mathematics.float4 v)
+        {
+            this = (ulong4)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ulong4(Unity.Mathematics.double4 v)
+        {
+            this = (ulong4)v;
+        }
 
         #region Shuffle
-        public readonly ulong4 xxxx
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -293,7 +534,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -308,7 +553,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -323,7 +572,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -338,7 +591,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -353,7 +610,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -368,7 +629,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -383,7 +648,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -398,7 +667,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -413,7 +686,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -428,7 +705,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -443,7 +724,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -458,7 +743,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -473,7 +762,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -488,7 +781,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -503,7 +800,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xxww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xxww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -518,7 +819,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -533,7 +838,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -548,7 +857,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -563,7 +876,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -578,7 +895,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -593,7 +914,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -608,7 +933,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -623,7 +952,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -638,7 +971,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -653,7 +990,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -668,7 +1009,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xyzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -683,7 +1028,28 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyzw
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            readonly get
+            {
+                return this;
+            }
+
+            set
+            {
+                this = value;
+            }
+        }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xywx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -698,7 +1064,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xywy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -713,10 +1083,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public			ulong4 xywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public			ulong4 xywz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -734,7 +1108,11 @@ namespace MaxMath
 				this = value.xywz;
 			}
 		}
-		public readonly ulong4 xyww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xyww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -749,7 +1127,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -764,7 +1146,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -779,7 +1165,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -794,7 +1184,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -809,7 +1203,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -824,7 +1222,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -839,7 +1241,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -854,10 +1260,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public			ulong4 xzyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public			ulong4 xzyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -875,7 +1285,11 @@ namespace MaxMath
 				this = value.xzyw;
 			}
 		}
-		public readonly ulong4 xzzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -890,7 +1304,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -905,7 +1323,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -920,7 +1342,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -935,7 +1361,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -950,10 +1380,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public			ulong4 xzwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public			ulong4 xzwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -971,7 +1405,11 @@ namespace MaxMath
 				this = value.xwyz;
 			}
 		}
-		public readonly ulong4 xzwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -986,7 +1424,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xzww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xzww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1001,7 +1443,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwxx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1016,7 +1462,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwxy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1031,7 +1481,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwxz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1046,7 +1500,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwxw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1061,7 +1519,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1076,7 +1538,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwyy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1091,10 +1557,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public			ulong4 xwyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public			ulong4 xwyz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -1112,7 +1582,11 @@ namespace MaxMath
 				this = value.xzwy;
 			}
 		}
-		public readonly ulong4 xwyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwyw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1127,7 +1601,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwzx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1142,10 +1620,14 @@ namespace MaxMath
 				}
 			}
 		}
-		public			ulong4 xwzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public			ulong4 xwzy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -1163,7 +1645,11 @@ namespace MaxMath
 				this = value.xwzy;
 			}
 		}
-		public readonly ulong4 xwzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwzz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1178,7 +1664,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwzw
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1193,7 +1683,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwwx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1208,7 +1702,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwwy
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1223,7 +1721,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwwz
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1238,7 +1740,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 xwww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 xwww
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1253,7 +1759,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 yxxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1268,7 +1778,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1283,7 +1797,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1298,7 +1816,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1313,7 +1835,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1328,7 +1854,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1343,7 +1873,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1358,7 +1892,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1373,7 +1911,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1388,7 +1930,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1403,7 +1949,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1418,10 +1968,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 yxzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -1439,7 +1993,11 @@ namespace MaxMath
 				this = value.yxzw;
 			}
 		}
-        public readonly ulong4 yxwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1454,7 +2012,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yxwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1469,10 +2031,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 yxwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -1490,7 +2056,11 @@ namespace MaxMath
 				this = value.yxwz;
 			}
 		}
-        public readonly ulong4 yxww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yxww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1505,7 +2075,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1520,7 +2094,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1535,7 +2113,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1550,7 +2132,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1565,7 +2151,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1580,7 +2170,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1595,7 +2189,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1610,7 +2208,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1625,7 +2227,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1640,7 +2246,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1655,7 +2265,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1670,7 +2284,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1685,7 +2303,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yywx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1700,7 +2322,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yywy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1715,7 +2341,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yywz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1730,7 +2360,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yyww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yyww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1745,7 +2379,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1760,7 +2398,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1775,7 +2417,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1790,10 +2436,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 yzxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -1811,7 +2461,11 @@ namespace MaxMath
 				this = value.zxyw;
 			}
 		}
-        public readonly ulong4 yzyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1826,7 +2480,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1841,7 +2499,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1856,7 +2518,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1871,7 +2537,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1886,7 +2556,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1901,7 +2575,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1916,7 +2594,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1931,10 +2613,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 yzwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -1952,7 +2638,11 @@ namespace MaxMath
 				this = value.wxyz;
 			}
 		}
-        public readonly ulong4 yzwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1967,7 +2657,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1982,7 +2676,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 yzww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 yzww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -1997,7 +2695,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2012,7 +2714,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2027,10 +2733,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 ywxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -2048,7 +2758,11 @@ namespace MaxMath
 				this = value.zxwy;
 			}
 		}
-        public readonly ulong4 ywxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2063,7 +2777,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2078,7 +2796,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2093,7 +2815,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2108,7 +2834,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2123,10 +2853,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 ywzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -2144,7 +2878,11 @@ namespace MaxMath
 				this = value.wxzy;
 			}
 		}
-        public readonly ulong4 ywzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2159,7 +2897,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2174,7 +2916,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2189,7 +2935,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2204,7 +2954,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2219,7 +2973,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2234,7 +2992,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 ywww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 ywww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2249,7 +3011,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2264,7 +3030,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2279,7 +3049,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2294,7 +3068,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2309,7 +3087,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2324,7 +3106,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2339,7 +3125,11 @@ namespace MaxMath
 				}
 			}
 		}
-		public readonly ulong4 zxyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2354,10 +3144,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 zxyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -2375,7 +3169,11 @@ namespace MaxMath
 				this = value.yzxw;
 			}
 		}
-        public readonly ulong4 zxzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2390,7 +3188,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2405,7 +3207,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2420,7 +3226,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2435,7 +3245,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2450,10 +3264,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 zxwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -2471,7 +3289,11 @@ namespace MaxMath
 				this = value.ywxz;
 			}
 		}
-        public readonly ulong4 zxwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2486,7 +3308,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zxww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zxww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2501,7 +3327,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2516,7 +3346,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2531,7 +3365,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2546,10 +3384,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 zyxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -2567,7 +3409,11 @@ namespace MaxMath
 				this = value.zyxw;
 			}
 		}
-        public readonly ulong4 zyyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2582,7 +3428,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2597,7 +3447,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2612,7 +3466,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2627,7 +3485,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2642,7 +3504,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2657,7 +3523,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2672,7 +3542,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2687,10 +3561,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 zywx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -2708,7 +3586,11 @@ namespace MaxMath
 				this = value.wyxz;
 			}
 		}
-        public readonly ulong4 zywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zywy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2723,7 +3605,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zywz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2738,7 +3624,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zyww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zyww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2753,7 +3643,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2768,7 +3662,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2783,7 +3681,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2798,7 +3700,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2813,7 +3719,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2828,7 +3738,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2843,7 +3757,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2858,7 +3776,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2873,7 +3795,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2888,7 +3814,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2903,7 +3833,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2918,7 +3852,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2933,7 +3871,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2948,7 +3890,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2963,7 +3909,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2978,7 +3928,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zzww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zzww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -2993,7 +3947,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3008,10 +3966,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 zwxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -3029,7 +3991,11 @@ namespace MaxMath
 				this = value.zwxy;
 			}
 		}
-        public readonly ulong4 zwxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3044,7 +4010,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3059,10 +4029,14 @@ namespace MaxMath
 				}
 			}
 		}
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public			ulong4 zwyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -3080,7 +4054,11 @@ namespace MaxMath
 				this = value.wzxy;
 			}
 		}
-        public readonly ulong4 zwyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3095,7 +4073,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3110,7 +4092,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3125,7 +4111,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3140,7 +4130,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3155,7 +4149,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3170,7 +4168,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3185,7 +4187,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3200,7 +4206,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3215,7 +4225,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3230,7 +4244,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 zwww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 zwww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3245,7 +4263,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3260,7 +4282,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3275,7 +4301,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3290,7 +4320,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3305,7 +4339,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3320,7 +4358,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3335,10 +4377,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong4 wxyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -3356,7 +4402,11 @@ namespace MaxMath
 				this = value.yzwx;
 			}
 		}
-        public readonly ulong4 wxyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3371,7 +4421,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3386,10 +4440,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong4 wxzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -3407,7 +4465,11 @@ namespace MaxMath
 				this = value.ywzx;
 			}
 		}
-        public readonly ulong4 wxzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3422,7 +4484,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3437,7 +4503,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3452,7 +4522,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3467,7 +4541,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3482,7 +4560,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wxww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wxww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3497,7 +4579,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3512,7 +4598,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3527,10 +4617,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong4 wyxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -3548,7 +4642,11 @@ namespace MaxMath
 				this = value.zywx;
 			}
 		}
-        public readonly ulong4 wyxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3563,7 +4661,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3578,7 +4680,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3593,7 +4699,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3608,7 +4718,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3623,10 +4737,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong4 wyzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -3644,7 +4762,11 @@ namespace MaxMath
 				this = value.wyzx;
 			}
 		}
-        public readonly ulong4 wyzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3659,7 +4781,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3674,7 +4800,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3689,7 +4819,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wywx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3704,7 +4838,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wywy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3719,7 +4857,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wywz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3734,7 +4876,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wyww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wyww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3749,7 +4895,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3764,10 +4914,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong4 wzxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -3785,7 +4939,11 @@ namespace MaxMath
 				this = value.zwyx;
 			}
 		}
-        public readonly ulong4 wzxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3800,7 +4958,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3815,10 +4977,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong4 wzyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -3836,7 +5002,11 @@ namespace MaxMath
 				this = value.wzyx;
 			}
 		}
-        public readonly ulong4 wzyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3851,7 +5021,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3866,7 +5040,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3881,7 +5059,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3896,7 +5078,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3911,7 +5097,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3926,7 +5116,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3941,7 +5135,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3956,7 +5154,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3971,7 +5173,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -3986,7 +5192,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wzww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wzww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4001,7 +5211,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4016,7 +5230,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4031,7 +5249,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4046,7 +5268,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4061,7 +5287,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4076,7 +5306,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4091,7 +5325,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4106,7 +5344,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4121,7 +5363,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4136,7 +5382,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4151,7 +5401,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4166,7 +5420,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4181,7 +5439,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4196,7 +5458,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4211,7 +5477,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4226,7 +5496,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong4 wwww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong4 wwww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4242,7 +5516,11 @@ namespace MaxMath
 			}
 		}
 
-        public readonly ulong3 xxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4257,7 +5535,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4272,7 +5554,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4287,7 +5573,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4302,7 +5592,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xyx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4317,7 +5611,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4332,10 +5630,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 xyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4362,10 +5664,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 xyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4392,7 +5698,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4407,10 +5717,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 xzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4437,7 +5751,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4452,10 +5770,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 xzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4482,7 +5804,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4497,10 +5823,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 xwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4527,10 +5857,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 xwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4557,7 +5891,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 xww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 xww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4572,7 +5910,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4587,7 +5929,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4602,10 +5948,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 yxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4632,10 +5982,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 yxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4662,7 +6016,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4677,7 +6035,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4692,7 +6054,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4707,7 +6073,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4722,10 +6092,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 yzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4752,7 +6126,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4767,7 +6145,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4782,10 +6164,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 yzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4812,10 +6198,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 ywx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 ywx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4842,7 +6232,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 ywy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 ywy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4857,10 +6251,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 ywz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 ywz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4887,7 +6285,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 yww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 yww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4902,7 +6304,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4917,10 +6323,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 zxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4947,7 +6357,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -4962,10 +6376,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 zxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -4992,10 +6410,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 zyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5022,7 +6444,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5037,7 +6463,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5052,10 +6482,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 zyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5082,7 +6516,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5097,7 +6535,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5112,7 +6554,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5127,7 +6573,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5142,10 +6592,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 zwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5172,10 +6626,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 zwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5202,7 +6660,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5217,7 +6679,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 zww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 zww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5232,7 +6698,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 wxx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wxx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5247,10 +6717,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 wxy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wxy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5277,10 +6751,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 wxz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wxz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5307,7 +6785,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 wxw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wxw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5322,10 +6804,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong3 wyx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wyx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5352,7 +6838,11 @@ namespace MaxMath
 				}
 			}
 		}
-        public readonly ulong3 wyy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wyy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5367,10 +6857,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong3 wyz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wyz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5397,7 +6891,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong3 wyw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wyw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5412,10 +6910,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong3 wzx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wzx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5442,10 +6944,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong3 wzy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wzy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5472,7 +6978,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong3 wzz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wzz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5487,7 +6997,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong3 wzw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wzw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5502,7 +7016,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong3 wwx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wwx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5517,7 +7035,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong3 wwy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wwy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5532,7 +7054,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong3 wwz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 wwz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5547,7 +7073,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong3 www
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong3 www
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5563,7 +7093,11 @@ namespace MaxMath
 			}
         }
 
-        public readonly ulong2 xx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 xx
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5574,7 +7108,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return this._xy.xx;
+					return this.__x0.xx;
 				}
 				else
 				{
@@ -5582,10 +7116,14 @@ namespace MaxMath
 				}
 			}
 		}
-        public          ulong2 xy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 xy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx.IsAvxSupported)
 				{
@@ -5593,7 +7131,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return this._xy;
+					return this.__x0;
 				}
 				else
 				{
@@ -5610,7 +7148,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = value;
+					this.__x0 = value;
 				}
 				else
 				{
@@ -5619,10 +7157,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 xz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 xz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5630,7 +7172,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return Xse.unpacklo_epi64(this._xy, this._zw);
+					return Xse.unpacklo_epi64(this.__x0, this.__x2);
 				}
 				else
 				{
@@ -5647,8 +7189,8 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-                    this._xy = Xse.blend_epi16(this._xy, value, 0b0000_1111);
-					this._zw = Xse.unpackhi_epi64(value, this._zw);
+                    this.__x0 = Xse.blend_epi16(this.__x0, value, 0b0000_1111);
+					this.__x2 = Xse.unpackhi_epi64(value, this.__x2);
 				}
 				else
 				{
@@ -5657,10 +7199,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 xw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 xw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5668,7 +7214,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return Xse.blend_epi16(this._xy, this._zw, 0b1111_0000);
+					return Xse.blend_epi16(this.__x0, this.__x2, 0b1111_0000);
 				}
 				else
 				{
@@ -5685,8 +7231,8 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = Xse.blend_epi16(this._xy, value, 0b0000_1111);
-					this._zw = Xse.blend_epi16(this._zw, value, 0b1111_0000);
+					this.__x0 = Xse.blend_epi16(this.__x0, value, 0b0000_1111);
+					this.__x2 = Xse.blend_epi16(this.__x2, value, 0b1111_0000);
 				}
 				else
 				{
@@ -5695,10 +7241,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 yx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 yx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx.IsAvxSupported)
 				{
@@ -5706,7 +7256,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return this._xy.yx;
+					return this.__x0.yx;
 				}
 				else
 				{
@@ -5723,7 +7273,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = value.yx;
+					this.__x0 = value.yx;
 				}
 				else
 				{
@@ -5732,7 +7282,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong2 yy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 yy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5743,7 +7297,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return this._xy.yy;
+					return this.__x0.yy;
 				}
 				else
 				{
@@ -5751,10 +7305,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 yz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 yz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5762,7 +7320,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return Xse.shuffle_epi32(Xse.blend_epi16(this._xy, this._zw, 0b0000_1111), Sse.SHUFFLE(1, 0, 3, 2));
+					return Xse.shuffle_epi32(Xse.blend_epi16(this.__x0, this.__x2, 0b0000_1111), Sse.SHUFFLE(1, 0, 3, 2));
 				}
 				else
 				{
@@ -5779,8 +7337,8 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = Xse.unpacklo_epi64(this._xy, value);
-					this._zw = Xse.unpackhi_epi64(value, this._zw);
+					this.__x0 = Xse.unpacklo_epi64(this.__x0, value);
+					this.__x2 = Xse.unpackhi_epi64(value, this.__x2);
 				}
 				else
 				{
@@ -5789,10 +7347,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 yw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 yw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5800,7 +7362,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return Xse.unpackhi_epi64(this._xy, this._zw);
+					return Xse.unpackhi_epi64(this.__x0, this.__x2);
 				}
 				else
 				{
@@ -5817,8 +7379,8 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = Xse.unpacklo_epi64(this._xy, value);
-					this._zw = Xse.blend_epi16(this._zw, value, 0b1111_0000);
+					this.__x0 = Xse.unpacklo_epi64(this.__x0, value);
+					this.__x2 = Xse.blend_epi16(this.__x2, value, 0b1111_0000);
 				}
 				else
 				{
@@ -5827,10 +7389,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 zx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 zx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5838,7 +7404,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return Xse.unpacklo_epi64(this._zw, this._xy);
+					return Xse.unpacklo_epi64(this.__x2, this.__x0);
 				}
 				else
 				{
@@ -5855,8 +7421,8 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = Xse.unpackhi_epi64(value, this._xy);
-					this._zw = Xse.blend_epi16(this._zw, value, 0b0000_1111);
+					this.__x0 = Xse.unpackhi_epi64(value, this.__x0);
+					this.__x2 = Xse.blend_epi16(this.__x2, value, 0b0000_1111);
 				}
 				else
 				{
@@ -5865,10 +7431,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 zy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 zy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5876,7 +7446,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return Xse.blend_epi16(this._xy, this._zw, 0b0000_1111);
+					return Xse.blend_epi16(this.__x0, this.__x2, 0b0000_1111);
 				}
 				else
 				{
@@ -5893,8 +7463,8 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = Xse.blend_epi16(this._xy, value, 0b1111_0000);
-					this._zw = Xse.blend_epi16(this._zw, value, 0b0000_1111);
+					this.__x0 = Xse.blend_epi16(this.__x0, value, 0b1111_0000);
+					this.__x2 = Xse.blend_epi16(this.__x2, value, 0b0000_1111);
 				}
 				else
 				{
@@ -5903,7 +7473,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong2 zz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 zz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -5914,7 +7488,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return this._zw.xx;
+					return this.__x2.xx;
 				}
 				else
 				{
@@ -5922,10 +7496,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 zw
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 zw
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5933,7 +7511,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return this._zw;
+					return this.__x2;
 				}
 				else
 				{
@@ -5950,7 +7528,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._zw = value;
+					this.__x2 = value;
 				}
 				else
 				{
@@ -5959,10 +7537,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 wx
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 wx
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -5970,7 +7552,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return Xse.shuffle_epi32(Xse.blend_epi16(this._xy, this._zw, 0b1111_0000), Sse.SHUFFLE(1, 0, 3, 2));
+					return Xse.shuffle_epi32(Xse.blend_epi16(this.__x0, this.__x2, 0b1111_0000), Sse.SHUFFLE(1, 0, 3, 2));
 				}
 				else
 				{
@@ -5987,8 +7569,8 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = Xse.unpackhi_epi64(value, this._xy);
-					this._zw = Xse.unpacklo_epi64(this._zw, value);
+					this.__x0 = Xse.unpackhi_epi64(value, this.__x0);
+					this.__x2 = Xse.unpacklo_epi64(this.__x2, value);
 				}
 				else
 				{
@@ -5997,10 +7579,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 wy
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 wy
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -6008,7 +7594,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return Xse.unpackhi_epi64(this._zw, this._xy);
+					return Xse.unpackhi_epi64(this.__x2, this.__x0);
 				}
 				else
 				{
@@ -6025,8 +7611,8 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._xy = Xse.blend_epi16(this._xy, value, 0b1111_0000);
-					this._zw = Xse.unpacklo_epi64(this._zw, value);
+					this.__x0 = Xse.blend_epi16(this.__x0, value, 0b1111_0000);
+					this.__x2 = Xse.unpacklo_epi64(this.__x2, value);
 				}
 				else
 				{
@@ -6035,10 +7621,14 @@ namespace MaxMath
 				}
 			}
         }
-        public          ulong2 wz
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 wz
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			readonly get
+			get
 			{
 				if (Avx2.IsAvx2Supported)
 				{
@@ -6046,7 +7636,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					return _zw.yx;
+					return __x2.yx;
 				}
 				else
 				{
@@ -6063,7 +7653,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
 				{
-					this._zw = value.yx;
+					this.__x2 = value.yx;
 				}
 				else
 				{
@@ -6072,7 +7662,11 @@ namespace MaxMath
 				}
 			}
         }
-        public readonly ulong2 ww
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
+        public ulong2 ww
         {
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get
@@ -6083,7 +7677,7 @@ namespace MaxMath
 				}
 				else if (BurstArchitecture.IsSIMDSupported)
                 {
-					return _zw.yy;
+					return __x2.yy;
                 }
 				else
                 {
@@ -6096,11 +7690,186 @@ namespace MaxMath
 		
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v256(ulong4 input) => RegisterConversion.ToRegister256(input);
+        public static implicit operator v256(ulong4 input)
+        {
+			v256 result;
+            if (Avx.IsAvxSupported)
+            {
+                result = Avx.mm256_undefined_si256();
+            }
+            else
+            {
+                result = Uninitialized<v256>.Create();
+            }
+            
+			result.ULong0 = input.__x0.__x0;
+			result.ULong1 = input.__x0.__x1;
+			result.ULong2 = input.__x2.__x0;
+			result.ULong3 = input.__x2.__x1;
+            
+			return result;
+        }
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ulong4(v256 input) => RegisterConversion.ToAbstraction256<ulong4>(input);
+        public static implicit operator ulong4(v256 input) => new ulong4 { __x0 = new ulong2 { __x0 = input.ULong0, __x1 = input.ULong1 }, __x2 = new ulong2 { __x0 = input.ULong2, __x1 = input.ULong3 } };
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(bool x) => math.tobyte(x);
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(bool4 x) => (ulong4)(mask64x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(Unity.Mathematics.bool4 x) => (ulong4)(mask64x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(mask8x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (ulong4)(mask64x4)x;
+            }
+            else
+            {
+                return *(byte4*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(mask16x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (ulong4)(mask64x4)x;
+            }
+            else
+            {
+                return *(byte4*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(mask32x4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (ulong4)(mask64x4)x;
+            }
+            else
+            {
+                return *(byte4*)&x;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(mask64x4 x)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_neg_epi64(x);
+            }
+            else
+            {
+                return new ulong4((ulong2)x.xy, (ulong2)x.zw);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool4(ulong4 x) => (mask64x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool4(ulong4 x) => (mask64x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask8x4(ulong4 x) => (mask64x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask16x4(ulong4 x) => (mask64x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask32x4(ulong4 x) => (mask64x4)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask64x4(ulong4 x) => x != 0;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator ulong4(byte x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(sbyte x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator ulong4(ushort x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(short x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static /*implicit*/ explicit operator ulong4(uint x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(int x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(long x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(UInt128 x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(Int128 x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(quarter x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(half x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(float x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(double x) => (ulong)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(quadruple x) => (ulong)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(Unity.Mathematics.half x) => (ulong4)(half)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(Unity.Mathematics.half4 x) => (ulong4)(half4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(Unity.Mathematics.float4 x) => (ulong4)(float4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(Unity.Mathematics.double4 x) => (ulong4)(double4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator ulong4(Unity.Mathematics.uint4 x) => (ulong4)(uint4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator ulong4(Unity.Mathematics.int4 x) => (ulong4)(int4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.half4(ulong4 x) => (half4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float4(ulong4 x) => (float4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double4(ulong4 x) => (double4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint4(ulong4 x) => (uint4)x;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.int4(ulong4 x) => (int4)x;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6115,11 +7884,11 @@ namespace MaxMath
         {
 			if (Avx2.IsAvx2Supported)
             {
-				return Avx2.mm256_cvtepu32_epi64(RegisterConversion.ToV128(input));
+				return Avx2.mm256_cvtepu32_epi64(input);
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return (ulong4)Cast.UInt4ToLong4(RegisterConversion.ToV128(input));
+                return (ulong4)Cast.UInt4ToLong4(input);
             }
             else
             {
@@ -6128,32 +7897,19 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ulong4(int4 input)
+        public static explicit operator ulong4(int4 input)
         {
             if (Avx2.IsAvx2Supported)
             {
-				return Avx2.mm256_cvtepi32_epi64(RegisterConversion.ToV128(input));
+				return Avx2.mm256_cvtepi32_epi64(input);
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                return (ulong4)Cast.Int4ToLong4(RegisterConversion.ToV128(input));
+                return (ulong4)Cast.Int4ToLong4(input);
             }
             else
             {
                 return new ulong4((ulong)input.x, (ulong)input.y, (ulong)input.z, (ulong)input.w);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator ulong4(half4 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_cvttph_epu64(RegisterConversion.ToV128(input), 4);
-            }
-            else
-            {
-                return new ulong4((ulong2)input.xy, (ulong2)input.zw);
             }
         }
 
@@ -6162,7 +7918,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttps_epu64(RegisterConversion.ToV128(input), 4);
+                return Xse.mm256_cvttps_epu64(input, 4);
             }
             else
             {
@@ -6175,7 +7931,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvttpd_epu64(RegisterConversion.ToV256(input), 4);
+                return Xse.mm256_cvttpd_epu64(input, 4);
             }
             else
             {
@@ -6189,11 +7945,11 @@ namespace MaxMath
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToUInt4(Xse.mm256_cvtepi64_epi32(input));
+				return Xse.mm256_cvtepi64_epi32(input);
 			}
 			else
 			{
-				return new uint4((uint2)input._xy, (uint2)input._zw);
+				return new uint4((uint2)input.__x0, (uint2)input.__x2);
 			}
 		}
 
@@ -6202,37 +7958,24 @@ namespace MaxMath
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToInt4(Xse.mm256_cvtepi64_epi32(input));
+				return Xse.mm256_cvtepi64_epi32(input);
 			}
 			else
 			{
-				return new int4((int2)input._xy, (int2)input._zw);
+				return new int4((int2)input.__x0, (int2)input.__x2);
 			}
 		}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator half4(ulong4 input)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return RegisterConversion.ToHalf4(Xse.mm256_cvtepu64_ph(input, (half)float.PositiveInfinity, elements: 4));
-            }
-            else
-            {
-                return new half4((half2)input.xy, (half2)input.zw);
-            }
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator float4(ulong4 input)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToFloat4(Xse.mm256_cvtepu64_ps(input, 4));
+                return Xse.mm256_cvtepu64_ps(input, 4);
             }
             else
             {
-                return new float4((float2)input._xy, (float2)input._zw);
+                return new float4((float2)input.__x0, (float2)input.__x2);
             }
         }
 
@@ -6241,11 +7984,11 @@ namespace MaxMath
 		{
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_cvtepu64_pd(input, 4));
+                return Xse.mm256_cvtepu64_pd(input, 4);
             }
 			else
 			{
-				return new double4((double2)input._xy, (double2)input._zw);
+				return new double4((double2)input.__x0, (double2)input.__x2);
 			}
 		}
 
@@ -6253,7 +7996,7 @@ namespace MaxMath
         public ulong this[int index]
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            readonly get
+            get
             {
 Assert.IsWithinArrayBounds(index, 4);
 
@@ -6267,20 +8010,20 @@ Assert.IsWithinArrayBounds(index, 4);
 					{
                         if (index < 2)
                         {
-                            return Xse.extract_epi64(_xy, (byte)index);
+                            return Xse.extract_epi64(__x0, (byte)index);
                         }
                         else
                         {
-                            return Xse.extract_epi64(_zw, (byte)(index - 2));
+                            return Xse.extract_epi64(__x2, (byte)(index - 2));
                         }
                     }
                 }
 
 				if (BurstArchitecture.IsBurstCompiled)
 				{
-					fixed (ulong* ptr = &x)
+					fixed (ulong4* ptr = &this)
 					{
-						return ptr[index];
+						return ((ulong*)ptr)[index];
 					}
 				}
 				else
@@ -6306,11 +8049,11 @@ Assert.IsWithinArrayBounds(index, 4);
 					{
                         if (index < 2)
                         {
-                            _xy = Xse.insert_epi64(_xy, value, (byte)index);
+                            __x0 = Xse.insert_epi64(__x0, value, (byte)index);
                         }
                         else
                         {
-                            _zw = Xse.insert_epi64(_zw, value, (byte)(index - 2));
+                            __x2 = Xse.insert_epi64(__x2, value, (byte)(index - 2));
                         }
 
                         return;
@@ -6319,9 +8062,9 @@ Assert.IsWithinArrayBounds(index, 4);
 
 				if (BurstArchitecture.IsBurstCompiled)
 				{
-					fixed (ulong* ptr = &x)
+					fixed (ulong4* ptr = &this)
 					{
-						ptr[index] = value;
+						((ulong*)ptr)[index] = value;
 					}
 				}
 				else
@@ -6333,15 +8076,15 @@ Assert.IsWithinArrayBounds(index, 4);
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ulong4 operator + (ulong4 left, ulong4 right)
+        public static ulong4 operator + (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return Avx2.mm256_add_epi64(left, right);
+                return Avx2.mm256_add_epi64(left, right);
 			}
 			else
 			{
-				return new ulong4(left._xy + right._xy, left._zw + right._zw);
+				return new ulong4(left.__x0 + right.__x0, left.__x2 + right.__x2);
 			}
 		}
 
@@ -6350,11 +8093,11 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return Avx2.mm256_sub_epi64(left, right);
+                return Avx2.mm256_sub_epi64(left, right);
 			}
 			else
 			{
-				return new ulong4(left._xy - right._xy, left._zw - right._zw);
+				return new ulong4(left.__x0 - right.__x0, left.__x2 - right.__x2);
 			}
 		}
 
@@ -6363,45 +8106,281 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return Xse.mm256_mullo_epi64(left, right, 4);
+                return Xse.mm256_mullo_epi64(left, right);
 			}
 			else
 			{
-				return new ulong4(left._xy * right._xy, left._zw * right._zw);
+				return new ulong4(left.__x0 * right.__x0, left.__x2 * right.__x2);
 			}
 		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator * (ulong4 left, uint4 right)
+        public static ulong4 operator / (ulong4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epu64(left, right, elements: 4);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.div_epu64(left.xy, right.xy, useFPU: true), Xse.div_epu64(left.zw, right.zw, useFPU: false));
+			}
+			else
+			{
+				return new ulong4(left.__x0 / right.__x0, left.__x2 / right.__x2);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epu64(left, right, elements: 4);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.rem_epu64(left.xy, right.xy, useFPU: true), Xse.rem_epu64(left.zw, right.zw, useFPU: false));
+			}
+			else
+			{
+				return new ulong4(left.__x0 % right.__x0, left.__x2 % right.__x2);
+			}
+		}
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ulong4 left, byte right) => left + (byte4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ulong4 left, ushort right) => left + (ushort4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ulong4 left, uint right) => left + (uint4)right;
+        
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static ulong4 operator + (ulong4 left, ulong right) => left + (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ulong4 left, byte right) => left - (byte4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ulong4 left, ushort right) => left - (ushort4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ulong4 left, uint right) => left - (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ulong4 left, ulong right) => left - (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, byte right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, ushort right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, uint right) => right * left;
+        
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, ulong right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+				if (constexpr.IS_CONST(right))
+				{
+					return new ulong4(left.x * right, left.y * right, left.z * right, left.w * right);
+				}
+			}
+
+            return new ulong4(left.xy * right, left.zw * right);
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (ulong4 left, byte right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.mm256_mullo_epi64(left, (ulong4)right, 4, unsigned_B_lessequalU32Max: true);
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (ulong)right;
+                }
             }
-            else
-            {
-                return new ulong4(left.xy * right.xy, left.zw * right.zw);
-            }
+
+            return left / (byte4)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator * (uint4 left, ulong4 right) => right * left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator * (ulong4 left, ushort4 right)
+        public static ulong4 operator / (ulong4 left, ushort right)
         {
-            if (Avx2.IsAvx2Supported)
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.mm256_mullo_epi64(left, (ulong4)right, 4, unsigned_B_lessequalU32Max: true);
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (ulong)right;
+                }
             }
-            else
-            {
-                return new ulong4(left.xy * right.xy, left.zw * right.zw);
-            }
+
+            return left / (ushort4)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator * (ushort4 left, ulong4 right) => right * left;
+        public static ulong4 operator / (ulong4 left, uint right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left / (ulong)right;
+                }
+            }
+
+            return left / (uint4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (ulong4 left, ulong right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return Xse.mm256_constdiv_epu64(left, right, 4);
+                }
+            }
+
+            return new ulong4(left.xy / right, left.zw / right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 left, byte right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (ulong)right;
+                }
+            }
+
+            return left % (byte4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 left, ushort right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (ulong)right;
+                }
+            }
+
+            return left % (ushort4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 left, uint right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return left % (ulong)right;
+                }
+            }
+
+            return left % (uint4)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 left, ulong right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                if (constexpr.IS_CONST(right))
+                {
+                    return Xse.mm256_constrem_epu64(left, right, 4);
+                }
+            }
+
+            return new ulong4(left.xy % right, left.zw % right);
+        }
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (byte left, ulong4 right) => (byte4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ushort left, ulong4 right) => (ushort4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (uint left, ulong4 right) => (uint4)left + right;
+        
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static ulong4 operator + (ulong left, ulong4 right) => (ulong4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (byte left, ulong4 right) => (byte4)left - right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ushort left, ulong4 right) => (ushort4)left - right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (uint left, ulong4 right) => (uint4)left - right;
+        
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static ulong4 operator - (ulong left, ulong4 right) => (ulong4)left - right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (byte left, ulong4 right) => (ulong)left * right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ushort left, ulong4 right) => (ulong)left * right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (uint left, ulong4 right) => (ulong)left * right;
+        
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static ulong4 operator * (ulong left, ulong4 right) => right * left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (byte left, ulong4 right) => (byte4)left / right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (ushort left, ulong4 right) => (ushort4)left / right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (uint left, ulong4 right) => (uint4)left / right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (ulong left, ulong4 right) => (ulong4)left / right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (byte left, ulong4 right) => (byte4)left % right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ushort left, ulong4 right) => (ushort4)left % right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (uint left, ulong4 right) => (uint4)left % right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong left, ulong4 right) => (ulong4)left % right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ulong4 left, byte4 right) => left + (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (byte4 left, ulong4 right) => (ulong4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ulong4 left, byte4 right) => left - (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (byte4 left, ulong4 right) => (ulong4)left - right;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator * (ulong4 left, byte4 right)
@@ -6420,290 +8399,359 @@ Assert.IsWithinArrayBounds(index, 4);
         public static ulong4 operator * (byte4 left, ulong4 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 left, byte4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu8_pd(right), bIsDbl: true, bLEu32max: true, elements: 4);
-            }
-			else if (BurstArchitecture.IsSIMDSupported)
-			{
-				return new ulong4(Xse.div_epu64(left.xy, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epu64(left.zw, Xse.cvtepu8_epi64(right.zw), useFPU: false, bIsDbl: false));
-			}
-            else
-            {
-                return new ulong4(left.xy / right.xy, left.zw / right.zw);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 left, ushort4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu16_pd(right), bIsDbl: true, bLEu32max: true, elements: 4);
-            }
-			else if (BurstArchitecture.IsSIMDSupported)
-			{
-				return new ulong4(Xse.div_epu64(left.xy, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epu64(left.zw, Xse.cvtepu16_epi64(right.zw), useFPU: false, bIsDbl: false));
-			}
-            else
-            {
-                return new ulong4(left.xy / right.xy, left.zw / right.zw);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 left, uint4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(right)), bIsDbl: true, bLEu32max: true, elements: 4);
-            }
-			else if (BurstArchitecture.IsSIMDSupported)
-			{
-				return new ulong4(Xse.div_epu64(left.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epu64(left.zw, Xse.cvtepu32_epi64(RegisterConversion.ToV128(right.zw)), useFPU: false, bIsDbl: false));
-			}
-            else
-            {
-                return new ulong4(left.xy / right.xy, left.zw / right.zw);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 left, ulong4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_div_epu64(left, right, elements: 4);
-            }
-			else if (BurstArchitecture.IsSIMDSupported)
-			{
-				return new ulong4(Xse.div_epu64(left.xy, right.xy, useFPU: true), Xse.div_epu64(left.zw, right.zw, useFPU: false));
-			}
-            else
-            {
-                return new ulong4(left.xy / right.xy, left.zw / right.zw);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 left, byte4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu8_pd(right), bIsDbl: true, bLEu32max: true, elements: 4);
-            }
-			else if (BurstArchitecture.IsSIMDSupported)
-			{
-				return new ulong4(Xse.rem_epu64(left.xy, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epu64(left.zw, Xse.cvtepu8_epi64(right.zw), useFPU: false, bIsDbl: false));
-			}
-            else
-            {
-                return new ulong4(left.xy % right.xy, left.zw % right.zw);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 left, ushort4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu16_pd(right), bIsDbl: true, bLEu32max: true, elements: 4);
-            }
-			else if (BurstArchitecture.IsSIMDSupported)
-			{
-				return new ulong4(Xse.rem_epu64(left.xy, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epu64(left.zw, Xse.cvtepu16_epi64(right.zw), useFPU: false, bIsDbl: false));
-			}
-            else
-            {
-                return new ulong4(left.xy % right.xy, left.zw % right.zw);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 left, uint4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu32_pd(RegisterConversion.ToV128(right)), bIsDbl: true, bLEu32max: true, elements: 4);
-            }
-			else if (BurstArchitecture.IsSIMDSupported)
-			{
-				return new ulong4(Xse.rem_epu64(left.xy, Xse.cvtepu32_pd(RegisterConversion.ToV128(right)), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epu64(left.zw, Xse.cvtepu32_epi64(RegisterConversion.ToV128(right.zw)), useFPU: false, bIsDbl: false));
-			}
-            else
-            {
-                return new ulong4(left.xy % right.xy, left.zw % right.zw);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 left, ulong4 right)
-        {
-            if (Avx2.IsAvx2Supported)
-            {
-                return Xse.mm256_rem_epu64(left, right, elements: 4);
-            }
-			else if (BurstArchitecture.IsSIMDSupported)
-			{
-				return new ulong4(Xse.rem_epu64(left.xy, right.xy, useFPU: true), Xse.rem_epu64(left.zw, right.zw, useFPU: false));
-			}
-            else
-            {
-                return new ulong4(left.xy % right.xy, left.zw % right.zw);
-            }
-        }
-
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static ulong4 operator * (ulong left, ulong4 right) => right * left;
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator * (ulong4 left, ulong right)
+        public static ulong4 operator / (byte4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				if (constexpr.IS_CONST(right))
-				{
-					return new ulong4(left.x * right, left.y * right, left.z * right, left.w * right);
-				}
-				else
-				{
-					return left * (ulong4)right;
-				}
+                return Xse.mm256_div_epu64(Xse.mm256_cvtepu8_pd(left), right, elements: 4, aIsDbl: true, aLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.div_epu64(Xse.cvtepu8_pd(left), right.xy, useFPU: true, aIsDbl: true, aLEu32max: true), Xse.div_epu64(Xse.cvtepu8_epi64(left.zw), right.zw, useFPU: false, aIsDbl: false));
 			}
 			else
 			{
-				return new ulong4(left._xy * right, left._zw * right);
+				return new ulong4(left.xy / right.__x0, left.zw / right.__x2);
 			}
 		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 left, byte right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                if (constexpr.IS_CONST(right))
-                {
-					return left / (ulong)right;
-                }
-            }
+        public static ulong4 operator / (ulong4 left, byte4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu8_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.div_epu64(left.xy, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epu64(left.zw, Xse.cvtepu8_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.__x0 / right.xy, left.__x2 / right.zw);
+			}
+		}
 
-            return left / (byte4)right;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (byte4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epu64(Xse.mm256_cvtepu8_pd(left), right, elements: 4, aIsDbl: true, aLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.rem_epu64(Xse.cvtepu8_pd(left), right.xy, useFPU: true, aIsDbl: true, aLEu32max: true), Xse.rem_epu64(Xse.cvtepu8_epi64(left.zw), right.zw, useFPU: false, aIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.xy % right.__x0, left.zw % right.__x2);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 left, byte4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu8_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.rem_epu64(left.xy, Xse.cvtepu8_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epu64(left.zw, Xse.cvtepu8_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.__x0 % right.xy, left.__x2 % right.zw);
+			}
+		}
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ulong4 left, ushort4 right) => left + (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ushort4 left, ulong4 right) => (ulong4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ulong4 left, ushort4 right) => left - (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ushort4 left, ulong4 right) => (ulong4)left - right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, ushort4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (ulong4)right, 4, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong4(left.xy * right.xy, left.zw * right.zw);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 left, ushort right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                if (constexpr.IS_CONST(right))
-                {
-					return left / (ulong)right;
-                }
-            }
+        public static ulong4 operator * (ushort4 left, ulong4 right) => right * left;
 
-            return left / (ushort4)right;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (ushort4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epu64(Xse.mm256_cvtepu16_pd(left), right, elements: 4, aIsDbl: true, aLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.div_epu64(Xse.cvtepu16_pd(left), right.xy, useFPU: true, aIsDbl: true, aLEu32max: true), Xse.div_epu64(Xse.cvtepu16_epi64(left.zw), right.zw, useFPU: false, aIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.xy / right.__x0, left.zw / right.__x2);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (ulong4 left, ushort4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu16_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.div_epu64(left.xy, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epu64(left.zw, Xse.cvtepu16_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.__x0 / right.xy, left.__x2 / right.zw);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ushort4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epu64(Xse.mm256_cvtepu16_pd(left), right, elements: 4, aIsDbl: true, aLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.rem_epu64(Xse.cvtepu16_pd(left), right.xy, useFPU: true, aIsDbl: true, aLEu32max: true), Xse.rem_epu64(Xse.cvtepu16_epi64(left.zw), right.zw, useFPU: false, aIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.xy % right.__x0, left.zw % right.__x2);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 left, ushort4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu16_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.rem_epu64(left.xy, Xse.cvtepu16_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epu64(left.zw, Xse.cvtepu16_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.__x0 % right.xy, left.__x2 % right.zw);
+			}
+		}
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ulong4 left, uint4 right) => left + (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (uint4 left, ulong4 right) => (ulong4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ulong4 left, uint4 right) => left - (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (uint4 left, ulong4 right) => (ulong4)left - right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, uint4 right)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return Xse.mm256_mullo_epi64(left, (ulong4)right, 4, unsigned_B_lessequalU32Max: true);
+            }
+            else
+            {
+                return new ulong4(left.xy * right.xy, left.zw * right.zw);
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 left, uint right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                if (constexpr.IS_CONST(right))
-                {
-					return left / (ulong)right;
-                }
-            }
-
-            return left / (uint4)right;
-        }
+        public static ulong4 operator * (uint4 left, ulong4 right) => right * left;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator / (ulong4 left, ulong right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                if (constexpr.IS_CONST(right))
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return Xse.mm256_constdiv_epu64(left, right, 4);
-                    }
-                    else
-                    {
-                        return new ulong4(Xse.constdiv_epu64(left.xy, right), Xse.constdiv_epu64(left.zw, right));
-                    }
-                }
-            }
-
-            return left / (ulong4)right;
-        }
+        public static ulong4 operator / (uint4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epu64(Xse.mm256_cvtepu32_pd(left), right, elements: 4, aIsDbl: true, aLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.div_epu64(Xse.cvtepu32_pd(left), right.xy, useFPU: true, aIsDbl: true, aLEu32max: true), Xse.div_epu64(Xse.cvtepu32_epi64(left.zw), right.zw, useFPU: false, aIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.xy / right.__x0, left.zw / right.__x2);
+			}
+		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 left, byte right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                if (constexpr.IS_CONST(right))
-                {
-					return left % (ulong)right;
-                }
-            }
-
-            return left % (byte4)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 left, ushort right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                if (constexpr.IS_CONST(right))
-                {
-					return left % (ulong)right;
-                }
-            }
-
-            return left % (ushort4)right;
-        }
+        public static ulong4 operator / (ulong4 left, uint4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_div_epu64(left, Xse.mm256_cvtepu32_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.div_epu64(left.xy, Xse.cvtepu32_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.div_epu64(left.zw, Xse.cvtepu32_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.__x0 / right.xy, left.__x2 / right.zw);
+			}
+		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 left, uint right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                if (constexpr.IS_CONST(right))
-                {
-					return left % (ulong)right;
-                }
-            }
-
-            return left % (uint4)right;
-        }
+        public static ulong4 operator % (uint4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epu64(Xse.mm256_cvtepu32_pd(left), right, elements: 4, aIsDbl: true, aLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.rem_epu64(Xse.cvtepu32_pd(left), right.xy, useFPU: true, aIsDbl: true, aLEu32max: true), Xse.rem_epu64(Xse.cvtepu32_epi64(left.zw), right.zw, useFPU: false, aIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.xy % right.__x0, left.zw % right.__x2);
+			}
+		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 operator % (ulong4 left, ulong right)
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                if (constexpr.IS_CONST(right))
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return Xse.mm256_constrem_epu64(left, right, 4);
-                    }
-                    else
-                    {
-                        return new ulong4(Xse.constrem_epu64(left.xy, right), Xse.constrem_epu64(left.zw, right));
-                    }
-                }
-            }
+        public static ulong4 operator % (ulong4 left, uint4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+                return Xse.mm256_rem_epu64(left, Xse.mm256_cvtepu32_pd(right), elements: 4, bIsDbl: true, bLEu32max: true);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				return new ulong4(Xse.rem_epu64(left.xy, Xse.cvtepu32_pd(right), useFPU: true, bIsDbl: true, bLEu32max: true), Xse.rem_epu64(left.zw, Xse.cvtepu32_epi64(right.zw), useFPU: false, bIsDbl: false));
+			}
+			else
+			{
+				return new ulong4(left.__x0 % right.xy, left.__x2 % right.zw);
+			}
+		}
 
-            return left % (ulong4)right;
-        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (ulong4 left, Unity.Mathematics.uint4 right) => left + (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (ulong4 left, Unity.Mathematics.uint4 right) => left - (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (ulong4 left, Unity.Mathematics.uint4 right) => left * (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (ulong4 left, Unity.Mathematics.uint4 right) => left / (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (ulong4 left, Unity.Mathematics.uint4 right) => left % (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator + (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator - (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left - right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator * (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left * right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator / (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left / right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator % (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left % right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (ulong4 left, Unity.Mathematics.float4 right) => left + (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (ulong4 left, Unity.Mathematics.float4 right) => left - (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (ulong4 left, Unity.Mathematics.float4 right) => left * (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (ulong4 left, Unity.Mathematics.float4 right) => left / (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (ulong4 left, Unity.Mathematics.float4 right) => left % (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (Unity.Mathematics.float4 left, ulong4 right) => (float4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (Unity.Mathematics.float4 left, ulong4 right) => (float4)left - right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (Unity.Mathematics.float4 left, ulong4 right) => (float4)left * right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (Unity.Mathematics.float4 left, ulong4 right) => (float4)left / right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (Unity.Mathematics.float4 left, ulong4 right) => (float4)left % right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator + (ulong4 left, Unity.Mathematics.double4 right) => left + (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator - (ulong4 left, Unity.Mathematics.double4 right) => left - (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator * (ulong4 left, Unity.Mathematics.double4 right) => left * (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator / (ulong4 left, Unity.Mathematics.double4 right) => left / (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator % (ulong4 left, Unity.Mathematics.double4 right) => left % (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator + (Unity.Mathematics.double4 left, ulong4 right) => (double4)left + right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator - (Unity.Mathematics.double4 left, ulong4 right) => (double4)left - right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator * (Unity.Mathematics.double4 left, ulong4 right) => (double4)left * right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator / (Unity.Mathematics.double4 left, ulong4 right) => (double4)left / right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator % (Unity.Mathematics.double4 left, ulong4 right) => (double4)left % right;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -6711,11 +8759,11 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx.IsAvxSupported)
 			{
-				return Avx.mm256_and_pd(left, right);
+				return Avx.mm256_and_ps(left, right);
 			}
 			else
 			{
-				return new ulong4(left._xy & right._xy, left._zw & right._zw);
+				return new ulong4(left.xy & right.xy, left.zw & right.zw);
 			}
 		}
 
@@ -6724,11 +8772,11 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx.IsAvxSupported)
 			{
-				return Avx.mm256_or_pd(left, right);
+				return Avx.mm256_or_ps(left, right);
 			}
 			else
 			{
-				return new ulong4(left._xy | right._xy, left._zw | right._zw);
+				return new ulong4(left.xy | right.xy, left.zw | right.zw);
 			}
 		}
 
@@ -6737,14 +8785,165 @@ Assert.IsWithinArrayBounds(index, 4);
 		{
 			if (Avx.IsAvxSupported)
 			{
-				return Avx.mm256_xor_pd(left, right);
+				return Avx.mm256_xor_ps(left, right);
 			}
 			else
 			{
-				return new ulong4(left._xy ^ right._xy, left._zw ^ right._zw);
+				return new ulong4(left.xy ^ right.xy, left.zw ^ right.zw);
 			}
 		}
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong4 left, byte4 right) => left & (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong4 left, byte4 right) => left | (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong4 left, byte4 right) => left ^ (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (byte4 left, ulong4 right) => (ulong4)left & right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (byte4 left, ulong4 right) => (ulong4)left | right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (byte4 left, ulong4 right) => (ulong4)left ^ right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong4 left, ushort4 right) => left & (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong4 left, ushort4 right) => left | (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong4 left, ushort4 right) => left ^ (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ushort4 left, ulong4 right) => (ulong4)left & right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ushort4 left, ulong4 right) => (ulong4)left | right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ushort4 left, ulong4 right) => (ulong4)left ^ right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong4 left, uint4 right) => left & (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong4 left, uint4 right) => left | (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong4 left, uint4 right) => left ^ (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (uint4 left, ulong4 right) => (ulong4)left & right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (uint4 left, ulong4 right) => (ulong4)left | right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (uint4 left, ulong4 right) => (ulong4)left ^ right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong4 left, Unity.Mathematics.uint4 right) => left & (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong4 left, Unity.Mathematics.uint4 right) => left | (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong4 left, Unity.Mathematics.uint4 right) => left ^ (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (Unity.Mathematics.uint4 left, ulong4 right) => (ulong4)left & right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (Unity.Mathematics.uint4 left, ulong4 right) => (ulong4)left | right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (Unity.Mathematics.uint4 left, ulong4 right) => (ulong4)left ^ right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong4 left, byte right) => left & (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong4 left, byte right) => left | (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong4 left, byte right) => left ^ (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (byte left, ulong4 right) => (ulong4)left & right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (byte left, ulong4 right) => (ulong4)left | right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (byte left, ulong4 right) => (ulong4)left ^ right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong4 left, ushort right) => left & (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong4 left, ushort right) => left | (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong4 left, ushort right) => left ^ (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ushort left, ulong4 right) => (ulong4)left & right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ushort left, ulong4 right) => (ulong4)left | right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ushort left, ulong4 right) => (ulong4)left ^ right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong4 left, uint right) => left & (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong4 left, uint right) => left | (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong4 left, uint right) => left ^ (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (uint left, ulong4 right) => (ulong4)left & right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (uint left, ulong4 right) => (ulong4)left | right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (uint left, ulong4 right) => (ulong4)left ^ right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong4 left, ulong right) => left & (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong4 left, ulong right) => left | (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong4 left, ulong right) => left ^ (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator & (ulong left, ulong4 right) => (ulong4)left & right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator | (ulong left, ulong4 right) => (ulong4)left | right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong4 operator ^ (ulong left, ulong4 right) => (ulong4)left ^ right;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator ++ (ulong4 x)
@@ -6755,7 +8954,7 @@ Assert.IsWithinArrayBounds(index, 4);
 			}
 			else
 			{
-				return new ulong4(x._xy + 1, x._zw + 1);
+				return new ulong4(x.__x0 + 1, x.__x2 + 1);
 			}
 		}
 
@@ -6768,20 +8967,20 @@ Assert.IsWithinArrayBounds(index, 4);
 			}
 			else
 			{
-				return new ulong4(x._xy - 1, x._zw - 1);
+				return new ulong4(x.__x0 - 1, x.__x2 - 1);
 			}
 		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 operator ~ (ulong4 x)
 		{
-			if (Avx.IsAvxSupported)
+			if (Avx2.IsAvx2Supported)
 			{
-                return Xse.mm256_not_si256(x);
+				return Xse.mm256_not_si256(x);
 			}
 			else
 			{
-				return new ulong4(~x._xy, ~x._zw);
+				return new ulong4(~x.__x0, ~x.__x2);
 			}
 		}
 
@@ -6795,7 +8994,7 @@ Assert.IsWithinArrayBounds(index, 4);
 			}
 			else
 			{
-				return new ulong4(x._xy << n, x._zw << n);
+				return new ulong4(x.__x0 << n, x.__x2 << n);
 			}
 		}
 
@@ -6808,93 +9007,462 @@ Assert.IsWithinArrayBounds(index, 4);
 			}
 			else
 			{
-				return new ulong4(x._xy >> n, x._zw >> n);
-			}
-		}
-
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool4 operator == (ulong4 left, ulong4 right)
-		{
-			if (Avx2.IsAvx2Supported)
-			{
-				return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Avx2.mm256_cmpeq_epi64(left, right)));
-			}
-			else
-			{
-				return new bool4(left._xy == right._xy, left._zw == right._zw);
-			}
-		}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator < (ulong4 left, ulong4 right)
-		{
-			if (Avx2.IsAvx2Supported)
-			{
-				return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_cmplt_epu64(left, right)));
-			}
-			else
-			{
-				return new bool4(left._xy < right._xy, left._zw < right._zw);
-			}
-		}
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator > (ulong4 left, ulong4 right)
-		{
-			if (Avx2.IsAvx2Supported)
-			{
-				return RegisterConversion.ToBool4(RegisterConversion.IsTrue64(Xse.mm256_cmpgt_epu64(left, right)));
-			}
-			else
-			{
-				return new bool4(left._xy > right._xy, left._zw > right._zw);
+				return new ulong4(x.__x0 >> n, x.__x2 >> n);
 			}
 		}
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator != (ulong4 left, ulong4 right)
+        public static mask64x4 operator == (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Avx2.mm256_cmpeq_epi64(left, right)));
+				return Avx2.mm256_cmpeq_epi64(left, right);
 			}
 			else
 			{
-				return new bool4(left._xy != right._xy, left._zw != right._zw);
+				return new mask64x4(left.__x0 == right.__x0, left.__x2 == right.__x2);
 			}
 		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator <= (ulong4 left, ulong4 right)
+        public static mask64x4 operator < (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Xse.mm256_cmpgt_epu64(left, right)));
+				return Xse.mm256_cmplt_epu64(left, right);
 			}
 			else
 			{
-				return new bool4(left._xy <= right._xy, left._zw <= right._zw);
+				return new mask64x4(left.__x0 < right.__x0, left.__x2 < right.__x2);
 			}
 		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 operator >= (ulong4 left, ulong4 right)
+        public static mask64x4 operator > (ulong4 left, ulong4 right)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToBool4(RegisterConversion.IsFalse64(Xse.mm256_cmplt_epu64(left, right)));
+				return Xse.mm256_cmpgt_epu64(left, right);
 			}
 			else
 			{
-				return new bool4(left._xy >= right._xy, left._zw >= right._zw);
+				return new mask64x4(left.__x0 > right.__x0, left.__x2 > right.__x2);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+				return Xse.mm256_not_si256(Avx2.mm256_cmpeq_epi64(left, right));
+			}
+			else
+			{
+				return new mask64x4(left.__x0 != right.__x0, left.__x2 != right.__x2);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+				return Xse.mm256_not_si256(Xse.mm256_cmpgt_epu64(left, right));
+			}
+			else
+			{
+				return new mask64x4(left.__x0 <= right.__x0, left.__x2 <= right.__x2);
+			}
+		}
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, ulong4 right)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+				return Xse.mm256_not_si256(Xse.mm256_cmplt_epu64(left, right));
+			}
+			else
+			{
+				return new mask64x4(left.__x0 >= right.__x0, left.__x2 >= right.__x2);
 			}
 		}
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly bool Equals(ulong4 other)
+        public static mask64x4 operator == (ulong4 left, byte right) => left == (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (byte left, ulong4 right) => (ulong4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, byte right) => left != (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (byte left, ulong4 right) => (ulong4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, byte right) => left < (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (byte left, ulong4 right) => (ulong4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, byte right) => left > (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (byte left, ulong4 right) => (ulong4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, byte right) => left <= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (byte left, ulong4 right) => (ulong4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, byte right) => left >= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (byte left, ulong4 right) => (ulong4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, ushort right) => left == (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ushort left, ulong4 right) => (ulong4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, ushort right) => left != (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ushort left, ulong4 right) => (ulong4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, ushort right) => left < (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ushort left, ulong4 right) => (ulong4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, ushort right) => left > (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ushort left, ulong4 right) => (ulong4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, ushort right) => left <= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ushort left, ulong4 right) => (ulong4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, ushort right) => left >= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ushort left, ulong4 right) => (ulong4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, uint right) => left == (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (uint left, ulong4 right) => (ulong4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, uint right) => left != (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (uint left, ulong4 right) => (ulong4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, uint right) => left < (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (uint left, ulong4 right) => (ulong4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, uint right) => left > (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (uint left, ulong4 right) => (ulong4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, uint right) => left <= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (uint left, ulong4 right) => (ulong4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, uint right) => left >= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (uint left, ulong4 right) => (ulong4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, ulong right) => left == (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong left, ulong4 right) => (ulong4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, ulong right) => left != (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong left, ulong4 right) => (ulong4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, ulong right) => left < (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong left, ulong4 right) => (ulong4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, ulong right) => left > (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong left, ulong4 right) => (ulong4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, ulong right) => left <= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong left, ulong4 right) => (ulong4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, ulong right) => left >= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong left, ulong4 right) => (ulong4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, byte4 right) => left == (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (byte4 left, ulong4 right) => (ulong4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, byte4 right) => left != (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (byte4 left, ulong4 right) => (ulong4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, byte4 right) => left < (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (byte4 left, ulong4 right) => (ulong4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, byte4 right) => left > (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (byte4 left, ulong4 right) => (ulong4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, byte4 right) => left <= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (byte4 left, ulong4 right) => (ulong4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, byte4 right) => left >= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (byte4 left, ulong4 right) => (ulong4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, ushort4 right) => left == (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ushort4 left, ulong4 right) => (ulong4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, ushort4 right) => left != (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ushort4 left, ulong4 right) => (ulong4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, ushort4 right) => left < (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ushort4 left, ulong4 right) => (ulong4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, ushort4 right) => left > (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ushort4 left, ulong4 right) => (ulong4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, ushort4 right) => left <= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ushort4 left, ulong4 right) => (ulong4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, ushort4 right) => left >= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ushort4 left, ulong4 right) => (ulong4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, uint4 right) => left == (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (uint4 left, ulong4 right) => (ulong4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, uint4 right) => left != (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (uint4 left, ulong4 right) => (ulong4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, uint4 right) => left < (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (uint4 left, ulong4 right) => (ulong4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, uint4 right) => left > (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (uint4 left, ulong4 right) => (ulong4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, uint4 right) => left <= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (uint4 left, ulong4 right) => (ulong4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, uint4 right) => left >= (ulong4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (uint4 left, ulong4 right) => (ulong4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, Unity.Mathematics.uint4 right) => left == (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, Unity.Mathematics.uint4 right) => left != (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, Unity.Mathematics.uint4 right) => left < (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, Unity.Mathematics.uint4 right) => left > (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, Unity.Mathematics.uint4 right) => left <= (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, Unity.Mathematics.uint4 right) => left >= (uint4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (Unity.Mathematics.uint4 left, ulong4 right) => (uint4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, Unity.Mathematics.float4 right) => left == (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (Unity.Mathematics.float4 left, ulong4 right) => (float4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, Unity.Mathematics.float4 right) => left != (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (Unity.Mathematics.float4 left, ulong4 right) => (float4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, Unity.Mathematics.float4 right) => left < (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (Unity.Mathematics.float4 left, ulong4 right) => (float4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, Unity.Mathematics.float4 right) => left > (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (Unity.Mathematics.float4 left, ulong4 right) => (float4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, Unity.Mathematics.float4 right) => left <= (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (Unity.Mathematics.float4 left, ulong4 right) => (float4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, Unity.Mathematics.float4 right) => left >= (float4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (Unity.Mathematics.float4 left, ulong4 right) => (float4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (ulong4 left, Unity.Mathematics.double4 right) => left == (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator == (Unity.Mathematics.double4 left, ulong4 right) => (double4)left == right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (ulong4 left, Unity.Mathematics.double4 right) => left != (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator != (Unity.Mathematics.double4 left, ulong4 right) => (double4)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (ulong4 left, Unity.Mathematics.double4 right) => left < (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator < (Unity.Mathematics.double4 left, ulong4 right) => (double4)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (ulong4 left, Unity.Mathematics.double4 right) => left > (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator > (Unity.Mathematics.double4 left, ulong4 right) => (double4)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (ulong4 left, Unity.Mathematics.double4 right) => left <= (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator <= (Unity.Mathematics.double4 left, ulong4 right) => (double4)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (ulong4 left, Unity.Mathematics.double4 right) => left >= (double4)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 operator >= (Unity.Mathematics.double4 left, ulong4 right) => (double4)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public bool Equals(ulong4 other)
 		{
 			if (Avx2.IsAvx2Supported)
 			{
@@ -6902,28 +9470,18 @@ Assert.IsWithinArrayBounds(index, 4);
 			}
 			else
 			{
-				return this._xy.Equals(other._xy) & this._zw.Equals(other._zw);
+				return this.__x0.Equals(other.__x0) & this.__x2.Equals(other.__x2);
 			}
 		}
 
-        public override readonly bool Equals(object obj) => obj is ulong4 converted && this.Equals(converted);
+        public override bool Equals(object obj) => obj is ulong4 converted && this.Equals(converted);
 
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override readonly int GetHashCode()
-		{
-			if (Avx2.IsAvx2Supported)
-			{
-				return Hash.v256(this);
-			}
-			else
-			{
-				return (this._xy ^ this._zw).GetHashCode();
-			}
-		}
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
 
-        public override readonly string ToString() => $"ulong4({x}, {y}, {z}, {w})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"ulong4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
+        public override string ToString() => $"ulong4({x}, {y}, {z}, {w})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"ulong4({x.ToString(format, formatProvider)}, {y.ToString(format, formatProvider)}, {z.ToString(format, formatProvider)}, {w.ToString(format, formatProvider)})";
     }
 }

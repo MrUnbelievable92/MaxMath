@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
@@ -888,7 +887,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       For each 1-bit in <paramref name="mask"/>, an equal amount of contiguous low bits in <paramref name="x"/> is extracted. Then, each of the extracted bits is placed at the corresponding bit position of each 1-bit in <paramref name="mask"/> in LSB order, with each remaining bit set to 0.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -904,7 +903,7 @@ namespace MaxMath
         {
             if (Bmi2.IsBmi2Supported)
             {
-                int maskLoCount = math.countbits(mask.lo64);
+                int maskLoCount = countbits(mask.lo64);
                 ulong lo = Bmi2.pdep_u64(x.lo64, mask.lo64);
                 x >>= maskLoCount;
 
@@ -1528,7 +1527,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.pdep_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(mask), 2));
+                return Xse.pdep_epi32(x, mask, 2);
             }
             else
             {
@@ -1542,7 +1541,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.pdep_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(mask), 3));
+                return Xse.pdep_epi32(x, mask, 3);
             }
             else
             {
@@ -1556,7 +1555,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.pdep_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(mask), 4));
+                return Xse.pdep_epi32(x, mask, 4);
             }
             else
             {
@@ -1574,9 +1573,9 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.pdep_epi32x2(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(mask.v4_0), RegisterConversion.ToV128(mask.v4_4), out v128 lo, out v128 hi);
+                Xse.pdep_epi32x2(x.v4_0, x.v4_4, mask.v4_0, mask.v4_4, out v128 lo, out v128 hi);
 
-                return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+                return new uint8(lo, hi);
             }
             else
             {

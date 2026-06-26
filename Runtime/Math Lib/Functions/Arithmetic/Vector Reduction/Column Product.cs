@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -635,7 +634,7 @@ namespace MaxMath
                             else
                             {
                                 v128 z = bslli_si128(a, 1 * sizeof(int));
-                                z = bsrli_si128(a, 3 * sizeof(int));
+                                z = bsrli_si128(z, 3 * sizeof(int));
 
                                 return mullo_epi64(mul_epu32(a, y), z);
                             }
@@ -761,23 +760,23 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>       Returns the horizontal product of components of a <see cref="float2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.float2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float2 c)
         {
             return (c * c.yx).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="float3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.float3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float3 c)
         {
             return ((c * c.yyy) * c.zzz).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="float4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.float4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float4 c)
         {
@@ -807,21 +806,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="double2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.double2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double2 c)
         {
             return (c * c.yx).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="double3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.double3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double3 c)
         {
             return ((c * c.yyy) * c.zzz).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="double4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.double4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double4 c)
         {
@@ -1438,13 +1437,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="int2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.int2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vprod_epi32(RegisterConversion.ToV128(c), true, 2).SInt0;
+                return Xse.vprod_epi32(c, true, 2).SInt0;
             }
             else
             {
@@ -1453,13 +1452,13 @@ namespace MaxMath
 
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="int3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.int3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int3 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vprod_epi32(RegisterConversion.ToV128(c), true, 3).SInt0;
+                return Xse.vprod_epi32(c, true, 3).SInt0;
             }
             else
             {
@@ -1467,13 +1466,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="int4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.int4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int4 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vprod_epi32(RegisterConversion.ToV128(c), true, 4).SInt0;
+                return Xse.vprod_epi32(c, true, 4).SInt0;
             }
             else
             {
@@ -1498,13 +1497,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="uint2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.uint2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vprod_epu32(RegisterConversion.ToV128(c), true, 2).UInt0;
+                return Xse.vprod_epu32(c, true, 2).UInt0;
             }
             else
             {
@@ -1512,13 +1511,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="uint3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.uint3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint3 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vprod_epu32(RegisterConversion.ToV128(c), true, 3).UInt0;
+                return Xse.vprod_epu32(c, true, 3).UInt0;
             }
             else
             {
@@ -1526,13 +1525,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="uint4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.uint4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint4 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vprod_epu32(RegisterConversion.ToV128(c), true, 4).UInt0;
+                return Xse.vprod_epu32(c, true, 4).UInt0;
             }
             else
             {

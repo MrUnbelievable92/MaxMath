@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
@@ -444,7 +443,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.byte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -546,8 +545,8 @@ namespace MaxMath
                 cminmax(a.v16_0,  out byte minLo, out byte maxLo);
                 cminmax(a.v16_16, out byte minHi, out byte maxHi);
 
-                min = maxmath.min(minLo, minHi);
-                max = maxmath.max(maxLo, maxHi);
+                min = math.min(minLo, minHi);
+                max = math.max(maxLo, maxHi);
             }
         }
 
@@ -652,8 +651,8 @@ namespace MaxMath
                 cminmax(a.v16_0,  out sbyte minLo, out sbyte maxLo);
                 cminmax(a.v16_16, out sbyte minHi, out sbyte maxHi);
 
-                min = maxmath.min(minLo, minHi);
-                max = maxmath.max(maxLo, maxHi);
+                min = math.min(minLo, minHi);
+                max = math.max(maxLo, maxHi);
             }
         }
 
@@ -741,8 +740,8 @@ namespace MaxMath
                 cminmax(a.v8_0, out ushort minLo, out ushort maxLo);
                 cminmax(a.v8_8, out ushort minHi, out ushort maxHi);
 
-                min = maxmath.min(minLo, minHi);
-                max = maxmath.max(maxLo, maxHi);
+                min = math.min(minLo, minHi);
+                max = math.max(maxLo, maxHi);
             }
         }
 
@@ -830,60 +829,60 @@ namespace MaxMath
                 cminmax(a.v8_0, out short minLo, out short maxLo);
                 cminmax(a.v8_8, out short minHi, out short maxHi);
 
-                min = maxmath.min(minLo, minHi);
-                max = maxmath.max(maxLo, maxHi);
+                min = math.min(minLo, minHi);
+                max = math.max(maxLo, maxHi);
             }
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="int2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int2 a, [NoAlias] out int min, [NoAlias] out int max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epi32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 2);
+                Xse.vminmax_epi32(a, out v128 _min, out v128 _max, 2);
                 min = _min.SInt0;
                 max = _max.SInt0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="int3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int3 a, [NoAlias] out int min, [NoAlias] out int max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epi32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 3);
+                Xse.vminmax_epi32(a, out v128 _min, out v128 _max, 3);
                 min = _min.SInt0;
                 max = _max.SInt0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="int4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int4 a, [NoAlias] out int min, [NoAlias] out int max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epi32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 4);
+                Xse.vminmax_epi32(a, out v128 _min, out v128 _max, 4);
                 min = _min.SInt0;
                 max = _max.SInt0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
@@ -908,54 +907,54 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="uint2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.uint2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint2 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epu32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 2);
+                Xse.vminmax_epu32(a, out v128 _min, out v128 _max, 2);
                 min = _min.UInt0;
                 max = _max.UInt0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="uint3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.uint3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint3 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epu32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 3);
+                Xse.vminmax_epu32(a, out v128 _min, out v128 _max, 3);
                 min = _min.UInt0;
                 max = _max.UInt0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="uint4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.uint4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint4 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epu32(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 4);
+                Xse.vminmax_epu32(a, out v128 _min, out v128 _max, 4);
                 min = _min.UInt0;
                 max = _max.UInt0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
@@ -1076,54 +1075,54 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="float2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.float2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float2 a, [NoAlias] out float min, [NoAlias] out float max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_ps(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 2);
+                Xse.vminmax_ps(a, out v128 _min, out v128 _max, 2);
                 min = _min.Float0;
                 max = _max.Float0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="float3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.float3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float3 a, [NoAlias] out float min, [NoAlias] out float max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_ps(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 3);
+                Xse.vminmax_ps(a, out v128 _min, out v128 _max, 3);
                 min = _min.Float0;
                 max = _max.Float0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="float4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.float4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float4 a, [NoAlias] out float min, [NoAlias] out float max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_ps(RegisterConversion.ToV128(a), out v128 _min, out v128 _max, 4);
+                Xse.vminmax_ps(a, out v128 _min, out v128 _max, 4);
                 min = _min.Float0;
                 max = _max.Float0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
@@ -1148,24 +1147,24 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="double2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.double2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double2 a, [NoAlias] out double min, [NoAlias] out double max)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_pd(RegisterConversion.ToV128(a), out v128 _min, out v128 _max);
+                Xse.vminmax_pd(a, out v128 _min, out v128 _max);
                 min = _min.Double0;
                 max = _max.Double0;
             }
             else
             {
-                min = math.cmin(a);
-                max = math.cmax(a);
+                min = cmin(a);
+                max = cmax(a);
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="double3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.double3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double3 a, [NoAlias] out double min, [NoAlias] out double max)
         {
@@ -1175,13 +1174,13 @@ namespace MaxMath
             max = math.max(maxLo, a.z);
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="double4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.double4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double4 a, [NoAlias] out double min, [NoAlias] out double max)
         {
             if (Avx2.IsAvx2Supported)
             {
-                Xse.mm256_vminmax_pd(RegisterConversion.ToV256(a), out v256 _min, out v256 _max);
+                Xse.mm256_vminmax_pd(a, out v256 _min, out v256 _max);
                 min = Xse.min_pd(_min.Lo128, _min.Hi128).Double0;
                 max = Xse.max_pd(_max.Lo128, _max.Hi128).Double0;
             }

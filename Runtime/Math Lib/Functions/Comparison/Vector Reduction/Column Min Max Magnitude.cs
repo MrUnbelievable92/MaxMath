@@ -1,14 +1,13 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of an <see cref="MaxMath.sbyte2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -270,7 +269,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="int2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.int2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.    </para>
         /// </remarks>
@@ -280,7 +279,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epi32(RegisterConversion.ToV128(c), out v128 min, out v128 max, 2);
+                Xse.vminmax_epi32(c, out v128 min, out v128 max, 2);
                 Xse.minmaxmag_epi32(min, max, out min, out max, noOverflow.Promises(Promise.NoOverflow), 2);
 
                 cminmag = min.SInt0;
@@ -295,7 +294,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="int3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.int3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.    </para>
         /// </remarks>
@@ -305,7 +304,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epi32(RegisterConversion.ToV128(c), out v128 min, out v128 max, 3);
+                Xse.vminmax_epi32(c, out v128 min, out v128 max, 3);
                 Xse.minmaxmag_epi32(min, max, out min, out max, noOverflow.Promises(Promise.NoOverflow), 2);
 
                 cminmag = min.SInt0;
@@ -320,7 +319,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="int4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.int4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any cmin(<paramref name="c"/>) + cmax(<paramref name="c"/>) that overflows.    </para>
         /// </remarks>
@@ -330,7 +329,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_epi32(RegisterConversion.ToV128(c), out v128 min, out v128 max, 4);
+                Xse.vminmax_epi32(c, out v128 min, out v128 max, 4);
                 Xse.minmaxmag_epi32(min, max, out min, out max, noOverflow.Promises(Promise.NoOverflow), 2);
 
                 cminmag = min.SInt0;
@@ -366,8 +365,8 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 min = Xse.vmin_epi32(Xse.min_epi32(RegisterConversion.ToV128(c.v4_0), RegisterConversion.ToV128(c.v4_4)), 4);
-                v128 max = Xse.vmax_epi32(Xse.max_epi32(RegisterConversion.ToV128(c.v4_0), RegisterConversion.ToV128(c.v4_4)), 4);
+                v128 min = Xse.vmin_epi32(Xse.min_epi32(c.v4_0, c.v4_4), 4);
+                v128 max = Xse.vmax_epi32(Xse.max_epi32(c.v4_0, c.v4_4), 4);
                 Xse.minmaxmag_epi32(min, max, out min, out max, noOverflow.Promises(Promise.NoOverflow), 2);
 
                 cminmag = min.SInt0;
@@ -414,13 +413,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="float2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.float2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmaxmag(float2 c, [NoAlias] out float cminmag, [NoAlias] out float cmaxmag)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_ps(RegisterConversion.ToV128(c), out v128 min, out v128 max, 2);
+                Xse.vminmax_ps(c, out v128 min, out v128 max, 2);
                 Xse.minmaxmag_ps(min, max, out min, out max);
 
                 cminmag = min.Float0;
@@ -435,13 +434,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="float3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.float3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmaxmag(float3 c, [NoAlias] out float cminmag, [NoAlias] out float cmaxmag)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_ps(RegisterConversion.ToV128(c), out v128 min, out v128 max, 3);
+                Xse.vminmax_ps(c, out v128 min, out v128 max, 3);
                 Xse.minmaxmag_ps(min, max, out min, out max);
 
                 cminmag = min.Float0;
@@ -456,13 +455,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="float4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.float4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmaxmag(float4 c, [NoAlias] out float cminmag, [NoAlias] out float cmaxmag)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_ps(RegisterConversion.ToV128(c), out v128 min, out v128 max, 4);
+                Xse.vminmax_ps(c, out v128 min, out v128 max, 4);
                 Xse.minmaxmag_ps(min, max, out min, out max);
 
                 cminmag = min.Float0;
@@ -488,13 +487,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="double2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.double2"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmaxmag(double2 c, [NoAlias] out double cminmag, [NoAlias] out double cmaxmag)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.vminmax_pd(RegisterConversion.ToV128(c), out v128 min, out v128 max);
+                Xse.vminmax_pd(c, out v128 min, out v128 max);
                 Xse.minmaxmag_pd(min, max, out min, out max);
 
                 cminmag = min.Double0;
@@ -509,7 +508,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="double3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.double3"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmaxmag(double3 c, [NoAlias] out double cminmag, [NoAlias] out double cmaxmag)
         {
@@ -519,7 +518,7 @@ namespace MaxMath
             cmaxmag = maxmag(min, max);
         }
 
-        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="double4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
+        /// <summary>       Returns the horizontal minimum <paramref name="cminmag"/> and the horizontal maximum <paramref name="cmaxmag"/> of a <see cref="MaxMath.double4"/> with regard to magnitude. If abs(cmin(<paramref name="c"/>)) is equal to abs(cmax(<paramref name="c"/>)), the sign of the return values is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmaxmag(double4 c, [NoAlias] out double cminmag, [NoAlias] out double cmaxmag)
         {

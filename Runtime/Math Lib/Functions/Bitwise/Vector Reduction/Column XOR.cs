@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -198,7 +197,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the horizontal bitwise XOR reduction of components of a <see cref="MaxMath.byte2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -439,13 +438,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal bitwise XOR reduction of components of an <see cref="int2"/>.       </summary>
+        /// <summary>       Returns the horizontal bitwise XOR reduction of components of an <see cref="MaxMath.int2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cxor(int2 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vxor_epi32(RegisterConversion.ToV128(c), 2).SInt0;
+                return Xse.vxor_epi32(c, 2).SInt0;
             }
             else
             {
@@ -453,13 +452,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal bitwise XOR reduction of components of an <see cref="int3"/>.       </summary>
+        /// <summary>       Returns the horizontal bitwise XOR reduction of components of an <see cref="MaxMath.int3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cxor(int3 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vxor_epi32(RegisterConversion.ToV128(c), 3).SInt0;
+                return Xse.vxor_epi32(c, 3).SInt0;
             }
             else
             {
@@ -467,13 +466,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal bitwise XOR reduction of components of an <see cref="int4"/>.       </summary>
+        /// <summary>       Returns the horizontal bitwise XOR reduction of components of an <see cref="MaxMath.int4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cxor(int4 c)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.vxor_epi32(RegisterConversion.ToV128(c), 4).SInt0;
+                return Xse.vxor_epi32(c, 4).SInt0;
             }
             else
             {
@@ -499,21 +498,21 @@ namespace MaxMath
 
 
 
-        /// <summary>       Returns the horizontal bitwise XOR reduction of components of a <see cref="uint2"/>.       </summary>
+        /// <summary>       Returns the horizontal bitwise XOR reduction of components of a <see cref="MaxMath.uint2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cxor(uint2 c)
         {
             return (uint)cxor((int2)c);
         }
 
-        /// <summary>       Returns the horizontal bitwise XOR reduction of components of a <see cref="uint3"/>.       </summary>
+        /// <summary>       Returns the horizontal bitwise XOR reduction of components of a <see cref="MaxMath.uint3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cxor(uint3 c)
         {
             return (uint)cxor((int3)c);
         }
 
-        /// <summary>       Returns the horizontal bitwise XOR reduction of components of a <see cref="uint4"/>.       </summary>
+        /// <summary>       Returns the horizontal bitwise XOR reduction of components of a <see cref="MaxMath.uint4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cxor(uint4 c)
         {

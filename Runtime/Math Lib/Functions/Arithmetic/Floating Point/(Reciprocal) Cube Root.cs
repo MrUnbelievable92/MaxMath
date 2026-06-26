@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
@@ -282,19 +281,9 @@ namespace MaxMath
                     }
                     else
                     {
-                        v128 subnormal;
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            subnormal = cmpgt_epi32(set1_epi32(0x0010_0000), absA);
-                            y = mul_pd(absA, blendv_pd(ONE, set1_epi64x(0x4350_0000_0000_0000ul), subnormal));
-	                        y = constdiv3(y, blendv_pd(set1_epi32(F64_DIVC), set1_epi32(F64_DIVD), subnormal));
-                        }
-                        else
-                        {
-                            subnormal = shuffle_epi32(cmpgt_epi32(set1_epi32(0x0010_0000), absA), Sse.SHUFFLE(3, 3, 1, 1));
-                            y = mul_pd(absA, blendv_si128(ONE, set1_epi64x(0x4350_0000_0000_0000ul), subnormal));
-	                        y = constdiv3(y, blendv_si128(set1_epi32(F64_DIVC), set1_epi32(F64_DIVD), subnormal));
-                        }
+                        v128 subnormal = cmpgt_epi32(set1_epi32(0x0010_0000), absA);
+                        y = mul_pd(absA, blendv_pd(ONE, set1_epi64x(0x4350_0000_0000_0000ul), subnormal));
+	                    y = constdiv3(y, blendv_pd(set1_epi32(F64_DIVC), set1_epi32(F64_DIVD), subnormal));
 
                         r = mul_pd(mul_pd(y, y), div_pd(y, absA));
                     }
@@ -818,19 +807,9 @@ namespace MaxMath
                     }
                     else
                     {
-                        v128 subnormal;
-                        if (Sse4_1.IsSse41Supported)
-                        {
-                            subnormal = cmpgt_epi32(set1_epi32(0x0010_0000), absA);
-                            y = mul_pd(absA, blendv_pd(ONE, set1_epi64x(0x4350_0000_0000_0000ul), subnormal));
-	                        y = constdiv3(y, blendv_pd(set1_epi32(F64_DIVC), set1_epi32(F64_DIVD), subnormal));
-                        }
-                        else
-                        {
-                            subnormal = shuffle_epi32(cmpgt_epi32(set1_epi32(0x0010_0000), absA), Sse.SHUFFLE(3, 3, 1, 1));
-                            y = mul_pd(absA, blendv_si128(ONE, set1_epi64x(0x4350_0000_0000_0000ul), subnormal));
-	                        y = constdiv3(y, blendv_si128(set1_epi32(F64_DIVC), set1_epi32(F64_DIVD), subnormal));
-                        }
+                        v128 subnormal = cmpgt_epi32(set1_epi32(0x0010_0000), absA);
+                        y = mul_pd(absA, blendv_pd(ONE, set1_epi64x(0x4350_0000_0000_0000ul), subnormal));
+	                    y = constdiv3(y, blendv_pd(set1_epi32(F64_DIVC), set1_epi32(F64_DIVD), subnormal));
 
                         r = mul_pd(mul_pd(y, y), div_pd(promisePositive ? y : ternarylogic_si128(y, a, SIGN_BIT, TernaryOperation.OxF8), a));
                     }
@@ -1055,7 +1034,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the cube root of a <see cref="float"/>.
         /// <remarks>
@@ -1070,7 +1049,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cbrt_ps(RegisterConversion.ToV128(x), 1, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Float0;
+                return Xse.cbrt_ps(Xse.set_ss(x), 1, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Float0;
             }
             else
             {
@@ -1083,17 +1062,17 @@ namespace MaxMath
                 uint SIGN_MASK = (1u << 31);
 
 
-	            uint sign = POSITIVE ? 0 : math.asuint(x) & SIGN_MASK;
-	            float absX = POSITIVE ? x : math.abs(x);
+	            uint sign = POSITIVE ? 0 : asuint(x) & SIGN_MASK;
+	            float absX = POSITIVE ? x : abs(x);
                 float y;
 
 	            if (promises.Promises(Promise.Unsafe1) || Hint.Likely(absX >= (1 << 23)))
                 {
-                    y = math.asfloat(F32_DIVC - math.asuint(absX) / 3);
+                    y = asfloat(F32_DIVC - asuint(absX) / 3);
 
-                    if (!(promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(math.isfinite(x) && !math.isnan(x))))
+                    if (!(promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(isfinite(x) && !isnan(x))))
                     {
-                        absX = math.asfloat(math.asint(absX) & -tobyte((math.asint(absX) & F32_SIGNALING_EXPONENT) != F32_SIGNALING_EXPONENT));
+                        absX = asfloat(asint(absX) & -tobyte((asint(absX) & F32_SIGNALING_EXPONENT) != F32_SIGNALING_EXPONENT));
                     }
 
                     float c = (absX * y) * (y * y);
@@ -1104,8 +1083,8 @@ namespace MaxMath
 	            }
                 else
                 {
-	            	y = absX * math.asfloat(0x4B80_0000);
-	            	y = math.asfloat(F32_DIVD + math.asuint(y) / 3);
+	            	y = absX * asfloat(0x4B80_0000);
+	            	y = asfloat(F32_DIVD + asuint(y) / 3);
 
                     float y3 = y * y;
                     float mul = y;
@@ -1124,7 +1103,7 @@ namespace MaxMath
 
                 if (!POSITIVE)
                 {
-                    TWO_THIRDS = math.asfloat(sign | math.asuint(TWO_THIRDS));
+                    TWO_THIRDS = asfloat(sign | asuint(TWO_THIRDS));
                 }
 
                 y = (TWO_THIRDS * y) + ((ONE_THIRD * x) / (y * y));
@@ -1133,7 +1112,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="float2"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.float2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1146,7 +1125,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.cbrt_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
+                return Xse.cbrt_ps(x, 2, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1));
             }
             else
             {
@@ -1154,7 +1133,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="float3"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.float3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1167,7 +1146,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.cbrt_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
+                return Xse.cbrt_ps(x, 3, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1));
             }
             else
             {
@@ -1175,7 +1154,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="float4"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.float4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1188,7 +1167,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.cbrt_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
+                return Xse.cbrt_ps(x, 4, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1));
             }
             else
             {
@@ -1231,43 +1210,43 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cbrt_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Double0;
+                return Xse.cbrt_pd(Xse.set_sd(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Double0;
             }
             else
             {
                 bool POSITIVE = promises.Promises(Promise.Positive) || constexpr.IS_TRUE(x > 0d);
                 bool NON_ZERO = promises.Promises(Promise.NonZero) || constexpr.IS_TRUE(x != 0d);
 
-                double absX = POSITIVE ? x : math.asdouble(math.asulong(x) & ((1ul << 63) - 1));
-	            uint hi = (uint)(math.asulong(absX) >> 32);
+                double absX = POSITIVE ? x : asdouble(asulong(x) & ((1ul << 63) - 1));
+	            uint hi = (uint)(asulong(absX) >> 32);
                 bool isInf = hi == (uint)(F64_SIGNALING_EXPONENT >> 32);
-                ulong sign = math.asulong(x) & (1ul << 63);
+                ulong sign = asulong(x) & (1ul << 63);
 
                 double r;
                 double y;
-                if (promises.Promises(Promise.Unsafe1) || Hint.Likely(math.asulong(absX) >= 0x0010_0000_0000_0000))
+                if (promises.Promises(Promise.Unsafe1) || Hint.Likely(asulong(absX) >= 0x0010_0000_0000_0000))
                 {
                     hi = hi / 3 + F64_DIVC;
 
-                    y = math.asdouble((ulong)hi << 32);
+                    y = asdouble((ulong)hi << 32);
                     r = (y * y) * (y * (1d / absX));
                 }
                 else
                 {
-		            hi = (uint)(math.asulong(absX * math.asdouble(0x4350_0000_0000_0000ul)) >> 32);
+		            hi = (uint)(asulong(absX * asdouble(0x4350_0000_0000_0000ul)) >> 32);
 		            hi = hi / 3 + F64_DIVD;
 
-                    y = math.asdouble((ulong)hi << 32);
+                    y = asdouble((ulong)hi << 32);
                     r = (y * y) * (y / absX);
                 }
 
                 if (!POSITIVE)
                 {
-	                y = math.asdouble(math.asulong(y) | sign);
+	                y = asdouble(asulong(y) | sign);
                 }
 
-                y *= math.mad(r * r * r, math.mad(F64_C4, r, F64_C3), math.mad(math.mad(F64_C2, r, F64_C1), r, F64_C0));
-                y = math.asdouble((math.asulong(y) + (1u << 31)) & ((NON_ZERO || x != 0d) ? 0xFFFF_FFFF_C000_0000ul : math.asulong(1d)));
+                y *= mad(r * r * r, mad(F64_C4, r, F64_C3), mad(mad(F64_C2, r, F64_C1), r, F64_C0));
+                y = asdouble((asulong(y) + (1u << 31)) & ((NON_ZERO || x != 0d) ? 0xFFFF_FFFF_C000_0000ul : asulong(1d)));
 
                 double mul = y;
                 double add = y;
@@ -1276,7 +1255,7 @@ namespace MaxMath
                     mul = x != 0d ? mul : 0d;
                     add = x != 0d ? add : x;
                 }
-                if (!promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(math.isfinite(x) && !math.isnan(x)))
+                if (!promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(isfinite(x) && !isnan(x)))
                 {
                     mul = isInf ? 0d : mul;
                     add = isInf ? x  : add;
@@ -1290,7 +1269,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="double2"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.double2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0 values, including negative 0.                                                                </para>
@@ -1303,7 +1282,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.cbrt_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
+                return Xse.cbrt_pd(x, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1));
             }
             else
             {
@@ -1311,7 +1290,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="double3"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.double3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0 values, including negative 0.                                                                </para>
@@ -1324,7 +1303,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_cbrt_pd(RegisterConversion.ToV256(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1), 3));
+                return Xse.mm256_cbrt_pd(x, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1), 3);
             }
             else
             {
@@ -1332,7 +1311,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="double4"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.double4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0 values, including negative 0.                                                                </para>
@@ -1345,7 +1324,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_cbrt_pd(RegisterConversion.ToV256(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1), 4));
+                return Xse.mm256_cbrt_pd(x, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1), 4);
             }
             else
             {
@@ -1367,7 +1346,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.rcbrt_ps(RegisterConversion.ToV128(x), 1, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Float0;
+                return Xse.rcbrt_ps(Xse.set_ss(x), 1, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Float0;
             }
             else
             {
@@ -1380,21 +1359,21 @@ namespace MaxMath
                 if (!POSITIVE)
                 {
                     uint SIGN_MASK = (1u << 31);
-                    uint sign = math.asuint(x) & SIGN_MASK;
-                    absX = math.asfloat(andnot(math.asuint(x), SIGN_MASK));
-                    ONE = math.asfloat(sign | math.asuint(ONE));
+                    uint sign = asuint(x) & SIGN_MASK;
+                    absX = asfloat(andnot(asuint(x), SIGN_MASK));
+                    ONE = asfloat(sign | asuint(ONE));
                 }
 
                 float y;
 	            if (promises.Promises(Promise.Unsafe1) || Hint.Likely(absX >= (1 << 23)))
                 {
-                    y = math.asfloat(F32_DIVC - math.asuint(absX) / 3);
+                    y = asfloat(F32_DIVC - asuint(absX) / 3);
 
                     float C0 = F32_C0;
 
                     if (!promises.Promises(Promise.Unsafe0))
                     {
-                        if (math.isinf(x))
+                        if (isinf(x))
                         {
                             C0 = 0f;
                             absX = 0f;
@@ -1407,8 +1386,8 @@ namespace MaxMath
                 }
                 else
                 {
-	            	y = absX * math.asfloat(0x4B80_0000);
-	            	y = math.asfloat(F32_DIVD + math.asuint(y) / 3);
+	            	y = absX * asfloat(0x4B80_0000);
+	            	y = asfloat(F32_DIVD + asuint(y) / 3);
 
                     float r = absX / y;
                     y = (y + y + r * (1f / y)) / (r + r + y * y);
@@ -1426,7 +1405,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="float2"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.float2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1439,7 +1418,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.rcbrt_ps(RegisterConversion.ToV128(x), 2, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
+                return Xse.rcbrt_ps(x, 2, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1));
             }
             else
             {
@@ -1447,7 +1426,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="float3"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.float3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1460,7 +1439,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.rcbrt_ps(RegisterConversion.ToV128(x), 3, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
+                return Xse.rcbrt_ps(x, 3, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1));
             }
             else
             {
@@ -1468,7 +1447,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="float4"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.float4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1481,7 +1460,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.rcbrt_ps(RegisterConversion.ToV128(x), 4, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
+                return Xse.rcbrt_ps(x, 4, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1));
             }
             else
             {
@@ -1524,52 +1503,52 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.rcbrt_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Double0;
+                return Xse.rcbrt_pd(Xse.set_sd(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)).Double0;
             }
             else
             {
                 bool POSITIVE = promises.Promises(Promise.Positive) || constexpr.IS_TRUE(x > 0d);
                 bool NON_ZERO = promises.Promises(Promise.NonZero) || constexpr.IS_TRUE(x != 0d);
 
-                double absX = POSITIVE ? x : math.asdouble(math.asulong(x) & ((1ul << 63) - 1));
-	            uint hi = (uint)(math.asulong(absX) >> 32);
+                double absX = POSITIVE ? x : asdouble(asulong(x) & ((1ul << 63) - 1));
+	            uint hi = (uint)(asulong(absX) >> 32);
                 bool isInf = hi == (uint)(F64_SIGNALING_EXPONENT >> 32);
-                ulong sign = math.asulong(x) & (1ul << 63);
+                ulong sign = asulong(x) & (1ul << 63);
 
                 double y;
                 double r;
-                if (promises.Promises(Promise.Unsafe1) || Hint.Likely(math.asulong(absX) >= 0x0010_0000_0000_0000))
+                if (promises.Promises(Promise.Unsafe1) || Hint.Likely(asulong(absX) >= 0x0010_0000_0000_0000))
                 {
                     hi = hi / 3 + F64_DIVC;
 
-	                y = math.asdouble(sign | ((ulong)hi << 32));
+	                y = asdouble(sign | ((ulong)hi << 32));
                     r = (y * y) * (y * (1d / x));
                 }
                 else
                 {
-		            hi = (uint)(math.asulong(absX * math.asdouble(0x4350_0000_0000_0000ul)) >> 32);
+		            hi = (uint)(asulong(absX * asdouble(0x4350_0000_0000_0000ul)) >> 32);
 		            hi = hi / 3 + F64_DIVD;
 
-	                y = math.asdouble(sign | ((ulong)hi << 32));
+	                y = asdouble(sign | ((ulong)hi << 32));
                     r = (y * y) * (y / x);
                 }
 
-                y *= math.mad(r * r * r, math.mad(F64_C4, r, F64_C3), math.mad(math.mad(F64_C2, r, F64_C1), r, F64_C0));
-                y = math.asdouble((math.asulong(y) + (1u << 31)) & ((NON_ZERO || x != 0d) ? 0xFFFF_FFFF_C000_0000ul : math.asulong(1d)));
+                y *= mad(r * r * r, mad(F64_C4, r, F64_C3), mad(mad(F64_C2, r, F64_C1), r, F64_C0));
+                y = asdouble((asulong(y) + (1u << 31)) & ((NON_ZERO || x != 0d) ? 0xFFFF_FFFF_C000_0000ul : asulong(1d)));
 
                 double add = y;
                 double div = x;
                 if (!NON_ZERO)
                 {
-                    add = x != 0 ? y : math.asdouble(sign | math.asulong(double.PositiveInfinity));
+                    add = x != 0 ? y : asdouble(sign | asulong(double.PositiveInfinity));
                 }
 
                 add += y;
 
                 if (!promises.Promises(Promise.Unsafe0))
                 {
-                    div = isInf ? math.asdouble(sign) : x;
-                    add = isInf ? math.asdouble(sign) : add;
+                    div = isInf ? asdouble(sign) : x;
+                    add = isInf ? asdouble(sign) : add;
                 }
 
                 r = div / y;
@@ -1579,7 +1558,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="double2"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.double2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.                                                              </para>
@@ -1592,7 +1571,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.rcbrt_pd(RegisterConversion.ToV128(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1)));
+                return Xse.rcbrt_pd(x, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1));
             }
             else
             {
@@ -1600,7 +1579,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="double3"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.double3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.                                                              </para>
@@ -1613,7 +1592,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_rcbrt_pd(RegisterConversion.ToV256(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1), 3));
+                return Xse.mm256_rcbrt_pd(x, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1), 3);
             }
             else
             {
@@ -1621,7 +1600,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="double4"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.double4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.                                                              </para>
@@ -1634,7 +1613,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_rcbrt_pd(RegisterConversion.ToV256(x), promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1), 4));
+                return Xse.mm256_rcbrt_pd(x, promises.Promises(Promise.Positive), promises.Promises(Promise.NonZero), promises.Promises(Promise.Unsafe0), promises.Promises(Promise.Unsafe1), 4);
             }
             else
             {

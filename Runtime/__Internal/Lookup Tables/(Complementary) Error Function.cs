@@ -4,7 +4,7 @@ namespace MaxMath
     {
         internal static class ERF_C
         {
-            internal static double F64_TINY =>  Unity.Mathematics.math.asdouble(0x0010_0000_0000_0000);
+            internal static double F64_TINY =>  math.asdouble(0x0010_0000_0000_0000);
 			internal const  double F64_ERX   =  8.45062911510467529297e-01;
 			internal const  double F64_EFX   =  1.28379167095512586316e-01;
 			internal const  double F64_EFX8  =  1.02703333676410069053e+00;
@@ -62,7 +62,7 @@ namespace MaxMath
 			internal const  double F64_SB6   =  4.74528541206955367215e+02;
 			internal const  double F64_SB7   = -2.24409524465858183362e+01;
 
-			internal static float F32_TINY => Unity.Mathematics.math.asfloat(0x0380_0000);
+			internal static float F32_TINY => math.asfloat(0x0380_0000);
 			internal const  float F32_ERX  =  8.4506291151e-01f;
 			internal const  float F32_EFX  =  1.0270333290e+00f;
 			internal const  float F32_PP0  =  1.2837916613e-01f;

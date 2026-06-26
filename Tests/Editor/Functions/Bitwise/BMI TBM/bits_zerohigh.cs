@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -15,16 +15,16 @@ namespace MaxMath.Tests
                 UInt128 val = r.NextUInt128();
                 UInt128 idx = r.NextUInt128(0, 128);
 
-                UInt128 res = maxmath.bits_zerohigh(val, (int)idx);
+                UInt128 res = math.bits_zerohigh(val, (int)idx);
 
                 for (int j = 0; j < (int)idx; j++)
                 {
-                    Assert.AreEqual(maxmath.testbit(val, (uint)j), maxmath.testbit(res, (uint)j));
+                    Assert.AreEqual(math.testbit(val, (uint)j), math.testbit(res, (uint)j));
                 }
 
                 for (int j = (int)idx; j < 128; j++)
                 {
-                    Assert.IsFalse(maxmath.testbit(res, (uint)j));
+                    Assert.IsFalse(math.testbit(res, (uint)j));
                 }
             }
         }
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
                 byte val = r.NextByte();
                 byte idx = r.NextByte(0, 8);
 
-                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val, idx), maxmath.bits_zerohigh(val, idx));
+                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val, idx), math.bits_zerohigh(val, idx));
             }
         }
 
@@ -56,7 +56,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 2; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 3; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 4; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 8; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -124,7 +124,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 16; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 32; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -157,7 +157,7 @@ namespace MaxMath.Tests
                 ushort val = r.NextUShort();
                 ushort idx = r.NextUShort(0, 16);
 
-                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val, idx), maxmath.bits_zerohigh(val, idx));
+                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val, idx), math.bits_zerohigh(val, idx));
             }
         }
 
@@ -173,7 +173,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 2; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 3; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -207,7 +207,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 4; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -224,7 +224,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 8; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -241,7 +241,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 16; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -257,7 +257,7 @@ namespace MaxMath.Tests
                 uint val = r.NextUInt();
                 uint idx = r.NextUInt(0, 32);
 
-                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val, idx), maxmath.bits_zerohigh(val, (int)idx));
+                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val, idx), math.bits_zerohigh(val, (int)idx));
             }
         }
 
@@ -273,7 +273,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 2; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -290,7 +290,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 3; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -307,7 +307,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 4; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -324,7 +324,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 8; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -340,7 +340,7 @@ namespace MaxMath.Tests
                 ulong val = r.NextULong();
                 ulong idx = r.NextULong(0, 64);
 
-                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val, idx), maxmath.bits_zerohigh(val, (int)idx));
+                Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val, idx), math.bits_zerohigh(val, (int)idx));
             }
         }
 
@@ -356,7 +356,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 2; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -373,7 +373,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 3; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }
@@ -390,7 +390,7 @@ namespace MaxMath.Tests
 
                 for (int k = 0; k < 4; k++)
                 {
-                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), maxmath.bits_zerohigh(val, idx)[k]);
+                    Assert.AreEqual(Unity.Burst.Intrinsics.X86.Bmi2.bzhi_u64(val[k], idx[k]), math.bits_zerohigh(val, idx)[k]);
                 }
             }
         }

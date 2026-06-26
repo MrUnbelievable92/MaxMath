@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -12,7 +12,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte2.NUM_TESTS; i++)
             {
-                uint x = maxmath.sad(t_byte2.TestData_LHS[i], t_byte2.TestData_RHS[i]);
+                uint x = math.sad(t_byte2.TestData_LHS[i], t_byte2.TestData_RHS[i]);
 
                 result &= x == (uint)(math.abs((int)t_byte2.TestData_LHS[i].x - (int)t_byte2.TestData_RHS[i].x) +
                                       math.abs((int)t_byte2.TestData_LHS[i].y - (int)t_byte2.TestData_RHS[i].y));
@@ -28,7 +28,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte3.NUM_TESTS; i++)
             {
-                uint x = maxmath.sad(t_byte3.TestData_LHS[i], t_byte3.TestData_RHS[i]);
+                uint x = math.sad(t_byte3.TestData_LHS[i], t_byte3.TestData_RHS[i]);
 
                 result &= x == (uint)(math.abs((int)t_byte3.TestData_LHS[i].x - (int)t_byte3.TestData_RHS[i].x) +
                                       math.abs((int)t_byte3.TestData_LHS[i].y - (int)t_byte3.TestData_RHS[i].y) +
@@ -45,7 +45,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte4.NUM_TESTS; i++)
             {
-                uint x = maxmath.sad(t_byte4.TestData_LHS[i], t_byte4.TestData_RHS[i]);
+                uint x = math.sad(t_byte4.TestData_LHS[i], t_byte4.TestData_RHS[i]);
 
                 result &= x == (uint)(math.abs((int)t_byte4.TestData_LHS[i].x - (int)t_byte4.TestData_RHS[i].x) +
                                       math.abs((int)t_byte4.TestData_LHS[i].y - (int)t_byte4.TestData_RHS[i].y) +
@@ -63,7 +63,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte8.NUM_TESTS; i++)
             {
-                uint x = maxmath.sad(t_byte8.TestData_LHS[i], t_byte8.TestData_RHS[i]);
+                uint x = math.sad(t_byte8.TestData_LHS[i], t_byte8.TestData_RHS[i]);
 
                 result &= x == (uint)(math.abs((int)t_byte8.TestData_LHS[i].x0 - (int)t_byte8.TestData_RHS[i].x0) +
                                       math.abs((int)t_byte8.TestData_LHS[i].x1 - (int)t_byte8.TestData_RHS[i].x1) +
@@ -85,7 +85,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte16.NUM_TESTS; i++)
             {
-                uint x = maxmath.sad(t_byte16.TestData_LHS[i], t_byte16.TestData_RHS[i]);
+                uint x = math.sad(t_byte16.TestData_LHS[i], t_byte16.TestData_RHS[i]);
 
                 result &= x == (uint)(math.abs((int)t_byte16.TestData_LHS[i].x0  - (int)t_byte16.TestData_RHS[i].x0 ) +
                                       math.abs((int)t_byte16.TestData_LHS[i].x1  - (int)t_byte16.TestData_RHS[i].x1 ) +
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_byte32.NUM_TESTS; i++)
             {
-                uint x = maxmath.sad(t_byte32.TestData_LHS[i], t_byte32.TestData_RHS[i]);
+                uint x = math.sad(t_byte32.TestData_LHS[i], t_byte32.TestData_RHS[i]);
 
                 result &= x == (uint)(math.abs((int)t_byte32.TestData_LHS[i].x0  - (int)t_byte32.TestData_RHS[i].x0 ) +
                                       math.abs((int)t_byte32.TestData_LHS[i].x1  - (int)t_byte32.TestData_RHS[i].x1 ) +
@@ -162,7 +162,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < t_sbyte32.NUM_TESTS; i++)
             {
-                uint x = maxmath.sad(t_sbyte32.TestData_LHS[i], t_sbyte32.TestData_RHS[i]);
+                uint x = math.sad(t_sbyte32.TestData_LHS[i], t_sbyte32.TestData_RHS[i]);
 
                 result &= x == (uint)(math.abs((int)t_sbyte32.TestData_LHS[i].x0  - (int)t_sbyte32.TestData_RHS[i].x0 ) +
                                       math.abs((int)t_sbyte32.TestData_LHS[i].x1  - (int)t_sbyte32.TestData_RHS[i].x1 ) +

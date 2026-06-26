@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -13,19 +13,19 @@ namespace MaxMath.Tests
 
             byte2 selected;
 
-            selected = maxmath.select(t_byte2.TestData_LHS[0], t_byte2.TestData_RHS[0], new bool2(false, true));
+            selected = math.select(t_byte2.TestData_LHS[0], t_byte2.TestData_RHS[0], new bool2(false, true));
             result &= selected.x == t_byte2.TestData_LHS[0].x;
             result &= selected.y == t_byte2.TestData_RHS[0].y;
 
-            selected = maxmath.select(t_byte2.TestData_LHS[1], t_byte2.TestData_RHS[1], new bool2(true, true));
+            selected = math.select(t_byte2.TestData_LHS[1], t_byte2.TestData_RHS[1], new bool2(true, true));
             result &= selected.x == t_byte2.TestData_RHS[1].x;
             result &= selected.y == t_byte2.TestData_RHS[1].y;
 
-            selected = maxmath.select(t_byte2.TestData_LHS[2], t_byte2.TestData_RHS[2], new bool2(false, false));
+            selected = math.select(t_byte2.TestData_LHS[2], t_byte2.TestData_RHS[2], new bool2(false, false));
             result &= selected.x == t_byte2.TestData_LHS[2].x;
             result &= selected.y == t_byte2.TestData_LHS[2].y;
 
-            selected = maxmath.select(t_byte2.TestData_LHS[3], t_byte2.TestData_RHS[3], new bool2(true, false));
+            selected = math.select(t_byte2.TestData_LHS[3], t_byte2.TestData_RHS[3], new bool2(true, false));
             result &= selected.x == t_byte2.TestData_RHS[3].x;
             result &= selected.y == t_byte2.TestData_LHS[3].y;
 
@@ -41,19 +41,19 @@ namespace MaxMath.Tests
 
             sbyte2 selected;
 
-            selected = maxmath.select(t_sbyte2.TestData_LHS[0], t_sbyte2.TestData_RHS[0], new bool2(false, true));
+            selected = math.select(t_sbyte2.TestData_LHS[0], t_sbyte2.TestData_RHS[0], new bool2(false, true));
             result &= selected.x == t_sbyte2.TestData_LHS[0].x;
             result &= selected.y == t_sbyte2.TestData_RHS[0].y;
 
-            selected = maxmath.select(t_sbyte2.TestData_LHS[1], t_sbyte2.TestData_RHS[1], new bool2(true, true));
+            selected = math.select(t_sbyte2.TestData_LHS[1], t_sbyte2.TestData_RHS[1], new bool2(true, true));
             result &= selected.x == t_sbyte2.TestData_RHS[1].x;
             result &= selected.y == t_sbyte2.TestData_RHS[1].y;
 
-            selected = maxmath.select(t_sbyte2.TestData_LHS[2], t_sbyte2.TestData_RHS[2], new bool2(false, false));
+            selected = math.select(t_sbyte2.TestData_LHS[2], t_sbyte2.TestData_RHS[2], new bool2(false, false));
             result &= selected.x == t_sbyte2.TestData_LHS[2].x;
             result &= selected.y == t_sbyte2.TestData_LHS[2].y;
 
-            selected = maxmath.select(t_sbyte2.TestData_LHS[3], t_sbyte2.TestData_RHS[3], new bool2(true, false));
+            selected = math.select(t_sbyte2.TestData_LHS[3], t_sbyte2.TestData_RHS[3], new bool2(true, false));
             result &= selected.x == t_sbyte2.TestData_RHS[3].x;
             result &= selected.y == t_sbyte2.TestData_LHS[3].y;
 
@@ -70,22 +70,22 @@ namespace MaxMath.Tests
 
             byte3 selected;
 
-            selected = maxmath.select(t_byte3.TestData_LHS[0], t_byte3.TestData_RHS[0], new bool3(false, true, true));
+            selected = math.select(t_byte3.TestData_LHS[0], t_byte3.TestData_RHS[0], new bool3(false, true, true));
             result &= selected.x == t_byte3.TestData_LHS[0].x;
             result &= selected.y == t_byte3.TestData_RHS[0].y;
             result &= selected.z == t_byte3.TestData_RHS[0].z;
 
-            selected = maxmath.select(t_byte3.TestData_LHS[1], t_byte3.TestData_RHS[1], new bool3(true, true, false));
+            selected = math.select(t_byte3.TestData_LHS[1], t_byte3.TestData_RHS[1], new bool3(true, true, false));
             result &= selected.x == t_byte3.TestData_RHS[1].x;
             result &= selected.y == t_byte3.TestData_RHS[1].y;
             result &= selected.z == t_byte3.TestData_LHS[1].z;
 
-            selected = maxmath.select(t_byte3.TestData_LHS[2], t_byte3.TestData_RHS[2], new bool3(false, false, true));
+            selected = math.select(t_byte3.TestData_LHS[2], t_byte3.TestData_RHS[2], new bool3(false, false, true));
             result &= selected.x == t_byte3.TestData_LHS[2].x;
             result &= selected.y == t_byte3.TestData_LHS[2].y;
             result &= selected.z == t_byte3.TestData_RHS[2].z;
 
-            selected = maxmath.select(t_byte3.TestData_LHS[3], t_byte3.TestData_RHS[3], new bool3(true, false, true));
+            selected = math.select(t_byte3.TestData_LHS[3], t_byte3.TestData_RHS[3], new bool3(true, false, true));
             result &= selected.x == t_byte3.TestData_RHS[3].x;
             result &= selected.y == t_byte3.TestData_LHS[3].y;
             result &= selected.z == t_byte3.TestData_RHS[3].z;
@@ -102,22 +102,22 @@ namespace MaxMath.Tests
 
             sbyte3 selected;
 
-            selected = maxmath.select(t_sbyte3.TestData_LHS[0], t_sbyte3.TestData_RHS[0], new bool3(false, true, true));
+            selected = math.select(t_sbyte3.TestData_LHS[0], t_sbyte3.TestData_RHS[0], new bool3(false, true, true));
             result &= selected.x == t_sbyte3.TestData_LHS[0].x;
             result &= selected.y == t_sbyte3.TestData_RHS[0].y;
             result &= selected.z == t_sbyte3.TestData_RHS[0].z;
 
-            selected = maxmath.select(t_sbyte3.TestData_LHS[1], t_sbyte3.TestData_RHS[1], new bool3(true, true, false));
+            selected = math.select(t_sbyte3.TestData_LHS[1], t_sbyte3.TestData_RHS[1], new bool3(true, true, false));
             result &= selected.x == t_sbyte3.TestData_RHS[1].x;
             result &= selected.y == t_sbyte3.TestData_RHS[1].y;
             result &= selected.z == t_sbyte3.TestData_LHS[1].z;
 
-            selected = maxmath.select(t_sbyte3.TestData_LHS[2], t_sbyte3.TestData_RHS[2], new bool3(false, false, true));
+            selected = math.select(t_sbyte3.TestData_LHS[2], t_sbyte3.TestData_RHS[2], new bool3(false, false, true));
             result &= selected.x == t_sbyte3.TestData_LHS[2].x;
             result &= selected.y == t_sbyte3.TestData_LHS[2].y;
             result &= selected.z == t_sbyte3.TestData_RHS[2].z;
 
-            selected = maxmath.select(t_sbyte3.TestData_LHS[3], t_sbyte3.TestData_RHS[3], new bool3(true, false, true));
+            selected = math.select(t_sbyte3.TestData_LHS[3], t_sbyte3.TestData_RHS[3], new bool3(true, false, true));
             result &= selected.x == t_sbyte3.TestData_RHS[3].x;
             result &= selected.y == t_sbyte3.TestData_LHS[3].y;
             result &= selected.z == t_sbyte3.TestData_RHS[3].z;
@@ -135,25 +135,25 @@ namespace MaxMath.Tests
 
             byte4 selected;
 
-            selected = maxmath.select(t_byte4.TestData_LHS[0], t_byte4.TestData_RHS[0], new bool4(false, true, true, true));
+            selected = math.select(t_byte4.TestData_LHS[0], t_byte4.TestData_RHS[0], new bool4(false, true, true, true));
             result &= selected.x == t_byte4.TestData_LHS[0].x;
             result &= selected.y == t_byte4.TestData_RHS[0].y;
             result &= selected.z == t_byte4.TestData_RHS[0].z;
             result &= selected.w == t_byte4.TestData_RHS[0].w;
 
-            selected = maxmath.select(t_byte4.TestData_LHS[1], t_byte4.TestData_RHS[1], new bool4(true, true, true, false));
+            selected = math.select(t_byte4.TestData_LHS[1], t_byte4.TestData_RHS[1], new bool4(true, true, true, false));
             result &= selected.x == t_byte4.TestData_RHS[1].x;
             result &= selected.y == t_byte4.TestData_RHS[1].y;
             result &= selected.z == t_byte4.TestData_RHS[1].z;
             result &= selected.w == t_byte4.TestData_LHS[1].w;
 
-            selected = maxmath.select(t_byte4.TestData_LHS[2], t_byte4.TestData_RHS[2], new bool4(false, true, true, false));
+            selected = math.select(t_byte4.TestData_LHS[2], t_byte4.TestData_RHS[2], new bool4(false, true, true, false));
             result &= selected.x == t_byte4.TestData_LHS[2].x;
             result &= selected.y == t_byte4.TestData_RHS[2].y;
             result &= selected.z == t_byte4.TestData_RHS[2].z;
             result &= selected.w == t_byte4.TestData_LHS[2].w;
 
-            selected = maxmath.select(t_byte4.TestData_LHS[3], t_byte4.TestData_RHS[3], new bool4(true, false, true, true));
+            selected = math.select(t_byte4.TestData_LHS[3], t_byte4.TestData_RHS[3], new bool4(true, false, true, true));
             result &= selected.x == t_byte4.TestData_RHS[3].x;
             result &= selected.y == t_byte4.TestData_LHS[3].y;
             result &= selected.z == t_byte4.TestData_RHS[3].z;
@@ -171,25 +171,25 @@ namespace MaxMath.Tests
 
             sbyte4 selected;
 
-            selected = maxmath.select(t_sbyte4.TestData_LHS[0], t_sbyte4.TestData_RHS[0], new bool4(false, true, true, true));
+            selected = math.select(t_sbyte4.TestData_LHS[0], t_sbyte4.TestData_RHS[0], new bool4(false, true, true, true));
             result &= selected.x == t_sbyte4.TestData_LHS[0].x;
             result &= selected.y == t_sbyte4.TestData_RHS[0].y;
             result &= selected.z == t_sbyte4.TestData_RHS[0].z;
             result &= selected.w == t_sbyte4.TestData_RHS[0].w;
 
-            selected = maxmath.select(t_sbyte4.TestData_LHS[1], t_sbyte4.TestData_RHS[1], new bool4(true, true, true, false));
+            selected = math.select(t_sbyte4.TestData_LHS[1], t_sbyte4.TestData_RHS[1], new bool4(true, true, true, false));
             result &= selected.x == t_sbyte4.TestData_RHS[1].x;
             result &= selected.y == t_sbyte4.TestData_RHS[1].y;
             result &= selected.z == t_sbyte4.TestData_RHS[1].z;
             result &= selected.w == t_sbyte4.TestData_LHS[1].w;
 
-            selected = maxmath.select(t_sbyte4.TestData_LHS[2], t_sbyte4.TestData_RHS[2], new bool4(false, true, true, false));
+            selected = math.select(t_sbyte4.TestData_LHS[2], t_sbyte4.TestData_RHS[2], new bool4(false, true, true, false));
             result &= selected.x == t_sbyte4.TestData_LHS[2].x;
             result &= selected.y == t_sbyte4.TestData_RHS[2].y;
             result &= selected.z == t_sbyte4.TestData_RHS[2].z;
             result &= selected.w == t_sbyte4.TestData_LHS[2].w;
 
-            selected = maxmath.select(t_sbyte4.TestData_LHS[3], t_sbyte4.TestData_RHS[3], new bool4(true, false, true, true));
+            selected = math.select(t_sbyte4.TestData_LHS[3], t_sbyte4.TestData_RHS[3], new bool4(true, false, true, true));
             result &= selected.x == t_sbyte4.TestData_RHS[3].x;
             result &= selected.y == t_sbyte4.TestData_LHS[3].y;
             result &= selected.z == t_sbyte4.TestData_RHS[3].z;
@@ -208,7 +208,7 @@ namespace MaxMath.Tests
 
             byte8 selected;
 
-            selected = maxmath.select(t_byte8.TestData_LHS[0], t_byte8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
+            selected = math.select(t_byte8.TestData_LHS[0], t_byte8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
             result &= selected.x0  == t_byte8.TestData_RHS[0].x0;
             result &= selected.x1  == t_byte8.TestData_RHS[0].x1;
             result &= selected.x2  == t_byte8.TestData_LHS[0].x2;
@@ -218,7 +218,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_byte8.TestData_LHS[0].x6;
             result &= selected.x7  == t_byte8.TestData_RHS[0].x7;
 
-            selected = maxmath.select(t_byte8.TestData_LHS[1], t_byte8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
+            selected = math.select(t_byte8.TestData_LHS[1], t_byte8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
             result &= selected.x0  == t_byte8.TestData_RHS[1].x0;
             result &= selected.x1  == t_byte8.TestData_RHS[1].x1;
             result &= selected.x2  == t_byte8.TestData_LHS[1].x2;
@@ -228,7 +228,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_byte8.TestData_RHS[1].x6;
             result &= selected.x7  == t_byte8.TestData_RHS[1].x7;
 
-            selected = maxmath.select(t_byte8.TestData_LHS[2], t_byte8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
+            selected = math.select(t_byte8.TestData_LHS[2], t_byte8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
             result &= selected.x0  == t_byte8.TestData_RHS[2].x0;
             result &= selected.x1  == t_byte8.TestData_LHS[2].x1;
             result &= selected.x2  == t_byte8.TestData_LHS[2].x2;
@@ -238,7 +238,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_byte8.TestData_LHS[2].x6;
             result &= selected.x7  == t_byte8.TestData_LHS[2].x7;
 
-            selected = maxmath.select(t_byte8.TestData_LHS[3], t_byte8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
+            selected = math.select(t_byte8.TestData_LHS[3], t_byte8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
             result &= selected.x0  == t_byte8.TestData_RHS[3].x0;
             result &= selected.x1  == t_byte8.TestData_RHS[3].x1;
             result &= selected.x2  == t_byte8.TestData_LHS[3].x2;
@@ -260,7 +260,7 @@ namespace MaxMath.Tests
 
             sbyte8 selected;
 
-            selected = maxmath.select(t_sbyte8.TestData_LHS[0], t_sbyte8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
+            selected = math.select(t_sbyte8.TestData_LHS[0], t_sbyte8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
             result &= selected.x0  == t_sbyte8.TestData_RHS[0].x0;
             result &= selected.x1  == t_sbyte8.TestData_RHS[0].x1;
             result &= selected.x2  == t_sbyte8.TestData_LHS[0].x2;
@@ -270,7 +270,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_sbyte8.TestData_LHS[0].x6;
             result &= selected.x7  == t_sbyte8.TestData_RHS[0].x7;
 
-            selected = maxmath.select(t_sbyte8.TestData_LHS[1], t_sbyte8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
+            selected = math.select(t_sbyte8.TestData_LHS[1], t_sbyte8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
             result &= selected.x0  == t_sbyte8.TestData_RHS[1].x0;
             result &= selected.x1  == t_sbyte8.TestData_RHS[1].x1;
             result &= selected.x2  == t_sbyte8.TestData_LHS[1].x2;
@@ -280,7 +280,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_sbyte8.TestData_RHS[1].x6;
             result &= selected.x7  == t_sbyte8.TestData_RHS[1].x7;
 
-            selected = maxmath.select(t_sbyte8.TestData_LHS[2], t_sbyte8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
+            selected = math.select(t_sbyte8.TestData_LHS[2], t_sbyte8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
             result &= selected.x0  == t_sbyte8.TestData_RHS[2].x0;
             result &= selected.x1  == t_sbyte8.TestData_LHS[2].x1;
             result &= selected.x2  == t_sbyte8.TestData_LHS[2].x2;
@@ -290,7 +290,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_sbyte8.TestData_LHS[2].x6;
             result &= selected.x7  == t_sbyte8.TestData_LHS[2].x7;
 
-            selected = maxmath.select(t_sbyte8.TestData_LHS[3], t_sbyte8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
+            selected = math.select(t_sbyte8.TestData_LHS[3], t_sbyte8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
             result &= selected.x0  == t_sbyte8.TestData_RHS[3].x0;
             result &= selected.x1  == t_sbyte8.TestData_RHS[3].x1;
             result &= selected.x2  == t_sbyte8.TestData_LHS[3].x2;
@@ -313,7 +313,7 @@ namespace MaxMath.Tests
 
             byte16 selected;
 
-            selected = maxmath.select(t_byte16.TestData_LHS[0], t_byte16.TestData_RHS[0], new bool16(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true));
+            selected = math.select(t_byte16.TestData_LHS[0], t_byte16.TestData_RHS[0], new bool16(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true));
             result &= selected.x0  == t_byte16.TestData_RHS[0].x0;
             result &= selected.x1  == t_byte16.TestData_RHS[0].x1;
             result &= selected.x2  == t_byte16.TestData_LHS[0].x2;
@@ -331,7 +331,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_byte16.TestData_LHS[0].x14;
             result &= selected.x15 == t_byte16.TestData_RHS[0].x15;
 
-            selected = maxmath.select(t_byte16.TestData_LHS[1], t_byte16.TestData_RHS[1], new bool16(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false));
+            selected = math.select(t_byte16.TestData_LHS[1], t_byte16.TestData_RHS[1], new bool16(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false));
             result &= selected.x0  == t_byte16.TestData_RHS[1].x0;
             result &= selected.x1  == t_byte16.TestData_RHS[1].x1;
             result &= selected.x2  == t_byte16.TestData_LHS[1].x2;
@@ -349,7 +349,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_byte16.TestData_LHS[1].x14;
             result &= selected.x15 == t_byte16.TestData_LHS[1].x15;
 
-            selected = maxmath.select(t_byte16.TestData_LHS[2], t_byte16.TestData_RHS[2], new bool16(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false));
+            selected = math.select(t_byte16.TestData_LHS[2], t_byte16.TestData_RHS[2], new bool16(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false));
             result &= selected.x0  == t_byte16.TestData_RHS[2].x0;
             result &= selected.x1  == t_byte16.TestData_LHS[2].x1;
             result &= selected.x2  == t_byte16.TestData_LHS[2].x2;
@@ -367,7 +367,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_byte16.TestData_RHS[2].x14;
             result &= selected.x15 == t_byte16.TestData_LHS[2].x15;
 
-            selected = maxmath.select(t_byte16.TestData_LHS[3], t_byte16.TestData_RHS[3], new bool16(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false));
+            selected = math.select(t_byte16.TestData_LHS[3], t_byte16.TestData_RHS[3], new bool16(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false));
             result &= selected.x0  == t_byte16.TestData_RHS[3].x0;
             result &= selected.x1  == t_byte16.TestData_RHS[3].x1;
             result &= selected.x2  == t_byte16.TestData_LHS[3].x2;
@@ -397,7 +397,7 @@ namespace MaxMath.Tests
 
             sbyte16 selected;
 
-            selected = maxmath.select(t_sbyte16.TestData_LHS[0], t_sbyte16.TestData_RHS[0], new bool16(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true));
+            selected = math.select(t_sbyte16.TestData_LHS[0], t_sbyte16.TestData_RHS[0], new bool16(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true));
             result &= selected.x0  == t_sbyte16.TestData_RHS[0].x0;
             result &= selected.x1  == t_sbyte16.TestData_RHS[0].x1;
             result &= selected.x2  == t_sbyte16.TestData_LHS[0].x2;
@@ -415,7 +415,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_sbyte16.TestData_LHS[0].x14;
             result &= selected.x15 == t_sbyte16.TestData_RHS[0].x15;
 
-            selected = maxmath.select(t_sbyte16.TestData_LHS[1], t_sbyte16.TestData_RHS[1], new bool16(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false));
+            selected = math.select(t_sbyte16.TestData_LHS[1], t_sbyte16.TestData_RHS[1], new bool16(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false));
             result &= selected.x0  == t_sbyte16.TestData_RHS[1].x0;
             result &= selected.x1  == t_sbyte16.TestData_RHS[1].x1;
             result &= selected.x2  == t_sbyte16.TestData_LHS[1].x2;
@@ -433,7 +433,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_sbyte16.TestData_LHS[1].x14;
             result &= selected.x15 == t_sbyte16.TestData_LHS[1].x15;
 
-            selected = maxmath.select(t_sbyte16.TestData_LHS[2], t_sbyte16.TestData_RHS[2], new bool16(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false));
+            selected = math.select(t_sbyte16.TestData_LHS[2], t_sbyte16.TestData_RHS[2], new bool16(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false));
             result &= selected.x0  == t_sbyte16.TestData_RHS[2].x0;
             result &= selected.x1  == t_sbyte16.TestData_LHS[2].x1;
             result &= selected.x2  == t_sbyte16.TestData_LHS[2].x2;
@@ -451,7 +451,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_sbyte16.TestData_RHS[2].x14;
             result &= selected.x15 == t_sbyte16.TestData_LHS[2].x15;
 
-            selected = maxmath.select(t_sbyte16.TestData_LHS[3], t_sbyte16.TestData_RHS[3], new bool16(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false));
+            selected = math.select(t_sbyte16.TestData_LHS[3], t_sbyte16.TestData_RHS[3], new bool16(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false));
             result &= selected.x0  == t_sbyte16.TestData_RHS[3].x0;
             result &= selected.x1  == t_sbyte16.TestData_RHS[3].x1;
             result &= selected.x2  == t_sbyte16.TestData_LHS[3].x2;
@@ -482,7 +482,7 @@ namespace MaxMath.Tests
 
             byte32 selected;
 
-            selected = maxmath.select(t_byte32.TestData_LHS[0], t_byte32.TestData_RHS[0], new bool32(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true, false, false, true, false, true, true, false, true, true, false, false, false, true,false, true, false));
+            selected = math.select(t_byte32.TestData_LHS[0], t_byte32.TestData_RHS[0], new bool32(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true, false, false, true, false, true, true, false, true, true, false, false, false, true,false, true, false));
             result &= selected.x0  == t_byte32.TestData_RHS[0].x0;
             result &= selected.x1  == t_byte32.TestData_RHS[0].x1;
             result &= selected.x2  == t_byte32.TestData_LHS[0].x2;
@@ -516,7 +516,7 @@ namespace MaxMath.Tests
             result &= selected.x30 == t_byte32.TestData_RHS[0].x30;
             result &= selected.x31 == t_byte32.TestData_LHS[0].x31;
 
-            selected = maxmath.select(t_byte32.TestData_LHS[1], t_byte32.TestData_RHS[1], new bool32(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false, false, true, false, true, false, false, true, false, false, true, true, true, true, false, true, true));
+            selected = math.select(t_byte32.TestData_LHS[1], t_byte32.TestData_RHS[1], new bool32(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false, false, true, false, true, false, false, true, false, false, true, true, true, true, false, true, true));
             result &= selected.x0  == t_byte32.TestData_RHS[1].x0;
             result &= selected.x1  == t_byte32.TestData_RHS[1].x1;
             result &= selected.x2  == t_byte32.TestData_LHS[1].x2;
@@ -550,7 +550,7 @@ namespace MaxMath.Tests
             result &= selected.x30 == t_byte32.TestData_RHS[1].x30;
             result &= selected.x31 == t_byte32.TestData_RHS[1].x31;
 
-            selected = maxmath.select(t_byte32.TestData_LHS[2], t_byte32.TestData_RHS[2], new bool32(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false, true ,false, true, true, false, true, false, true, true, true, false, true, true ,false, false, false));
+            selected = math.select(t_byte32.TestData_LHS[2], t_byte32.TestData_RHS[2], new bool32(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false, true ,false, true, true, false, true, false, true, true, true, false, true, true ,false, false, false));
             result &= selected.x0  == t_byte32.TestData_RHS[2].x0;
             result &= selected.x1  == t_byte32.TestData_LHS[2].x1;
             result &= selected.x2  == t_byte32.TestData_LHS[2].x2;
@@ -584,7 +584,7 @@ namespace MaxMath.Tests
             result &= selected.x30 == t_byte32.TestData_LHS[2].x30;
             result &= selected.x31 == t_byte32.TestData_LHS[2].x31;
 
-            selected = maxmath.select(t_byte32.TestData_LHS[3], t_byte32.TestData_RHS[3], new bool32(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false, true, false, true, false, true, false, false, true, true, false, false, true, true, true, true, false));
+            selected = math.select(t_byte32.TestData_LHS[3], t_byte32.TestData_RHS[3], new bool32(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false, true, false, true, false, true, false, false, true, true, false, false, true, true, true, true, false));
             result &= selected.x0  == t_byte32.TestData_RHS[3].x0;
             result &= selected.x1  == t_byte32.TestData_RHS[3].x1;
             result &= selected.x2  == t_byte32.TestData_LHS[3].x2;
@@ -630,7 +630,7 @@ namespace MaxMath.Tests
 
             sbyte32 selected;
 
-            selected = maxmath.select(t_sbyte32.TestData_LHS[0], t_sbyte32.TestData_RHS[0], new bool32(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true, false, false, true, false, true, true, false, true, true, false, false, false, true, false, true, false));
+            selected = math.select(t_sbyte32.TestData_LHS[0], t_sbyte32.TestData_RHS[0], new bool32(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true, false, false, true, false, true, true, false, true, true, false, false, false, true, false, true, false));
             result &= selected.x0  == t_sbyte32.TestData_RHS[0].x0;
             result &= selected.x1  == t_sbyte32.TestData_RHS[0].x1;
             result &= selected.x2  == t_sbyte32.TestData_LHS[0].x2;
@@ -664,7 +664,7 @@ namespace MaxMath.Tests
             result &= selected.x30 == t_sbyte32.TestData_RHS[0].x30;
             result &= selected.x31 == t_sbyte32.TestData_LHS[0].x31;
 
-            selected = maxmath.select(t_sbyte32.TestData_LHS[1], t_sbyte32.TestData_RHS[1], new bool32(true, true, false, false, false, true, true, true, true ,true ,false, false, false, true, false, false, false, true, false, true, false, false, true, false, false, true, true, true, true, false, true, true));
+            selected = math.select(t_sbyte32.TestData_LHS[1], t_sbyte32.TestData_RHS[1], new bool32(true, true, false, false, false, true, true, true, true ,true ,false, false, false, true, false, false, false, true, false, true, false, false, true, false, false, true, true, true, true, false, true, true));
             result &= selected.x0  == t_sbyte32.TestData_RHS[1].x0;
             result &= selected.x1  == t_sbyte32.TestData_RHS[1].x1;
             result &= selected.x2  == t_sbyte32.TestData_LHS[1].x2;
@@ -698,7 +698,7 @@ namespace MaxMath.Tests
             result &= selected.x30 == t_sbyte32.TestData_RHS[1].x30;
             result &= selected.x31 == t_sbyte32.TestData_RHS[1].x31;
 
-            selected = maxmath.select(t_sbyte32.TestData_LHS[2], t_sbyte32.TestData_RHS[2], new bool32(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false, true, false, true, true, false, true, false, true, true, true, false, true, true, false, false, false));
+            selected = math.select(t_sbyte32.TestData_LHS[2], t_sbyte32.TestData_RHS[2], new bool32(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false, true, false, true, true, false, true, false, true, true, true, false, true, true, false, false, false));
             result &= selected.x0  == t_sbyte32.TestData_RHS[2].x0;
             result &= selected.x1  == t_sbyte32.TestData_LHS[2].x1;
             result &= selected.x2  == t_sbyte32.TestData_LHS[2].x2;
@@ -732,7 +732,7 @@ namespace MaxMath.Tests
             result &= selected.x30 == t_sbyte32.TestData_LHS[2].x30;
             result &= selected.x31 == t_sbyte32.TestData_LHS[2].x31;
 
-            selected = maxmath.select(t_sbyte32.TestData_LHS[3], t_sbyte32.TestData_RHS[3], new bool32(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false, true ,false, true, false, true, false, false, true ,true ,false, false, true, true, true, true ,false));
+            selected = math.select(t_sbyte32.TestData_LHS[3], t_sbyte32.TestData_RHS[3], new bool32(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false, true ,false, true, false, true, false, false, true ,true ,false, false, true, true, true, true ,false));
             result &= selected.x0  == t_sbyte32.TestData_RHS[3].x0;
             result &= selected.x1  == t_sbyte32.TestData_RHS[3].x1;
             result &= selected.x2  == t_sbyte32.TestData_LHS[3].x2;
@@ -779,19 +779,19 @@ namespace MaxMath.Tests
 
             ushort2 selected;
 
-            selected = maxmath.select(t_ushort2.TestData_LHS[0], t_ushort2.TestData_RHS[0], new bool2(false, true));
+            selected = math.select(t_ushort2.TestData_LHS[0], t_ushort2.TestData_RHS[0], new bool2(false, true));
             result &= selected.x == t_ushort2.TestData_LHS[0].x;
             result &= selected.y == t_ushort2.TestData_RHS[0].y;
 
-            selected = maxmath.select(t_ushort2.TestData_LHS[1], t_ushort2.TestData_RHS[1], new bool2(true, true));
+            selected = math.select(t_ushort2.TestData_LHS[1], t_ushort2.TestData_RHS[1], new bool2(true, true));
             result &= selected.x == t_ushort2.TestData_RHS[1].x;
             result &= selected.y == t_ushort2.TestData_RHS[1].y;
 
-            selected = maxmath.select(t_ushort2.TestData_LHS[2], t_ushort2.TestData_RHS[2], new bool2(false, false));
+            selected = math.select(t_ushort2.TestData_LHS[2], t_ushort2.TestData_RHS[2], new bool2(false, false));
             result &= selected.x == t_ushort2.TestData_LHS[2].x;
             result &= selected.y == t_ushort2.TestData_LHS[2].y;
 
-            selected = maxmath.select(t_ushort2.TestData_LHS[3], t_ushort2.TestData_RHS[3], new bool2(true, false));
+            selected = math.select(t_ushort2.TestData_LHS[3], t_ushort2.TestData_RHS[3], new bool2(true, false));
             result &= selected.x == t_ushort2.TestData_RHS[3].x;
             result &= selected.y == t_ushort2.TestData_LHS[3].y;
 
@@ -807,19 +807,19 @@ namespace MaxMath.Tests
 
             short2 selected;
 
-            selected = maxmath.select(t_short2.TestData_LHS[0], t_short2.TestData_RHS[0], new bool2(false, true));
+            selected = math.select(t_short2.TestData_LHS[0], t_short2.TestData_RHS[0], new bool2(false, true));
             result &= selected.x == t_short2.TestData_LHS[0].x;
             result &= selected.y == t_short2.TestData_RHS[0].y;
 
-            selected = maxmath.select(t_short2.TestData_LHS[1], t_short2.TestData_RHS[1], new bool2(true, true));
+            selected = math.select(t_short2.TestData_LHS[1], t_short2.TestData_RHS[1], new bool2(true, true));
             result &= selected.x == t_short2.TestData_RHS[1].x;
             result &= selected.y == t_short2.TestData_RHS[1].y;
 
-            selected = maxmath.select(t_short2.TestData_LHS[2], t_short2.TestData_RHS[2], new bool2(false, false));
+            selected = math.select(t_short2.TestData_LHS[2], t_short2.TestData_RHS[2], new bool2(false, false));
             result &= selected.x == t_short2.TestData_LHS[2].x;
             result &= selected.y == t_short2.TestData_LHS[2].y;
 
-            selected = maxmath.select(t_short2.TestData_LHS[3], t_short2.TestData_RHS[3], new bool2(true, false));
+            selected = math.select(t_short2.TestData_LHS[3], t_short2.TestData_RHS[3], new bool2(true, false));
             result &= selected.x == t_short2.TestData_RHS[3].x;
             result &= selected.y == t_short2.TestData_LHS[3].y;
 
@@ -836,22 +836,22 @@ namespace MaxMath.Tests
 
             ushort3 selected;
 
-            selected = maxmath.select(t_ushort3.TestData_LHS[0], t_ushort3.TestData_RHS[0], new bool3(false, true, true));
+            selected = math.select(t_ushort3.TestData_LHS[0], t_ushort3.TestData_RHS[0], new bool3(false, true, true));
             result &= selected.x == t_ushort3.TestData_LHS[0].x;
             result &= selected.y == t_ushort3.TestData_RHS[0].y;
             result &= selected.z == t_ushort3.TestData_RHS[0].z;
 
-            selected = maxmath.select(t_ushort3.TestData_LHS[1], t_ushort3.TestData_RHS[1], new bool3(true, true, false));
+            selected = math.select(t_ushort3.TestData_LHS[1], t_ushort3.TestData_RHS[1], new bool3(true, true, false));
             result &= selected.x == t_ushort3.TestData_RHS[1].x;
             result &= selected.y == t_ushort3.TestData_RHS[1].y;
             result &= selected.z == t_ushort3.TestData_LHS[1].z;
 
-            selected = maxmath.select(t_ushort3.TestData_LHS[2], t_ushort3.TestData_RHS[2], new bool3(false, false, true));
+            selected = math.select(t_ushort3.TestData_LHS[2], t_ushort3.TestData_RHS[2], new bool3(false, false, true));
             result &= selected.x == t_ushort3.TestData_LHS[2].x;
             result &= selected.y == t_ushort3.TestData_LHS[2].y;
             result &= selected.z == t_ushort3.TestData_RHS[2].z;
 
-            selected = maxmath.select(t_ushort3.TestData_LHS[3], t_ushort3.TestData_RHS[3], new bool3(true, false, true));
+            selected = math.select(t_ushort3.TestData_LHS[3], t_ushort3.TestData_RHS[3], new bool3(true, false, true));
             result &= selected.x == t_ushort3.TestData_RHS[3].x;
             result &= selected.y == t_ushort3.TestData_LHS[3].y;
             result &= selected.z == t_ushort3.TestData_RHS[3].z;
@@ -868,22 +868,22 @@ namespace MaxMath.Tests
 
             short3 selected;
 
-            selected = maxmath.select(t_short3.TestData_LHS[0], t_short3.TestData_RHS[0], new bool3(false, true, true));
+            selected = math.select(t_short3.TestData_LHS[0], t_short3.TestData_RHS[0], new bool3(false, true, true));
             result &= selected.x == t_short3.TestData_LHS[0].x;
             result &= selected.y == t_short3.TestData_RHS[0].y;
             result &= selected.z == t_short3.TestData_RHS[0].z;
 
-            selected = maxmath.select(t_short3.TestData_LHS[1], t_short3.TestData_RHS[1], new bool3(true, true, false));
+            selected = math.select(t_short3.TestData_LHS[1], t_short3.TestData_RHS[1], new bool3(true, true, false));
             result &= selected.x == t_short3.TestData_RHS[1].x;
             result &= selected.y == t_short3.TestData_RHS[1].y;
             result &= selected.z == t_short3.TestData_LHS[1].z;
 
-            selected = maxmath.select(t_short3.TestData_LHS[2], t_short3.TestData_RHS[2], new bool3(false, false, true));
+            selected = math.select(t_short3.TestData_LHS[2], t_short3.TestData_RHS[2], new bool3(false, false, true));
             result &= selected.x == t_short3.TestData_LHS[2].x;
             result &= selected.y == t_short3.TestData_LHS[2].y;
             result &= selected.z == t_short3.TestData_RHS[2].z;
 
-            selected = maxmath.select(t_short3.TestData_LHS[3], t_short3.TestData_RHS[3], new bool3(true, false, true));
+            selected = math.select(t_short3.TestData_LHS[3], t_short3.TestData_RHS[3], new bool3(true, false, true));
             result &= selected.x == t_short3.TestData_RHS[3].x;
             result &= selected.y == t_short3.TestData_LHS[3].y;
             result &= selected.z == t_short3.TestData_RHS[3].z;
@@ -901,25 +901,25 @@ namespace MaxMath.Tests
 
             ushort4 selected;
 
-            selected = maxmath.select(t_ushort4.TestData_LHS[0], t_ushort4.TestData_RHS[0], new bool4(false, true, true, true));
+            selected = math.select(t_ushort4.TestData_LHS[0], t_ushort4.TestData_RHS[0], new bool4(false, true, true, true));
             result &= selected.x == t_ushort4.TestData_LHS[0].x;
             result &= selected.y == t_ushort4.TestData_RHS[0].y;
             result &= selected.z == t_ushort4.TestData_RHS[0].z;
             result &= selected.w == t_ushort4.TestData_RHS[0].w;
 
-            selected = maxmath.select(t_ushort4.TestData_LHS[1], t_ushort4.TestData_RHS[1], new bool4(true, true, true, false));
+            selected = math.select(t_ushort4.TestData_LHS[1], t_ushort4.TestData_RHS[1], new bool4(true, true, true, false));
             result &= selected.x == t_ushort4.TestData_RHS[1].x;
             result &= selected.y == t_ushort4.TestData_RHS[1].y;
             result &= selected.z == t_ushort4.TestData_RHS[1].z;
             result &= selected.w == t_ushort4.TestData_LHS[1].w;
 
-            selected = maxmath.select(t_ushort4.TestData_LHS[2], t_ushort4.TestData_RHS[2], new bool4(false, true, true, false));
+            selected = math.select(t_ushort4.TestData_LHS[2], t_ushort4.TestData_RHS[2], new bool4(false, true, true, false));
             result &= selected.x == t_ushort4.TestData_LHS[2].x;
             result &= selected.y == t_ushort4.TestData_RHS[2].y;
             result &= selected.z == t_ushort4.TestData_RHS[2].z;
             result &= selected.w == t_ushort4.TestData_LHS[2].w;
 
-            selected = maxmath.select(t_ushort4.TestData_LHS[3], t_ushort4.TestData_RHS[3], new bool4(true, false, true, true));
+            selected = math.select(t_ushort4.TestData_LHS[3], t_ushort4.TestData_RHS[3], new bool4(true, false, true, true));
             result &= selected.x == t_ushort4.TestData_RHS[3].x;
             result &= selected.y == t_ushort4.TestData_LHS[3].y;
             result &= selected.z == t_ushort4.TestData_RHS[3].z;
@@ -937,25 +937,25 @@ namespace MaxMath.Tests
 
             short4 selected;
 
-            selected = maxmath.select(t_short4.TestData_LHS[0], t_short4.TestData_RHS[0], new bool4(false, true, true, true));
+            selected = math.select(t_short4.TestData_LHS[0], t_short4.TestData_RHS[0], new bool4(false, true, true, true));
             result &= selected.x == t_short4.TestData_LHS[0].x;
             result &= selected.y == t_short4.TestData_RHS[0].y;
             result &= selected.z == t_short4.TestData_RHS[0].z;
             result &= selected.w == t_short4.TestData_RHS[0].w;
 
-            selected = maxmath.select(t_short4.TestData_LHS[1], t_short4.TestData_RHS[1], new bool4(true, true, true, false));
+            selected = math.select(t_short4.TestData_LHS[1], t_short4.TestData_RHS[1], new bool4(true, true, true, false));
             result &= selected.x == t_short4.TestData_RHS[1].x;
             result &= selected.y == t_short4.TestData_RHS[1].y;
             result &= selected.z == t_short4.TestData_RHS[1].z;
             result &= selected.w == t_short4.TestData_LHS[1].w;
 
-            selected = maxmath.select(t_short4.TestData_LHS[2], t_short4.TestData_RHS[2], new bool4(false, true, true, false));
+            selected = math.select(t_short4.TestData_LHS[2], t_short4.TestData_RHS[2], new bool4(false, true, true, false));
             result &= selected.x == t_short4.TestData_LHS[2].x;
             result &= selected.y == t_short4.TestData_RHS[2].y;
             result &= selected.z == t_short4.TestData_RHS[2].z;
             result &= selected.w == t_short4.TestData_LHS[2].w;
 
-            selected = maxmath.select(t_short4.TestData_LHS[3], t_short4.TestData_RHS[3], new bool4(true, false, true, true));
+            selected = math.select(t_short4.TestData_LHS[3], t_short4.TestData_RHS[3], new bool4(true, false, true, true));
             result &= selected.x == t_short4.TestData_RHS[3].x;
             result &= selected.y == t_short4.TestData_LHS[3].y;
             result &= selected.z == t_short4.TestData_RHS[3].z;
@@ -974,7 +974,7 @@ namespace MaxMath.Tests
 
             ushort8 selected;
 
-            selected = maxmath.select(t_ushort8.TestData_LHS[0], t_ushort8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
+            selected = math.select(t_ushort8.TestData_LHS[0], t_ushort8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
             result &= selected.x0  == t_ushort8.TestData_RHS[0].x0;
             result &= selected.x1  == t_ushort8.TestData_RHS[0].x1;
             result &= selected.x2  == t_ushort8.TestData_LHS[0].x2;
@@ -984,7 +984,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_ushort8.TestData_LHS[0].x6;
             result &= selected.x7  == t_ushort8.TestData_RHS[0].x7;
 
-            selected = maxmath.select(t_ushort8.TestData_LHS[1], t_ushort8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
+            selected = math.select(t_ushort8.TestData_LHS[1], t_ushort8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
             result &= selected.x0  == t_ushort8.TestData_RHS[1].x0;
             result &= selected.x1  == t_ushort8.TestData_RHS[1].x1;
             result &= selected.x2  == t_ushort8.TestData_LHS[1].x2;
@@ -994,7 +994,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_ushort8.TestData_RHS[1].x6;
             result &= selected.x7  == t_ushort8.TestData_RHS[1].x7;
 
-            selected = maxmath.select(t_ushort8.TestData_LHS[2], t_ushort8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
+            selected = math.select(t_ushort8.TestData_LHS[2], t_ushort8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
             result &= selected.x0  == t_ushort8.TestData_RHS[2].x0;
             result &= selected.x1  == t_ushort8.TestData_LHS[2].x1;
             result &= selected.x2  == t_ushort8.TestData_LHS[2].x2;
@@ -1004,7 +1004,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_ushort8.TestData_LHS[2].x6;
             result &= selected.x7  == t_ushort8.TestData_LHS[2].x7;
 
-            selected = maxmath.select(t_ushort8.TestData_LHS[3], t_ushort8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
+            selected = math.select(t_ushort8.TestData_LHS[3], t_ushort8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
             result &= selected.x0  == t_ushort8.TestData_RHS[3].x0;
             result &= selected.x1  == t_ushort8.TestData_RHS[3].x1;
             result &= selected.x2  == t_ushort8.TestData_LHS[3].x2;
@@ -1026,7 +1026,7 @@ namespace MaxMath.Tests
 
             short8 selected;
 
-            selected = maxmath.select(t_short8.TestData_LHS[0], t_short8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
+            selected = math.select(t_short8.TestData_LHS[0], t_short8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
             result &= selected.x0  == t_short8.TestData_RHS[0].x0;
             result &= selected.x1  == t_short8.TestData_RHS[0].x1;
             result &= selected.x2  == t_short8.TestData_LHS[0].x2;
@@ -1036,7 +1036,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_short8.TestData_LHS[0].x6;
             result &= selected.x7  == t_short8.TestData_RHS[0].x7;
 
-            selected = maxmath.select(t_short8.TestData_LHS[1], t_short8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
+            selected = math.select(t_short8.TestData_LHS[1], t_short8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
             result &= selected.x0  == t_short8.TestData_RHS[1].x0;
             result &= selected.x1  == t_short8.TestData_RHS[1].x1;
             result &= selected.x2  == t_short8.TestData_LHS[1].x2;
@@ -1046,7 +1046,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_short8.TestData_RHS[1].x6;
             result &= selected.x7  == t_short8.TestData_RHS[1].x7;
 
-            selected = maxmath.select(t_short8.TestData_LHS[2], t_short8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
+            selected = math.select(t_short8.TestData_LHS[2], t_short8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
             result &= selected.x0  == t_short8.TestData_RHS[2].x0;
             result &= selected.x1  == t_short8.TestData_LHS[2].x1;
             result &= selected.x2  == t_short8.TestData_LHS[2].x2;
@@ -1056,7 +1056,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_short8.TestData_LHS[2].x6;
             result &= selected.x7  == t_short8.TestData_LHS[2].x7;
 
-            selected = maxmath.select(t_short8.TestData_LHS[3], t_short8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
+            selected = math.select(t_short8.TestData_LHS[3], t_short8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
             result &= selected.x0  == t_short8.TestData_RHS[3].x0;
             result &= selected.x1  == t_short8.TestData_RHS[3].x1;
             result &= selected.x2  == t_short8.TestData_LHS[3].x2;
@@ -1079,7 +1079,7 @@ namespace MaxMath.Tests
 
             ushort16 selected;
 
-            selected = maxmath.select(t_ushort16.TestData_LHS[0], t_ushort16.TestData_RHS[0], new bool16(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true));
+            selected = math.select(t_ushort16.TestData_LHS[0], t_ushort16.TestData_RHS[0], new bool16(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true));
             result &= selected.x0  == t_ushort16.TestData_RHS[0].x0;
             result &= selected.x1  == t_ushort16.TestData_RHS[0].x1;
             result &= selected.x2  == t_ushort16.TestData_LHS[0].x2;
@@ -1097,7 +1097,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_ushort16.TestData_LHS[0].x14;
             result &= selected.x15 == t_ushort16.TestData_RHS[0].x15;
 
-            selected = maxmath.select(t_ushort16.TestData_LHS[1], t_ushort16.TestData_RHS[1], new bool16(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false));
+            selected = math.select(t_ushort16.TestData_LHS[1], t_ushort16.TestData_RHS[1], new bool16(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false));
             result &= selected.x0  == t_ushort16.TestData_RHS[1].x0;
             result &= selected.x1  == t_ushort16.TestData_RHS[1].x1;
             result &= selected.x2  == t_ushort16.TestData_LHS[1].x2;
@@ -1115,7 +1115,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_ushort16.TestData_LHS[1].x14;
             result &= selected.x15 == t_ushort16.TestData_LHS[1].x15;
 
-            selected = maxmath.select(t_ushort16.TestData_LHS[2], t_ushort16.TestData_RHS[2], new bool16(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false));
+            selected = math.select(t_ushort16.TestData_LHS[2], t_ushort16.TestData_RHS[2], new bool16(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false));
             result &= selected.x0  == t_ushort16.TestData_RHS[2].x0;
             result &= selected.x1  == t_ushort16.TestData_LHS[2].x1;
             result &= selected.x2  == t_ushort16.TestData_LHS[2].x2;
@@ -1133,7 +1133,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_ushort16.TestData_RHS[2].x14;
             result &= selected.x15 == t_ushort16.TestData_LHS[2].x15;
 
-            selected = maxmath.select(t_ushort16.TestData_LHS[3], t_ushort16.TestData_RHS[3], new bool16(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false));
+            selected = math.select(t_ushort16.TestData_LHS[3], t_ushort16.TestData_RHS[3], new bool16(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false));
             result &= selected.x0  == t_ushort16.TestData_RHS[3].x0;
             result &= selected.x1  == t_ushort16.TestData_RHS[3].x1;
             result &= selected.x2  == t_ushort16.TestData_LHS[3].x2;
@@ -1163,7 +1163,7 @@ namespace MaxMath.Tests
 
             short16 selected;
 
-            selected = maxmath.select(t_short16.TestData_LHS[0], t_short16.TestData_RHS[0], new bool16(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true));
+            selected = math.select(t_short16.TestData_LHS[0], t_short16.TestData_RHS[0], new bool16(true, true, false, true, true, true, false, true, false, true, false, true, false, true, false, true));
             result &= selected.x0  == t_short16.TestData_RHS[0].x0;
             result &= selected.x1  == t_short16.TestData_RHS[0].x1;
             result &= selected.x2  == t_short16.TestData_LHS[0].x2;
@@ -1181,7 +1181,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_short16.TestData_LHS[0].x14;
             result &= selected.x15 == t_short16.TestData_RHS[0].x15;
 
-            selected = maxmath.select(t_short16.TestData_LHS[1], t_short16.TestData_RHS[1], new bool16(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false));
+            selected = math.select(t_short16.TestData_LHS[1], t_short16.TestData_RHS[1], new bool16(true, true, false, false, false, true, true, true, true, true, false, false, false, true, false, false));
             result &= selected.x0  == t_short16.TestData_RHS[1].x0;
             result &= selected.x1  == t_short16.TestData_RHS[1].x1;
             result &= selected.x2  == t_short16.TestData_LHS[1].x2;
@@ -1199,7 +1199,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_short16.TestData_LHS[1].x14;
             result &= selected.x15 == t_short16.TestData_LHS[1].x15;
 
-            selected = maxmath.select(t_short16.TestData_LHS[2], t_short16.TestData_RHS[2], new bool16(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false));
+            selected = math.select(t_short16.TestData_LHS[2], t_short16.TestData_RHS[2], new bool16(true, false, false, true, false, true, false, false, true, true, false, true, true, true, true, false));
             result &= selected.x0  == t_short16.TestData_RHS[2].x0;
             result &= selected.x1  == t_short16.TestData_LHS[2].x1;
             result &= selected.x2  == t_short16.TestData_LHS[2].x2;
@@ -1217,7 +1217,7 @@ namespace MaxMath.Tests
             result &= selected.x14 == t_short16.TestData_RHS[2].x14;
             result &= selected.x15 == t_short16.TestData_LHS[2].x15;
 
-            selected = maxmath.select(t_short16.TestData_LHS[3], t_short16.TestData_RHS[3], new bool16(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false));
+            selected = math.select(t_short16.TestData_LHS[3], t_short16.TestData_RHS[3], new bool16(true, true, false, true, true, true, true, true, false, true, true, true, false, true, false, false));
             result &= selected.x0  == t_short16.TestData_RHS[3].x0;
             result &= selected.x1  == t_short16.TestData_RHS[3].x1;
             result &= selected.x2  == t_short16.TestData_LHS[3].x2;
@@ -1247,7 +1247,7 @@ namespace MaxMath.Tests
 
             uint8 selected;
 
-            selected = maxmath.select(t_uint8.TestData_LHS[0], t_uint8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
+            selected = math.select(t_uint8.TestData_LHS[0], t_uint8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
             result &= selected.x0  == t_uint8.TestData_RHS[0].x0;
             result &= selected.x1  == t_uint8.TestData_RHS[0].x1;
             result &= selected.x2  == t_uint8.TestData_LHS[0].x2;
@@ -1257,7 +1257,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_uint8.TestData_LHS[0].x6;
             result &= selected.x7  == t_uint8.TestData_RHS[0].x7;
 
-            selected = maxmath.select(t_uint8.TestData_LHS[1], t_uint8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
+            selected = math.select(t_uint8.TestData_LHS[1], t_uint8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
             result &= selected.x0  == t_uint8.TestData_RHS[1].x0;
             result &= selected.x1  == t_uint8.TestData_RHS[1].x1;
             result &= selected.x2  == t_uint8.TestData_LHS[1].x2;
@@ -1267,7 +1267,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_uint8.TestData_RHS[1].x6;
             result &= selected.x7  == t_uint8.TestData_RHS[1].x7;
 
-            selected = maxmath.select(t_uint8.TestData_LHS[2], t_uint8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
+            selected = math.select(t_uint8.TestData_LHS[2], t_uint8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
             result &= selected.x0  == t_uint8.TestData_RHS[2].x0;
             result &= selected.x1  == t_uint8.TestData_LHS[2].x1;
             result &= selected.x2  == t_uint8.TestData_LHS[2].x2;
@@ -1277,7 +1277,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_uint8.TestData_LHS[2].x6;
             result &= selected.x7  == t_uint8.TestData_LHS[2].x7;
 
-            selected = maxmath.select(t_uint8.TestData_LHS[3], t_uint8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
+            selected = math.select(t_uint8.TestData_LHS[3], t_uint8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
             result &= selected.x0  == t_uint8.TestData_RHS[3].x0;
             result &= selected.x1  == t_uint8.TestData_RHS[3].x1;
             result &= selected.x2  == t_uint8.TestData_LHS[3].x2;
@@ -1299,7 +1299,7 @@ namespace MaxMath.Tests
 
             int8 selected;
 
-            selected = maxmath.select(t_int8.TestData_LHS[0], t_int8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
+            selected = math.select(t_int8.TestData_LHS[0], t_int8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
             result &= selected.x0  == t_int8.TestData_RHS[0].x0;
             result &= selected.x1  == t_int8.TestData_RHS[0].x1;
             result &= selected.x2  == t_int8.TestData_LHS[0].x2;
@@ -1309,7 +1309,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_int8.TestData_LHS[0].x6;
             result &= selected.x7  == t_int8.TestData_RHS[0].x7;
 
-            selected = maxmath.select(t_int8.TestData_LHS[1], t_int8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
+            selected = math.select(t_int8.TestData_LHS[1], t_int8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
             result &= selected.x0  == t_int8.TestData_RHS[1].x0;
             result &= selected.x1  == t_int8.TestData_RHS[1].x1;
             result &= selected.x2  == t_int8.TestData_LHS[1].x2;
@@ -1319,7 +1319,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_int8.TestData_RHS[1].x6;
             result &= selected.x7  == t_int8.TestData_RHS[1].x7;
 
-            selected = maxmath.select(t_int8.TestData_LHS[2], t_int8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
+            selected = math.select(t_int8.TestData_LHS[2], t_int8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
             result &= selected.x0  == t_int8.TestData_RHS[2].x0;
             result &= selected.x1  == t_int8.TestData_LHS[2].x1;
             result &= selected.x2  == t_int8.TestData_LHS[2].x2;
@@ -1329,7 +1329,7 @@ namespace MaxMath.Tests
             result &= selected.x6  == t_int8.TestData_LHS[2].x6;
             result &= selected.x7  == t_int8.TestData_LHS[2].x7;
 
-            selected = maxmath.select(t_int8.TestData_LHS[3], t_int8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
+            selected = math.select(t_int8.TestData_LHS[3], t_int8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
             result &= selected.x0  == t_int8.TestData_RHS[3].x0;
             result &= selected.x1  == t_int8.TestData_RHS[3].x1;
             result &= selected.x2  == t_int8.TestData_LHS[3].x2;
@@ -1352,19 +1352,19 @@ namespace MaxMath.Tests
 
             ulong2 selected;
 
-            selected = maxmath.select(t_ulong2.TestData_LHS[0], t_ulong2.TestData_RHS[0], new bool2(false, true));
+            selected = math.select(t_ulong2.TestData_LHS[0], t_ulong2.TestData_RHS[0], new bool2(false, true));
             result &= selected.x == t_ulong2.TestData_LHS[0].x;
             result &= selected.y == t_ulong2.TestData_RHS[0].y;
 
-            selected = maxmath.select(t_ulong2.TestData_LHS[1], t_ulong2.TestData_RHS[1], new bool2(true, true));
+            selected = math.select(t_ulong2.TestData_LHS[1], t_ulong2.TestData_RHS[1], new bool2(true, true));
             result &= selected.x == t_ulong2.TestData_RHS[1].x;
             result &= selected.y == t_ulong2.TestData_RHS[1].y;
 
-            selected = maxmath.select(t_ulong2.TestData_LHS[2], t_ulong2.TestData_RHS[2], new bool2(false, false));
+            selected = math.select(t_ulong2.TestData_LHS[2], t_ulong2.TestData_RHS[2], new bool2(false, false));
             result &= selected.x == t_ulong2.TestData_LHS[2].x;
             result &= selected.y == t_ulong2.TestData_LHS[2].y;
 
-            selected = maxmath.select(t_ulong2.TestData_LHS[3], t_ulong2.TestData_RHS[3], new bool2(true, false));
+            selected = math.select(t_ulong2.TestData_LHS[3], t_ulong2.TestData_RHS[3], new bool2(true, false));
             result &= selected.x == t_ulong2.TestData_RHS[3].x;
             result &= selected.y == t_ulong2.TestData_LHS[3].y;
 
@@ -1380,19 +1380,19 @@ namespace MaxMath.Tests
 
             long2 selected;
 
-            selected = maxmath.select(t_long2.TestData_LHS[0], t_long2.TestData_RHS[0], new bool2(false, true));
+            selected = math.select(t_long2.TestData_LHS[0], t_long2.TestData_RHS[0], new bool2(false, true));
             result &= selected.x == t_long2.TestData_LHS[0].x;
             result &= selected.y == t_long2.TestData_RHS[0].y;
 
-            selected = maxmath.select(t_long2.TestData_LHS[1], t_long2.TestData_RHS[1], new bool2(true, true));
+            selected = math.select(t_long2.TestData_LHS[1], t_long2.TestData_RHS[1], new bool2(true, true));
             result &= selected.x == t_long2.TestData_RHS[1].x;
             result &= selected.y == t_long2.TestData_RHS[1].y;
 
-            selected = maxmath.select(t_long2.TestData_LHS[2], t_long2.TestData_RHS[2], new bool2(false, false));
+            selected = math.select(t_long2.TestData_LHS[2], t_long2.TestData_RHS[2], new bool2(false, false));
             result &= selected.x == t_long2.TestData_LHS[2].x;
             result &= selected.y == t_long2.TestData_LHS[2].y;
 
-            selected = maxmath.select(t_long2.TestData_LHS[3], t_long2.TestData_RHS[3], new bool2(true, false));
+            selected = math.select(t_long2.TestData_LHS[3], t_long2.TestData_RHS[3], new bool2(true, false));
             result &= selected.x == t_long2.TestData_RHS[3].x;
             result &= selected.y == t_long2.TestData_LHS[3].y;
 
@@ -1409,22 +1409,22 @@ namespace MaxMath.Tests
 
             ulong3 selected;
 
-            selected = maxmath.select(t_ulong3.TestData_LHS[0], t_ulong3.TestData_RHS[0], new bool3(false, true, true));
+            selected = math.select(t_ulong3.TestData_LHS[0], t_ulong3.TestData_RHS[0], new bool3(false, true, true));
             result &= selected.x == t_ulong3.TestData_LHS[0].x;
             result &= selected.y == t_ulong3.TestData_RHS[0].y;
             result &= selected.z == t_ulong3.TestData_RHS[0].z;
 
-            selected = maxmath.select(t_ulong3.TestData_LHS[1], t_ulong3.TestData_RHS[1], new bool3(true, true, false));
+            selected = math.select(t_ulong3.TestData_LHS[1], t_ulong3.TestData_RHS[1], new bool3(true, true, false));
             result &= selected.x == t_ulong3.TestData_RHS[1].x;
             result &= selected.y == t_ulong3.TestData_RHS[1].y;
             result &= selected.z == t_ulong3.TestData_LHS[1].z;
 
-            selected = maxmath.select(t_ulong3.TestData_LHS[2], t_ulong3.TestData_RHS[2], new bool3(false, false, true));
+            selected = math.select(t_ulong3.TestData_LHS[2], t_ulong3.TestData_RHS[2], new bool3(false, false, true));
             result &= selected.x == t_ulong3.TestData_LHS[2].x;
             result &= selected.y == t_ulong3.TestData_LHS[2].y;
             result &= selected.z == t_ulong3.TestData_RHS[2].z;
 
-            selected = maxmath.select(t_ulong3.TestData_LHS[3], t_ulong3.TestData_RHS[3], new bool3(true, false, true));
+            selected = math.select(t_ulong3.TestData_LHS[3], t_ulong3.TestData_RHS[3], new bool3(true, false, true));
             result &= selected.x == t_ulong3.TestData_RHS[3].x;
             result &= selected.y == t_ulong3.TestData_LHS[3].y;
             result &= selected.z == t_ulong3.TestData_RHS[3].z;
@@ -1441,22 +1441,22 @@ namespace MaxMath.Tests
 
             long3 selected;
 
-            selected = maxmath.select(t_long3.TestData_LHS[0], t_long3.TestData_RHS[0], new bool3(false, true, true));
+            selected = math.select(t_long3.TestData_LHS[0], t_long3.TestData_RHS[0], new bool3(false, true, true));
             result &= selected.x == t_long3.TestData_LHS[0].x;
             result &= selected.y == t_long3.TestData_RHS[0].y;
             result &= selected.z == t_long3.TestData_RHS[0].z;
 
-            selected = maxmath.select(t_long3.TestData_LHS[1], t_long3.TestData_RHS[1], new bool3(true, true, false));
+            selected = math.select(t_long3.TestData_LHS[1], t_long3.TestData_RHS[1], new bool3(true, true, false));
             result &= selected.x == t_long3.TestData_RHS[1].x;
             result &= selected.y == t_long3.TestData_RHS[1].y;
             result &= selected.z == t_long3.TestData_LHS[1].z;
 
-            selected = maxmath.select(t_long3.TestData_LHS[2], t_long3.TestData_RHS[2], new bool3(false, false, true));
+            selected = math.select(t_long3.TestData_LHS[2], t_long3.TestData_RHS[2], new bool3(false, false, true));
             result &= selected.x == t_long3.TestData_LHS[2].x;
             result &= selected.y == t_long3.TestData_LHS[2].y;
             result &= selected.z == t_long3.TestData_RHS[2].z;
 
-            selected = maxmath.select(t_long3.TestData_LHS[3], t_long3.TestData_RHS[3], new bool3(true, false, true));
+            selected = math.select(t_long3.TestData_LHS[3], t_long3.TestData_RHS[3], new bool3(true, false, true));
             result &= selected.x == t_long3.TestData_RHS[3].x;
             result &= selected.y == t_long3.TestData_LHS[3].y;
             result &= selected.z == t_long3.TestData_RHS[3].z;
@@ -1474,25 +1474,25 @@ namespace MaxMath.Tests
 
             ulong4 selected;
 
-            selected = maxmath.select(t_ulong4.TestData_LHS[0], t_ulong4.TestData_RHS[0], new bool4(false, true, true, true));
+            selected = math.select(t_ulong4.TestData_LHS[0], t_ulong4.TestData_RHS[0], new bool4(false, true, true, true));
             result &= selected.x == t_ulong4.TestData_LHS[0].x;
             result &= selected.y == t_ulong4.TestData_RHS[0].y;
             result &= selected.z == t_ulong4.TestData_RHS[0].z;
             result &= selected.w == t_ulong4.TestData_RHS[0].w;
 
-            selected = maxmath.select(t_ulong4.TestData_LHS[1], t_ulong4.TestData_RHS[1], new bool4(true, true, true, false));
+            selected = math.select(t_ulong4.TestData_LHS[1], t_ulong4.TestData_RHS[1], new bool4(true, true, true, false));
             result &= selected.x == t_ulong4.TestData_RHS[1].x;
             result &= selected.y == t_ulong4.TestData_RHS[1].y;
             result &= selected.z == t_ulong4.TestData_RHS[1].z;
             result &= selected.w == t_ulong4.TestData_LHS[1].w;
 
-            selected = maxmath.select(t_ulong4.TestData_LHS[2], t_ulong4.TestData_RHS[2], new bool4(false, true, true, false));
+            selected = math.select(t_ulong4.TestData_LHS[2], t_ulong4.TestData_RHS[2], new bool4(false, true, true, false));
             result &= selected.x == t_ulong4.TestData_LHS[2].x;
             result &= selected.y == t_ulong4.TestData_RHS[2].y;
             result &= selected.z == t_ulong4.TestData_RHS[2].z;
             result &= selected.w == t_ulong4.TestData_LHS[2].w;
 
-            selected = maxmath.select(t_ulong4.TestData_LHS[3], t_ulong4.TestData_RHS[3], new bool4(true, false, true, true));
+            selected = math.select(t_ulong4.TestData_LHS[3], t_ulong4.TestData_RHS[3], new bool4(true, false, true, true));
             result &= selected.x == t_ulong4.TestData_RHS[3].x;
             result &= selected.y == t_ulong4.TestData_LHS[3].y;
             result &= selected.z == t_ulong4.TestData_RHS[3].z;
@@ -1510,25 +1510,25 @@ namespace MaxMath.Tests
 
             long4 selected;
 
-            selected = maxmath.select(t_long4.TestData_LHS[0], t_long4.TestData_RHS[0], new bool4(false, true, true, true));
+            selected = math.select(t_long4.TestData_LHS[0], t_long4.TestData_RHS[0], new bool4(false, true, true, true));
             result &= selected.x == t_long4.TestData_LHS[0].x;
             result &= selected.y == t_long4.TestData_RHS[0].y;
             result &= selected.z == t_long4.TestData_RHS[0].z;
             result &= selected.w == t_long4.TestData_RHS[0].w;
 
-            selected = maxmath.select(t_long4.TestData_LHS[1], t_long4.TestData_RHS[1], new bool4(true, true, true, false));
+            selected = math.select(t_long4.TestData_LHS[1], t_long4.TestData_RHS[1], new bool4(true, true, true, false));
             result &= selected.x == t_long4.TestData_RHS[1].x;
             result &= selected.y == t_long4.TestData_RHS[1].y;
             result &= selected.z == t_long4.TestData_RHS[1].z;
             result &= selected.w == t_long4.TestData_LHS[1].w;
 
-            selected = maxmath.select(t_long4.TestData_LHS[2], t_long4.TestData_RHS[2], new bool4(false, true, true, false));
+            selected = math.select(t_long4.TestData_LHS[2], t_long4.TestData_RHS[2], new bool4(false, true, true, false));
             result &= selected.x == t_long4.TestData_LHS[2].x;
             result &= selected.y == t_long4.TestData_RHS[2].y;
             result &= selected.z == t_long4.TestData_RHS[2].z;
             result &= selected.w == t_long4.TestData_LHS[2].w;
 
-            selected = maxmath.select(t_long4.TestData_LHS[3], t_long4.TestData_RHS[3], new bool4(true, false, true, true));
+            selected = math.select(t_long4.TestData_LHS[3], t_long4.TestData_RHS[3], new bool4(true, false, true, true));
             result &= selected.x == t_long4.TestData_RHS[3].x;
             result &= selected.y == t_long4.TestData_LHS[3].y;
             result &= selected.z == t_long4.TestData_RHS[3].z;
@@ -1547,7 +1547,7 @@ namespace MaxMath.Tests
 
             float8 selected;
 
-            selected = maxmath.select(t_float8.TestData_LHS[0], t_float8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
+            selected = math.select(t_float8.TestData_LHS[0], t_float8.TestData_RHS[0], new bool8(true, true, false, true, true, true, false, true));
             result &= selected.x0 == t_float8.TestData_RHS[0].x0;
             result &= selected.x1 == t_float8.TestData_RHS[0].x1;
             result &= selected.x2 == t_float8.TestData_LHS[0].x2;
@@ -1557,7 +1557,7 @@ namespace MaxMath.Tests
             result &= selected.x6 == t_float8.TestData_LHS[0].x6;
             result &= selected.x7 == t_float8.TestData_RHS[0].x7;
 
-            selected = maxmath.select(t_float8.TestData_LHS[1], t_float8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
+            selected = math.select(t_float8.TestData_LHS[1], t_float8.TestData_RHS[1], new bool8(true, true, false, false, false, true, true, true));
             result &= selected.x0 == t_float8.TestData_RHS[1].x0;
             result &= selected.x1 == t_float8.TestData_RHS[1].x1;
             result &= selected.x2 == t_float8.TestData_LHS[1].x2;
@@ -1567,7 +1567,7 @@ namespace MaxMath.Tests
             result &= selected.x6 == t_float8.TestData_RHS[1].x6;
             result &= selected.x7 == t_float8.TestData_RHS[1].x7;
 
-            selected = maxmath.select(t_float8.TestData_LHS[2], t_float8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
+            selected = math.select(t_float8.TestData_LHS[2], t_float8.TestData_RHS[2], new bool8(true, false, false, true, false, true, false, false));
             result &= selected.x0 == t_float8.TestData_RHS[2].x0;
             result &= selected.x1 == t_float8.TestData_LHS[2].x1;
             result &= selected.x2 == t_float8.TestData_LHS[2].x2;
@@ -1577,7 +1577,7 @@ namespace MaxMath.Tests
             result &= selected.x6 == t_float8.TestData_LHS[2].x6;
             result &= selected.x7 == t_float8.TestData_LHS[2].x7;
 
-            selected = maxmath.select(t_float8.TestData_LHS[3], t_float8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
+            selected = math.select(t_float8.TestData_LHS[3], t_float8.TestData_RHS[3], new bool8(true, true, false, true, true, true, true, true));
             result &= selected.x0 == t_float8.TestData_RHS[3].x0;
             result &= selected.x1 == t_float8.TestData_RHS[3].x1;
             result &= selected.x2 == t_float8.TestData_LHS[3].x2;

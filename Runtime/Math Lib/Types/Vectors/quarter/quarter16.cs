@@ -1,63 +1,18 @@
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, Size = 16 * sizeof(byte))]
-    [DebuggerTypeProxy(typeof(quarter16.DebuggerProxy))]
-    unsafe public struct quarter16 : IEquatable<quarter16>, IFormattable
+#if DEBUG
+    internal sealed class quarter16DebuggerProxy
     {
-        internal sealed class DebuggerProxy
-        {
-            public quarter x0;
-            public quarter x1;
-            public quarter x2;
-            public quarter x3;
-            public quarter x4;
-            public quarter x5;
-            public quarter x6;
-            public quarter x7;
-            public quarter x8;
-            public quarter x9;
-            public quarter x10;
-            public quarter x11;
-            public quarter x12;
-            public quarter x13;
-            public quarter x14;
-            public quarter x15;
-
-            public DebuggerProxy(quarter16 v)
-            {
-                x0  = v.x0;
-                x1  = v.x1;
-                x2  = v.x2;
-                x3  = v.x3;
-                x4  = v.x4;
-                x5  = v.x5;
-                x6  = v.x6;
-                x7  = v.x7;
-                x8  = v.x8;
-                x9  = v.x9;
-                x10 = v.x10;
-                x11 = v.x11;
-                x12 = v.x12;
-                x13 = v.x13;
-                x14 = v.x14;
-                x15 = v.x15;
-            }
-        }
-
-
         public quarter x0;
         public quarter x1;
         public quarter x2;
@@ -74,6 +29,59 @@ namespace MaxMath
         public quarter x13;
         public quarter x14;
         public quarter x15;
+        
+        public quarter16DebuggerProxy(quarter16 v)
+        {
+            x0  = v.x0;
+            x1  = v.x1;
+            x2  = v.x2;
+            x3  = v.x3;
+            x4  = v.x4;
+            x5  = v.x5;
+            x6  = v.x6;
+            x7  = v.x7;
+            x8  = v.x8;
+            x9  = v.x9;
+            x10 = v.x10;
+            x11 = v.x11;
+            x12 = v.x12;
+            x13 = v.x13;
+            x14 = v.x14;
+            x15 = v.x15;
+        }
+    }
+
+    [System.Diagnostics.DebuggerTypeProxy(typeof(quarter16DebuggerProxy))]
+#endif
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    unsafe public struct quarter16 : IEquatable<quarter16>, IFormattable
+    {
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal ulong __x0;
+#if UNITY_EDITOR
+        [UnityEngine.SerializeField]
+#endif
+        internal ulong __x8;
+        
+        public ref quarter x0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  0); } } }
+        public ref quarter x1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  1); } } }
+        public ref quarter x2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  2); } } }
+        public ref quarter x3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  3); } } }
+        public ref quarter x4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  4); } } }
+        public ref quarter x5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  5); } } }
+        public ref quarter x6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  6); } } }
+        public ref quarter x7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  7); } } }
+        public ref quarter x8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  8); } } }
+        public ref quarter x9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr +  9); } } }
+        public ref quarter x10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr + 10); } } }
+        public ref quarter x11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr + 11); } } }
+        public ref quarter x12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr + 12); } } }
+        public ref quarter x13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr + 13); } } }
+        public ref quarter x14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr + 14); } } }
+        public ref quarter x15 { [MethodImpl(MethodImplOptions.AggressiveInlining)] get { fixed(quarter16* ptr = &this) { return ref *((quarter*)ptr + 15); } } }
 
 
         public static quarter16 zero => default;
@@ -156,73 +164,506 @@ namespace MaxMath
         {
             this = asquarter(new byte16(asbyte(x01234567), asbyte(x8_9_10_11_12_13_14_15)));
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(bool v)
+        {
+            this = (quarter16)v;
+        }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(bool16 v)
+        {
+            this = (quarter16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(mask8x16 v)
+        {
+            this = (quarter16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(mask16x16 v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(byte v)
+        {
+            this = (quarter16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(byte16 v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(sbyte v)
+        {
+            this = (quarter16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(sbyte16 v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(ushort v)
+        {
+            this = (quarter16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(ushort16 v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(short v)
+        {
+            this = (quarter16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(short16 v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(uint v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(int v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(ulong v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(long v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(UInt128 v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(Int128 v)
+        {
+            this = (quarter16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(quarter16 v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(half v)
+        {
+            this = (quarter16)v;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(half16 v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(float v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(double v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(quadruple v)
+        {
+            this = (quarter16)v;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter16(Unity.Mathematics.half v)
+        {
+            this = (quarter16)v;
+        }
 
         #region Shuffle
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_0 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_0); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_0 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_1 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_1); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_1 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_2 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_2); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_2 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_3 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_3); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_3 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_4 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_4); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_4 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_5 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_5); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_5 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_6 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_6); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_6 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_7 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_7); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_7 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter8 v8_8 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v8_8); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v8_8 = asbyte(value); this = asquarter(temp); } }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_0);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_0  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_1);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_1  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_2);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_2  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_3);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_3  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_4);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_4  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_5);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_5  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_6);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_6  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_7);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_7  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_8);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_8  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_9);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_9  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_10 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_11 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter4 v4_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v4_12); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v4_12 = asbyte(value); this = asquarter(temp); } }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_0);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_0  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_1);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_1  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_2);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_2  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_3);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_3  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_4);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_4  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_5);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_5  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_6);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_6  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_7);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_7  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_8);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_8  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_9);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_9  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_10 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_11 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_12); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_12 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter3 v3_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v3_13); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v3_13 = asbyte(value); this = asquarter(temp); } }
 
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_0  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_0);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_0  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_1  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_1);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_1  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_2  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_2);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_2  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_3  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_3);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_3  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_4  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_4);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_4  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_5  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_5);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_5  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_6  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_6);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_6  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_7  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_7);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_7  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_8  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_8);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_8  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_9  { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_9);  [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_9  = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_10 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_10); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_10 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_11 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_11); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_11 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_12 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_12); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_12 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_13 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_13); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_13 = asbyte(value); this = asquarter(temp); } }
+
+#if DEBUG
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+#endif
         public quarter2 v2_14 { [MethodImpl(MethodImplOptions.AggressiveInlining)] readonly get => asquarter(asbyte(this).v2_14); [MethodImpl(MethodImplOptions.AggressiveInlining)] set { byte16 temp = asbyte(this); temp.v2_14 = asbyte(value); this = asquarter(temp); } }
         #endregion
 
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator v128(quarter16 input) => RegisterConversion.ToRegister128(input);
+        public static implicit operator v128(quarter16 input) => asbyte(input);
         
         [SkipLocalsInit]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator quarter16(v128 input) => RegisterConversion.ToAbstraction128<quarter16>(input);
+        public static implicit operator quarter16(v128 input) => asquarter((byte16)input);
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(bool x) => (quarter16)(mask8x16)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(bool16 x) => (quarter16)(mask8x16)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(mask8x16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.and_si128(x, Xse.set1_pq((quarter)1f));
+            }
+            else
+            {
+                return (quarter16)(*(byte16*)&x);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(mask16x16 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return (quarter16)(mask8x16)x;
+            }
+            else
+            {
+                return (quarter16)(*(byte16*)&x);
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool16(quarter16 x) => math.andnot(x != 0, math.isnan(x));
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask8x16(quarter16 x) => math.andnot(x != 0, math.isnan(x));
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator mask16x16(quarter16 x) => (mask8x16)x;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(byte x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(sbyte x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(ushort x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(short x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(uint x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(int x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(ulong x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(long x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(UInt128 x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(Int128 x) => (quarter)x;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(quadruple x) => (quarter)x;
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter16(Unity.Mathematics.half x) => (quarter16)(half)x;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -430,513 +871,678 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (quarter16 left, quarter16 right)
+        public static mask8x16 operator == (quarter16 left, quarter16 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmpeq_pq(left, right));
+                return Xse.cmpeq_pq(left, right);
             }
             else
             {
-                return new bool16(left.x0 == right.x0, left.x1 == right.x1, left.x2 == right.x2, left.x3 == right.x3, left.x4 == right.x4, left.x5 == right.x5, left.x6 == right.x6, left.x7 == right.x7, left.x8 == right.x8, left.x9 == right.x9, left.x10 == right.x10, left.x11 == right.x11, left.x12 == right.x12, left.x13 == right.x13, left.x14 == right.x14, left.x15 == right.x15);
+                return new mask8x16(left.x0 == right.x0, left.x1 == right.x1, left.x2 == right.x2, left.x3 == right.x3, left.x4 == right.x4, left.x5 == right.x5, left.x6 == right.x6, left.x7 == right.x7, left.x8 == right.x8, left.x9 == right.x9, left.x10 == right.x10, left.x11 == right.x11, left.x12 == right.x12, left.x13 == right.x13, left.x14 == right.x14, left.x15 == right.x15);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (quarter16 left, quarter right)
-        {
-            return left == (quarter16)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (quarter left, quarter16 right)
-        {
-            return (quarter16)left == right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (quarter16 left, half right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left == default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 == right, left.v8_8 == right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (half left, quarter16 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (quarter16 left, half16 right)
-        {
-            if (constexpr.ALL_EQ_PS((float8)right.v8_0, 0f)
-             && constexpr.ALL_EQ_PS((float8)right.v8_8, 0f))
-            {
-                return left == default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 == right.v8_0, left.v8_8 == right.v8_8);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (half16 left, quarter16 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (quarter16 left, float right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left == default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 == right, left.v8_8 == right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (float left, quarter16 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (quarter16 left, double right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left == default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v4_0 == right, left.v4_4 == right, left.v4_8 == right, left.v4_12 == right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator == (double left, quarter16 right) => right == left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (quarter16 left, quarter16 right)
+        public static mask8x16 operator != (quarter16 left, quarter16 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmpneq_pq(left, right));
+                return Xse.cmpneq_pq(left, right);
             }
             else
             {
-                return new bool16(left.x0 != right.x0, left.x1 != right.x1, left.x2 != right.x2, left.x3 != right.x3, left.x4 != right.x4, left.x5 != right.x5, left.x6 != right.x6, left.x7 != right.x7, left.x8 != right.x8, left.x9 != right.x9, left.x10 != right.x10, left.x11 != right.x11, left.x12 != right.x12, left.x13 != right.x13, left.x14 != right.x14, left.x15 != right.x15);
+                return new mask8x16(left.x0 != right.x0, left.x1 != right.x1, left.x2 != right.x2, left.x3 != right.x3, left.x4 != right.x4, left.x5 != right.x5, left.x6 != right.x6, left.x7 != right.x7, left.x8 != right.x8, left.x9 != right.x9, left.x10 != right.x10, left.x11 != right.x11, left.x12 != right.x12, left.x13 != right.x13, left.x14 != right.x14, left.x15 != right.x15);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (quarter16 left, quarter right)
-        {
-            return left != (quarter16)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (quarter left, quarter16 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (quarter16 left, half right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left != default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 != right, left.v8_8 != right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (half left, quarter16 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (quarter16 left, half16 right)
-        {
-            if (constexpr.ALL_EQ_PS((float8)right.v8_0, 0f)
-             && constexpr.ALL_EQ_PS((float8)right.v8_8, 0f))
-            {
-                return left != default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 != right.v8_0, left.v8_8 != right.v8_8);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (half16 left, quarter16 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (quarter16 left, float right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left != default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 != right, left.v8_8 != right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (float left, quarter16 right) => right != left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (quarter16 left, double right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left != default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v4_0 != right, left.v4_4 != right, left.v4_8 != right, left.v4_12 != right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator != (double left, quarter16 right) => right != left;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (quarter16 left, quarter16 right)
+        public static mask8x16 operator < (quarter16 left, quarter16 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmplt_pq(left, right));
+                return Xse.cmplt_pq(left, right);
             }
             else
             {
-                return new bool16(left.x0 < right.x0, left.x1 < right.x1, left.x2 < right.x2, left.x3 < right.x3, left.x4 < right.x4, left.x5 < right.x5, left.x6 < right.x6, left.x7 < right.x7, left.x8 < right.x8, left.x9 < right.x9, left.x10 < right.x10, left.x11 < right.x11, left.x12 < right.x12, left.x13 < right.x13, left.x14 < right.x14, left.x15 < right.x15);
+                return new mask8x16(left.x0 < right.x0, left.x1 < right.x1, left.x2 < right.x2, left.x3 < right.x3, left.x4 < right.x4, left.x5 < right.x5, left.x6 < right.x6, left.x7 < right.x7, left.x8 < right.x8, left.x9 < right.x9, left.x10 < right.x10, left.x11 < right.x11, left.x12 < right.x12, left.x13 < right.x13, left.x14 < right.x14, left.x15 < right.x15);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (quarter16 left, quarter right)
-        {
-            return left < (quarter16)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (quarter left, quarter16 right)
-        {
-            return (quarter16)left < right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (quarter16 left, half right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left < default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 < right, left.v8_8 < right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (half left, quarter16 right)
-        {
-            if (constexpr.IS_TRUE(left == 0f))
-            {
-                return right > default(quarter16);
-            }
-            else
-            {
-                return new bool16(left < right.v8_0, left < right.v8_8);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (quarter16 left, half16 right)
-        {
-            if (constexpr.ALL_EQ_PS((float8)right.v8_0, 0f)
-             && constexpr.ALL_EQ_PS((float8)right.v8_8, 0f))
-            {
-                return left < default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 < right.v8_0, left.v8_8 < right.v8_8);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (half16 left, quarter16 right)
-        {
-            if (constexpr.ALL_EQ_PS((float8)right.v8_0, 0f)
-             && constexpr.ALL_EQ_PS((float8)right.v8_8, 0f))
-            {
-                return right > default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 < right.v8_0, left.v8_8 < right.v8_8);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (quarter16 left, float right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left < default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v8_0 < right, left.v8_8 < right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (float left, quarter16 right)
-        {
-            if (constexpr.IS_TRUE(left == 0f))
-            {
-                return right > default(quarter16);
-            }
-            else
-            {
-                return new bool16(left < right.v8_0, left < right.v8_8);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (quarter16 left, double right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left < default(quarter16);
-            }
-            else
-            {
-                return new bool16(left.v4_0 < right, left.v4_4 < right, left.v4_8 < right, left.v4_12 < right);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator < (double left, quarter16 right)
-        {
-            if (constexpr.IS_TRUE(left == 0f))
-            {
-                return right > default(quarter16);
-            }
-            else
-            {
-                return new bool16(left < right.v4_0, left < right.v4_4, left < right.v4_8, left < right.v4_12);
-            }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (quarter16 left, quarter16 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (quarter16 left, quarter right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (quarter left, quarter16 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (quarter16 left, half right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (half left, quarter16 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (quarter16 left, half16 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (half16 left, quarter16 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (quarter16 left, float right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (float left, quarter16 right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (quarter16 left, double right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator > (double left, quarter16 right) => right < left;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (quarter16 left, quarter16 right)
+        public static mask8x16 operator > (quarter16 left, quarter16 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.IsTrue8(Xse.cmple_pq(left, right));
+                return Xse.cmpgt_pq(left, right);
             }
             else
             {
-                return new bool16(left.x0 <= right.x0, left.x1 <= right.x1, left.x2 <= right.x2, left.x3 <= right.x3, left.x4 <= right.x4, left.x5 <= right.x5, left.x6 <= right.x6, left.x7 <= right.x7, left.x8 <= right.x8, left.x9 <= right.x9, left.x10 <= right.x10, left.x11 <= right.x11, left.x12 <= right.x12, left.x13 <= right.x13, left.x14 <= right.x14, left.x15 <= right.x15);
+                return new mask8x16(left.x0 > right.x0, left.x1 > right.x1, left.x2 > right.x2, left.x3 > right.x3, left.x4 > right.x4, left.x5 > right.x5, left.x6 > right.x6, left.x7 > right.x7, left.x8 > right.x8, left.x9 > right.x9, left.x10 > right.x10, left.x11 > right.x11, left.x12 > right.x12, left.x13 > right.x13, left.x14 > right.x14, left.x15 > right.x15);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (quarter16 left, quarter right)
+        public static mask8x16 operator <= (quarter16 left, quarter16 right)
         {
-            return left <= (quarter16)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (quarter left, quarter16 right)
-        {
-            return (quarter16)left <= right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (quarter16 left, half right)
-        {
-            if (constexpr.IS_TRUE(right == 0f))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return left <= default(quarter16);
+                return Xse.cmple_pq(left, right);
             }
             else
             {
-                return new bool16(left.v8_0 <= right, left.v8_8 <= right);
+                return new mask8x16(left.x0 <= right.x0, left.x1 <= right.x1, left.x2 <= right.x2, left.x3 <= right.x3, left.x4 <= right.x4, left.x5 <= right.x5, left.x6 <= right.x6, left.x7 <= right.x7, left.x8 <= right.x8, left.x9 <= right.x9, left.x10 <= right.x10, left.x11 <= right.x11, left.x12 <= right.x12, left.x13 <= right.x13, left.x14 <= right.x14, left.x15 <= right.x15);
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (half left, quarter16 right)
+        public static mask8x16 operator >= (quarter16 left, quarter16 right)
         {
-            if (constexpr.IS_TRUE(left == 0f))
+            if (BurstArchitecture.IsSIMDSupported)
             {
-                return right > default(quarter16);
+                return Xse.cmpge_pq(left, right);
             }
             else
             {
-                return new bool16(left <= right.v8_0, left <= right.v8_8);
+                return new mask8x16(left.x0 >= right.x0, left.x1 >= right.x1, left.x2 >= right.x2, left.x3 >= right.x3, left.x4 >= right.x4, left.x5 >= right.x5, left.x6 >= right.x6, left.x7 >= right.x7, left.x8 >= right.x8, left.x9 >= right.x9, left.x10 >= right.x10, left.x11 >= right.x11, left.x12 >= right.x12, left.x13 >= right.x13, left.x14 >= right.x14, left.x15 >= right.x15);
             }
         }
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (quarter16 left, half16 right)
+        public static mask8x16 operator == (quarter left, quarter16 right) => (quarter16)left == right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator != (quarter left, quarter16 right) => (quarter16)left != right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator < (quarter left, quarter16 right) => (quarter16)left < right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator > (quarter left, quarter16 right) => (quarter16)left > right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator <= (quarter left, quarter16 right) => (quarter16)left <= right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator >= (quarter left, quarter16 right) => (quarter16)left >= right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator == (quarter16 left, quarter right) => left == (quarter16)right;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator != (quarter16 left, quarter right) => left != (quarter16)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator < (quarter16 left, quarter right) => left < (quarter16)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator > (quarter16 left, quarter right) => left > (quarter16)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator <= (quarter16 left, quarter right) => left <= (quarter16)right;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator >= (quarter16 left, quarter right) => left >= (quarter16)right;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator == (quarter16 left, Unity.Mathematics.half right)
         {
-            if (constexpr.ALL_EQ_PS((float8)right.v8_0, 0f)
-             && constexpr.ALL_EQ_PS((float8)right.v8_8, 0f))
+            if (constexpr.IS_CONST(right))
             {
-                return left <= default(quarter16);
+                if ((half)(quarter)right == right)
+                {
+                    return left == (quarter)right;
+                }
             }
-            else
-            {
-                return new bool16(left.v8_0 <= right.v8_0, left.v8_8 <= right.v8_8);
-            }
-        }
 
+            return (half16)left == right;
+        }
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (half16 left, quarter16 right)
+        public static mask8x16 operator != (quarter16 left, Unity.Mathematics.half right)
         {
-            if (constexpr.ALL_EQ_PS((float8)right.v8_0, 0f)
-             && constexpr.ALL_EQ_PS((float8)right.v8_8, 0f))
+            if (constexpr.IS_CONST(right))
             {
-                return right > default(quarter16);
+                if ((half)(quarter)right == right)
+                {
+                    return left != (quarter)right;
+                }
             }
-            else
-            {
-                return new bool16(left.v8_0 <= right.v8_0, left.v8_8 <= right.v8_8);
-            }
+
+            return (half16)left != right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (quarter16 left, float right)
+        public static mask8x16 operator < (quarter16 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_CONST(right))
             {
-                return left <= default(quarter16);
+                if ((half)(quarter)right == right)
+                {
+                    return left < (quarter)right;
+                }
             }
-            else
-            {
-                return new bool16(left.v8_0 <= right, left.v8_8 <= right);
-            }
+
+            return (half16)left < right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (float left, quarter16 right)
+        public static mask8x16 operator > (quarter16 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_CONST(right))
             {
-                return right > default(quarter16);
+                if ((half)(quarter)right == right)
+                {
+                    return left > (quarter)right;
+                }
             }
-            else
-            {
-                return new bool16(left <= right.v8_0, left <= right.v8_8);
-            }
+
+            return (half16)left > right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (quarter16 left, double right)
+        public static mask8x16 operator <= (quarter16 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(right == 0f))
+            if (constexpr.IS_CONST(right))
             {
-                return left <= default(quarter16);
+                if ((half)(quarter)right == right)
+                {
+                    return left <= (quarter)right;
+                }
             }
-            else
-            {
-                return new bool16(left.v4_0 <= right, left.v4_4 <= right, left.v4_8 <= right, left.v4_12 <= right);
-            }
+
+            return (half16)left <= right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator <= (double left, quarter16 right)
+        public static mask8x16 operator >= (quarter16 left, Unity.Mathematics.half right)
         {
-            if (constexpr.IS_TRUE(left == 0f))
+            if (constexpr.IS_CONST(right))
             {
-                return right > default(quarter16);
+                if ((half)(quarter)right == right)
+                {
+                    return left >= (quarter)right;
+                }
             }
-            else
-            {
-                return new bool16(left <= right.v4_0, left <= right.v4_4, left <= right.v4_8, left <= right.v4_12);
-            }
+
+            return (half16)left >= right;
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (quarter16 left, quarter16 right) => right <= left;
+        public static mask8x16 operator == (Unity.Mathematics.half left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left == right;
+                }
+            }
+
+            return left == (half16)right;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator != (Unity.Mathematics.half left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left != right;
+                }
+            }
+
+            return left != (half16)right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (quarter16 left, quarter right) => right <= left;
+        public static mask8x16 operator < (Unity.Mathematics.half left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left < right;
+                }
+            }
+
+            return left < (half16)right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (quarter left, quarter16 right) => right <= left;
+        public static mask8x16 operator > (Unity.Mathematics.half left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left > right;
+                }
+            }
+
+            return left > (half16)right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (quarter16 left, half right) => right <= left;
+        public static mask8x16 operator <= (Unity.Mathematics.half left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left <= right;
+                }
+            }
+
+            return left <= (half16)right;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (half left, quarter16 right) => right <= left;
+        public static mask8x16 operator >= (Unity.Mathematics.half left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left >= right;
+                }
+            }
+
+            return left >= (half16)right;
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (quarter16 left, half16 right) => right <= left;
+        public static mask8x16 operator == (quarter16 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left == (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v8_0 == right,
+                                left.v8_8 == right);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator != (quarter16 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left != (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v8_0 != right,
+                                left.v8_8 != right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (half16 left, quarter16 right) => right <= left;
+        public static mask8x16 operator < (quarter16 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left < (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v8_0 < right,
+                                left.v8_8 < right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (quarter16 left, float right) => right <= left;
+        public static mask8x16 operator > (quarter16 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left > (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v8_0 > right,
+                                left.v8_8 > right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (float left, quarter16 right) => right <= left;
+        public static mask8x16 operator <= (quarter16 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left <= (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v8_0 <= right,
+                                left.v8_8 <= right);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (quarter16 left, double right) => right <= left;
+        public static mask8x16 operator >= (quarter16 left, float right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((float)(quarter)right == right)
+                {
+                    return left >= (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v8_0 >= right,
+                                left.v8_8 >= right);
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 operator >= (double left, quarter16 right) => right <= left;
+        public static mask8x16 operator == (float left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left == right;
+                }
+            }
+
+            return new mask8x16(left == right.v8_0,
+                                left == right.v8_8);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator != (float left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left != right;
+                }
+            }
+
+            return new mask8x16(left != right.v8_0,
+                                left != right.v8_8);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator < (float left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left < right;
+                }
+            }
+
+            return new mask8x16(left < right.v8_0,
+                                left < right.v8_8);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator > (float left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left > right;
+                }
+            }
+
+            return new mask8x16(left > right.v8_0,
+                                left > right.v8_8);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator <= (float left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left <= right;
+                }
+            }
+
+            return new mask8x16(left <= right.v8_0,
+                                left <= right.v8_8);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator >= (float left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((float)(quarter)left == left)
+                {
+                    return (quarter)left >= right;
+                }
+            }
+
+            return new mask8x16(left >= right.v8_0,
+                                left >= right.v8_8);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator == (quarter16 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left == (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v4_0  == right,
+                                left.v4_4  == right,
+                                left.v4_8  == right,
+                                left.v4_12 == right);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator != (quarter16 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left != (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v4_0  != right,
+                                left.v4_4  != right,
+                                left.v4_8  != right,
+                                left.v4_12 != right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator < (quarter16 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left < (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v4_0  < right,
+                                left.v4_4  < right,
+                                left.v4_8  < right,
+                                left.v4_12 < right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator > (quarter16 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left > (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v4_0  > right,
+                                left.v4_4  > right,
+                                left.v4_8  > right,
+                                left.v4_12 > right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator <= (quarter16 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left <= (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v4_0  <= right,
+                                left.v4_4  <= right,
+                                left.v4_8  <= right,
+                                left.v4_12 <= right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator >= (quarter16 left, double right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((double)(quarter)right == right)
+                {
+                    return left >= (quarter)right;
+                }
+            }
+
+            return new mask8x16(left.v4_0  >= right,
+                                left.v4_4  >= right,
+                                left.v4_8  >= right,
+                                left.v4_12 >= right);
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator == (double left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left == right;
+                }
+            }
+
+            return new mask8x16(left == right.v4_0,
+                                left == right.v4_4,
+                                left == right.v4_8,
+                                left == right.v4_12);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator != (double left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left != right;
+                }
+            }
+
+            return new mask8x16(left != right.v4_0,
+                                left != right.v4_4,
+                                left != right.v4_8,
+                                left != right.v4_12);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator < (double left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left < right;
+                }
+            }
+
+            return new mask8x16(left < right.v4_0,
+                                left < right.v4_4,
+                                left < right.v4_8,
+                                left < right.v4_12);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator > (double left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left > right;
+                }
+            }
+
+            return new mask8x16(left > right.v4_0,
+                                left > right.v4_4,
+                                left > right.v4_8,
+                                left > right.v4_12);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator <= (double left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left <= right;
+                }
+            }
+
+            return new mask8x16(left <= right.v4_0,
+                                left <= right.v4_4,
+                                left <= right.v4_8,
+                                left <= right.v4_12);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 operator >= (double left, quarter16 right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((double)(quarter)left == left)
+                {
+                    return (quarter)left >= right;
+                }
+            }
+
+            return new mask8x16(left >= right.v4_0,
+                                left >= right.v4_4,
+                                left >= right.v4_8,
+                                left >= right.v4_12);
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -956,21 +1562,10 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override readonly int GetHashCode()
-        {
-            if (BurstArchitecture.IsSIMDSupported)
-            {
-                return Hash.v128(this);
-            }
-            else
-            {
-                quarter16 temp = this;
-                return (((ulong*)&temp)[0] ^ ((ulong*)&temp)[1]).GetHashCode();
-            }
-        }
+        public override readonly int GetHashCode() => (int)math.hash(this);
 
 
-        public override readonly string ToString() =>  $"quarter16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
-        public readonly string ToString(string format, IFormatProvider formatProvider) => $"quarter16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
+        public override string ToString() =>  $"quarter16({x0}, {x1}, {x2}, {x3},    {x4}, {x5}, {x6}, {x7},    {x8}, {x9}, {x10}, {x11},    {x12}, {x13}, {x14}, {x15})";
+        public string ToString(string format, IFormatProvider formatProvider) => $"quarter16({x0.ToString(format, formatProvider)}, {x1.ToString(format, formatProvider)}, {x2.ToString(format, formatProvider)}, {x3.ToString(format, formatProvider)},    {x4.ToString(format, formatProvider)}, {x5.ToString(format, formatProvider)}, {x6.ToString(format, formatProvider)}, {x7.ToString(format, formatProvider)},    {x8.ToString(format, formatProvider)}, {x9.ToString(format, formatProvider)}, {x10.ToString(format, formatProvider)}, {x11.ToString(format, formatProvider)},    {x12.ToString(format, formatProvider)}, {x13.ToString(format, formatProvider)}, {x14.ToString(format, formatProvider)}, {x15.ToString(format, formatProvider)})";
     }
 }

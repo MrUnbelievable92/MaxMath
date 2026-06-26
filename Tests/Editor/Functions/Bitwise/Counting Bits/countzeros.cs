@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -17,7 +17,7 @@ namespace MaxMath.Tests
             {
                 UInt128 test = rng.NextUInt128();
 
-                Assert.AreEqual(128 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(128 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -31,7 +31,7 @@ namespace MaxMath.Tests
             {
                 Int128 test = rng.NextInt128();
 
-                Assert.AreEqual(128 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(128 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -45,7 +45,7 @@ namespace MaxMath.Tests
             {
                 byte test = rng.NextByte();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -58,7 +58,7 @@ namespace MaxMath.Tests
             {
                 byte2 test = rng.NextByte2();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -71,7 +71,7 @@ namespace MaxMath.Tests
             {
                 byte3 test = rng.NextByte3();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -84,7 +84,7 @@ namespace MaxMath.Tests
             {
                 byte4 test = rng.NextByte4();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -97,7 +97,7 @@ namespace MaxMath.Tests
             {
                 byte8 test = rng.NextByte8();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -110,7 +110,7 @@ namespace MaxMath.Tests
             {
                 byte16 test = rng.NextByte16();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -123,7 +123,7 @@ namespace MaxMath.Tests
             {
                 byte32 test = rng.NextByte32();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -137,7 +137,7 @@ namespace MaxMath.Tests
             {
                 sbyte test = rng.NextSByte();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -150,7 +150,7 @@ namespace MaxMath.Tests
             {
                 sbyte2 test = rng.NextSByte2();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -163,7 +163,7 @@ namespace MaxMath.Tests
             {
                 sbyte3 test = rng.NextSByte3();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -176,7 +176,7 @@ namespace MaxMath.Tests
             {
                 sbyte4 test = rng.NextSByte4();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -189,7 +189,7 @@ namespace MaxMath.Tests
             {
                 sbyte8 test = rng.NextSByte8();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -202,7 +202,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 test = rng.NextSByte16();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -215,7 +215,7 @@ namespace MaxMath.Tests
             {
                 sbyte32 test = rng.NextSByte32();
 
-                Assert.AreEqual(8 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(8 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -229,7 +229,7 @@ namespace MaxMath.Tests
             {
                 ushort test = rng.NextUShort();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -242,7 +242,7 @@ namespace MaxMath.Tests
             {
                 ushort2 test = rng.NextUShort2();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -255,7 +255,7 @@ namespace MaxMath.Tests
             {
                 ushort3 test = rng.NextUShort3();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -268,6 +268,7 @@ namespace MaxMath.Tests
             {
                 ushort4 test = rng.NextUShort4();
 
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -280,7 +281,7 @@ namespace MaxMath.Tests
             {
                 ushort8 test = rng.NextUShort8();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -293,7 +294,7 @@ namespace MaxMath.Tests
             {
                 ushort16 test = rng.NextUShort16();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -307,7 +308,7 @@ namespace MaxMath.Tests
             {
                 short test = rng.NextShort();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -320,7 +321,7 @@ namespace MaxMath.Tests
             {
                 short2 test = rng.NextShort2();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -333,7 +334,7 @@ namespace MaxMath.Tests
             {
                 short3 test = rng.NextShort3();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -346,7 +347,7 @@ namespace MaxMath.Tests
             {
                 short4 test = rng.NextShort4();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -359,7 +360,7 @@ namespace MaxMath.Tests
             {
                 short8 test = rng.NextShort8();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -372,7 +373,7 @@ namespace MaxMath.Tests
             {
                 short16 test = rng.NextShort16();
 
-                Assert.AreEqual(16 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(16 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -386,7 +387,7 @@ namespace MaxMath.Tests
             {
                 uint test = rng.NextUInt();
 
-                Assert.AreEqual(32 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -399,7 +400,7 @@ namespace MaxMath.Tests
             {
                 uint2 test = rng.NextUInt2();
 
-                Assert.AreEqual(32 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -412,7 +413,7 @@ namespace MaxMath.Tests
             {
                 uint3 test = rng.NextUInt3();
 
-                Assert.AreEqual(32 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -425,7 +426,7 @@ namespace MaxMath.Tests
             {
                 uint4 test = rng.NextUInt4();
 
-                Assert.AreEqual(32 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -438,7 +439,7 @@ namespace MaxMath.Tests
             {
                 uint8 test = rng.NextUInt8();
 
-                Assert.AreEqual(32 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -452,7 +453,7 @@ namespace MaxMath.Tests
             {
                 int test = rng.NextInt();
 
-                Assert.AreEqual(32 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -465,7 +466,7 @@ namespace MaxMath.Tests
             {
                 int2 test = rng.NextInt2();
 
-                Assert.AreEqual(32 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -478,7 +479,7 @@ namespace MaxMath.Tests
             {
                 int3 test = rng.NextInt3();
 
-                Assert.AreEqual(32 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -491,7 +492,7 @@ namespace MaxMath.Tests
             {
                 int4 test = rng.NextInt4();
 
-                Assert.AreEqual(32 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -504,7 +505,7 @@ namespace MaxMath.Tests
             {
                 int8 test = rng.NextInt8();
 
-                Assert.AreEqual(32 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(32 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -518,7 +519,7 @@ namespace MaxMath.Tests
             {
                 ulong test = rng.NextULong();
 
-                Assert.AreEqual(64 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(64 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -531,7 +532,7 @@ namespace MaxMath.Tests
             {
                 ulong2 test = rng.NextULong2();
 
-                Assert.AreEqual(64 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(64 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -544,7 +545,7 @@ namespace MaxMath.Tests
             {
                 ulong3 test = rng.NextULong3();
 
-                Assert.AreEqual(64 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(64 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -557,7 +558,7 @@ namespace MaxMath.Tests
             {
                 ulong4 test = rng.NextULong4();
 
-                Assert.AreEqual(64 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(64 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -571,7 +572,7 @@ namespace MaxMath.Tests
             {
                 long test = rng.NextLong();
 
-                Assert.AreEqual(64 - math.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(64 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -584,7 +585,7 @@ namespace MaxMath.Tests
             {
                 long2 test = rng.NextLong2();
 
-                Assert.AreEqual(64 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(64 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -597,7 +598,7 @@ namespace MaxMath.Tests
             {
                 long3 test = rng.NextLong3();
 
-                Assert.AreEqual(64 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(64 - math.countbits(test), math.countzerobits(test));
             }
         }
 
@@ -610,7 +611,7 @@ namespace MaxMath.Tests
             {
                 long4 test = rng.NextLong4();
 
-                Assert.AreEqual(64 - maxmath.countbits(test), maxmath.countzerobits(test));
+                Assert.AreEqual(64 - math.countbits(test), math.countzerobits(test));
             }
         }
     }

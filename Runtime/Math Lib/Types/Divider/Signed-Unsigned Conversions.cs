@@ -5,8 +5,7 @@ using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {

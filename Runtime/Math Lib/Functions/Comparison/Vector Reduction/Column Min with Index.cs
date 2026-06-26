@@ -6,7 +6,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort2"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

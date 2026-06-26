@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -244,7 +243,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="Int128"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>), the sign of the return values are undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -280,8 +279,11 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                minmag = Uninitialized<sbyte2>.Create();
+                maxmag = Uninitialized<sbyte2>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
             }
         }
 
@@ -298,9 +300,12 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
-                maxmath.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
+                minmag = Uninitialized<sbyte3>.Create();
+                maxmag = Uninitialized<sbyte3>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                math.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
             }
         }
 
@@ -317,10 +322,13 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
-                maxmath.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
-                maxmath.minmaxmag(a.w, b.w, out minmag.w, out maxmag.w);
+                minmag = Uninitialized<sbyte4>.Create();
+                maxmag = Uninitialized<sbyte4>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                math.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
+                math.minmaxmag(a.w, b.w, out minmag.w, out maxmag.w);
             }
         }
 
@@ -337,14 +345,17 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x0, b.x0, out minmag.x0, out maxmag.x0);
-                maxmath.minmaxmag(a.x1, b.x1, out minmag.x1, out maxmag.x1);
-                maxmath.minmaxmag(a.x2, b.x2, out minmag.x2, out maxmag.x2);
-                maxmath.minmaxmag(a.x3, b.x3, out minmag.x3, out maxmag.x3);
-                maxmath.minmaxmag(a.x4, b.x4, out minmag.x4, out maxmag.x4);
-                maxmath.minmaxmag(a.x5, b.x5, out minmag.x5, out maxmag.x5);
-                maxmath.minmaxmag(a.x6, b.x6, out minmag.x6, out maxmag.x6);
-                maxmath.minmaxmag(a.x7, b.x7, out minmag.x7, out maxmag.x7);
+                minmag = Uninitialized<sbyte8>.Create();
+                maxmag = Uninitialized<sbyte8>.Create();
+
+                math.minmaxmag(a.x0, b.x0, out minmag.x0, out maxmag.x0);
+                math.minmaxmag(a.x1, b.x1, out minmag.x1, out maxmag.x1);
+                math.minmaxmag(a.x2, b.x2, out minmag.x2, out maxmag.x2);
+                math.minmaxmag(a.x3, b.x3, out minmag.x3, out maxmag.x3);
+                math.minmaxmag(a.x4, b.x4, out minmag.x4, out maxmag.x4);
+                math.minmaxmag(a.x5, b.x5, out minmag.x5, out maxmag.x5);
+                math.minmaxmag(a.x6, b.x6, out minmag.x6, out maxmag.x6);
+                math.minmaxmag(a.x7, b.x7, out minmag.x7, out maxmag.x7);
             }
         }
 
@@ -361,22 +372,25 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x0,  b.x0,  out minmag.x0,  out maxmag.x0);
-                maxmath.minmaxmag(a.x1,  b.x1,  out minmag.x1,  out maxmag.x1);
-                maxmath.minmaxmag(a.x2,  b.x2,  out minmag.x2,  out maxmag.x2);
-                maxmath.minmaxmag(a.x3,  b.x3,  out minmag.x3,  out maxmag.x3);
-                maxmath.minmaxmag(a.x4,  b.x4,  out minmag.x4,  out maxmag.x4);
-                maxmath.minmaxmag(a.x5,  b.x5,  out minmag.x5,  out maxmag.x5);
-                maxmath.minmaxmag(a.x6,  b.x6,  out minmag.x6,  out maxmag.x6);
-                maxmath.minmaxmag(a.x7,  b.x7,  out minmag.x7,  out maxmag.x7);
-                maxmath.minmaxmag(a.x8,  b.x8,  out minmag.x8,  out maxmag.x8);
-                maxmath.minmaxmag(a.x9,  b.x9,  out minmag.x9,  out maxmag.x9);
-                maxmath.minmaxmag(a.x10, b.x10, out minmag.x10, out maxmag.x10);
-                maxmath.minmaxmag(a.x11, b.x11, out minmag.x11, out maxmag.x11);
-                maxmath.minmaxmag(a.x12, b.x12, out minmag.x12, out maxmag.x12);
-                maxmath.minmaxmag(a.x13, b.x13, out minmag.x13, out maxmag.x13);
-                maxmath.minmaxmag(a.x14, b.x14, out minmag.x14, out maxmag.x14);
-                maxmath.minmaxmag(a.x15, b.x15, out minmag.x15, out maxmag.x15);
+                minmag = Uninitialized<sbyte16>.Create();
+                maxmag = Uninitialized<sbyte16>.Create();
+
+                math.minmaxmag(a.x0,  b.x0,  out minmag.x0,  out maxmag.x0);
+                math.minmaxmag(a.x1,  b.x1,  out minmag.x1,  out maxmag.x1);
+                math.minmaxmag(a.x2,  b.x2,  out minmag.x2,  out maxmag.x2);
+                math.minmaxmag(a.x3,  b.x3,  out minmag.x3,  out maxmag.x3);
+                math.minmaxmag(a.x4,  b.x4,  out minmag.x4,  out maxmag.x4);
+                math.minmaxmag(a.x5,  b.x5,  out minmag.x5,  out maxmag.x5);
+                math.minmaxmag(a.x6,  b.x6,  out minmag.x6,  out maxmag.x6);
+                math.minmaxmag(a.x7,  b.x7,  out minmag.x7,  out maxmag.x7);
+                math.minmaxmag(a.x8,  b.x8,  out minmag.x8,  out maxmag.x8);
+                math.minmaxmag(a.x9,  b.x9,  out minmag.x9,  out maxmag.x9);
+                math.minmaxmag(a.x10, b.x10, out minmag.x10, out maxmag.x10);
+                math.minmaxmag(a.x11, b.x11, out minmag.x11, out maxmag.x11);
+                math.minmaxmag(a.x12, b.x12, out minmag.x12, out maxmag.x12);
+                math.minmaxmag(a.x13, b.x13, out minmag.x13, out maxmag.x13);
+                math.minmaxmag(a.x14, b.x14, out minmag.x14, out maxmag.x14);
+                math.minmaxmag(a.x15, b.x15, out minmag.x15, out maxmag.x15);
             }
         }
 
@@ -425,8 +439,11 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                minmag = Uninitialized<short2>.Create();
+                maxmag = Uninitialized<short2>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
             }
         }
 
@@ -443,9 +460,12 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
-                maxmath.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
+                minmag = Uninitialized<short3>.Create();
+                maxmag = Uninitialized<short3>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                math.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
             }
         }
 
@@ -462,10 +482,13 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
-                maxmath.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
-                maxmath.minmaxmag(a.w, b.w, out minmag.w, out maxmag.w);
+                minmag = Uninitialized<short4>.Create();
+                maxmag = Uninitialized<short4>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                math.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
+                math.minmaxmag(a.w, b.w, out minmag.w, out maxmag.w);
             }
         }
 
@@ -482,14 +505,17 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x0, b.x0, out minmag.x0, out maxmag.x0);
-                maxmath.minmaxmag(a.x1, b.x1, out minmag.x1, out maxmag.x1);
-                maxmath.minmaxmag(a.x2, b.x2, out minmag.x2, out maxmag.x2);
-                maxmath.minmaxmag(a.x3, b.x3, out minmag.x3, out maxmag.x3);
-                maxmath.minmaxmag(a.x4, b.x4, out minmag.x4, out maxmag.x4);
-                maxmath.minmaxmag(a.x5, b.x5, out minmag.x5, out maxmag.x5);
-                maxmath.minmaxmag(a.x6, b.x6, out minmag.x6, out maxmag.x6);
-                maxmath.minmaxmag(a.x7, b.x7, out minmag.x7, out maxmag.x7);
+                minmag = Uninitialized<short8>.Create();
+                maxmag = Uninitialized<short8>.Create();
+
+                math.minmaxmag(a.x0, b.x0, out minmag.x0, out maxmag.x0);
+                math.minmaxmag(a.x1, b.x1, out minmag.x1, out maxmag.x1);
+                math.minmaxmag(a.x2, b.x2, out minmag.x2, out maxmag.x2);
+                math.minmaxmag(a.x3, b.x3, out minmag.x3, out maxmag.x3);
+                math.minmaxmag(a.x4, b.x4, out minmag.x4, out maxmag.x4);
+                math.minmaxmag(a.x5, b.x5, out minmag.x5, out maxmag.x5);
+                math.minmaxmag(a.x6, b.x6, out minmag.x6, out maxmag.x6);
+                math.minmaxmag(a.x7, b.x7, out minmag.x7, out maxmag.x7);
             }
         }
 
@@ -519,13 +545,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(int a, int b, [NoAlias] out int minmag, [NoAlias] out int maxmag)
         {
-            bool aMax = math.abs(a) > math.abs(b);
+            bool aMax = abs(a) > abs(b);
 
             minmag = aMax ? b : a;
             maxmag = aMax ? a : b;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -535,19 +561,22 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 2);
+                Xse.minmaxmag_epi32(a, b, out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 2);
 
-                minmag = RegisterConversion.ToInt2(min);
-                maxmag = RegisterConversion.ToInt2(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                minmag = Uninitialized<int2>.Create();
+                maxmag = Uninitialized<int2>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -557,20 +586,23 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 3);
+                Xse.minmaxmag_epi32(a, b, out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 3);
 
-                minmag = RegisterConversion.ToInt3(min);
-                maxmag = RegisterConversion.ToInt3(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
-                maxmath.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
+                minmag = Uninitialized<int3>.Create();
+                maxmag = Uninitialized<int3>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                math.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -580,17 +612,20 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 4);
+                Xse.minmaxmag_epi32(a, b, out v128 min, out v128 max, noOverFlow.Promises(Promise.NoOverflow), 4);
 
-                minmag = RegisterConversion.ToInt4(min);
-                maxmag = RegisterConversion.ToInt4(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
-                maxmath.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
-                maxmath.minmaxmag(a.w, b.w, out minmag.w, out maxmag.w);
+                minmag = Uninitialized<int4>.Create();
+                maxmag = Uninitialized<int4>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                math.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
+                math.minmaxmag(a.w, b.w, out minmag.w, out maxmag.w);
             }
         }
 
@@ -624,7 +659,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(long a, long b, [NoAlias] out long minmag, [NoAlias] out long maxmag)
         {
-            bool aMax = math.abs(a) > math.abs(b);
+            bool aMax = abs(a) > abs(b);
 
             minmag = aMax ? b : a;
             maxmag = aMax ? a : b;
@@ -647,8 +682,11 @@ namespace MaxMath
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                minmag = Uninitialized<long2>.Create();
+                maxmag = Uninitialized<long2>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
             }
         }
 
@@ -709,74 +747,83 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
+                Xse.minmaxmag_ps(Xse.set_ss(a), Xse.set_ss(b), out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToFloat(min);
-                maxmag = RegisterConversion.ToFloat(max);
+                minmag = min.Float0;
+                maxmag = max.Float0;
             }
             else
             {
-                bool aMax = math.abs(a) > math.abs(b);
+                bool aMax = abs(a) > abs(b);
 
                 minmag = aMax ? b : a;
                 maxmag = aMax ? a : b;
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(float2 a, float2 b, [NoAlias] out float2 minmag, [NoAlias] out float2 maxmag)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
+                Xse.minmaxmag_ps(a, b, out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToFloat2(min);
-                maxmag = RegisterConversion.ToFloat2(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                minmag = Uninitialized<float2>.Create();
+                maxmag = Uninitialized<float2>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(float3 a, float3 b, [NoAlias] out float3 minmag, [NoAlias] out float3 maxmag)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
+                Xse.minmaxmag_ps(a, b, out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToFloat3(min);
-                maxmag = RegisterConversion.ToFloat3(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
-                maxmath.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
+                minmag = Uninitialized<float3>.Create();
+                maxmag = Uninitialized<float3>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                math.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(float4 a, float4 b, [NoAlias] out float4 minmag, [NoAlias] out float4 maxmag)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
+                Xse.minmaxmag_ps(a, b, out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToFloat4(min);
-                maxmag = RegisterConversion.ToFloat4(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {
-                maxmath.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
-                maxmath.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
-                maxmath.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
-                maxmath.minmaxmag(a.w, b.w, out minmag.w, out maxmag.w);
+                minmag = Uninitialized<float4>.Create();
+                maxmag = Uninitialized<float4>.Create();
+
+                math.minmaxmag(a.x, b.x, out minmag.x, out maxmag.x);
+                math.minmaxmag(a.y, b.y, out minmag.y, out maxmag.y);
+                math.minmaxmag(a.z, b.z, out minmag.z, out maxmag.z);
+                math.minmaxmag(a.w, b.w, out minmag.w, out maxmag.w);
             }
         }
 
@@ -808,48 +855,48 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
+                Xse.minmaxmag_pd(Xse.set_sd(a), Xse.set_sd(b), out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToDouble(min);
-                maxmag = RegisterConversion.ToDouble(max);
+                minmag = min.Double0;
+                maxmag = max.Double0;
             }
             else
             {
-                bool aMax = math.abs(a) > math.abs(b);
+                bool aMax = abs(a) > abs(b);
 
                 minmag = aMax ? b : a;
                 maxmag = aMax ? a : b;
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(double2 a, double2 b, [NoAlias] out double2 minmag, [NoAlias] out double2 maxmag)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.minmaxmag_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), out v128 min, out v128 max);
+                Xse.minmaxmag_pd(a, b, out v128 min, out v128 max);
 
-                minmag = RegisterConversion.ToDouble2(min);
-                maxmag = RegisterConversion.ToDouble2(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {
-                minmag = maxmath.minmag(a, b);
-                maxmag = maxmath.maxmag(a, b);
+                minmag = math.minmag(a, b);
+                maxmag = math.maxmag(a, b);
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(double3 a, double3 b, [NoAlias] out double3 minmag, [NoAlias] out double3 maxmag)
         {
             if (Avx.IsAvxSupported)
             {
-                Xse.mm256_minmaxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 min, out v256 max);
+                Xse.mm256_minmaxmag_pd(a, b, out v256 min, out v256 max);
 
-                minmag = RegisterConversion.ToDouble3(min);
-                maxmag = RegisterConversion.ToDouble3(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {
@@ -861,16 +908,16 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="minmag"/>' and maximum '<paramref name="maxmag"/>' of two <see cref="MaxMath.double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return values are undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmaxmag(double4 a, double4 b, [NoAlias] out double4 minmag, [NoAlias] out double4 maxmag)
         {
             if (Avx.IsAvxSupported)
             {
-                Xse.mm256_minmaxmag_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b), out v256 min, out v256 max);
+                Xse.mm256_minmaxmag_pd(a, b, out v256 min, out v256 max);
 
-                minmag = RegisterConversion.ToDouble4(min);
-                maxmag = RegisterConversion.ToDouble4(max);
+                minmag = min;
+                maxmag = max;
             }
             else
             {

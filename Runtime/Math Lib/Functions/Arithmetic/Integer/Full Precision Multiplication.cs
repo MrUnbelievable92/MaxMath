@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using Unity.Burst;
 using MaxMath.Intrinsics;
 
@@ -8,7 +7,7 @@ using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Computes the full unsigned 256-bit product of two <see cref="UInt128"/> values, returning the respective 128 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -40,6 +39,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<byte2>.Create();
+                hi = Uninitialized<byte2>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
             }
@@ -56,6 +58,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<byte3>.Create();
+                hi = Uninitialized<byte3>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -73,6 +78,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<byte4>.Create();
+                hi = Uninitialized<byte4>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -91,6 +99,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<byte8>.Create();
+                hi = Uninitialized<byte8>.Create();
+
                 mulwide(x.x0, y.x0, out lo.x0, out hi.x0);
                 mulwide(x.x1, y.x1, out lo.x1, out hi.x1);
                 mulwide(x.x2, y.x2, out lo.x2, out hi.x2);
@@ -113,6 +124,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<byte16>.Create();
+                hi = Uninitialized<byte16>.Create();
+
                 mulwide(x.x0,  y.x0,  out lo.x0,  out hi.x0);
                 mulwide(x.x1,  y.x1,  out lo.x1,  out hi.x1);
                 mulwide(x.x2,  y.x2,  out lo.x2,  out hi.x2);
@@ -172,6 +186,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<ushort2>.Create();
+                hi = Uninitialized<ushort2>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
             }
@@ -188,6 +205,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<ushort3>.Create();
+                hi = Uninitialized<ushort3>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -205,6 +225,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<ushort4>.Create();
+                hi = Uninitialized<ushort4>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -223,6 +246,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<ushort8>.Create();
+                hi = Uninitialized<ushort8>.Create();
+
                 mulwide(x.x0, y.x0, out lo.x0, out hi.x0);
                 mulwide(x.x1, y.x1, out lo.x1, out hi.x1);
                 mulwide(x.x2, y.x2, out lo.x2, out hi.x2);
@@ -263,50 +289,59 @@ namespace MaxMath
             hi = (uint)(full >> 32);
         }
         
-        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="uint2"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="MaxMath.uint2"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(uint2 x, uint2 y, [NoAlias] out uint2 lo, [NoAlias] out uint2 hi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                lo = RegisterConversion.ToUInt2(Xse.mullo_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
-                hi = RegisterConversion.ToUInt2(Xse.mulhi_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                lo = Xse.mullo_epi32(x, y, 2);
+                hi = Xse.mulhi_epu32(x, y, 2);
             }
             else
             {
+                lo = Uninitialized<uint2>.Create();
+                hi = Uninitialized<uint2>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="uint3"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="MaxMath.uint3"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(uint3 x, uint3 y, [NoAlias] out uint3 lo, [NoAlias] out uint3 hi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                lo = RegisterConversion.ToUInt3(Xse.mullo_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
-                hi = RegisterConversion.ToUInt3(Xse.mulhi_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                lo = Xse.mullo_epi32(x, y, 3);
+                hi = Xse.mulhi_epu32(x, y, 3);
             }
             else
             {
+                lo = Uninitialized<uint3>.Create();
+                hi = Uninitialized<uint3>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="uint4"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="MaxMath.uint4"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(uint4 x, uint4 y, [NoAlias] out uint4 lo, [NoAlias] out uint4 hi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                lo = RegisterConversion.ToUInt4(Xse.mullo_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
-                hi = RegisterConversion.ToUInt4(Xse.mulhi_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                lo = Xse.mullo_epi32(x, y, 4);
+                hi = Xse.mulhi_epu32(x, y, 4);
             }
             else
             {
+                lo = Uninitialized<uint4>.Create();
+                hi = Uninitialized<uint4>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -352,6 +387,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<ulong2>.Create();
+                hi = Uninitialized<ulong2>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
             }
@@ -426,6 +464,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<sbyte2>.Create();
+                hi = Uninitialized<sbyte2>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
             }
@@ -442,6 +483,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<sbyte3>.Create();
+                hi = Uninitialized<sbyte3>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -459,6 +503,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<sbyte4>.Create();
+                hi = Uninitialized<sbyte4>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -477,6 +524,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<sbyte8>.Create();
+                hi = Uninitialized<sbyte8>.Create();
+
                 mulwide(x.x0, y.x0, out lo.x0, out hi.x0);
                 mulwide(x.x1, y.x1, out lo.x1, out hi.x1);
                 mulwide(x.x2, y.x2, out lo.x2, out hi.x2);
@@ -499,6 +549,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<sbyte16>.Create();
+                hi = Uninitialized<sbyte16>.Create();
+
                 mulwide(x.x0,  y.x0,  out lo.x0,  out hi.x0);
                 mulwide(x.x1,  y.x1,  out lo.x1,  out hi.x1);
                 mulwide(x.x2,  y.x2,  out lo.x2,  out hi.x2);
@@ -558,6 +611,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<short2>.Create();
+                hi = Uninitialized<short2>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
             }
@@ -574,6 +630,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<short3>.Create();
+                hi = Uninitialized<short3>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -591,6 +650,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<short4>.Create();
+                hi = Uninitialized<short4>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -609,6 +671,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<short8>.Create();
+                hi = Uninitialized<short8>.Create();
+
                 mulwide(x.x0, y.x0, out lo.x0, out hi.x0);
                 mulwide(x.x1, y.x1, out lo.x1, out hi.x1);
                 mulwide(x.x2, y.x2, out lo.x2, out hi.x2);
@@ -649,50 +714,59 @@ namespace MaxMath
             hi = (int)(full >> 32);
         }
         
-        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="int2"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="MaxMath.int2"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(int2 x, int2 y, [NoAlias] out int2 lo, [NoAlias] out int2 hi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                lo = RegisterConversion.ToInt2(Xse.mullo_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
-                hi = RegisterConversion.ToInt2(Xse.mulhi_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                lo = Xse.mullo_epi32(x, y, 2);
+                hi = Xse.mulhi_epi32(x, y, 2);
             }
             else
             {
+                lo = Uninitialized<int2>.Create();
+                hi = Uninitialized<int2>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="int3"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="MaxMath.int3"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(int3 x, int3 y, [NoAlias] out int3 lo, [NoAlias] out int3 hi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                lo = RegisterConversion.ToInt3(Xse.mullo_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
-                hi = RegisterConversion.ToInt3(Xse.mulhi_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                lo = Xse.mullo_epi32(x, y, 3);
+                hi = Xse.mulhi_epi32(x, y, 3);
             }
             else
             {
+                lo = Uninitialized<int3>.Create();
+                hi = Uninitialized<int3>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="int4"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="MaxMath.int4"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(int4 x, int4 y, [NoAlias] out int4 lo, [NoAlias] out int4 hi)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                lo = RegisterConversion.ToInt4(Xse.mullo_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
-                hi = RegisterConversion.ToInt4(Xse.mulhi_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                lo = Xse.mullo_epi32(x, y, 4);
+                hi = Xse.mulhi_epi32(x, y, 4);
             }
             else
             {
+                lo = Uninitialized<int4>.Create();
+                hi = Uninitialized<int4>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
                 mulwide(x.z, y.z, out lo.z, out hi.z);
@@ -749,6 +823,9 @@ namespace MaxMath
             }
             else
             {
+                lo = Uninitialized<long2>.Create();
+                hi = Uninitialized<long2>.Create();
+
                 mulwide(x.x, y.x, out lo.x, out hi.x);
                 mulwide(x.y, y.y, out lo.y, out hi.y);
             }

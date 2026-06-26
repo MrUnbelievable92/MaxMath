@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -95,7 +94,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>   Change the sign of <paramref name="x"/> based on the most significant bit of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -202,7 +201,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf2(Xse.chgsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.chgsign_ph(x, y);
             }
             else
             {
@@ -216,7 +215,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf3(Xse.chgsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.chgsign_ph(x, y);
             }
             else
             {
@@ -230,7 +229,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf4(Xse.chgsign_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.chgsign_ph(x, y);
             }
             else
             {
@@ -269,6 +268,34 @@ namespace MaxMath
 
         /// <summary>   Change the sign of components of <paramref name="x"/> based on the most significant bit of components of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float chgsign(float x, float y)
+        {
+            return Unity.Mathematics.math.chgsign(x, y);
+        }
+
+        /// <summary>   Change the sign of components of <paramref name="x"/> based on the most significant bit of components of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 chgsign(float2 x, float2 y)
+        {
+            return Unity.Mathematics.math.chgsign(x, y);
+        }
+
+        /// <summary>   Change the sign of components of <paramref name="x"/> based on the most significant bit of components of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 chgsign(float3 x, float3 y)
+        {
+            return Unity.Mathematics.math.chgsign(x, y);
+        }
+
+        /// <summary>   Change the sign of components of <paramref name="x"/> based on the most significant bit of components of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 chgsign(float4 x, float4 y)
+        {
+            return Unity.Mathematics.math.chgsign(x, y);
+        }
+
+        /// <summary>   Change the sign of components of <paramref name="x"/> based on the most significant bit of components of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 chgsign(float8 x, float8 y)
         {
             if (Avx.IsAvxSupported)
@@ -277,16 +304,16 @@ namespace MaxMath
             }
             else
             {
-                return new float8(math.chgsign(x.v4_0, y.v4_0), math.chgsign(x.v4_4, y.v4_4));
+                return new float8(chgsign(x.v4_0, y.v4_0), chgsign(x.v4_4, y.v4_4));
             }
         }
 
-
+        
         /// <summary>   Change the sign of <paramref name="x"/> based on the most significant bit of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double chgsign(double x, double y)
         {
-            return math.asdouble(math.asulong(x) ^ (math.asulong(y) & (1ul << 63)));
+            return asdouble(asulong(x) ^ (asulong(y) & (1ul << 63)));
         }
 
         /// <summary>   Change the sign of components of <paramref name="x"/> based on the most significant bit of components of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].    </summary>
@@ -295,7 +322,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.chgsign_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.chgsign_pd(x, y);
             }
             else
             {
@@ -309,7 +336,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_chgsign_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y)));
+                return Xse.mm256_chgsign_pd(x, y);
             }
             else
             {
@@ -323,7 +350,7 @@ namespace MaxMath
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_chgsign_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y)));
+                return Xse.mm256_chgsign_pd(x, y);
             }
             else
             {

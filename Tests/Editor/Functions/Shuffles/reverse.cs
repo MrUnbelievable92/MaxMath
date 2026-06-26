@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -15,7 +15,7 @@ namespace MaxMath.Tests
                 test[i] = (byte)i;
             }
 
-            byte2 reversed = maxmath.reverse(test);
+            byte2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -33,7 +33,7 @@ namespace MaxMath.Tests
                 test[i] = (byte)i;
             }
 
-            byte3 reversed = maxmath.reverse(test);
+            byte3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -51,7 +51,7 @@ namespace MaxMath.Tests
                 test[i] = (byte)i;
             }
 
-            byte4 reversed = maxmath.reverse(test);
+            byte4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -69,7 +69,7 @@ namespace MaxMath.Tests
                 test[i] = (byte)i;
             }
 
-            byte8 reversed = maxmath.reverse(test);
+            byte8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -87,7 +87,7 @@ namespace MaxMath.Tests
                 test[i] = (byte)i;
             }
 
-            byte16 reversed = maxmath.reverse(test);
+            byte16 reversed = math.reverse(test);
 
             for (int i = 0; i < 16; i++)
             {
@@ -105,7 +105,7 @@ namespace MaxMath.Tests
                 test[i] = (byte)i;
             }
 
-            byte32 reversed = maxmath.reverse(test);
+            byte32 reversed = math.reverse(test);
 
             for (int i = 0; i < 32; i++)
             {
@@ -123,7 +123,7 @@ namespace MaxMath.Tests
                 test[i] = (ushort)i;
             }
 
-            ushort2 reversed = maxmath.reverse(test);
+            ushort2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -141,7 +141,7 @@ namespace MaxMath.Tests
                 test[i] = (ushort)i;
             }
 
-            ushort3 reversed = maxmath.reverse(test);
+            ushort3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -159,7 +159,7 @@ namespace MaxMath.Tests
                 test[i] = (ushort)i;
             }
 
-            ushort4 reversed = maxmath.reverse(test);
+            ushort4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -177,7 +177,7 @@ namespace MaxMath.Tests
                 test[i] = (ushort)i;
             }
 
-            ushort8 reversed = maxmath.reverse(test);
+            ushort8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -195,7 +195,7 @@ namespace MaxMath.Tests
                 test[i] = (ushort)i;
             }
 
-            ushort16 reversed = maxmath.reverse(test);
+            ushort16 reversed = math.reverse(test);
 
             for (int i = 0; i < 16; i++)
             {
@@ -213,7 +213,7 @@ namespace MaxMath.Tests
                 test[i] = (uint)i;
             }
 
-            uint2 reversed = maxmath.reverse(test);
+            uint2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -231,7 +231,7 @@ namespace MaxMath.Tests
                 test[i] = (uint)i;
             }
 
-            uint3 reversed = maxmath.reverse(test);
+            uint3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -249,7 +249,7 @@ namespace MaxMath.Tests
                 test[i] = (uint)i;
             }
 
-            uint4 reversed = maxmath.reverse(test);
+            uint4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -267,7 +267,7 @@ namespace MaxMath.Tests
                 test[i] = (uint)i;
             }
 
-            uint8 reversed = maxmath.reverse(test);
+            uint8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -285,7 +285,7 @@ namespace MaxMath.Tests
                 test[i] = (ulong)i;
             }
 
-            ulong2 reversed = maxmath.reverse(test);
+            ulong2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -303,7 +303,7 @@ namespace MaxMath.Tests
                 test[i] = (ulong)i;
             }
 
-            ulong3 reversed = maxmath.reverse(test);
+            ulong3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -321,7 +321,7 @@ namespace MaxMath.Tests
                 test[i] = (ulong)i;
             }
 
-            ulong4 reversed = maxmath.reverse(test);
+            ulong4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -340,7 +340,7 @@ namespace MaxMath.Tests
                 test[i] = (sbyte)i;
             }
 
-            sbyte2 reversed = maxmath.reverse(test);
+            sbyte2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -358,7 +358,7 @@ namespace MaxMath.Tests
                 test[i] = (sbyte)i;
             }
 
-            sbyte3 reversed = maxmath.reverse(test);
+            sbyte3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -376,7 +376,7 @@ namespace MaxMath.Tests
                 test[i] = (sbyte)i;
             }
 
-            sbyte4 reversed = maxmath.reverse(test);
+            sbyte4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -394,7 +394,7 @@ namespace MaxMath.Tests
                 test[i] = (sbyte)i;
             }
 
-            sbyte8 reversed = maxmath.reverse(test);
+            sbyte8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -412,7 +412,7 @@ namespace MaxMath.Tests
                 test[i] = (sbyte)i;
             }
 
-            sbyte16 reversed = maxmath.reverse(test);
+            sbyte16 reversed = math.reverse(test);
 
             for (int i = 0; i < 16; i++)
             {
@@ -430,7 +430,7 @@ namespace MaxMath.Tests
                 test[i] = (sbyte)i;
             }
 
-            sbyte32 reversed = maxmath.reverse(test);
+            sbyte32 reversed = math.reverse(test);
 
             for (int i = 0; i < 32; i++)
             {
@@ -448,7 +448,7 @@ namespace MaxMath.Tests
                 test[i] = (short)i;
             }
 
-            short2 reversed = maxmath.reverse(test);
+            short2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -466,7 +466,7 @@ namespace MaxMath.Tests
                 test[i] = (short)i;
             }
 
-            short3 reversed = maxmath.reverse(test);
+            short3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -484,7 +484,7 @@ namespace MaxMath.Tests
                 test[i] = (short)i;
             }
 
-            short4 reversed = maxmath.reverse(test);
+            short4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -502,7 +502,7 @@ namespace MaxMath.Tests
                 test[i] = (short)i;
             }
 
-            short8 reversed = maxmath.reverse(test);
+            short8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -520,7 +520,7 @@ namespace MaxMath.Tests
                 test[i] = (short)i;
             }
 
-            short16 reversed = maxmath.reverse(test);
+            short16 reversed = math.reverse(test);
 
             for (int i = 0; i < 16; i++)
             {
@@ -538,7 +538,7 @@ namespace MaxMath.Tests
                 test[i] = (int)i;
             }
 
-            int2 reversed = maxmath.reverse(test);
+            int2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -556,7 +556,7 @@ namespace MaxMath.Tests
                 test[i] = (int)i;
             }
 
-            int3 reversed = maxmath.reverse(test);
+            int3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -574,7 +574,7 @@ namespace MaxMath.Tests
                 test[i] = (int)i;
             }
 
-            int4 reversed = maxmath.reverse(test);
+            int4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -592,7 +592,7 @@ namespace MaxMath.Tests
                 test[i] = (int)i;
             }
 
-            int8 reversed = maxmath.reverse(test);
+            int8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -610,7 +610,7 @@ namespace MaxMath.Tests
                 test[i] = (long)i;
             }
 
-            long2 reversed = maxmath.reverse(test);
+            long2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -628,7 +628,7 @@ namespace MaxMath.Tests
                 test[i] = (long)i;
             }
 
-            long3 reversed = maxmath.reverse(test);
+            long3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -646,7 +646,7 @@ namespace MaxMath.Tests
                 test[i] = (long)i;
             }
 
-            long4 reversed = maxmath.reverse(test);
+            long4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -665,7 +665,7 @@ namespace MaxMath.Tests
                 test[i] = (quarter)i;
             }
 
-            quarter2 reversed = maxmath.reverse(test);
+            quarter2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -683,7 +683,7 @@ namespace MaxMath.Tests
                 test[i] = (quarter)i;
             }
 
-            quarter3 reversed = maxmath.reverse(test);
+            quarter3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -701,7 +701,7 @@ namespace MaxMath.Tests
                 test[i] = (quarter)i;
             }
 
-            quarter4 reversed = maxmath.reverse(test);
+            quarter4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -719,7 +719,7 @@ namespace MaxMath.Tests
                 test[i] = (quarter)i;
             }
 
-            quarter8 reversed = maxmath.reverse(test);
+            quarter8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -737,7 +737,7 @@ namespace MaxMath.Tests
                 test[i] = (quarter)i;
             }
 
-            quarter16 reversed = maxmath.reverse(test);
+            quarter16 reversed = math.reverse(test);
 
             for (int i = 0; i < 16; i++)
             {
@@ -755,7 +755,7 @@ namespace MaxMath.Tests
                 test[i] = (quarter)i;
             }
 
-            quarter32 reversed = maxmath.reverse(test);
+            quarter32 reversed = math.reverse(test);
 
             for (int i = 0; i < 32; i++)
             {
@@ -773,7 +773,7 @@ namespace MaxMath.Tests
                 test[i] = (half)i;
             }
 
-            half2 reversed = maxmath.reverse(test);
+            half2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -791,7 +791,7 @@ namespace MaxMath.Tests
                 test[i] = (half)i;
             }
 
-            half3 reversed = maxmath.reverse(test);
+            half3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -809,7 +809,7 @@ namespace MaxMath.Tests
                 test[i] = (half)i;
             }
 
-            half4 reversed = maxmath.reverse(test);
+            half4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -827,7 +827,7 @@ namespace MaxMath.Tests
                 test[i] = (half)i;
             }
 
-            half8 reversed = maxmath.reverse(test);
+            half8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -845,7 +845,7 @@ namespace MaxMath.Tests
                 test[i] = (half)i;
             }
 
-            half16 reversed = maxmath.reverse(test);
+            half16 reversed = math.reverse(test);
 
             for (int i = 0; i < 16; i++)
             {
@@ -863,7 +863,7 @@ namespace MaxMath.Tests
                 test[i] = (float)i;
             }
 
-            float2 reversed = maxmath.reverse(test);
+            float2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -881,7 +881,7 @@ namespace MaxMath.Tests
                 test[i] = (float)i;
             }
 
-            float3 reversed = maxmath.reverse(test);
+            float3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -899,7 +899,7 @@ namespace MaxMath.Tests
                 test[i] = (float)i;
             }
 
-            float4 reversed = maxmath.reverse(test);
+            float4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {
@@ -917,7 +917,7 @@ namespace MaxMath.Tests
                 test[i] = (float)i;
             }
 
-            float8 reversed = maxmath.reverse(test);
+            float8 reversed = math.reverse(test);
 
             for (int i = 0; i < 8; i++)
             {
@@ -935,7 +935,7 @@ namespace MaxMath.Tests
                 test[i] = (double)i;
             }
 
-            double2 reversed = maxmath.reverse(test);
+            double2 reversed = math.reverse(test);
 
             for (int i = 0; i < 2; i++)
             {
@@ -953,7 +953,7 @@ namespace MaxMath.Tests
                 test[i] = (double)i;
             }
 
-            double3 reversed = maxmath.reverse(test);
+            double3 reversed = math.reverse(test);
 
             for (int i = 0; i < 3; i++)
             {
@@ -971,7 +971,7 @@ namespace MaxMath.Tests
                 test[i] = (double)i;
             }
 
-            double4 reversed = maxmath.reverse(test);
+            double4 reversed = math.reverse(test);
 
             for (int i = 0; i < 4; i++)
             {

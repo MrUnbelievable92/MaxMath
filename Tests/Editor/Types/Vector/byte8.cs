@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
@@ -385,7 +385,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte8 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
+                byte8 divisor = math.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
                 byte8 x = TestData_LHS[i] / divisor;
 
@@ -409,7 +409,7 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < NUM_TESTS; i++)
             {
-                byte8 divisor = maxmath.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
+                byte8 divisor = math.select(TestData_RHS[i], 1, TestData_RHS[i] == 0);
 
                 byte8 x = TestData_LHS[i] % divisor;
 
@@ -1179,14 +1179,14 @@ namespace MaxMath.Tests
             {
                 float8 x = TestData_LHS[i];
 
-                result &= maxmath.approx(x.x0, (float)TestData_LHS[i].x0) &
-                          maxmath.approx(x.x1, (float)TestData_LHS[i].x1) &
-                          maxmath.approx(x.x2, (float)TestData_LHS[i].x2) &
-                          maxmath.approx(x.x3, (float)TestData_LHS[i].x3) &
-                          maxmath.approx(x.x4, (float)TestData_LHS[i].x4) &
-                          maxmath.approx(x.x5, (float)TestData_LHS[i].x5) &
-                          maxmath.approx(x.x6, (float)TestData_LHS[i].x6) &
-                          maxmath.approx(x.x7, (float)TestData_LHS[i].x7);
+                result &= math.approx(x.x0, (float)TestData_LHS[i].x0) &
+                          math.approx(x.x1, (float)TestData_LHS[i].x1) &
+                          math.approx(x.x2, (float)TestData_LHS[i].x2) &
+                          math.approx(x.x3, (float)TestData_LHS[i].x3) &
+                          math.approx(x.x4, (float)TestData_LHS[i].x4) &
+                          math.approx(x.x5, (float)TestData_LHS[i].x5) &
+                          math.approx(x.x6, (float)TestData_LHS[i].x6) &
+                          math.approx(x.x7, (float)TestData_LHS[i].x7);
             }
 
             Assert.AreEqual(true, result);

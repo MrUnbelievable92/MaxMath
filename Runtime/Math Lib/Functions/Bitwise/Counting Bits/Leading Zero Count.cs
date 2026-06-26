@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
@@ -267,7 +266,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.MinValue, ulong.MaxValue, elements);
+VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elements);
 
                     v256 EXP32 = mm256_set1_epi64x(32L << F64_MANTISSA_BITS);
                     v256 GREATER_THRESHOLD = mm256_set1_epi64x((31L - F64_EXPONENT_BIAS) << F64_MANTISSA_BITS);
@@ -289,25 +288,25 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="UInt128"/>.    </summary>
-        [return: AssumeRange(0L, 128L)]
+        [return: AssumeRange(0ul, 128ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int lzcnt(UInt128 x)
+        public static byte lzcnt(UInt128 x)
         {
-            int lzcntLo = math.lzcnt(x.lo64);
-            int lzcntHi = math.lzcnt(x.hi64);
+            int lzcntLo = lzcnt(x.lo64);
+            int lzcntHi = lzcnt(x.hi64);
             bool hi0 = x.hi64 == 0;
             int add = hi0 ? 64 : 0;
 
-            return add + (hi0 ? lzcntLo : lzcntHi);
+            return (byte)(add + (hi0 ? lzcntLo : lzcntHi));
         }
 
         /// <summary>       Returns number of leading zeros in the binary representation of an <see cref="Int128"/>.    </summary>
-        [return: AssumeRange(0L, 128L)]
+        [return: AssumeRange(0ul, 128ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int lzcnt(Int128 x)
+        public static byte lzcnt(Int128 x)
         {
             return lzcnt(x.value);
         }
@@ -318,7 +317,7 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte lzcnt(byte x)
         {
-            return (byte)math.max(math.lzcnt((uint)x) - 24, 0);
+            return max((byte)(lzcnt((uint)x) - 24), (byte)0);
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte2"/>.    </summary>
@@ -407,11 +406,11 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
 
 
         /// <summary>       Returns number of leading zeros in the binary representation of an <see cref="sbyte"/>.    </summary>
-        [return: AssumeRange(0, 8)]
+        [return: AssumeRange(0ul, 8ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static sbyte lzcnt(sbyte x)
+        public static byte lzcnt(sbyte x)
         {
-            return (sbyte)lzcnt((byte)x);
+            return lzcnt((byte)x);
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte2"/>.    </summary>
@@ -460,9 +459,9 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
         /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="ushort"/>.    </summary>
         [return: AssumeRange(0ul, 16ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ushort lzcnt(ushort x)
+        public static byte lzcnt(ushort x)
         {
-            return (ushort)math.max(math.lzcnt((uint)x) - 16, 0);
+            return max((byte)(lzcnt((uint)x) - 16), (byte)0);
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort2"/>.    </summary>
@@ -537,11 +536,11 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
 
 
         /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="short"/>.    </summary>
-        [return: AssumeRange(0, 16)]
+        [return: AssumeRange(0ul, 16ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static short lzcnt(short x)
+        public static byte lzcnt(short x)
         {
-            return (short)lzcnt((ushort)x);
+            return lzcnt((ushort)x);
         }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short2"/>.    </summary>
@@ -579,6 +578,56 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
             return (short16)lzcnt((ushort16)x);
         }
 
+        
+        /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="uint"/>.    </summary>
+        [return: AssumeRange(0ul, 32ul)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte lzcnt(uint x)
+        {
+            return (byte)Unity.Mathematics.math.lzcnt(x);
+        }
+
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint2"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 lzcnt(uint2 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.lzcnt_epi32(x);
+            }
+            else
+            {
+                return new int2(Unity.Mathematics.math.lzcnt(x.x), Unity.Mathematics.math.lzcnt(x.y));
+            }
+        }
+        
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint3"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 lzcnt(uint3 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.lzcnt_epi32(x);
+            }
+            else
+            {
+                return new int3(Unity.Mathematics.math.lzcnt(x.x), Unity.Mathematics.math.lzcnt(x.y), Unity.Mathematics.math.lzcnt(x.z));
+            }
+        }
+        
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint4"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 lzcnt(uint4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.lzcnt_epi32(x);
+            }
+            else
+            {
+                return new int4(Unity.Mathematics.math.lzcnt(x.x), Unity.Mathematics.math.lzcnt(x.y), Unity.Mathematics.math.lzcnt(x.z), Unity.Mathematics.math.lzcnt(x.w));
+            }
+        }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -590,10 +639,60 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
             }
             else
             {
-                return new int8(math.lzcnt(x.v4_0), math.lzcnt(x.v4_4));
+                return new int8(lzcnt(x.v4_0), lzcnt(x.v4_4));
             }
         }
 
+        
+        /// <summary>       Returns number of leading zeros in the binary representation of an <see cref="int"/>.    </summary>
+        [return: AssumeRange(0ul, 32ul)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte lzcnt(int x)
+        {
+            return (byte)Unity.Mathematics.math.lzcnt(x);
+        }
+
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int2"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int2 lzcnt(int2 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.lzcnt_epi32(x);
+            }
+            else
+            {
+                return new int2(Unity.Mathematics.math.lzcnt(x.x), Unity.Mathematics.math.lzcnt(x.y));
+            }
+        }
+        
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int3"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int3 lzcnt(int3 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.lzcnt_epi32(x);
+            }
+            else
+            {
+                return new int3(Unity.Mathematics.math.lzcnt(x.x), Unity.Mathematics.math.lzcnt(x.y), Unity.Mathematics.math.lzcnt(x.z));
+            }
+        }
+        
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int4"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int4 lzcnt(int4 x)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.lzcnt_epi32(x);
+            }
+            else
+            {
+                return new int4(Unity.Mathematics.math.lzcnt(x.x), Unity.Mathematics.math.lzcnt(x.y), Unity.Mathematics.math.lzcnt(x.z), Unity.Mathematics.math.lzcnt(x.w));
+            }
+        }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -602,6 +701,14 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
             return (int8)lzcnt((uint8)x);
         }
 
+        
+        /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="ulong"/>.    </summary>
+        [return: AssumeRange(0ul, 64ul)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte lzcnt(ulong x)
+        {
+            return (byte)Unity.Mathematics.math.lzcnt(x);
+        }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ulong2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -613,7 +720,7 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
             }
             else
             {
-                return new ulong2((ulong)math.lzcnt(x.x), (ulong)math.lzcnt(x.y));
+                return new ulong2((ulong)lzcnt(x.x), (ulong)lzcnt(x.y));
             }
         }
 
@@ -627,7 +734,7 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
             }
             else
             {
-                return new ulong3(lzcnt(x.xy), (ulong)math.lzcnt(x.z));
+                return new ulong3(lzcnt(x.xy), (ulong)lzcnt(x.z));
             }
         }
 
@@ -645,6 +752,14 @@ VectorAssert.IsBetween<double4, double>(RegisterConversion.ToDouble4(a), long.Mi
             }
         }
 
+        
+        /// <summary>       Returns number of leading zeros in the binary representation of a <see cref="long"/>.    </summary>
+        [return: AssumeRange(0ul, 64ul)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte lzcnt(long x)
+        {
+            return (byte)Unity.Mathematics.math.lzcnt(x);
+        }
 
         /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,6 +1,6 @@
 using DevTools;
 using System;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -8,7 +8,7 @@ namespace MaxMath.Tests
     {
         internal static half ToHalf(int x)
         {
-            return HalfExtensions.FromInt(x, (half)float.PositiveInfinity);
+            return (half)x;
         }
         
         internal static half2 ToHalf(int2 x)
@@ -33,7 +33,7 @@ namespace MaxMath.Tests
         
         internal static half ToHalf(uint x)
         {
-            return HalfExtensions.FromUInt(x, (half)float.PositiveInfinity);
+            return (half)x;
         }
         
         internal static half2 ToHalf(uint2 x)
@@ -60,7 +60,7 @@ namespace MaxMath.Tests
 
         private static float NEXT_AFTER_MAX_SUBNORMAL_F32 => math.asfloat(1 << 23);
         private static double NEXT_AFTER_MAX_SUBNORMAL_F64 => math.asdouble(1ul << 52);
-        private static quadruple NEXT_AFTER_MAX_SUBNORMAL_F128 => maxmath.asquadruple((UInt128)1 << 112);
+        private static quadruple NEXT_AFTER_MAX_SUBNORMAL_F128 => math.asquadruple((UInt128)1 << 112);
 
         private static (float, float)[] ALL_RANGES_F32 => new (float, float)[]
         {

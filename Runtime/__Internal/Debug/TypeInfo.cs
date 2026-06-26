@@ -2,16 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using DevTools;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    [StructLayout(LayoutKind.Sequential, Size = 5)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     unsafe internal readonly struct TypeInfo : IEquatable<TypeInfo>
     {
         internal readonly Signedness _sign;

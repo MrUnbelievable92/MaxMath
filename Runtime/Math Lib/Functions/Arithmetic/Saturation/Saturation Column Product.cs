@@ -1,13 +1,12 @@
 using System.Runtime.CompilerServices;
 using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte2"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -20,7 +19,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte3 x)
         {
-            return (byte)math.min(byte.MaxValue, x.x * x.y * x.z);
+            return (byte)min(byte.MaxValue, x.x * x.y * x.z);
         }
 
         /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte4"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
@@ -42,7 +41,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, ((uint)x.x * x.y) * ((uint)x.z * x.w));
+                return (byte)min(byte.MaxValue, ((uint)x.x * x.y) * ((uint)x.z * x.w));
             }
         }
 
@@ -68,7 +67,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, (((ulong)x.x0 * x.x1) * ((ulong)x.x2 * x.x3)) * (((ulong)x.x4 * x.x5) * ((ulong)x.x6 * x.x7)));
+                return (byte)min(byte.MaxValue, (((ulong)x.x0 * x.x1) * ((ulong)x.x2 * x.x3)) * (((ulong)x.x4 * x.x5) * ((ulong)x.x6 * x.x7)));
             }
         }
 
@@ -113,7 +112,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, cprodsaturated(x.v8_0) * cprodsaturated(x.v8_8));
+                return (byte)min(byte.MaxValue, cprodsaturated(x.v8_0) * cprodsaturated(x.v8_8));
             }
         }
 
@@ -143,14 +142,14 @@ namespace MaxMath
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 24);
 
-                v128 ints1 = Xse.cvtepu8_epi32(x._v16_0);
-                v128 ints2 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_0,  4 * sizeof(byte)));
-                v128 ints3 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_0,  8 * sizeof(byte)));
-                v128 ints4 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_0, 12 * sizeof(byte)));
-                v128 ints5 = Xse.cvtepu8_epi32(x._v16_16);
-                v128 ints6 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)));
-                v128 ints7 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)));
-                v128 ints8 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
+                v128 ints1 = Xse.cvtepu8_epi32(x.__x0);
+                v128 ints2 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x.__x0,  4 * sizeof(byte)));
+                v128 ints3 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x.__x0,  8 * sizeof(byte)));
+                v128 ints4 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x.__x0, 12 * sizeof(byte)));
+                v128 ints5 = Xse.cvtepu8_epi32(x.__x16);
+                v128 ints6 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x.__x16,  4 * sizeof(byte)));
+                v128 ints7 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x.__x16,  8 * sizeof(byte)));
+                v128 ints8 = Xse.cvtepu8_epi32(Xse.bsrli_si128(x.__x16, 12 * sizeof(byte)));
                 v128 product;
 
                 v128 product1 = Xse.mullo_epi32(Xse.mullo_epi32(ints1, ints5), Xse.mullo_epi32(ints3, ints4));
@@ -167,7 +166,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min(byte.MaxValue, cprodsaturated(x.v16_0) * cprodsaturated(x.v16_16));
+                return (byte)min(byte.MaxValue, cprodsaturated(x.v16_0) * cprodsaturated(x.v16_16));
             }
         }
 
@@ -211,7 +210,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(x.x * x.y * x.z, sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(x.x * x.y * x.z, sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -250,7 +249,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp((x.x * x.y) * (x.z * x.w), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp((x.x * x.y) * (x.z * x.w), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -296,7 +295,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp((((long)x.x0 * x.x1) * ((long)x.x2 * x.x3)) * (((long)x.x4 * x.x5) * ((long)x.x6 * x.x7)), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp((((long)x.x0 * x.x1) * ((long)x.x2 * x.x3)) * (((long)x.x4 * x.x5) * ((long)x.x6 * x.x7)), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -367,7 +366,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(cprodsaturated(x.v8_0) * cprodsaturated(x.v8_8), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(cprodsaturated(x.v8_0) * cprodsaturated(x.v8_8), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -396,8 +395,8 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsMul32Supported)
             {
-                v128 lo = x._v16_0;
-                v128 hi = x._v16_16;
+                v128 lo = x.__x0;
+                v128 hi = x.__x16;
                 v128 shorts1 = Xse.cvtepi8_epi16(lo);
                 v128 shorts2 = Xse.cvtepi8_epi16(Xse.bsrli_si128(lo, 8 * sizeof(sbyte)));
                 v128 shorts3 = Xse.cvtepi8_epi16(hi);
@@ -429,8 +428,8 @@ namespace MaxMath
                 v128 MIN_VALUE = Xse.slli_epi16(ALL_ONES, 7);
                 v128 MAX_VALUE = Xse.srli_epi16(ALL_ONES, 9);
 
-                v128 lo = x._v16_0;
-                v128 hi = x._v16_16;
+                v128 lo = x.__x0;
+                v128 hi = x.__x16;
                 v128 xNegativeMask_lo = Xse.cmpgt_epi8(ZERO, lo);
                 v128 xNegativeMask_hi = Xse.cmpgt_epi8(ZERO, hi);
                 v128 shorts1 = Xse.unpacklo_epi8(lo, xNegativeMask_lo);
@@ -461,7 +460,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.clamp(cprodsaturated(x.v8_0) * cprodsaturated(x.v8_8) * cprodsaturated(x.v8_16) * cprodsaturated(x.v8_24), sbyte.MinValue, sbyte.MaxValue);
+                return (sbyte)clamp(cprodsaturated(x.v8_0) * cprodsaturated(x.v8_8) * cprodsaturated(x.v8_16) * cprodsaturated(x.v8_24), sbyte.MinValue, sbyte.MaxValue);
             }
         }
 
@@ -504,7 +503,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp((long)x.x * x.y * x.z, short.MinValue, short.MaxValue);
+                return (short)clamp((long)x.x * x.y * x.z, short.MinValue, short.MaxValue);
             }
         }
 
@@ -527,7 +526,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp(((long)x.x * x.y) * ((long)x.z * x.w), short.MinValue, short.MaxValue);
+                return (short)clamp(((long)x.x * x.y) * ((long)x.z * x.w), short.MinValue, short.MaxValue);
             }
         }
 
@@ -554,7 +553,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp(cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4), short.MinValue, short.MaxValue);
+                return (short)clamp(cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4), short.MinValue, short.MaxValue);
             }
         }
 
@@ -581,8 +580,8 @@ namespace MaxMath
             }
             else if (BurstArchitecture.IsMul32Supported)
             {
-                v128 lo = x._v8_0;
-                v128 hi = x._v8_8;
+                v128 lo = x.__x0;
+                v128 hi = x.__x8;
                 v128 ints1 = Xse.cvtepi16_epi32(lo);
                 v128 ints2 = Xse.cvtepi16_epi32(Xse.bsrli_si128(lo, 4 * sizeof(short)));
                 v128 ints3 = Xse.cvtepi16_epi32(hi);
@@ -606,7 +605,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.clamp((long)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4) * cprodsaturated(x.v4_8) * cprodsaturated(x.v4_12), short.MinValue, short.MaxValue);
+                return (short)clamp((long)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4) * cprodsaturated(x.v4_8) * cprodsaturated(x.v4_12), short.MinValue, short.MaxValue);
             }
         }
 
@@ -654,7 +653,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min((ulong)x.x * x.y * x.z, ushort.MaxValue);
+                return (ushort)min((ulong)x.x * x.y * x.z, ushort.MaxValue);
             }
         }
 
@@ -677,7 +676,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min(((ulong)x.x * x.y) * ((ulong)x.z * x.w), ushort.MaxValue);
+                return (ushort)min(((ulong)x.x * x.y) * ((ulong)x.z * x.w), ushort.MaxValue);
             }
         }
 
@@ -703,7 +702,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min((ulong)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4), ushort.MaxValue);
+                return (ushort)min((ulong)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4), ushort.MaxValue);
             }
         }
 
@@ -732,8 +731,8 @@ namespace MaxMath
             {
                 v128 MAX_VALUE = Xse.srli_epi32(Xse.setall_si128(), 16);
 
-                v128 lo = x._v8_0;
-                v128 hi = x._v8_8;
+                v128 lo = x.__x0;
+                v128 hi = x.__x8;
                 v128 ints1 = Xse.cvtepu16_epi32(lo);
                 v128 ints2 = Xse.cvtepu16_epi32(Xse.bsrli_si128(lo, 4 * sizeof(ushort)));
                 v128 ints3 = Xse.cvtepu16_epi32(hi);
@@ -754,26 +753,26 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min(((ulong)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4)) * ((ulong)cprodsaturated(x.v4_8) * cprodsaturated(x.v4_12)), ushort.MaxValue);
+                return (ushort)min(((ulong)cprodsaturated(x.v4_0) * cprodsaturated(x.v4_4)) * ((ulong)cprodsaturated(x.v4_8) * cprodsaturated(x.v4_12)), ushort.MaxValue);
             }
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="int2"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.int2"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprodsaturated(int2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="int3"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.int3"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprodsaturated(int3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="int4"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.int4"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprodsaturated(int4 x)
         {
@@ -788,21 +787,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="uint2"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.uint2"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprodsaturated(uint2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="uint3"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.uint3"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprodsaturated(uint3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="uint4"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.uint4"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprodsaturated(uint4 x)
         {
@@ -861,27 +860,27 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="float2"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.float2"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprodsaturated(float2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="float3"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.float3"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprodsaturated(float3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="float4"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.float4"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprodsaturated(float4 x)
         {
             double2 _0 = (double2)x.xy * (double2)x.zw;
 
-            return (float)math.clamp(_0.x * _0.y, float.MinValue, float.MaxValue);
+            return (float)clamp(_0.x * _0.y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Returns the saturated horizontal productof components ofa<see cref="MaxMath.float8"/>, so that the productis clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
@@ -891,25 +890,25 @@ namespace MaxMath
             double4 _0 = (double4)x.v4_0 * (double4)x.v4_4;
             double2 _1 = _0.xy * _0.zw;
 
-            return (float)math.clamp(_1.x * _1.y, float.MinValue, float.MaxValue);
+            return (float)clamp(_1.x * _1.y, float.MinValue, float.MaxValue);
         }
 
 
-        //// <summary>       Returns the saturated horizontal product of components ofa<see cref="double2"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        //// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.double2"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprodsaturated(double2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="double3"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.double3"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprodsaturated(double3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="double4"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.double4"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprodsaturated(double4 x)
         {

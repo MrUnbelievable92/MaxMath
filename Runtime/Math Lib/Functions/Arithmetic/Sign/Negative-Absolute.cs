@@ -2,7 +2,6 @@ using System.Runtime.CompilerServices;
 using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -434,7 +433,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the negative absolute value of an <see cref="Int128"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -631,13 +630,13 @@ namespace MaxMath
             return x >= 0 ? -x : x;
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="int2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 nabs(int2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.nabs_epi32(RegisterConversion.ToV128(x), 2));
+                return Xse.nabs_epi32(x, 2);
             }
             else
             {
@@ -645,13 +644,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="int3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 nabs(int3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.nabs_epi32(RegisterConversion.ToV128(x), 3));
+                return Xse.nabs_epi32(x, 3);
             }
             else
             {
@@ -659,13 +658,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="int4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 nabs(int4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.nabs_epi32(RegisterConversion.ToV128(x), 4));
+                return Xse.nabs_epi32(x, 4);
             }
             else
             {
@@ -838,7 +837,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the negative absolute value of a <see cref="half"/>.    </summary>
+        /// <summary>       Returns the negative absolute value of a <see cref="MaxMath.half"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half nabs(half x)
         {
@@ -852,13 +851,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="half2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 nabs(half2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf2(Xse.nabs_ph(RegisterConversion.ToV128(x), 2));
+                return Xse.nabs_ph(x, 2);
             }
             else
             {
@@ -866,13 +865,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="half3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 nabs(half3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf3(Xse.nabs_ph(RegisterConversion.ToV128(x), 3));
+                return Xse.nabs_ph(x, 3);
             }
             else
             {
@@ -880,13 +879,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="half4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 nabs(half4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToHalf4(Xse.nabs_ph(RegisterConversion.ToV128(x), 4));
+                return Xse.nabs_ph(x, 4);
             }
             else
             {
@@ -933,17 +932,17 @@ namespace MaxMath
             }
             else
             {
-                return math.asfloat(math.asint(x) | (1 << 31));
+                return asfloat(asint(x) | (1 << 31));
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="float2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.float2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 nabs(float2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.nabs_ps(RegisterConversion.ToV128(x), 2));
+                return Xse.nabs_ps(x, 2);
             }
             else
             {
@@ -951,13 +950,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="float3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.float3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 nabs(float3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.nabs_ps(RegisterConversion.ToV128(x), 3));
+                return Xse.nabs_ps(x, 3);
             }
             else
             {
@@ -965,13 +964,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="float4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.float4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 nabs(float4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.nabs_ps(RegisterConversion.ToV128(x), 4));
+                return Xse.nabs_ps(x, 4);
             }
             else
             {
@@ -1004,17 +1003,17 @@ namespace MaxMath
             }
             else
             {
-                return math.asdouble(math.aslong(x) | (1L << 63));
+                return asdouble(aslong(x) | (1L << 63));
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="double2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.double2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 nabs(double2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.nabs_pd(RegisterConversion.ToV128(x)));
+                return Xse.nabs_pd(x);
             }
             else
             {
@@ -1022,13 +1021,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="double3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.double3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 nabs(double3 x)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_nabs_pd(RegisterConversion.ToV256(x), 3));
+                return Xse.mm256_nabs_pd(x, 3);
             }
             else
             {
@@ -1036,13 +1035,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="double4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.double4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 nabs(double4 x)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_nabs_pd(RegisterConversion.ToV256(x), 4));
+                return Xse.mm256_nabs_pd(x, 4);
             }
             else
             {

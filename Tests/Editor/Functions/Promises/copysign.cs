@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -13,11 +13,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 sbyte2 l = rng.NextSByte2();
-                sbyte2 r = maxmath.abs(rng.NextSByte2());
+                sbyte2 r = math.abs(rng.NextSByte2());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -29,11 +29,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 sbyte3 l = rng.NextSByte3();
-                sbyte3 r = maxmath.abs(rng.NextSByte3());
+                sbyte3 r = math.abs(rng.NextSByte3());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -45,11 +45,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 sbyte4 l = rng.NextSByte4();
-                sbyte4 r = maxmath.abs(rng.NextSByte4());
+                sbyte4 r = math.abs(rng.NextSByte4());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -61,11 +61,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 sbyte8 l = rng.NextSByte8();
-                sbyte8 r = maxmath.abs(rng.NextSByte8());
+                sbyte8 r = math.abs(rng.NextSByte8());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -77,11 +77,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 sbyte16 l = rng.NextSByte16();
-                sbyte16 r = maxmath.abs(rng.NextSByte16());
+                sbyte16 r = math.abs(rng.NextSByte16());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -93,11 +93,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 sbyte32 l = rng.NextSByte32();
-                sbyte32 r = maxmath.abs(rng.NextSByte32());
+                sbyte32 r = math.abs(rng.NextSByte32());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -111,11 +111,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short2 l = rng.NextShort2();
-                short2 r = maxmath.abs(rng.NextShort2());
+                short2 r = math.abs(rng.NextShort2());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -127,11 +127,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short3 l = rng.NextShort3();
-                short3 r = maxmath.abs(rng.NextShort3());
+                short3 r = math.abs(rng.NextShort3());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -143,11 +143,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short4 l = rng.NextShort4();
-                short4 r = maxmath.abs(rng.NextShort4());
+                short4 r = math.abs(rng.NextShort4());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -159,11 +159,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short8 l = rng.NextShort8();
-                short8 r = maxmath.abs(rng.NextShort8());
+                short8 r = math.abs(rng.NextShort8());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -175,11 +175,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 short16 l = rng.NextShort16();
-                short16 r = maxmath.abs(rng.NextShort16());
+                short16 r = math.abs(rng.NextShort16());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -197,7 +197,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -213,7 +213,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -229,7 +229,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -241,11 +241,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 int8 l = rng.NextInt8();
-                int8 r = maxmath.abs(rng.NextInt8());
+                int8 r = math.abs(rng.NextInt8());
 
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -258,14 +258,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                quarter l = maxmath.asquarter(rng.NextSByte());
-                quarter r = maxmath.abs(maxmath.asquarter(rng.NextSByte()));
+                quarter l = math.asquarter(rng.NextSByte());
+                quarter r = math.abs(math.asquarter(rng.NextSByte()));
 
-                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+                l = math.select(l, (quarter)1f, math.isnan(l));
+                r = math.select(r, (quarter)1f, math.isnan(r));
+                r = math.select(r, (quarter)1f, r == (quarter)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -276,14 +276,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                quarter2 l = maxmath.asquarter(rng.NextSByte2());
-                quarter2 r = maxmath.abs(maxmath.asquarter(rng.NextSByte2()));
+                quarter2 l = math.asquarter(rng.NextSByte2());
+                quarter2 r = math.abs(math.asquarter(rng.NextSByte2()));
 
-                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+                l = math.select(l, (quarter)1f, math.isnan(l));
+                r = math.select(r, (quarter)1f, math.isnan(r));
+                r = math.select(r, (quarter)1f, r == (quarter)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -294,14 +294,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                quarter3 l = maxmath.asquarter(rng.NextSByte3());
-                quarter3 r = maxmath.abs(maxmath.asquarter(rng.NextSByte3()));
+                quarter3 l = math.asquarter(rng.NextSByte3());
+                quarter3 r = math.abs(math.asquarter(rng.NextSByte3()));
 
-                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+                l = math.select(l, (quarter)1f, math.isnan(l));
+                r = math.select(r, (quarter)1f, math.isnan(r));
+                r = math.select(r, (quarter)1f, r == (quarter)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -312,14 +312,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                quarter4 l = maxmath.asquarter(rng.NextSByte4());
-                quarter4 r = maxmath.abs(maxmath.asquarter(rng.NextSByte4()));
+                quarter4 l = math.asquarter(rng.NextSByte4());
+                quarter4 r = math.abs(math.asquarter(rng.NextSByte4()));
 
-                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+                l = math.select(l, (quarter)1f, math.isnan(l));
+                r = math.select(r, (quarter)1f, math.isnan(r));
+                r = math.select(r, (quarter)1f, r == (quarter)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -330,14 +330,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                quarter8 l = maxmath.asquarter(rng.NextSByte8());
-                quarter8 r = maxmath.abs(maxmath.asquarter(rng.NextSByte8()));
+                quarter8 l = math.asquarter(rng.NextSByte8());
+                quarter8 r = math.abs(math.asquarter(rng.NextSByte8()));
 
-                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+                l = math.select(l, (quarter)1f, math.isnan(l));
+                r = math.select(r, (quarter)1f, math.isnan(r));
+                r = math.select(r, (quarter)1f, r == (quarter)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -348,14 +348,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                quarter16 l = maxmath.asquarter(rng.NextSByte16());
-                quarter16 r = maxmath.abs(maxmath.asquarter(rng.NextSByte16()));
+                quarter16 l = math.asquarter(rng.NextSByte16());
+                quarter16 r = math.abs(math.asquarter(rng.NextSByte16()));
 
-                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+                l = math.select(l, (quarter)1f, math.isnan(l));
+                r = math.select(r, (quarter)1f, math.isnan(r));
+                r = math.select(r, (quarter)1f, r == (quarter)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -366,14 +366,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                quarter32 l = maxmath.asquarter(rng.NextSByte32());
-                quarter32 r = maxmath.abs(maxmath.asquarter(rng.NextSByte32()));
+                quarter32 l = math.asquarter(rng.NextSByte32());
+                quarter32 r = math.abs(math.asquarter(rng.NextSByte32()));
 
-                l = maxmath.select(l, (quarter)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (quarter)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (quarter)1f, r == (quarter)0f);
+                l = math.select(l, (quarter)1f, math.isnan(l));
+                r = math.select(r, (quarter)1f, math.isnan(r));
+                r = math.select(r, (quarter)1f, r == (quarter)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -386,14 +386,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                half l = maxmath.ashalf(rng.NextShort());
-                half r = maxmath.abs(maxmath.ashalf(rng.NextShort()));
+                half l = math.ashalf(rng.NextShort());
+                half r = math.abs(math.ashalf(rng.NextShort()));
 
-                l = maxmath.select(l, (half)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (half)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (half)1f, r == (half)0f);
+                l = math.select(l, (half)1f, math.isnan(l));
+                r = math.select(r, (half)1f, math.isnan(r));
+                r = math.select(r, (half)1f, r == (half)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -404,14 +404,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                half2 l = maxmath.ashalf(rng.NextShort2());
-                half2 r = maxmath.abs(maxmath.ashalf(rng.NextShort2()));
+                half2 l = math.ashalf(rng.NextShort2());
+                half2 r = math.abs(math.ashalf(rng.NextShort2()));
 
-                l = maxmath.select(l, (half)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (half)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (half)1f, r == (half)0f);
+                l = math.select(l, (half)1f, math.isnan(l));
+                r = math.select(r, (half)1f, math.isnan(r));
+                r = math.select(r, (half)1f, r == (half)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -422,14 +422,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                half3 l = maxmath.ashalf(rng.NextShort3());
-                half3 r = maxmath.abs(maxmath.ashalf(rng.NextShort3()));
+                half3 l = math.ashalf(rng.NextShort3());
+                half3 r = math.abs(math.ashalf(rng.NextShort3()));
 
-                l = maxmath.select(l, (half)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (half)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (half)1f, r == (half)0f);
+                l = math.select(l, (half)1f, math.isnan(l));
+                r = math.select(r, (half)1f, math.isnan(r));
+                r = math.select(r, (half)1f, r == (half)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -440,14 +440,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                half4 l = maxmath.ashalf(rng.NextShort4());
-                half4 r = maxmath.abs(maxmath.ashalf(rng.NextShort4()));
+                half4 l = math.ashalf(rng.NextShort4());
+                half4 r = math.abs(math.ashalf(rng.NextShort4()));
 
-                l = maxmath.select(l, (half)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (half)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (half)1f, r == (half)0f);
+                l = math.select(l, (half)1f, math.isnan(l));
+                r = math.select(r, (half)1f, math.isnan(r));
+                r = math.select(r, (half)1f, r == (half)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -458,14 +458,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                half8 l = maxmath.ashalf(rng.NextShort8());
-                half8 r = maxmath.abs(maxmath.ashalf(rng.NextShort8()));
+                half8 l = math.ashalf(rng.NextShort8());
+                half8 r = math.abs(math.ashalf(rng.NextShort8()));
 
-                l = maxmath.select(l, (half)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (half)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (half)1f, r == (half)0f);
+                l = math.select(l, (half)1f, math.isnan(l));
+                r = math.select(r, (half)1f, math.isnan(r));
+                r = math.select(r, (half)1f, r == (half)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -476,14 +476,14 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 24; i++)
             {
-                half16 l = maxmath.ashalf(rng.NextShort16());
-                half16 r = maxmath.abs(maxmath.ashalf(rng.NextShort16()));
+                half16 l = math.ashalf(rng.NextShort16());
+                half16 r = math.abs(math.ashalf(rng.NextShort16()));
 
-                l = maxmath.select(l, (half)1f, maxmath.isnan(l));
-                r = maxmath.select(r, (half)1f, maxmath.isnan(r));
-                r = maxmath.select(r, (half)1f, r == (half)0f);
+                l = math.select(l, (half)1f, math.isnan(l));
+                r = math.select(r, (half)1f, math.isnan(r));
+                r = math.select(r, (half)1f, r == (half)0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -500,7 +500,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -516,7 +516,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -532,7 +532,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -548,7 +548,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -560,11 +560,11 @@ namespace MaxMath.Tests
             for (int i = 0; i < 24; i++)
             {
                 float8 l = rng.NextFloat8();
-                float8 r = maxmath.abs(rng.NextFloat8());
+                float8 r = math.abs(rng.NextFloat8());
 
-                r = maxmath.select(r, 1f, r == 0f);
+                r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -580,7 +580,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -596,7 +596,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -612,7 +612,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
 
@@ -628,7 +628,7 @@ namespace MaxMath.Tests
 
                 r = math.select(r, 1f, r == 0f);
 
-                Assert.AreEqual(maxmath.copysign(l, r), maxmath.copysign(l, r, Promise.NonZero));
+                Assert.AreEqual(math.copysign(l, r), math.copysign(l, r, Promise.NonZero));
             }
         }
     }

@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -266,15 +265,15 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="float2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.float2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 addsub(float2 a, float2 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.subadd_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.subadd_ps(a, b);
             }
             else
             {
@@ -282,13 +281,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="float3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.float3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 addsub(float3 a, float3 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.subadd_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.subadd_ps(a, b);
             }
             else
             {
@@ -296,13 +295,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="float4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.float4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 addsub(float4 a, float4 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.subadd_ps(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.subadd_ps(a, b);
             }
             else
             {
@@ -325,13 +324,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="double2"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.double2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 addsub(double2 a, double2 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.subadd_pd(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b)));
+                return Xse.subadd_pd(a, b);
             }
             else
             {
@@ -339,13 +338,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="double3"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.double3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 addsub(double3 a, double3 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_subadd_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b)));
+                return Xse.mm256_subadd_pd(a, b);
             }
             else
             {
@@ -353,13 +352,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="double4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.double4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 addsub(double4 a, double4 b)
         {
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_subadd_pd(RegisterConversion.ToV256(a), RegisterConversion.ToV256(b)));
+                return Xse.mm256_subadd_pd(a, b);
             }
             else
             {
@@ -603,13 +602,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="uint2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.uint2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 addsub(uint2 a, uint2 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.subadd_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 2));
+                return Xse.subadd_epi32(a, b, 2);
             }
             else
             {
@@ -617,13 +616,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="uint3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.uint3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 addsub(uint3 a, uint3 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.subadd_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 3));
+                return Xse.subadd_epi32(a, b, 3);
             }
             else
             {
@@ -631,13 +630,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="uint4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.uint4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 addsub(uint4 a, uint4 b)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.subadd_epi32(RegisterConversion.ToV128(a), RegisterConversion.ToV128(b), 4));
+                return Xse.subadd_epi32(a, b, 4);
             }
             else
             {
@@ -660,21 +659,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="int2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.int2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 addsub(int2 a, int2 b)
         {
             return (int2)addsub((uint2)a, (uint2)b);
         }
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="int3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.int3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 addsub(int3 a, int3 b)
         {
             return (int3)addsub((uint3)a, (uint3)b);
         }
 
-        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="int4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise add/subtract operation (<paramref name ="a"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.int4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 addsub(int4 a, int4 b)
         {

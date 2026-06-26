@@ -1,6 +1,6 @@
 using System.Numerics;
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -17,7 +17,7 @@ namespace MaxMath.Tests
             {
                 UInt128 left = rng.NextUInt128();
                 UInt128 right = rng.NextUInt128();
-                UInt128 sum = maxmath.addsaturated(left, right);
+                UInt128 sum = math.addsaturated(left, right);
 
                 BigInteger sumNormal = (BigInteger)left + (BigInteger)right;
                 Assert.AreEqual(sumNormal > UInt128.MaxValue ? UInt128.MaxValue : sumNormal, (BigInteger)sum);
@@ -34,7 +34,7 @@ namespace MaxMath.Tests
             {
                 byte left = rng.NextByte();
                 byte right = rng.NextByte();
-                byte sum = maxmath.addsaturated(left, right);
+                byte sum = math.addsaturated(left, right);
 
                 int sumNormal = left + right;
                 Assert.AreEqual(sumNormal > byte.MaxValue ? byte.MaxValue : sumNormal, (int)sum);
@@ -52,7 +52,7 @@ namespace MaxMath.Tests
             {
                 byte2 left = rng.NextByte2();
                 byte2 right = rng.NextByte2();
-                byte2 sum = maxmath.addsaturated(left, right);
+                byte2 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -73,7 +73,7 @@ namespace MaxMath.Tests
             {
                 byte3 left = rng.NextByte3();
                 byte3 right = rng.NextByte3();
-                byte3 sum = maxmath.addsaturated(left, right);
+                byte3 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -94,7 +94,7 @@ namespace MaxMath.Tests
             {
                 byte4 left = rng.NextByte4();
                 byte4 right = rng.NextByte4();
-                byte4 sum = maxmath.addsaturated(left, right);
+                byte4 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -115,7 +115,7 @@ namespace MaxMath.Tests
             {
                 byte8 left = rng.NextByte8();
                 byte8 right = rng.NextByte8();
-                byte8 sum = maxmath.addsaturated(left, right);
+                byte8 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -136,7 +136,7 @@ namespace MaxMath.Tests
             {
                 byte16 left = rng.NextByte16();
                 byte16 right = rng.NextByte16();
-                byte16 sum = maxmath.addsaturated(left, right);
+                byte16 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -157,7 +157,7 @@ namespace MaxMath.Tests
             {
                 byte32 left = rng.NextByte32();
                 byte32 right = rng.NextByte32();
-                byte32 sum = maxmath.addsaturated(left, right);
+                byte32 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 32; j++)
                 {
@@ -177,7 +177,7 @@ namespace MaxMath.Tests
             {
                 ushort left = rng.NextUShort();
                 ushort right = rng.NextUShort();
-                ushort sum = maxmath.addsaturated(left, right);
+                ushort sum = math.addsaturated(left, right);
 
                 int sumNormal = left + right;
                 Assert.AreEqual(sumNormal > ushort.MaxValue ? ushort.MaxValue : sumNormal, (int)sum);
@@ -195,7 +195,7 @@ namespace MaxMath.Tests
             {
                 ushort2 left = rng.NextUShort2();
                 ushort2 right = rng.NextUShort2();
-                ushort2 sum = maxmath.addsaturated(left, right);
+                ushort2 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -216,7 +216,7 @@ namespace MaxMath.Tests
             {
                 ushort3 left = rng.NextUShort3();
                 ushort3 right = rng.NextUShort3();
-                ushort3 sum = maxmath.addsaturated(left, right);
+                ushort3 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -237,7 +237,7 @@ namespace MaxMath.Tests
             {
                 ushort4 left = rng.NextUShort4();
                 ushort4 right = rng.NextUShort4();
-                ushort4 sum = maxmath.addsaturated(left, right);
+                ushort4 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -258,7 +258,7 @@ namespace MaxMath.Tests
             {
                 ushort8 left = rng.NextUShort8();
                 ushort8 right = rng.NextUShort8();
-                ushort8 sum = maxmath.addsaturated(left, right);
+                ushort8 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -279,7 +279,7 @@ namespace MaxMath.Tests
             {
                 ushort16 left = rng.NextUShort16();
                 ushort16 right = rng.NextUShort16();
-                ushort16 sum = maxmath.addsaturated(left, right);
+                ushort16 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -299,7 +299,7 @@ namespace MaxMath.Tests
             {
                 uint left = rng.NextUInt();
                 uint right = rng.NextUInt();
-                uint sum = maxmath.addsaturated(left, right);
+                uint sum = math.addsaturated(left, right);
 
                 long sumNormal = (long)left + right;
                 Assert.AreEqual(sumNormal > uint.MaxValue ? uint.MaxValue : sumNormal, (long)sum);
@@ -317,7 +317,7 @@ namespace MaxMath.Tests
             {
                 uint2 left = rng.NextUInt2();
                 uint2 right = rng.NextUInt2();
-                uint2 sum = maxmath.addsaturated(left, right);
+                uint2 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -338,7 +338,7 @@ namespace MaxMath.Tests
             {
                 uint3 left = rng.NextUInt3();
                 uint3 right = rng.NextUInt3();
-                uint3 sum = maxmath.addsaturated(left, right);
+                uint3 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -359,7 +359,7 @@ namespace MaxMath.Tests
             {
                 uint4 left = rng.NextUInt4();
                 uint4 right = rng.NextUInt4();
-                uint4 sum = maxmath.addsaturated(left, right);
+                uint4 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -380,7 +380,7 @@ namespace MaxMath.Tests
             {
                 uint8 left = rng.NextUInt8();
                 uint8 right = rng.NextUInt8();
-                uint8 sum = maxmath.addsaturated(left, right);
+                uint8 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -400,7 +400,7 @@ namespace MaxMath.Tests
             {
                 ulong left = rng.NextULong();
                 ulong right = rng.NextULong();
-                ulong sum = maxmath.addsaturated(left, right);
+                ulong sum = math.addsaturated(left, right);
 
                 UInt128 sumNormal = (UInt128)left + right;
                 Assert.AreEqual(sumNormal > ulong.MaxValue ? ulong.MaxValue : sumNormal, (UInt128)sum);
@@ -418,7 +418,7 @@ namespace MaxMath.Tests
             {
                 ulong2 left = rng.NextULong2();
                 ulong2 right = rng.NextULong2();
-                ulong2 sum = maxmath.addsaturated(left, right);
+                ulong2 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -439,7 +439,7 @@ namespace MaxMath.Tests
             {
                 ulong3 left = rng.NextULong3();
                 ulong3 right = rng.NextULong3();
-                ulong3 sum = maxmath.addsaturated(left, right);
+                ulong3 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -460,7 +460,7 @@ namespace MaxMath.Tests
             {
                 ulong4 left = rng.NextULong4();
                 ulong4 right = rng.NextULong4();
-                ulong4 sum = maxmath.addsaturated(left, right);
+                ulong4 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -482,7 +482,7 @@ namespace MaxMath.Tests
             {
                 Int128 left = rng.NextInt128();
                 Int128 right = rng.NextInt128();
-                Int128 sum = maxmath.addsaturated(left, right);
+                Int128 sum = math.addsaturated(left, right);
 
                 BigInteger sumNormal = (BigInteger)left + (BigInteger)right;
                 Assert.AreEqual(sumNormal > Int128.MaxValue ? Int128.MaxValue : sumNormal < Int128.MinValue ? Int128.MinValue : sumNormal, (BigInteger)sum);
@@ -499,7 +499,7 @@ namespace MaxMath.Tests
             {
                 sbyte left = rng.NextSByte();
                 sbyte right = rng.NextSByte();
-                sbyte sum = maxmath.addsaturated(left, right);
+                sbyte sum = math.addsaturated(left, right);
 
                 int sumNormal = (int)left + (int)right;
                 Assert.AreEqual(sumNormal > sbyte.MaxValue ? sbyte.MaxValue : sumNormal < sbyte.MinValue ? sbyte.MinValue : sumNormal, (int)sum);
@@ -517,7 +517,7 @@ namespace MaxMath.Tests
             {
                 sbyte2 left = rng.NextSByte2();
                 sbyte2 right = rng.NextSByte2();
-                sbyte2 sum = maxmath.addsaturated(left, right);
+                sbyte2 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -538,7 +538,7 @@ namespace MaxMath.Tests
             {
                 sbyte3 left = rng.NextSByte3();
                 sbyte3 right = rng.NextSByte3();
-                sbyte3 sum = maxmath.addsaturated(left, right);
+                sbyte3 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -559,7 +559,7 @@ namespace MaxMath.Tests
             {
                 sbyte4 left = rng.NextSByte4();
                 sbyte4 right = rng.NextSByte4();
-                sbyte4 sum = maxmath.addsaturated(left, right);
+                sbyte4 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -580,7 +580,7 @@ namespace MaxMath.Tests
             {
                 sbyte8 left = rng.NextSByte8();
                 sbyte8 right = rng.NextSByte8();
-                sbyte8 sum = maxmath.addsaturated(left, right);
+                sbyte8 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -601,7 +601,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 left = rng.NextSByte16();
                 sbyte16 right = rng.NextSByte16();
-                sbyte16 sum = maxmath.addsaturated(left, right);
+                sbyte16 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -622,7 +622,7 @@ namespace MaxMath.Tests
             {
                 sbyte32 left = rng.NextSByte32();
                 sbyte32 right = rng.NextSByte32();
-                sbyte32 sum = maxmath.addsaturated(left, right);
+                sbyte32 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 32; j++)
                 {
@@ -643,7 +643,7 @@ namespace MaxMath.Tests
             {
                 short left = rng.NextShort();
                 short right = rng.NextShort();
-                short sum = maxmath.addsaturated(left, right);
+                short sum = math.addsaturated(left, right);
 
                 int sumNormal = (int)left + (int)right;
                 Assert.AreEqual(sumNormal > short.MaxValue ? short.MaxValue : sumNormal < short.MinValue ? short.MinValue : sumNormal, (int)sum);
@@ -661,7 +661,7 @@ namespace MaxMath.Tests
             {
                 short2 left = rng.NextShort2();
                 short2 right = rng.NextShort2();
-                short2 sum = maxmath.addsaturated(left, right);
+                short2 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -682,7 +682,7 @@ namespace MaxMath.Tests
             {
                 short3 left = rng.NextShort3();
                 short3 right = rng.NextShort3();
-                short3 sum = maxmath.addsaturated(left, right);
+                short3 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -703,7 +703,7 @@ namespace MaxMath.Tests
             {
                 short4 left = rng.NextShort4();
                 short4 right = rng.NextShort4();
-                short4 sum = maxmath.addsaturated(left, right);
+                short4 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -724,7 +724,7 @@ namespace MaxMath.Tests
             {
                 short8 left = rng.NextShort8();
                 short8 right = rng.NextShort8();
-                short8 sum = maxmath.addsaturated(left, right);
+                short8 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -745,7 +745,7 @@ namespace MaxMath.Tests
             {
                 short16 left = rng.NextShort16();
                 short16 right = rng.NextShort16();
-                short16 sum = maxmath.addsaturated(left, right);
+                short16 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -765,7 +765,7 @@ namespace MaxMath.Tests
             {
                 int left = rng.NextInt();
                 int right = rng.NextInt();
-                int sum = maxmath.addsaturated(left, right);
+                int sum = math.addsaturated(left, right);
 
                 long sumNormal = (long)left + (long)right;
                 Assert.AreEqual(sumNormal > int.MaxValue ? int.MaxValue : sumNormal < int.MinValue ? int.MinValue : sumNormal, (long)sum);
@@ -783,7 +783,7 @@ namespace MaxMath.Tests
             {
                 int2 left = rng.NextInt2();
                 int2 right = rng.NextInt2();
-                int2 sum = maxmath.addsaturated(left, right);
+                int2 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -804,7 +804,7 @@ namespace MaxMath.Tests
             {
                 int3 left = rng.NextInt3();
                 int3 right = rng.NextInt3();
-                int3 sum = maxmath.addsaturated(left, right);
+                int3 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -825,7 +825,7 @@ namespace MaxMath.Tests
             {
                 int4 left = rng.NextInt4();
                 int4 right = rng.NextInt4();
-                int4 sum = maxmath.addsaturated(left, right);
+                int4 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -846,7 +846,7 @@ namespace MaxMath.Tests
             {
                 int8 left = rng.NextInt8();
                 int8 right = rng.NextInt8();
-                int8 sum = maxmath.addsaturated(left, right);
+                int8 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -866,7 +866,7 @@ namespace MaxMath.Tests
             {
                 long left = rng.NextLong();
                 long right = rng.NextLong();
-                long sum = maxmath.addsaturated(left, right);
+                long sum = math.addsaturated(left, right);
 
                 Int128 sumNormal = (Int128)left + (Int128)right;
                 Assert.AreEqual(sumNormal > long.MaxValue ? long.MaxValue : sumNormal < long.MinValue ? long.MinValue : sumNormal, (Int128)sum);
@@ -884,7 +884,7 @@ namespace MaxMath.Tests
             {
                 long2 left = rng.NextLong2();
                 long2 right = rng.NextLong2();
-                long2 sum = maxmath.addsaturated(left, right);
+                long2 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -905,7 +905,7 @@ namespace MaxMath.Tests
             {
                 long3 left = rng.NextLong3();
                 long3 right = rng.NextLong3();
-                long3 sum = maxmath.addsaturated(left, right);
+                long3 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -926,7 +926,7 @@ namespace MaxMath.Tests
             {
                 long4 left = rng.NextLong4();
                 long4 right = rng.NextLong4();
-                long4 sum = maxmath.addsaturated(left, right);
+                long4 sum = math.addsaturated(left, right);
 
                 for (int j = 0; j < 4; j++)
                 {

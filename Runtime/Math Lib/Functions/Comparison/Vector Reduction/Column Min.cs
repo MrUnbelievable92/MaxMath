@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -70,22 +69,21 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 vmin_epu16(v128 a, byte elements = 8)
             {
+                if (Sse4_1.IsSse41Supported)
+                {
+                    a = fillmissing_epi16(a, elements);
+
+                    return minpos_epu16(a);
+                }
                 if (BurstArchitecture.IsSIMDSupported)
                 {
                     switch (elements)
                     {
                         case 8:
                         {
-                            if (Sse4_1.IsSse41Supported)
-                            {
-                                return minpos_epu16(a);
-                            }
-                            else
-                            {
-                                a = min_epu16(a, bsrli_si128(a, 4 * sizeof(ushort)), elements);
-
-                                goto case 4;
-                            }
+                            a = min_epu16(a, bsrli_si128(a, 4 * sizeof(ushort)), elements);
+                            
+                            goto case 4;
                         }
                         case 4:
                         {
@@ -419,7 +417,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the minimum component of a <see cref="MaxMath.byte2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -431,7 +429,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min((uint)c.x, (uint)c.y);
+                return (byte)min((uint)c.x, (uint)c.y);
             }
         }
 
@@ -445,7 +443,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min((uint)c.x, math.min((uint)c.y, (uint)c.z));
+                return (byte)min((uint)c.x, min((uint)c.y, (uint)c.z));
             }
         }
 
@@ -459,7 +457,7 @@ namespace MaxMath
             }
             else
             {
-                return (byte)math.min((uint)c.x, math.min((uint)c.y, math.min((uint)c.z, (uint)c.w)));
+                return (byte)min((uint)c.x, min((uint)c.y, min((uint)c.z, (uint)c.w)));
             }
         }
 
@@ -509,7 +507,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.min((int)c.x, (int)c.y);
+                return (sbyte)min((int)c.x, (int)c.y);
             }
         }
 
@@ -523,7 +521,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.min((int)c.x, math.min((int)c.y, (int)c.z));
+                return (sbyte)min((int)c.x, min((int)c.y, (int)c.z));
             }
         }
 
@@ -537,7 +535,7 @@ namespace MaxMath
             }
             else
             {
-                return (sbyte)math.min((int)c.x, math.min((int)c.y, math.min((int)c.z, (int)c.w)));
+                return (sbyte)min((int)c.x, min((int)c.y, min((int)c.z, (int)c.w)));
             }
         }
 
@@ -587,7 +585,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.min((int)c.x, (int)c.y);
+                return (short)min((int)c.x, (int)c.y);
             }
         }
 
@@ -601,7 +599,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.min((int)c.x, math.min((int)c.y, (int)c.z));
+                return (short)min((int)c.x, min((int)c.y, (int)c.z));
             }
         }
 
@@ -615,7 +613,7 @@ namespace MaxMath
             }
             else
             {
-                return (short)math.min((int)c.x, math.min((int)c.y, math.min((int)c.z, (int)c.w)));
+                return (short)min((int)c.x, min((int)c.y, min((int)c.z, (int)c.w)));
             }
         }
 
@@ -651,7 +649,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min((uint)c.x, (uint)c.y);
+                return (ushort)min((uint)c.x, (uint)c.y);
             }
         }
 
@@ -665,7 +663,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min((uint)c.x, math.min((uint)c.y, (uint)c.z));
+                return (ushort)min((uint)c.x, min((uint)c.y, (uint)c.z));
             }
         }
 
@@ -679,7 +677,7 @@ namespace MaxMath
             }
             else
             {
-                return (ushort)math.min((uint)c.x, math.min((uint)c.y, math.min((uint)c.z, (uint)c.w)));
+                return (ushort)min((uint)c.x, min((uint)c.y, min((uint)c.z, (uint)c.w)));
             }
         }
 
@@ -704,20 +702,62 @@ namespace MaxMath
             return cmin(min(c.v8_0, c.v8_8));
         }
 
+        
+        /// <summary>       Returns the minimum component of an <see cref="MaxMath.int2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int cmin(int2 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
+
+        /// <summary>       Returns the minimum component of an <see cref="MaxMath.int3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int cmin(int3 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
+
+        /// <summary>       Returns the minimum component of an <see cref="MaxMath.int4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int cmin(int4 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
 
         /// <summary>       Returns the minimum component of an <see cref="MaxMath.int8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cmin(int8 c)
         {
-            return math.cmin(math.min(c.v4_0, c.v4_4));
+            return cmin(min(c.v4_0, c.v4_4));
         }
 
+        
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.uint2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint cmin(uint2 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
+
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.uint3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint cmin(uint3 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
+
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.uint4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint cmin(uint4 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
 
         /// <summary>       Returns the minimum component of a <see cref="MaxMath.uint8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cmin(uint8 c)
         {
-            return math.cmin(math.min(c.v4_0, c.v4_4));
+            return cmin(min(c.v4_0, c.v4_4));
         }
 
 
@@ -731,7 +771,7 @@ namespace MaxMath
             }
             else
             {
-                return math.min(c.x, c.y);
+                return min(c.x, c.y);
             }
         }
 
@@ -751,7 +791,7 @@ namespace MaxMath
             }
             else
             {
-                return math.min(math.min(c.x, c.z), c.y);
+                return min(min(c.x, c.z), c.y);
             }
         }
 
@@ -767,7 +807,7 @@ namespace MaxMath
             }
             else
             {
-                return math.min(c.x, math.min(c.y, math.min(c.z, c.w)));
+                return min(c.x, min(c.y, min(c.z, c.w)));
             }
         }
 
@@ -782,7 +822,7 @@ namespace MaxMath
             }
             else
             {
-                return math.min(c.x, c.y);
+                return min(c.x, c.y);
             }
         }
 
@@ -802,7 +842,7 @@ namespace MaxMath
             }
             else
             {
-                return math.min(math.min(c.x, c.z), c.y);
+                return min(min(c.x, c.z), c.y);
             }
         }
 
@@ -818,16 +858,59 @@ namespace MaxMath
             }
             else
             {
-                return math.min(c.x, math.min(c.y, math.min(c.z, c.w)));
+                return min(c.x, min(c.y, min(c.z, c.w)));
             }
         }
 
+        
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.float2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float cmin(float2 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
+
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.float3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float cmin(float3 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
+
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.float4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float cmin(float4 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
 
         /// <summary>       Returns the minimum component of a <see cref="MaxMath.float8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cmin(float8 c)
         {
-            return math.cmin(math.min(c.v4_0, c.v4_4));
+            return cmin(min(c.v4_0, c.v4_4));
+        }
+
+        
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.double2"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double cmin(double2 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
+
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.double3"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double cmin(double3 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
+        }
+
+        /// <summary>       Returns the minimum component of a <see cref="MaxMath.double4"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double cmin(double4 c)
+        {
+            return Unity.Mathematics.math.cmin(c);
         }
     }
 }

@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.Mathematics;
+
 
 #pragma warning disable CS1718 // comparison to same variable is a test case
 
@@ -13,9 +13,9 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue; i++)
             {
-                half q = maxmath.ashalf((ushort)i);
+                half q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q))
+                if (math.isnan(q))
                 {
                     Assert.IsNaN((float)q);
                 }
@@ -36,12 +36,12 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalQuarter = true;
 
-                float f = subnormalQuarter ? rng.NextFloat(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                float f = subnormalQuarter ? rng.NextFloat(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                            : rng.NextFloat(half.MinValue, half.MaxValue);
 
                 half q = (half)f;
-                half qm1 = maxmath.nextsmaller(q);
-                half qp1 = maxmath.nextgreater(q);
+                half qm1 = math.nextsmaller(q);
+                half qp1 = math.nextgreater(q);
             
                 Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
                 Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
@@ -53,9 +53,9 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < 256; i++)
             {
-                half q = maxmath.ashalf((ushort)i);
+                half q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q))
+                if (math.isnan(q))
                 {
                     Assert.IsNaN((double)q);
                 }
@@ -76,12 +76,12 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalQuarter = true;
 
-                double f = subnormalQuarter ? rng.NextDouble(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                double f = subnormalQuarter ? rng.NextDouble(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                             : rng.NextDouble(half.MinValue, half.MaxValue);
 
                 half q = (half)f;
-                half qm1 = maxmath.nextsmaller(q);
-                half qp1 = maxmath.nextgreater(q);
+                half qm1 = math.nextsmaller(q);
+                half qp1 = math.nextgreater(q);
             
                 Assert.IsFalse(math.abs(f - qm1) < math.abs(f - q));
                 Assert.IsFalse(math.abs(f - qp1) < math.abs(f - q));
@@ -93,9 +93,9 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue; i++)
             {
-                half2 q = maxmath.ashalf((ushort)i);
+                half2 q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q.x))
+                if (math.isnan(q.x))
                 {
                     Assert.IsTrue(math.all(math.isnan((float2)q)));
                 }
@@ -116,12 +116,12 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalQuarter = true;
 
-                float2 f = subnormalQuarter ? (float)rng.NextFloat(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                float2 f = subnormalQuarter ? (float)rng.NextFloat(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                             : (float)rng.NextFloat(half.MinValue, half.MaxValue);
 
                 half2 q = (half2)f;
-                half2 qm1 = maxmath.nextsmaller(q);
-                half2 qp1 = maxmath.nextgreater(q);
+                half2 qm1 = math.nextsmaller(q);
+                half2 qp1 = math.nextgreater(q);
             
                 Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
                 Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
@@ -133,9 +133,9 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue; i++)
             {
-                half2 q = maxmath.ashalf((ushort)i);
+                half2 q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q.x))
+                if (math.isnan(q.x))
                 {
                     Assert.IsTrue(math.all(math.isnan((double2)q)));
                 }
@@ -156,12 +156,12 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalQuarter = true;
 
-                double2 f = subnormalQuarter ? (double)rng.NextDouble(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                double2 f = subnormalQuarter ? (double)rng.NextDouble(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                              : (double)rng.NextDouble(half.MinValue, half.MaxValue);
 
                 half2 q = (half2)f;
-                half2 qm1 = maxmath.nextsmaller(q);
-                half2 qp1 = maxmath.nextgreater(q);
+                half2 qm1 = math.nextsmaller(q);
+                half2 qp1 = math.nextgreater(q);
             
                 Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
                 Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
@@ -173,9 +173,9 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue; i++)
             {
-                half3 q = maxmath.ashalf((ushort)i);
+                half3 q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q.x))
+                if (math.isnan(q.x))
                 {
                     Assert.IsTrue(math.all(math.isnan((float3)q)));
                 }
@@ -196,12 +196,12 @@ namespace MaxMath.Tests
             {
                 if (i > 138) subnormalQuarter = true;
 
-                float3 f = subnormalQuarter ? (float)rng.NextFloat(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                float3 f = subnormalQuarter ? (float)rng.NextFloat(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                             : (float)rng.NextFloat(half.MinValue, half.MaxValue);
 
                 half3 q = (half3)f;
-                half3 qm1 = maxmath.nextsmaller(q);
-                half3 qp1 = maxmath.nextgreater(q);
+                half3 qm1 = math.nextsmaller(q);
+                half3 qp1 = math.nextgreater(q);
             
                 Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
                 Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
@@ -213,9 +213,9 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue; i++)
             {
-                half3 q = maxmath.ashalf((ushort)i);
+                half3 q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q.x))
+                if (math.isnan(q.x))
                 {
                     Assert.IsTrue(math.all(math.isnan((double3)q)));
                 }
@@ -236,12 +236,12 @@ namespace MaxMath.Tests
             {
                 if (i > 138) subnormalQuarter = true;
 
-                double3 f = subnormalQuarter ? (double)rng.NextDouble(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                double3 f = subnormalQuarter ? (double)rng.NextDouble(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                              : (double)rng.NextDouble(half.MinValue, half.MaxValue);
 
                 half3 q = (half3)f;
-                half3 qm1 = maxmath.nextsmaller(q);
-                half3 qp1 = maxmath.nextgreater(q);
+                half3 qm1 = math.nextsmaller(q);
+                half3 qp1 = math.nextgreater(q);
             
                 Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
                 Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
@@ -253,9 +253,9 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue; i++)
             {
-                half4 q = maxmath.ashalf((ushort)i);
+                half4 q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q.x))
+                if (math.isnan(q.x))
                 {
                     Assert.IsTrue(math.all(math.isnan((float4)q)));
                 }
@@ -276,12 +276,12 @@ namespace MaxMath.Tests
             {
                 if (i > 148) subnormalQuarter = true;
 
-                float4 f = subnormalQuarter ? (float)rng.NextFloat(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                float4 f = subnormalQuarter ? (float)rng.NextFloat(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                             : (float)rng.NextFloat(half.MinValue, half.MaxValue);
 
                 half4 q = (half4)f;
-                half4 qm1 = maxmath.nextsmaller(q);
-                half4 qp1 = maxmath.nextgreater(q);
+                half4 qm1 = math.nextsmaller(q);
+                half4 qp1 = math.nextgreater(q);
             
                 Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
                 Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
@@ -293,9 +293,9 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue; i++)
             {
-                half4 q = maxmath.ashalf((ushort)i);
+                half4 q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q.x))
+                if (math.isnan(q.x))
                 {
                     Assert.IsTrue(math.all(math.isnan((double4)q)));
                 }
@@ -316,12 +316,12 @@ namespace MaxMath.Tests
             {
                 if (i > 148) subnormalQuarter = true;
 
-                double4 f = subnormalQuarter ? (double)rng.NextDouble(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                double4 f = subnormalQuarter ? (double)rng.NextDouble(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                              : (double)rng.NextDouble(half.MinValue, half.MaxValue);
 
                 half4 q = (half4)f;
-                half4 qm1 = maxmath.nextsmaller(q);
-                half4 qp1 = maxmath.nextgreater(q);
+                half4 qm1 = math.nextsmaller(q);
+                half4 qp1 = math.nextgreater(q);
             
                 Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
                 Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
@@ -333,11 +333,11 @@ namespace MaxMath.Tests
         {
             for (int i = 0; i < ushort.MaxValue; i++)
             {
-                half8 q = maxmath.ashalf((ushort)i);
+                half8 q = math.ashalf((ushort)i);
 
-                if (maxmath.isnan(q.x0))
+                if (math.isnan(q.x0))
                 {
-                    Assert.IsTrue(maxmath.all(maxmath.isnan((float8)q)));
+                    Assert.IsTrue(math.all(math.isnan((float8)q)));
                 }
                 else
                 {
@@ -356,15 +356,15 @@ namespace MaxMath.Tests
             {
                 if (i > 128) subnormalQuarter = true;
 
-                float8 f = subnormalQuarter ? (float)rng.NextFloat(-maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), maxmath.ashalf(maxmath.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
+                float8 f = subnormalQuarter ? (float)rng.NextFloat(-math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS)), math.ashalf(math.bitmask16(LUT.FLOATING_POINT.F16_MANTISSA_BITS))) 
                                             : (float)rng.NextFloat(half.MinValue, half.MaxValue);
 
                 half8 q = (half8)f;
-                half8 qm1 = maxmath.nextsmaller(q);
-                half8 qp1 = maxmath.nextgreater(q);
+                half8 qm1 = math.nextsmaller(q);
+                half8 qp1 = math.nextgreater(q);
             
-                Assert.IsFalse(maxmath.any(maxmath.abs(f - qm1) < maxmath.abs(f - q)));
-                Assert.IsFalse(maxmath.any(maxmath.abs(f - qp1) < maxmath.abs(f - q)));
+                Assert.IsFalse(math.any(math.abs(f - qm1) < math.abs(f - q)));
+                Assert.IsFalse(math.any(math.abs(f - qp1) < math.abs(f - q)));
             }
         }
     }

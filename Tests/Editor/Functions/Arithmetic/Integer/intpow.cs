@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -19,7 +19,7 @@ namespace MaxMath.Tests
                     xpow *= x;
                 }
 
-                Assert.AreEqual(xpow, maxmath.intpow(x, (uint)i));
+                Assert.AreEqual(xpow, math.intpow(x, (uint)i));
             }
         }
 
@@ -127,7 +127,7 @@ namespace MaxMath.Tests
                 Int128 x = rng.NextInt128();
                 UInt128 n = rng.NextUInt128(0, (UInt128)1 + ulong.MaxValue);
 
-                Assert.AreEqual(_intpow(x, n), maxmath.intpow(x, n.lo64));
+                Assert.AreEqual(_intpow(x, n), math.intpow(x, n.lo64));
             }
         }
 
@@ -142,7 +142,7 @@ namespace MaxMath.Tests
                 sbyte x = rng.NextSByte();
                 byte n = rng.NextByte();
 
-                Assert.AreEqual((int)_intpow(x, n), maxmath.intpow(x, n));
+                Assert.AreEqual((int)_intpow(x, n), math.intpow(x, n));
             }
         }
 
@@ -156,7 +156,7 @@ namespace MaxMath.Tests
                 sbyte2 x = rng.NextSByte2();
                 byte2 n = rng.NextByte2();
 
-                Assert.AreEqual(new sbyte2((sbyte)_intpow(x.x, n.x), (sbyte)_intpow(x.y, n.y)), maxmath.intpow(x, n));
+                Assert.AreEqual(new sbyte2((sbyte)_intpow(x.x, n.x), (sbyte)_intpow(x.y, n.y)), math.intpow(x, n));
             }
         }
 
@@ -170,7 +170,7 @@ namespace MaxMath.Tests
                 sbyte3 x = rng.NextSByte3();
                 byte3 n = rng.NextByte3();
 
-                Assert.AreEqual(new sbyte3((sbyte)_intpow(x.x, n.x), (sbyte)_intpow(x.y, n.y), (sbyte)_intpow(x.z, n.z)), maxmath.intpow(x, n));
+                Assert.AreEqual(new sbyte3((sbyte)_intpow(x.x, n.x), (sbyte)_intpow(x.y, n.y), (sbyte)_intpow(x.z, n.z)), math.intpow(x, n));
             }
         }
 
@@ -184,7 +184,7 @@ namespace MaxMath.Tests
                 sbyte4 x = rng.NextSByte4();
                 byte4 n = rng.NextByte4();
 
-                Assert.AreEqual(new sbyte4((sbyte)_intpow(x.x, n.x), (sbyte)_intpow(x.y, n.y), (sbyte)_intpow(x.z, n.z), (sbyte)_intpow(x.w, n.w)), maxmath.intpow(x, n));
+                Assert.AreEqual(new sbyte4((sbyte)_intpow(x.x, n.x), (sbyte)_intpow(x.y, n.y), (sbyte)_intpow(x.z, n.z), (sbyte)_intpow(x.w, n.w)), math.intpow(x, n));
             }
         }
 
@@ -206,7 +206,7 @@ namespace MaxMath.Tests
                                            (sbyte)_intpow(x.x5, n.x5),
                                            (sbyte)_intpow(x.x6, n.x6),
                                            (sbyte)_intpow(x.x7, n.x7)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -236,7 +236,7 @@ namespace MaxMath.Tests
                                             (sbyte)_intpow(x.x13, n.x13),
                                             (sbyte)_intpow(x.x14, n.x14),
                                             (sbyte)_intpow(x.x15, n.x15)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -282,7 +282,7 @@ namespace MaxMath.Tests
                                             (sbyte)_intpow(x.x29, n.x29),
                                             (sbyte)_intpow(x.x30, n.x30),
                                             (sbyte)_intpow(x.x31, n.x31)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -297,7 +297,7 @@ namespace MaxMath.Tests
                 short x = rng.NextShort();
                 ushort n = rng.NextUShort();
 
-                Assert.AreEqual((int)_intpow(x, n), maxmath.intpow(x, n));
+                Assert.AreEqual((int)_intpow(x, n), math.intpow(x, n));
             }
         }
 
@@ -311,7 +311,7 @@ namespace MaxMath.Tests
                 short2 x = rng.NextShort2();
                 ushort2 n = rng.NextUShort2();
 
-                Assert.AreEqual(new short2((short)_intpow(x.x, n.x), (short)_intpow(x.y, n.y)), maxmath.intpow(x, n));
+                Assert.AreEqual(new short2((short)_intpow(x.x, n.x), (short)_intpow(x.y, n.y)), math.intpow(x, n));
             }
         }
 
@@ -325,7 +325,7 @@ namespace MaxMath.Tests
                 short3 x = rng.NextShort3();
                 ushort3 n = rng.NextUShort3();
 
-                Assert.AreEqual(new short3((short)_intpow(x.x, n.x), (short)_intpow(x.y, n.y), (short)_intpow(x.z, n.z)), maxmath.intpow(x, n));
+                Assert.AreEqual(new short3((short)_intpow(x.x, n.x), (short)_intpow(x.y, n.y), (short)_intpow(x.z, n.z)), math.intpow(x, n));
             }
         }
 
@@ -339,7 +339,7 @@ namespace MaxMath.Tests
                 short4 x = rng.NextShort4();
                 ushort4 n = rng.NextUShort4();
 
-                Assert.AreEqual(new short4((short)_intpow(x.x, n.x), (short)_intpow(x.y, n.y), (short)_intpow(x.z, n.z), (short)_intpow(x.w, n.w)), maxmath.intpow(x, n));
+                Assert.AreEqual(new short4((short)_intpow(x.x, n.x), (short)_intpow(x.y, n.y), (short)_intpow(x.z, n.z), (short)_intpow(x.w, n.w)), math.intpow(x, n));
             }
         }
 
@@ -361,7 +361,7 @@ namespace MaxMath.Tests
                                            (short)_intpow(x.x5, n.x5),
                                            (short)_intpow(x.x6, n.x6),
                                            (short)_intpow(x.x7, n.x7)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -391,7 +391,7 @@ namespace MaxMath.Tests
                                             (short)_intpow(x.x13, n.x13),
                                             (short)_intpow(x.x14, n.x14),
                                             (short)_intpow(x.x15, n.x15)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -406,7 +406,7 @@ namespace MaxMath.Tests
                 int x = rng.NextInt();
                 uint n = rng.NextUInt();
 
-                Assert.AreEqual((int)_intpow(x, n), maxmath.intpow(x, n));
+                Assert.AreEqual((int)_intpow(x, n), math.intpow(x, n));
             }
         }
 
@@ -420,7 +420,7 @@ namespace MaxMath.Tests
                 int2 x = rng.NextInt2();
                 uint2 n = rng.NextUInt2();
 
-                Assert.AreEqual(new int2((int)_intpow(x.x, n.x), (int)_intpow(x.y, n.y)), maxmath.intpow(x, n));
+                Assert.AreEqual(new int2((int)_intpow(x.x, n.x), (int)_intpow(x.y, n.y)), math.intpow(x, n));
             }
         }
 
@@ -434,7 +434,7 @@ namespace MaxMath.Tests
                 int3 x = rng.NextInt3();
                 uint3 n = rng.NextUInt3();
 
-                Assert.AreEqual(new int3((int)_intpow(x.x, n.x), (int)_intpow(x.y, n.y), (int)_intpow(x.z, n.z)), maxmath.intpow(x, n));
+                Assert.AreEqual(new int3((int)_intpow(x.x, n.x), (int)_intpow(x.y, n.y), (int)_intpow(x.z, n.z)), math.intpow(x, n));
             }
         }
 
@@ -448,7 +448,7 @@ namespace MaxMath.Tests
                 int4 x = rng.NextInt4();
                 uint4 n = rng.NextUInt4();
 
-                Assert.AreEqual(new int4((int)_intpow(x.x, n.x), (int)_intpow(x.y, n.y), (int)_intpow(x.z, n.z), (int)_intpow(x.w, n.w)), maxmath.intpow(x, n));
+                Assert.AreEqual(new int4((int)_intpow(x.x, n.x), (int)_intpow(x.y, n.y), (int)_intpow(x.z, n.z), (int)_intpow(x.w, n.w)), math.intpow(x, n));
             }
         }
 
@@ -470,7 +470,7 @@ namespace MaxMath.Tests
                                          (int)_intpow(x.x5, n.x5),
                                          (int)_intpow(x.x6, n.x6),
                                          (int)_intpow(x.x7, n.x7)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -485,7 +485,7 @@ namespace MaxMath.Tests
                 long x = rng.NextLong();
                 ulong n = rng.NextULong();
 
-                Assert.AreEqual(_intpow(x, n), maxmath.intpow(x, n));
+                Assert.AreEqual(_intpow(x, n), math.intpow(x, n));
             }
         }
 
@@ -499,7 +499,7 @@ namespace MaxMath.Tests
                 long2 x = rng.NextLong2();
                 ulong2 n = rng.NextULong2();
 
-                Assert.AreEqual(new long2((long)_intpow(x.x, n.x), (long)_intpow(x.y, n.y)), maxmath.intpow(x, n));
+                Assert.AreEqual(new long2((long)_intpow(x.x, n.x), (long)_intpow(x.y, n.y)), math.intpow(x, n));
             }
         }
 
@@ -513,7 +513,7 @@ namespace MaxMath.Tests
                 long3 x = rng.NextLong3();
                 ulong3 n = rng.NextULong3();
 
-                Assert.AreEqual(new long3((long)_intpow(x.x, n.x), (long)_intpow(x.y, n.y), (long)_intpow(x.z, n.z)), maxmath.intpow(x, n));
+                Assert.AreEqual(new long3((long)_intpow(x.x, n.x), (long)_intpow(x.y, n.y), (long)_intpow(x.z, n.z)), math.intpow(x, n));
             }
         }
 
@@ -527,7 +527,7 @@ namespace MaxMath.Tests
                 long4 x = rng.NextLong4();
                 ulong4 n = rng.NextULong4();
 
-                Assert.AreEqual(new long4((long)_intpow(x.x, n.x), (long)_intpow(x.y, n.y), (long)_intpow(x.z, n.z), (long)_intpow(x.w, n.w)), maxmath.intpow(x, n));
+                Assert.AreEqual(new long4((long)_intpow(x.x, n.x), (long)_intpow(x.y, n.y), (long)_intpow(x.z, n.z), (long)_intpow(x.w, n.w)), math.intpow(x, n));
             }
         }
 
@@ -542,7 +542,7 @@ namespace MaxMath.Tests
                 UInt128 x = rng.NextUInt128();
                 UInt128 n = rng.NextUInt128(0, (UInt128)1 + ulong.MaxValue);
 
-                Assert.AreEqual(_intpow(x, n), maxmath.intpow(x, n.lo64));
+                Assert.AreEqual(_intpow(x, n), math.intpow(x, n.lo64));
             }
         }
 
@@ -557,7 +557,7 @@ namespace MaxMath.Tests
                 byte x = rng.NextByte();
                 byte n = rng.NextByte();
 
-                Assert.AreEqual((uint)_intpow(x, n), maxmath.intpow(x, n));
+                Assert.AreEqual((uint)_intpow(x, n), math.intpow(x, n));
             }
         }
 
@@ -571,7 +571,7 @@ namespace MaxMath.Tests
                 byte2 x = rng.NextByte2();
                 byte2 n = rng.NextByte2();
 
-                Assert.AreEqual(new byte2((byte)_intpow(x.x, n.x), (byte)_intpow(x.y, n.y)), maxmath.intpow(x, n));
+                Assert.AreEqual(new byte2((byte)_intpow(x.x, n.x), (byte)_intpow(x.y, n.y)), math.intpow(x, n));
             }
         }
 
@@ -585,7 +585,7 @@ namespace MaxMath.Tests
                 byte3 x = rng.NextByte3();
                 byte3 n = rng.NextByte3();
 
-                Assert.AreEqual(new byte3((byte)_intpow(x.x, n.x), (byte)_intpow(x.y, n.y), (byte)_intpow(x.z, n.z)), maxmath.intpow(x, n));
+                Assert.AreEqual(new byte3((byte)_intpow(x.x, n.x), (byte)_intpow(x.y, n.y), (byte)_intpow(x.z, n.z)), math.intpow(x, n));
             }
         }
 
@@ -599,7 +599,7 @@ namespace MaxMath.Tests
                 byte4 x = rng.NextByte4();
                 byte4 n = rng.NextByte4();
 
-                Assert.AreEqual(new byte4((byte)_intpow(x.x, n.x), (byte)_intpow(x.y, n.y), (byte)_intpow(x.z, n.z), (byte)_intpow(x.w, n.w)), maxmath.intpow(x, n));
+                Assert.AreEqual(new byte4((byte)_intpow(x.x, n.x), (byte)_intpow(x.y, n.y), (byte)_intpow(x.z, n.z), (byte)_intpow(x.w, n.w)), math.intpow(x, n));
             }
         }
 
@@ -621,7 +621,7 @@ namespace MaxMath.Tests
                                            (byte)_intpow(x.x5, n.x5),
                                            (byte)_intpow(x.x6, n.x6),
                                            (byte)_intpow(x.x7, n.x7)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -651,7 +651,7 @@ namespace MaxMath.Tests
                                             (byte)_intpow(x.x13, n.x13),
                                             (byte)_intpow(x.x14, n.x14),
                                             (byte)_intpow(x.x15, n.x15)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -697,7 +697,7 @@ namespace MaxMath.Tests
                                             (byte)_intpow(x.x29, n.x29),
                                             (byte)_intpow(x.x30, n.x30),
                                             (byte)_intpow(x.x31, n.x31)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -712,7 +712,7 @@ namespace MaxMath.Tests
                 ushort x = rng.NextUShort();
                 ushort n = rng.NextUShort();
 
-                Assert.AreEqual((uint)_intpow(x, n), maxmath.intpow(x, n));
+                Assert.AreEqual((uint)_intpow(x, n), math.intpow(x, n));
             }
         }
 
@@ -726,7 +726,7 @@ namespace MaxMath.Tests
                 ushort2 x = rng.NextUShort2();
                 ushort2 n = rng.NextUShort2();
 
-                Assert.AreEqual(new ushort2((ushort)_intpow(x.x, n.x), (ushort)_intpow(x.y, n.y)), maxmath.intpow(x, n));
+                Assert.AreEqual(new ushort2((ushort)_intpow(x.x, n.x), (ushort)_intpow(x.y, n.y)), math.intpow(x, n));
             }
         }
 
@@ -740,7 +740,7 @@ namespace MaxMath.Tests
                 ushort3 x = rng.NextUShort3();
                 ushort3 n = rng.NextUShort3();
 
-                Assert.AreEqual(new ushort3((ushort)_intpow(x.x, n.x), (ushort)_intpow(x.y, n.y), (ushort)_intpow(x.z, n.z)), maxmath.intpow(x, n));
+                Assert.AreEqual(new ushort3((ushort)_intpow(x.x, n.x), (ushort)_intpow(x.y, n.y), (ushort)_intpow(x.z, n.z)), math.intpow(x, n));
             }
         }
 
@@ -754,7 +754,7 @@ namespace MaxMath.Tests
                 ushort4 x = rng.NextUShort4();
                 ushort4 n = rng.NextUShort4();
 
-                Assert.AreEqual(new ushort4((ushort)_intpow(x.x, n.x), (ushort)_intpow(x.y, n.y), (ushort)_intpow(x.z, n.z), (ushort)_intpow(x.w, n.w)), maxmath.intpow(x, n));
+                Assert.AreEqual(new ushort4((ushort)_intpow(x.x, n.x), (ushort)_intpow(x.y, n.y), (ushort)_intpow(x.z, n.z), (ushort)_intpow(x.w, n.w)), math.intpow(x, n));
             }
         }
 
@@ -776,7 +776,7 @@ namespace MaxMath.Tests
                                            (ushort)_intpow(x.x5, n.x5),
                                            (ushort)_intpow(x.x6, n.x6),
                                            (ushort)_intpow(x.x7, n.x7)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -806,7 +806,7 @@ namespace MaxMath.Tests
                                             (ushort)_intpow(x.x13, n.x13),
                                             (ushort)_intpow(x.x14, n.x14),
                                             (ushort)_intpow(x.x15, n.x15)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -821,7 +821,7 @@ namespace MaxMath.Tests
                 uint x = rng.NextUInt();
                 uint n = rng.NextUInt();
 
-                Assert.AreEqual((uint)_intpow(x, n), maxmath.intpow(x, n));
+                Assert.AreEqual((uint)_intpow(x, n), math.intpow(x, n));
             }
         }
 
@@ -835,7 +835,7 @@ namespace MaxMath.Tests
                 uint2 x = rng.NextUInt2();
                 uint2 n = rng.NextUInt2();
 
-                Assert.AreEqual(new uint2((uint)_intpow(x.x, n.x), (uint)_intpow(x.y, n.y)), maxmath.intpow(x, n));
+                Assert.AreEqual(new uint2((uint)_intpow(x.x, n.x), (uint)_intpow(x.y, n.y)), math.intpow(x, n));
             }
         }
 
@@ -849,7 +849,7 @@ namespace MaxMath.Tests
                 uint3 x = rng.NextUInt3();
                 uint3 n = rng.NextUInt3();
 
-                Assert.AreEqual(new uint3((uint)_intpow(x.x, n.x), (uint)_intpow(x.y, n.y), (uint)_intpow(x.z, n.z)), maxmath.intpow(x, n));
+                Assert.AreEqual(new uint3((uint)_intpow(x.x, n.x), (uint)_intpow(x.y, n.y), (uint)_intpow(x.z, n.z)), math.intpow(x, n));
             }
         }
 
@@ -863,7 +863,7 @@ namespace MaxMath.Tests
                 uint4 x = rng.NextUInt4();
                 uint4 n = rng.NextUInt4();
 
-                Assert.AreEqual(new uint4((uint)_intpow(x.x, n.x), (uint)_intpow(x.y, n.y), (uint)_intpow(x.z, n.z), (uint)_intpow(x.w, n.w)), maxmath.intpow(x, n));
+                Assert.AreEqual(new uint4((uint)_intpow(x.x, n.x), (uint)_intpow(x.y, n.y), (uint)_intpow(x.z, n.z), (uint)_intpow(x.w, n.w)), math.intpow(x, n));
             }
         }
 
@@ -885,7 +885,7 @@ namespace MaxMath.Tests
                                          (uint)_intpow(x.x5, n.x5),
                                          (uint)_intpow(x.x6, n.x6),
                                          (uint)_intpow(x.x7, n.x7)),
-                                maxmath.intpow(x, n));
+                                math.intpow(x, n));
             }
         }
 
@@ -900,7 +900,7 @@ namespace MaxMath.Tests
                 ulong x = rng.NextULong();
                 ulong n = rng.NextULong();
 
-                Assert.AreEqual(_intpow(x, n), maxmath.intpow(x, n));
+                Assert.AreEqual(_intpow(x, n), math.intpow(x, n));
             }
         }
 
@@ -914,7 +914,7 @@ namespace MaxMath.Tests
                 ulong2 x = rng.NextULong2();
                 ulong2 n = rng.NextULong2();
 
-                Assert.AreEqual(new ulong2((ulong)_intpow(x.x, n.x), (ulong)_intpow(x.y, n.y)), maxmath.intpow(x, n));
+                Assert.AreEqual(new ulong2((ulong)_intpow(x.x, n.x), (ulong)_intpow(x.y, n.y)), math.intpow(x, n));
             }
         }
 
@@ -928,7 +928,7 @@ namespace MaxMath.Tests
                 ulong3 x = rng.NextULong3();
                 ulong3 n = rng.NextULong3();
 
-                Assert.AreEqual(new ulong3((ulong)_intpow(x.x, n.x), (ulong)_intpow(x.y, n.y), (ulong)_intpow(x.z, n.z)), maxmath.intpow(x, n));
+                Assert.AreEqual(new ulong3((ulong)_intpow(x.x, n.x), (ulong)_intpow(x.y, n.y), (ulong)_intpow(x.z, n.z)), math.intpow(x, n));
             }
         }
 
@@ -942,7 +942,7 @@ namespace MaxMath.Tests
                 ulong4 x = rng.NextULong4();
                 ulong4 n = rng.NextULong4();
 
-                Assert.AreEqual(new ulong4((ulong)_intpow(x.x, n.x), (ulong)_intpow(x.y, n.y), (ulong)_intpow(x.z, n.z), (ulong)_intpow(x.w, n.w)), maxmath.intpow(x, n));
+                Assert.AreEqual(new ulong4((ulong)_intpow(x.x, n.x), (ulong)_intpow(x.y, n.y), (ulong)_intpow(x.z, n.z), (ulong)_intpow(x.w, n.w)), math.intpow(x, n));
             }
         }
     }

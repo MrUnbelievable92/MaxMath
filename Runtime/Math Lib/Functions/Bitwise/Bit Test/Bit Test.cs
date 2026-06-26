@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -206,7 +205,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <see langword="true"/> if the bit in <paramref name="x"/> at index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -246,107 +245,107 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbit(byte2 x, byte2 i)
+        public static mask8x2 testbit(byte2 x, byte2 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(Xse.bt_epi8(x, i, MaskType.One, 2));
+                return Xse.bt_epi8(x, i, MaskType.AllOnes, 2);
             }
             else
             {
-                return new bool2(testbit(x.x, i.x), testbit(x.y, i.y));
+                return new mask8x2(testbit(x.x, i.x), testbit(x.y, i.y));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbit(byte3 x, byte3 i)
+        public static mask8x3 testbit(byte3 x, byte3 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(Xse.bt_epi8(x, i, MaskType.One, 3));
+                return Xse.bt_epi8(x, i, MaskType.AllOnes, 3);
             }
             else
             {
-                return new bool3(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z));
+                return new mask8x3(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbit(byte4 x, byte4 i)
+        public static mask8x4 testbit(byte4 x, byte4 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(Xse.bt_epi8(x, i, MaskType.One, 4));
+                return Xse.bt_epi8(x, i, MaskType.AllOnes, 4);
             }
             else
             {
-                return new bool4(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z), testbit(x.w, i.w));
+                return new mask8x4(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z), testbit(x.w, i.w));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbit(byte8 x, byte8 i)
+        public static mask8x8 testbit(byte8 x, byte8 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.bt_epi8(x, i, MaskType.One, 8);
+                return Xse.bt_epi8(x, i, MaskType.AllOnes, 8);
             }
             else
             {
-                return new bool8(testbit(x.x0, i.x0),
-                                 testbit(x.x1, i.x1),
-                                 testbit(x.x2, i.x2),
-                                 testbit(x.x3, i.x3),
-                                 testbit(x.x4, i.x4),
-                                 testbit(x.x5, i.x5),
-                                 testbit(x.x6, i.x6),
-                                 testbit(x.x7, i.x7));
+                return new mask8x8(testbit(x.x0, i.x0),
+                                   testbit(x.x1, i.x1),
+                                   testbit(x.x2, i.x2),
+                                   testbit(x.x3, i.x3),
+                                   testbit(x.x4, i.x4),
+                                   testbit(x.x5, i.x5),
+                                   testbit(x.x6, i.x6),
+                                   testbit(x.x7, i.x7));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 testbit(byte16 x, byte16 i)
+        public static mask8x16 testbit(byte16 x, byte16 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.bt_epi8(x, i, MaskType.One, 16);
+                return Xse.bt_epi8(x, i, MaskType.AllOnes, 16);
             }
             else
             {
-                return new bool16(testbit(x.x0,  i.x0),
-                                  testbit(x.x1,  i.x1),
-                                  testbit(x.x2,  i.x2),
-                                  testbit(x.x3,  i.x3),
-                                  testbit(x.x4,  i.x4),
-                                  testbit(x.x5,  i.x5),
-                                  testbit(x.x6,  i.x6),
-                                  testbit(x.x7,  i.x7),
-                                  testbit(x.x8,  i.x8),
-                                  testbit(x.x9,  i.x9),
-                                  testbit(x.x10, i.x10),
-                                  testbit(x.x11, i.x11),
-                                  testbit(x.x12, i.x12),
-                                  testbit(x.x13, i.x13),
-                                  testbit(x.x14, i.x14),
-                                  testbit(x.x15, i.x15));
+                return new mask8x16(testbit(x.x0,  i.x0),
+                                    testbit(x.x1,  i.x1),
+                                    testbit(x.x2,  i.x2),
+                                    testbit(x.x3,  i.x3),
+                                    testbit(x.x4,  i.x4),
+                                    testbit(x.x5,  i.x5),
+                                    testbit(x.x6,  i.x6),
+                                    testbit(x.x7,  i.x7),
+                                    testbit(x.x8,  i.x8),
+                                    testbit(x.x9,  i.x9),
+                                    testbit(x.x10, i.x10),
+                                    testbit(x.x11, i.x11),
+                                    testbit(x.x12, i.x12),
+                                    testbit(x.x13, i.x13),
+                                    testbit(x.x14, i.x14),
+                                    testbit(x.x15, i.x15));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 testbit(byte32 x, byte32 i)
+        public static mask8x32 testbit(byte32 x, byte32 i)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_bt_epi8(x, i, MaskType.One);
+                return Xse.mm256_bt_epi8(x, i, MaskType.AllOnes);
             }
             else
             {
-                return new bool32(testbit(x.v16_0, i.v16_0), testbit(x.v16_16, i.v16_16));
+                return new mask8x32(testbit(x.v16_0, i.v16_0), testbit(x.v16_16, i.v16_16));
             }
         }
 
@@ -360,78 +359,78 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbit(ushort2 x, ushort2 i)
+        public static mask16x2 testbit(ushort2 x, ushort2 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 2), 2));
+                return Xse.bt_epi16(x, i, MaskType.AllOnes, 2);
             }
             else
             {
-                return new bool2(testbit(x.x, i.x), testbit(x.y, i.y));
+                return new mask16x2(testbit(x.x, i.x), testbit(x.y, i.y));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbit(ushort3 x, ushort3 i)
+        public static mask16x3 testbit(ushort3 x, ushort3 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 3), 3));
+                return Xse.bt_epi16(x, i, MaskType.AllOnes, 3);
             }
             else
             {
-                return new bool3(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z));
+                return new mask16x3(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbit(ushort4 x, ushort4 i)
+        public static mask16x4 testbit(ushort4 x, ushort4 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 4), 4));
+                return Xse.bt_epi16(x, i, MaskType.AllOnes, 4);
             }
             else
             {
-                return new bool4(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z), testbit(x.w, i.w));
+                return new mask16x4(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z), testbit(x.w, i.w));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbit(ushort8 x, ushort8 i)
+        public static mask16x8 testbit(ushort8 x, ushort8 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi16_epi8(Xse.bt_epi16(x, i, MaskType.One, 8), 8);
+                return Xse.bt_epi16(x, i, MaskType.AllOnes, 8);
             }
             else
             {
-                return new bool8(testbit(x.x0, i.x0),
-                                 testbit(x.x1, i.x1),
-                                 testbit(x.x2, i.x2),
-                                 testbit(x.x3, i.x3),
-                                 testbit(x.x4, i.x4),
-                                 testbit(x.x5, i.x5),
-                                 testbit(x.x6, i.x6),
-                                 testbit(x.x7, i.x7));
+                return new mask16x8(testbit(x.x0, i.x0),
+                                    testbit(x.x1, i.x1),
+                                    testbit(x.x2, i.x2),
+                                    testbit(x.x3, i.x3),
+                                    testbit(x.x4, i.x4),
+                                    testbit(x.x5, i.x5),
+                                    testbit(x.x6, i.x6),
+                                    testbit(x.x7, i.x7));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 testbit(ushort16 x, ushort16 i)
+        public static mask16x16 testbit(ushort16 x, ushort16 i)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepi16_epi8(Xse.mm256_bt_epi16(x, i, MaskType.One));
+                return Xse.mm256_bt_epi16(x, i, MaskType.AllOnes);
             }
             else
             {
-                return new bool16(testbit(x.v8_0, i.v8_0), testbit(x.v8_8, i.v8_8));
+                return new mask16x16(testbit(x.v8_0, i.v8_0), testbit(x.v8_8, i.v8_8));
             }
         }
 
@@ -445,57 +444,57 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbit(uint2 x, uint2 i)
+        public static mask32x2 testbit(uint2 x, uint2 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 2), 2));
+                return Xse.bt_epi32(x, i, MaskType.AllOnes, 2);
             }
             else
             {
-                return new bool2(testbit(x.x, i.x), testbit(x.y, i.y));
+                return new mask32x2(testbit(x.x, i.x), testbit(x.y, i.y));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbit(uint3 x, uint3 i)
+        public static mask32x3 testbit(uint3 x, uint3 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 3), 3));
+                return Xse.bt_epi32(x, i, MaskType.AllOnes, 3);
             }
             else
             {
-                return new bool3(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z));
+                return new mask32x3(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbit(uint4 x, uint4 i)
+        public static mask32x4 testbit(uint4 x, uint4 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(Xse.cvtepi32_epi8(Xse.bt_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(i), MaskType.One, 4), 4));
+                return Xse.bt_epi32(x, i, MaskType.AllOnes, 4);
             }
             else
             {
-                return new bool4(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z), testbit(x.w, i.w));
+                return new mask32x4(testbit(x.x, i.x), testbit(x.y, i.y), testbit(x.z, i.z), testbit(x.w, i.w));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbit(uint8 x, uint8 i)
+        public static mask32x8 testbit(uint8 x, uint8 i)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepi32_epi8(Xse.mm256_bt_epi32(x, i, MaskType.One));
+                return Xse.mm256_bt_epi32(x, i, MaskType.AllOnes);
             }
             else
             {
-                return new bool8(testbit(x.v4_0, i.v4_0), testbit(x.v4_4, i.v4_4));
+                return new mask32x8(testbit(x.v4_0, i.v4_0), testbit(x.v4_4, i.v4_4));
             }
         }
 
@@ -509,43 +508,43 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbit(ulong2 x, ulong2 i)
+        public static mask64x2 testbit(ulong2 x, ulong2 i)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(Xse.cvtepi64_epi8(Xse.bt_epi64(x, i, MaskType.One)));
+                return Xse.bt_epi64(x, i, MaskType.AllOnes);
             }
             else
             {
-                return new bool2(testbit(x.x, i.x), testbit(x.y, i.y));
+                return new mask64x2(testbit(x.x, i.x), testbit(x.y, i.y));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbit(ulong3 x, ulong3 i)
+        public static mask64x3 testbit(ulong3 x, ulong3 i)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToBool3(Xse.mm256_cvtepi64_epi8(Xse.mm256_bt_epi64(x, i, MaskType.One, 3)));
+                return Xse.mm256_bt_epi64(x, i, MaskType.AllOnes, 3);
             }
             else
             {
-                return new bool3(testbit(x.xy, i.xy), testbit(x.z, i.z));
+                return new mask64x3(testbit(x.xy, i.xy), testbit(x.z, i.z));
             }
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbit(ulong4 x, ulong4 i)
+        public static mask64x4 testbit(ulong4 x, ulong4 i)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToBool4(Xse.mm256_cvtepi64_epi8(Xse.mm256_bt_epi64(x, i, MaskType.One, 4)));
+                return Xse.mm256_bt_epi64(x, i, MaskType.AllOnes, 4);
             }
             else
             {
-                return new bool4(testbit(x.xy, i.xy), testbit(x.zw, i.zw));
+                return new mask64x4(testbit(x.xy, i.xy), testbit(x.zw, i.zw));
             }
         }
 
@@ -559,42 +558,42 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbit(sbyte2 x, sbyte2 i)
+        public static mask8x2 testbit(sbyte2 x, sbyte2 i)
         {
             return testbit((byte2)x, (byte2)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbit(sbyte3 x, sbyte3 i)
+        public static mask8x3 testbit(sbyte3 x, sbyte3 i)
         {
             return testbit((byte3)x, (byte3)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbit(sbyte4 x, sbyte4 i)
+        public static mask8x4 testbit(sbyte4 x, sbyte4 i)
         {
             return testbit((byte4)x, (byte4)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbit(sbyte8 x, sbyte8 i)
+        public static mask8x8 testbit(sbyte8 x, sbyte8 i)
         {
             return testbit((byte8)x, (byte8)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 testbit(sbyte16 x, sbyte16 i)
+        public static mask8x16 testbit(sbyte16 x, sbyte16 i)
         {
             return testbit((byte16)x, (byte16)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool32 testbit(sbyte32 x, sbyte32 i)
+        public static mask8x32 testbit(sbyte32 x, sbyte32 i)
         {
             return testbit((byte32)x, (byte32)i);
         }
@@ -609,35 +608,35 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbit(short2 x, short2 i)
+        public static mask16x2 testbit(short2 x, short2 i)
         {
             return testbit((ushort2)x, (ushort2)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbit(short3 x, short3 i)
+        public static mask16x3 testbit(short3 x, short3 i)
         {
             return testbit((ushort3)x, (ushort3)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbit(short4 x, short4 i)
+        public static mask16x4 testbit(short4 x, short4 i)
         {
             return testbit((ushort4)x, (ushort4)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbit(short8 x, short8 i)
+        public static mask16x8 testbit(short8 x, short8 i)
         {
             return testbit((ushort8)x, (ushort8)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool16 testbit(short16 x, short16 i)
+        public static mask16x16 testbit(short16 x, short16 i)
         {
             return testbit((ushort16)x, (ushort16)i);
         }
@@ -652,28 +651,28 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbit(int2 x, int2 i)
+        public static mask32x2 testbit(int2 x, int2 i)
         {
             return testbit((uint2)x, (uint2)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbit(int3 x, int3 i)
+        public static mask32x3 testbit(int3 x, int3 i)
         {
             return testbit((uint3)x, (uint3)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbit(int4 x, int4 i)
+        public static mask32x4 testbit(int4 x, int4 i)
         {
             return testbit((uint4)x, (uint4)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool8 testbit(int8 x, int8 i)
+        public static mask32x8 testbit(int8 x, int8 i)
         {
             return testbit((uint8)x, (uint8)i);
         }
@@ -688,21 +687,21 @@ namespace MaxMath
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool2 testbit(long2 x, long2 i)
+        public static mask64x2 testbit(long2 x, long2 i)
         {
             return testbit((ulong2)x, (ulong2)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool3 testbit(long3 x, long3 i)
+        public static mask64x3 testbit(long3 x, long3 i)
         {
             return testbit((ulong3)x, (ulong3)i);
         }
 
         /// <summary>       Returns <see langword="true"/> for each component if its bit at the corresponding index <paramref name="i"/> in LSB order is 1, <see langword="false"/> otherwise.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool4 testbit(long4 x, long4 i)
+        public static mask64x4 testbit(long4 x, long4 i)
         {
             return testbit((ulong4)x, (ulong4)i);
         }

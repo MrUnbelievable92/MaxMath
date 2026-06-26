@@ -265,7 +265,7 @@ namespace MaxMath.Tests
                 Int128 l = r128.NextInt128();
                 long r = r64.NextLong();
 
-                Int128 quo = maxmath.divrem(l, r, out Int128 rem);
+                Int128 quo = math.divrem(l, r, out Int128 rem);
 
                 if (quo >= long.MinValue && quo <= long.MaxValue)
                 {
@@ -292,7 +292,7 @@ namespace MaxMath.Tests
                 Int128 l = r128.NextInt128();
                 long r = r64.NextLong();
 
-                Int128 quo = maxmath.divrem(l, r, out Int128 rem);
+                Int128 quo = math.divrem(l, r, out _);
 
                 if (quo >= long.MinValue && quo <= long.MaxValue)
                 {
@@ -318,7 +318,7 @@ namespace MaxMath.Tests
                 Int128 l = r128.NextInt128();
                 long r = r64.NextLong();
 
-                Int128 quo = maxmath.divrem(l, r, out Int128 rem);
+                Int128 quo = math.divrem(l, r, out Int128 rem);
 
                 if (quo >= long.MinValue && quo <= long.MaxValue)
                 {

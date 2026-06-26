@@ -3,12 +3,11 @@ using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.CompilerServices;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple : IComparable, IComparable<quadruple>, IConvertible, IEquatable<quadruple>, IFormattable
+    unsafe public partial struct quadruple : IComparable, IComparable<quadruple>, IConvertible, IEquatable<quadruple>, IFormattable
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static quadruple.ConstChecked softfloat_mulAddF128(quadruple.ConstChecked a, quadruple.ConstChecked b, quadruple.ConstChecked c, bool negProd, bool negC)
@@ -377,18 +376,18 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple mad(quadruple a, quadruple b, quadruple c)
         {
-            return quadruple.fmadd(a, b, c);
+            return MaxMath.quadruple.fmadd(a, b, c);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quadruple msub(quadruple a, quadruple b, quadruple c)
         {
-            return quadruple.fmsub(a, b, c);
+            return MaxMath.quadruple.fmsub(a, b, c);
         }
     }
 }

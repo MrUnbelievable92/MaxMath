@@ -1,12 +1,11 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Converts a <see cref="byte"/> to its <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
@@ -16,7 +15,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(byte x, Promise promise = Promise.Nothing)
         {
-            return quarter.GetInteger(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+            return MaxMath.quarter.GetInteger(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
         /// <summary>       Converts each value in a <see cref="MaxMath.byte2"/> to its respective <see cref="MaxMath.quarter"/> representation.
@@ -29,7 +28,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 2);
+                return Xse.cvtepu8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 2);
             }
             else
             {
@@ -47,7 +46,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 3);
+                return Xse.cvtepu8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 3);
             }
             else
             {
@@ -65,7 +64,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 4);
+                return Xse.cvtepu8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -83,7 +82,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 8);
+                return Xse.cvtepu8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 8);
             }
             else
             {
@@ -101,7 +100,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return Xse.cvtepu8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -119,7 +118,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepu8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return Xse.mm256_cvtepu8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -136,7 +135,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(ushort x, Promise promise = Promise.Nothing)
         {
-            return quarter.GetInteger(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+            return MaxMath.quarter.GetInteger(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
         /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its respective <see cref="MaxMath.quarter"/> representation.
@@ -149,7 +148,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 2);
+                return Xse.cvtepu16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 2);
             }
             else
             {
@@ -167,7 +166,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 3);
+                return Xse.cvtepu16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 3);
             }
             else
             {
@@ -185,7 +184,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 4);
+                return Xse.cvtepu16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -203,7 +202,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 8);
+                return Xse.cvtepu16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 8);
             }
             else
             {
@@ -221,7 +220,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepu16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return Xse.mm256_cvtepu16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -238,10 +237,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(uint x, Promise promise = Promise.Nothing)
         {
-            return quarter.GetInteger(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+            return MaxMath.quarter.GetInteger(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
-        /// <summary>       Converts each value in a <see cref="uint2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.uint2"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -251,7 +250,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 2);
+                return Xse.cvtepu32_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 2);
             }
             else
             {
@@ -259,7 +258,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="uint3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.uint3"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -269,7 +268,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 3);
+                return Xse.cvtepu32_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 3);
             }
             else
             {
@@ -277,7 +276,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="uint4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.uint4"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -287,7 +286,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 4);
+                return Xse.cvtepu32_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -305,7 +304,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepu32_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return Xse.mm256_cvtepu32_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -322,7 +321,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(ulong x, Promise promise = Promise.Nothing)
         {
-            return quarter.GetInteger(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+            return MaxMath.quarter.GetInteger(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
         /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its respective <see cref="MaxMath.quarter"/> representation.
@@ -335,7 +334,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepu64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return Xse.cvtepu64_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
             else
             {
@@ -353,7 +352,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepu64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 3);
+                return Xse.mm256_cvtepu64_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 3);
             }
             else
             {
@@ -371,7 +370,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepu64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 4);
+                return Xse.mm256_cvtepu64_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), 4);
             }
             else
             {
@@ -388,7 +387,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(UInt128 x, Promise promise = Promise.Nothing)
         {
-            return quarter.GetInteger(x.lo64, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+            return MaxMath.quarter.GetInteger(x.lo64, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
 
@@ -407,7 +406,7 @@ namespace MaxMath
             }
             else
             {
-                return quarter.FromSByte(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return MaxMath.quarter.FromSByte(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
         }
 
@@ -422,7 +421,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 2);
+                return Xse.cvtepi8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 2);
             }
             else
             {
@@ -441,7 +440,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 3);
+                return Xse.cvtepi8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
@@ -460,7 +459,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 4);
+                return Xse.cvtepi8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
@@ -479,7 +478,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 8);
+                return Xse.cvtepi8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 8);
             }
             else
             {
@@ -498,7 +497,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+                return Xse.cvtepi8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -517,7 +516,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepi8_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+                return Xse.mm256_cvtepi8_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -541,7 +540,7 @@ namespace MaxMath
             }
             else
             {
-                return quarter.FromShort(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return MaxMath.quarter.FromShort(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
         }
 
@@ -556,7 +555,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 2);
+                return Xse.cvtepi16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 2);
             }
             else
             {
@@ -575,7 +574,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 3);
+                return Xse.cvtepi16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
@@ -594,7 +593,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 4);
+                return Xse.cvtepi16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
@@ -613,7 +612,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 8);
+                return Xse.cvtepi16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 8);
             }
             else
             {
@@ -632,7 +631,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepi16_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+                return Xse.mm256_cvtepi16_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -656,11 +655,11 @@ namespace MaxMath
             }
             else
             {
-                return quarter.FromInt(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return MaxMath.quarter.FromInt(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="int2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="MaxMath.int2"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -671,7 +670,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 2);
+                return Xse.cvtepi32_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 2);
             }
             else
             {
@@ -679,7 +678,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="int3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="MaxMath.int3"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -690,7 +689,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 3);
+                return Xse.cvtepi32_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
@@ -698,7 +697,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="int4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="MaxMath.int4"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -709,7 +708,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi32_pq(RegisterConversion.ToV128(x), quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 4);
+                return Xse.cvtepi32_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
@@ -728,7 +727,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepi32_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+                return Xse.mm256_cvtepi32_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -752,7 +751,7 @@ namespace MaxMath
             }
             else
             {
-                return quarter.FromLong(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return MaxMath.quarter.FromLong(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
         }
 
@@ -767,7 +766,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
+                return Xse.cvtepi64_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -786,7 +785,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 3);
+                return Xse.mm256_cvtepi64_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 3);
             }
             else
             {
@@ -805,7 +804,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtepi64_pq(x, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 4);
+                return Xse.mm256_cvtepi64_pq(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), 4);
             }
             else
             {
@@ -829,12 +828,12 @@ namespace MaxMath
             }
             else
             {
-                return quarter.FromLong((long)x.lo64, quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
+                return MaxMath.quarter.FromLong((long)x.lo64, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
             }
         }
 
 
-        /// <summary>       Converts a <see cref="half"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to its <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -844,10 +843,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(half x, Promise promise = Promise.Nothing)
         {
-            return quarter.FromHalf(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
+            return MaxMath.quarter.FromHalf(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
         }
 
-        /// <summary>       Converts each value in a <see cref="half2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.half2"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -859,7 +858,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 2);
+                return Xse.cvtph_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 2);
             }
             else
             {
@@ -867,7 +866,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="half3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.half3"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -879,7 +878,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 3);
+                return Xse.cvtph_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 3);
             }
             else
             {
@@ -887,7 +886,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="half4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.half4"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -899,7 +898,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtph_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 4);
+                return Xse.cvtph_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 4);
             }
             else
             {
@@ -958,10 +957,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(float x, Promise promise = Promise.Nothing)
         {
-            return quarter.FromFloat(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
+            return MaxMath.quarter.FromFloat(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
         }
 
-        /// <summary>       Converts each value in a <see cref="float2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.float2"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -973,7 +972,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtps_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 2);
+                return Xse.cvtps_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 2);
             }
             else
             {
@@ -981,7 +980,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="float3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.float3"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -993,7 +992,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtps_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 3);
+                return Xse.cvtps_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 3);
             }
             else
             {
@@ -1001,7 +1000,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="float4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.float4"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1013,7 +1012,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtps_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 4);
+                return Xse.cvtps_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 4);
             }
             else
             {
@@ -1052,10 +1051,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter toquarterunsafe(double x, Promise promise = Promise.Nothing)
         {
-            return quarter.FromDouble(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
+            return MaxMath.quarter.FromDouble(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
         }
 
-        /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double2"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1067,7 +1066,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cvtpd_pq(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
+                return Xse.cvtpd_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
             }
             else
             {
@@ -1075,7 +1074,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="double3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double3"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1087,7 +1086,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtpd_pq(RegisterConversion.ToV256(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 3);
+                return Xse.mm256_cvtpd_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 3);
             }
             else
             {
@@ -1095,7 +1094,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="double4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.double4"/> to its respective <see cref="MaxMath.quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1107,7 +1106,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cvtpd_pq(RegisterConversion.ToV256(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 4);
+                return Xse.mm256_cvtpd_pq(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0), elements: 4);
             }
             else
             {

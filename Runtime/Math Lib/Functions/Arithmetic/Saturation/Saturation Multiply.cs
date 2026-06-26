@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -503,8 +502,8 @@ namespace MaxMath
                         return result;
                     }
 
-                    UInt128 x = UInt128.umul128(a.ULong0, b.ULong0);
-                    UInt128 y = UInt128.umul128(a.ULong1, b.ULong1);
+                    UInt128 x = MaxMath.UInt128.umul128(a.ULong0, b.ULong0);
+                    UInt128 y = MaxMath.UInt128.umul128(a.ULong1, b.ULong1);
 
                     v128 _NOT_OverflowMask = cmpeq_epi64(setzero_si128(), new v128(x.hi64, y.hi64));
 
@@ -1009,8 +1008,8 @@ namespace MaxMath
 
                     v128 MAX_VALUE = srli_epi64(setall_si128(), 1);
 
-                    UInt128 x = UInt128.umul128(a.ULong0, b.ULong0);
-                    UInt128 y = UInt128.umul128(a.ULong1, b.ULong1);
+                    UInt128 x = MaxMath.UInt128.umul128(a.ULong0, b.ULong0);
+                    UInt128 y = MaxMath.UInt128.umul128(a.ULong1, b.ULong1);
                     v128 xNegative = srai_epi64(a, 63);
                     v128 yNegative = srai_epi64(b, 63);
                     v128 mask = sub_epi64(MAX_VALUE, xor_si128(xNegative, yNegative));
@@ -1082,9 +1081,9 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>       Multiplies <paramref name="x"/> with <paramref name="y"/> and returns the result, which is clamped to <see cref="UInt128.MaxValue"/> if overflow occurs.    </summary>
+        /// <summary>       Multiplies <paramref name="x"/> with <paramref name="y"/> and returns the result, which is clamped to <see cref="MaxMath.UInt128.MaxValue"/> if overflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 mulsaturated(UInt128 x, UInt128 y)
         {
@@ -1099,7 +1098,7 @@ namespace MaxMath
 
             __UInt256__ product = __UInt256__.umul256(x, y);
 
-            return select(product.lo128, UInt128.MaxValue, product.hi128.IsNotZero);
+            return select(product.lo128, MaxMath.UInt128.MaxValue, product.hi128.IsNotZero);
         }
 
 
@@ -1118,7 +1117,7 @@ namespace MaxMath
 
             __UInt256__ product = __UInt256__.imul256(x, y);
 
-            return select(select((Int128)product.lo128, Int128.MaxValue, product.hi128.IsNotZero), Int128.MinValue, (Int128)product.hi128 < -1);
+            return select(select((Int128)product.lo128, MaxMath.Int128.MaxValue, product.hi128.IsNotZero), MaxMath.Int128.MinValue, (Int128)product.hi128 < -1);
         }
 
 
@@ -1135,7 +1134,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            return (byte)math.min(byte.MaxValue, x * y);
+            return (byte)min(byte.MaxValue, x * y);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="byte.MaxValue"/> if overflow occurs.    </summary>
@@ -1265,7 +1264,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            return (ushort)math.min(ushort.MaxValue, (uint)x * (uint)y);
+            return (ushort)min(ushort.MaxValue, (uint)x * (uint)y);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="ushort.MaxValue"/> if overflow occurs.    </summary>
@@ -1366,7 +1365,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            return (uint)math.min(uint.MaxValue, (ulong)x * (ulong)y);
+            return (uint)min(uint.MaxValue, (ulong)x * (ulong)y);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="uint.MaxValue"/> if overflow occurs.    </summary>
@@ -1375,7 +1374,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.muls_epu32(x, y);
             }
             else
             {
@@ -1390,7 +1389,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.muls_epu32(x, y);
             }
             else
             {
@@ -1406,7 +1405,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.muls_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.muls_epu32(x, y);
             }
             else
             {
@@ -1445,7 +1444,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            UInt128 product = UInt128.umul128(x, y);
+            UInt128 product = MaxMath.UInt128.umul128(x, y);
 
             return product.lo64 | (ulong)(-(long)tobyte(product.hi64 != 0));
         }
@@ -1509,7 +1508,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            return (sbyte)math.clamp(x * y, sbyte.MinValue, sbyte.MaxValue);
+            return (sbyte)clamp(x * y, sbyte.MinValue, sbyte.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.    </summary>
@@ -1639,7 +1638,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            return (short)math.clamp(x * y, short.MinValue, short.MaxValue);
+            return (short)clamp(x * y, short.MinValue, short.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.    </summary>
@@ -1740,7 +1739,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            return (int)math.clamp((long)x * (long)y, int.MinValue, int.MaxValue);
+            return (int)clamp((long)x * (long)y, int.MinValue, int.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.    </summary>
@@ -1749,7 +1748,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                return Xse.muls_epi32(x, y, 2);
             }
             else
             {
@@ -1764,7 +1763,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                return Xse.muls_epi32(x, y, 3);
             }
             else
             {
@@ -1779,7 +1778,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.muls_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                return Xse.muls_epi32(x, y, 4);
             }
             else
             {
@@ -1809,7 +1808,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            Int128 product = UInt128.imul128(x, y);
+            Int128 product = MaxMath.UInt128.imul128(x, y);
 
             return (long)product.hi64 < -1 ? long.MinValue : product.hi64 != 0 ? long.MaxValue : (long)product.lo64;
         }
@@ -1864,28 +1863,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float mulsaturated(float x, float y)
         {
-            return math.clamp(x * y, float.MinValue, float.MaxValue);
+            return clamp(x * y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 mulsaturated(float2 x, float2 y)
         {
-            return math.clamp(x * y, float.MinValue, float.MaxValue);
+            return clamp(x * y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 mulsaturated(float3 x, float3 y)
         {
-            return math.clamp(x * y, float.MinValue, float.MaxValue);
+            return clamp(x * y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 mulsaturated(float4 x, float4 y)
         {
-            return math.clamp(x * y, float.MinValue, float.MaxValue);
+            return clamp(x * y, float.MinValue, float.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.    </summary>
@@ -1899,28 +1898,28 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double mulsaturated(double x, double y)
         {
-            return math.clamp(x * y, double.MinValue, double.MaxValue);
+            return clamp(x * y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 mulsaturated(double2 x, double2 y)
         {
-            return math.clamp(x * y, double.MinValue, double.MaxValue);
+            return clamp(x * y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 mulsaturated(double3 x, double3 y)
         {
-            return math.clamp(x * y, double.MinValue, double.MaxValue);
+            return clamp(x * y, double.MinValue, double.MaxValue);
         }
 
         /// <summary>       Multiplies each component of <paramref name="x"/> with <paramref name="y"/> and returns the results, which are clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 mulsaturated(double4 x, double4 y)
         {
-            return math.clamp(x * y, double.MinValue, double.MaxValue);
+            return clamp(x * y, double.MinValue, double.MaxValue);
         }
     }
 }

@@ -193,11 +193,11 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static v256 mm256_cmplt_epi64(v256 left, v256 right, byte elements = 4)
+        public static v256 mm256_cmplt_epi64(v256 left, v256 right)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return mm256_cmpgt_epi64(right, left, elements);
+                return Avx2.mm256_cmpgt_epi64(right, left);
             }
             else throw new IllegalInstructionException();
         }

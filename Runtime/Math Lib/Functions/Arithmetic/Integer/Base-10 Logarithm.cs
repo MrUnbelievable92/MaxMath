@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -125,7 +124,7 @@ namespace MaxMath
                         }
                         else
                         {
-                            if (Sse4_1.IsSse41Supported)
+                            if (BurstArchitecture.IsMinMaxSupported)
                             {
                                 v128 _0 = set1_epi16(10);
                                 v128 _1 = set1_epi16(100);
@@ -279,7 +278,7 @@ namespace MaxMath
                         {
                             case 4:
                             {
-                                if (Sse4_1.IsSse41Supported)
+                                if (BurstArchitecture.IsMinMaxSupported)
                                 {
                                     v128 MASK_10 = set1_epi32(10);
                                     v128 MASK_100 = set1_epi32(100);
@@ -405,7 +404,7 @@ namespace MaxMath
                                     v128 yyyy = shuffle_epi32(a, Sse.SHUFFLE(1, 1, 1, 1));
                                     v128 zzzz = shuffle_epi32(a, Sse.SHUFFLE(2, 2, 2, 2));
 
-                                    if (Sse4_1.IsSse41Supported)
+                                    if (BurstArchitecture.IsMinMaxSupported)
                                     {
                                         v128 MASK_SMALL = new v128(10, 100, 1_000, 10_000);
                                         v128 MASK_LARGE = new v128(100_000, 1_000_000, 10_000_000, 100_000_000);
@@ -502,7 +501,7 @@ namespace MaxMath
                                     v128 xxxx = shuffle_epi32(a, Sse.SHUFFLE(0, 0, 0, 0));
                                     v128 yyyy = shuffle_epi32(a, Sse.SHUFFLE(1, 1, 1, 1));
 
-                                    if (Sse4_1.IsSse41Supported)
+                                    if (BurstArchitecture.IsMinMaxSupported)
                                     {
                                         v128 MASK_SMALL = new v128(10, 100, 1_000, 10_000);
                                         v128 MASK_LARGE = new v128(100_000, 1_000_000, 10_000_000, 100_000_000);
@@ -1092,7 +1091,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Computes the base-10 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than 0, otherwise the result is undefined.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1139,7 +1138,7 @@ namespace MaxMath
                 };
 
 
-                uint result = 128 - (uint)math.lzcnt(x.hi64);
+                uint result = 128 - (uint)lzcnt(x.hi64);
                 result = (result * 157_287) >> 19;
                 result -= tobyte(x < lut[result - 19]);
 
@@ -1573,7 +1572,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Computes the componentwise base-10 logarithm of <paramref name="x"/>.    </summary>
+        /// <summary>       Computes the base-10 logarithm of <paramref name="x"/>.    </summary>
         [return: AssumeRange(0ul, 9ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint intlog10(uint x)
@@ -1623,7 +1622,7 @@ namespace MaxMath
                     0,                 0,                  0,                   0
                 };
 
-                ulong adjust = guess[math.lzcnt(x)];
+                ulong adjust = guess[lzcnt(x)];
 
                 return (uint)((adjust + x) >> 32);
             }
@@ -1636,7 +1635,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.log10_epu32(RegisterConversion.ToV128(x), 2));
+                return Xse.log10_epu32(x, 2);
             }
             else
             {
@@ -1654,8 +1653,8 @@ namespace MaxMath
                     0,                 0,                  0,                   0
                 };
 
-                ulong adjustX = guess[math.lzcnt(x.x)];
-                ulong adjustY = guess[math.lzcnt(x.y)];
+                ulong adjustX = guess[lzcnt(x.x)];
+                ulong adjustY = guess[lzcnt(x.y)];
 
                 return new uint2((uint)((adjustX + x.x) >> 32),
                                  (uint)((adjustY + x.y) >> 32));
@@ -1669,7 +1668,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.log10_epu32(RegisterConversion.ToV128(x), 3));
+                return Xse.log10_epu32(x, 3);
             }
             else
             {
@@ -1687,9 +1686,9 @@ namespace MaxMath
                     0,                 0,                  0,                   0
                 };
 
-                ulong adjustX = guess[math.lzcnt(x.x)];
-                ulong adjustY = guess[math.lzcnt(x.y)];
-                ulong adjustZ = guess[math.lzcnt(x.z)];
+                ulong adjustX = guess[lzcnt(x.x)];
+                ulong adjustY = guess[lzcnt(x.y)];
+                ulong adjustZ = guess[lzcnt(x.z)];
 
                 return new uint3((uint)((adjustX + x.x) >> 32),
                                  (uint)((adjustY + x.y) >> 32),
@@ -1704,7 +1703,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.log10_epu32(RegisterConversion.ToV128(x), 4));
+                return Xse.log10_epu32(x, 4);
             }
             else
             {
@@ -1722,10 +1721,10 @@ namespace MaxMath
                     0,                 0,                  0,                   0
                 };
 
-                ulong adjustX = guess[math.lzcnt(x.x)];
-                ulong adjustY = guess[math.lzcnt(x.y)];
-                ulong adjustZ = guess[math.lzcnt(x.z)];
-                ulong adjustW = guess[math.lzcnt(x.w)];
+                ulong adjustX = guess[lzcnt(x.x)];
+                ulong adjustY = guess[lzcnt(x.y)];
+                ulong adjustZ = guess[lzcnt(x.z)];
+                ulong adjustW = guess[lzcnt(x.w)];
 
                 return new uint4((uint)((adjustX + x.x) >> 32),
                                  (uint)((adjustY + x.y) >> 32),
@@ -1763,14 +1762,14 @@ namespace MaxMath
                     0,                 0,                  0,                   0
                 };
 
-                ulong adjust0 = guess[math.lzcnt(x.x0)];
-                ulong adjust1 = guess[math.lzcnt(x.x1)];
-                ulong adjust2 = guess[math.lzcnt(x.x2)];
-                ulong adjust3 = guess[math.lzcnt(x.x3)];
-                ulong adjust4 = guess[math.lzcnt(x.x4)];
-                ulong adjust5 = guess[math.lzcnt(x.x5)];
-                ulong adjust6 = guess[math.lzcnt(x.x6)];
-                ulong adjust7 = guess[math.lzcnt(x.x7)];
+                ulong adjust0 = guess[lzcnt(x.x0)];
+                ulong adjust1 = guess[lzcnt(x.x1)];
+                ulong adjust2 = guess[lzcnt(x.x2)];
+                ulong adjust3 = guess[lzcnt(x.x3)];
+                ulong adjust4 = guess[lzcnt(x.x4)];
+                ulong adjust5 = guess[lzcnt(x.x5)];
+                ulong adjust6 = guess[lzcnt(x.x6)];
+                ulong adjust7 = guess[lzcnt(x.x7)];
 
                 return new uint8((uint)((adjust0 + x.x0) >> 32),
                                  (uint)((adjust1 + x.x1) >> 32),
@@ -1784,7 +1783,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Computes the componentwise base-10 logarithm of <paramref name="x"/>.    </summary>
+        /// <summary>       Computes the base-10 logarithm of <paramref name="x"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0, 9)]
         public static int intlog10(int x)
@@ -1820,7 +1819,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.log10_epi32(RegisterConversion.ToV128(x), 2));
+                return Xse.log10_epi32(x, 2);
             }
             else
             {
@@ -1835,7 +1834,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.log10_epi32(RegisterConversion.ToV128(x), 3));
+                return Xse.log10_epi32(x, 3);
             }
             else
             {
@@ -1850,7 +1849,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.log10_epi32(RegisterConversion.ToV128(x), 4));
+                return Xse.log10_epi32(x, 4);
             }
             else
             {
@@ -1958,7 +1957,7 @@ namespace MaxMath
                 new UInt128(0, 0),
             };
 
-            UInt128 adjust = guess[math.lzcnt(x)];
+            UInt128 adjust = guess[lzcnt(x)];
 
             return (adjust + x).hi64;
         }

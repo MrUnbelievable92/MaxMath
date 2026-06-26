@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 int inRange = rng.NextInt(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -27,7 +27,7 @@ namespace MaxMath.Tests
             {
                 int2 inRange = rng.NextInt2(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
             {
                 int3 inRange = rng.NextInt3(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 int4 inRange = rng.NextInt4(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -66,7 +66,7 @@ namespace MaxMath.Tests
             {
                 int8 inRange = rng.NextInt8(-127, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -80,7 +80,7 @@ namespace MaxMath.Tests
             {
                 uint inRange = rng.NextUInt(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -93,7 +93,7 @@ namespace MaxMath.Tests
             {
                 uint2 inRange = rng.NextUInt2(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -106,7 +106,7 @@ namespace MaxMath.Tests
             {
                 uint3 inRange = rng.NextUInt3(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -119,7 +119,7 @@ namespace MaxMath.Tests
             {
                 uint4 inRange = rng.NextUInt4(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -132,7 +132,7 @@ namespace MaxMath.Tests
             {
                 uint8 inRange = rng.NextUInt8(0, 129);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -146,7 +146,7 @@ namespace MaxMath.Tests
             {
                 long inRange = rng.NextLong(-1023, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -159,7 +159,7 @@ namespace MaxMath.Tests
             {
                 long2 inRange = rng.NextLong2(-1023, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -172,7 +172,7 @@ namespace MaxMath.Tests
             {
                 long3 inRange = rng.NextLong3(-1023, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
             {
                 long4 inRange = rng.NextLong4(-1023, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -199,7 +199,7 @@ namespace MaxMath.Tests
             {
                 ulong inRange = rng.NextULong(0, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -212,7 +212,7 @@ namespace MaxMath.Tests
             {
                 ulong2 inRange = rng.NextULong2(0, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -225,7 +225,7 @@ namespace MaxMath.Tests
             {
                 ulong3 inRange = rng.NextULong3(0, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
 
@@ -238,7 +238,7 @@ namespace MaxMath.Tests
             {
                 ulong4 inRange = rng.NextULong4(0, 1025);
 
-                Assert.AreEqual(maxmath.exp2(inRange), maxmath.exp2(inRange, Promise.NoOverflow));
+                Assert.AreEqual(math.exp2(inRange), math.exp2(inRange, Promise.NoOverflow));
             }
         }
     }

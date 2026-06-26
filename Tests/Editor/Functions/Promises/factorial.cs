@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -14,7 +14,7 @@ namespace MaxMath.Tests
             {
                 byte b = rng.NextByte(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -27,7 +27,7 @@ namespace MaxMath.Tests
             {
                 byte2 b = rng.NextByte2(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -40,7 +40,7 @@ namespace MaxMath.Tests
             {
                 byte3 b = rng.NextByte3(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -53,7 +53,7 @@ namespace MaxMath.Tests
             {
                 byte4 b = rng.NextByte4(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -66,7 +66,7 @@ namespace MaxMath.Tests
             {
                 byte8 b = rng.NextByte8(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -79,7 +79,7 @@ namespace MaxMath.Tests
             {
                 byte16 b = rng.NextByte16(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -92,7 +92,7 @@ namespace MaxMath.Tests
             {
                 byte32 b = rng.NextByte32(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -106,7 +106,7 @@ namespace MaxMath.Tests
             {
                 ushort b = rng.NextUShort(0, 9);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -119,7 +119,7 @@ namespace MaxMath.Tests
             {
                 ushort2 b = rng.NextUShort2(0, 9);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -132,7 +132,7 @@ namespace MaxMath.Tests
             {
                 ushort3 b = rng.NextUShort3(0, 9);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -145,7 +145,7 @@ namespace MaxMath.Tests
             {
                 ushort4 b = rng.NextUShort4(0, 9);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -158,7 +158,7 @@ namespace MaxMath.Tests
             {
                 ushort8 b = rng.NextUShort8(0, 9);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -171,7 +171,7 @@ namespace MaxMath.Tests
             {
                 ushort16 b = rng.NextUShort16(0, 9);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
             {
                 uint b = rng.NextUInt(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -198,7 +198,7 @@ namespace MaxMath.Tests
             {
                 uint2 b = rng.NextUInt2(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
             {
                 uint3 b = rng.NextUInt3(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -224,7 +224,7 @@ namespace MaxMath.Tests
             {
                 uint4 b = rng.NextUInt4(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -237,7 +237,7 @@ namespace MaxMath.Tests
             {
                 uint8 b = rng.NextUInt8(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -251,7 +251,7 @@ namespace MaxMath.Tests
             {
                 ulong b = rng.NextULong(0, 21);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -264,7 +264,7 @@ namespace MaxMath.Tests
             {
                 ulong2 b = rng.NextULong2(0, 21);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -277,7 +277,7 @@ namespace MaxMath.Tests
             {
                 ulong3 b = rng.NextULong3(0, 21);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -290,7 +290,7 @@ namespace MaxMath.Tests
             {
                 ulong4 b = rng.NextULong4(0, 21);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -304,7 +304,7 @@ namespace MaxMath.Tests
             {
                 UInt128 b = rng.NextUInt128(0, 35);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -318,7 +318,7 @@ namespace MaxMath.Tests
             {
                 sbyte b = rng.NextSByte(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -331,7 +331,7 @@ namespace MaxMath.Tests
             {
                 sbyte2 b = rng.NextSByte2(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -344,7 +344,7 @@ namespace MaxMath.Tests
             {
                 sbyte3 b = rng.NextSByte3(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -357,7 +357,7 @@ namespace MaxMath.Tests
             {
                 sbyte4 b = rng.NextSByte4(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -370,7 +370,7 @@ namespace MaxMath.Tests
             {
                 sbyte8 b = rng.NextSByte8(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -383,7 +383,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 b = rng.NextSByte16(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -396,7 +396,7 @@ namespace MaxMath.Tests
             {
                 sbyte32 b = rng.NextSByte32(0, 6);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -410,7 +410,7 @@ namespace MaxMath.Tests
             {
                 short b = rng.NextShort(0, 8);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -423,7 +423,7 @@ namespace MaxMath.Tests
             {
                 short2 b = rng.NextShort2(0, 8);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -436,7 +436,7 @@ namespace MaxMath.Tests
             {
                 short3 b = rng.NextShort3(0, 8);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -449,7 +449,7 @@ namespace MaxMath.Tests
             {
                 short4 b = rng.NextShort4(0, 8);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -462,7 +462,7 @@ namespace MaxMath.Tests
             {
                 short8 b = rng.NextShort8(0, 8);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -475,7 +475,7 @@ namespace MaxMath.Tests
             {
                 short16 b = rng.NextShort16(0, 8);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -489,7 +489,7 @@ namespace MaxMath.Tests
             {
                 int b = rng.NextInt(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -502,7 +502,7 @@ namespace MaxMath.Tests
             {
                 int2 b = rng.NextInt2(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -515,7 +515,7 @@ namespace MaxMath.Tests
             {
                 int3 b = rng.NextInt3(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -528,7 +528,7 @@ namespace MaxMath.Tests
             {
                 int4 b = rng.NextInt4(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -541,7 +541,7 @@ namespace MaxMath.Tests
             {
                 int8 b = rng.NextInt8(0, 13);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -555,7 +555,7 @@ namespace MaxMath.Tests
             {
                 long b = rng.NextLong(0, 21);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -568,7 +568,7 @@ namespace MaxMath.Tests
             {
                 long2 b = rng.NextLong2(0, 21);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -581,7 +581,7 @@ namespace MaxMath.Tests
             {
                 long3 b = rng.NextLong3(0, 21);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -594,7 +594,7 @@ namespace MaxMath.Tests
             {
                 long4 b = rng.NextLong4(0, 21);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
 
@@ -608,7 +608,7 @@ namespace MaxMath.Tests
             {
                 Int128 b = rng.NextInt128(0, 34);
 
-                Assert.AreEqual(maxmath.factorial(b), maxmath.factorial(b, Promise.NoOverflow));
+                Assert.AreEqual(math.factorial(b), math.factorial(b, Promise.NoOverflow));
             }
         }
     }

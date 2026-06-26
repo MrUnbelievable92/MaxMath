@@ -1,12 +1,11 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Converts a <see cref="MaxMath.quarter"/> to its <see cref="double"/> representation.
         /// <remarks>
@@ -17,7 +16,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double todoubleunsafe(quarter x, Promise promise = Promise.Nothing)
         {
-            return quarter.ToDouble(x, inRange: promise.Promises(Promise.NoOverflow), abs: promise.Promises(Promise.ZeroOrGreater));
+            return MaxMath.quarter.ToDouble(x, inRange: promise.Promises(Promise.NoOverflow), abs: promise.Promises(Promise.ZeroOrGreater));
         }
 
         /// <summary>       Converts each value in a <see cref="MaxMath.quarter2"/> to its respective <see cref="double"/> representation.
@@ -31,7 +30,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.cvtpq_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater)));
+                return Xse.cvtpq_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -50,7 +49,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_cvtpq_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), elements: 3));
+                return Xse.mm256_cvtpq_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), elements: 3);
             }
             else
             {
@@ -69,7 +68,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_cvtpq_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), elements: 4));
+                return Xse.mm256_cvtpq_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), elements: 4);
             }
             else
             {
@@ -78,7 +77,7 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Converts a <see cref="half"/> to its <see cref="double"/> representation.
+        /// <summary>       Converts a <see cref="MaxMath.half"/> to its <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.797693134862315708145274237317043567981e+308, 1.797693134862315708145274237317043567981e+308].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -87,10 +86,10 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double todoubleunsafe(half x, Promise promise = Promise.Nothing)
         {
-            return HalfExtensions.ToDouble(x, inRange: promise.Promises(Promise.NoOverflow), abs: promise.Promises(Promise.ZeroOrGreater));
+            return MaxMath.half.ToDouble(x, inRange: promise.Promises(Promise.NoOverflow), abs: promise.Promises(Promise.ZeroOrGreater));
         }
 
-        /// <summary>       Converts each value in a <see cref="half2"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.half2"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.797693134862315708145274237317043567981e+308, 1.797693134862315708145274237317043567981e+308].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -101,7 +100,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.cvtph_pd(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater)));
+                return Xse.cvtph_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -109,7 +108,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="half3"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.half3"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.797693134862315708145274237317043567981e+308, 1.797693134862315708145274237317043567981e+308].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -120,7 +119,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_cvtph_pd(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), elements: 3));
+                return Xse.mm256_cvtph_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), elements: 3);
             }
             else
             {
@@ -128,7 +127,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="half4"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="MaxMath.half4"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-1.797693134862315708145274237317043567981e+308, 1.797693134862315708145274237317043567981e+308].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -139,7 +138,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_cvtph_pd(RegisterConversion.ToV128(x), promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), elements: 4));
+                return Xse.mm256_cvtph_pd(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), elements: 4);
             }
             else
             {

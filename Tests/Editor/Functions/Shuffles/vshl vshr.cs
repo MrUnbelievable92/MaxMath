@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -16,7 +16,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    byte2 shr = maxmath.vshr(test, j);
+                    byte2 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -37,7 +37,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    byte3 shr = maxmath.vshr(test, j);
+                    byte3 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -58,7 +58,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    byte4 shr = maxmath.vshr(test, j);
+                    byte4 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -79,7 +79,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    byte8 shr = maxmath.vshr(test, j);
+                    byte8 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -100,7 +100,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 16; j++)
                 {
-                    byte16 shr = maxmath.vshr(test, j);
+                    byte16 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 16; k++)
                     {
@@ -121,7 +121,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 32; j++)
                 {
-                    byte32 shr = maxmath.vshr(test, j);
+                    byte32 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 32; k++)
                     {
@@ -143,7 +143,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    ushort2 shr = maxmath.vshr(test, j);
+                    ushort2 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -164,7 +164,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    ushort3 shr = maxmath.vshr(test, j);
+                    ushort3 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -185,7 +185,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    ushort4 shr = maxmath.vshr(test, j);
+                    ushort4 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -206,7 +206,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    ushort8 shr = maxmath.vshr(test, j);
+                    ushort8 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -227,7 +227,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 16; j++)
                 {
-                    ushort16 shr = maxmath.vshr(test, j);
+                    ushort16 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 16; k++)
                     {
@@ -249,7 +249,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    uint2 shr = maxmath.vshr(test, j);
+                    uint2 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -270,7 +270,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    uint3 shr = maxmath.vshr(test, j);
+                    uint3 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -291,7 +291,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    uint4 shr = maxmath.vshr(test, j);
+                    uint4 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -312,7 +312,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    uint8 shr = maxmath.vshr(test, j);
+                    uint8 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -334,7 +334,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    ulong2 shr = maxmath.vshr(test, j);
+                    ulong2 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -355,7 +355,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    ulong3 shr = maxmath.vshr(test, j);
+                    ulong3 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -376,7 +376,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    ulong4 shr = maxmath.vshr(test, j);
+                    ulong4 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -398,7 +398,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    float2 shr = maxmath.vshr(test, j);
+                    float2 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -419,7 +419,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    float3 shr = maxmath.vshr(test, j);
+                    float3 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -440,7 +440,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    float4 shr = maxmath.vshr(test, j);
+                    float4 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -461,7 +461,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    float8 shr = maxmath.vshr(test, j);
+                    float8 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -483,7 +483,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    double2 shr = maxmath.vshr(test, j);
+                    double2 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -504,7 +504,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    double3 shr = maxmath.vshr(test, j);
+                    double3 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -525,7 +525,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    double4 shr = maxmath.vshr(test, j);
+                    double4 shr = math.vshr(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -550,7 +550,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    byte2 shl = maxmath.vshl(test, j);
+                    byte2 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -571,7 +571,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    byte3 shl = maxmath.vshl(test, j);
+                    byte3 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -592,7 +592,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    byte4 shl = maxmath.vshl(test, j);
+                    byte4 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -613,7 +613,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    byte8 shl = maxmath.vshl(test, j);
+                    byte8 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -634,7 +634,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 16; j++)
                 {
-                    byte16 shl = maxmath.vshl(test, j);
+                    byte16 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 16; k++)
                     {
@@ -655,7 +655,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 32; j++)
                 {
-                    byte32 shl = maxmath.vshl(test, j);
+                    byte32 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 32; k++)
                     {
@@ -677,7 +677,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    ushort2 shl = maxmath.vshl(test, j);
+                    ushort2 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -698,7 +698,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    ushort3 shl = maxmath.vshl(test, j);
+                    ushort3 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -719,7 +719,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    ushort4 shl = maxmath.vshl(test, j);
+                    ushort4 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -740,7 +740,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    ushort8 shl = maxmath.vshl(test, j);
+                    ushort8 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -761,7 +761,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 16; j++)
                 {
-                    ushort16 shl = maxmath.vshl(test, j);
+                    ushort16 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 16; k++)
                     {
@@ -783,7 +783,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    uint2 shl = maxmath.vshl(test, j);
+                    uint2 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -804,7 +804,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    uint3 shl = maxmath.vshl(test, j);
+                    uint3 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -825,7 +825,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    uint4 shl = maxmath.vshl(test, j);
+                    uint4 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -846,7 +846,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    uint8 shl = maxmath.vshl(test, j);
+                    uint8 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -868,7 +868,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    ulong2 shl = maxmath.vshl(test, j);
+                    ulong2 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -889,7 +889,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    ulong3 shl = maxmath.vshl(test, j);
+                    ulong3 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -910,7 +910,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    ulong4 shl = maxmath.vshl(test, j);
+                    ulong4 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -932,7 +932,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    float2 shl = maxmath.vshl(test, j);
+                    float2 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -953,7 +953,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    float3 shl = maxmath.vshl(test, j);
+                    float3 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -974,7 +974,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    float4 shl = maxmath.vshl(test, j);
+                    float4 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {
@@ -995,7 +995,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 8; j++)
                 {
-                    float8 shl = maxmath.vshl(test, j);
+                    float8 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 8; k++)
                     {
@@ -1017,7 +1017,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 2; j++)
                 {
-                    double2 shl = maxmath.vshl(test, j);
+                    double2 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 2; k++)
                     {
@@ -1038,7 +1038,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 3; j++)
                 {
-                    double3 shl = maxmath.vshl(test, j);
+                    double3 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 3; k++)
                     {
@@ -1059,7 +1059,7 @@ namespace MaxMath.Tests
 
                 for (int j = 1; j < 4; j++)
                 {
-                    double4 shl = maxmath.vshl(test, j);
+                    double4 shl = math.vshl(test, j);
 
                     for (int k = 0; k < 4; k++)
                     {

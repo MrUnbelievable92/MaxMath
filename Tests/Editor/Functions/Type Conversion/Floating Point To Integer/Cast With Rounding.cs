@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 using static MaxMath.LUT.FLOATING_POINT;
 
@@ -16,7 +16,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((sbyte)math.round(q), maxmath.roundtosbyte(q));
+                Assert.AreEqual((sbyte)math.round(q), math.roundtosbyte(q));
             }
         }
 
@@ -29,7 +29,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = (quarter2)rng.NextFloat2(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((sbyte2)math.round(q), maxmath.roundtosbyte(q));
+                Assert.AreEqual((sbyte2)math.round(q), math.roundtosbyte(q));
             }
         }
 
@@ -42,7 +42,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = (quarter3)rng.NextFloat3(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((sbyte3)math.round(q), maxmath.roundtosbyte(q));
+                Assert.AreEqual((sbyte3)math.round(q), math.roundtosbyte(q));
             }
         }
 
@@ -55,7 +55,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = (quarter4)rng.NextFloat4(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((sbyte4)math.round(q), maxmath.roundtosbyte(q));
+                Assert.AreEqual((sbyte4)math.round(q), math.roundtosbyte(q));
             }
         }
 
@@ -68,7 +68,7 @@ namespace MaxMath.Tests
             {
                 quarter8 q = (quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((sbyte8)maxmath.round((float8)q), maxmath.roundtosbyte(q));
+                Assert.AreEqual((sbyte8)math.round((float8)q), math.roundtosbyte(q));
             }
         }
 
@@ -81,7 +81,7 @@ namespace MaxMath.Tests
             {
                 quarter16 q = new quarter16((quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon));
 
-                Assert.AreEqual(new sbyte16((sbyte8)maxmath.round((float8)q.v8_0), (sbyte8)maxmath.round((float8)q.v8_8)), maxmath.roundtosbyte(q));
+                Assert.AreEqual(new sbyte16((sbyte8)math.round((float8)q.v8_0), (sbyte8)math.round((float8)q.v8_8)), math.roundtosbyte(q));
             }
         }
 
@@ -94,7 +94,7 @@ namespace MaxMath.Tests
             {
                 quarter32 q = new quarter32((quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon));
 
-                Assert.AreEqual(new sbyte32((sbyte8)maxmath.round((float8)q.v8_0), (sbyte8)maxmath.round((float8)q.v8_8), (sbyte8)maxmath.round((float8)q.v8_16), (sbyte8)maxmath.round((float8)q.v8_24)), maxmath.roundtosbyte(q));
+                Assert.AreEqual(new sbyte32((sbyte8)math.round((float8)q.v8_0), (sbyte8)math.round((float8)q.v8_8), (sbyte8)math.round((float8)q.v8_16), (sbyte8)math.round((float8)q.v8_24)), math.roundtosbyte(q));
             }
         }
 
@@ -108,7 +108,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte)maxmath.round(h), maxmath.roundtosbyte(h));
+                Assert.AreEqual((sbyte)math.round(h), math.roundtosbyte(h));
             }
         }
 
@@ -121,7 +121,7 @@ namespace MaxMath.Tests
             {
                 half2 h = (half2)rng.NextFloat2(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte2)maxmath.round(h), maxmath.roundtosbyte(h));
+                Assert.AreEqual((sbyte2)math.round(h), math.roundtosbyte(h));
             }
         }
 
@@ -134,7 +134,7 @@ namespace MaxMath.Tests
             {
                 half3 h = (half3)rng.NextFloat3(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte3)maxmath.round(h), maxmath.roundtosbyte(h));
+                Assert.AreEqual((sbyte3)math.round(h), math.roundtosbyte(h));
             }
         }
 
@@ -147,7 +147,7 @@ namespace MaxMath.Tests
             {
                 half4 h = (half4)rng.NextFloat4(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte4)maxmath.round(h), maxmath.roundtosbyte(h));
+                Assert.AreEqual((sbyte4)math.round(h), math.roundtosbyte(h));
             }
         }
 
@@ -160,7 +160,7 @@ namespace MaxMath.Tests
             {
                 half8 h = (half8)rng.NextFloat8(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte8)maxmath.round(h), maxmath.roundtosbyte(h));
+                Assert.AreEqual((sbyte8)math.round(h), math.roundtosbyte(h));
             }
         }
 
@@ -173,7 +173,7 @@ namespace MaxMath.Tests
             {
                 half16 q = new half16((half8)rng.NextFloat8(sbyte.MinValue, sbyte.MaxValue + 1), (half8)rng.NextFloat8(sbyte.MinValue, sbyte.MaxValue + 1));
 
-                Assert.AreEqual(new sbyte16((sbyte8)maxmath.round((float8)q.v8_0), (sbyte8)maxmath.round((float8)q.v8_8)), maxmath.roundtosbyte(q));
+                Assert.AreEqual(new sbyte16((sbyte8)math.round((float8)q.v8_0), (sbyte8)math.round((float8)q.v8_8)), math.roundtosbyte(q));
             }
         }
 
@@ -187,7 +187,7 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte)math.round(f), maxmath.roundtosbyte(f));
+                Assert.AreEqual((sbyte)math.round(f), math.roundtosbyte(f));
             }
         }
 
@@ -200,7 +200,7 @@ namespace MaxMath.Tests
             {
                 float2 f = rng.NextFloat2(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte2)math.round(f), maxmath.roundtosbyte(f));
+                Assert.AreEqual((sbyte2)math.round(f), math.roundtosbyte(f));
             }
         }
 
@@ -213,7 +213,7 @@ namespace MaxMath.Tests
             {
                 float3 f = rng.NextFloat3(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte3)math.round(f), maxmath.roundtosbyte(f));
+                Assert.AreEqual((sbyte3)math.round(f), math.roundtosbyte(f));
             }
         }
 
@@ -226,7 +226,7 @@ namespace MaxMath.Tests
             {
                 float4 f = rng.NextFloat4(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte4)math.round(f), maxmath.roundtosbyte(f));
+                Assert.AreEqual((sbyte4)math.round(f), math.roundtosbyte(f));
             }
         }
 
@@ -239,7 +239,7 @@ namespace MaxMath.Tests
             {
                 float8 f = rng.NextFloat8(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte8)maxmath.round(f), maxmath.roundtosbyte(f));
+                Assert.AreEqual((sbyte8)math.round(f), math.roundtosbyte(f));
             }
         }
 
@@ -253,7 +253,7 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte)math.round(d), maxmath.roundtosbyte(d));
+                Assert.AreEqual((sbyte)math.round(d), math.roundtosbyte(d));
             }
         }
 
@@ -266,7 +266,7 @@ namespace MaxMath.Tests
             {
                 double2 d = rng.NextDouble2(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte2)math.round(d), maxmath.roundtosbyte(d));
+                Assert.AreEqual((sbyte2)math.round(d), math.roundtosbyte(d));
             }
         }
 
@@ -279,7 +279,7 @@ namespace MaxMath.Tests
             {
                 double3 d = rng.NextDouble3(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte3)math.round(d), maxmath.roundtosbyte(d));
+                Assert.AreEqual((sbyte3)math.round(d), math.roundtosbyte(d));
             }
         }
 
@@ -292,7 +292,7 @@ namespace MaxMath.Tests
             {
                 double4 d = rng.NextDouble4(sbyte.MinValue, sbyte.MaxValue + 1);
 
-                Assert.AreEqual((sbyte4)math.round(d), maxmath.roundtosbyte(d));
+                Assert.AreEqual((sbyte4)math.round(d), math.roundtosbyte(d));
             }
         }
     }
@@ -308,7 +308,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((byte)math.round(q), maxmath.roundtobyte(q));
+                Assert.AreEqual((byte)math.round(q), math.roundtobyte(q));
             }
         }
 
@@ -321,7 +321,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = (quarter2)rng.NextFloat2(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((byte2)math.round(q), maxmath.roundtobyte(q));
+                Assert.AreEqual((byte2)math.round(q), math.roundtobyte(q));
             }
         }
 
@@ -334,7 +334,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = (quarter3)rng.NextFloat3(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((byte3)math.round(q), maxmath.roundtobyte(q));
+                Assert.AreEqual((byte3)math.round(q), math.roundtobyte(q));
             }
         }
 
@@ -347,7 +347,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = (quarter4)rng.NextFloat4(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((byte4)math.round(q), maxmath.roundtobyte(q));
+                Assert.AreEqual((byte4)math.round(q), math.roundtobyte(q));
             }
         }
 
@@ -360,7 +360,7 @@ namespace MaxMath.Tests
             {
                 quarter8 q = (quarter8)rng.NextFloat8(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((byte8)maxmath.round((float8)q), maxmath.roundtobyte(q));
+                Assert.AreEqual((byte8)math.round((float8)q), math.roundtobyte(q));
             }
         }
 
@@ -373,7 +373,7 @@ namespace MaxMath.Tests
             {
                 quarter16 q = new quarter16((quarter8)rng.NextFloat8(0f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(0f, 15f + float.Epsilon));
 
-                Assert.AreEqual(new byte16((byte8)maxmath.round((float8)q.v8_0), (byte8)maxmath.round((float8)q.v8_8)), maxmath.roundtobyte(q));
+                Assert.AreEqual(new byte16((byte8)math.round((float8)q.v8_0), (byte8)math.round((float8)q.v8_8)), math.roundtobyte(q));
             }
         }
 
@@ -386,7 +386,7 @@ namespace MaxMath.Tests
             {
                 quarter32 q = new quarter32((quarter8)rng.NextFloat8(0f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(0f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(0f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(0f, 15f + float.Epsilon));
 
-                Assert.AreEqual(new byte32((byte8)maxmath.round((float8)q.v8_0), (byte8)maxmath.round((float8)q.v8_8), (byte8)maxmath.round((float8)q.v8_16), (byte8)maxmath.round((float8)q.v8_24)), maxmath.roundtobyte(q));
+                Assert.AreEqual(new byte32((byte8)math.round((float8)q.v8_0), (byte8)math.round((float8)q.v8_8), (byte8)math.round((float8)q.v8_16), (byte8)math.round((float8)q.v8_24)), math.roundtobyte(q));
             }
         }
 
@@ -400,7 +400,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte)maxmath.round(h), maxmath.roundtobyte(h));
+                Assert.AreEqual((byte)math.round(h), math.roundtobyte(h));
             }
         }
 
@@ -413,7 +413,7 @@ namespace MaxMath.Tests
             {
                 half2 h = (half2)rng.NextFloat2((float)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte2)maxmath.round(h), maxmath.roundtobyte(h));
+                Assert.AreEqual((byte2)math.round(h), math.roundtobyte(h));
             }
         }
 
@@ -426,7 +426,7 @@ namespace MaxMath.Tests
             {
                 half3 h = (half3)rng.NextFloat3((float)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte3)maxmath.round(h), maxmath.roundtobyte(h));
+                Assert.AreEqual((byte3)math.round(h), math.roundtobyte(h));
             }
         }
 
@@ -439,7 +439,7 @@ namespace MaxMath.Tests
             {
                 half4 h = (half4)rng.NextFloat4((float)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte4)maxmath.round(h), maxmath.roundtobyte(h));
+                Assert.AreEqual((byte4)math.round(h), math.roundtobyte(h));
             }
         }
 
@@ -450,9 +450,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 64; i++)
             {
-                half8 h = (half8)rng.NextFloat8(byte.MinValue, byte.MaxValue + 1);
+                half8 h = (half8)rng.NextFloat8((float)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte8)maxmath.round(h), maxmath.roundtobyte(h));
+                Assert.AreEqual((byte8)math.round(h), math.roundtobyte(h));
             }
         }
 
@@ -463,9 +463,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 64; i++)
             {
-                half16 q = new half16((half8)rng.NextFloat8(byte.MinValue, byte.MaxValue + 1), (half8)rng.NextFloat8(byte.MinValue, byte.MaxValue + 1));
+                half16 q = new half16((half8)rng.NextFloat8((float)byte.MinValue, byte.MaxValue + 1), (half8)rng.NextFloat8((float)byte.MinValue, byte.MaxValue + 1));
 
-                Assert.AreEqual(new byte16((byte8)maxmath.round((float8)q.v8_0), (byte8)maxmath.round((float8)q.v8_8)), maxmath.roundtobyte(q));
+                Assert.AreEqual(new byte16((byte8)math.round((float8)q.v8_0), (byte8)math.round((float8)q.v8_8)), math.roundtobyte(q));
             }
         }
 
@@ -479,7 +479,7 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte)math.round(f), maxmath.roundtobyte(f));
+                Assert.AreEqual((byte)math.round(f), math.roundtobyte(f));
             }
         }
 
@@ -492,7 +492,7 @@ namespace MaxMath.Tests
             {
                 float2 f = rng.NextFloat2((float)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte2)math.round(f), maxmath.roundtobyte(f));
+                Assert.AreEqual((byte2)math.round(f), math.roundtobyte(f));
             }
         }
 
@@ -505,7 +505,7 @@ namespace MaxMath.Tests
             {
                 float3 f = rng.NextFloat3((float)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte3)math.round(f), maxmath.roundtobyte(f));
+                Assert.AreEqual((byte3)math.round(f), math.roundtobyte(f));
             }
         }
 
@@ -518,7 +518,7 @@ namespace MaxMath.Tests
             {
                 float4 f = rng.NextFloat4((float)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte4)math.round(f), maxmath.roundtobyte(f));
+                Assert.AreEqual((byte4)math.round(f), math.roundtobyte(f));
             }
         }
 
@@ -529,9 +529,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 64; i++)
             {
-                float8 f = rng.NextFloat8(byte.MinValue, byte.MaxValue + 1);
+                float8 f = rng.NextFloat8((float)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte8)maxmath.round(f), maxmath.roundtobyte(f));
+                Assert.AreEqual((byte8)math.round(f), math.roundtobyte(f));
             }
         }
 
@@ -545,7 +545,7 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte)math.round(d), maxmath.roundtobyte(d));
+                Assert.AreEqual((byte)math.round(d), math.roundtobyte(d));
             }
         }
 
@@ -558,7 +558,7 @@ namespace MaxMath.Tests
             {
                 double2 d = rng.NextDouble2((double)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte2)math.round(d), maxmath.roundtobyte(d));
+                Assert.AreEqual((byte2)math.round(d), math.roundtobyte(d));
             }
         }
 
@@ -571,7 +571,7 @@ namespace MaxMath.Tests
             {
                 double3 d = rng.NextDouble3((double)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte3)math.round(d), maxmath.roundtobyte(d));
+                Assert.AreEqual((byte3)math.round(d), math.roundtobyte(d));
             }
         }
 
@@ -584,7 +584,7 @@ namespace MaxMath.Tests
             {
                 double4 d = rng.NextDouble4((double)byte.MinValue, byte.MaxValue + 1);
 
-                Assert.AreEqual((byte4)math.round(d), maxmath.roundtobyte(d));
+                Assert.AreEqual((byte4)math.round(d), math.roundtobyte(d));
             }
         }
     }
@@ -600,7 +600,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((short)math.round(q), maxmath.roundtoshort(q));
+                Assert.AreEqual((short)math.round(q), math.roundtoshort(q));
             }
         }
 
@@ -613,7 +613,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = (quarter2)rng.NextFloat2(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((short2)math.round(q), maxmath.roundtoshort(q));
+                Assert.AreEqual((short2)math.round(q), math.roundtoshort(q));
             }
         }
 
@@ -626,7 +626,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = (quarter3)rng.NextFloat3(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((short3)math.round(q), maxmath.roundtoshort(q));
+                Assert.AreEqual((short3)math.round(q), math.roundtoshort(q));
             }
         }
 
@@ -639,7 +639,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = (quarter4)rng.NextFloat4(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((short4)math.round(q), maxmath.roundtoshort(q));
+                Assert.AreEqual((short4)math.round(q), math.roundtoshort(q));
             }
         }
 
@@ -652,7 +652,7 @@ namespace MaxMath.Tests
             {
                 quarter8 q = (quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((short8)maxmath.round((float8)q), maxmath.roundtoshort(q));
+                Assert.AreEqual((short8)math.round((float8)q), math.roundtoshort(q));
             }
         }
 
@@ -665,7 +665,7 @@ namespace MaxMath.Tests
             {
                 quarter16 q = new quarter16((quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon), (quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon));
 
-                Assert.AreEqual(new short16((short8)maxmath.round((float8)q.v8_0), (short8)maxmath.round((float8)q.v8_8)), maxmath.roundtoshort(q));
+                Assert.AreEqual(new short16((short8)math.round((float8)q.v8_0), (short8)math.round((float8)q.v8_8)), math.roundtoshort(q));
             }
         }
 
@@ -679,7 +679,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short)maxmath.round(h), maxmath.roundtoshort(h));
+                Assert.AreEqual((short)math.round(h), math.roundtoshort(h));
             }
         }
 
@@ -692,7 +692,7 @@ namespace MaxMath.Tests
             {
                 half2 h = (half2)rng.NextFloat2(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short2)maxmath.round(h), maxmath.roundtoshort(h));
+                Assert.AreEqual((short2)math.round(h), math.roundtoshort(h));
             }
         }
 
@@ -705,7 +705,7 @@ namespace MaxMath.Tests
             {
                 half3 h = (half3)rng.NextFloat3(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short3)maxmath.round(h), maxmath.roundtoshort(h));
+                Assert.AreEqual((short3)math.round(h), math.roundtoshort(h));
             }
         }
 
@@ -718,7 +718,7 @@ namespace MaxMath.Tests
             {
                 half4 h = (half4)rng.NextFloat4(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short4)maxmath.round(h), maxmath.roundtoshort(h));
+                Assert.AreEqual((short4)math.round(h), math.roundtoshort(h));
             }
         }
 
@@ -731,7 +731,7 @@ namespace MaxMath.Tests
             {
                 half8 h = (half8)rng.NextFloat8(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short8)maxmath.round(h), maxmath.roundtoshort(h));
+                Assert.AreEqual((short8)math.round(h), math.roundtoshort(h));
             }
         }
 
@@ -744,7 +744,7 @@ namespace MaxMath.Tests
             {
                 half16 q = new half16((half8)rng.NextFloat8(-15f, 15f + float.Epsilon), (half8)rng.NextFloat8(-15f, 15f + float.Epsilon));
 
-                Assert.AreEqual(new short16((short8)maxmath.round((float8)q.v8_0), (short8)maxmath.round((float8)q.v8_8)), maxmath.roundtoshort(q));
+                Assert.AreEqual(new short16((short8)math.round((float8)q.v8_0), (short8)math.round((float8)q.v8_8)), math.roundtoshort(q));
             }
         }
 
@@ -758,7 +758,7 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short)math.round(f), maxmath.roundtoshort(f));
+                Assert.AreEqual((short)math.round(f), math.roundtoshort(f));
             }
         }
 
@@ -771,7 +771,7 @@ namespace MaxMath.Tests
             {
                 float2 f = rng.NextFloat2(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short2)math.round(f), maxmath.roundtoshort(f));
+                Assert.AreEqual((short2)math.round(f), math.roundtoshort(f));
             }
         }
 
@@ -784,7 +784,7 @@ namespace MaxMath.Tests
             {
                 float3 f = rng.NextFloat3(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short3)math.round(f), maxmath.roundtoshort(f));
+                Assert.AreEqual((short3)math.round(f), math.roundtoshort(f));
             }
         }
 
@@ -797,7 +797,7 @@ namespace MaxMath.Tests
             {
                 float4 f = rng.NextFloat4(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short4)math.round(f), maxmath.roundtoshort(f));
+                Assert.AreEqual((short4)math.round(f), math.roundtoshort(f));
             }
         }
 
@@ -810,7 +810,7 @@ namespace MaxMath.Tests
             {
                 float8 f = rng.NextFloat8(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short8)maxmath.round(f), maxmath.roundtoshort(f));
+                Assert.AreEqual((short8)math.round(f), math.roundtoshort(f));
             }
         }
 
@@ -824,7 +824,7 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short)math.round(d), maxmath.roundtoshort(d));
+                Assert.AreEqual((short)math.round(d), math.roundtoshort(d));
             }
         }
 
@@ -837,7 +837,7 @@ namespace MaxMath.Tests
             {
                 double2 d = rng.NextDouble2(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short2)math.round(d), maxmath.roundtoshort(d));
+                Assert.AreEqual((short2)math.round(d), math.roundtoshort(d));
             }
         }
 
@@ -850,7 +850,7 @@ namespace MaxMath.Tests
             {
                 double3 d = rng.NextDouble3(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short3)math.round(d), maxmath.roundtoshort(d));
+                Assert.AreEqual((short3)math.round(d), math.roundtoshort(d));
             }
         }
 
@@ -863,7 +863,7 @@ namespace MaxMath.Tests
             {
                 double4 d = rng.NextDouble4(short.MinValue, short.MaxValue + 1);
 
-                Assert.AreEqual((short4)math.round(d), maxmath.roundtoshort(d));
+                Assert.AreEqual((short4)math.round(d), math.roundtoshort(d));
             }
         }
     }
@@ -879,7 +879,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ushort)math.round(q), maxmath.roundtoushort(q));
+                Assert.AreEqual((ushort)math.round(q), math.roundtoushort(q));
             }
         }
 
@@ -892,7 +892,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = (quarter2)rng.NextFloat2(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ushort2)math.round(q), maxmath.roundtoushort(q));
+                Assert.AreEqual((ushort2)math.round(q), math.roundtoushort(q));
             }
         }
 
@@ -905,7 +905,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = (quarter3)rng.NextFloat3(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ushort3)math.round(q), maxmath.roundtoushort(q));
+                Assert.AreEqual((ushort3)math.round(q), math.roundtoushort(q));
             }
         }
 
@@ -918,7 +918,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = (quarter4)rng.NextFloat4(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ushort4)math.round(q), maxmath.roundtoushort(q));
+                Assert.AreEqual((ushort4)math.round(q), math.roundtoushort(q));
             }
         }
 
@@ -931,7 +931,7 @@ namespace MaxMath.Tests
             {
                 quarter8 q = (quarter8)rng.NextFloat8(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ushort8)maxmath.round((float8)q), maxmath.roundtoushort(q));
+                Assert.AreEqual((ushort8)math.round((float8)q), math.roundtoushort(q));
             }
         }
 
@@ -944,7 +944,7 @@ namespace MaxMath.Tests
             {
                 quarter16 q = new quarter16((quarter8)rng.NextFloat8(0, 15f + float.Epsilon), (quarter8)rng.NextFloat8(0, 15f + float.Epsilon));
 
-                Assert.AreEqual(new ushort16((ushort8)maxmath.round((float8)q.v8_0), (ushort8)maxmath.round((float8)q.v8_8)), maxmath.roundtoushort(q));
+                Assert.AreEqual(new ushort16((ushort8)math.round((float8)q.v8_0), (ushort8)math.round((float8)q.v8_8)), math.roundtoushort(q));
             }
         }
 
@@ -958,7 +958,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(ushort.MinValue, half.MaxValue + float.Epsilon);
 
-                Assert.AreEqual((ushort)maxmath.round(h), maxmath.roundtoushort(h));
+                Assert.AreEqual((ushort)math.round(h), math.roundtoushort(h));
             }
         }
 
@@ -971,7 +971,7 @@ namespace MaxMath.Tests
             {
                 half2 h = (half2)rng.NextFloat2((float)ushort.MinValue, half.MaxValue + float.Epsilon);
 
-                Assert.AreEqual((ushort2)maxmath.round(h), maxmath.roundtoushort(h));
+                Assert.AreEqual((ushort2)math.round(h), math.roundtoushort(h));
             }
         }
 
@@ -984,7 +984,7 @@ namespace MaxMath.Tests
             {
                 half3 h = (half3)rng.NextFloat3((float)ushort.MinValue, half.MaxValue + float.Epsilon);
 
-                Assert.AreEqual((ushort3)maxmath.round(h), maxmath.roundtoushort(h));
+                Assert.AreEqual((ushort3)math.round(h), math.roundtoushort(h));
             }
         }
 
@@ -997,7 +997,7 @@ namespace MaxMath.Tests
             {
                 half4 h = (half4)rng.NextFloat4((float)ushort.MinValue, half.MaxValue + float.Epsilon);
 
-                Assert.AreEqual((ushort4)maxmath.round(h), maxmath.roundtoushort(h));
+                Assert.AreEqual((ushort4)math.round(h), math.roundtoushort(h));
             }
         }
 
@@ -1008,9 +1008,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 64; i++)
             {
-                half8 h = (half8)rng.NextFloat8(ushort.MinValue, half.MaxValue + float.Epsilon);
+                half8 h = (half8)rng.NextFloat8((float)ushort.MinValue, half.MaxValue + float.Epsilon);
 
-                Assert.AreEqual((ushort8)maxmath.round(h), maxmath.roundtoushort(h));
+                Assert.AreEqual((ushort8)math.round(h), math.roundtoushort(h));
             }
         }
 
@@ -1021,9 +1021,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 64; i++)
             {
-                half16 q = new half16((half8)rng.NextFloat8(ushort.MinValue, half.MaxValue + float.Epsilon), (half8)rng.NextFloat8(ushort.MinValue, half.MaxValue + float.Epsilon));
+                half16 q = new half16((half8)rng.NextFloat8((float)ushort.MinValue, half.MaxValue + float.Epsilon), (half8)rng.NextFloat8((float)ushort.MinValue, half.MaxValue + float.Epsilon));
 
-                Assert.AreEqual(new ushort16((ushort8)maxmath.round((float8)q.v8_0), (ushort8)maxmath.round((float8)q.v8_8)), maxmath.roundtoushort(q));
+                Assert.AreEqual(new ushort16((ushort8)math.round((float8)q.v8_0), (ushort8)math.round((float8)q.v8_8)), math.roundtoushort(q));
             }
         }
 
@@ -1037,7 +1037,7 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort)math.round(f), maxmath.roundtoushort(f));
+                Assert.AreEqual((ushort)math.round(f), math.roundtoushort(f));
             }
         }
 
@@ -1050,7 +1050,7 @@ namespace MaxMath.Tests
             {
                 float2 f = rng.NextFloat2((float)ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort2)math.round(f), maxmath.roundtoushort(f));
+                Assert.AreEqual((ushort2)math.round(f), math.roundtoushort(f));
             }
         }
 
@@ -1063,7 +1063,7 @@ namespace MaxMath.Tests
             {
                 float3 f = rng.NextFloat3((float)ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort3)math.round(f), maxmath.roundtoushort(f));
+                Assert.AreEqual((ushort3)math.round(f), math.roundtoushort(f));
             }
         }
 
@@ -1076,7 +1076,7 @@ namespace MaxMath.Tests
             {
                 float4 f = rng.NextFloat4((float)ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort4)math.round(f), maxmath.roundtoushort(f));
+                Assert.AreEqual((ushort4)math.round(f), math.roundtoushort(f));
             }
         }
 
@@ -1087,9 +1087,9 @@ namespace MaxMath.Tests
 
             for (int i = 0; i < 64; i++)
             {
-                float8 f = rng.NextFloat8(ushort.MinValue, ushort.MaxValue + 1);
+                float8 f = rng.NextFloat8((float)ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort8)maxmath.round(f), maxmath.roundtoushort(f));
+                Assert.AreEqual((ushort8)math.round(f), math.roundtoushort(f));
             }
         }
 
@@ -1103,7 +1103,7 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort)math.round(d), maxmath.roundtoushort(d));
+                Assert.AreEqual((ushort)math.round(d), math.roundtoushort(d));
             }
         }
 
@@ -1116,7 +1116,7 @@ namespace MaxMath.Tests
             {
                 double2 d = rng.NextDouble2((double)ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort2)math.round(d), maxmath.roundtoushort(d));
+                Assert.AreEqual((ushort2)math.round(d), math.roundtoushort(d));
             }
         }
 
@@ -1129,7 +1129,7 @@ namespace MaxMath.Tests
             {
                 double3 d = rng.NextDouble3((double)ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort3)math.round(d), maxmath.roundtoushort(d));
+                Assert.AreEqual((ushort3)math.round(d), math.roundtoushort(d));
             }
         }
 
@@ -1142,7 +1142,7 @@ namespace MaxMath.Tests
             {
                 double4 d = rng.NextDouble4((double)ushort.MinValue, ushort.MaxValue + 1);
 
-                Assert.AreEqual((ushort4)math.round(d), maxmath.roundtoushort(d));
+                Assert.AreEqual((ushort4)math.round(d), math.roundtoushort(d));
             }
         }
     }
@@ -1158,7 +1158,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((int)math.round(q), maxmath.roundtoint(q));
+                Assert.AreEqual((int)math.round(q), math.roundtoint(q));
             }
         }
 
@@ -1171,7 +1171,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = (quarter2)rng.NextFloat2(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((int2)math.round(q), maxmath.roundtoint(q));
+                Assert.AreEqual((int2)math.round(q), math.roundtoint(q));
             }
         }
 
@@ -1184,7 +1184,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = (quarter3)rng.NextFloat3(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((int3)math.round(q), maxmath.roundtoint(q));
+                Assert.AreEqual((int3)math.round(q), math.roundtoint(q));
             }
         }
 
@@ -1197,7 +1197,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = (quarter4)rng.NextFloat4(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((int4)math.round(q), maxmath.roundtoint(q));
+                Assert.AreEqual((int4)math.round(q), math.roundtoint(q));
             }
         }
 
@@ -1210,7 +1210,7 @@ namespace MaxMath.Tests
             {
                 quarter8 q = (quarter8)rng.NextFloat8(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((int8)maxmath.round((float8)q), maxmath.roundtoint(q));
+                Assert.AreEqual((int8)math.round((float8)q), math.roundtoint(q));
             }
         }
 
@@ -1224,11 +1224,11 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int)math.round(h), math.roundtoint(h));
 
                 h = (half)rng.NextFloat(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((int)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int)math.round(h), math.roundtoint(h));
             }
         }
 
@@ -1241,11 +1241,11 @@ namespace MaxMath.Tests
             {
                 half2 h = (half2)rng.NextFloat2(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int2)(float2)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int2)(float2)math.round(h), math.roundtoint(h));
 
                 h = (half2)rng.NextFloat2(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((int2)(float2)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int2)(float2)math.round(h), math.roundtoint(h));
             }
         }
 
@@ -1258,11 +1258,11 @@ namespace MaxMath.Tests
             {
                 half3 h = (half3)rng.NextFloat3(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int3)(float3)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int3)(float3)math.round(h), math.roundtoint(h));
 
                 h = (half3)rng.NextFloat3(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((int3)(float3)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int3)(float3)math.round(h), math.roundtoint(h));
             }
         }
 
@@ -1275,11 +1275,11 @@ namespace MaxMath.Tests
             {
                 half4 h = (half4)rng.NextFloat4(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int4)(float4)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int4)(float4)math.round(h), math.roundtoint(h));
 
                 h = (half4)rng.NextFloat4(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((int4)(float4)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int4)(float4)math.round(h), math.roundtoint(h));
             }
         }
 
@@ -1292,11 +1292,11 @@ namespace MaxMath.Tests
             {
                 half8 h = (half8)rng.NextFloat8(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int8)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int8)math.round(h), math.roundtoint(h));
 
                 h = (half8)rng.NextFloat8(half.MinValue, half.MaxValue);
 
-                Assert.AreEqual((int8)(float8)maxmath.round(h), maxmath.roundtoint(h));
+                Assert.AreEqual((int8)(float8)math.round(h), math.roundtoint(h));
             }
         }
 
@@ -1310,11 +1310,11 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int)math.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int)math.round(f), math.roundtoint(f));
 
                 f = rng.NextFloat(int.MinValue, int.MaxValue);
 
-                Assert.AreEqual((int)math.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int)math.round(f), math.roundtoint(f));
             }
         }
 
@@ -1327,11 +1327,11 @@ namespace MaxMath.Tests
             {
                 float2 f = rng.NextFloat2(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int2)math.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int2)math.round(f), math.roundtoint(f));
 
                 f = (float2)rng.NextFloat2(int.MinValue, int.MaxValue);
 
-                Assert.AreEqual((int2)math.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int2)math.round(f), math.roundtoint(f));
             }
         }
 
@@ -1344,11 +1344,11 @@ namespace MaxMath.Tests
             {
                 float3 f = rng.NextFloat3(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int3)math.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int3)math.round(f), math.roundtoint(f));
 
                 f = (float3)rng.NextFloat3(int.MinValue, int.MaxValue);
 
-                Assert.AreEqual((int3)math.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int3)math.round(f), math.roundtoint(f));
             }
         }
 
@@ -1361,11 +1361,11 @@ namespace MaxMath.Tests
             {
                 float4 f = rng.NextFloat4(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int4)math.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int4)math.round(f), math.roundtoint(f));
 
                 f = (float4)rng.NextFloat4(int.MinValue, int.MaxValue);
 
-                Assert.AreEqual((int4)math.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int4)math.round(f), math.roundtoint(f));
             }
         }
 
@@ -1378,11 +1378,11 @@ namespace MaxMath.Tests
             {
                 float8 f = rng.NextFloat8(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((int8)maxmath.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int8)math.round(f), math.roundtoint(f));
 
                 f = (float8)rng.NextFloat8(int.MinValue, int.MaxValue);
 
-                Assert.AreEqual((int8)maxmath.round(f), maxmath.roundtoint(f));
+                Assert.AreEqual((int8)math.round(f), math.roundtoint(f));
             }
         }
 
@@ -1396,7 +1396,7 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(int.MinValue, int.MaxValue + 1L);
 
-                Assert.AreEqual((int)math.round(d), maxmath.roundtoint(d));
+                Assert.AreEqual((int)math.round(d), math.roundtoint(d));
             }
         }
 
@@ -1409,7 +1409,7 @@ namespace MaxMath.Tests
             {
                 double2 d = rng.NextDouble2(int.MinValue, int.MaxValue + 1L);
 
-                Assert.AreEqual((int2)math.round(d), maxmath.roundtoint(d));
+                Assert.AreEqual((int2)math.round(d), math.roundtoint(d));
             }
         }
 
@@ -1422,7 +1422,7 @@ namespace MaxMath.Tests
             {
                 double3 d = rng.NextDouble3(int.MinValue, int.MaxValue + 1L);
 
-                Assert.AreEqual((int3)math.round(d), maxmath.roundtoint(d));
+                Assert.AreEqual((int3)math.round(d), math.roundtoint(d));
             }
         }
 
@@ -1435,7 +1435,7 @@ namespace MaxMath.Tests
             {
                 double4 d = rng.NextDouble4(int.MinValue, int.MaxValue + 1L);
 
-                Assert.AreEqual((int4)math.round(d), maxmath.roundtoint(d));
+                Assert.AreEqual((int4)math.round(d), math.roundtoint(d));
             }
         }
     }
@@ -1451,7 +1451,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((uint)math.round((float)q), maxmath.roundtouint(q));
+                Assert.AreEqual((uint)math.round((float)q), math.roundtouint(q));
             }
         }
 
@@ -1464,7 +1464,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = (quarter2)rng.NextFloat2(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((uint2)math.round((float2)q), maxmath.roundtouint(q));
+                Assert.AreEqual((uint2)math.round((float2)q), math.roundtouint(q));
             }
         }
 
@@ -1477,7 +1477,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = (quarter3)rng.NextFloat3(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((uint3)math.round((float3)q), maxmath.roundtouint(q));
+                Assert.AreEqual((uint3)math.round((float3)q), math.roundtouint(q));
             }
         }
 
@@ -1490,7 +1490,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = (quarter4)rng.NextFloat4(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((uint4)math.round((float4)q), maxmath.roundtouint(q));
+                Assert.AreEqual((uint4)math.round((float4)q), math.roundtouint(q));
             }
         }
 
@@ -1503,7 +1503,7 @@ namespace MaxMath.Tests
             {
                 quarter8 q = (quarter8)rng.NextFloat8(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((uint8)maxmath.round((float8)q), maxmath.roundtouint(q));
+                Assert.AreEqual((uint8)math.round((float8)q), math.roundtouint(q));
             }
         }
 
@@ -1517,7 +1517,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint)maxmath.round(h), maxmath.roundtouint(h));
+                Assert.AreEqual((uint)math.round(h), math.roundtouint(h));
             }
         }
 
@@ -1530,7 +1530,7 @@ namespace MaxMath.Tests
             {
                 half2 h = (half2)rng.NextFloat2(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint2)(float2)maxmath.round(h), maxmath.roundtouint(h));
+                Assert.AreEqual((uint2)(float2)math.round(h), math.roundtouint(h));
             }
         }
 
@@ -1543,7 +1543,7 @@ namespace MaxMath.Tests
             {
                 half3 h = (half3)rng.NextFloat3(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint3)(float3)maxmath.round(h), maxmath.roundtouint(h));
+                Assert.AreEqual((uint3)(float3)math.round(h), math.roundtouint(h));
             }
         }
 
@@ -1556,7 +1556,7 @@ namespace MaxMath.Tests
             {
                 half4 h = (half4)rng.NextFloat4(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint4)(float4)maxmath.round(h), maxmath.roundtouint(h));
+                Assert.AreEqual((uint4)(float4)math.round(h), math.roundtouint(h));
             }
         }
 
@@ -1569,7 +1569,7 @@ namespace MaxMath.Tests
             {
                 half8 h = (half8)rng.NextFloat8(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint8)maxmath.round(h), maxmath.roundtouint(h));
+                Assert.AreEqual((uint8)math.round(h), math.roundtouint(h));
             }
         }
 
@@ -1583,11 +1583,11 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint)math.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint)math.round(f), math.roundtouint(f));
 
                 f = rng.NextFloat(0, uint.MaxValue);
 
-                Assert.AreEqual((uint)math.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint)math.round(f), math.roundtouint(f));
             }
         }
 
@@ -1600,11 +1600,11 @@ namespace MaxMath.Tests
             {
                 float2 f = rng.NextFloat2((float)0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint2)math.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint2)math.round(f), math.roundtouint(f));
 
                 f = rng.NextFloat2(0, uint.MaxValue);
 
-                Assert.AreEqual((uint2)math.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint2)math.round(f), math.roundtouint(f));
             }
         }
 
@@ -1617,11 +1617,11 @@ namespace MaxMath.Tests
             {
                 float3 f = rng.NextFloat3((float)0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint3)math.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint3)math.round(f), math.roundtouint(f));
 
                 f = rng.NextFloat3(0, uint.MaxValue);
 
-                Assert.AreEqual((uint3)math.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint3)math.round(f), math.roundtouint(f));
             }
         }
 
@@ -1634,11 +1634,11 @@ namespace MaxMath.Tests
             {
                 float4 f = rng.NextFloat4((float)0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint4)math.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint4)math.round(f), math.roundtouint(f));
 
                 f = rng.NextFloat4(0, uint.MaxValue);
 
-                Assert.AreEqual((uint4)math.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint4)math.round(f), math.roundtouint(f));
             }
         }
 
@@ -1651,11 +1651,11 @@ namespace MaxMath.Tests
             {
                 float8 f = rng.NextFloat8(0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((uint8)maxmath.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint8)math.round(f), math.roundtouint(f));
 
                 f = rng.NextFloat8(0, uint.MaxValue);
 
-                Assert.AreEqual((uint8)maxmath.round(f), maxmath.roundtouint(f));
+                Assert.AreEqual((uint8)math.round(f), math.roundtouint(f));
             }
         }
 
@@ -1669,7 +1669,7 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(uint.MinValue, uint.MaxValue + 1ul);
 
-                Assert.AreEqual((uint)math.round(d), maxmath.roundtouint(d));
+                Assert.AreEqual((uint)math.round(d), math.roundtouint(d));
             }
         }
 
@@ -1682,7 +1682,7 @@ namespace MaxMath.Tests
             {
                 double2 d = rng.NextDouble2((double)uint.MinValue, uint.MaxValue + 1ul);
 
-                Assert.AreEqual((uint2)math.round(d), maxmath.roundtouint(d));
+                Assert.AreEqual((uint2)math.round(d), math.roundtouint(d));
             }
         }
 
@@ -1695,7 +1695,7 @@ namespace MaxMath.Tests
             {
                 double3 d = rng.NextDouble3((double)uint.MinValue, uint.MaxValue + 1ul);
 
-                Assert.AreEqual((uint3)math.round(d), maxmath.roundtouint(d));
+                Assert.AreEqual((uint3)math.round(d), math.roundtouint(d));
             }
         }
 
@@ -1708,7 +1708,7 @@ namespace MaxMath.Tests
             {
                 double4 d = rng.NextDouble4((double)uint.MinValue, uint.MaxValue + 1ul);
 
-                Assert.AreEqual((uint4)math.round(d), maxmath.roundtouint(d));
+                Assert.AreEqual((uint4)math.round(d), math.roundtouint(d));
             }
         }
     }
@@ -1724,7 +1724,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((long)math.round(q), maxmath.roundtolong(q));
+                Assert.AreEqual((long)math.round(q), math.roundtolong(q));
             }
         }
 
@@ -1737,7 +1737,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = (quarter2)rng.NextFloat2(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((long2)math.round(q), maxmath.roundtolong(q));
+                Assert.AreEqual((long2)math.round(q), math.roundtolong(q));
             }
         }
 
@@ -1750,7 +1750,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = (quarter3)rng.NextFloat3(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((long3)math.round(q), maxmath.roundtolong(q));
+                Assert.AreEqual((long3)math.round(q), math.roundtolong(q));
             }
         }
 
@@ -1763,7 +1763,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = (quarter4)rng.NextFloat4(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((long4)math.round(q), maxmath.roundtolong(q));
+                Assert.AreEqual((long4)math.round(q), math.roundtolong(q));
             }
         }
 
@@ -1777,7 +1777,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long)maxmath.round(h), maxmath.roundtolong(h));
+                Assert.AreEqual((long)math.round(h), math.roundtolong(h));
             }
         }
 
@@ -1790,7 +1790,7 @@ namespace MaxMath.Tests
             {
                 half2 h = (half2)rng.NextFloat2(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long2)(float2)maxmath.round(h), maxmath.roundtolong(h));
+                Assert.AreEqual((long2)(float2)math.round(h), math.roundtolong(h));
             }
         }
 
@@ -1803,7 +1803,7 @@ namespace MaxMath.Tests
             {
                 half3 h = (half3)rng.NextFloat3(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long3)(float3)maxmath.round(h), maxmath.roundtolong(h));
+                Assert.AreEqual((long3)(float3)math.round(h), math.roundtolong(h));
             }
         }
 
@@ -1816,7 +1816,7 @@ namespace MaxMath.Tests
             {
                 half4 h = (half4)rng.NextFloat4(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long4)(float4)maxmath.round(h), maxmath.roundtolong(h));
+                Assert.AreEqual((long4)(float4)math.round(h), math.roundtolong(h));
             }
         }
 
@@ -1830,11 +1830,11 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long)math.round(f), maxmath.roundtolong(f));
+                Assert.AreEqual((long)math.round(f), math.roundtolong(f));
 
                 f = rng.NextFloat(long.MinValue, long.MaxValue);
 
-                Assert.AreEqual((long)math.round(f), maxmath.roundtolong(f));
+                Assert.AreEqual((long)math.round(f), math.roundtolong(f));
             }
         }
 
@@ -1847,11 +1847,11 @@ namespace MaxMath.Tests
             {
                 float2 f = rng.NextFloat2(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long2)math.round(f), maxmath.roundtolong(f));
+                Assert.AreEqual((long2)math.round(f), math.roundtolong(f));
 
                 f = (float2)rng.NextFloat2(long.MinValue, long.MaxValue);
 
-                Assert.AreEqual((long2)math.round(f), maxmath.roundtolong(f));
+                Assert.AreEqual((long2)math.round(f), math.roundtolong(f));
             }
         }
 
@@ -1864,11 +1864,11 @@ namespace MaxMath.Tests
             {
                 float3 f = rng.NextFloat3(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long3)math.round(f), maxmath.roundtolong(f));
+                Assert.AreEqual((long3)math.round(f), math.roundtolong(f));
 
                 f = (float3)rng.NextFloat3(long.MinValue, long.MaxValue);
 
-                Assert.AreEqual((long3)math.round(f), maxmath.roundtolong(f));
+                Assert.AreEqual((long3)math.round(f), math.roundtolong(f));
             }
         }
 
@@ -1881,11 +1881,11 @@ namespace MaxMath.Tests
             {
                 float4 f = rng.NextFloat4(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long4)math.round(f), maxmath.roundtolong(f));
+                Assert.AreEqual((long4)math.round(f), math.roundtolong(f));
 
                 f = (float4)rng.NextFloat4(long.MinValue, long.MaxValue);
 
-                Assert.AreEqual((long4)math.round(f), maxmath.roundtolong(f));
+                Assert.AreEqual((long4)math.round(f), math.roundtolong(f));
             }
         }
 
@@ -1899,11 +1899,11 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(-(1L << F64_MANTISSA_BITS), (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long)math.round(d), maxmath.roundtolong(d));
+                Assert.AreEqual((long)math.round(d), math.roundtolong(d));
 
                 d = rng.NextDouble(long.MinValue, long.MaxValue);
 
-                Assert.AreEqual((long)math.round(d), maxmath.roundtolong(d));
+                Assert.AreEqual((long)math.round(d), math.roundtolong(d));
             }
         }
 
@@ -1916,11 +1916,11 @@ namespace MaxMath.Tests
             {
                 double2 d = rng.NextDouble2(-(1L << F64_MANTISSA_BITS), (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long2)math.round(d), maxmath.roundtolong(d));
+                Assert.AreEqual((long2)math.round(d), math.roundtolong(d));
 
                 d = rng.NextDouble2(long.MinValue, long.MaxValue);
 
-                Assert.AreEqual((long2)math.round(d), maxmath.roundtolong(d));
+                Assert.AreEqual((long2)math.round(d), math.roundtolong(d));
             }
         }
 
@@ -1933,11 +1933,11 @@ namespace MaxMath.Tests
             {
                 double3 d = rng.NextDouble3(-(1L << F64_MANTISSA_BITS), (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long3)math.round(d), maxmath.roundtolong(d));
+                Assert.AreEqual((long3)math.round(d), math.roundtolong(d));
 
                 d = rng.NextDouble3(long.MinValue, long.MaxValue);
 
-                Assert.AreEqual((long3)math.round(d), maxmath.roundtolong(d));
+                Assert.AreEqual((long3)math.round(d), math.roundtolong(d));
             }
         }
 
@@ -1950,11 +1950,11 @@ namespace MaxMath.Tests
             {
                 double4 d = rng.NextDouble4(-(1L << F64_MANTISSA_BITS), (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((long4)math.round(d), maxmath.roundtolong(d));
+                Assert.AreEqual((long4)math.round(d), math.roundtolong(d));
 
                 d = rng.NextDouble4(long.MinValue, long.MaxValue);
 
-                Assert.AreEqual((long4)math.round(d), maxmath.roundtolong(d));
+                Assert.AreEqual((long4)math.round(d), math.roundtolong(d));
             }
         }
     }
@@ -1970,7 +1970,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ulong)math.round(q), maxmath.roundtoulong(q));
+                Assert.AreEqual((ulong)math.round(q), math.roundtoulong(q));
             }
         }
 
@@ -1983,7 +1983,7 @@ namespace MaxMath.Tests
             {
                 quarter2 q = (quarter2)rng.NextFloat2(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ulong2)math.round(q), maxmath.roundtoulong(q));
+                Assert.AreEqual((ulong2)math.round(q), math.roundtoulong(q));
             }
         }
 
@@ -1996,7 +1996,7 @@ namespace MaxMath.Tests
             {
                 quarter3 q = (quarter3)rng.NextFloat3(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ulong3)math.round(q), maxmath.roundtoulong(q));
+                Assert.AreEqual((ulong3)math.round(q), math.roundtoulong(q));
             }
         }
 
@@ -2009,7 +2009,7 @@ namespace MaxMath.Tests
             {
                 quarter4 q = (quarter4)rng.NextFloat4(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((ulong4)math.round(q), maxmath.roundtoulong(q));
+                Assert.AreEqual((ulong4)math.round(q), math.roundtoulong(q));
             }
         }
 
@@ -2023,7 +2023,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong)maxmath.round(h), maxmath.roundtoulong(h));
+                Assert.AreEqual((ulong)math.round(h), math.roundtoulong(h));
             }
         }
 
@@ -2036,7 +2036,7 @@ namespace MaxMath.Tests
             {
                 half2 h = (half2)rng.NextFloat2(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong2)(float2)maxmath.round(h), maxmath.roundtoulong(h));
+                Assert.AreEqual((ulong2)(float2)math.round(h), math.roundtoulong(h));
             }
         }
 
@@ -2049,7 +2049,7 @@ namespace MaxMath.Tests
             {
                 half3 h = (half3)rng.NextFloat3(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong3)(float3)maxmath.round(h), maxmath.roundtoulong(h));
+                Assert.AreEqual((ulong3)(float3)math.round(h), math.roundtoulong(h));
             }
         }
 
@@ -2062,7 +2062,7 @@ namespace MaxMath.Tests
             {
                 half4 h = (half4)rng.NextFloat4(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong4)(float4)maxmath.round(h), maxmath.roundtoulong(h));
+                Assert.AreEqual((ulong4)(float4)math.round(h), math.roundtoulong(h));
             }
         }
 
@@ -2076,11 +2076,11 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong)math.round(f), maxmath.roundtoulong(f));
+                Assert.AreEqual((ulong)math.round(f), math.roundtoulong(f));
 
                 f = rng.NextFloat(0, ulong.MaxValue);
 
-                Assert.AreEqual((ulong)math.round(f), maxmath.roundtoulong(f));
+                Assert.AreEqual((ulong)math.round(f), math.roundtoulong(f));
             }
         }
 
@@ -2093,11 +2093,11 @@ namespace MaxMath.Tests
             {
                 float2 f = rng.NextFloat2((float)0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong2)math.round(f), maxmath.roundtoulong(f));
+                Assert.AreEqual((ulong2)math.round(f), math.roundtoulong(f));
 
                 f = (float2)rng.NextFloat2(0, ulong.MaxValue);
 
-                Assert.AreEqual((ulong2)math.round(f), maxmath.roundtoulong(f));
+                Assert.AreEqual((ulong2)math.round(f), math.roundtoulong(f));
             }
         }
 
@@ -2110,11 +2110,11 @@ namespace MaxMath.Tests
             {
                 float3 f = rng.NextFloat3((float)0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong3)math.round(f), maxmath.roundtoulong(f));
+                Assert.AreEqual((ulong3)math.round(f), math.roundtoulong(f));
 
                 f = (float3)rng.NextFloat3(0, ulong.MaxValue);
 
-                Assert.AreEqual((ulong3)math.round(f), maxmath.roundtoulong(f));
+                Assert.AreEqual((ulong3)math.round(f), math.roundtoulong(f));
             }
         }
 
@@ -2127,11 +2127,11 @@ namespace MaxMath.Tests
             {
                 float4 f = rng.NextFloat4((float)0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong4)math.round(f), maxmath.roundtoulong(f));
+                Assert.AreEqual((ulong4)math.round(f), math.roundtoulong(f));
 
                 f = (float4)rng.NextFloat4(0, ulong.MaxValue);
 
-                Assert.AreEqual((ulong4)math.round(f), maxmath.roundtoulong(f));
+                Assert.AreEqual((ulong4)math.round(f), math.roundtoulong(f));
             }
         }
 
@@ -2145,11 +2145,11 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(0d, (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong)math.round(d), maxmath.roundtoulong(d));
+                Assert.AreEqual((ulong)math.round(d), math.roundtoulong(d));
 
                 d = rng.NextDouble(0d, ulong.MaxValue);
 
-                Assert.AreEqual((ulong)math.round(d), maxmath.roundtoulong(d));
+                Assert.AreEqual((ulong)math.round(d), math.roundtoulong(d));
             }
         }
 
@@ -2162,11 +2162,11 @@ namespace MaxMath.Tests
             {
                 double2 d = rng.NextDouble2((double)0d, (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong2)math.round(d), maxmath.roundtoulong(d));
+                Assert.AreEqual((ulong2)math.round(d), math.roundtoulong(d));
 
                 d = (double2)rng.NextDouble2(0d, ulong.MaxValue);
 
-                Assert.AreEqual((ulong2)math.round(d), maxmath.roundtoulong(d));
+                Assert.AreEqual((ulong2)math.round(d), math.roundtoulong(d));
             }
         }
 
@@ -2179,11 +2179,11 @@ namespace MaxMath.Tests
             {
                 double3 d = rng.NextDouble3((double)0d, (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong3)math.round(d), maxmath.roundtoulong(d));
+                Assert.AreEqual((ulong3)math.round(d), math.roundtoulong(d));
 
                 d = (double3)rng.NextDouble3(0d, ulong.MaxValue);
 
-                Assert.AreEqual((ulong3)math.round(d), maxmath.roundtoulong(d));
+                Assert.AreEqual((ulong3)math.round(d), math.roundtoulong(d));
             }
         }
 
@@ -2196,11 +2196,11 @@ namespace MaxMath.Tests
             {
                 double4 d = rng.NextDouble4((double)0d, (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((ulong4)math.round(d), maxmath.roundtoulong(d));
+                Assert.AreEqual((ulong4)math.round(d), math.roundtoulong(d));
 
                 d = (double4)rng.NextDouble4(0d, ulong.MaxValue);
 
-                Assert.AreEqual((ulong4)math.round(d), maxmath.roundtoulong(d));
+                Assert.AreEqual((ulong4)math.round(d), math.roundtoulong(d));
             }
         }
     }
@@ -2216,7 +2216,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(-15f, 15f + float.Epsilon);
 
-                Assert.AreEqual((Int128)math.round(q), maxmath.roundtoint128(q));
+                Assert.AreEqual((Int128)math.round(q), math.roundtoint128(q));
             }
         }
 
@@ -2229,7 +2229,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(-(1 << F16_MANTISSA_BITS), (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((Int128)maxmath.round(h), maxmath.roundtoint128(h));
+                Assert.AreEqual((Int128)math.round(h), math.roundtoint128(h));
             }
         }
 
@@ -2242,11 +2242,11 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(-(1 << F32_MANTISSA_BITS), (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((Int128)math.round(f), maxmath.roundtoint128(f));
+                Assert.AreEqual((Int128)math.round(f), math.roundtoint128(f));
 
                 f = rng.NextFloat(Int128.MinValue, Int128.MaxValue);
 
-                Assert.AreEqual((Int128)math.round(f), maxmath.roundtoint128(f));
+                Assert.AreEqual((Int128)math.round(f), math.roundtoint128(f));
             }
         }
 
@@ -2259,11 +2259,11 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(-(1L << F64_MANTISSA_BITS), (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((Int128)math.round(d), maxmath.roundtoint128(d));
+                Assert.AreEqual((Int128)math.round(d), math.roundtoint128(d));
 
                 d = rng.NextDouble(Int128.MinValue, Int128.MaxValue);
 
-                Assert.AreEqual((Int128)math.round(d), maxmath.roundtoint128(d));
+                Assert.AreEqual((Int128)math.round(d), math.roundtoint128(d));
             }
         }
 
@@ -2280,7 +2280,7 @@ namespace MaxMath.Tests
             {
                 quarter q = (quarter)rng.NextFloat(0f, 15f + float.Epsilon);
 
-                Assert.AreEqual((UInt128)math.round(q), maxmath.roundtouint128(q));
+                Assert.AreEqual((UInt128)math.round(q), math.roundtouint128(q));
             }
         }
 
@@ -2293,7 +2293,7 @@ namespace MaxMath.Tests
             {
                 half h = (half)rng.NextFloat(0, (1 << F16_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((UInt128)maxmath.round(h), maxmath.roundtouint128(h));
+                Assert.AreEqual((UInt128)math.round(h), math.roundtouint128(h));
             }
         }
 
@@ -2306,11 +2306,11 @@ namespace MaxMath.Tests
             {
                 float f = rng.NextFloat(0, (1 << F32_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((UInt128)math.round(f), maxmath.roundtouint128(f));
+                Assert.AreEqual((UInt128)math.round(f), math.roundtouint128(f));
 
                 f = rng.NextFloat(0, UInt128.MaxValue);
 
-                Assert.AreEqual((UInt128)math.round(f), maxmath.roundtouint128(f));
+                Assert.AreEqual((UInt128)math.round(f), math.roundtouint128(f));
             }
         }
 
@@ -2323,11 +2323,11 @@ namespace MaxMath.Tests
             {
                 double d = rng.NextDouble(0d, (1L << F64_MANTISSA_BITS) + 1);
 
-                Assert.AreEqual((UInt128)math.round(d), maxmath.roundtouint128(d));
+                Assert.AreEqual((UInt128)math.round(d), math.roundtouint128(d));
 
                 d = rng.NextDouble(0d, UInt128.MaxValue);
 
-                Assert.AreEqual((UInt128)math.round(d), maxmath.roundtouint128(d));
+                Assert.AreEqual((UInt128)math.round(d), math.roundtouint128(d));
             }
         }
     }

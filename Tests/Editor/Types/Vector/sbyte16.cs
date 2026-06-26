@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
@@ -661,7 +661,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 lhs = rng.NextSByte16();
                 sbyte16 rhs = rng.NextSByte16();
-                rhs = maxmath.select(rhs, 1, rhs == 0);
+                rhs = math.select(rhs, 1, rhs == 0);
 
                 sbyte16 x = lhs / rhs;
 
@@ -696,7 +696,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 lhs = rng.NextSByte16();
                 sbyte16 rhs = rng.NextSByte16();
-                rhs = maxmath.select(rhs, 1, rhs == 0);
+                rhs = math.select(rhs, 1, rhs == 0);
 
                 sbyte16 x = lhs % rhs;
 

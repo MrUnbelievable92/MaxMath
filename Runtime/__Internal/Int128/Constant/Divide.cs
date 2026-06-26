@@ -1,8 +1,7 @@
 using System.Runtime.CompilerServices;
 using MaxMath.Intrinsics;
 
-using static Unity.Mathematics.math;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {

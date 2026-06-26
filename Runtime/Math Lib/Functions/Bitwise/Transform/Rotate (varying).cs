@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -418,7 +417,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.sbyte2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
@@ -743,7 +742,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.int2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -753,15 +752,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 2));
+                return Xse.rorv_epi32(x, n, inRange.Promises(Promise.NoOverflow), 2);
             }
             else
             {
-                return new int2(math.ror(x.x, n.x), math.ror(x.y, n.y));
+                return new int2(ror(x.x, n.x), ror(x.y, n.y));
             }
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.int3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -771,15 +770,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 3));
+                return Xse.rorv_epi32(x, n, inRange.Promises(Promise.NoOverflow), 3);
             }
             else
             {
-                return new int3(math.ror(x.x, n.x), math.ror(x.y, n.y), math.ror(x.z, n.z));
+                return new int3(ror(x.x, n.x), ror(x.y, n.y), ror(x.z, n.z));
             }
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.int4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -789,11 +788,11 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.rorv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 4));
+                return Xse.rorv_epi32(x, n, inRange.Promises(Promise.NoOverflow), 4);
             }
             else
             {
-                return new int4(math.ror(x.x, n.x), math.ror(x.y, n.y), math.ror(x.z, n.z), math.ror(x.w, n.w));
+                return new int4(ror(x.x, n.x), ror(x.y, n.y), ror(x.z, n.z), ror(x.w, n.w));
             }
         }
 
@@ -811,12 +810,12 @@ namespace MaxMath
             }
             else
             {
-                return new int8(math.ror(x.x0, n.x0), math.ror(x.x1, n.x1), math.ror(x.x2, n.x2), math.ror(x.x3, n.x3), math.ror(x.x4, n.x4), math.ror(x.x5, n.x5), math.ror(x.x6, n.x6), math.ror(x.x7, n.x7));
+                return new int8(ror(x.x0, n.x0), ror(x.x1, n.x1), ror(x.x2, n.x2), ror(x.x3, n.x3), ror(x.x4, n.x4), ror(x.x5, n.x5), ror(x.x6, n.x6), ror(x.x7, n.x7));
             }
         }
 
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -827,7 +826,7 @@ namespace MaxMath
             return (uint2)ror((int2)x, (int2)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -838,7 +837,7 @@ namespace MaxMath
             return (uint3)ror((int3)x, (int3)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -860,7 +859,7 @@ namespace MaxMath
             return (uint8)ror((int8)x, (int8)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint2"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -871,7 +870,7 @@ namespace MaxMath
             return ror(x, (uint2)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint3"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -882,7 +881,7 @@ namespace MaxMath
             return ror(x, (uint3)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint4"/> right by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -919,7 +918,7 @@ namespace MaxMath
             }
             else
             {
-                return new long2(math.ror(x.x, (int)n.x), math.ror(x.y, (int)n.y));
+                return new long2(ror(x.x, (int)n.x), ror(x.y, (int)n.y));
             }
         }
 
@@ -937,7 +936,7 @@ namespace MaxMath
             }
             else
             {
-                return new long3(math.ror(x.x, (int)n.x), math.ror(x.y, (int)n.y), math.ror(x.z, (int)n.z));
+                return new long3(ror(x.x, (int)n.x), ror(x.y, (int)n.y), ror(x.z, (int)n.z));
             }
         }
 
@@ -955,7 +954,7 @@ namespace MaxMath
             }
             else
             {
-                return new long4(math.ror(x.x, (int)n.x), math.ror(x.y, (int)n.y), math.ror(x.z, (int)n.z), math.ror(x.w, (int)n.w));
+                return new long4(ror(x.x, (int)n.x), ror(x.y, (int)n.y), ror(x.z, (int)n.z), ror(x.w, (int)n.w));
             }
         }
 
@@ -1351,7 +1350,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.int2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1361,15 +1360,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 2));
+                return Xse.rolv_epi32(x, n, inRange.Promises(Promise.NoOverflow), 2);
             }
             else
             {
-                return new int2(math.rol(x.x, n.x), math.rol(x.y, n.y));
+                return new int2(rol(x.x, n.x), rol(x.y, n.y));
             }
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.int3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1379,15 +1378,15 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 3));
+                return Xse.rolv_epi32(x, n, inRange.Promises(Promise.NoOverflow), 3);
             }
             else
             {
-                return new int3(math.rol(x.x, n.x), math.rol(x.y, n.y), math.rol(x.z, n.z));
+                return new int3(rol(x.x, n.x), rol(x.y, n.y), rol(x.z, n.z));
             }
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of an <see cref="int4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of an <see cref="MaxMath.int4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1397,11 +1396,11 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.rolv_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), inRange.Promises(Promise.NoOverflow), 4));
+                return Xse.rolv_epi32(x, n, inRange.Promises(Promise.NoOverflow), 4);
             }
             else
             {
-                return new int4(math.rol(x.x, n.x), math.rol(x.y, n.y), math.rol(x.z, n.z), math.rol(x.w, n.w));
+                return new int4(rol(x.x, n.x), rol(x.y, n.y), rol(x.z, n.z), rol(x.w, n.w));
             }
         }
 
@@ -1419,12 +1418,12 @@ namespace MaxMath
             }
             else
             {
-                return new int8(math.rol(x.x0, n.x0), math.rol(x.x1, n.x1), math.rol(x.x2, n.x2), math.rol(x.x3, n.x3), math.rol(x.x4, n.x4), math.rol(x.x5, n.x5), math.rol(x.x6, n.x6), math.rol(x.x7, n.x7));
+                return new int8(rol(x.x0, n.x0), rol(x.x1, n.x1), rol(x.x2, n.x2), rol(x.x3, n.x3), rol(x.x4, n.x4), rol(x.x5, n.x5), rol(x.x6, n.x6), rol(x.x7, n.x7));
             }
         }
 
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1435,7 +1434,7 @@ namespace MaxMath
             return (uint2)rol((int2)x, (int2)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1446,7 +1445,7 @@ namespace MaxMath
             return (uint3)rol((int3)x, (int3)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1468,7 +1467,7 @@ namespace MaxMath
             return (uint8)rol((int8)x, (int8)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint2"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1479,7 +1478,7 @@ namespace MaxMath
             return rol(x, (uint2)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint3"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1490,7 +1489,7 @@ namespace MaxMath
             return rol(x, (uint3)n, inRange);
         }
 
-        /// <summary>       Returns the result of rotating the components' bits of a <see cref="uint4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
+        /// <summary>       Returns the result of rotating the components' bits of a <see cref="MaxMath.uint4"/> left by a number of bits specified in the corresponing component in <paramref name="n"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="inRange"/>' with its <see cref="Promise.NoOverflow"/> flag set expects any <paramref name="n"/> value to be between 0 and 31.      </para>
         /// </remarks>
@@ -1527,7 +1526,7 @@ namespace MaxMath
             }
             else
             {
-                return new long2(math.rol(x.x, (int)n.x), math.rol(x.y, (int)n.y));
+                return new long2(rol(x.x, (int)n.x), rol(x.y, (int)n.y));
             }
         }
 
@@ -1545,7 +1544,7 @@ namespace MaxMath
             }
             else
             {
-                return new long3(math.rol(x.x, (int)n.x), math.rol(x.y, (int)n.y), math.rol(x.z, (int)n.z));
+                return new long3(rol(x.x, (int)n.x), rol(x.y, (int)n.y), rol(x.z, (int)n.z));
             }
         }
 
@@ -1563,7 +1562,7 @@ namespace MaxMath
             }
             else
             {
-                return new long4(math.rol(x.x, (int)n.x), math.rol(x.y, (int)n.y), math.rol(x.z, (int)n.z), math.rol(x.w, (int)n.w));
+                return new long4(rol(x.x, (int)n.x), rol(x.y, (int)n.y), rol(x.z, (int)n.z), rol(x.w, (int)n.w));
             }
         }
 

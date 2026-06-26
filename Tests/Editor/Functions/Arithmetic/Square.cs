@@ -13,7 +13,7 @@ namespace MaxMath.Tests
             {
                 UInt128 x = rng.NextUInt128();
 
-                Assert.AreEqual(x * x, maxmath.square(x));
+                Assert.AreEqual(x * x, math.square(x));
             }
         }
 
@@ -26,7 +26,7 @@ namespace MaxMath.Tests
             {
                 Int128 x = rng.NextInt128();
 
-                Assert.AreEqual(x * x, maxmath.square(x));
+                Assert.AreEqual(x * x, math.square(x));
             }
         }
 

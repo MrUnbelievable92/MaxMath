@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 using Unity.Burst.Intrinsics;
 
 namespace MaxMath.Tests
@@ -269,7 +269,7 @@ namespace MaxMath.Tests
             {
                 byte4 l = rng.NextByte4();
                 byte4 r = rng.NextByte4();
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
                 byte4 x = l / r;
 
@@ -289,7 +289,7 @@ namespace MaxMath.Tests
             {
                 byte4 l = rng.NextByte4();
                 byte4 r = rng.NextByte4();
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
                 byte4 x = l % r;
 
@@ -3051,10 +3051,10 @@ namespace MaxMath.Tests
             {
                 float4 x = TestData_LHS[i];
 
-                result &= maxmath.approx(x.x, (float)TestData_LHS[i].x) &
-                          maxmath.approx(x.y, (float)TestData_LHS[i].y) &
-                          maxmath.approx(x.z, (float)TestData_LHS[i].z) &
-                          maxmath.approx(x.w, (float)TestData_LHS[i].w);
+                result &= math.approx(x.x, (float)TestData_LHS[i].x) &
+                          math.approx(x.y, (float)TestData_LHS[i].y) &
+                          math.approx(x.z, (float)TestData_LHS[i].z) &
+                          math.approx(x.w, (float)TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -3069,10 +3069,10 @@ namespace MaxMath.Tests
             {
                 double4 x = TestData_LHS[i];
 
-                result &= maxmath.approx(x.x, (double)TestData_LHS[i].x) &
-                          maxmath.approx(x.y, (double)TestData_LHS[i].y) &
-                          maxmath.approx(x.z, (double)TestData_LHS[i].z) &
-                          maxmath.approx(x.w, (double)TestData_LHS[i].w);
+                result &= math.approx(x.x, (double)TestData_LHS[i].x) &
+                          math.approx(x.y, (double)TestData_LHS[i].y) &
+                          math.approx(x.z, (double)TestData_LHS[i].z) &
+                          math.approx(x.w, (double)TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);

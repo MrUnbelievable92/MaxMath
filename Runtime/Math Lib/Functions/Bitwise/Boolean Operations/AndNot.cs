@@ -1,12 +1,11 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns the result of the logical <see langword="&amp;"/> operation between two <see cref="UInt128"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -30,7 +29,7 @@ namespace MaxMath
             return tobool(andnot(tobyte(left), tobyte(right)));
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 andnot(bool2 left, bool2 right)
         {
@@ -39,7 +38,7 @@ VectorAssert.IsNotGreater<byte2, byte>(tobyte(right), 1, 2);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool2(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return Xse.andnot_si128(right, left);
             }
             else
             {
@@ -47,7 +46,7 @@ VectorAssert.IsNotGreater<byte2, byte>(tobyte(right), 1, 2);
             }
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 andnot(bool3 left, bool3 right)
         {
@@ -56,7 +55,7 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(right), 1, 3);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool3(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return Xse.andnot_si128(right, left);
             }
             else
             {
@@ -64,7 +63,7 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(right), 1, 3);
             }
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 andnot(bool4 left, bool4 right)
         {
@@ -73,7 +72,7 @@ VectorAssert.IsNotGreater<byte4, byte>(tobyte(right), 1, 4);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToBool4(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return Xse.andnot_si128(right, left);
             }
             else
             {
@@ -403,13 +402,13 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
             return (int)andnot((uint)left, (uint)right);
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="int2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.int2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 andnot(int2 left, int2 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return Xse.andnot_si128(right, left);
             }
             else
             {
@@ -417,13 +416,13 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
             }
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="int3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.int3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 andnot(int3 left, int3 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return Xse.andnot_si128(right, left);
             }
             else
             {
@@ -431,13 +430,13 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
             }
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="int4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.int4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 andnot(int4 left, int4 right)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.andnot_si128(RegisterConversion.ToV128(right), RegisterConversion.ToV128(left)));
+                return Xse.andnot_si128(right, left);
             }
             else
             {
@@ -474,21 +473,21 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
             }
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="uint2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.uint2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 andnot(uint2 left, uint2 right)
         {
             return (uint2)andnot((int2)left, (int2)right);
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="uint3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.uint3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 andnot(uint3 left, uint3 right)
         {
             return (uint3)andnot((int3)left, (int3)right);
         }
 
-        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="uint4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.uint4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 andnot(uint4 left, uint4 right)
         {
@@ -587,5 +586,744 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(right), 1, 32);
         {
             return (ulong4)andnot((long4)left, (long4)right);
         }
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 andnot(bool2 left, Unity.Mathematics.bool2 right) => andnot(left, (bool2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 andnot(bool3 left, Unity.Mathematics.bool3 right) => andnot(left, (bool3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 andnot(bool4 left, Unity.Mathematics.bool4 right) => andnot(left, (bool4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 andnot(Unity.Mathematics.bool2 left, bool2 right) => andnot((bool2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 andnot(Unity.Mathematics.bool3 left, bool3 right) => andnot((bool3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 andnot(Unity.Mathematics.bool4 left, bool4 right) => andnot((bool4)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 andnot(Unity.Mathematics.bool2 left, Unity.Mathematics.bool2 right) => andnot((bool2)left, (bool2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 andnot(Unity.Mathematics.bool3 left, Unity.Mathematics.bool3 right) => andnot((bool3)left, (bool3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.Unity.Mathematics.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 andnot(Unity.Mathematics.bool4 left, Unity.Mathematics.bool4 right) => andnot((bool4)left, (bool4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x2 andnot(mask8x2 left, mask8x2 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x3 andnot(mask8x3 left, mask8x3 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 andnot(mask8x4 left, mask8x4 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 andnot(mask8x8 left, mask8x8 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool16"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 andnot(mask8x16 left, mask8x16 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool32"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x32 andnot(mask8x32 left, mask8x32 right)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_andnot_ps(right, left);
+            }
+            else
+            {
+                return new bool32(andnot(left.v16_0, right.v16_0), andnot(left.v16_16, right.v16_16));
+            }
+        }
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x2 andnot(mask8x2 left, bool2 right) => andnot(left, (mask8x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x3 andnot(mask8x3 left, bool3 right) => andnot(left, (mask8x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 andnot(mask8x4 left, bool4 right) => andnot(left, (mask8x4)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 andnot(mask8x8 left, bool8 right) => andnot(left, (mask8x8)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool16"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 andnot(mask8x16 left, bool16 right) => andnot(left, (mask8x16)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool32"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x32 andnot(mask8x32 left, bool32 right) => andnot(left, (mask8x32)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x2 andnot(mask8x2 left, Unity.Mathematics.bool2 right) => andnot(left, (mask8x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x3 andnot(mask8x3 left, Unity.Mathematics.bool3 right) => andnot(left, (mask8x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 andnot(mask8x4 left, Unity.Mathematics.bool4 right) => andnot(left, (mask8x4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x2 andnot(bool2 left, mask8x2 right) => andnot((mask8x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x3 andnot(bool3 left, mask8x3 right) => andnot((mask8x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 andnot(bool4 left, mask8x4 right) => andnot((mask8x4)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 andnot(bool8 left, mask8x8 right) => andnot((mask8x8)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool16"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 andnot(bool16 left, mask8x16 right) => andnot((mask8x16)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool32"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x32 andnot(bool32 left, mask8x32 right) => andnot((mask8x32)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x2 andnot(Unity.Mathematics.bool2 left, mask8x2 right) => andnot((mask8x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x3 andnot(Unity.Mathematics.bool3 left, mask8x3 right) => andnot((mask8x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 andnot(Unity.Mathematics.bool4 left, mask8x4 right) => andnot((mask8x4)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 andnot(mask8x2 left, mask16x2 right) => andnot((mask16x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 andnot(mask8x3 left, mask16x3 right) => andnot((mask16x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 andnot(mask8x4 left, mask16x4 right) => andnot((mask16x4)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x8 andnot(mask8x8 left, mask16x8 right) => andnot((mask16x8)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool16"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x16 andnot(mask8x16 left, mask16x16 right) => andnot((mask16x16)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 andnot(mask16x2 left, mask8x2 right) => andnot(left, (mask16x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 andnot(mask16x3 left, mask8x3 right) => andnot(left, (mask16x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 andnot(mask16x4 left, mask8x4 right) => andnot(left, (mask16x4)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x8 andnot(mask16x8 left, mask8x8 right) => andnot(left, (mask16x8)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool16"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x16 andnot(mask16x16 left, mask8x16 right) => andnot(left, (mask16x16)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(mask8x2 left, mask32x2 right) => andnot((mask32x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(mask8x3 left, mask32x3 right) => andnot((mask32x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(mask8x4 left, mask32x4 right) => andnot((mask32x4)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 andnot(mask8x8 left, mask32x8 right) => andnot((mask32x8)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(mask32x2 left, mask8x2 right) => andnot(left, (mask32x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(mask32x3 left, mask8x3 right) => andnot(left, (mask32x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(mask32x4 left, mask8x4 right) => andnot(left, (mask32x4)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 andnot(mask32x8 left, mask8x8 right) => andnot(left, (mask32x8)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask8x2 left, mask64x2 right) => andnot((mask64x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask8x3 left, mask64x3 right) => andnot((mask64x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask8x4 left, mask64x4 right) => andnot((mask64x4)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask64x2 left, mask8x2 right) => andnot(left, (mask64x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask64x3 left, mask8x3 right) => andnot(left, (mask64x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask64x4 left, mask8x4 right) => andnot(left, (mask64x4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 andnot(mask16x2 left, mask16x2 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 andnot(mask16x3 left, mask16x3 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 andnot(mask16x4 left, mask16x4 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x8 andnot(mask16x8 left, mask16x8 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool16"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x16 andnot(mask16x16 left, mask16x16 right)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_andnot_ps(right, left);
+            }
+            else
+            {
+                return new mask16x16(andnot(left.v8_0, right.v8_0), andnot(left.v8_8, right.v8_8));
+            }
+        }
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 andnot(mask16x2 left, bool2 right) => andnot(left, (mask16x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 andnot(mask16x3 left, bool3 right) => andnot(left, (mask16x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 andnot(mask16x4 left, bool4 right) => andnot(left, (mask16x4)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x8 andnot(mask16x8 left, bool8 right) => andnot(left, (mask16x8)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool16"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x16 andnot(mask16x16 left, bool16 right) => andnot(left, (mask16x16)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 andnot(mask16x2 left, Unity.Mathematics.bool2 right) => andnot(left, (mask16x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 andnot(mask16x3 left, Unity.Mathematics.bool3 right) => andnot(left, (mask16x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 andnot(mask16x4 left, Unity.Mathematics.bool4 right) => andnot(left, (mask16x4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 andnot(bool2 left, mask16x2 right) => andnot((mask16x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 andnot(bool3 left, mask16x3 right) => andnot((mask16x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 andnot(bool4 left, mask16x4 right) => andnot((mask16x4)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x8 andnot(bool8 left, mask16x8 right) => andnot((mask16x8)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool16"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x16 andnot(bool16 left, mask16x16 right) => andnot((mask16x16)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 andnot(Unity.Mathematics.bool2 left, mask16x2 right) => andnot((mask16x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 andnot(Unity.Mathematics.bool3 left, mask16x3 right) => andnot((mask16x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 andnot(Unity.Mathematics.bool4 left, mask16x4 right) => andnot((mask16x4)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(mask16x2 left, mask32x2 right) => andnot((mask32x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(mask16x3 left, mask32x3 right) => andnot((mask32x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(mask16x4 left, mask32x4 right) => andnot((mask32x4)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 andnot(mask16x8 left, mask32x8 right) => andnot((mask32x8)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(mask32x2 left, mask16x2 right) => andnot(left, (mask32x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(mask32x3 left, mask16x3 right) => andnot(left, (mask32x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(mask32x4 left, mask16x4 right) => andnot(left, (mask32x4)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 andnot(mask32x8 left, mask16x8 right) => andnot(left, (mask32x8)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask16x2 left, mask64x2 right) => andnot((mask64x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask16x3 left, mask64x3 right) => andnot((mask64x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask16x4 left, mask64x4 right) => andnot((mask64x4)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask64x2 left, mask16x2 right) => andnot(left, (mask64x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask64x3 left, mask16x3 right) => andnot(left, (mask64x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask64x4 left, mask16x4 right) => andnot(left, (mask64x4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(mask32x2 left, mask32x2 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(mask32x3 left, mask32x3 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(mask32x4 left, mask32x4 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 andnot(mask32x8 left, mask32x8 right)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_andnot_ps(right, left);
+            }
+            else
+            {
+                return new mask32x8(andnot(left.v4_0, right.v4_0), andnot(left.v4_4, right.v4_4));
+            }
+        }
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(mask32x2 left, bool2 right) => andnot(left, (mask32x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(mask32x3 left, bool3 right) => andnot(left, (mask32x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(mask32x4 left, bool4 right) => andnot(left, (mask32x4)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 andnot(mask32x8 left, bool8 right) => andnot(left, (mask32x8)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(mask32x2 left, Unity.Mathematics.bool2 right) => andnot(left, (mask32x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(mask32x3 left, Unity.Mathematics.bool3 right) => andnot(left, (mask32x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(mask32x4 left, Unity.Mathematics.bool4 right) => andnot(left, (mask32x4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(bool2 left, mask32x2 right) => andnot((mask32x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(bool3 left, mask32x3 right) => andnot((mask32x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(bool4 left, mask32x4 right) => andnot((mask32x4)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool8"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 andnot(bool8 left, mask32x8 right) => andnot((mask32x8)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 andnot(Unity.Mathematics.bool2 left, mask32x2 right) => andnot((mask32x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 andnot(Unity.Mathematics.bool3 left, mask32x3 right) => andnot((mask32x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 andnot(Unity.Mathematics.bool4 left, mask32x4 right) => andnot((mask32x4)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask32x2 left, mask64x2 right) => andnot((mask64x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask32x3 left, mask64x3 right) => andnot((mask64x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask32x4 left, mask64x4 right) => andnot((mask64x4)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask64x2 left, mask32x2 right) => andnot(left, (mask64x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask64x3 left, mask32x3 right) => andnot(left, (mask64x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask64x4 left, mask32x4 right) => andnot(left, (mask64x4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask64x2 left, mask64x2 right)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return Xse.andnot_si128(right, left);
+            }
+            else
+            {
+                return left & !right;
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask64x3 left, mask64x3 right)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_andnot_ps(right, left);
+            }
+            else
+            {
+                return new mask64x3(andnot(left.xy, right.xy), andnot(left.z, right.z));
+            }
+        }
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask64x4 left, mask64x4 right)
+        {
+            if (Avx.IsAvxSupported)
+            {
+                return Avx.mm256_andnot_ps(right, left);
+            }
+            else
+            {
+                return new mask64x4(andnot(left.xy, right.xy), andnot(left.zw, right.zw));
+            }
+        }
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask64x2 left, bool2 right) => andnot(left, (mask64x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask64x3 left, bool3 right) => andnot(left, (mask64x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask64x4 left, bool4 right) => andnot(left, (mask64x4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(mask64x2 left, Unity.Mathematics.bool2 right) => andnot(left, (mask64x2)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(mask64x3 left, Unity.Mathematics.bool3 right) => andnot(left, (mask64x3)right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(mask64x4 left, Unity.Mathematics.bool4 right) => andnot(left, (mask64x4)right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(bool2 left, mask64x2 right) => andnot((mask64x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(bool3 left, mask64x3 right) => andnot((mask64x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(bool4 left, mask64x4 right) => andnot((mask64x4)left, right);
+
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool2"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 andnot(Unity.Mathematics.bool2 left, mask64x2 right) => andnot((mask64x2)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool3"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 andnot(Unity.Mathematics.bool3 left, mask64x3 right) => andnot((mask64x3)left, right);
+
+        /// <summary>       Returns the result of the componentwise logical <see langword="&amp;"/> operation between two <see cref="MaxMath.bool4"/>s <paramref name="left"/> and <see langword="~"/><paramref name="right"/>.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 andnot(Unity.Mathematics.bool4 left, mask64x4 right) => andnot((mask64x4)left, right);
     }
 }

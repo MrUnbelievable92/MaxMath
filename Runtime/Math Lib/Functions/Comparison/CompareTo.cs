@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -228,7 +227,7 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 cmp = Avx2.mm256_sub_epi64(mm256_cmpgt_epi64(b, a, elements), mm256_cmpgt_epi64(a, b, elements));
+                    v256 cmp = Avx2.mm256_sub_epi64(Avx2.mm256_cmpgt_epi64(b, a), Avx2.mm256_cmpgt_epi64(a, b));
 
                     constexpr.ASSUME_RANGE_EPI64(cmp, -1, 1);
                     return cmp;
@@ -347,7 +346,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns -1 if <paramref name="x"/> is smaller than <paramref name="y"/>, 1 if <paramref name="x"/> is greater than <paramref name="y"/> or 0 if both are equal.      </summary>
         [return: AssumeRange(-1, 1)]
@@ -865,13 +864,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(int2 x, int2 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.cmp_epi32(x, y);
             }
             else
             {
@@ -880,13 +879,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(int3 x, int3 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.cmp_epi32(x, y);
             }
             else
             {
@@ -896,13 +895,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(int4 x, int4 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.cmp_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.cmp_epi32(x, y);
             }
             else
             {
@@ -929,13 +928,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(uint2 x, uint2 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+                return Xse.cmp_epu32(x, y, 2);
             }
             else
             {
@@ -944,13 +943,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(uint3 x, uint3 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+                return Xse.cmp_epu32(x, y, 3);
             }
             else
             {
@@ -960,13 +959,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(uint4 x, uint4 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.cmp_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+                return Xse.cmp_epu32(x, y, 4);
             }
             else
             {
@@ -1204,7 +1203,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2);
+                return Xse.cmp_ph(x, y, 2);
             }
             else
             {
@@ -1219,7 +1218,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3);
+                return Xse.cmp_ph(x, y, 3);
             }
             else
             {
@@ -1235,7 +1234,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cmp_ph(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4);
+                return Xse.cmp_ph(x, y, 4);
             }
             else
             {
@@ -1282,13 +1281,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(float2 x, float2 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.cmp_ps(x, y);
             }
             else
             {
@@ -1297,13 +1296,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(float3 x, float3 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.cmp_ps(x, y);
             }
             else
             {
@@ -1313,13 +1312,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="MaxMath.int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(float4 x, float4 y)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.cmp_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+                return Xse.cmp_ps(x, y);
             }
             else
             {
@@ -1352,7 +1351,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.cmp_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y));
+                return Xse.cmp_pd(x, y);
             }
             else
             {
@@ -1367,7 +1366,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cmp_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y));
+                return Xse.mm256_cmp_pd(x, y);
             }
             else
             {
@@ -1382,7 +1381,7 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_cmp_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y));
+                return Xse.mm256_cmp_pd(x, y);
             }
             else
             {

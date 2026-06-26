@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using MaxMath.Intrinsics;
 
@@ -95,7 +94,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Sets all the trailing zeros in the binary representation of a <see cref="UInt128"/> to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -382,13 +381,13 @@ namespace MaxMath
             return andnot(x - 1, x);
         }
 
-        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="uint2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="MaxMath.uint2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 tzmask(uint2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt2(Xse.tzmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.tzmsk_epi32(x);
             }
             else
             {
@@ -396,13 +395,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="uint3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="MaxMath.uint3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 tzmask(uint3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt3(Xse.tzmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.tzmsk_epi32(x);
             }
             else
             {
@@ -410,13 +409,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="uint4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="MaxMath.uint4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 tzmask(uint4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToUInt4(Xse.tzmsk_epi32(RegisterConversion.ToV128(x)));
+                return Xse.tzmsk_epi32(x);
             }
             else
             {
@@ -446,21 +445,21 @@ namespace MaxMath
             return (int)tzmask((uint)x);
         }
 
-        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="int2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="MaxMath.int2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 tzmask(int2 x)
         {
             return (int2)tzmask((uint2)x);
         }
 
-        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="int3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="MaxMath.int3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 tzmask(int3 x)
         {
             return (int3)tzmask((uint3)x);
         }
 
-        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="int4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing zeros in the binary representations of each <see cref="MaxMath.int4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 tzmask(int4 x)
         {

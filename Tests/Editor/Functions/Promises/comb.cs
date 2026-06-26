@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 using static MaxMath.LUT.FACTORIAL;
 
@@ -20,37 +20,37 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte(0, (byte)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= byte.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
+                if (math.comb((UInt128)n, (UInt128)k) <= byte.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextByte(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte(0, (byte)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= byte.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
+                if (math.comb((UInt128)n, (UInt128)k) <= byte.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextByte(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte(0, (byte)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= byte.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
+                if (math.comb((UInt128)n, (UInt128)k) <= byte.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextByte(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte(0, (byte)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 2; j++)
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= byte.MaxValue)
+                if (math.comb((UInt128)n, (UInt128)k) <= byte.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
@@ -70,11 +70,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -82,11 +82,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -94,11 +94,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -106,11 +106,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte2(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -131,11 +131,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -143,11 +143,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -155,11 +155,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -167,11 +167,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte3(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -192,11 +192,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -204,11 +204,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -216,11 +216,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -228,11 +228,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte4(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -253,11 +253,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -265,11 +265,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -277,11 +277,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -289,11 +289,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte8(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -314,11 +314,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -326,11 +326,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -338,11 +338,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -350,11 +350,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte16(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -375,11 +375,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextByte32(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -387,11 +387,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextByte32(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -399,11 +399,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextByte32(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -411,11 +411,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextByte32(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextByte32(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= byte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -437,36 +437,36 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort(0, (ushort)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= ushort.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
+                if (math.comb((UInt128)n, (UInt128)k) <= ushort.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextUShort(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort(0, (ushort)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= ushort.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
+                if (math.comb((UInt128)n, (UInt128)k) <= ushort.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextUShort(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort(0, (ushort)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= ushort.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
+                if (math.comb((UInt128)n, (UInt128)k) <= ushort.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextUShort(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextUShort(0, (ushort)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= ushort.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
+                if (math.comb((UInt128)n, (UInt128)k) <= ushort.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
@@ -486,11 +486,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -498,11 +498,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -510,11 +510,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort2(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -522,11 +522,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort2(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextUShort2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -547,11 +547,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -559,11 +559,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -571,11 +571,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort3(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -583,11 +583,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort3(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextUShort3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -608,11 +608,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -620,11 +620,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -632,11 +632,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort4(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -644,11 +644,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort4(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextUShort4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -669,11 +669,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -681,11 +681,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -693,11 +693,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort8(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -705,11 +705,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort8(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextUShort8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -730,11 +730,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUShort16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUShort16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -742,11 +742,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort16(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUShort16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -754,11 +754,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort16(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextUShort16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -766,11 +766,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUShort16(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextUShort16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ushort.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -792,18 +792,18 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= uint.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
+                if (math.comb((UInt128)n, (UInt128)k) <= uint.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextUInt(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= uint.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
+                if (math.comb((UInt128)n, (UInt128)k) <= uint.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
@@ -823,11 +823,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -835,11 +835,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUInt2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -860,11 +860,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -872,11 +872,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUInt3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -897,11 +897,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -909,11 +909,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUInt4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -934,11 +934,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -946,11 +946,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextUInt8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextUInt8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= uint.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -972,18 +972,18 @@ namespace MaxMath.Tests
             {
                 n = rng.NextULong(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= ulong.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
+                if (math.comb((UInt128)n, (UInt128)k) <= ulong.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextULong(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextULong(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= ulong.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
+                if (math.comb((UInt128)n, (UInt128)k) <= ulong.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
@@ -1003,11 +1003,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextULong2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1015,11 +1015,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextULong2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextULong2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1040,11 +1040,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextULong3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1052,11 +1052,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextULong3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextULong3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1077,11 +1077,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextULong4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextULong4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1089,11 +1089,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextULong4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextULong4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= ulong.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1113,11 +1113,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextUInt128(0, MAX_INVERSE_FACTORIAL_U128 + 1);
                 k = rng.NextUInt128(0, n + 1);
-                Assert.AreEqual(maxmath.comb(n, k), maxmath.comb(n, k, Promise.Unsafe0));
+                Assert.AreEqual(math.comb(n, k), math.comb(n, k, Promise.Unsafe0));
 
                 n = rng.NextUInt128(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextUInt128(0, n + 1);
-                Assert.AreEqual(maxmath.comb(n, k), maxmath.comb(n, k, Promise.Unsafe1));
+                Assert.AreEqual(math.comb(n, k), math.comb(n, k, Promise.Unsafe1));
             }
         }
 
@@ -1136,36 +1136,36 @@ namespace MaxMath.Tests
             {
                 n = rng.NextSByte(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte(0, (sbyte)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= sbyte.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
+                if (math.comb((UInt128)n, (UInt128)k) <= sbyte.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextSByte(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextSByte(0, (sbyte)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= sbyte.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
+                if (math.comb((UInt128)n, (UInt128)k) <= sbyte.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextSByte(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextSByte(0, (sbyte)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= sbyte.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
+                if (math.comb((UInt128)n, (UInt128)k) <= sbyte.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextSByte(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextSByte(0, (sbyte)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= sbyte.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
+                if (math.comb((UInt128)n, (UInt128)k) <= sbyte.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
@@ -1185,11 +1185,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextSByte2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1197,11 +1197,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextSByte2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1209,11 +1209,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte2(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextSByte2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1221,11 +1221,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte2(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextSByte2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1246,11 +1246,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextSByte3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1258,11 +1258,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextSByte3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1270,11 +1270,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte3(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextSByte3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1282,11 +1282,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte3(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextSByte3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1307,11 +1307,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextSByte4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1319,11 +1319,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextSByte4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1331,11 +1331,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte4(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextSByte4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1343,11 +1343,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte4(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextSByte4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1368,11 +1368,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextSByte8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1380,11 +1380,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextSByte8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1392,11 +1392,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte8(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextSByte8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1404,11 +1404,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte8(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextSByte8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1429,11 +1429,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextSByte16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1441,11 +1441,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte16(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextSByte16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1453,11 +1453,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte16(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextSByte16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1465,11 +1465,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte16(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextSByte16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1490,11 +1490,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextSByte32(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextSByte32(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1502,11 +1502,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte32(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextSByte32(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1514,11 +1514,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte32(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextSByte32(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1526,11 +1526,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextSByte32(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextSByte32(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 32; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= sbyte.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1552,36 +1552,36 @@ namespace MaxMath.Tests
             {
                 n = rng.NextShort(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort(0, (short)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= short.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
+                if (math.comb((UInt128)n, (UInt128)k) <= short.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextShort(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextShort(0, (short)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= short.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
+                if (math.comb((UInt128)n, (UInt128)k) <= short.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextShort(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextShort(0, (short)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= short.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
+                if (math.comb((UInt128)n, (UInt128)k) <= short.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextShort(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextShort(0, (short)(n + 1));
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= short.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
+                if (math.comb((UInt128)n, (UInt128)k) <= short.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
@@ -1601,11 +1601,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextShort2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1613,11 +1613,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextShort2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1625,11 +1625,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort2(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextShort2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1637,11 +1637,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort2(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextShort2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1662,11 +1662,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextShort3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1674,11 +1674,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextShort3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1686,11 +1686,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort3(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextShort3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1698,11 +1698,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort3(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextShort3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1723,11 +1723,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextShort4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1735,11 +1735,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextShort4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1747,11 +1747,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort4(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextShort4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1759,11 +1759,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort4(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextShort4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1784,11 +1784,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextShort8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1796,11 +1796,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextShort8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1808,11 +1808,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort8(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextShort8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1820,11 +1820,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort8(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextShort8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1845,11 +1845,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextShort16(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextShort16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1857,11 +1857,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort16(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextShort16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1869,11 +1869,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort16(0, MAX_INVERSE_FACTORIAL_U16 + 1);
                 k = rng.NextShort16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe2);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe2);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1881,11 +1881,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextShort16(0, MAX_INVERSE_FACTORIAL_U8 + 1);
                 k = rng.NextShort16(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe3);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe3);
                 for (int j = 0; j < 16; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= short.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1907,18 +1907,18 @@ namespace MaxMath.Tests
             {
                 n = rng.NextInt(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
-                if (maxmath.comb((Int128)n, (Int128)k) <= int.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
+                if (math.comb((Int128)n, (Int128)k) <= int.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextInt(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextInt(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
-                if (maxmath.comb((Int128)n, (Int128)k) <= int.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
+                if (math.comb((Int128)n, (Int128)k) <= int.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
@@ -1938,11 +1938,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextInt2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
+                    if (math.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1950,11 +1950,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextInt2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextInt2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
+                    if (math.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1975,11 +1975,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextInt3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
+                    if (math.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -1987,11 +1987,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextInt3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextInt3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
+                    if (math.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2012,11 +2012,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextInt4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
+                    if (math.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2024,11 +2024,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextInt4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextInt4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
+                    if (math.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2049,11 +2049,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextInt8(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
+                    if (math.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2061,11 +2061,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextInt8(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextInt8(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 8; j++)
                 {
-                    if (maxmath.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
+                    if (math.comb((Int128)n[j], (Int128)k[j]) <= int.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2087,18 +2087,18 @@ namespace MaxMath.Tests
             {
                 n = rng.NextLong(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextLong(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= long.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
+                if (math.comb((UInt128)n, (UInt128)k) <= long.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
 
                 n = rng.NextLong(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextLong(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
-                if (maxmath.comb((UInt128)n, (UInt128)k) <= long.MaxValue)
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
+                if (math.comb((UInt128)n, (UInt128)k) <= long.MaxValue)
                 {
                     Assert.AreEqual(normal, promise);
                 }
@@ -2118,11 +2118,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextLong2(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextLong2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2130,11 +2130,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextLong2(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextLong2(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 2; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2155,11 +2155,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextLong3(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextLong3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2167,11 +2167,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextLong3(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextLong3(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 3; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2192,11 +2192,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextLong4(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextLong4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe0);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe0);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2204,11 +2204,11 @@ namespace MaxMath.Tests
 
                 n = rng.NextLong4(0, MAX_INVERSE_FACTORIAL_U32 + 1);
                 k = rng.NextLong4(0, n + 1);
-                normal = maxmath.comb(n, k);
-                promise = maxmath.comb(n, k, Promise.Unsafe1);
+                normal = math.comb(n, k);
+                promise = math.comb(n, k, Promise.Unsafe1);
                 for (int j = 0; j < 4; j++)
                 {
-                    if (maxmath.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
+                    if (math.comb((UInt128)n[j], (UInt128)k[j]) <= long.MaxValue)
                     {
                         Assert.AreEqual(normal[j], promise[j]);
                     }
@@ -2228,11 +2228,11 @@ namespace MaxMath.Tests
             {
                 n = rng.NextInt128(0, MAX_INVERSE_FACTORIAL_U128 + 1);
                 k = rng.NextInt128(0, n + 1);
-                Assert.AreEqual(maxmath.comb(n, k), maxmath.comb(n, k, Promise.Unsafe0));
+                Assert.AreEqual(math.comb(n, k), math.comb(n, k, Promise.Unsafe0));
 
                 n = rng.NextInt128(0, MAX_INVERSE_FACTORIAL_U64 + 1);
                 k = rng.NextInt128(0, n + 1);
-                Assert.AreEqual(maxmath.comb(n, k), maxmath.comb(n, k, Promise.Unsafe1));
+                Assert.AreEqual(math.comb(n, k), math.comb(n, k, Promise.Unsafe1));
             }
         }
     }

@@ -5,7 +5,7 @@ using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
 using DevTools;
 
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
@@ -20,7 +20,7 @@ namespace MaxMath
         public UInt128 hi128 => new UInt128(_191, _255);
 
         public static __UInt256__ MinValue => new __UInt256__(0, 0);
-        public static __UInt256__ MaxValue => new __UInt256__(UInt128.MaxValue, UInt128.MaxValue);
+        public static __UInt256__ MaxValue => new __UInt256__(MaxMath.UInt128.MaxValue, MaxMath.UInt128.MaxValue);
 
         internal bool IsZero => ((_63 | _127) | (_191 | _255)) == 0;
         internal bool IsNotZero => ((_63 | _127) | (_191 | _255)) != 0;
@@ -322,7 +322,7 @@ namespace MaxMath
                 {
                     ;
                 }
-                else if (left.hi128 == UInt128.MaxValue)
+                else if (left.hi128 == MaxMath.UInt128.MaxValue)
                 {
                     hi -= right;
                 }
@@ -690,8 +690,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int lzcnt (__UInt256__ x)
         {
-            int lzcntLo = maxmath.lzcnt(x.lo128);
-            int lzcntHi = maxmath.lzcnt(x.hi128);
+            int lzcntLo = math.lzcnt(x.lo128);
+            int lzcntHi = math.lzcnt(x.hi128);
             bool hi0 = x.hi128 == 0;
             int add = hi0 ? 128 : 0;
 
@@ -702,8 +702,8 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int tzcnt(__UInt256__ x)
         {
-            int tzcntLo = maxmath.tzcnt(x.lo128);
-            int tzcntHi = maxmath.tzcnt(x.hi128);
+            int tzcntLo = math.tzcnt(x.lo128);
+            int tzcntHi = math.tzcnt(x.hi128);
             bool lo0 = x.lo128 == 0;
             int add = lo0 ? 128 : 0;
 
@@ -736,13 +736,23 @@ Assert.IsBetween(numBits, 0u, 256ul - index);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int countbits(__UInt256__ x)
         {
-            return maxmath.countbits(x.lo128) + maxmath.countbits(x.hi128);
+            return math.countbits(x.lo128) + math.countbits(x.hi128);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static __UInt256__ bits_resetlowest(__UInt256__ x)
         {
             return x & (x - 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static __UInt256__ bits_extractparallel(__UInt256__ x, __UInt256__ mask)
+        {
+            UInt128 lo = math.bits_extractparallel(x.lo128, mask.lo128);
+            UInt128 hi = math.bits_extractparallel(x.hi128, mask.hi128);
+            int maskloCount = math.countbits(mask.lo128);
+            
+            return lo | ((__UInt256__)hi << maskloCount);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -830,10 +840,10 @@ Assert.IsBetween(numBits, 0u, 256ul - index);
                 return usqr256(x);
             }
 
-            UInt128 lo = UInt128.umul128(x.lo64, y.lo64);
-            UInt128 m1 = UInt128.umul128(x.hi64, y.lo64);
-            UInt128 m2 = UInt128.umul128(x.lo64, y.hi64);
-            UInt128 hi = UInt128.umul128(x.hi64, y.hi64);
+            UInt128 lo = MaxMath.UInt128.umul128(x.lo64, y.lo64);
+            UInt128 m1 = MaxMath.UInt128.umul128(x.hi64, y.lo64);
+            UInt128 m2 = MaxMath.UInt128.umul128(x.lo64, y.hi64);
+            UInt128 hi = MaxMath.UInt128.umul128(x.hi64, y.hi64);
 
             UInt128 high = (hi + m1.hi64) + ((m2 + m1.lo64) + lo.hi64).hi64;
 
@@ -843,13 +853,13 @@ Assert.IsBetween(numBits, 0u, 256ul - index);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static __UInt256__ usqr256(UInt128 x)
         {
-            UInt128 lo = UInt128.umul128(x.lo64, x.lo64);
-            UInt128 m  = UInt128.umul128(x.hi64, x.lo64);
-            UInt128 hi = UInt128.umul128(x.hi64, x.hi64);
+            UInt128 lo = MaxMath.UInt128.umul128(x.lo64, x.lo64);
+            UInt128 m  = MaxMath.UInt128.umul128(x.hi64, x.lo64);
+            UInt128 hi = MaxMath.UInt128.umul128(x.hi64, x.hi64);
 
             UInt128 high = (hi + m.hi64) + ((m + m.lo64) + lo.hi64).hi64;
 
-            return new __UInt256__(maxmath.square(x), high);
+            return new __UInt256__(math.square(x), high);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -928,7 +938,7 @@ Assert.IsSmaller(dividend.hi128, divisor);
 
             // TODO asm version when more than 1 usage
 
-            int shift = maxmath.lzcnt(divisor);
+            int shift = math.lzcnt(divisor);
             if (!preShift)
             {
                 dividend <<= shift;

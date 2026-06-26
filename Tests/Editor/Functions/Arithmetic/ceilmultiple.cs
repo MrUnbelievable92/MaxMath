@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -15,9 +15,9 @@ namespace MaxMath.Tests
                 byte x = rng.NextByte();
                 byte n = rng.NextByte(1, byte.MaxValue);
 
-                byte rounded = maxmath.ceilmultiple(x, n);
+                byte rounded = math.ceilmultiple(x, n);
 
-                if ((byte)(x + n) == maxmath.addsaturated(x, (byte)(n - 1)))
+                if ((byte)(x + n) == math.addsaturated(x, (byte)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % n);
 
@@ -39,11 +39,11 @@ namespace MaxMath.Tests
                 byte2 x = rng.NextByte2();
                 byte2 n = rng.NextByte2(1, byte.MaxValue);
 
-                byte2 rounded = maxmath.ceilmultiple(x, n);
+                byte2 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if ((byte)(x[j] + n[j]) == maxmath.addsaturated(x[j], (byte)(n[j] - 1)))
+                    if ((byte)(x[j] + n[j]) == math.addsaturated(x[j], (byte)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -66,11 +66,11 @@ namespace MaxMath.Tests
                 byte3 x = rng.NextByte3();
                 byte3 n = rng.NextByte3(1, byte.MaxValue);
 
-                byte3 rounded = maxmath.ceilmultiple(x, n);
+                byte3 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((byte)(x[j] + n[j]) == maxmath.addsaturated(x[j], (byte)(n[j] - 1)))
+                    if ((byte)(x[j] + n[j]) == math.addsaturated(x[j], (byte)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -93,11 +93,11 @@ namespace MaxMath.Tests
                 byte4 x = rng.NextByte4();
                 byte4 n = rng.NextByte4(1, byte.MaxValue);
 
-                byte4 rounded = maxmath.ceilmultiple(x, n);
+                byte4 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if ((byte)(x[j] + n[j]) == maxmath.addsaturated(x[j], (byte)(n[j] - 1)))
+                    if ((byte)(x[j] + n[j]) == math.addsaturated(x[j], (byte)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -120,11 +120,11 @@ namespace MaxMath.Tests
                 byte8 x = rng.NextByte8();
                 byte8 n = rng.NextByte8(1, byte.MaxValue);
 
-                byte8 rounded = maxmath.ceilmultiple(x, n);
+                byte8 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((byte)(x[j] + n[j]) == maxmath.addsaturated(x[j], (byte)(n[j] - 1)))
+                    if ((byte)(x[j] + n[j]) == math.addsaturated(x[j], (byte)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -147,11 +147,11 @@ namespace MaxMath.Tests
                 byte16 x = rng.NextByte16();
                 byte16 n = rng.NextByte16(1, byte.MaxValue);
 
-                byte16 rounded = maxmath.ceilmultiple(x, n);
+                byte16 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if ((byte)(x[j] + n[j]) == maxmath.addsaturated(x[j], (byte)(n[j] - 1)))
+                    if ((byte)(x[j] + n[j]) == math.addsaturated(x[j], (byte)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -174,11 +174,11 @@ namespace MaxMath.Tests
                 byte32 x = rng.NextByte32();
                 byte32 n = rng.NextByte32(1, byte.MaxValue);
 
-                byte32 rounded = maxmath.ceilmultiple(x, n);
+                byte32 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 32; j++)
                 {
-                    if ((byte)(x[j] + n[j]) == maxmath.addsaturated(x[j], (byte)(n[j] - 1)))
+                    if ((byte)(x[j] + n[j]) == math.addsaturated(x[j], (byte)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -202,9 +202,9 @@ namespace MaxMath.Tests
                 sbyte x = rng.NextSByte();
                 byte n = rng.NextByte(1, (byte)sbyte.MaxValue);
 
-                sbyte rounded = maxmath.ceilmultiple(x, n);
+                sbyte rounded = math.ceilmultiple(x, n);
 
-                if ((sbyte)(x - (n - 1)) == maxmath.addsaturated(x, (sbyte)(n - 1)))
+                if ((sbyte)(x - (n - 1)) == math.addsaturated(x, (sbyte)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % n);
 
@@ -226,11 +226,11 @@ namespace MaxMath.Tests
                 sbyte2 x = rng.NextSByte2();
                 byte2 n = rng.NextByte2(1, (byte)sbyte.MaxValue);
 
-                sbyte2 rounded = maxmath.ceilmultiple(x, n);
+                sbyte2 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if ((sbyte)(x - ((sbyte2)n - 1))[j] == maxmath.addsaturated(x[j], (sbyte)(n - 1)[j]))
+                    if ((sbyte)(x - ((sbyte2)n - 1))[j] == math.addsaturated(x[j], (sbyte)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -253,11 +253,11 @@ namespace MaxMath.Tests
                 sbyte3 x = rng.NextSByte3();
                 byte3 n = rng.NextByte3(1, (byte)sbyte.MaxValue);
 
-                sbyte3 rounded = maxmath.ceilmultiple(x, n);
+                sbyte3 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((sbyte)(x - ((sbyte3)n - 1))[j] == maxmath.addsaturated(x[j], (sbyte)(n - 1)[j]))
+                    if ((sbyte)(x - ((sbyte3)n - 1))[j] == math.addsaturated(x[j], (sbyte)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -280,11 +280,11 @@ namespace MaxMath.Tests
                 sbyte4 x = rng.NextSByte4();
                 byte4 n = rng.NextByte4(1, (byte)sbyte.MaxValue);
 
-                sbyte4 rounded = maxmath.ceilmultiple(x, n);
+                sbyte4 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if ((sbyte)(x - ((sbyte4)n - 1))[j] == maxmath.addsaturated(x[j], (sbyte)(n - 1)[j]))
+                    if ((sbyte)(x - ((sbyte4)n - 1))[j] == math.addsaturated(x[j], (sbyte)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -307,11 +307,11 @@ namespace MaxMath.Tests
                 sbyte8 x = rng.NextSByte8();
                 byte8 n = rng.NextByte8(1, (byte)sbyte.MaxValue);
 
-                sbyte8 rounded = maxmath.ceilmultiple(x, n);
+                sbyte8 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((sbyte)(x - ((sbyte8)n - 1))[j] == maxmath.addsaturated(x[j], (sbyte)(n - 1)[j]))
+                    if ((sbyte)(x - ((sbyte8)n - 1))[j] == math.addsaturated(x[j], (sbyte)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -334,11 +334,11 @@ namespace MaxMath.Tests
                 sbyte16 x = rng.NextSByte16();
                 byte16 n = rng.NextByte16(1, (byte)sbyte.MaxValue);
 
-                sbyte16 rounded = maxmath.ceilmultiple(x, n);
+                sbyte16 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if ((sbyte)(x - ((sbyte16)n - 1))[j] == maxmath.addsaturated(x[j], (sbyte)(n - 1)[j]))
+                    if ((sbyte)(x - ((sbyte16)n - 1))[j] == math.addsaturated(x[j], (sbyte)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -361,11 +361,11 @@ namespace MaxMath.Tests
                 sbyte32 x = rng.NextSByte32();
                 byte32 n = rng.NextByte32(1, (byte)sbyte.MaxValue);
 
-                sbyte32 rounded = maxmath.ceilmultiple(x, n);
+                sbyte32 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 32; j++)
                 {
-                    if ((sbyte)(x - ((sbyte32)n - 1))[j] == maxmath.addsaturated(x[j], (sbyte)(n - 1)[j]))
+                    if ((sbyte)(x - ((sbyte32)n - 1))[j] == math.addsaturated(x[j], (sbyte)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -389,9 +389,9 @@ namespace MaxMath.Tests
                 ushort x = rng.NextUShort();
                 ushort n = rng.NextUShort(1, ushort.MaxValue);
 
-                ushort rounded = maxmath.ceilmultiple(x, n);
+                ushort rounded = math.ceilmultiple(x, n);
 
-                if ((ushort)(x + n) == maxmath.addsaturated(x, (ushort)(n - 1)))
+                if ((ushort)(x + n) == math.addsaturated(x, (ushort)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % n);
 
@@ -413,11 +413,11 @@ namespace MaxMath.Tests
                 ushort2 x = rng.NextUShort2();
                 ushort2 n = rng.NextUShort2(1, ushort.MaxValue);
 
-                ushort2 rounded = maxmath.ceilmultiple(x, n);
+                ushort2 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if ((ushort)(x[j] + n[j]) == maxmath.addsaturated(x[j], (ushort)(n[j] - 1)))
+                    if ((ushort)(x[j] + n[j]) == math.addsaturated(x[j], (ushort)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -440,11 +440,11 @@ namespace MaxMath.Tests
                 ushort3 x = rng.NextUShort3();
                 ushort3 n = rng.NextUShort3(1, ushort.MaxValue);
 
-                ushort3 rounded = maxmath.ceilmultiple(x, n);
+                ushort3 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((ushort)(x[j] + n[j]) == maxmath.addsaturated(x[j], (ushort)(n[j] - 1)))
+                    if ((ushort)(x[j] + n[j]) == math.addsaturated(x[j], (ushort)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -467,11 +467,11 @@ namespace MaxMath.Tests
                 ushort4 x = rng.NextUShort4();
                 ushort4 n = rng.NextUShort4(1, ushort.MaxValue);
 
-                ushort4 rounded = maxmath.ceilmultiple(x, n);
+                ushort4 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if ((ushort)(x[j] + n[j]) == maxmath.addsaturated(x[j], (ushort)(n[j] - 1)))
+                    if ((ushort)(x[j] + n[j]) == math.addsaturated(x[j], (ushort)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -494,11 +494,11 @@ namespace MaxMath.Tests
                 ushort8 x = rng.NextUShort8();
                 ushort8 n = rng.NextUShort8(1, ushort.MaxValue);
 
-                ushort8 rounded = maxmath.ceilmultiple(x, n);
+                ushort8 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((ushort)(x[j] + n[j]) == maxmath.addsaturated(x[j], (ushort)(n[j] - 1)))
+                    if ((ushort)(x[j] + n[j]) == math.addsaturated(x[j], (ushort)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -521,11 +521,11 @@ namespace MaxMath.Tests
                 ushort16 x = rng.NextUShort16();
                 ushort16 n = rng.NextUShort16(1, ushort.MaxValue);
 
-                ushort16 rounded = maxmath.ceilmultiple(x, n);
+                ushort16 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if ((ushort)(x[j] + n[j]) == maxmath.addsaturated(x[j], (ushort)(n[j] - 1)))
+                    if ((ushort)(x[j] + n[j]) == math.addsaturated(x[j], (ushort)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -549,9 +549,9 @@ namespace MaxMath.Tests
                 short x = rng.NextShort();
                 ushort n = rng.NextUShort(1, (ushort)short.MaxValue);
 
-                short rounded = maxmath.ceilmultiple(x, n);
+                short rounded = math.ceilmultiple(x, n);
 
-                if ((short)(x - (n - 1)) == maxmath.addsaturated(x, (short)(n - 1)))
+                if ((short)(x - (n - 1)) == math.addsaturated(x, (short)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % n);
 
@@ -573,11 +573,11 @@ namespace MaxMath.Tests
                 short2 x = rng.NextShort2();
                 ushort2 n = rng.NextUShort2(1, (ushort)short.MaxValue);
 
-                short2 rounded = maxmath.ceilmultiple(x, n);
+                short2 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if ((short)(x - ((short2)n - 1))[j] == maxmath.addsaturated(x[j], (short)(n - 1)[j]))
+                    if ((short)(x - ((short2)n - 1))[j] == math.addsaturated(x[j], (short)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -600,11 +600,11 @@ namespace MaxMath.Tests
                 short3 x = rng.NextShort3();
                 ushort3 n = rng.NextUShort3(1, (ushort)short.MaxValue);
 
-                short3 rounded = maxmath.ceilmultiple(x, n);
+                short3 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((short)(x - ((short3)n - 1))[j] == maxmath.addsaturated(x[j], (short)(n - 1)[j]))
+                    if ((short)(x - ((short3)n - 1))[j] == math.addsaturated(x[j], (short)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -627,11 +627,11 @@ namespace MaxMath.Tests
                 short4 x = rng.NextShort4();
                 ushort4 n = rng.NextUShort4(1, (ushort)short.MaxValue);
 
-                short4 rounded = maxmath.ceilmultiple(x, n);
+                short4 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if ((short)(x - ((short4)n - 1))[j] == maxmath.addsaturated(x[j], (short)(n - 1)[j]))
+                    if ((short)(x - ((short4)n - 1))[j] == math.addsaturated(x[j], (short)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -654,11 +654,11 @@ namespace MaxMath.Tests
                 short8 x = rng.NextShort8();
                 ushort8 n = rng.NextUShort8(1, (ushort)short.MaxValue);
 
-                short8 rounded = maxmath.ceilmultiple(x, n);
+                short8 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((short)(x - ((short8)n - 1))[j] == maxmath.addsaturated(x[j], (short)(n - 1)[j]))
+                    if ((short)(x - ((short8)n - 1))[j] == math.addsaturated(x[j], (short)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -681,11 +681,11 @@ namespace MaxMath.Tests
                 short16 x = rng.NextShort16();
                 ushort16 n = rng.NextUShort16(1, (ushort)short.MaxValue);
 
-                short16 rounded = maxmath.ceilmultiple(x, n);
+                short16 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 16; j++)
                 {
-                    if ((short)(x - ((short16)n - 1))[j] == maxmath.addsaturated(x[j], (short)(n - 1)[j]))
+                    if ((short)(x - ((short16)n - 1))[j] == math.addsaturated(x[j], (short)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -709,9 +709,9 @@ namespace MaxMath.Tests
                 uint x = rng.NextUInt();
                 uint n = rng.NextUInt(1, uint.MaxValue);
 
-                uint rounded = maxmath.ceilmultiple(x, n);
+                uint rounded = math.ceilmultiple(x, n);
 
-                if ((uint)(x + n) == maxmath.addsaturated(x, (uint)(n - 1)))
+                if ((uint)(x + n) == math.addsaturated(x, (uint)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % n);
 
@@ -733,11 +733,11 @@ namespace MaxMath.Tests
                 uint2 x = rng.NextUInt2();
                 uint2 n = rng.NextUInt2(1, uint.MaxValue);
 
-                uint2 rounded = maxmath.ceilmultiple(x, n);
+                uint2 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if ((uint)(x[j] + n[j]) == maxmath.addsaturated(x[j], (uint)(n[j] - 1)))
+                    if ((uint)(x[j] + n[j]) == math.addsaturated(x[j], (uint)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -760,11 +760,11 @@ namespace MaxMath.Tests
                 uint3 x = rng.NextUInt3();
                 uint3 n = rng.NextUInt3(1, uint.MaxValue);
 
-                uint3 rounded = maxmath.ceilmultiple(x, n);
+                uint3 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((uint)(x[j] + n[j]) == maxmath.addsaturated(x[j], (uint)(n[j] - 1)))
+                    if ((uint)(x[j] + n[j]) == math.addsaturated(x[j], (uint)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -787,11 +787,11 @@ namespace MaxMath.Tests
                 uint4 x = rng.NextUInt4();
                 uint4 n = rng.NextUInt4(1, uint.MaxValue);
 
-                uint4 rounded = maxmath.ceilmultiple(x, n);
+                uint4 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if ((uint)(x[j] + n[j]) == maxmath.addsaturated(x[j], (uint)(n[j] - 1)))
+                    if ((uint)(x[j] + n[j]) == math.addsaturated(x[j], (uint)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -814,11 +814,11 @@ namespace MaxMath.Tests
                 uint8 x = rng.NextUInt8();
                 uint8 n = rng.NextUInt8(1, uint.MaxValue);
 
-                uint8 rounded = maxmath.ceilmultiple(x, n);
+                uint8 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((uint)(x[j] + n[j]) == maxmath.addsaturated(x[j], (uint)(n[j] - 1)))
+                    if ((uint)(x[j] + n[j]) == math.addsaturated(x[j], (uint)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -842,9 +842,9 @@ namespace MaxMath.Tests
                 int x = rng.NextInt();
                 uint n = rng.NextUInt(1, (uint)int.MaxValue);
 
-                int rounded = maxmath.ceilmultiple(x, n);
+                int rounded = math.ceilmultiple(x, n);
 
-                if ((int)(x - (n - 1)) == maxmath.addsaturated(x, (int)(n - 1)))
+                if ((int)(x - (n - 1)) == math.addsaturated(x, (int)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % n);
 
@@ -866,11 +866,11 @@ namespace MaxMath.Tests
                 int2 x = rng.NextInt2();
                 uint2 n = rng.NextUInt2(1, (uint)int.MaxValue);
 
-                int2 rounded = maxmath.ceilmultiple(x, n);
+                int2 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if ((int)(x - ((int2)n - 1))[j] == maxmath.addsaturated(x[j], (int)(n - 1)[j]))
+                    if ((int)(x - ((int2)n - 1))[j] == math.addsaturated(x[j], (int)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -893,11 +893,11 @@ namespace MaxMath.Tests
                 int3 x = rng.NextInt3();
                 uint3 n = rng.NextUInt3(1, (uint)int.MaxValue);
 
-                int3 rounded = maxmath.ceilmultiple(x, n);
+                int3 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((int)(x - ((int3)n - 1))[j] == maxmath.addsaturated(x[j], (int)(n - 1)[j]))
+                    if ((int)(x - ((int3)n - 1))[j] == math.addsaturated(x[j], (int)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -920,11 +920,11 @@ namespace MaxMath.Tests
                 int4 x = rng.NextInt4();
                 uint4 n = rng.NextUInt4(1, (uint)int.MaxValue);
 
-                int4 rounded = maxmath.ceilmultiple(x, n);
+                int4 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if ((int)(x - ((int4)n - 1))[j] == maxmath.addsaturated(x[j], (int)(n - 1)[j]))
+                    if ((int)(x - ((int4)n - 1))[j] == math.addsaturated(x[j], (int)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -947,11 +947,11 @@ namespace MaxMath.Tests
                 int8 x = rng.NextInt8();
                 uint8 n = rng.NextUInt8(1, (uint)int.MaxValue);
 
-                int8 rounded = maxmath.ceilmultiple(x, n);
+                int8 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 8; j++)
                 {
-                    if ((int)(x - ((int8)n - 1))[j] == maxmath.addsaturated(x[j], (int)(n - 1)[j]))
+                    if ((int)(x - ((int8)n - 1))[j] == math.addsaturated(x[j], (int)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -975,9 +975,9 @@ namespace MaxMath.Tests
                 ulong x = rng.NextULong();
                 ulong n = rng.NextULong(1, ulong.MaxValue);
 
-                ulong rounded = maxmath.ceilmultiple(x, n);
+                ulong rounded = math.ceilmultiple(x, n);
 
-                if ((ulong)(x + n) == maxmath.addsaturated(x, (ulong)(n - 1)))
+                if ((ulong)(x + n) == math.addsaturated(x, (ulong)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % n);
 
@@ -999,11 +999,11 @@ namespace MaxMath.Tests
                 ulong2 x = rng.NextULong2();
                 ulong2 n = rng.NextULong2(1, ulong.MaxValue);
 
-                ulong2 rounded = maxmath.ceilmultiple(x, n);
+                ulong2 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if ((ulong)(x[j] + n[j]) == maxmath.addsaturated(x[j], (ulong)(n[j] - 1)))
+                    if ((ulong)(x[j] + n[j]) == math.addsaturated(x[j], (ulong)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -1026,11 +1026,11 @@ namespace MaxMath.Tests
                 ulong3 x = rng.NextULong3();
                 ulong3 n = rng.NextULong3(1, ulong.MaxValue);
 
-                ulong3 rounded = maxmath.ceilmultiple(x, n);
+                ulong3 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((ulong)(x[j] + n[j]) == maxmath.addsaturated(x[j], (ulong)(n[j] - 1)))
+                    if ((ulong)(x[j] + n[j]) == math.addsaturated(x[j], (ulong)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -1053,11 +1053,11 @@ namespace MaxMath.Tests
                 ulong4 x = rng.NextULong4();
                 ulong4 n = rng.NextULong4(1, ulong.MaxValue);
 
-                ulong4 rounded = maxmath.ceilmultiple(x, n);
+                ulong4 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if ((ulong)(x[j] + n[j]) == maxmath.addsaturated(x[j], (ulong)(n[j] - 1)))
+                    if ((ulong)(x[j] + n[j]) == math.addsaturated(x[j], (ulong)(n[j] - 1)))
                     {
                         Assert.AreEqual(0, rounded[j] % n[j]);
 
@@ -1081,9 +1081,9 @@ namespace MaxMath.Tests
                 long x = rng.NextLong();
                 ulong n = rng.NextULong(1, (ulong)long.MaxValue);
 
-                long rounded = maxmath.ceilmultiple(x, n);
+                long rounded = math.ceilmultiple(x, n);
 
-                if ((long)(x - (long)(n - 1)) == maxmath.addsaturated(x, (long)(n - 1)))
+                if ((long)(x - (long)(n - 1)) == math.addsaturated(x, (long)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % (long)n);
 
@@ -1105,11 +1105,11 @@ namespace MaxMath.Tests
                 long2 x = rng.NextLong2();
                 ulong2 n = rng.NextULong2(1, (ulong)long.MaxValue);
 
-                long2 rounded = maxmath.ceilmultiple(x, n);
+                long2 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 2; j++)
                 {
-                    if ((long)(x - ((long2)n - 1))[j] == maxmath.addsaturated(x[j], (long)(n - 1)[j]))
+                    if ((long)(x - ((long2)n - 1))[j] == math.addsaturated(x[j], (long)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % (long)n[j]);
 
@@ -1132,11 +1132,11 @@ namespace MaxMath.Tests
                 long3 x = rng.NextLong3();
                 ulong3 n = rng.NextULong3(1, (ulong)long.MaxValue);
 
-                long3 rounded = maxmath.ceilmultiple(x, n);
+                long3 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 3; j++)
                 {
-                    if ((long)(x - ((long3)n - 1))[j] == maxmath.addsaturated(x[j], (long)(n - 1)[j]))
+                    if ((long)(x - ((long3)n - 1))[j] == math.addsaturated(x[j], (long)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % (long)n[j]);
 
@@ -1159,11 +1159,11 @@ namespace MaxMath.Tests
                 long4 x = rng.NextLong4();
                 ulong4 n = rng.NextULong4(1, (ulong)long.MaxValue);
 
-                long4 rounded = maxmath.ceilmultiple(x, n);
+                long4 rounded = math.ceilmultiple(x, n);
 
                 for (int j = 0; j < 4; j++)
                 {
-                    if ((long)(x - ((long4)n - 1))[j] == maxmath.addsaturated(x[j], (long)(n - 1)[j]))
+                    if ((long)(x - ((long4)n - 1))[j] == math.addsaturated(x[j], (long)(n - 1)[j]))
                     {
                         Assert.AreEqual(0, rounded[j] % (long)n[j]);
 
@@ -1187,9 +1187,9 @@ namespace MaxMath.Tests
                 UInt128 x = rng.NextUInt128();
                 UInt128 n = rng.NextUInt128(1, UInt128.MaxValue);
 
-                UInt128 rounded = maxmath.ceilmultiple(x, n);
+                UInt128 rounded = math.ceilmultiple(x, n);
 
-                if ((UInt128)(x + n) == maxmath.addsaturated(x, (UInt128)(n - 1)))
+                if ((UInt128)(x + n) == math.addsaturated(x, (UInt128)(n - 1)))
                 {
                     Assert.AreEqual(0, rounded % n);
 
@@ -1211,9 +1211,9 @@ namespace MaxMath.Tests
                 Int128 x = rng.NextInt128();
                 UInt128 n = rng.NextUInt128(1, (UInt128)Int128.MaxValue);
 
-                Int128 rounded = maxmath.ceilmultiple(x, n);
+                Int128 rounded = math.ceilmultiple(x, n);
 
-                if ((Int128)(x - (Int128)(n - 1)) == maxmath.addsaturated(x, (Int128)(n - 1)))
+                if ((Int128)(x - (Int128)(n - 1)) == math.addsaturated(x, (Int128)(n - 1)))
                 {
                     Assert.AreEqual((Int128)0, rounded % (Int128)n);
 

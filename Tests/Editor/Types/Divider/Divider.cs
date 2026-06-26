@@ -1,6 +1,6 @@
 using System;
 using NUnit.Framework;
-using Unity.Mathematics;
+
 
 namespace MaxMath.Tests
 {
@@ -357,21 +357,21 @@ namespace MaxMath.Tests
                     {
                         UInt128 num = rng.NextUInt128(minL, maxL);
 
-                        UInt128 trueQuo = maxmath.divrem(num, denum, out UInt128 trueRem);
+                        UInt128 trueQuo = math.divrem(num, denum, out UInt128 trueRem);
                         UInt128 quoTest = d.DivRem(num, out UInt128 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -379,7 +379,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<UInt128>((UInt128)1 << (int)rng.NextUInt128(0, 128));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -411,21 +411,21 @@ namespace MaxMath.Tests
                     {
                         ulong num = rng.NextULong(minL, maxL);
 
-                        ulong trueQuo = maxmath.divrem(num, denum, out ulong trueRem);
+                        ulong trueQuo = math.divrem(num, denum, out ulong trueRem);
                         ulong quoTest = d.DivRem(num, out ulong remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -433,7 +433,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ulong>(1ul << (int)rng.NextULong(0, 64));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -464,29 +464,29 @@ namespace MaxMath.Tests
                     {
                         ulong2 num = rng.NextULong2(minL, maxL);
 
-                        ulong2 trueQuo = maxmath.divrem(num, denum, out ulong2 trueRem);
+                        ulong2 trueQuo = math.divrem(num, denum, out ulong2 trueRem);
                         ulong2 quoTest = d.DivRem(num, out ulong2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ulong2>(maxmath.shl(1ul, rng.NextULong2(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ulong2>(math.shl(1ul, rng.NextULong2(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -517,14 +517,14 @@ namespace MaxMath.Tests
                     {
                         ulong2 num = rng.NextULong2(minL, maxL);
 
-                        ulong2 trueQuo = maxmath.divrem(num, denum, out ulong2 trueRem);
+                        ulong2 trueQuo = math.divrem(num, denum, out ulong2 trueRem);
                         ulong2 quoTest = d.DivRem(num, out ulong2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
 
                         try
@@ -541,7 +541,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -549,7 +549,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ulong>(1ul << (int)rng.NextULong(0, 64));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -580,29 +580,29 @@ namespace MaxMath.Tests
                     {
                         ulong num = rng.NextULong(minL, maxL);
 
-                        ulong2 trueQuo = maxmath.divrem(num, denum, out ulong2 trueRem);
+                        ulong2 trueQuo = math.divrem(num, denum, out ulong2 trueRem);
                         ulong2 quoTest = d.DivRem(num, out ulong2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ulong2>(maxmath.shl(1ul, rng.NextULong2(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ulong2>(math.shl(1ul, rng.NextULong2(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -633,29 +633,29 @@ namespace MaxMath.Tests
                     {
                         ulong3 num = rng.NextULong3(minL, maxL);
 
-                        ulong3 trueQuo = maxmath.divrem(num, denum, out ulong3 trueRem);
+                        ulong3 trueQuo = math.divrem(num, denum, out ulong3 trueRem);
                         ulong3 quoTest = d.DivRem(num, out ulong3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ulong3>(maxmath.shl(1ul, rng.NextULong3(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ulong3>(math.shl(1ul, rng.NextULong3(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -686,21 +686,21 @@ namespace MaxMath.Tests
                     {
                         ulong3 num = rng.NextULong3(minL, maxL);
 
-                        ulong3 trueQuo = maxmath.divrem(num, denum, out ulong3 trueRem);
+                        ulong3 trueQuo = math.divrem(num, denum, out ulong3 trueRem);
                         ulong3 quoTest = d.DivRem(num, out ulong3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -708,7 +708,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ulong>(1ul << (int)rng.NextULong(0, 64));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -739,29 +739,29 @@ namespace MaxMath.Tests
                     {
                         ulong num = rng.NextULong(minL, maxL);
 
-                        ulong3 trueQuo = maxmath.divrem(num, denum, out ulong3 trueRem);
+                        ulong3 trueQuo = math.divrem(num, denum, out ulong3 trueRem);
                         ulong3 quoTest = d.DivRem(num, out ulong3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ulong3>(maxmath.shl(1ul, rng.NextULong3(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ulong3>(math.shl(1ul, rng.NextULong3(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -792,29 +792,29 @@ namespace MaxMath.Tests
                     {
                         ulong4 num = rng.NextULong4(minL, maxL);
 
-                        ulong4 trueQuo = maxmath.divrem(num, denum, out ulong4 trueRem);
+                        ulong4 trueQuo = math.divrem(num, denum, out ulong4 trueRem);
                         ulong4 quoTest = d.DivRem(num, out ulong4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ulong4>(maxmath.shl(1ul, rng.NextULong4(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ulong4>(math.shl(1ul, rng.NextULong4(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -845,21 +845,21 @@ namespace MaxMath.Tests
                     {
                         ulong4 num = rng.NextULong4(minL, maxL);
 
-                        ulong4 trueQuo = maxmath.divrem(num, denum, out ulong4 trueRem);
+                        ulong4 trueQuo = math.divrem(num, denum, out ulong4 trueRem);
                         ulong4 quoTest = d.DivRem(num, out ulong4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -867,7 +867,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ulong>(1ul << (int)rng.NextULong(0, 64));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -898,29 +898,29 @@ namespace MaxMath.Tests
                     {
                         ulong num = rng.NextULong(minL, maxL);
 
-                        ulong4 trueQuo = maxmath.divrem(num, denum, out ulong4 trueRem);
+                        ulong4 trueQuo = math.divrem(num, denum, out ulong4 trueRem);
                         ulong4 quoTest = d.DivRem(num, out ulong4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ulong4>(maxmath.shl(1ul, rng.NextULong4(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ulong4>(math.shl(1ul, rng.NextULong4(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -952,21 +952,21 @@ namespace MaxMath.Tests
                     {
                         uint num = rng.NextUInt(minL, maxL);
 
-                        uint trueQuo = maxmath.divrem(num, denum, out uint trueRem);
+                        uint trueQuo = math.divrem(num, denum, out uint trueRem);
                         uint quoTest = d.DivRem(num, out uint remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -974,7 +974,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1005,29 +1005,29 @@ namespace MaxMath.Tests
                     {
                         uint2 num = rng.NextUInt2(minL, maxL);
 
-                        uint2 trueQuo = maxmath.divrem(num, denum, out uint2 trueRem);
+                        uint2 trueQuo = math.divrem(num, denum, out uint2 trueRem);
                         uint2 quoTest = d.DivRem(num, out uint2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<uint2>(maxmath.shl(1u, rng.NextUInt2(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<uint2>(math.shl(1u, rng.NextUInt2(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1058,21 +1058,21 @@ namespace MaxMath.Tests
                     {
                         uint2 num = rng.NextUInt2(minL, maxL);
 
-                        uint2 trueQuo = maxmath.divrem(num, denum, out uint2 trueRem);
+                        uint2 trueQuo = math.divrem(num, denum, out uint2 trueRem);
                         uint2 quoTest = d.DivRem(num, out uint2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1080,7 +1080,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1111,29 +1111,29 @@ namespace MaxMath.Tests
                     {
                         uint num = rng.NextUInt(minL, maxL);
 
-                        uint2 trueQuo = maxmath.divrem(num, denum, out uint2 trueRem);
+                        uint2 trueQuo = math.divrem(num, denum, out uint2 trueRem);
                         uint2 quoTest = d.DivRem(num, out uint2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<uint2>(maxmath.shl(1u, rng.NextUInt2(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<uint2>(math.shl(1u, rng.NextUInt2(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1164,29 +1164,29 @@ namespace MaxMath.Tests
                     {
                         uint3 num = rng.NextUInt3(minL, maxL);
 
-                        uint3 trueQuo = maxmath.divrem(num, denum, out uint3 trueRem);
+                        uint3 trueQuo = math.divrem(num, denum, out uint3 trueRem);
                         uint3 quoTest = d.DivRem(num, out uint3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<uint3>(maxmath.shl(1u, rng.NextUInt3(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<uint3>(math.shl(1u, rng.NextUInt3(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1217,21 +1217,21 @@ namespace MaxMath.Tests
                     {
                         uint3 num = rng.NextUInt3(minL, maxL);
 
-                        uint3 trueQuo = maxmath.divrem(num, denum, out uint3 trueRem);
+                        uint3 trueQuo = math.divrem(num, denum, out uint3 trueRem);
                         uint3 quoTest = d.DivRem(num, out uint3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1239,7 +1239,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1270,29 +1270,29 @@ namespace MaxMath.Tests
                     {
                         uint num = rng.NextUInt(minR, maxR);
 
-                        uint3 trueQuo = maxmath.divrem(num, denum, out uint3 trueRem);
+                        uint3 trueQuo = math.divrem(num, denum, out uint3 trueRem);
                         uint3 quoTest = d.DivRem(num, out uint3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<uint3>(maxmath.shl(1u, rng.NextUInt3(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<uint3>(math.shl(1u, rng.NextUInt3(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1323,29 +1323,29 @@ namespace MaxMath.Tests
                     {
                         uint4 num = rng.NextUInt4(minL, maxL);
 
-                        uint4 trueQuo = maxmath.divrem(num, denum, out uint4 trueRem);
+                        uint4 trueQuo = math.divrem(num, denum, out uint4 trueRem);
                         uint4 quoTest = d.DivRem(num, out uint4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<uint4>(maxmath.shl(1u, rng.NextUInt4(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<uint4>(math.shl(1u, rng.NextUInt4(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1376,21 +1376,21 @@ namespace MaxMath.Tests
                     {
                         uint4 num = rng.NextUInt4(minL, maxL);
 
-                        uint4 trueQuo = maxmath.divrem(num, denum, out uint4 trueRem);
+                        uint4 trueQuo = math.divrem(num, denum, out uint4 trueRem);
                         uint4 quoTest = d.DivRem(num, out uint4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1398,7 +1398,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1429,29 +1429,29 @@ namespace MaxMath.Tests
                     {
                         uint num = rng.NextUInt(minL, maxL);
 
-                        uint4 trueQuo = maxmath.divrem(num, denum, out uint4 trueRem);
+                        uint4 trueQuo = math.divrem(num, denum, out uint4 trueRem);
                         uint4 quoTest = d.DivRem(num, out uint4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<uint4>(maxmath.shl(1u, rng.NextUInt4(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<uint4>(math.shl(1u, rng.NextUInt4(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1482,7 +1482,7 @@ namespace MaxMath.Tests
                     {
                         uint8 num = rng.NextUInt8(minL, maxL);
 
-                        uint8 trueQuo = maxmath.divrem(num, denum, out uint8 trueRem);
+                        uint8 trueQuo = math.divrem(num, denum, out uint8 trueRem);
                         uint8 quoTest = d.DivRem(num, out uint8 remTest);
 
                         Assert.AreEqual(trueQuo, quoTest);
@@ -1490,22 +1490,22 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<uint8>(maxmath.shl(1u, rng.NextUInt8(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<uint8>(math.shl(1u, rng.NextUInt8(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1536,21 +1536,21 @@ namespace MaxMath.Tests
                     {
                         uint8 num = rng.NextUInt8(minL, maxL);
 
-                        uint8 trueQuo = maxmath.divrem(num, denum, out uint8 trueRem);
+                        uint8 trueQuo = math.divrem(num, denum, out uint8 trueRem);
                         uint8 quoTest = d.DivRem(num, out uint8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1558,7 +1558,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1589,29 +1589,29 @@ namespace MaxMath.Tests
                     {
                         uint num = rng.NextUInt(minL, maxL);
 
-                        uint8 trueQuo = maxmath.divrem(num, denum, out uint8 trueRem);
+                        uint8 trueQuo = math.divrem(num, denum, out uint8 trueRem);
                         uint8 quoTest = d.DivRem(num, out uint8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<uint8>(maxmath.shl(1u, rng.NextUInt8(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<uint8>(math.shl(1u, rng.NextUInt8(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1643,21 +1643,21 @@ namespace MaxMath.Tests
                     {
                         ushort num = rng.NextUShort(minL, maxL);
 
-                        ushort trueQuo = maxmath.divrem(num, denum, out ushort trueRem);
+                        ushort trueQuo = math.divrem(num, denum, out ushort trueRem);
                         ushort quoTest = d.DivRem(num, out ushort remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1665,7 +1665,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ushort>((ushort)(1u << (int)rng.NextUShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1696,29 +1696,29 @@ namespace MaxMath.Tests
                     {
                         ushort2 num = rng.NextUShort2(minL, maxL);
 
-                        ushort2 trueQuo = maxmath.divrem(num, denum, out ushort2 trueRem);
+                        ushort2 trueQuo = math.divrem(num, denum, out ushort2 trueRem);
                         ushort2 quoTest = d.DivRem(num, out ushort2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort2>(maxmath.shl((ushort)1u, rng.NextUShort2(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort2>(math.shl((ushort)1u, rng.NextUShort2(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1749,21 +1749,21 @@ namespace MaxMath.Tests
                     {
                         ushort2 num = rng.NextUShort2(minL, maxL);
 
-                        ushort2 trueQuo = maxmath.divrem(num, denum, out ushort2 trueRem);
+                        ushort2 trueQuo = math.divrem(num, denum, out ushort2 trueRem);
                         ushort2 quoTest = d.DivRem(num, out ushort2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1771,7 +1771,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1802,29 +1802,29 @@ namespace MaxMath.Tests
                     {
                         ushort num = rng.NextUShort(minL, maxL);
 
-                        ushort2 trueQuo = maxmath.divrem(num, denum, out ushort2 trueRem);
+                        ushort2 trueQuo = math.divrem(num, denum, out ushort2 trueRem);
                         ushort2 quoTest = d.DivRem(num, out ushort2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort2>(maxmath.shl((ushort)1u, rng.NextUShort2(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort2>(math.shl((ushort)1u, rng.NextUShort2(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1855,29 +1855,29 @@ namespace MaxMath.Tests
                     {
                         ushort3 num = rng.NextUShort3(minL, maxL);
 
-                        ushort3 trueQuo = maxmath.divrem(num, denum, out ushort3 trueRem);
+                        ushort3 trueQuo = math.divrem(num, denum, out ushort3 trueRem);
                         ushort3 quoTest = d.DivRem(num, out ushort3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort3>(maxmath.shl((ushort)1u, rng.NextUShort3(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort3>(math.shl((ushort)1u, rng.NextUShort3(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1908,21 +1908,21 @@ namespace MaxMath.Tests
                     {
                         ushort3 num = rng.NextUShort3(minL, maxL);
 
-                        ushort3 trueQuo = maxmath.divrem(num, denum, out ushort3 trueRem);
+                        ushort3 trueQuo = math.divrem(num, denum, out ushort3 trueRem);
                         ushort3 quoTest = d.DivRem(num, out ushort3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1930,7 +1930,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -1961,29 +1961,29 @@ namespace MaxMath.Tests
                     {
                         ushort num = rng.NextUShort(minL, maxL);
 
-                        ushort3 trueQuo = maxmath.divrem(num, denum, out ushort3 trueRem);
+                        ushort3 trueQuo = math.divrem(num, denum, out ushort3 trueRem);
                         ushort3 quoTest = d.DivRem(num, out ushort3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort3>(maxmath.shl((ushort)1u, rng.NextUShort3(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort3>(math.shl((ushort)1u, rng.NextUShort3(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2014,29 +2014,29 @@ namespace MaxMath.Tests
                     {
                         ushort4 num = rng.NextUShort4(minL, maxL);
 
-                        ushort4 trueQuo = maxmath.divrem(num, denum, out ushort4 trueRem);
+                        ushort4 trueQuo = math.divrem(num, denum, out ushort4 trueRem);
                         ushort4 quoTest = d.DivRem(num, out ushort4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort4>(maxmath.shl((ushort)1u, rng.NextUShort4(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort4>(math.shl((ushort)1u, rng.NextUShort4(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2067,21 +2067,21 @@ namespace MaxMath.Tests
                     {
                         ushort4 num = rng.NextUShort4(minL, maxL);
 
-                        ushort4 trueQuo = maxmath.divrem(num, denum, out ushort4 trueRem);
+                        ushort4 trueQuo = math.divrem(num, denum, out ushort4 trueRem);
                         ushort4 quoTest = d.DivRem(num, out ushort4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2089,7 +2089,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2120,29 +2120,29 @@ namespace MaxMath.Tests
                     {
                         ushort num = rng.NextUShort(minL, maxL);
 
-                        ushort4 trueQuo = maxmath.divrem(num, denum, out ushort4 trueRem);
+                        ushort4 trueQuo = math.divrem(num, denum, out ushort4 trueRem);
                         ushort4 quoTest = d.DivRem(num, out ushort4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort4>(maxmath.shl((ushort)1u, rng.NextUShort4(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort4>(math.shl((ushort)1u, rng.NextUShort4(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2173,29 +2173,29 @@ namespace MaxMath.Tests
                     {
                         ushort8 num = rng.NextUShort8(minL, maxL);
 
-                        ushort8 trueQuo = maxmath.divrem(num, denum, out ushort8 trueRem);
+                        ushort8 trueQuo = math.divrem(num, denum, out ushort8 trueRem);
                         ushort8 quoTest = d.DivRem(num, out ushort8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort8>(maxmath.shl((ushort)1u, rng.NextUShort8(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort8>(math.shl((ushort)1u, rng.NextUShort8(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2226,21 +2226,21 @@ namespace MaxMath.Tests
                     {
                         ushort8 num = rng.NextUShort8(minL, maxL);
 
-                        ushort8 trueQuo = maxmath.divrem(num, denum, out ushort8 trueRem);
+                        ushort8 trueQuo = math.divrem(num, denum, out ushort8 trueRem);
                         ushort8 quoTest = d.DivRem(num, out ushort8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2248,7 +2248,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2279,29 +2279,29 @@ namespace MaxMath.Tests
                     {
                         ushort num = rng.NextUShort(minL, maxL);
 
-                        ushort8 trueQuo = maxmath.divrem(num, denum, out ushort8 trueRem);
+                        ushort8 trueQuo = math.divrem(num, denum, out ushort8 trueRem);
                         ushort8 quoTest = d.DivRem(num, out ushort8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort8>(maxmath.shl((ushort)1u, rng.NextUShort8(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort8>(math.shl((ushort)1u, rng.NextUShort8(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2332,29 +2332,29 @@ namespace MaxMath.Tests
                     {
                         ushort16 num = rng.NextUShort16(minL, maxL);
 
-                        ushort16 trueQuo = maxmath.divrem(num, denum, out ushort16 trueRem);
+                        ushort16 trueQuo = math.divrem(num, denum, out ushort16 trueRem);
                         ushort16 quoTest = d.DivRem(num, out ushort16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort16>(maxmath.shl((ushort)1u, rng.NextUShort16(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort16>(math.shl((ushort)1u, rng.NextUShort16(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2385,21 +2385,21 @@ namespace MaxMath.Tests
                     {
                         ushort16 num = rng.NextUShort16(minL, maxL);
 
-                        ushort16 trueQuo = maxmath.divrem(num, denum, out ushort16 trueRem);
+                        ushort16 trueQuo = math.divrem(num, denum, out ushort16 trueRem);
                         ushort16 quoTest = d.DivRem(num, out ushort16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2407,7 +2407,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2438,29 +2438,29 @@ namespace MaxMath.Tests
                     {
                         ushort num = rng.NextUShort(minL, maxL);
 
-                        ushort16 trueQuo = maxmath.divrem(num, denum, out ushort16 trueRem);
+                        ushort16 trueQuo = math.divrem(num, denum, out ushort16 trueRem);
                         ushort16 quoTest = d.DivRem(num, out ushort16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<ushort16>(maxmath.shl((ushort)1u, rng.NextUShort16(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<ushort16>(math.shl((ushort)1u, rng.NextUShort16(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2493,21 +2493,21 @@ namespace MaxMath.Tests
                     {
                         byte num = rng.NextByte(minL, maxL);
 
-                        byte trueQuo = maxmath.divrem(num, denum, out byte trueRem);
+                        byte trueQuo = math.divrem(num, denum, out byte trueRem);
                         byte quoTest = d.DivRem(num, out byte remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2515,7 +2515,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<byte>((byte)(1u << (int)rng.NextByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2546,29 +2546,29 @@ namespace MaxMath.Tests
                     {
                         byte2 num = rng.NextByte2(minL, maxL);
 
-                        byte2 trueQuo = maxmath.divrem(num, denum, out byte2 trueRem);
+                        byte2 trueQuo = math.divrem(num, denum, out byte2 trueRem);
                         byte2 quoTest = d.DivRem(num, out byte2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte2>(maxmath.shl((byte)1u, rng.NextByte2(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte2>(math.shl((byte)1u, rng.NextByte2(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2599,21 +2599,21 @@ namespace MaxMath.Tests
                     {
                         byte2 num = rng.NextByte2(minL, maxL);
 
-                        byte2 trueQuo = maxmath.divrem(num, denum, out byte2 trueRem);
+                        byte2 trueQuo = math.divrem(num, denum, out byte2 trueRem);
                         byte2 quoTest = d.DivRem(num, out byte2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2621,7 +2621,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2652,29 +2652,29 @@ namespace MaxMath.Tests
                     {
                         byte num = rng.NextByte(minL, maxL);
 
-                        byte2 trueQuo = maxmath.divrem(num, denum, out byte2 trueRem);
+                        byte2 trueQuo = math.divrem(num, denum, out byte2 trueRem);
                         byte2 quoTest = d.DivRem(num, out byte2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte2>(maxmath.shl((byte)1u, rng.NextByte2(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte2>(math.shl((byte)1u, rng.NextByte2(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2705,29 +2705,29 @@ namespace MaxMath.Tests
                     {
                         byte3 num = rng.NextByte3(minL, maxL);
 
-                        byte3 trueQuo = maxmath.divrem(num, denum, out byte3 trueRem);
+                        byte3 trueQuo = math.divrem(num, denum, out byte3 trueRem);
                         byte3 quoTest = d.DivRem(num, out byte3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte3>(maxmath.shl((byte)1u, rng.NextByte3(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte3>(math.shl((byte)1u, rng.NextByte3(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2758,21 +2758,21 @@ namespace MaxMath.Tests
                     {
                         byte3 num = rng.NextByte3(minL, maxL);
 
-                        byte3 trueQuo = maxmath.divrem(num, denum, out byte3 trueRem);
+                        byte3 trueQuo = math.divrem(num, denum, out byte3 trueRem);
                         byte3 quoTest = d.DivRem(num, out byte3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2780,7 +2780,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2811,29 +2811,29 @@ namespace MaxMath.Tests
                     {
                         byte num = rng.NextByte(minL, maxL);
 
-                        byte3 trueQuo = maxmath.divrem(num, denum, out byte3 trueRem);
+                        byte3 trueQuo = math.divrem(num, denum, out byte3 trueRem);
                         byte3 quoTest = d.DivRem(num, out byte3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte3>(maxmath.shl((byte)1u, rng.NextByte3(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte3>(math.shl((byte)1u, rng.NextByte3(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2864,29 +2864,29 @@ namespace MaxMath.Tests
                     {
                         byte4 num = rng.NextByte4(minL, maxL);
 
-                        byte4 trueQuo = maxmath.divrem(num, denum, out byte4 trueRem);
+                        byte4 trueQuo = math.divrem(num, denum, out byte4 trueRem);
                         byte4 quoTest = d.DivRem(num, out byte4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte4>(maxmath.shl((byte)1u, rng.NextByte4(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte4>(math.shl((byte)1u, rng.NextByte4(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2917,21 +2917,21 @@ namespace MaxMath.Tests
                     {
                         byte4 num = rng.NextByte4(minL, maxL);
 
-                        byte4 trueQuo = maxmath.divrem(num, denum, out byte4 trueRem);
+                        byte4 trueQuo = math.divrem(num, denum, out byte4 trueRem);
                         byte4 quoTest = d.DivRem(num, out byte4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2939,7 +2939,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -2970,29 +2970,29 @@ namespace MaxMath.Tests
                     {
                         byte num = rng.NextByte(minL, maxL);
 
-                        byte4 trueQuo = maxmath.divrem(num, denum, out byte4 trueRem);
+                        byte4 trueQuo = math.divrem(num, denum, out byte4 trueRem);
                         byte4 quoTest = d.DivRem(num, out byte4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte4>(maxmath.shl((byte)1u, rng.NextByte4(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte4>(math.shl((byte)1u, rng.NextByte4(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3023,29 +3023,29 @@ namespace MaxMath.Tests
                     {
                         byte8 num = rng.NextByte8(minL, maxL);
 
-                        byte8 trueQuo = maxmath.divrem(num, denum, out byte8 trueRem);
+                        byte8 trueQuo = math.divrem(num, denum, out byte8 trueRem);
                         byte8 quoTest = d.DivRem(num, out byte8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte8>(maxmath.shl((byte)1u, rng.NextByte8(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte8>(math.shl((byte)1u, rng.NextByte8(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3076,21 +3076,21 @@ namespace MaxMath.Tests
                     {
                         byte8 num = rng.NextByte8(minL, maxL);
 
-                        byte8 trueQuo = maxmath.divrem(num, denum, out byte8 trueRem);
+                        byte8 trueQuo = math.divrem(num, denum, out byte8 trueRem);
                         byte8 quoTest = d.DivRem(num, out byte8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3098,7 +3098,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3129,29 +3129,29 @@ namespace MaxMath.Tests
                     {
                         byte num = rng.NextByte(minL, maxL);
 
-                        byte8 trueQuo = maxmath.divrem(num, denum, out byte8 trueRem);
+                        byte8 trueQuo = math.divrem(num, denum, out byte8 trueRem);
                         byte8 quoTest = d.DivRem(num, out byte8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte8>(maxmath.shl((byte)1u, rng.NextByte8(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte8>(math.shl((byte)1u, rng.NextByte8(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3182,29 +3182,29 @@ namespace MaxMath.Tests
                     {
                         byte16 num = rng.NextByte16(minL, maxL);
 
-                        byte16 trueQuo = maxmath.divrem(num, denum, out byte16 trueRem);
+                        byte16 trueQuo = math.divrem(num, denum, out byte16 trueRem);
                         byte16 quoTest = d.DivRem(num, out byte16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte16>(maxmath.shl((byte)1u, rng.NextByte16(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte16>(math.shl((byte)1u, rng.NextByte16(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3235,21 +3235,21 @@ namespace MaxMath.Tests
                     {
                         byte16 num = rng.NextByte16(minL, maxL);
 
-                        byte16 trueQuo = maxmath.divrem(num, denum, out byte16 trueRem);
+                        byte16 trueQuo = math.divrem(num, denum, out byte16 trueRem);
                         byte16 quoTest = d.DivRem(num, out byte16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3257,7 +3257,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3288,29 +3288,29 @@ namespace MaxMath.Tests
                     {
                         byte num = rng.NextByte(minL, maxL);
 
-                        byte16 trueQuo = maxmath.divrem(num, denum, out byte16 trueRem);
+                        byte16 trueQuo = math.divrem(num, denum, out byte16 trueRem);
                         byte16 quoTest = d.DivRem(num, out byte16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte16>(maxmath.shl((byte)1u, rng.NextByte16(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte16>(math.shl((byte)1u, rng.NextByte16(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3341,29 +3341,29 @@ namespace MaxMath.Tests
                     {
                         byte32 num = rng.NextByte32(minL, maxL);
 
-                        byte32 trueQuo = maxmath.divrem(num, denum, out byte32 trueRem);
+                        byte32 trueQuo = math.divrem(num, denum, out byte32 trueRem);
                         byte32 quoTest = d.DivRem(num, out byte32 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte32>(maxmath.shl((byte)1u, rng.NextByte32(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte32>(math.shl((byte)1u, rng.NextByte32(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3394,21 +3394,21 @@ namespace MaxMath.Tests
                     {
                         byte32 num = rng.NextByte32(minL, maxL);
 
-                        byte32 trueQuo = maxmath.divrem(num, denum, out byte32 trueRem);
+                        byte32 trueQuo = math.divrem(num, denum, out byte32 trueRem);
                         byte32 quoTest = d.DivRem(num, out byte32 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3416,7 +3416,7 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % d2);
 
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3447,29 +3447,29 @@ namespace MaxMath.Tests
                     {
                         byte num = rng.NextByte(minL, maxL);
 
-                        byte32 trueQuo = maxmath.divrem(num, denum, out byte32 trueRem);
+                        byte32 trueQuo = math.divrem(num, denum, out byte32 trueRem);
                         byte32 quoTest = d.DivRem(num, out byte32 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        pow2 = new Divider<byte32>(maxmath.shl((byte)1u, rng.NextByte32(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<byte32>(math.shl((byte)1u, rng.NextByte32(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3505,42 +3505,42 @@ namespace MaxMath.Tests
                     {
                         Int128 num = rng.NextInt128(minL, maxL);
 
-                        Int128 trueQuo = maxmath.divrem(num, denum, out Int128 trueRem);
+                        Int128 trueQuo = math.divrem(num, denum, out Int128 trueRem);
                         Int128 quoTest = d.DivRem(num, out Int128 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 9, out trueRem);
+                        trueQuo = math.divrem(num, 9, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 8, out trueRem);
+                        trueQuo = math.divrem(num, 8, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -9, out trueRem);
+                        trueQuo = math.divrem(num, -9, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -8, out trueRem);
+                        trueQuo = math.divrem(num, -8, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, Int128.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, Int128.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3548,14 +3548,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<Int128>((Int128)1 << (int)rng.NextInt128(0, 128));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<Int128>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3590,42 +3590,42 @@ namespace MaxMath.Tests
                     {
                         long num = rng.NextLong(minL, maxL);
 
-                        long trueQuo = maxmath.divrem(num, denum, out long trueRem);
+                        long trueQuo = math.divrem(num, denum, out long trueRem);
                         long quoTest = d.DivRem(num, out long remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3633,14 +3633,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<long>(1L << (int)rng.NextLong(0, 64));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3674,57 +3674,57 @@ namespace MaxMath.Tests
                     {
                         long2 num = rng.NextLong2(minL, maxL);
 
-                        long2 trueQuo = maxmath.divrem(num, denum, out long2 trueRem);
+                        long2 trueQuo = math.divrem(num, denum, out long2 trueRem);
                         long2 quoTest = d.DivRem(num, out long2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<long2>(maxmath.shl((long2)1L, rng.NextLong2(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<long2>(math.shl((long2)1L, rng.NextLong2(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long2>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3758,42 +3758,42 @@ namespace MaxMath.Tests
                     {
                         long2 num = rng.NextLong2(minL, maxL);
 
-                        long2 trueQuo = maxmath.divrem(num, denum, out long2 trueRem);
+                        long2 trueQuo = math.divrem(num, denum, out long2 trueRem);
                         long2 quoTest = d.DivRem(num, out long2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3801,14 +3801,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<long>(1L << (int)rng.NextLong(0, 64));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3842,57 +3842,57 @@ namespace MaxMath.Tests
                     {
                         long num = rng.NextLong(minL, maxL);
 
-                        long2 trueQuo = maxmath.divrem(num, denum, out long2 trueRem);
+                        long2 trueQuo = math.divrem(num, denum, out long2 trueRem);
                         long2 quoTest = d.DivRem(num, out long2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<long2>(maxmath.shl((long2)1L, rng.NextLong2(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<long2>(math.shl((long2)1L, rng.NextLong2(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long2>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -3926,57 +3926,57 @@ namespace MaxMath.Tests
                     {
                         long3 num = rng.NextLong3(minL, maxL);
 
-                        long3 trueQuo = maxmath.divrem(num, denum, out long3 trueRem);
+                        long3 trueQuo = math.divrem(num, denum, out long3 trueRem);
                         long3 quoTest = d.DivRem(num, out long3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<long3>(maxmath.shl((long3)1L, rng.NextLong3(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<long3>(math.shl((long3)1L, rng.NextLong3(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long3>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4010,42 +4010,42 @@ namespace MaxMath.Tests
                     {
                         long3 num = rng.NextLong3(minL, maxL);
 
-                        long3 trueQuo = maxmath.divrem(num, denum, out long3 trueRem);
+                        long3 trueQuo = math.divrem(num, denum, out long3 trueRem);
                         long3 quoTest = d.DivRem(num, out long3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4053,14 +4053,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<long>(1L << (int)rng.NextLong(0, 64));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4094,57 +4094,57 @@ namespace MaxMath.Tests
                     {
                         long num = rng.NextLong(minL, maxL);
 
-                        long3 trueQuo = maxmath.divrem(num, denum, out long3 trueRem);
+                        long3 trueQuo = math.divrem(num, denum, out long3 trueRem);
                         long3 quoTest = d.DivRem(num, out long3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<long3>(maxmath.shl((long3)1L, rng.NextLong3(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<long3>(math.shl((long3)1L, rng.NextLong3(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long3>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4178,57 +4178,57 @@ namespace MaxMath.Tests
                     {
                         long4 num = rng.NextLong4(minL, maxL);
 
-                        long4 trueQuo = maxmath.divrem(num, denum, out long4 trueRem);
+                        long4 trueQuo = math.divrem(num, denum, out long4 trueRem);
                         long4 quoTest = d.DivRem(num, out long4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<long4>(maxmath.shl((long4)1L, rng.NextLong4(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<long4>(math.shl((long4)1L, rng.NextLong4(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long4>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4262,42 +4262,42 @@ namespace MaxMath.Tests
                     {
                         long4 num = rng.NextLong4(minL, maxL);
 
-                        long4 trueQuo = maxmath.divrem(num, denum, out long4 trueRem);
+                        long4 trueQuo = math.divrem(num, denum, out long4 trueRem);
                         long4 quoTest = d.DivRem(num, out long4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4305,14 +4305,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<long>(1L << (int)rng.NextLong(0, 64));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4346,57 +4346,57 @@ namespace MaxMath.Tests
                     {
                         long num = rng.NextLong(minL, maxL);
 
-                        long4 trueQuo = maxmath.divrem(num, denum, out long4 trueRem);
+                        long4 trueQuo = math.divrem(num, denum, out long4 trueRem);
                         long4 quoTest = d.DivRem(num, out long4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, long.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, long.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<long4>(maxmath.shl((long4)1L, rng.NextLong4(0, 64)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<long4>(math.shl((long4)1L, rng.NextLong4(0, 64)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<long4>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4431,42 +4431,42 @@ namespace MaxMath.Tests
                     {
                         int num = rng.NextInt(minL, maxL);
 
-                        int trueQuo = maxmath.divrem(num, denum, out int trueRem);
+                        int trueQuo = math.divrem(num, denum, out int trueRem);
                         int quoTest = d.DivRem(num, out int remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4474,14 +4474,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4515,57 +4515,57 @@ namespace MaxMath.Tests
                     {
                         int2 num = rng.NextInt2(minL, maxL);
 
-                        int2 trueQuo = maxmath.divrem(num, denum, out int2 trueRem);
+                        int2 trueQuo = math.divrem(num, denum, out int2 trueRem);
                         int2 quoTest = d.DivRem(num, out int2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<int2>(maxmath.shl((int2)1, rng.NextInt2(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<int2>(math.shl((int2)1, rng.NextInt2(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int2>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4599,42 +4599,42 @@ namespace MaxMath.Tests
                     {
                         int2 num = rng.NextInt2(minL, maxL);
 
-                        int2 trueQuo = maxmath.divrem(num, denum, out int2 trueRem);
+                        int2 trueQuo = math.divrem(num, denum, out int2 trueRem);
                         int2 quoTest = d.DivRem(num, out int2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4642,14 +4642,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4683,57 +4683,57 @@ namespace MaxMath.Tests
                     {
                         int num = rng.NextInt(minL, maxL);
 
-                        int2 trueQuo = maxmath.divrem(num, denum, out int2 trueRem);
+                        int2 trueQuo = math.divrem(num, denum, out int2 trueRem);
                         int2 quoTest = d.DivRem(num, out int2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<int2>(maxmath.shl((int2)1, rng.NextInt2(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<int2>(math.shl((int2)1, rng.NextInt2(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int2>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4767,57 +4767,57 @@ namespace MaxMath.Tests
                     {
                         int3 num = rng.NextInt3(minL, maxL);
 
-                        int3 trueQuo = maxmath.divrem(num, denum, out int3 trueRem);
+                        int3 trueQuo = math.divrem(num, denum, out int3 trueRem);
                         int3 quoTest = d.DivRem(num, out int3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<int3>(maxmath.shl((int3)1, rng.NextInt3(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<int3>(math.shl((int3)1, rng.NextInt3(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int3>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4851,42 +4851,42 @@ namespace MaxMath.Tests
                     {
                         int3 num = rng.NextInt3(minL, maxL);
 
-                        int3 trueQuo = maxmath.divrem(num, denum, out int3 trueRem);
+                        int3 trueQuo = math.divrem(num, denum, out int3 trueRem);
                         int3 quoTest = d.DivRem(num, out int3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4894,14 +4894,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -4935,57 +4935,57 @@ namespace MaxMath.Tests
                     {
                         int num = rng.NextInt(minL, maxL);
 
-                        int3 trueQuo = maxmath.divrem(num, denum, out int3 trueRem);
+                        int3 trueQuo = math.divrem(num, denum, out int3 trueRem);
                         int3 quoTest = d.DivRem(num, out int3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<int3>(maxmath.shl((int3)1, rng.NextInt3(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<int3>(math.shl((int3)1, rng.NextInt3(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int3>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5019,57 +5019,57 @@ namespace MaxMath.Tests
                     {
                         int4 num = rng.NextInt4(minL, maxL);
 
-                        int4 trueQuo = maxmath.divrem(num, denum, out int4 trueRem);
+                        int4 trueQuo = math.divrem(num, denum, out int4 trueRem);
                         int4 quoTest = d.DivRem(num, out int4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<int4>(maxmath.shl((int4)1, rng.NextInt4(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<int4>(math.shl((int4)1, rng.NextInt4(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int4>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5103,42 +5103,42 @@ namespace MaxMath.Tests
                     {
                         int4 num = rng.NextInt4(minL, maxL);
 
-                        int4 trueQuo = maxmath.divrem(num, denum, out int4 trueRem);
+                        int4 trueQuo = math.divrem(num, denum, out int4 trueRem);
                         int4 quoTest = d.DivRem(num, out int4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5146,14 +5146,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5187,57 +5187,57 @@ namespace MaxMath.Tests
                     {
                         int num = rng.NextInt(minL, maxL);
 
-                        int4 trueQuo = maxmath.divrem(num, denum, out int4 trueRem);
+                        int4 trueQuo = math.divrem(num, denum, out int4 trueRem);
                         int4 quoTest = d.DivRem(num, out int4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<int4>(maxmath.shl((int4)1, rng.NextInt4(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<int4>(math.shl((int4)1, rng.NextInt4(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int4>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5271,57 +5271,57 @@ namespace MaxMath.Tests
                     {
                         int8 num = rng.NextInt8(minL, maxL);
 
-                        int8 trueQuo = maxmath.divrem(num, denum, out int8 trueRem);
+                        int8 trueQuo = math.divrem(num, denum, out int8 trueRem);
                         int8 quoTest = d.DivRem(num, out int8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<int8>(maxmath.shl((int8)1, rng.NextInt8(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<int8>(math.shl((int8)1, rng.NextInt8(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int8>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5355,42 +5355,42 @@ namespace MaxMath.Tests
                     {
                         int8 num = rng.NextInt8(minL, maxL);
 
-                        int8 trueQuo = maxmath.divrem(num, denum, out int8 trueRem);
+                        int8 trueQuo = math.divrem(num, denum, out int8 trueRem);
                         int8 quoTest = d.DivRem(num, out int8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5398,14 +5398,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5439,57 +5439,57 @@ namespace MaxMath.Tests
                     {
                         int num = rng.NextInt(minL, maxL);
 
-                        int8 trueQuo = maxmath.divrem(num, denum, out int8 trueRem);
+                        int8 trueQuo = math.divrem(num, denum, out int8 trueRem);
                         int8 quoTest = d.DivRem(num, out int8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, int.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, int.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<int8>(maxmath.shl((int8)1, rng.NextInt8(0, 32)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<int8>(math.shl((int8)1, rng.NextInt8(0, 32)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<int8>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5524,42 +5524,42 @@ namespace MaxMath.Tests
                     {
                         short num = rng.NextShort(minL, maxL);
 
-                        short trueQuo = maxmath.divrem(num, denum, out short trueRem);
+                        short trueQuo = math.divrem(num, denum, out short trueRem);
                         short quoTest = d.DivRem(num, out short remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5567,14 +5567,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short>((short)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5608,57 +5608,57 @@ namespace MaxMath.Tests
                     {
                         short2 num = rng.NextShort2(minL, maxL);
 
-                        short2 trueQuo = maxmath.divrem(num, denum, out short2 trueRem);
+                        short2 trueQuo = math.divrem(num, denum, out short2 trueRem);
                         short2 quoTest = d.DivRem(num, out short2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short2>(maxmath.shl((short)1, rng.NextShort2(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short2>(math.shl((short)1, rng.NextShort2(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short2>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5692,42 +5692,42 @@ namespace MaxMath.Tests
                     {
                         short2 num = rng.NextShort2(minL, maxL);
 
-                        short2 trueQuo = maxmath.divrem(num, denum, out short2 trueRem);
+                        short2 trueQuo = math.divrem(num, denum, out short2 trueRem);
                         short2 quoTest = d.DivRem(num, out short2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5735,14 +5735,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short>((short)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5776,57 +5776,57 @@ namespace MaxMath.Tests
                     {
                         short num = rng.NextShort(minL, maxL);
 
-                        short2 trueQuo = maxmath.divrem(num, denum, out short2 trueRem);
+                        short2 trueQuo = math.divrem(num, denum, out short2 trueRem);
                         short2 quoTest = d.DivRem(num, out short2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short2>(maxmath.shl((short)1, rng.NextShort2(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short2>(math.shl((short)1, rng.NextShort2(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short2>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5860,57 +5860,57 @@ namespace MaxMath.Tests
                     {
                         short3 num = rng.NextShort3(minL, maxL);
 
-                        short3 trueQuo = maxmath.divrem(num, denum, out short3 trueRem);
+                        short3 trueQuo = math.divrem(num, denum, out short3 trueRem);
                         short3 quoTest = d.DivRem(num, out short3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short3>(maxmath.shl((short)1, rng.NextShort3(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short3>(math.shl((short)1, rng.NextShort3(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short3>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5944,42 +5944,42 @@ namespace MaxMath.Tests
                     {
                         short3 num = rng.NextShort3(minL, maxL);
 
-                        short3 trueQuo = maxmath.divrem(num, denum, out short3 trueRem);
+                        short3 trueQuo = math.divrem(num, denum, out short3 trueRem);
                         short3 quoTest = d.DivRem(num, out short3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -5987,14 +5987,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short>((short)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6028,57 +6028,57 @@ namespace MaxMath.Tests
                     {
                         short num = rng.NextShort(minL, maxL);
 
-                        short3 trueQuo = maxmath.divrem(num, denum, out short3 trueRem);
+                        short3 trueQuo = math.divrem(num, denum, out short3 trueRem);
                         short3 quoTest = d.DivRem(num, out short3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short3>(maxmath.shl((short)1, rng.NextShort3(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short3>(math.shl((short)1, rng.NextShort3(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short3>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6112,57 +6112,57 @@ namespace MaxMath.Tests
                     {
                         short4 num = rng.NextShort4(minL, maxL);
 
-                        short4 trueQuo = maxmath.divrem(num, denum, out short4 trueRem);
+                        short4 trueQuo = math.divrem(num, denum, out short4 trueRem);
                         short4 quoTest = d.DivRem(num, out short4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short4>(maxmath.shl((short)1, rng.NextShort4(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short4>(math.shl((short)1, rng.NextShort4(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short4>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6196,42 +6196,42 @@ namespace MaxMath.Tests
                     {
                         short4 num = rng.NextShort4(minL, maxL);
 
-                        short4 trueQuo = maxmath.divrem(num, denum, out short4 trueRem);
+                        short4 trueQuo = math.divrem(num, denum, out short4 trueRem);
                         short4 quoTest = d.DivRem(num, out short4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6239,14 +6239,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short>((short)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6280,57 +6280,57 @@ namespace MaxMath.Tests
                     {
                         short num = rng.NextShort(minL, maxL);
 
-                        short4 trueQuo = maxmath.divrem(num, denum, out short4 trueRem);
+                        short4 trueQuo = math.divrem(num, denum, out short4 trueRem);
                         short4 quoTest = d.DivRem(num, out short4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short4>(maxmath.shl((short)1, rng.NextShort4(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short4>(math.shl((short)1, rng.NextShort4(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short4>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6364,57 +6364,57 @@ namespace MaxMath.Tests
                     {
                         short8 num = rng.NextShort8(minL, maxL);
 
-                        short8 trueQuo = maxmath.divrem(num, denum, out short8 trueRem);
+                        short8 trueQuo = math.divrem(num, denum, out short8 trueRem);
                         short8 quoTest = d.DivRem(num, out short8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short8>(maxmath.shl((short)1, rng.NextShort8(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short8>(math.shl((short)1, rng.NextShort8(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short8>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6448,42 +6448,42 @@ namespace MaxMath.Tests
                     {
                         short8 num = rng.NextShort8(minL, maxL);
 
-                        short8 trueQuo = maxmath.divrem(num, denum, out short8 trueRem);
+                        short8 trueQuo = math.divrem(num, denum, out short8 trueRem);
                         short8 quoTest = d.DivRem(num, out short8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6491,14 +6491,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short>((short)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6532,57 +6532,57 @@ namespace MaxMath.Tests
                     {
                         short num = rng.NextShort(minL, maxL);
 
-                        short8 trueQuo = maxmath.divrem(num, denum, out short8 trueRem);
+                        short8 trueQuo = math.divrem(num, denum, out short8 trueRem);
                         short8 quoTest = d.DivRem(num, out short8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short8>(maxmath.shl((short)1, rng.NextShort8(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short8>(math.shl((short)1, rng.NextShort8(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short8>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6616,57 +6616,57 @@ namespace MaxMath.Tests
                     {
                         short16 num = rng.NextShort16(minL, maxL);
 
-                        short16 trueQuo = maxmath.divrem(num, denum, out short16 trueRem);
+                        short16 trueQuo = math.divrem(num, denum, out short16 trueRem);
                         short16 quoTest = d.DivRem(num, out short16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short16>(maxmath.shl((short)1, rng.NextShort16(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short16>(math.shl((short)1, rng.NextShort16(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short16>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6700,42 +6700,42 @@ namespace MaxMath.Tests
                     {
                         short16 num = rng.NextShort16(minL, maxL);
 
-                        short16 trueQuo = maxmath.divrem(num, denum, out short16 trueRem);
+                        short16 trueQuo = math.divrem(num, denum, out short16 trueRem);
                         short16 quoTest = d.DivRem(num, out short16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6743,14 +6743,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short>((short)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6784,57 +6784,57 @@ namespace MaxMath.Tests
                     {
                         short num = rng.NextShort(minL, maxL);
 
-                        short16 trueQuo = maxmath.divrem(num, denum, out short16 trueRem);
+                        short16 trueQuo = math.divrem(num, denum, out short16 trueRem);
                         short16 quoTest = d.DivRem(num, out short16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, short.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, short.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<short16>(maxmath.shl((short)1, rng.NextShort16(0, 16)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<short16>(math.shl((short)1, rng.NextShort16(0, 16)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<short16>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6870,42 +6870,42 @@ namespace MaxMath.Tests
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
 
-                        sbyte trueQuo = maxmath.divrem(num, denum, out sbyte trueRem);
+                        sbyte trueQuo = math.divrem(num, denum, out sbyte trueRem);
                         sbyte quoTest = d.DivRem(num, out sbyte remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6913,14 +6913,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte>((sbyte)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -6954,57 +6954,57 @@ namespace MaxMath.Tests
                     {
                         sbyte2 num = rng.NextSByte2(minL, maxL);
 
-                        sbyte2 trueQuo = maxmath.divrem(num, denum, out sbyte2 trueRem);
+                        sbyte2 trueQuo = math.divrem(num, denum, out sbyte2 trueRem);
                         sbyte2 quoTest = d.DivRem(num, out sbyte2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte2>(maxmath.shl((sbyte)1, rng.NextSByte2(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte2>(math.shl((sbyte)1, rng.NextSByte2(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte2>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7038,42 +7038,42 @@ namespace MaxMath.Tests
                     {
                         sbyte2 num = rng.NextSByte2(minL, maxL);
 
-                        sbyte2 trueQuo = maxmath.divrem(num, denum, out sbyte2 trueRem);
+                        sbyte2 trueQuo = math.divrem(num, denum, out sbyte2 trueRem);
                         sbyte2 quoTest = d.DivRem(num, out sbyte2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7081,14 +7081,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte>((sbyte)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7122,57 +7122,57 @@ namespace MaxMath.Tests
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
 
-                        sbyte2 trueQuo = maxmath.divrem(num, denum, out sbyte2 trueRem);
+                        sbyte2 trueQuo = math.divrem(num, denum, out sbyte2 trueRem);
                         sbyte2 quoTest = d.DivRem(num, out sbyte2 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte2>(maxmath.shl((sbyte)1, rng.NextSByte2(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte2>(math.shl((sbyte)1, rng.NextSByte2(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte2>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7206,57 +7206,57 @@ namespace MaxMath.Tests
                     {
                         sbyte3 num = rng.NextSByte3(minL, maxL);
 
-                        sbyte3 trueQuo = maxmath.divrem(num, denum, out sbyte3 trueRem);
+                        sbyte3 trueQuo = math.divrem(num, denum, out sbyte3 trueRem);
                         sbyte3 quoTest = d.DivRem(num, out sbyte3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte3>(maxmath.shl((sbyte)1, rng.NextSByte3(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte3>(math.shl((sbyte)1, rng.NextSByte3(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte3>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7290,42 +7290,42 @@ namespace MaxMath.Tests
                     {
                         sbyte3 num = rng.NextSByte3(minL, maxL);
 
-                        sbyte3 trueQuo = maxmath.divrem(num, denum, out sbyte3 trueRem);
+                        sbyte3 trueQuo = math.divrem(num, denum, out sbyte3 trueRem);
                         sbyte3 quoTest = d.DivRem(num, out sbyte3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7333,14 +7333,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte>((sbyte)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7374,57 +7374,57 @@ namespace MaxMath.Tests
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
 
-                        sbyte3 trueQuo = maxmath.divrem(num, denum, out sbyte3 trueRem);
+                        sbyte3 trueQuo = math.divrem(num, denum, out sbyte3 trueRem);
                         sbyte3 quoTest = d.DivRem(num, out sbyte3 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte3>(maxmath.shl((sbyte)1, rng.NextSByte3(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte3>(math.shl((sbyte)1, rng.NextSByte3(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte3>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7458,57 +7458,57 @@ namespace MaxMath.Tests
                     {
                         sbyte4 num = rng.NextSByte4(minL, maxL);
 
-                        sbyte4 trueQuo = maxmath.divrem(num, denum, out sbyte4 trueRem);
+                        sbyte4 trueQuo = math.divrem(num, denum, out sbyte4 trueRem);
                         sbyte4 quoTest = d.DivRem(num, out sbyte4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte4>(maxmath.shl((sbyte)1, rng.NextSByte4(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte4>(math.shl((sbyte)1, rng.NextSByte4(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte4>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7542,42 +7542,42 @@ namespace MaxMath.Tests
                     {
                         sbyte4 num = rng.NextSByte4(minL, maxL);
 
-                        sbyte4 trueQuo = maxmath.divrem(num, denum, out sbyte4 trueRem);
+                        sbyte4 trueQuo = math.divrem(num, denum, out sbyte4 trueRem);
                         sbyte4 quoTest = d.DivRem(num, out sbyte4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7585,14 +7585,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte>((sbyte)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7626,57 +7626,57 @@ namespace MaxMath.Tests
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
 
-                        sbyte4 trueQuo = maxmath.divrem(num, denum, out sbyte4 trueRem);
+                        sbyte4 trueQuo = math.divrem(num, denum, out sbyte4 trueRem);
                         sbyte4 quoTest = d.DivRem(num, out sbyte4 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte4>(maxmath.shl((sbyte)1, rng.NextSByte4(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte4>(math.shl((sbyte)1, rng.NextSByte4(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte4>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7710,57 +7710,57 @@ namespace MaxMath.Tests
                     {
                         sbyte8 num = rng.NextSByte8(minL, maxL);
 
-                        sbyte8 trueQuo = maxmath.divrem(num, denum, out sbyte8 trueRem);
+                        sbyte8 trueQuo = math.divrem(num, denum, out sbyte8 trueRem);
                         sbyte8 quoTest = d.DivRem(num, out sbyte8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte8>(maxmath.shl((sbyte)1, rng.NextSByte8(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte8>(math.shl((sbyte)1, rng.NextSByte8(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte8>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7794,42 +7794,42 @@ namespace MaxMath.Tests
                     {
                         sbyte8 num = rng.NextSByte8(minL, maxL);
 
-                        sbyte8 trueQuo = maxmath.divrem(num, denum, out sbyte8 trueRem);
+                        sbyte8 trueQuo = math.divrem(num, denum, out sbyte8 trueRem);
                         sbyte8 quoTest = d.DivRem(num, out sbyte8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7837,14 +7837,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte>((sbyte)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7878,57 +7878,57 @@ namespace MaxMath.Tests
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
 
-                        sbyte8 trueQuo = maxmath.divrem(num, denum, out sbyte8 trueRem);
+                        sbyte8 trueQuo = math.divrem(num, denum, out sbyte8 trueRem);
                         sbyte8 quoTest = d.DivRem(num, out sbyte8 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte8>(maxmath.shl((sbyte)1, rng.NextSByte8(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte8>(math.shl((sbyte)1, rng.NextSByte8(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte8>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -7962,57 +7962,57 @@ namespace MaxMath.Tests
                     {
                         sbyte16 num = rng.NextSByte16(minL, maxL);
 
-                        sbyte16 trueQuo = maxmath.divrem(num, denum, out sbyte16 trueRem);
+                        sbyte16 trueQuo = math.divrem(num, denum, out sbyte16 trueRem);
                         sbyte16 quoTest = d.DivRem(num, out sbyte16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte16>(maxmath.shl((sbyte)1, rng.NextSByte16(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte16>(math.shl((sbyte)1, rng.NextSByte16(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte16>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -8046,42 +8046,42 @@ namespace MaxMath.Tests
                     {
                         sbyte16 num = rng.NextSByte16(minL, maxL);
 
-                        sbyte16 trueQuo = maxmath.divrem(num, denum, out sbyte16 trueRem);
+                        sbyte16 trueQuo = math.divrem(num, denum, out sbyte16 trueRem);
                         sbyte16 quoTest = d.DivRem(num, out sbyte16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -8089,14 +8089,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte>((sbyte)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -8130,57 +8130,57 @@ namespace MaxMath.Tests
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
 
-                        sbyte16 trueQuo = maxmath.divrem(num, denum, out sbyte16 trueRem);
+                        sbyte16 trueQuo = math.divrem(num, denum, out sbyte16 trueRem);
                         sbyte16 quoTest = d.DivRem(num, out sbyte16 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte16>(maxmath.shl((sbyte)1, rng.NextSByte16(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte16>(math.shl((sbyte)1, rng.NextSByte16(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte16>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -8214,57 +8214,57 @@ namespace MaxMath.Tests
                     {
                         sbyte32 num = rng.NextSByte32(minL, maxL);
 
-                        sbyte32 trueQuo = maxmath.divrem(num, denum, out sbyte32 trueRem);
+                        sbyte32 trueQuo = math.divrem(num, denum, out sbyte32 trueRem);
                         sbyte32 quoTest = d.DivRem(num, out sbyte32 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte32>(maxmath.shl((sbyte)1, rng.NextSByte32(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte32>(math.shl((sbyte)1, rng.NextSByte32(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte32>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -8298,42 +8298,42 @@ namespace MaxMath.Tests
                     {
                         sbyte32 num = rng.NextSByte32(minL, maxL);
 
-                        sbyte32 trueQuo = maxmath.divrem(num, denum, out sbyte32 trueRem);
+                        sbyte32 trueQuo = math.divrem(num, denum, out sbyte32 trueRem);
                         sbyte32 quoTest = d.DivRem(num, out sbyte32 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -8341,14 +8341,14 @@ namespace MaxMath.Tests
                         Assert.AreEqual(trueRem, num % overflow);
 
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte>((sbyte)-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -8382,57 +8382,57 @@ namespace MaxMath.Tests
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
 
-                        sbyte32 trueQuo = maxmath.divrem(num, denum, out sbyte32 trueRem);
+                        sbyte32 trueQuo = math.divrem(num, denum, out sbyte32 trueRem);
                         sbyte32 quoTest = d.DivRem(num, out sbyte32 remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d);
                         Assert.AreEqual(trueRem, num % d);
 
-                        trueQuo = maxmath.divrem(num, 1, out trueRem);
+                        trueQuo = math.divrem(num, 1, out trueRem);
                         quoTest = d1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d1);
                         Assert.AreEqual(trueRem, num % d1);
 
-                        trueQuo = maxmath.divrem(num, 2, out trueRem);
+                        trueQuo = math.divrem(num, 2, out trueRem);
                         quoTest = d2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / d2);
                         Assert.AreEqual(trueRem, num % d2);
 
-                        trueQuo = maxmath.divrem(num, -1, out trueRem);
+                        trueQuo = math.divrem(num, -1, out trueRem);
                         quoTest = dm1.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm1);
                         Assert.AreEqual(trueRem, num % dm1);
 
-                        trueQuo = maxmath.divrem(num, -2, out trueRem);
+                        trueQuo = math.divrem(num, -2, out trueRem);
                         quoTest = dm2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / dm2);
                         Assert.AreEqual(trueRem, num % dm2);
 
-                        trueQuo = maxmath.divrem(num, sbyte.MinValue, out trueRem);
+                        trueQuo = math.divrem(num, sbyte.MinValue, out trueRem);
                         quoTest = overflow.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / overflow);
                         Assert.AreEqual(trueRem, num % overflow);
 
-                        pow2 = new Divider<sbyte32>(maxmath.shl((sbyte)1, rng.NextSByte32(0, 8)));
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        pow2 = new Divider<sbyte32>(math.shl((sbyte)1, rng.NextSByte32(0, 8)));
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
                         Assert.AreEqual(trueQuo, num / pow2);
                         Assert.AreEqual(trueRem, num % pow2);
                         pow2 = new Divider<sbyte32>(-pow2.Divisor);
-                        trueQuo = maxmath.divrem(num, pow2.Divisor, out trueRem);
+                        trueQuo = math.divrem(num, pow2.Divisor, out trueRem);
                         quoTest = pow2.DivRem(num, out remTest);
                         Assert.AreEqual(trueQuo, quoTest);
                         Assert.AreEqual(trueRem, remTest);
@@ -8524,12 +8524,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ulong2 num = rng.NextULong2(minL, maxL);
-                        pow2 = new Divider<ulong2>(maxmath.shl(1ul, rng.NextULong2(0, 64)));
+                        pow2 = new Divider<ulong2>(math.shl(1ul, rng.NextULong2(0, 64)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8556,10 +8556,10 @@ namespace MaxMath.Tests
                         ulong2 num = rng.NextULong2(minL, maxL);
                         pow2 = new Divider<ulong>(1ul << (int)rng.NextULong(0, 64));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8584,12 +8584,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ulong num = rng.NextULong(minL, maxL);
-                        pow2 = new Divider<ulong2>(maxmath.shl(1ul, rng.NextULong2(0, 64)));
+                        pow2 = new Divider<ulong2>(math.shl(1ul, rng.NextULong2(0, 64)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8614,12 +8614,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ulong3 num = rng.NextULong3(minL, maxL);
-                        pow2 = new Divider<ulong3>(maxmath.shl(1ul, rng.NextULong3(0, 64)));
+                        pow2 = new Divider<ulong3>(math.shl(1ul, rng.NextULong3(0, 64)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8646,10 +8646,10 @@ namespace MaxMath.Tests
                         ulong3 num = rng.NextULong3(minL, maxL);
                         pow2 = new Divider<ulong>(1ul << (int)rng.NextULong(0, 64));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8674,12 +8674,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ulong num = rng.NextULong(minL, maxL);
-                        pow2 = new Divider<ulong3>(maxmath.shl(1ul, rng.NextULong3(0, 64)));
+                        pow2 = new Divider<ulong3>(math.shl(1ul, rng.NextULong3(0, 64)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8704,12 +8704,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ulong4 num = rng.NextULong4(minL, maxL);
-                        pow2 = new Divider<ulong4>(maxmath.shl(1ul, rng.NextULong4(0, 64)));
+                        pow2 = new Divider<ulong4>(math.shl(1ul, rng.NextULong4(0, 64)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8736,10 +8736,10 @@ namespace MaxMath.Tests
                         ulong4 num = rng.NextULong4(minL, maxL);
                         pow2 = new Divider<ulong>(1ul << (int)rng.NextULong(0, 64));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8764,12 +8764,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ulong num = rng.NextULong(minL, maxL);
-                        pow2 = new Divider<ulong4>(maxmath.shl(1ul, rng.NextULong4(0, 64)));
+                        pow2 = new Divider<ulong4>(math.shl(1ul, rng.NextULong4(0, 64)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8797,10 +8797,10 @@ namespace MaxMath.Tests
                         uint num = rng.NextUInt(minL, maxL);
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8825,12 +8825,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         uint2 num = rng.NextUInt2(minL, maxL);
-                        pow2 = new Divider<uint2>(maxmath.shl(1u, rng.NextUInt2(0, 32)));
+                        pow2 = new Divider<uint2>(math.shl(1u, rng.NextUInt2(0, 32)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8857,10 +8857,10 @@ namespace MaxMath.Tests
                         uint2 num = rng.NextUInt2(minL, maxL);
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8885,12 +8885,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         uint num = rng.NextUInt(minL, maxL);
-                        pow2 = new Divider<uint2>(maxmath.shl(1u, rng.NextUInt2(0, 32)));
+                        pow2 = new Divider<uint2>(math.shl(1u, rng.NextUInt2(0, 32)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8915,12 +8915,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         uint3 num = rng.NextUInt3(minL, maxL);
-                        pow2 = new Divider<uint3>(maxmath.shl(1u, rng.NextUInt3(0, 32)));
+                        pow2 = new Divider<uint3>(math.shl(1u, rng.NextUInt3(0, 32)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8947,10 +8947,10 @@ namespace MaxMath.Tests
                         uint3 num = rng.NextUInt3(minL, maxL);
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -8975,12 +8975,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         uint num = rng.NextUInt(minR, maxR);
-                        pow2 = new Divider<uint3>(maxmath.shl(1u, rng.NextUInt3(0, 32)));
+                        pow2 = new Divider<uint3>(math.shl(1u, rng.NextUInt3(0, 32)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9005,12 +9005,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         uint4 num = rng.NextUInt4(minL, maxL);
-                        pow2 = new Divider<uint4>(maxmath.shl(1u, rng.NextUInt4(0, 32)));
+                        pow2 = new Divider<uint4>(math.shl(1u, rng.NextUInt4(0, 32)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9037,10 +9037,10 @@ namespace MaxMath.Tests
                         uint4 num = rng.NextUInt4(minL, maxL);
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9065,12 +9065,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         uint num = rng.NextUInt(minL, maxL);
-                        pow2 = new Divider<uint4>(maxmath.shl(1u, rng.NextUInt4(0, 32)));
+                        pow2 = new Divider<uint4>(math.shl(1u, rng.NextUInt4(0, 32)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9095,12 +9095,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         uint8 num = rng.NextUInt8(minL, maxL);
-                        pow2 = new Divider<uint8>(maxmath.shl(1u, rng.NextUInt8(0, 32)));
+                        pow2 = new Divider<uint8>(math.shl(1u, rng.NextUInt8(0, 32)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9127,10 +9127,10 @@ namespace MaxMath.Tests
                         uint8 num = rng.NextUInt8(minL, maxL);
                         pow2 = new Divider<uint>(1u << (int)rng.NextUInt(0, 32));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9155,12 +9155,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         uint num = rng.NextUInt(minL, maxL);
-                        pow2 = new Divider<uint8>(maxmath.shl(1u, rng.NextUInt8(0, 32)));
+                        pow2 = new Divider<uint8>(math.shl(1u, rng.NextUInt8(0, 32)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9216,12 +9216,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort2 num = rng.NextUShort2(minL, maxL);
-                        pow2 = new Divider<ushort2>(maxmath.shl((ushort)1u, rng.NextUShort2(0, 16)));
+                        pow2 = new Divider<ushort2>(math.shl((ushort)1u, rng.NextUShort2(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9248,10 +9248,10 @@ namespace MaxMath.Tests
                         ushort2 num = rng.NextUShort2(minL, maxL);
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9276,12 +9276,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort num = rng.NextUShort(minL, maxL);
-                        pow2 = new Divider<ushort2>(maxmath.shl((ushort)1u, rng.NextUShort2(0, 16)));
+                        pow2 = new Divider<ushort2>(math.shl((ushort)1u, rng.NextUShort2(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9306,12 +9306,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort3 num = rng.NextUShort3(minL, maxL);
-                        pow2 = new Divider<ushort3>(maxmath.shl((ushort)1u, rng.NextUShort3(0, 16)));
+                        pow2 = new Divider<ushort3>(math.shl((ushort)1u, rng.NextUShort3(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9338,10 +9338,10 @@ namespace MaxMath.Tests
                         ushort3 num = rng.NextUShort3(minL, maxL);
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9366,12 +9366,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort num = rng.NextUShort(minL, maxL);
-                        pow2 = new Divider<ushort3>(maxmath.shl((ushort)1u, rng.NextUShort3(0, 16)));
+                        pow2 = new Divider<ushort3>(math.shl((ushort)1u, rng.NextUShort3(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9396,12 +9396,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort4 num = rng.NextUShort4(minL, maxL);
-                        pow2 = new Divider<ushort4>(maxmath.shl((ushort)1u, rng.NextUShort4(0, 16)));
+                        pow2 = new Divider<ushort4>(math.shl((ushort)1u, rng.NextUShort4(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9428,10 +9428,10 @@ namespace MaxMath.Tests
                         ushort4 num = rng.NextUShort4(minL, maxL);
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9456,12 +9456,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort num = rng.NextUShort(minL, maxL);
-                        pow2 = new Divider<ushort4>(maxmath.shl((ushort)1u, rng.NextUShort4(0, 16)));
+                        pow2 = new Divider<ushort4>(math.shl((ushort)1u, rng.NextUShort4(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9486,12 +9486,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort8 num = rng.NextUShort8(minL, maxL);
-                        pow2 = new Divider<ushort8>(maxmath.shl((ushort)1u, rng.NextUShort8(0, 16)));
+                        pow2 = new Divider<ushort8>(math.shl((ushort)1u, rng.NextUShort8(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9518,10 +9518,10 @@ namespace MaxMath.Tests
                         ushort8 num = rng.NextUShort8(minL, maxL);
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9546,12 +9546,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort num = rng.NextUShort(minL, maxL);
-                        pow2 = new Divider<ushort8>(maxmath.shl((ushort)1u, rng.NextUShort8(0, 16)));
+                        pow2 = new Divider<ushort8>(math.shl((ushort)1u, rng.NextUShort8(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9576,12 +9576,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort16 num = rng.NextUShort16(minL, maxL);
-                        pow2 = new Divider<ushort16>(maxmath.shl((ushort)1u, rng.NextUShort16(0, 16)));
+                        pow2 = new Divider<ushort16>(math.shl((ushort)1u, rng.NextUShort16(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9608,10 +9608,10 @@ namespace MaxMath.Tests
                         ushort16 num = rng.NextUShort16(minL, maxL);
                         pow2 = new Divider<ushort>((ushort)(1u << rng.NextUShort(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9636,12 +9636,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         ushort num = rng.NextUShort(minL, maxL);
-                        pow2 = new Divider<ushort16>(maxmath.shl((ushort)1u, rng.NextUShort16(0, 16)));
+                        pow2 = new Divider<ushort16>(math.shl((ushort)1u, rng.NextUShort16(0, 16)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9698,12 +9698,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte2 num = rng.NextByte2(minL, maxL);
-                        pow2 = new Divider<byte2>(maxmath.shl((byte)1u, rng.NextByte2(0, 8)));
+                        pow2 = new Divider<byte2>(math.shl((byte)1u, rng.NextByte2(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9730,10 +9730,10 @@ namespace MaxMath.Tests
                         byte2 num = rng.NextByte2(minL, maxL);
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9758,12 +9758,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte num = rng.NextByte(minL, maxL);
-                        pow2 = new Divider<byte2>(maxmath.shl((byte)1u, rng.NextByte2(0, 8)));
+                        pow2 = new Divider<byte2>(math.shl((byte)1u, rng.NextByte2(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9788,12 +9788,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte3 num = rng.NextByte3(minL, maxL);
-                        pow2 = new Divider<byte3>(maxmath.shl((byte)1u, rng.NextByte3(0, 8)));
+                        pow2 = new Divider<byte3>(math.shl((byte)1u, rng.NextByte3(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9820,10 +9820,10 @@ namespace MaxMath.Tests
                         byte3 num = rng.NextByte3(minL, maxL);
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9848,12 +9848,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte num = rng.NextByte(minL, maxL);
-                        pow2 = new Divider<byte3>(maxmath.shl((byte)1u, rng.NextByte3(0, 8)));
+                        pow2 = new Divider<byte3>(math.shl((byte)1u, rng.NextByte3(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9878,12 +9878,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte4 num = rng.NextByte4(minL, maxL);
-                        pow2 = new Divider<byte4>(maxmath.shl((byte)1u, rng.NextByte4(0, 8)));
+                        pow2 = new Divider<byte4>(math.shl((byte)1u, rng.NextByte4(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9910,10 +9910,10 @@ namespace MaxMath.Tests
                         byte4 num = rng.NextByte4(minL, maxL);
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9938,12 +9938,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte num = rng.NextByte(minL, maxL);
-                        pow2 = new Divider<byte4>(maxmath.shl((byte)1u, rng.NextByte4(0, 8)));
+                        pow2 = new Divider<byte4>(math.shl((byte)1u, rng.NextByte4(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -9968,12 +9968,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte8 num = rng.NextByte8(minL, maxL);
-                        pow2 = new Divider<byte8>(maxmath.shl((byte)1u, rng.NextByte8(0, 8)));
+                        pow2 = new Divider<byte8>(math.shl((byte)1u, rng.NextByte8(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10000,10 +10000,10 @@ namespace MaxMath.Tests
                         byte8 num = rng.NextByte8(minL, maxL);
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10028,12 +10028,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte num = rng.NextByte(minL, maxL);
-                        pow2 = new Divider<byte8>(maxmath.shl((byte)1u, rng.NextByte8(0, 8)));
+                        pow2 = new Divider<byte8>(math.shl((byte)1u, rng.NextByte8(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10058,12 +10058,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte16 num = rng.NextByte16(minL, maxL);
-                        pow2 = new Divider<byte16>(maxmath.shl((byte)1u, rng.NextByte16(0, 8)));
+                        pow2 = new Divider<byte16>(math.shl((byte)1u, rng.NextByte16(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10090,10 +10090,10 @@ namespace MaxMath.Tests
                         byte16 num = rng.NextByte16(minL, maxL);
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10118,12 +10118,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte num = rng.NextByte(minL, maxL);
-                        pow2 = new Divider<byte16>(maxmath.shl((byte)1u, rng.NextByte16(0, 8)));
+                        pow2 = new Divider<byte16>(math.shl((byte)1u, rng.NextByte16(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10148,12 +10148,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte32 num = rng.NextByte32(minL, maxL);
-                        pow2 = new Divider<byte32>(maxmath.shl((byte)1u, rng.NextByte32(0, 8)));
+                        pow2 = new Divider<byte32>(math.shl((byte)1u, rng.NextByte32(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d == 0), (bool32)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d1 == 0), (bool32)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d2 == 0), (bool32)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2 == 0), (bool32)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10180,10 +10180,10 @@ namespace MaxMath.Tests
                         byte32 num = rng.NextByte32(minL, maxL);
                         pow2 = new Divider<byte>((byte)(1u << rng.NextByte(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d == 0), (bool32)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d1 == 0), (bool32)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d2 == 0), (bool32)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2 == 0), (bool32)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10208,12 +10208,12 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         byte num = rng.NextByte(minL, maxL);
-                        pow2 = new Divider<byte32>(maxmath.shl((byte)1u, rng.NextByte32(0, 8)));
+                        pow2 = new Divider<byte32>(math.shl((byte)1u, rng.NextByte32(0, 8)));
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d == 0), (bool32)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d1 == 0), (bool32)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d2 == 0), (bool32)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2 == 0), (bool32)pow2.EvenlyDivides(num));
                     }
                 }
             });
@@ -10323,17 +10323,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         long2 num = rng.NextLong2(minL, maxL);
-                        pow2 = new Divider<long2>(maxmath.shl((long2)1L, rng.NextLong2(0, 64)));
+                        pow2 = new Divider<long2>(math.shl((long2)1L, rng.NextLong2(0, 64)));
                         pow2m = new Divider<long2>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10365,14 +10365,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<long>(1L << (int)rng.NextLong(0, 64));
                         pow2m = new Divider<long>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10401,17 +10401,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         long num = rng.NextLong(minL, maxL);
-                        pow2 = new Divider<long2>(maxmath.shl((long2)1L, rng.NextLong2(0, 64)));
+                        pow2 = new Divider<long2>(math.shl((long2)1L, rng.NextLong2(0, 64)));
                         pow2m = new Divider<long2>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10440,17 +10440,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         long3 num = rng.NextLong3(minL, maxL);
-                        pow2 = new Divider<long3>(maxmath.shl((long3)1L, rng.NextLong3(0, 64)));
+                        pow2 = new Divider<long3>(math.shl((long3)1L, rng.NextLong3(0, 64)));
                         pow2m = new Divider<long3>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10482,14 +10482,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<long>(1L << (int)rng.NextLong(0, 64));
                         pow2m = new Divider<long>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10518,17 +10518,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         long num = rng.NextLong(minL, maxL);
-                        pow2 = new Divider<long3>(maxmath.shl((long3)1L, rng.NextLong3(0, 64)));
+                        pow2 = new Divider<long3>(math.shl((long3)1L, rng.NextLong3(0, 64)));
                         pow2m = new Divider<long3>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10557,17 +10557,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         long4 num = rng.NextLong4(minL, maxL);
-                        pow2 = new Divider<long4>(maxmath.shl((long4)1L, rng.NextLong4(0, 64)));
+                        pow2 = new Divider<long4>(math.shl((long4)1L, rng.NextLong4(0, 64)));
                         pow2m = new Divider<long4>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10599,14 +10599,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<long>(1L << (int)rng.NextLong(0, 64));
                         pow2m = new Divider<long>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10635,17 +10635,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         long num = rng.NextLong(minL, maxL);
-                        pow2 = new Divider<long4>(maxmath.shl((long4)1L, rng.NextLong4(0, 64)));
+                        pow2 = new Divider<long4>(math.shl((long4)1L, rng.NextLong4(0, 64)));
                         pow2m = new Divider<long4>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10714,17 +10714,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         int2 num = rng.NextInt2(minL, maxL);
-                        pow2 = new Divider<int2>(maxmath.shl((int2)1, rng.NextInt2(0, 32)));
+                        pow2 = new Divider<int2>(math.shl((int2)1, rng.NextInt2(0, 32)));
                         pow2m = new Divider<int2>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10756,14 +10756,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
                         pow2m = new Divider<int>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10792,17 +10792,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         int num = rng.NextInt(minL, maxL);
-                        pow2 = new Divider<int2>(maxmath.shl((int2)1, rng.NextInt2(0, 32)));
+                        pow2 = new Divider<int2>(math.shl((int2)1, rng.NextInt2(0, 32)));
                         pow2m = new Divider<int2>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10831,17 +10831,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         int3 num = rng.NextInt3(minL, maxL);
-                        pow2 = new Divider<int3>(maxmath.shl((int3)1, rng.NextInt3(0, 32)));
+                        pow2 = new Divider<int3>(math.shl((int3)1, rng.NextInt3(0, 32)));
                         pow2m = new Divider<int3>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10873,14 +10873,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
                         pow2m = new Divider<int>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10909,17 +10909,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         int num = rng.NextInt(minL, maxL);
-                        pow2 = new Divider<int3>(maxmath.shl((int3)1, rng.NextInt3(0, 32)));
+                        pow2 = new Divider<int3>(math.shl((int3)1, rng.NextInt3(0, 32)));
                         pow2m = new Divider<int3>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10948,17 +10948,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         int4 num = rng.NextInt4(minL, maxL);
-                        pow2 = new Divider<int4>(maxmath.shl((int4)1, rng.NextInt4(0, 32)));
+                        pow2 = new Divider<int4>(math.shl((int4)1, rng.NextInt4(0, 32)));
                         pow2m = new Divider<int4>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -10990,14 +10990,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
                         pow2m = new Divider<int>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11026,17 +11026,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         int num = rng.NextInt(minL, maxL);
-                        pow2 = new Divider<int4>(maxmath.shl((int4)1, rng.NextInt4(0, 32)));
+                        pow2 = new Divider<int4>(math.shl((int4)1, rng.NextInt4(0, 32)));
                         pow2m = new Divider<int4>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11065,17 +11065,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         int8 num = rng.NextInt8(minL, maxL);
-                        pow2 = new Divider<int8>(maxmath.shl((int8)1, rng.NextInt8(0, 32)));
+                        pow2 = new Divider<int8>(math.shl((int8)1, rng.NextInt8(0, 32)));
                         pow2m = new Divider<int8>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11107,14 +11107,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<int>(1 << rng.NextInt(0, 32));
                         pow2m = new Divider<int>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11143,17 +11143,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         int num = rng.NextInt(minL, maxL);
-                        pow2 = new Divider<int8>(maxmath.shl((int8)1, rng.NextInt8(0, 32)));
+                        pow2 = new Divider<int8>(math.shl((int8)1, rng.NextInt8(0, 32)));
                         pow2m = new Divider<int8>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11222,17 +11222,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short2 num = rng.NextShort2(minL, maxL);
-                        pow2 = new Divider<short2>(maxmath.shl((short)1, rng.NextShort2(0, 16)));
+                        pow2 = new Divider<short2>(math.shl((short)1, rng.NextShort2(0, 16)));
                         pow2m = new Divider<short2>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11264,14 +11264,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
                         pow2m = new Divider<short>((short)-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11300,17 +11300,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short num = rng.NextShort(minL, maxL);
-                        pow2 = new Divider<short2>(maxmath.shl((short)1, rng.NextShort2(0, 16)));
+                        pow2 = new Divider<short2>(math.shl((short)1, rng.NextShort2(0, 16)));
                         pow2m = new Divider<short2>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11339,17 +11339,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short3 num = rng.NextShort3(minL, maxL);
-                        pow2 = new Divider<short3>(maxmath.shl((short)1, rng.NextShort3(0, 16)));
+                        pow2 = new Divider<short3>(math.shl((short)1, rng.NextShort3(0, 16)));
                         pow2m = new Divider<short3>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11381,14 +11381,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
                         pow2m = new Divider<short>((short)-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11417,17 +11417,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short num = rng.NextShort(minL, maxL);
-                        pow2 = new Divider<short3>(maxmath.shl((short)1, rng.NextShort3(0, 16)));
+                        pow2 = new Divider<short3>(math.shl((short)1, rng.NextShort3(0, 16)));
                         pow2m = new Divider<short3>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11456,17 +11456,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short4 num = rng.NextShort4(minL, maxL);
-                        pow2 = new Divider<short4>(maxmath.shl((short)1, rng.NextShort4(0, 16)));
+                        pow2 = new Divider<short4>(math.shl((short)1, rng.NextShort4(0, 16)));
                         pow2m = new Divider<short4>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11498,14 +11498,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
                         pow2m = new Divider<short>((short)-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11534,17 +11534,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short num = rng.NextShort(minL, maxL);
-                        pow2 = new Divider<short4>(maxmath.shl((short)1, rng.NextShort4(0, 16)));
+                        pow2 = new Divider<short4>(math.shl((short)1, rng.NextShort4(0, 16)));
                         pow2m = new Divider<short4>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11573,17 +11573,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short8 num = rng.NextShort8(minL, maxL);
-                        pow2 = new Divider<short8>(maxmath.shl((short)1, rng.NextShort8(0, 16)));
+                        pow2 = new Divider<short8>(math.shl((short)1, rng.NextShort8(0, 16)));
                         pow2m = new Divider<short8>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11615,14 +11615,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
                         pow2m = new Divider<short>((short)-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11651,17 +11651,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short num = rng.NextShort(minL, maxL);
-                        pow2 = new Divider<short8>(maxmath.shl((short)1, rng.NextShort8(0, 16)));
+                        pow2 = new Divider<short8>(math.shl((short)1, rng.NextShort8(0, 16)));
                         pow2m = new Divider<short8>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11690,17 +11690,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short16 num = rng.NextShort16(minL, maxL);
-                        pow2 = new Divider<short16>(maxmath.shl((short)1, rng.NextShort16(0, 16)));
+                        pow2 = new Divider<short16>(math.shl((short)1, rng.NextShort16(0, 16)));
                         pow2m = new Divider<short16>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm1 == 0), (bool16)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm2 == 0), (bool16)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2m == 0), (bool16)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % overflow == 0), (bool16)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11732,14 +11732,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<short>((short)(1 << rng.NextShort(0, 16)));
                         pow2m = new Divider<short>((short)-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm1 == 0), (bool16)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm2 == 0), (bool16)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2m == 0), (bool16)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % overflow == 0), (bool16)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11768,17 +11768,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         short num = rng.NextShort(minL, maxL);
-                        pow2 = new Divider<short16>(maxmath.shl((short)1, rng.NextShort16(0, 16)));
+                        pow2 = new Divider<short16>(math.shl((short)1, rng.NextShort16(0, 16)));
                         pow2m = new Divider<short16>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm1 == 0), (bool16)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm2 == 0), (bool16)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2m == 0), (bool16)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % overflow == 0), (bool16)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11848,17 +11848,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte2 num = rng.NextSByte2(minL, maxL);
-                        pow2 = new Divider<sbyte2>(maxmath.shl((sbyte)1, rng.NextSByte2(0, 8)));
+                        pow2 = new Divider<sbyte2>(math.shl((sbyte)1, rng.NextSByte2(0, 8)));
                         pow2m = new Divider<sbyte2>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11890,14 +11890,14 @@ namespace MaxMath.Tests
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
                         pow2m = new Divider<sbyte>((sbyte)-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11926,17 +11926,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
-                        pow2 = new Divider<sbyte2>(maxmath.shl((sbyte)1, rng.NextSByte2(0, 8)));
+                        pow2 = new Divider<sbyte2>(math.shl((sbyte)1, rng.NextSByte2(0, 8)));
                         pow2m = new Divider<sbyte2>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d == 0), (bool2)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d1 == 0), (bool2)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % d2 == 0), (bool2)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm1 == 0), (bool2)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % dm2 == 0), (bool2)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2 == 0), (bool2)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % pow2m == 0), (bool2)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool2)(num % overflow == 0), (bool2)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -11965,17 +11965,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte3 num = rng.NextSByte3(minL, maxL);
-                        pow2 = new Divider<sbyte3>(maxmath.shl((sbyte)1, rng.NextSByte3(0, 8)));
+                        pow2 = new Divider<sbyte3>(math.shl((sbyte)1, rng.NextSByte3(0, 8)));
                         pow2m = new Divider<sbyte3>(-pow2.Divisor);
 
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12006,15 +12006,15 @@ namespace MaxMath.Tests
                         sbyte3 num = rng.NextSByte3(minL, maxL);
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
                         pow2m = new Divider<sbyte>((sbyte)-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12043,17 +12043,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
-                        pow2 = new Divider<sbyte3>(maxmath.shl((sbyte)1, rng.NextSByte3(0, 8)));
+                        pow2 = new Divider<sbyte3>(math.shl((sbyte)1, rng.NextSByte3(0, 8)));
                         pow2m = new Divider<sbyte3>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool3)(num % d == 0), (bool3)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d1 == 0), (bool3)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % d2 == 0), (bool3)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm1 == 0), (bool3)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % dm2 == 0), (bool3)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2 == 0), (bool3)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % pow2m == 0), (bool3)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool3)(num % overflow == 0), (bool3)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12082,17 +12082,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte4 num = rng.NextSByte4(minL, maxL);
-                        pow2 = new Divider<sbyte4>(maxmath.shl((sbyte)1, rng.NextSByte4(0, 8)));
+                        pow2 = new Divider<sbyte4>(math.shl((sbyte)1, rng.NextSByte4(0, 8)));
                         pow2m = new Divider<sbyte4>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12123,15 +12123,15 @@ namespace MaxMath.Tests
                         sbyte4 num = rng.NextSByte4(minL, maxL);
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
                         pow2m = new Divider<sbyte>((sbyte)-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12160,17 +12160,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
-                        pow2 = new Divider<sbyte4>(maxmath.shl((sbyte)1, rng.NextSByte4(0, 8)));
+                        pow2 = new Divider<sbyte4>(math.shl((sbyte)1, rng.NextSByte4(0, 8)));
                         pow2m = new Divider<sbyte4>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool4)(num % d == 0), (bool4)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d1 == 0), (bool4)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % d2 == 0), (bool4)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm1 == 0), (bool4)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % dm2 == 0), (bool4)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2 == 0), (bool4)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % pow2m == 0), (bool4)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool4)(num % overflow == 0), (bool4)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12199,17 +12199,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte8 num = rng.NextSByte8(minL, maxL);
-                        pow2 = new Divider<sbyte8>(maxmath.shl((sbyte)1, rng.NextSByte8(0, 8)));
+                        pow2 = new Divider<sbyte8>(math.shl((sbyte)1, rng.NextSByte8(0, 8)));
                         pow2m = new Divider<sbyte8>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12240,15 +12240,15 @@ namespace MaxMath.Tests
                         sbyte8 num = rng.NextSByte8(minL, maxL);
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
                         pow2m = new Divider<sbyte>((sbyte)-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12277,17 +12277,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
-                        pow2 = new Divider<sbyte8>(maxmath.shl((sbyte)1, rng.NextSByte8(0, 8)));
+                        pow2 = new Divider<sbyte8>(math.shl((sbyte)1, rng.NextSByte8(0, 8)));
                         pow2m = new Divider<sbyte8>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool8)(num % d == 0), (bool8)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d1 == 0), (bool8)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % d2 == 0), (bool8)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm1 == 0), (bool8)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % dm2 == 0), (bool8)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2 == 0), (bool8)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % pow2m == 0), (bool8)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool8)(num % overflow == 0), (bool8)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12316,17 +12316,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte16 num = rng.NextSByte16(minL, maxL);
-                        pow2 = new Divider<sbyte16>(maxmath.shl((sbyte)1, rng.NextSByte16(0, 8)));
+                        pow2 = new Divider<sbyte16>(math.shl((sbyte)1, rng.NextSByte16(0, 8)));
                         pow2m = new Divider<sbyte16>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm1 == 0), (bool16)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm2 == 0), (bool16)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2m == 0), (bool16)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % overflow == 0), (bool16)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12357,15 +12357,15 @@ namespace MaxMath.Tests
                         sbyte16 num = rng.NextSByte16(minL, maxL);
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
                         pow2m = new Divider<sbyte>((sbyte)-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm1 == 0), (bool16)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm2 == 0), (bool16)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2m == 0), (bool16)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % overflow == 0), (bool16)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12394,17 +12394,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
-                        pow2 = new Divider<sbyte16>(maxmath.shl((sbyte)1, rng.NextSByte16(0, 8)));
+                        pow2 = new Divider<sbyte16>(math.shl((sbyte)1, rng.NextSByte16(0, 8)));
                         pow2m = new Divider<sbyte16>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool16)(num % d == 0), (bool16)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d1 == 0), (bool16)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % d2 == 0), (bool16)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm1 == 0), (bool16)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % dm2 == 0), (bool16)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2 == 0), (bool16)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % pow2m == 0), (bool16)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool16)(num % overflow == 0), (bool16)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12433,17 +12433,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte32 num = rng.NextSByte32(minL, maxL);
-                        pow2 = new Divider<sbyte32>(maxmath.shl((sbyte)1, rng.NextSByte32(0, 8)));
+                        pow2 = new Divider<sbyte32>(math.shl((sbyte)1, rng.NextSByte32(0, 8)));
                         pow2m = new Divider<sbyte32>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool32)(num % d == 0), (bool32)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d1 == 0), (bool32)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d2 == 0), (bool32)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % dm1 == 0), (bool32)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % dm2 == 0), (bool32)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2 == 0), (bool32)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2m == 0), (bool32)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % overflow == 0), (bool32)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12474,15 +12474,15 @@ namespace MaxMath.Tests
                         sbyte32 num = rng.NextSByte32(minL, maxL);
                         pow2 = new Divider<sbyte>((sbyte)(1 << rng.NextSByte(0, 8)));
                         pow2m = new Divider<sbyte>((sbyte)-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool32)(num % d == 0), (bool32)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d1 == 0), (bool32)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d2 == 0), (bool32)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % dm1 == 0), (bool32)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % dm2 == 0), (bool32)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2 == 0), (bool32)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2m == 0), (bool32)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % overflow == 0), (bool32)overflow.EvenlyDivides(num));
                     }
                 }
             });
@@ -12511,17 +12511,17 @@ namespace MaxMath.Tests
                     for (int j = 0; j < 8; j++)
                     {
                         sbyte num = rng.NextSByte(minL, maxL);
-                        pow2 = new Divider<sbyte32>(maxmath.shl((sbyte)1, rng.NextSByte32(0, 8)));
+                        pow2 = new Divider<sbyte32>(math.shl((sbyte)1, rng.NextSByte32(0, 8)));
                         pow2m = new Divider<sbyte32>(-pow2.Divisor);
-
-                        Assert.AreEqual(num % d == 0, d.EvenlyDivides(num));
-                        Assert.AreEqual(num % d1 == 0, d1.EvenlyDivides(num));
-                        Assert.AreEqual(num % d2 == 0, d2.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm1 == 0, dm1.EvenlyDivides(num));
-                        Assert.AreEqual(num % dm2 == 0, dm2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2 == 0, pow2.EvenlyDivides(num));
-                        Assert.AreEqual(num % pow2m == 0, pow2m.EvenlyDivides(num));
-                        Assert.AreEqual(num % overflow == 0, overflow.EvenlyDivides(num));
+                        
+                        Assert.AreEqual((bool32)(num % d == 0), (bool32)d.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d1 == 0), (bool32)d1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % d2 == 0), (bool32)d2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % dm1 == 0), (bool32)dm1.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % dm2 == 0), (bool32)dm2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2 == 0), (bool32)pow2.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % pow2m == 0), (bool32)pow2m.EvenlyDivides(num));
+                        Assert.AreEqual((bool32)(num % overflow == 0), (bool32)overflow.EvenlyDivides(num));
                     }
                 }
             });

@@ -1,23 +1,25 @@
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using DevTools;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
-using static Unity.Mathematics.math;
+using static MaxMath.math;
 
 namespace MaxMath
 {
+    /// <summary>       A random number generator for producing uniformly distributed 8-bit values, including vectors of 8-bit values.     </summary>
     [Serializable]
     unsafe public struct Random8
     {
+        public const byte DEFAULT_SEED = 0b0111_1001;
+
         public byte State;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Random8(byte seed = 0b0111_1001)
+        public Random8(byte seed = DEFAULT_SEED)
         {
             State = seed;
 
@@ -31,10 +33,10 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                byte seed = (byte)Environment.TickCount;
-                seed += tobyte(seed == 0);
+                byte seed = (byte)Stopwatch.GetTimestamp();
+                seed -= tobyte(seed == byte.MaxValue);
 
-                return new Random8(seed);
+                return new Random8 { State = BijectiveHash(seed) };
             }
         }
 
@@ -62,7 +64,40 @@ namespace MaxMath
         {
             return new Random128(input.State);
         }
+        
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static byte BijectiveHash(byte n)
+        {
+            if (!constexpr.IS_TRUE(n != 229 - 1))
+            {
+                n += 229;
+            }
+
+            n = (byte)(n * 149);
+            n = rol(n, 3);
+            n ^= 0xA5;
+            return n;
+        }
+
+        /// <summary>   Initialized the state of the <see cref="Random8"/> instance with a given seed value. The seed must be non-zero.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void InitState(byte seed = DEFAULT_SEED)
+        {
+Assert.AreNotEqual(seed, 0);
+
+            State = seed;
+            NextState();
+        }
+        
+        /// <summary>   Constructs a <see cref="Random8"/> instance with an index <paramref name="i"/> that gets hashed. The index must not be <see cref="byte.MaxValue"/>. Use this function when you expect to create several <see cref="Random8"/> instances in a loop.   </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Random8 CreateFromIndex(uint i)
+        {
+Assert.AreNotEqual(i, byte.MaxValue);
+
+            return new Random8 { State = BijectiveHash((byte)i) };
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private byte NextState()
@@ -121,7 +156,7 @@ Assert.AreNotEqual(State, 0);
             return (sbyte)NextState() < 0;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -132,7 +167,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="bool3"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -143,7 +178,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="bool4"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -169,7 +204,7 @@ Assert.AreNotEqual(State, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
-            bool16 result = ((Random64)this).NextBool16();
+            bool16 result = ((Random128)this).NextBool16();
 
             NextState();
 
@@ -180,7 +215,7 @@ Assert.AreNotEqual(State, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
-            bool32 result = ((Random64)this).NextBool32();
+            bool32 result = ((Random128)this).NextBool32();
 
             NextState();
 
@@ -503,7 +538,7 @@ VectorAssert.IsNotSmaller<byte2, byte>(max, min, 2);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, NextState2(), 2);
+                return min + (byte2)Xse.mulhi_epu8(max - min, NextState2(), 2);
             }
             else
             {
@@ -519,7 +554,7 @@ VectorAssert.IsNotSmaller<byte3, byte>(max, min, 3);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, NextState3(), 3);
+                return min + (byte3)Xse.mulhi_epu8(max - min, NextState3(), 3);
             }
             else
             {
@@ -535,7 +570,7 @@ VectorAssert.IsNotSmaller<byte4, byte>(max, min, 4);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, NextState4(), 4);
+                return min + (byte4)Xse.mulhi_epu8(max - min, NextState4(), 4);
             }
             else
             {
@@ -551,7 +586,7 @@ VectorAssert.IsNotSmaller<byte8, byte>(max, min, 8);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, NextState8(), 8);
+                return min + (byte8)Xse.mulhi_epu8(max - min, NextState8(), 8);
             }
             else
             {
@@ -567,7 +602,7 @@ VectorAssert.IsNotSmaller<byte16, byte>(max, min, 16);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return min + Xse.mulhi_epu8(max - min, NextState16());
+                return min + (byte16)Xse.mulhi_epu8(max - min, NextState16());
             }
             else
             {
@@ -583,7 +618,7 @@ VectorAssert.IsNotSmaller<byte32, byte>(max, min, 32);
 
             if (Avx2.IsAvx2Supported)
             {
-                return min + Xse.mm256_mulhi_epu8(max - min, NextState32());
+                return min + (byte32)Xse.mm256_mulhi_epu8(max - min, NextState32());
             }
             else
             {

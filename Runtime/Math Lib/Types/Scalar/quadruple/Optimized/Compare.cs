@@ -1,11 +1,11 @@
 using System.Runtime.CompilerServices;
 using MaxMath.Intrinsics;
 
-using static MaxMath.maxmath;
+using static MaxMath.math;
 
 namespace MaxMath
 {
-    unsafe public readonly partial struct quadruple
+    unsafe public partial struct quadruple
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static bool IsZero(quadruple.ConstChecked x)
@@ -125,8 +125,7 @@ namespace MaxMath
             if (x.Promise.ZeroOrGreater) return true;
 
             bool uintGEzero = (Int128)x.Value.value > 0;
-            bool negativeZero = x.Promise.NoSignedZero ? false
-                                                       : x.Value.value == (UInt128)1 << 127;
+            bool negativeZero = !x.Promise.NoSignedZero && x.Value.value == (UInt128)1 << 127;
             if (x.Promise.NotNaN)
             {
                 return uintGEzero | negativeZero;
@@ -205,8 +204,8 @@ namespace MaxMath
 
             if (!(left.Promise.NotNaN && right.Promise.NotNaN))
             {
-                bool eitherNaN = (left.Promise.NotNaN ? false : isnan(left))
-                               | (right.Promise.NotNaN ? false : isnan(right));
+                bool eitherNaN = (!left.Promise.NotNaN && isnan(left))
+                               | (!right.Promise.NotNaN && isnan(right));
 
                 loEq = andnot(loEq, eitherNaN);
             }
@@ -259,8 +258,8 @@ namespace MaxMath
 
             if (!(left.Promise.NotNaN && right.Promise.NotNaN))
             {
-                bool eitherNaN = (left.Promise.NotNaN ? false : isnan(left))
-                               | (right.Promise.NotNaN ? false : isnan(right));
+                bool eitherNaN = (!left.Promise.NotNaN && isnan(left))
+                               | (!right.Promise.NotNaN && isnan(right));
 
                 loNeq |= eitherNaN;
             }

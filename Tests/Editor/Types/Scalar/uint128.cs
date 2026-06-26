@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using Unity.Mathematics;
+
 using System.Numerics;
 
 namespace MaxMath.Tests
@@ -23,7 +23,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 half t = (half)math.max(0f, new half { value = rng.NextUShort() });
-                t = maxmath.isnan(t) ? (half)1f : t;
+                t = math.isnan(t) ? (half)1f : t;
                 t = t != float.PositiveInfinity ? t : (half)1f;
 
                 Assert.AreEqual((BigInteger)(float)t, (BigInteger)(UInt128)t);
@@ -90,7 +90,7 @@ namespace MaxMath.Tests
             for (int i = 0; i < NUM_TESTS; i++)
             {
                 half t = (half)math.max(0f, new half { value = rng.NextUShort() });
-                t = maxmath.isnan(t) ? (half)1f : t;
+                t = math.isnan(t) ? (half)1f : t;
                 t = t != float.PositiveInfinity ? t : (half)1f;
 
                 Assert.AreEqual((half)math.floor(t), (half)(UInt128)t);

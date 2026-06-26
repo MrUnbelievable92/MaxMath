@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 using DevTools;
 
@@ -330,7 +329,7 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return mul_pd(b, trunc_pd(div_pd(a, b), elements));
+                    return mul_pd(b, trunc_pd(div_pd(a, b)));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -348,7 +347,7 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
         /// <summary>       Returns <paramref name="x"/> rounded to the nearest multiple toward 0 of <paramref name="n"/> where <paramref name="n"/> &gt; 0.
         /// <remarks>
@@ -586,7 +585,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int truncmultiple(int x, uint n, Promise promises = Promise.Nothing)
         {
-            if (promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(math.ispow2(n)))
+            if (promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(ispow2(n)))
             {
                 if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
                 {
@@ -616,7 +615,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.truncmult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+                return Xse.truncmult_epi32(x, n, 2, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -635,7 +634,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.truncmult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+                return Xse.truncmult_epi32(x, n, 3, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -654,7 +653,7 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.truncmult_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(n), 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater)));
+                return Xse.truncmult_epi32(x, n, 4, promises.Promises(Promise.Unsafe0), promises.Promises(Promise.ZeroOrGreater));
             }
             else
             {
@@ -1097,7 +1096,7 @@ namespace MaxMath
         {
 Assert.IsGreater(m, 0f);
 
-            return m * math.trunc(x / m);
+            return m * trunc(x / m);
         }
 
         /// <summary>       Returns the componentwise result of rounding <paramref name="x"/> to the nearest multiple toward 0 of <paramref name="m"/> &gt; 0.    </summary>
@@ -1108,7 +1107,7 @@ VectorAssert.IsGreater<float2, float>(m, 0f, 2);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat2(Xse.truncmult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 2));
+                return Xse.truncmult_ps(x, m, 2);
             }
             else
             {
@@ -1124,7 +1123,7 @@ VectorAssert.IsGreater<float3, float>(m, 0f, 3);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat3(Xse.truncmult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 3));
+                return Xse.truncmult_ps(x, m, 3);
             }
             else
             {
@@ -1140,7 +1139,7 @@ VectorAssert.IsGreater<float4, float>(m, 0f, 4);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToFloat4(Xse.truncmult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 4));
+                return Xse.truncmult_ps(x, m, 4);
             }
             else
             {
@@ -1171,7 +1170,7 @@ VectorAssert.IsGreater<float8, float>(m, 0f, 8);
         {
 Assert.IsGreater(m, 0d);
 
-            return m * math.trunc(x / m);
+            return m * trunc(x / m);
         }
 
         /// <summary>       Returns the componentwise result of rounding <paramref name="x"/> to the nearest multiple toward 0 of <paramref name="m"/> &gt; 0.    </summary>
@@ -1182,7 +1181,7 @@ VectorAssert.IsGreater<double2, double>(m, 0d, 2);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToDouble2(Xse.truncmult_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(m), 2));
+                return Xse.truncmult_ps(x, m, 2);
             }
             else
             {
@@ -1198,7 +1197,7 @@ VectorAssert.IsGreater<double3, double>(m, 0d, 3);
 
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble3(Xse.mm256_truncmult_ps(RegisterConversion.ToV256(x), RegisterConversion.ToV256(m)));
+                return Xse.mm256_truncmult_ps(x, m);
             }
             else
             {
@@ -1214,7 +1213,7 @@ VectorAssert.IsGreater<double4, double>(m, 0d, 4);
 
             if (Avx.IsAvxSupported)
             {
-                return RegisterConversion.ToDouble4(Xse.mm256_truncmult_ps(RegisterConversion.ToV256(x), RegisterConversion.ToV256(m)));
+                return Xse.mm256_truncmult_ps(x, m);
             }
             else
             {

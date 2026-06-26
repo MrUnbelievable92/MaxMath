@@ -12,10 +12,10 @@ namespace MaxMath.Tests
     {
         private const BindingFlags METHODS_TO_COVER = BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance;
 
-        private static string[] EXCLUDED_TYPES = { "Promise" };
-        private static string[] EXCLUDED_TYPE_METHODS = { "get_zero", "get_identity", "GetType", "GetHashCode" };
+        private static readonly string[] EXCLUDED_TYPES = { "Promise" };
+        private static readonly string[] EXCLUDED_TYPE_METHODS = { "get_zero", "get_identity", "GetType", "GetHashCode" };
 
-        private static IEnumerable<Type> MaxMathTypes => typeof(maxmath).Assembly.GetExportedTypes().Where(t => t.IsValueType && !EXCLUDED_TYPES.Contains(t.Name));
+        private static IEnumerable<Type> MaxMathTypes => typeof(math).Assembly.GetExportedTypes().Where(t => t.IsValueType && !EXCLUDED_TYPES.Contains(t.Name));
 
         private static List<string> MaxMathFunctions
         {
@@ -23,7 +23,7 @@ namespace MaxMath.Tests
             {
                 List<string> result = new();
 
-                foreach (MethodInfo function in typeof(maxmath).GetMethods(METHODS_TO_COVER))
+                foreach (MethodInfo function in typeof(math).GetMethods(METHODS_TO_COVER))
                 {
                     if (EXCLUDED_TYPE_METHODS.Contains(function.Name))
                     {

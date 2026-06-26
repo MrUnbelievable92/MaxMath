@@ -1,7 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
-using Unity.Mathematics;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -931,10 +930,10 @@ namespace MaxMath.Intrinsics
 				}
 				else
 				{
-					Int128 a0sq = UInt128.imul128(a.SLong0, a.SLong0);
-					Int128 a1sq = UInt128.imul128(a.SLong1, a.SLong1);
-					Int128 b0sq = UInt128.imul128(b.SLong0, b.SLong0);
-					Int128 b1sq = UInt128.imul128(b.SLong1, b.SLong1);
+					Int128 a0sq = MaxMath.UInt128.imul128(a.SLong0, a.SLong0);
+					Int128 a1sq = MaxMath.UInt128.imul128(a.SLong1, a.SLong1);
+					Int128 b0sq = MaxMath.UInt128.imul128(b.SLong0, b.SLong0);
+					Int128 b1sq = MaxMath.UInt128.imul128(b.SLong1, b.SLong1);
 
 					Int128 sum0 = a0sq + b0sq;
 					Int128 sum1 = a1sq + b1sq;
@@ -968,12 +967,12 @@ namespace MaxMath.Intrinsics
 				}
 				else
 				{
-					Int128 a0_0sq = UInt128.imul128(a0.SLong0, a0.SLong0);
-					Int128 a0_1sq = UInt128.imul128(a0.SLong1, a0.SLong1);
-					Int128 b0_0sq = UInt128.imul128(b0.SLong0, b0.SLong0);
-					Int128 b0_1sq = UInt128.imul128(b0.SLong1, b0.SLong1);
-					Int128 a1_0sq = UInt128.imul128(a1.SLong0, a1.SLong0);
-					Int128 b1_0sq = UInt128.imul128(b1.SLong0, b1.SLong0);
+					Int128 a0_0sq = MaxMath.UInt128.imul128(a0.SLong0, a0.SLong0);
+					Int128 a0_1sq = MaxMath.UInt128.imul128(a0.SLong1, a0.SLong1);
+					Int128 b0_0sq = MaxMath.UInt128.imul128(b0.SLong0, b0.SLong0);
+					Int128 b0_1sq = MaxMath.UInt128.imul128(b0.SLong1, b0.SLong1);
+					Int128 a1_0sq = MaxMath.UInt128.imul128(a1.SLong0, a1.SLong0);
+					Int128 b1_0sq = MaxMath.UInt128.imul128(b1.SLong0, b1.SLong0);
 
 					Int128 sum0 = a0_0sq + b0_0sq;
 					Int128 sum1 = a0_1sq + b0_1sq;
@@ -986,8 +985,8 @@ namespace MaxMath.Intrinsics
 
 					if (elements == 4)
 					{
-						Int128 a1_1sq = UInt128.imul128(a1.SLong1, a1.SLong1);
-						Int128 b1_1sq = UInt128.imul128(b1.SLong1, b1.SLong1);
+						Int128 a1_1sq = MaxMath.UInt128.imul128(a1.SLong1, a1.SLong1);
+						Int128 b1_1sq = MaxMath.UInt128.imul128(b1.SLong1, b1.SLong1);
 						Int128 sum3 = a1_1sq + b1_1sq;
 						lo1 = unpacklo_epi64(lo1, cvtsi64x_si128(sum3.lo64));
 						hi1 = unpacklo_epi64(hi1, cvtsi64x_si128(sum3.hi64));
@@ -1051,10 +1050,10 @@ namespace MaxMath.Intrinsics
 				}
 				else
 				{
-					UInt128 a0sq = UInt128.umul128(a.ULong0, a.ULong0);
-					UInt128 a1sq = UInt128.umul128(a.ULong1, a.ULong1);
-					UInt128 b0sq = UInt128.umul128(b.ULong0, b.ULong0);
-					UInt128 b1sq = UInt128.umul128(b.ULong1, b.ULong1);
+					UInt128 a0sq = MaxMath.UInt128.umul128(a.ULong0, a.ULong0);
+					UInt128 a1sq = MaxMath.UInt128.umul128(a.ULong1, a.ULong1);
+					UInt128 b0sq = MaxMath.UInt128.umul128(b.ULong0, b.ULong0);
+					UInt128 b1sq = MaxMath.UInt128.umul128(b.ULong1, b.ULong1);
 
 					UInt128 sum0 = a0sq + b0sq;
 					UInt128 sum1 = a1sq + b1sq;
@@ -1080,12 +1079,12 @@ namespace MaxMath.Intrinsics
 				}
 				else
 				{
-					UInt128 a0_0sq = UInt128.umul128(a0.ULong0, a0.ULong0);
-					UInt128 a0_1sq = UInt128.umul128(a0.ULong1, a0.ULong1);
-					UInt128 b0_0sq = UInt128.umul128(b0.ULong0, b0.ULong0);
-					UInt128 b0_1sq = UInt128.umul128(b0.ULong1, b0.ULong1);
-					UInt128 a1_0sq = UInt128.umul128(a1.ULong0, a1.ULong0);
-					UInt128 b1_0sq = UInt128.umul128(b1.ULong0, b1.ULong0);
+					UInt128 a0_0sq = MaxMath.UInt128.umul128(a0.ULong0, a0.ULong0);
+					UInt128 a0_1sq = MaxMath.UInt128.umul128(a0.ULong1, a0.ULong1);
+					UInt128 b0_0sq = MaxMath.UInt128.umul128(b0.ULong0, b0.ULong0);
+					UInt128 b0_1sq = MaxMath.UInt128.umul128(b0.ULong1, b0.ULong1);
+					UInt128 a1_0sq = MaxMath.UInt128.umul128(a1.ULong0, a1.ULong0);
+					UInt128 b1_0sq = MaxMath.UInt128.umul128(b1.ULong0, b1.ULong0);
 
 					UInt128 sum0 = a0_0sq + b0_0sq;
 					UInt128 sum1 = a0_1sq + b0_1sq;
@@ -1098,8 +1097,8 @@ namespace MaxMath.Intrinsics
 
 					if (elements == 4)
 					{
-						UInt128 a1_1sq = UInt128.umul128(a1.ULong1, a1.ULong1);
-						UInt128 b1_1sq = UInt128.umul128(b1.ULong1, b1.ULong1);
+						UInt128 a1_1sq = MaxMath.UInt128.umul128(a1.ULong1, a1.ULong1);
+						UInt128 b1_1sq = MaxMath.UInt128.umul128(b1.ULong1, b1.ULong1);
 						UInt128 sum3 = a1_1sq + b1_1sq;
 						lo1 = unpacklo_epi64(lo1, cvtsi64x_si128(sum3.lo64));
 						hi1 = unpacklo_epi64(hi1, cvtsi64x_si128(sum3.hi64));
@@ -1141,7 +1140,7 @@ namespace MaxMath.Intrinsics
 
 namespace MaxMath
 {
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
 		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1153,12 +1152,12 @@ namespace MaxMath
 																   : x | (y << 16));
 
 				v128 result = Xse.sqrt_ss(Xse.cvtepi32_ps(Xse.madd_epi16(mov, mov)));
-				constexpr.ASSUME_RANGE_PS(result, 0f, math.sqrt(2 * (byte.MaxValue * byte.MaxValue)));
+				constexpr.ASSUME_RANGE_PS(result, 0f, sqrt(2 * (byte.MaxValue * byte.MaxValue)));
 				return result.Float0;
 			}
 			else
 			{
-				return math.sqrt(x * x + y * y);
+				return sqrt(x * x + y * y);
 			}
 		}
 
@@ -1169,11 +1168,11 @@ namespace MaxMath
 			if (constexpr.IS_TRUE(x < 1 << 15 && y < 1 << 15))
 			{
 				float result = hypot((short)x, (short)y);
-				constexpr.ASSUME(result <= math.sqrt(2 * (((1 << 15) - 1) * ((1 << 15) - 1))));
+				constexpr.ASSUME(result <= sqrt(2 * (((1 << 15) - 1) * ((1 << 15) - 1))));
 				return result;
 			}
 
-			return math.sqrt((uint)x * x + (uint)y * y);
+			return sqrt((uint)x * x + (uint)y * y);
 		}
 
 		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
@@ -1186,12 +1185,12 @@ namespace MaxMath
 																   : (uint)(ushort)(short)x | (uint)((short)y << 16));
 
 				v128 result = Xse.sqrt_ss(Xse.cvtepi32_ps(Xse.madd_epi16(mov, mov)));
-				constexpr.ASSUME_RANGE_PS(result, 0f, math.sqrt(2 * (sbyte.MinValue * sbyte.MinValue)));
+				constexpr.ASSUME_RANGE_PS(result, 0f, sqrt(2 * (sbyte.MinValue * sbyte.MinValue)));
 				return result.Float0;
 			}
 			else
 			{
-				return math.sqrt(x * x + y * y);
+				return sqrt(x * x + y * y);
 			}
 		}
 
@@ -1205,12 +1204,12 @@ namespace MaxMath
 																   : (uint)(ushort)x | (uint)(y << 16));
 
 				v128 result = Xse.sqrt_ss(Xse.cvtepi32_ps(Xse.madd_epi16(mov, mov)));
-				constexpr.ASSUME_RANGE_PS(result, 0f, math.sqrt(2 * ((long)short.MinValue * short.MinValue)));
+				constexpr.ASSUME_RANGE_PS(result, 0f, sqrt(2 * ((long)short.MinValue * short.MinValue)));
 				return result.Float0;
 			}
 			else
 			{
-				return math.sqrt(x * x + y * y);
+				return sqrt(x * x + y * y);
 			}
 		}
 
@@ -1226,35 +1225,35 @@ namespace MaxMath
 			{
 				if (constexpr.IS_CONST(x))
 				{
-					return math.sqrt(math.mad(y, y, x * x));
+					return sqrt(mad(y, y, x * x));
 				}
 				else
 				{
-					return math.sqrt(math.mad(x, x, y * y));
+					return sqrt(mad(x, x, y * y));
 				}
 			}
 
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return Xse.hypot_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 1).Float0;
+				return Xse.hypot_ps(Xse.set_ss(x), Xse.set_ss(y), 1).Float0;
 			}
 			else
 			{
-				float absX = math.abs(x);
-				float abxY = math.abs(y);
+				float absX = abs(x);
+				float abxY = abs(y);
 				minmax(absX, abxY, out float min, out float max);
 
-				uint e = math.asuint(max) & 0x7C00_0000;
-				float scalePre = math.asfloat(0x7E00_0000 - e);
-				float scalePost = math.asfloat(0x0100_0000 + e);
+				uint e = asuint(max) & 0x7C00_0000;
+				float scalePre = asfloat(0x7E00_0000 - e);
+				float scalePost = asfloat(0x0100_0000 + e);
 
 				min *= scalePre;
 				max *= scalePre;
 
-				float r = math.sqrt(math.mad(max, max, min * min));
+				float r = sqrt(mad(max, max, min * min));
 
-				if (math.isnan(x) | math.isnan(y)) scalePost = float.NaN;
-				if (math.isinf(max)) scalePost = float.PositiveInfinity;
+				if (isnan(x) | isnan(y)) scalePost = float.NaN;
+				if (isinf(max)) scalePost = float.PositiveInfinity;
 
 				return r * scalePost;
 			}
@@ -1272,35 +1271,35 @@ namespace MaxMath
 			{
 				if (constexpr.IS_CONST(x))
 				{
-					return math.sqrt(math.mad(y, y, x * x));
+					return sqrt(mad(y, y, x * x));
 				}
 				else
 				{
-					return math.sqrt(math.mad(x, x, y * y));
+					return sqrt(mad(x, x, y * y));
 				}
 			}
 
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return Xse.hypot_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)).Double0;
+				return Xse.hypot_pd(Xse.set_sd(x), Xse.set_sd(y)).Double0;
 			}
 			else
 			{
-				double absX = math.abs(x);
-				double abxY = math.abs(y);
+				double absX = abs(x);
+				double abxY = abs(y);
 				minmax(absX, abxY, out double min, out double max);
 
-				ulong e = math.asulong(max) & 0x7F80_0000_0000_0000ul;
-				double scalePre = math.asdouble(0x7FC0_0000_0000_0000ul - e);
-				double scalePost = math.asdouble(0x0020_0000_0000_0000ul + e);
+				ulong e = asulong(max) & 0x7F80_0000_0000_0000ul;
+				double scalePre = asdouble(0x7FC0_0000_0000_0000ul - e);
+				double scalePost = asdouble(0x0020_0000_0000_0000ul + e);
 
 				min *= scalePre;
 				max *= scalePre;
 
-				double r = math.sqrt(math.mad(max, max, min * min));
+				double r = sqrt(mad(max, max, min * min));
 
-				if (math.isnan(x) | math.isnan(y)) scalePost = double.NaN;
-				if (math.isinf(max)) scalePost = double.PositiveInfinity;
+				if (isnan(x) | isnan(y)) scalePost = double.NaN;
+				if (isinf(max)) scalePost = double.PositiveInfinity;
 
 				return r * scalePost;
 			}
@@ -1313,7 +1312,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat2(Xse.hypotepu8_ps(x, y));
+				return Xse.hypotepu8_ps(x, y);
 			}
 			else
 			{
@@ -1327,7 +1326,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat3(Xse.hypotepu8_ps(x, y));
+				return Xse.hypotepu8_ps(x, y);
 			}
 			else
 			{
@@ -1341,7 +1340,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat4(Xse.hypotepu8_ps(x, y));
+				return Xse.hypotepu8_ps(x, y);
 			}
 			else
 			{
@@ -1361,7 +1360,7 @@ namespace MaxMath
 			{
 				Xse.hypotepu8_ps(x, y, out v128 lo, out v128 hi);
 
-				return new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
+				return new float8(lo, hi);
 			}
 			else
 			{
@@ -1376,7 +1375,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat2(Xse.hypotepu16_ps(x, y, 2));
+				return Xse.hypotepu16_ps(x, y, 2);
 			}
 			else
 			{
@@ -1390,7 +1389,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat3(Xse.hypotepu16_ps(x, y, 3));
+				return Xse.hypotepu16_ps(x, y, 3);
 			}
 			else
 			{
@@ -1404,7 +1403,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat4(Xse.hypotepu16_ps(x, y, 4));
+				return Xse.hypotepu16_ps(x, y, 4);
 			}
 			else
 			{
@@ -1424,7 +1423,7 @@ namespace MaxMath
 			{
 				Xse.hypotepu16_ps(x, y, out v128 lo, out v128 hi);
 
-				return new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
+				return new float8(lo, hi);
 			}
 			else
 			{
@@ -1439,7 +1438,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat2(Xse.hypotepi8_ps(x, y));
+				return Xse.hypotepi8_ps(x, y);
 			}
 			else
 			{
@@ -1453,7 +1452,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat3(Xse.hypotepi8_ps(x, y));
+				return Xse.hypotepi8_ps(x, y);
 			}
 			else
 			{
@@ -1467,7 +1466,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat4(Xse.hypotepi8_ps(x, y));
+				return Xse.hypotepi8_ps(x, y);
 			}
 			else
 			{
@@ -1487,7 +1486,7 @@ namespace MaxMath
 			{
 				Xse.hypotepi8_ps(x, y, out v128 lo, out v128 hi);
 
-				return new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
+				return new float8(lo, hi);
 			}
 			else
 			{
@@ -1501,7 +1500,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat2(Xse.hypotepi16_ps(x, y));
+				return Xse.hypotepi16_ps(x, y);
 			}
 			else
 			{
@@ -1515,7 +1514,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat3(Xse.hypotepi16_ps(x, y));
+				return Xse.hypotepi16_ps(x, y);
 			}
 			else
 			{
@@ -1529,7 +1528,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToFloat4(Xse.hypotepi16_ps(x, y));
+				return Xse.hypotepi16_ps(x, y);
 			}
 			else
 			{
@@ -1549,7 +1548,7 @@ namespace MaxMath
 			{
 				Xse.hypotepi16_ps(x, y, out v128 lo, out v128 hi);
 
-				return new float8(RegisterConversion.ToFloat4(lo), RegisterConversion.ToFloat4(hi));
+				return new float8(lo, hi);
 			}
 			else
 			{
@@ -1568,8 +1567,8 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return noOverflow.Promises(Promise.NoOverflow) ? RegisterConversion.ToFloat2(Xse.naivehypot_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)))
-															   : RegisterConversion.ToFloat2(Xse.hypot_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2));
+				return noOverflow.Promises(Promise.NoOverflow) ? Xse.naivehypot_ps(x, y)
+															   : Xse.hypot_ps(x, y, 2);
 			}
 			else
 			{
@@ -1587,8 +1586,8 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return noOverflow.Promises(Promise.NoOverflow) ? RegisterConversion.ToFloat3(Xse.naivehypot_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)))
-															   : RegisterConversion.ToFloat3(Xse.hypot_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 3));
+				return noOverflow.Promises(Promise.NoOverflow) ? Xse.naivehypot_ps(x, y)
+															   : Xse.hypot_ps(x, y, 3);
 			}
 			else
 			{
@@ -1606,8 +1605,8 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return noOverflow.Promises(Promise.NoOverflow) ? RegisterConversion.ToFloat4(Xse.naivehypot_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)))
-															   : RegisterConversion.ToFloat4(Xse.hypot_ps(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4));
+				return noOverflow.Promises(Promise.NoOverflow) ? Xse.naivehypot_ps(x, y)
+															   : Xse.hypot_ps(x, y, 4);
 			}
 			else
 			{
@@ -1652,8 +1651,8 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return noOverflow.Promises(Promise.NoOverflow) ? RegisterConversion.ToDouble2(Xse.naivehypot_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)))
-															   : RegisterConversion.ToDouble2(Xse.hypot_pd(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y)));
+				return noOverflow.Promises(Promise.NoOverflow) ? Xse.naivehypot_pd(x, y)
+															   : Xse.hypot_pd(x, y);
 			}
 			else
 			{
@@ -1673,13 +1672,13 @@ namespace MaxMath
 			{
 				if (Avx.IsAvxSupported)
 				{
-					return RegisterConversion.ToDouble3(Xse.mm256_naivehypot_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y)));
+					return Xse.mm256_naivehypot_pd(x, y);
 				}
 			}
 
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToDouble3(Xse.mm256_hypot_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y)));
+				return Xse.mm256_hypot_pd(x, y);
 			}
 			else
 			{
@@ -1699,13 +1698,13 @@ namespace MaxMath
 			{
 				if (Avx.IsAvxSupported)
 				{
-					return RegisterConversion.ToDouble4(Xse.mm256_naivehypot_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y)));
+					return Xse.mm256_naivehypot_pd(x, y);
 				}
 			}
 
 			if (Avx2.IsAvx2Supported)
 			{
-				return RegisterConversion.ToDouble4(Xse.mm256_hypot_pd(RegisterConversion.ToV256(x), RegisterConversion.ToV256(y)));
+				return Xse.mm256_hypot_pd(x, y);
 			}
 			else
 			{
@@ -1761,7 +1760,7 @@ namespace MaxMath
 			}
 			else
 			{
-				return intsqrt(UInt128.umul128(x, x) + UInt128.umul128(y, y));
+				return intsqrt(MaxMath.UInt128.umul128(x, x) + MaxMath.UInt128.umul128(y, y));
 			}
 		}
 
@@ -1837,7 +1836,7 @@ namespace MaxMath
 			}
 			else
 			{
-				return intsqrt((UInt128)(UInt128.imul128(x, x) + UInt128.imul128(y, y)));
+				return intsqrt((UInt128)(MaxMath.UInt128.imul128(x, x) + MaxMath.UInt128.imul128(y, y)));
 			}
 		}
 
@@ -2029,7 +2028,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToUInt2(Xse.ihypot_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 2, noOverflow.Promises(Promise.NoOverflow)));
+				return Xse.ihypot_epu32(x, y, 2, noOverflow.Promises(Promise.NoOverflow));
 			}
 			else
 			{
@@ -2045,7 +2044,7 @@ namespace MaxMath
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint3 inthypot(uint3 x, uint3 y, Promise noOverflow = Promise.Nothing)
 		{
-			return new uint3(inthypot(x.xy, y.xy), inthypot(x.z, y.z));
+			return new uint3(inthypot(x.xy, y.xy, noOverflow), inthypot(x.z, y.z));
 		}
 
 		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
@@ -2058,7 +2057,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToUInt4(Xse.ihypot_epu32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), 4, noOverflow.Promises(Promise.NoOverflow)));
+				return Xse.ihypot_epu32(x, y, 4, noOverflow.Promises(Promise.NoOverflow));
 			}
 			else
 			{
@@ -2080,9 +2079,9 @@ namespace MaxMath
 			}
 			else if (BurstArchitecture.IsSIMDSupported)
 			{
-				Xse.ihypot_epu32x2(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(y.v4_0), RegisterConversion.ToV128(y.v4_4), out v128 lo, out v128 hi);
+				Xse.ihypot_epu32x2(x.v4_0, x.v4_4, y.v4_0, y.v4_4, out v128 lo, out v128 hi);
 
-				return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+				return new uint8(lo, hi);
 			}
 			else
 			{
@@ -2315,7 +2314,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToUInt2(Xse.ihypot_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow), 2));
+				return Xse.ihypot_epi32(x, y, noOverflow.Promises(Promise.NoOverflow), 2);
 			}
 			else
 			{
@@ -2331,7 +2330,7 @@ namespace MaxMath
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint3 inthypot(int3 x, int3 y, Promise noOverflow = Promise.Nothing)
 		{
-			return new uint3(inthypot(x.xy, y.xy), inthypot(x.z, y.z));
+			return new uint3(inthypot(x.xy, y.xy, noOverflow), inthypot(x.z, y.z));
 		}
 
 		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
@@ -2344,7 +2343,7 @@ namespace MaxMath
 		{
 			if (BurstArchitecture.IsSIMDSupported)
 			{
-				return RegisterConversion.ToUInt4(Xse.ihypot_epi32(RegisterConversion.ToV128(x), RegisterConversion.ToV128(y), noOverflow.Promises(Promise.NoOverflow), 4));
+				return Xse.ihypot_epi32(x, y, noOverflow.Promises(Promise.NoOverflow), 4);
 			}
 			else
 			{
@@ -2366,9 +2365,9 @@ namespace MaxMath
 			}
 			else if (BurstArchitecture.IsSIMDSupported)
 			{
-				Xse.ihypot_epi32x2(RegisterConversion.ToV128(x.v4_0), RegisterConversion.ToV128(x.v4_4), RegisterConversion.ToV128(y.v4_0), RegisterConversion.ToV128(y.v4_4), out v128 lo, out v128 hi, noOverflow.Promises(Promise.NoOverflow));
+				Xse.ihypot_epi32x2(x.v4_0, x.v4_4, y.v4_0, y.v4_4, out v128 lo, out v128 hi, noOverflow.Promises(Promise.NoOverflow));
 
-				return new uint8(RegisterConversion.ToUInt4(lo), RegisterConversion.ToUInt4(hi));
+				return new uint8(lo, hi);
 			}
 			else
 			{

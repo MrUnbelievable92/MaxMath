@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using Unity.Mathematics;
-using Unity.Burst.Intrinsics;
+
+using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Tests
 {
@@ -233,7 +233,7 @@ namespace MaxMath.Tests
             {
                 ulong4 l = rng.NextULong4();
                 ulong4 r = rng.NextULong4();
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
                 ulong4 test = l / r;
 
@@ -253,7 +253,7 @@ namespace MaxMath.Tests
             {
                 ulong4 l = rng.NextULong4();
                 ulong4 r = rng.NextULong4();
-                r = maxmath.select(r, 1, r == 0);
+                r = math.select(r, 1, r == 0);
 
                 ulong4 test = l % r;
 
@@ -2883,15 +2883,18 @@ namespace MaxMath.Tests
         public static void Cast_ToV256()
         {
             bool result = true;
-
-            for (int i = 0; i < NUM_TESTS; i++)
+            
+            if (Avx2.IsAvx2Supported)
             {
-                v256 x = TestData_LHS[i];
+                for (int i = 0; i < NUM_TESTS; i++)
+                {
+                    Unity.Burst.Intrinsics.v256 x = TestData_LHS[i];
 
-                result &= x.SLong0 == TestData_LHS[i].x &
-                          x.SLong1 == TestData_LHS[i].y &
-                          x.SLong2 == TestData_LHS[i].z &
-                          x.SLong3 == TestData_LHS[i].w;
+                    result &= x.SLong0 == TestData_LHS[i].x &
+                              x.SLong1 == TestData_LHS[i].y &
+                              x.SLong2 == TestData_LHS[i].z &
+                              x.SLong3 == TestData_LHS[i].w;
+                }
             }
 
             Assert.AreEqual(true, result);
@@ -2901,17 +2904,20 @@ namespace MaxMath.Tests
         public static void Cast_FromV256()
         {
             bool result = true;
-
-            for (int i = 0; i < NUM_TESTS; i++)
+            
+            if (Avx2.IsAvx2Supported)
             {
-                long4 x = TestData_LHS[i];
-                v256 c = x;
-                x = c;
+                for (int i = 0; i < NUM_TESTS; i++)
+                {
+                    long4 x = TestData_LHS[i];
+                    Unity.Burst.Intrinsics.v256 c = x;
+                    x = c;
 
-                result &= x.x == TestData_LHS[i].x &
-                          x.y == TestData_LHS[i].y &
-                          x.z == TestData_LHS[i].z &
-                          x.w == TestData_LHS[i].w;
+                    result &= x.x == TestData_LHS[i].x &
+                              x.y == TestData_LHS[i].y &
+                              x.z == TestData_LHS[i].z &
+                              x.w == TestData_LHS[i].w;
+                }
             }
 
             Assert.AreEqual(true, result);
@@ -3035,10 +3041,10 @@ namespace MaxMath.Tests
             {
                 float4 x = TestData_LHS[i];
 
-                result &= maxmath.approx(x.x, (float)TestData_LHS[i].x) &
-                          maxmath.approx(x.y, (float)TestData_LHS[i].y) &
-                          maxmath.approx(x.z, (float)TestData_LHS[i].z) &
-                          maxmath.approx(x.w, (float)TestData_LHS[i].w);
+                result &= math.approx(x.x, (float)TestData_LHS[i].x) &
+                          math.approx(x.y, (float)TestData_LHS[i].y) &
+                          math.approx(x.z, (float)TestData_LHS[i].z) &
+                          math.approx(x.w, (float)TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);
@@ -3053,10 +3059,10 @@ namespace MaxMath.Tests
             {
                 double4 x = TestData_LHS[i];
 
-                result &= maxmath.approx(x.x, (double)TestData_LHS[i].x) &
-                          maxmath.approx(x.y, (double)TestData_LHS[i].y) &
-                          maxmath.approx(x.z, (double)TestData_LHS[i].z) &
-                          maxmath.approx(x.w, (double)TestData_LHS[i].w);
+                result &= math.approx(x.x, (double)TestData_LHS[i].x) &
+                          math.approx(x.y, (double)TestData_LHS[i].y) &
+                          math.approx(x.z, (double)TestData_LHS[i].z) &
+                          math.approx(x.w, (double)TestData_LHS[i].w);
             }
 
             Assert.AreEqual(true, result);

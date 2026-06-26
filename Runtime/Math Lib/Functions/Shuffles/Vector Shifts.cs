@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
@@ -237,23 +236,23 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
-        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 vshl(bool2 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 vshl(bool3 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 vshl(bool4 x, int n)
         {
@@ -282,13 +281,13 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="int2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vshl(int2 x, int n)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
+                return Xse.bslli_si128(x, n * sizeof(int));
             }
             else
             {
@@ -301,13 +300,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="int3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vshl(int3 x, int n)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
+                return Xse.bslli_si128(x, n * sizeof(int));
             }
             else
             {
@@ -321,14 +320,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="int4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int4 vshl(int4 x, int n)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
+                return Xse.bslli_si128(x, n * sizeof(int));
             }
             else
             {
@@ -360,36 +359,36 @@ namespace MaxMath
                     {
                         case 1:
                         {
-                            v128 lo = Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int));
+                            v128 lo = Xse.bslli_si128(x.__x0, 1 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ));
+                            return new int8(lo, shuffle(x.__x0, x.__x4, ShuffleComponent.LeftW, ShuffleComponent.RightX, ShuffleComponent.RightY, ShuffleComponent.RightZ));
                         }
                         case 2:
                         {
-                            v128 lo = Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int));
+                            v128 lo = Xse.bslli_si128(x.__x0, 2 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY));
+                            return new int8(lo, shuffle(x.__x0, x.__x4, ShuffleComponent.LeftZ, ShuffleComponent.LeftW, ShuffleComponent.RightX, ShuffleComponent.RightY));
                         }
                         case 3:
                         {
-                            v128 lo = Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int));
+                            v128 lo = Xse.bslli_si128(x.__x0, 3 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToInt4(lo), math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX));
+                            return new int8(lo, shuffle(x.__x0, x.__x4, ShuffleComponent.LeftY, ShuffleComponent.LeftZ, ShuffleComponent.LeftW, ShuffleComponent.RightX));
                         }
 
-                        case 4: return new int8(int4.zero, x._v4_0);
+                        case 4: return new int8(0, x.__x0);
 
                         case 5:
                         {
-                            return new int8(int4.zero, RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 1 * sizeof(int))));
+                            return new int8(0, Xse.bslli_si128(x.__x0, 1 * sizeof(int)));
                         }
                         case 6:
                         {
-                            return new int8(int4.zero, RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 2 * sizeof(int))));
+                            return new int8(0, Xse.bslli_si128(x.__x0, 2 * sizeof(int)));
                         }
                         case 7:
                         {
-                            return new int8(int4.zero, RegisterConversion.ToInt4(Xse.bslli_si128(RegisterConversion.ToV128(x._v4_0), 3 * sizeof(int))));
+                            return new int8(0, Xse.bslli_si128(x.__x0, 3 * sizeof(int)));
                         }
 
                         default: return x;
@@ -403,15 +402,15 @@ namespace MaxMath
 
                     stack[0] = ZERO;
                     stack[1] = ZERO;
-                    stack[2] = RegisterConversion.ToV128(x.v4_0);
-                    stack[3] = RegisterConversion.ToV128(x.v4_4);
+                    stack[2] = x.v4_0;
+                    stack[3] = x.v4_4;
 
                     v128* address = (v128*)((byte*)stack + (2 * sizeof(v128) - (((uint)n % 8) * sizeof(int))));
 
                     v128 lo = Xse.loadu_si128(address);
                     v128 hi = Xse.loadu_si128(address + 1);
 
-                    return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
+                    return new int8(lo, hi);
                 }
             }
             else
@@ -432,21 +431,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="uint2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 vshl(uint2 x, int n)
         {
             return (uint2)vshl((int2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="uint3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 vshl(uint3 x, int n)
         {
             return (uint3)vshl((int3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="uint4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 vshl(uint4 x, int n)
         {
@@ -504,21 +503,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="half2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vshl(half2 x, int n)
         {
             return ashalf(vshl(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="half4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 vshl(half3 x, int n)
         {
             return ashalf(vshl(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="half4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 vshl(half4 x, int n)
         {
@@ -540,25 +539,25 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="float2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vshl(float2 x, int n)
         {
-            return math.asfloat(vshl(math.asint(x), n));
+            return asfloat(vshl(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="float3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 vshl(float3 x, int n)
         {
-            return math.asfloat(vshl(math.asint(x), n));
+            return asfloat(vshl(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="float4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 vshl(float4 x, int n)
         {
-            return math.asfloat(vshl(math.asint(x), n));
+            return asfloat(vshl(asint(x), n));
         }
 
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
@@ -569,21 +568,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="double2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 vshl(double2 x, int n)
         {
             return asdouble(vshl(aslong(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="double3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 vshl(double3 x, int n)
         {
             return asdouble(vshl(aslong(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="double4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 vshl(double4 x, int n)
         {
@@ -741,37 +740,37 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new byte32(Xse.bslli_si128(x._v16_0,  1 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)));
-                        case 2:  return new byte32(Xse.bslli_si128(x._v16_0,  2 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)));
-                        case 3:  return new byte32(Xse.bslli_si128(x._v16_0,  3 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)));
-                        case 4:  return new byte32(Xse.bslli_si128(x._v16_0,  4 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)));
-                        case 5:  return new byte32(Xse.bslli_si128(x._v16_0,  5 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)));
-                        case 6:  return new byte32(Xse.bslli_si128(x._v16_0,  6 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)));
-                        case 7:  return new byte32(Xse.bslli_si128(x._v16_0,  7 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)));
-                        case 8:  return new byte32(Xse.bslli_si128(x._v16_0,  8 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)));
-                        case 9:  return new byte32(Xse.bslli_si128(x._v16_0,  9 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)));
-                        case 10: return new byte32(Xse.bslli_si128(x._v16_0, 10 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)));
-                        case 11: return new byte32(Xse.bslli_si128(x._v16_0, 11 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)));
-                        case 12: return new byte32(Xse.bslli_si128(x._v16_0, 12 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)));
-                        case 13: return new byte32(Xse.bslli_si128(x._v16_0, 13 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)));
-                        case 14: return new byte32(Xse.bslli_si128(x._v16_0, 14 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)));
-                        case 15: return new byte32(Xse.bslli_si128(x._v16_0, 15 * sizeof(byte)), Xse.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)));
-                        case 16: return new byte32(Xse.setzero_si128(),      x._v16_0);
-                        case 17: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  1 * sizeof(byte)));
-                        case 18: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  2 * sizeof(byte)));
-                        case 19: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  3 * sizeof(byte)));
-                        case 20: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  4 * sizeof(byte)));
-                        case 21: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  5 * sizeof(byte)));
-                        case 22: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  6 * sizeof(byte)));
-                        case 23: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  7 * sizeof(byte)));
-                        case 24: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  8 * sizeof(byte)));
-                        case 25: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0,  9 * sizeof(byte)));
-                        case 26: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 10 * sizeof(byte)));
-                        case 27: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 11 * sizeof(byte)));
-                        case 28: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 12 * sizeof(byte)));
-                        case 29: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 13 * sizeof(byte)));
-                        case 30: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 14 * sizeof(byte)));
-                        case 31: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x._v16_0, 15 * sizeof(byte)));
+                        case 1:  return new byte32(Xse.bslli_si128(x.__x0,  1 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16, 15 * sizeof(byte)));
+                        case 2:  return new byte32(Xse.bslli_si128(x.__x0,  2 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16, 14 * sizeof(byte)));
+                        case 3:  return new byte32(Xse.bslli_si128(x.__x0,  3 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16, 13 * sizeof(byte)));
+                        case 4:  return new byte32(Xse.bslli_si128(x.__x0,  4 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16, 12 * sizeof(byte)));
+                        case 5:  return new byte32(Xse.bslli_si128(x.__x0,  5 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16, 11 * sizeof(byte)));
+                        case 6:  return new byte32(Xse.bslli_si128(x.__x0,  6 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16, 10 * sizeof(byte)));
+                        case 7:  return new byte32(Xse.bslli_si128(x.__x0,  7 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  9 * sizeof(byte)));
+                        case 8:  return new byte32(Xse.bslli_si128(x.__x0,  8 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  8 * sizeof(byte)));
+                        case 9:  return new byte32(Xse.bslli_si128(x.__x0,  9 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  7 * sizeof(byte)));
+                        case 10: return new byte32(Xse.bslli_si128(x.__x0, 10 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  6 * sizeof(byte)));
+                        case 11: return new byte32(Xse.bslli_si128(x.__x0, 11 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  5 * sizeof(byte)));
+                        case 12: return new byte32(Xse.bslli_si128(x.__x0, 12 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  4 * sizeof(byte)));
+                        case 13: return new byte32(Xse.bslli_si128(x.__x0, 13 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  3 * sizeof(byte)));
+                        case 14: return new byte32(Xse.bslli_si128(x.__x0, 14 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  2 * sizeof(byte)));
+                        case 15: return new byte32(Xse.bslli_si128(x.__x0, 15 * sizeof(byte)), Xse.alignr_epi8(x.__x0, x.__x16,  1 * sizeof(byte)));
+                        case 16: return new byte32(Xse.setzero_si128(),      x.__x0);
+                        case 17: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  1 * sizeof(byte)));
+                        case 18: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  2 * sizeof(byte)));
+                        case 19: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  3 * sizeof(byte)));
+                        case 20: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  4 * sizeof(byte)));
+                        case 21: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  5 * sizeof(byte)));
+                        case 22: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  6 * sizeof(byte)));
+                        case 23: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  7 * sizeof(byte)));
+                        case 24: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  8 * sizeof(byte)));
+                        case 25: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0,  9 * sizeof(byte)));
+                        case 26: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0, 10 * sizeof(byte)));
+                        case 27: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0, 11 * sizeof(byte)));
+                        case 28: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0, 12 * sizeof(byte)));
+                        case 29: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0, 13 * sizeof(byte)));
+                        case 30: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0, 14 * sizeof(byte)));
+                        case 31: return new byte32(Xse.setzero_si128(),      Xse.bslli_si128(x.__x0, 15 * sizeof(byte)));
 
                         default: return x;
                     }
@@ -801,52 +800,52 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new byte32(Xse.bslli_si128(x._v16_0, 1 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  15 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  1 * sizeof(byte))));
-                        case 2:  return new byte32(Xse.bslli_si128(x._v16_0, 2 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  14 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  2 * sizeof(byte))));
-                        case 3:  return new byte32(Xse.bslli_si128(x._v16_0, 3 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  13 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  3 * sizeof(byte))));
-                        case 4:  return new byte32(Xse.bslli_si128(x._v16_0, 4 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  12 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  4 * sizeof(byte))));
-                        case 5:  return new byte32(Xse.bslli_si128(x._v16_0, 5 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  11 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  5 * sizeof(byte))));
-                        case 6:  return new byte32(Xse.bslli_si128(x._v16_0, 6 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,  10 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  6 * sizeof(byte))));
-                        case 7:  return new byte32(Xse.bslli_si128(x._v16_0, 7 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   9 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  7 * sizeof(byte))));
-                        case 8:  return new byte32(Xse.bslli_si128(x._v16_0, 8 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   8 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  8 * sizeof(byte))));
-                        case 9:  return new byte32(Xse.bslli_si128(x._v16_0, 9 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   7 * sizeof(byte)), Xse.bslli_si128(x._v16_16,  9 * sizeof(byte))));
-                        case 10: return new byte32(Xse.bslli_si128(x._v16_0, 10 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   6 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 10 * sizeof(byte))));
-                        case 11: return new byte32(Xse.bslli_si128(x._v16_0, 11 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   5 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 11 * sizeof(byte))));
-                        case 12: return new byte32(Xse.bslli_si128(x._v16_0, 12 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   4 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 12 * sizeof(byte))));
-                        case 13: return new byte32(Xse.bslli_si128(x._v16_0, 13 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   3 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 13 * sizeof(byte))));
-                        case 14: return new byte32(Xse.bslli_si128(x._v16_0, 14 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   2 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 14 * sizeof(byte))));
-                        case 15: return new byte32(Xse.bslli_si128(x._v16_0, 15 * sizeof(byte)),
-                                                   Xse.or_si128(Xse.bsrli_si128(x._v16_0,   1 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 15 * sizeof(byte))));
-                        case 16: return new byte32(Xse.setzero_si128(), x._v16_0);
-                        case 17: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  1 * sizeof(byte)));
-                        case 18: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  2 * sizeof(byte)));
-                        case 19: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  3 * sizeof(byte)));
-                        case 20: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  4 * sizeof(byte)));
-                        case 21: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  5 * sizeof(byte)));
-                        case 22: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  6 * sizeof(byte)));
-                        case 23: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  7 * sizeof(byte)));
-                        case 24: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  8 * sizeof(byte)));
-                        case 25: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0,  9 * sizeof(byte)));
-                        case 26: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 10 * sizeof(byte)));
-                        case 27: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 11 * sizeof(byte)));
-                        case 28: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 12 * sizeof(byte)));
-                        case 29: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 13 * sizeof(byte)));
-                        case 30: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 14 * sizeof(byte)));
-                        case 31: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x._v16_0, 15 * sizeof(byte)));
+                        case 1:  return new byte32(Xse.bslli_si128(x.__x0, 1 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,  15 * sizeof(byte)), Xse.bslli_si128(x.__x16,  1 * sizeof(byte))));
+                        case 2:  return new byte32(Xse.bslli_si128(x.__x0, 2 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,  14 * sizeof(byte)), Xse.bslli_si128(x.__x16,  2 * sizeof(byte))));
+                        case 3:  return new byte32(Xse.bslli_si128(x.__x0, 3 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,  13 * sizeof(byte)), Xse.bslli_si128(x.__x16,  3 * sizeof(byte))));
+                        case 4:  return new byte32(Xse.bslli_si128(x.__x0, 4 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,  12 * sizeof(byte)), Xse.bslli_si128(x.__x16,  4 * sizeof(byte))));
+                        case 5:  return new byte32(Xse.bslli_si128(x.__x0, 5 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,  11 * sizeof(byte)), Xse.bslli_si128(x.__x16,  5 * sizeof(byte))));
+                        case 6:  return new byte32(Xse.bslli_si128(x.__x0, 6 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,  10 * sizeof(byte)), Xse.bslli_si128(x.__x16,  6 * sizeof(byte))));
+                        case 7:  return new byte32(Xse.bslli_si128(x.__x0, 7 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   9 * sizeof(byte)), Xse.bslli_si128(x.__x16,  7 * sizeof(byte))));
+                        case 8:  return new byte32(Xse.bslli_si128(x.__x0, 8 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   8 * sizeof(byte)), Xse.bslli_si128(x.__x16,  8 * sizeof(byte))));
+                        case 9:  return new byte32(Xse.bslli_si128(x.__x0, 9 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   7 * sizeof(byte)), Xse.bslli_si128(x.__x16,  9 * sizeof(byte))));
+                        case 10: return new byte32(Xse.bslli_si128(x.__x0, 10 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   6 * sizeof(byte)), Xse.bslli_si128(x.__x16, 10 * sizeof(byte))));
+                        case 11: return new byte32(Xse.bslli_si128(x.__x0, 11 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   5 * sizeof(byte)), Xse.bslli_si128(x.__x16, 11 * sizeof(byte))));
+                        case 12: return new byte32(Xse.bslli_si128(x.__x0, 12 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   4 * sizeof(byte)), Xse.bslli_si128(x.__x16, 12 * sizeof(byte))));
+                        case 13: return new byte32(Xse.bslli_si128(x.__x0, 13 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   3 * sizeof(byte)), Xse.bslli_si128(x.__x16, 13 * sizeof(byte))));
+                        case 14: return new byte32(Xse.bslli_si128(x.__x0, 14 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   2 * sizeof(byte)), Xse.bslli_si128(x.__x16, 14 * sizeof(byte))));
+                        case 15: return new byte32(Xse.bslli_si128(x.__x0, 15 * sizeof(byte)),
+                                                   Xse.or_si128(Xse.bsrli_si128(x.__x0,   1 * sizeof(byte)), Xse.bslli_si128(x.__x16, 15 * sizeof(byte))));
+                        case 16: return new byte32(Xse.setzero_si128(), x.__x0);
+                        case 17: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  1 * sizeof(byte)));
+                        case 18: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  2 * sizeof(byte)));
+                        case 19: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  3 * sizeof(byte)));
+                        case 20: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  4 * sizeof(byte)));
+                        case 21: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  5 * sizeof(byte)));
+                        case 22: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  6 * sizeof(byte)));
+                        case 23: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  7 * sizeof(byte)));
+                        case 24: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  8 * sizeof(byte)));
+                        case 25: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0,  9 * sizeof(byte)));
+                        case 26: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 10 * sizeof(byte)));
+                        case 27: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 11 * sizeof(byte)));
+                        case 28: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 12 * sizeof(byte)));
+                        case 29: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 13 * sizeof(byte)));
+                        case 30: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 14 * sizeof(byte)));
+                        case 31: return new byte32(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 15 * sizeof(byte)));
 
                         default: return x;
                     }
@@ -1064,21 +1063,21 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new short16(Xse.bslli_si128(x._v8_0, 1 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 7 * sizeof(short)));
-                        case 2:  return new short16(Xse.bslli_si128(x._v8_0, 2 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 6 * sizeof(short)));
-                        case 3:  return new short16(Xse.bslli_si128(x._v8_0, 3 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 5 * sizeof(short)));
-                        case 4:  return new short16(Xse.bslli_si128(x._v8_0, 4 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 4 * sizeof(short)));
-                        case 5:  return new short16(Xse.bslli_si128(x._v8_0, 5 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 3 * sizeof(short)));
-                        case 6:  return new short16(Xse.bslli_si128(x._v8_0, 6 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 2 * sizeof(short)));
-                        case 7:  return new short16(Xse.bslli_si128(x._v8_0, 7 * sizeof(short)), Xse.alignr_epi8(x._v8_0, x._v8_8, 1 * sizeof(short)));
-                        case 8:  return new short16(Xse.setzero_si128(), x._v8_0);
-                        case 9:  return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 1 * sizeof(short)));
-                        case 10: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 2 * sizeof(short)));
-                        case 11: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 3 * sizeof(short)));
-                        case 12: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 4 * sizeof(short)));
-                        case 13: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 5 * sizeof(short)));
-                        case 14: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 6 * sizeof(short)));
-                        case 15: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 7 * sizeof(short)));
+                        case 1:  return new short16(Xse.bslli_si128(x.__x0, 1 * sizeof(short)), Xse.alignr_epi8(x.__x0, x.__x8, 7 * sizeof(short)));
+                        case 2:  return new short16(Xse.bslli_si128(x.__x0, 2 * sizeof(short)), Xse.alignr_epi8(x.__x0, x.__x8, 6 * sizeof(short)));
+                        case 3:  return new short16(Xse.bslli_si128(x.__x0, 3 * sizeof(short)), Xse.alignr_epi8(x.__x0, x.__x8, 5 * sizeof(short)));
+                        case 4:  return new short16(Xse.bslli_si128(x.__x0, 4 * sizeof(short)), Xse.alignr_epi8(x.__x0, x.__x8, 4 * sizeof(short)));
+                        case 5:  return new short16(Xse.bslli_si128(x.__x0, 5 * sizeof(short)), Xse.alignr_epi8(x.__x0, x.__x8, 3 * sizeof(short)));
+                        case 6:  return new short16(Xse.bslli_si128(x.__x0, 6 * sizeof(short)), Xse.alignr_epi8(x.__x0, x.__x8, 2 * sizeof(short)));
+                        case 7:  return new short16(Xse.bslli_si128(x.__x0, 7 * sizeof(short)), Xse.alignr_epi8(x.__x0, x.__x8, 1 * sizeof(short)));
+                        case 8:  return new short16(Xse.setzero_si128(), x.__x0);
+                        case 9:  return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 1 * sizeof(short)));
+                        case 10: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 2 * sizeof(short)));
+                        case 11: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 3 * sizeof(short)));
+                        case 12: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 4 * sizeof(short)));
+                        case 13: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 5 * sizeof(short)));
+                        case 14: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 6 * sizeof(short)));
+                        case 15: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 7 * sizeof(short)));
 
                         default: return x;
                     }
@@ -1108,28 +1107,28 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new short16(Xse.bslli_si128(x._v8_0, 1 * sizeof(short)),
-                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 7 * sizeof(short)), Xse.bslli_si128(x._v8_8, 1 * sizeof(short))));
-                        case 2:  return new short16(Xse.bslli_si128(x._v8_0, 2 * sizeof(short)),
-                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 6 * sizeof(short)), Xse.bslli_si128(x._v8_8, 2 * sizeof(short))));
-                        case 3:  return new short16(Xse.bslli_si128(x._v8_0, 3 * sizeof(short)),
-                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 5 * sizeof(short)), Xse.bslli_si128(x._v8_8, 3 * sizeof(short))));
-                        case 4:  return new short16(Xse.bslli_si128(x._v8_0, 4 * sizeof(short)),
-                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 4 * sizeof(short)), Xse.bslli_si128(x._v8_8, 4 * sizeof(short))));
-                        case 5:  return new short16(Xse.bslli_si128(x._v8_0, 5 * sizeof(short)),
-                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 3 * sizeof(short)), Xse.bslli_si128(x._v8_8, 5 * sizeof(short))));
-                        case 6:  return new short16(Xse.bslli_si128(x._v8_0, 6 * sizeof(short)),
-                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 2 * sizeof(short)), Xse.bslli_si128(x._v8_8, 6 * sizeof(short))));
-                        case 7:  return new short16(Xse.bslli_si128(x._v8_0, 7 * sizeof(short)),
-                                                    Xse.or_si128(Xse.bsrli_si128(x._v8_0, 1 * sizeof(short)), Xse.bslli_si128(x._v8_8, 7 * sizeof(short))));
-                        case 8:  return new short16(Xse.setzero_si128(), x._v8_0);
-                        case 9:  return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 1 * sizeof(short)));
-                        case 10: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 2 * sizeof(short)));
-                        case 11: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 3 * sizeof(short)));
-                        case 12: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 4 * sizeof(short)));
-                        case 13: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 5 * sizeof(short)));
-                        case 14: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 6 * sizeof(short)));
-                        case 15: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x._v8_0, 7 * sizeof(short)));
+                        case 1:  return new short16(Xse.bslli_si128(x.__x0, 1 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x.__x0, 7 * sizeof(short)), Xse.bslli_si128(x.__x8, 1 * sizeof(short))));
+                        case 2:  return new short16(Xse.bslli_si128(x.__x0, 2 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x.__x0, 6 * sizeof(short)), Xse.bslli_si128(x.__x8, 2 * sizeof(short))));
+                        case 3:  return new short16(Xse.bslli_si128(x.__x0, 3 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x.__x0, 5 * sizeof(short)), Xse.bslli_si128(x.__x8, 3 * sizeof(short))));
+                        case 4:  return new short16(Xse.bslli_si128(x.__x0, 4 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x.__x0, 4 * sizeof(short)), Xse.bslli_si128(x.__x8, 4 * sizeof(short))));
+                        case 5:  return new short16(Xse.bslli_si128(x.__x0, 5 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x.__x0, 3 * sizeof(short)), Xse.bslli_si128(x.__x8, 5 * sizeof(short))));
+                        case 6:  return new short16(Xse.bslli_si128(x.__x0, 6 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x.__x0, 2 * sizeof(short)), Xse.bslli_si128(x.__x8, 6 * sizeof(short))));
+                        case 7:  return new short16(Xse.bslli_si128(x.__x0, 7 * sizeof(short)),
+                                                    Xse.or_si128(Xse.bsrli_si128(x.__x0, 1 * sizeof(short)), Xse.bslli_si128(x.__x8, 7 * sizeof(short))));
+                        case 8:  return new short16(Xse.setzero_si128(), x.__x0);
+                        case 9:  return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 1 * sizeof(short)));
+                        case 10: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 2 * sizeof(short)));
+                        case 11: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 3 * sizeof(short)));
+                        case 12: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 4 * sizeof(short)));
+                        case 13: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 5 * sizeof(short)));
+                        case 14: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 6 * sizeof(short)));
+                        case 15: return new short16(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 7 * sizeof(short)));
 
                         default: return x;
                     }
@@ -1252,7 +1251,7 @@ namespace MaxMath
             {
                 switch (n)
                 {
-                    case 1:  return new long3(Xse.bslli_si128(x._xy, 1 * sizeof(long)), x.y);
+                    case 1:  return new long3(Xse.bslli_si128(x.__x0, 1 * sizeof(long)), x.y);
                     case 2:  return new long3(Xse.setzero_si128(), x.x);
 
                     default: return x;
@@ -1286,9 +1285,9 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new long4(Xse.bslli_si128(x._xy, 1 * sizeof(long)), Xse.alignr_epi8(x._xy, x._zw, 1 * sizeof(long)));
-                        case 2:  return new long4(Xse.setzero_si128(), x._xy);
-                        case 3:  return new long4(Xse.setzero_si128(), Xse.bslli_si128(x._xy, 1 * sizeof(long)));
+                        case 1:  return new long4(Xse.bslli_si128(x.__x0, 1 * sizeof(long)), Xse.alignr_epi8(x.__x0, x.__x2, 1 * sizeof(long)));
+                        case 2:  return new long4(Xse.setzero_si128(), x.__x0);
+                        case 3:  return new long4(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 1 * sizeof(long)));
 
                         default: return x;
                     }
@@ -1318,9 +1317,9 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1: return new long4(Xse.bslli_si128(x._xy, 1 * sizeof(long)), Xse.blendv_si128(Xse.bsrli_si128(x._xy, 1 * sizeof(long)), Xse.bslli_si128(x._zw, 1 * sizeof(long)), new long2(0, -1)));
-                        case 2: return new long4(Xse.setzero_si128(), x._xy);
-                        case 3: return new long4(Xse.setzero_si128(), Xse.bslli_si128(x._xy, 1 * sizeof(long)));
+                        case 1: return new long4(Xse.bslli_si128(x.__x0, 1 * sizeof(long)), Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 1 * sizeof(long)), Xse.bslli_si128(x.__x2, 1 * sizeof(long)), new long2(0, -1)));
+                        case 2: return new long4(Xse.setzero_si128(), x.__x0);
+                        case 3: return new long4(Xse.setzero_si128(), Xse.bslli_si128(x.__x0, 1 * sizeof(long)));
 
                         default: return x;
                     }
@@ -1380,21 +1379,151 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x2 vshl(mask8x2 x, int n)
+        {
+            return (v128)vshl((byte2)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x3 vshl(mask8x3 x, int n)
+        {
+            return (v128)vshl((byte3)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 vshl(mask8x4 x, int n)
+        {
+            return (v128)vshl((byte4)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 vshl(mask8x8 x, int n)
+        {
+            return (v128)vshl((byte8)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 vshl(mask8x16 x, int n)
+        {
+            return (v128)vshl((byte16)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x32 vshl(mask8x32 x, int n)
+        {
+            return (v256)vshl((byte32)(v256)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 vshl(mask16x2 x, int n)
+        {
+            return (v128)vshl((ushort2)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 vshl(mask16x3 x, int n)
+        {
+            return (v128)vshl((ushort3)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 vshl(mask16x4 x, int n)
+        {
+            return (v128)vshl((ushort4)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x8 vshl(mask16x8 x, int n)
+        {
+            return (v128)vshl((ushort8)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x16 vshl(mask16x16 x, int n)
+        {
+            return (v256)vshl((ushort16)(v256)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 vshl(mask32x2 x, int n)
+        {
+            return (v128)vshl((uint2)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 vshl(mask32x3 x, int n)
+        {
+            return (v128)vshl((uint3)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 vshl(mask32x4 x, int n)
+        {
+            return (v128)vshl((uint4)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 vshl(mask32x8 x, int n)
+        {
+            return (v256)vshl((uint8)(v256)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 vshl(mask64x2 x, int n)
+        {
+            return (v128)vshl((ulong2)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 vshl(mask64x3 x, int n)
+        {
+            return (v256)vshl((ulong3)(v256)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 vshl(mask64x4 x, int n)
+        {
+            return (v256)vshl((ulong4)(v256)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 vshr(bool2 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 vshr(bool3 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 vshr(bool4 x, int n)
         {
@@ -1422,13 +1551,13 @@ namespace MaxMath
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="int2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vshr(int2 x, int n)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt2(Xse.bsrli_si128(Xse.bslli_si128(RegisterConversion.ToV128(x), 2 * sizeof(int)), (2 + n) * sizeof(int)));
+                return Xse.bsrli_si128(Xse.bslli_si128(x, 2 * sizeof(int)), (2 + n) * sizeof(int));
             }
             else
             {
@@ -1441,13 +1570,13 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="int3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vshr(int3 x, int n)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt3(Xse.bsrli_si128(Xse.bslli_si128(RegisterConversion.ToV128(x), 1 * sizeof(int)), (1 + n) * sizeof(int)));
+                return Xse.bsrli_si128(Xse.bslli_si128(x, 1 * sizeof(int)), (1 + n) * sizeof(int));
             }
             else
             {
@@ -1461,14 +1590,14 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="int4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int4 vshr(int4 x, int n)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return RegisterConversion.ToInt4(Xse.bsrli_si128(RegisterConversion.ToV128(x), n * sizeof(int)));
+                return Xse.bsrli_si128(x, n * sizeof(int));
             }
             else
             {
@@ -1500,45 +1629,45 @@ namespace MaxMath
                     {
                         case 1:
                         {
-                            v128 hi = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 1 * sizeof(int));
+                            v128 hi = Xse.bsrli_si128(x.__x4, 1 * sizeof(int));
 
-                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftY, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX), RegisterConversion.ToInt4(hi));
+                            return new int8(shuffle(x.__x0, x.__x4, ShuffleComponent.LeftY, ShuffleComponent.LeftZ, ShuffleComponent.LeftW, ShuffleComponent.RightX), hi);
                         }
                         case 2:
                         {
-                            v128 hi = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 2 * sizeof(int));
+                            v128 hi = Xse.bsrli_si128(x.__x4, 2 * sizeof(int));
 
-                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftZ, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY), RegisterConversion.ToInt4(hi));
+                            return new int8(shuffle(x.__x0, x.__x4, ShuffleComponent.LeftZ, ShuffleComponent.LeftW, ShuffleComponent.RightX, ShuffleComponent.RightY), hi);
                         }
                         case 3:
                         {
-                            v128 hi = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 3 * sizeof(int));
+                            v128 hi = Xse.bsrli_si128(x.__x4, 3 * sizeof(int));
 
-                            return new int8(math.shuffle(x._v4_0, x._v4_4, math.ShuffleComponent.LeftW, math.ShuffleComponent.RightX, math.ShuffleComponent.RightY, math.ShuffleComponent.RightZ), RegisterConversion.ToInt4(hi));
+                            return new int8(shuffle(x.__x0, x.__x4, ShuffleComponent.LeftW, ShuffleComponent.RightX, ShuffleComponent.RightY, ShuffleComponent.RightZ), hi);
                         }
 
-                        case 4: return new int8(x._v4_4, int4.zero);
+                        case 4: return new int8(x.__x4, 0);
 
                         case 5:
                         {
-                            v128 lo = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 1 * sizeof(int));
+                            v128 lo = Xse.bsrli_si128(x.__x4, 1 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToInt4(lo), int4.zero);
+                            return new int8((int4)lo, 0);
                         }
                         case 6:
                         {
-                            v128 lo = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 2 * sizeof(int));
+                            v128 lo = Xse.bsrli_si128(x.__x4, 2 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToInt4(lo), int4.zero);
+                            return new int8((int4)lo, 0);
                         }
                         case 7:
                         {
-                            v128 lo = Xse.bsrli_si128(RegisterConversion.ToV128(x._v4_4), 3 * sizeof(int));
+                            v128 lo = Xse.bsrli_si128(x.__x4, 3 * sizeof(int));
 
-                            return new int8(RegisterConversion.ToInt4(lo), int4.zero);
+                            return new int8((int4)lo, 0);
                         }
 
-                        default: { v128 zero = Xse.setzero_si128(); return new int8(RegisterConversion.ToInt4(zero), RegisterConversion.ToInt4(zero)); }
+                        default: { v128 zero = Xse.setzero_si128(); return new int8(zero, zero); }
                     }
                 }
                 else
@@ -1547,8 +1676,8 @@ namespace MaxMath
 
                     v128* stack = stackalloc v128[4];
 
-                    stack[0] = RegisterConversion.ToV128(x.v4_0);
-                    stack[1] = RegisterConversion.ToV128(x.v4_4);
+                    stack[0] = x.v4_0;
+                    stack[1] = x.v4_4;
                     stack[2] = ZERO;
                     stack[3] = ZERO;
 
@@ -1557,7 +1686,7 @@ namespace MaxMath
                     v128 lo = Xse.loadu_si128(address);
                     v128 hi = Xse.loadu_si128(address + 1);
 
-                    return new int8(RegisterConversion.ToInt4(lo), RegisterConversion.ToInt4(hi));
+                    return new int8(lo, hi);
                 }
             }
             else
@@ -1578,21 +1707,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="uint2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 vshr(uint2 x, int n)
         {
             return (uint2)vshr((int2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="uint3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 vshr(uint3 x, int n)
         {
             return (uint3)vshr((int3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="uint4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 vshr(uint4 x, int n)
         {
@@ -1650,21 +1779,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="half2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vshr(half2 x, int n)
         {
             return ashalf(vshr(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="half4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 vshr(half3 x, int n)
         {
             return ashalf(vshr(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="half4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 vshr(half4 x, int n)
         {
@@ -1685,25 +1814,25 @@ namespace MaxMath
             return ashalf(vshr(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="float2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vshr(float2 x, int n)
         {
-            return math.asfloat(vshr(math.asint(x), n));
+            return asfloat(vshr(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="float3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 vshr(float3 x, int n)
         {
-            return math.asfloat(vshr(math.asint(x), n));
+            return asfloat(vshr(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="float4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 vshr(float4 x, int n)
         {
-            return math.asfloat(vshr(math.asint(x), n));
+            return asfloat(vshr(asint(x), n));
         }
 
         /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
@@ -1714,7 +1843,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="double2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 vshr(double2 x, int n)
         {
@@ -1722,14 +1851,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="double3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 vshr(double3 x, int n)
         {
             return asdouble(vshr(aslong(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="double4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 vshr(double4 x, int n)
         {
@@ -1887,37 +2016,37 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  1 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  1 * sizeof(byte)));
-                        case 2:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  2 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  2 * sizeof(byte)));
-                        case 3:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  3 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  3 * sizeof(byte)));
-                        case 4:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  4 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)));
-                        case 5:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  5 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  5 * sizeof(byte)));
-                        case 6:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  6 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  6 * sizeof(byte)));
-                        case 7:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  7 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  7 * sizeof(byte)));
-                        case 8:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  8 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)));
-                        case 9:  return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16,  9 * sizeof(byte)), Xse.bsrli_si128(x._v16_16,  9 * sizeof(byte)));
-                        case 10: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 10 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)));
-                        case 11: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 11 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)));
-                        case 12: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 12 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
-                        case 13: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 13 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)));
-                        case 14: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 14 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)));
-                        case 15: return new byte32(Xse.alignr_epi8(x._v16_0, x._v16_16, 15 * sizeof(byte)), Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)));
-                        case 16: return new byte32(x._v16_16, Xse.setzero_si128());
-                        case 17: return new byte32(Xse.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Xse.setzero_si128());
-                        case 18: return new byte32(Xse.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Xse.setzero_si128());
-                        case 19: return new byte32(Xse.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Xse.setzero_si128());
-                        case 20: return new byte32(Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Xse.setzero_si128());
-                        case 21: return new byte32(Xse.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Xse.setzero_si128());
-                        case 22: return new byte32(Xse.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Xse.setzero_si128());
-                        case 23: return new byte32(Xse.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Xse.setzero_si128());
-                        case 24: return new byte32(Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Xse.setzero_si128());
-                        case 25: return new byte32(Xse.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Xse.setzero_si128());
-                        case 26: return new byte32(Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Xse.setzero_si128());
-                        case 27: return new byte32(Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Xse.setzero_si128());
-                        case 28: return new byte32(Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Xse.setzero_si128());
-                        case 29: return new byte32(Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Xse.setzero_si128());
-                        case 30: return new byte32(Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Xse.setzero_si128());
-                        case 31: return new byte32(Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Xse.setzero_si128());
+                        case 1:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  1 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  1 * sizeof(byte)));
+                        case 2:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  2 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  2 * sizeof(byte)));
+                        case 3:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  3 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  3 * sizeof(byte)));
+                        case 4:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  4 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  4 * sizeof(byte)));
+                        case 5:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  5 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  5 * sizeof(byte)));
+                        case 6:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  6 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  6 * sizeof(byte)));
+                        case 7:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  7 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  7 * sizeof(byte)));
+                        case 8:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  8 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  8 * sizeof(byte)));
+                        case 9:  return new byte32(Xse.alignr_epi8(x.__x0, x.__x16,  9 * sizeof(byte)), Xse.bsrli_si128(x.__x16,  9 * sizeof(byte)));
+                        case 10: return new byte32(Xse.alignr_epi8(x.__x0, x.__x16, 10 * sizeof(byte)), Xse.bsrli_si128(x.__x16, 10 * sizeof(byte)));
+                        case 11: return new byte32(Xse.alignr_epi8(x.__x0, x.__x16, 11 * sizeof(byte)), Xse.bsrli_si128(x.__x16, 11 * sizeof(byte)));
+                        case 12: return new byte32(Xse.alignr_epi8(x.__x0, x.__x16, 12 * sizeof(byte)), Xse.bsrli_si128(x.__x16, 12 * sizeof(byte)));
+                        case 13: return new byte32(Xse.alignr_epi8(x.__x0, x.__x16, 13 * sizeof(byte)), Xse.bsrli_si128(x.__x16, 13 * sizeof(byte)));
+                        case 14: return new byte32(Xse.alignr_epi8(x.__x0, x.__x16, 14 * sizeof(byte)), Xse.bsrli_si128(x.__x16, 14 * sizeof(byte)));
+                        case 15: return new byte32(Xse.alignr_epi8(x.__x0, x.__x16, 15 * sizeof(byte)), Xse.bsrli_si128(x.__x16, 15 * sizeof(byte)));
+                        case 16: return new byte32(x.__x16, Xse.setzero_si128());
+                        case 17: return new byte32(Xse.bsrli_si128(x.__x16,  1 * sizeof(byte)), Xse.setzero_si128());
+                        case 18: return new byte32(Xse.bsrli_si128(x.__x16,  2 * sizeof(byte)), Xse.setzero_si128());
+                        case 19: return new byte32(Xse.bsrli_si128(x.__x16,  3 * sizeof(byte)), Xse.setzero_si128());
+                        case 20: return new byte32(Xse.bsrli_si128(x.__x16,  4 * sizeof(byte)), Xse.setzero_si128());
+                        case 21: return new byte32(Xse.bsrli_si128(x.__x16,  5 * sizeof(byte)), Xse.setzero_si128());
+                        case 22: return new byte32(Xse.bsrli_si128(x.__x16,  6 * sizeof(byte)), Xse.setzero_si128());
+                        case 23: return new byte32(Xse.bsrli_si128(x.__x16,  7 * sizeof(byte)), Xse.setzero_si128());
+                        case 24: return new byte32(Xse.bsrli_si128(x.__x16,  8 * sizeof(byte)), Xse.setzero_si128());
+                        case 25: return new byte32(Xse.bsrli_si128(x.__x16,  9 * sizeof(byte)), Xse.setzero_si128());
+                        case 26: return new byte32(Xse.bsrli_si128(x.__x16, 10 * sizeof(byte)), Xse.setzero_si128());
+                        case 27: return new byte32(Xse.bsrli_si128(x.__x16, 11 * sizeof(byte)), Xse.setzero_si128());
+                        case 28: return new byte32(Xse.bsrli_si128(x.__x16, 12 * sizeof(byte)), Xse.setzero_si128());
+                        case 29: return new byte32(Xse.bsrli_si128(x.__x16, 13 * sizeof(byte)), Xse.setzero_si128());
+                        case 30: return new byte32(Xse.bsrli_si128(x.__x16, 14 * sizeof(byte)), Xse.setzero_si128());
+                        case 31: return new byte32(Xse.bsrli_si128(x.__x16, 15 * sizeof(byte)), Xse.setzero_si128());
 
                         default: return x;
                     }
@@ -1947,52 +2076,52 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 1 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 1 * sizeof(byte)));
-                        case 2:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 2 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 14 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 2 * sizeof(byte)));
-                        case 3:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 3 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 3 * sizeof(byte)));
-                        case 4:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 4 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 12 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 4 * sizeof(byte)));
-                        case 5:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 5 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 5 * sizeof(byte)));
-                        case 6:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 6 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 10 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 6 * sizeof(byte)));
-                        case 7:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 7 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 9 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 7 * sizeof(byte)));
-                        case 8:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 8 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 8 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 8 * sizeof(byte)));
-                        case 9:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 9 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 7 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 9 * sizeof(byte)));
-                        case 10: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 10 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 6 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)));
-                        case 11: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 11 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 5 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)));
-                        case 12: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 12 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 4 * sizeof(byte)), new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)));
-                        case 13: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 13 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 3 * sizeof(byte)), new v128(0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)));
-                        case 14: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 14 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 2 * sizeof(byte)), new v128(0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)));
-                        case 15: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x._v16_0, 15 * sizeof(byte)), Xse.bslli_si128(x._v16_16, 1 * sizeof(byte)), new v128(0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
-                                                   Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)));
-                        case 16: return new byte32(x._v16_16, Xse.setzero_si128());
-                        case 17: return new byte32(Xse.bsrli_si128(x._v16_16,  1 * sizeof(byte)), Xse.setzero_si128());
-                        case 18: return new byte32(Xse.bsrli_si128(x._v16_16,  2 * sizeof(byte)), Xse.setzero_si128());
-                        case 19: return new byte32(Xse.bsrli_si128(x._v16_16,  3 * sizeof(byte)), Xse.setzero_si128());
-                        case 20: return new byte32(Xse.bsrli_si128(x._v16_16,  4 * sizeof(byte)), Xse.setzero_si128());
-                        case 21: return new byte32(Xse.bsrli_si128(x._v16_16,  5 * sizeof(byte)), Xse.setzero_si128());
-                        case 22: return new byte32(Xse.bsrli_si128(x._v16_16,  6 * sizeof(byte)), Xse.setzero_si128());
-                        case 23: return new byte32(Xse.bsrli_si128(x._v16_16,  7 * sizeof(byte)), Xse.setzero_si128());
-                        case 24: return new byte32(Xse.bsrli_si128(x._v16_16,  8 * sizeof(byte)), Xse.setzero_si128());
-                        case 25: return new byte32(Xse.bsrli_si128(x._v16_16,  9 * sizeof(byte)), Xse.setzero_si128());
-                        case 26: return new byte32(Xse.bsrli_si128(x._v16_16, 10 * sizeof(byte)), Xse.setzero_si128());
-                        case 27: return new byte32(Xse.bsrli_si128(x._v16_16, 11 * sizeof(byte)), Xse.setzero_si128());
-                        case 28: return new byte32(Xse.bsrli_si128(x._v16_16, 12 * sizeof(byte)), Xse.setzero_si128());
-                        case 29: return new byte32(Xse.bsrli_si128(x._v16_16, 13 * sizeof(byte)), Xse.setzero_si128());
-                        case 30: return new byte32(Xse.bsrli_si128(x._v16_16, 14 * sizeof(byte)), Xse.setzero_si128());
-                        case 31: return new byte32(Xse.bsrli_si128(x._v16_16, 15 * sizeof(byte)), Xse.setzero_si128());
+                        case 1:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 1 * sizeof(byte)), Xse.bslli_si128(x.__x16, 15 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 1 * sizeof(byte)));
+                        case 2:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 2 * sizeof(byte)), Xse.bslli_si128(x.__x16, 14 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 2 * sizeof(byte)));
+                        case 3:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 3 * sizeof(byte)), Xse.bslli_si128(x.__x16, 13 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 3 * sizeof(byte)));
+                        case 4:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 4 * sizeof(byte)), Xse.bslli_si128(x.__x16, 12 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 4 * sizeof(byte)));
+                        case 5:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 5 * sizeof(byte)), Xse.bslli_si128(x.__x16, 11 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 5 * sizeof(byte)));
+                        case 6:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 6 * sizeof(byte)), Xse.bslli_si128(x.__x16, 10 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 6 * sizeof(byte)));
+                        case 7:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 7 * sizeof(byte)), Xse.bslli_si128(x.__x16, 9 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 7 * sizeof(byte)));
+                        case 8:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 8 * sizeof(byte)), Xse.bslli_si128(x.__x16, 8 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 8 * sizeof(byte)));
+                        case 9:  return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 9 * sizeof(byte)), Xse.bslli_si128(x.__x16, 7 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 9 * sizeof(byte)));
+                        case 10: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 10 * sizeof(byte)), Xse.bslli_si128(x.__x16, 6 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 10 * sizeof(byte)));
+                        case 11: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 11 * sizeof(byte)), Xse.bslli_si128(x.__x16, 5 * sizeof(byte)), new v128(0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 11 * sizeof(byte)));
+                        case 12: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 12 * sizeof(byte)), Xse.bslli_si128(x.__x16, 4 * sizeof(byte)), new v128(0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 12 * sizeof(byte)));
+                        case 13: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 13 * sizeof(byte)), Xse.bslli_si128(x.__x16, 3 * sizeof(byte)), new v128(0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 13 * sizeof(byte)));
+                        case 14: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 14 * sizeof(byte)), Xse.bslli_si128(x.__x16, 2 * sizeof(byte)), new v128(0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 14 * sizeof(byte)));
+                        case 15: return new byte32(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 15 * sizeof(byte)), Xse.bslli_si128(x.__x16, 1 * sizeof(byte)), new v128(0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255)),
+                                                   Xse.bsrli_si128(x.__x16, 15 * sizeof(byte)));
+                        case 16: return new byte32(x.__x16, Xse.setzero_si128());
+                        case 17: return new byte32(Xse.bsrli_si128(x.__x16,  1 * sizeof(byte)), Xse.setzero_si128());
+                        case 18: return new byte32(Xse.bsrli_si128(x.__x16,  2 * sizeof(byte)), Xse.setzero_si128());
+                        case 19: return new byte32(Xse.bsrli_si128(x.__x16,  3 * sizeof(byte)), Xse.setzero_si128());
+                        case 20: return new byte32(Xse.bsrli_si128(x.__x16,  4 * sizeof(byte)), Xse.setzero_si128());
+                        case 21: return new byte32(Xse.bsrli_si128(x.__x16,  5 * sizeof(byte)), Xse.setzero_si128());
+                        case 22: return new byte32(Xse.bsrli_si128(x.__x16,  6 * sizeof(byte)), Xse.setzero_si128());
+                        case 23: return new byte32(Xse.bsrli_si128(x.__x16,  7 * sizeof(byte)), Xse.setzero_si128());
+                        case 24: return new byte32(Xse.bsrli_si128(x.__x16,  8 * sizeof(byte)), Xse.setzero_si128());
+                        case 25: return new byte32(Xse.bsrli_si128(x.__x16,  9 * sizeof(byte)), Xse.setzero_si128());
+                        case 26: return new byte32(Xse.bsrli_si128(x.__x16, 10 * sizeof(byte)), Xse.setzero_si128());
+                        case 27: return new byte32(Xse.bsrli_si128(x.__x16, 11 * sizeof(byte)), Xse.setzero_si128());
+                        case 28: return new byte32(Xse.bsrli_si128(x.__x16, 12 * sizeof(byte)), Xse.setzero_si128());
+                        case 29: return new byte32(Xse.bsrli_si128(x.__x16, 13 * sizeof(byte)), Xse.setzero_si128());
+                        case 30: return new byte32(Xse.bsrli_si128(x.__x16, 14 * sizeof(byte)), Xse.setzero_si128());
+                        case 31: return new byte32(Xse.bsrli_si128(x.__x16, 15 * sizeof(byte)), Xse.setzero_si128());
 
                         default: return x;
                     }
@@ -2203,21 +2332,21 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  1 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  1 * sizeof(short)));
-                        case 2:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  2 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  2 * sizeof(short)));
-                        case 3:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  3 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  3 * sizeof(short)));
-                        case 4:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  4 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  4 * sizeof(short)));
-                        case 5:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  5 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  5 * sizeof(short)));
-                        case 6:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  6 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  6 * sizeof(short)));
-                        case 7:  return new short16(Xse.alignr_epi8(x._v8_0, x._v8_8,  7 * sizeof(short)), Xse.bsrli_si128(x._v8_8,  7 * sizeof(short)));
-                        case 8:  return new short16(x._v8_8, Xse.setzero_si128());
-                        case 9:  return new short16(Xse.bsrli_si128(x._v8_8,  1 * sizeof(short)), Xse.setzero_si128());
-                        case 10: return new short16(Xse.bsrli_si128(x._v8_8,  2 * sizeof(short)), Xse.setzero_si128());
-                        case 11: return new short16(Xse.bsrli_si128(x._v8_8,  3 * sizeof(short)), Xse.setzero_si128());
-                        case 12: return new short16(Xse.bsrli_si128(x._v8_8,  4 * sizeof(short)), Xse.setzero_si128());
-                        case 13: return new short16(Xse.bsrli_si128(x._v8_8,  5 * sizeof(short)), Xse.setzero_si128());
-                        case 14: return new short16(Xse.bsrli_si128(x._v8_8,  6 * sizeof(short)), Xse.setzero_si128());
-                        case 15: return new short16(Xse.bsrli_si128(x._v8_8,  7 * sizeof(short)), Xse.setzero_si128());
+                        case 1:  return new short16(Xse.alignr_epi8(x.__x0, x.__x8,  1 * sizeof(short)), Xse.bsrli_si128(x.__x8,  1 * sizeof(short)));
+                        case 2:  return new short16(Xse.alignr_epi8(x.__x0, x.__x8,  2 * sizeof(short)), Xse.bsrli_si128(x.__x8,  2 * sizeof(short)));
+                        case 3:  return new short16(Xse.alignr_epi8(x.__x0, x.__x8,  3 * sizeof(short)), Xse.bsrli_si128(x.__x8,  3 * sizeof(short)));
+                        case 4:  return new short16(Xse.alignr_epi8(x.__x0, x.__x8,  4 * sizeof(short)), Xse.bsrli_si128(x.__x8,  4 * sizeof(short)));
+                        case 5:  return new short16(Xse.alignr_epi8(x.__x0, x.__x8,  5 * sizeof(short)), Xse.bsrli_si128(x.__x8,  5 * sizeof(short)));
+                        case 6:  return new short16(Xse.alignr_epi8(x.__x0, x.__x8,  6 * sizeof(short)), Xse.bsrli_si128(x.__x8,  6 * sizeof(short)));
+                        case 7:  return new short16(Xse.alignr_epi8(x.__x0, x.__x8,  7 * sizeof(short)), Xse.bsrli_si128(x.__x8,  7 * sizeof(short)));
+                        case 8:  return new short16(x.__x8, Xse.setzero_si128());
+                        case 9:  return new short16(Xse.bsrli_si128(x.__x8,  1 * sizeof(short)), Xse.setzero_si128());
+                        case 10: return new short16(Xse.bsrli_si128(x.__x8,  2 * sizeof(short)), Xse.setzero_si128());
+                        case 11: return new short16(Xse.bsrli_si128(x.__x8,  3 * sizeof(short)), Xse.setzero_si128());
+                        case 12: return new short16(Xse.bsrli_si128(x.__x8,  4 * sizeof(short)), Xse.setzero_si128());
+                        case 13: return new short16(Xse.bsrli_si128(x.__x8,  5 * sizeof(short)), Xse.setzero_si128());
+                        case 14: return new short16(Xse.bsrli_si128(x.__x8,  6 * sizeof(short)), Xse.setzero_si128());
+                        case 15: return new short16(Xse.bsrli_si128(x.__x8,  7 * sizeof(short)), Xse.setzero_si128());
 
                         default: return x;
                     }
@@ -2247,28 +2376,28 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 1 * sizeof(short)), Xse.bslli_si128(x._v8_8, 7 * sizeof(short)), new v128(0, 0, 0, 0, 0, 0, 0, -1)),
-                                                    Xse.bsrli_si128(x._v8_8, 1 * sizeof(short)));
-                        case 2:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 2 * sizeof(short)), Xse.bslli_si128(x._v8_8, 6 * sizeof(short)), new v128(0, 0, 0, 0, 0, 0, -1, -1)),
-                                                    Xse.bsrli_si128(x._v8_8, 2 * sizeof(short)));
-                        case 3:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 3 * sizeof(short)), Xse.bslli_si128(x._v8_8, 5 * sizeof(short)), new v128(0, 0, 0, 0, 0, -1, -1, -1)),
-                                                    Xse.bsrli_si128(x._v8_8, 3 * sizeof(short)));
-                        case 4:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 4 * sizeof(short)), Xse.bslli_si128(x._v8_8, 4 * sizeof(short)), new v128(0, 0, 0, 0, -1, -1, -1, -1)),
-                                                    Xse.bsrli_si128(x._v8_8, 4 * sizeof(short)));
-                        case 5:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 5 * sizeof(short)), Xse.bslli_si128(x._v8_8, 3 * sizeof(short)), new v128(0, 0, 0, -1, -1, -1, -1, -1)),
-                                                    Xse.bsrli_si128(x._v8_8, 5 * sizeof(short)));
-                        case 6:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 6 * sizeof(short)), Xse.bslli_si128(x._v8_8, 2 * sizeof(short)), new v128(0, 0, -1, -1, -1, -1, -1, -1)),
-                                                    Xse.bsrli_si128(x._v8_8, 6 * sizeof(short)));
-                        case 7:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x._v8_0, 7 * sizeof(short)), Xse.bslli_si128(x._v8_8, 1 * sizeof(short)), new v128(0, -1, -1, -1, -1, -1, -1, -1)),
-                                                    Xse.bsrli_si128(x._v8_8, 7 * sizeof(short)));
-                        case 8:  return new short16(x._v8_8, Xse.setzero_si128());
-                        case 9:  return new short16(Xse.bsrli_si128(x._v8_8,  1 * sizeof(short)), Xse.setzero_si128());
-                        case 10: return new short16(Xse.bsrli_si128(x._v8_8,  2 * sizeof(short)), Xse.setzero_si128());
-                        case 11: return new short16(Xse.bsrli_si128(x._v8_8,  3 * sizeof(short)), Xse.setzero_si128());
-                        case 12: return new short16(Xse.bsrli_si128(x._v8_8,  4 * sizeof(short)), Xse.setzero_si128());
-                        case 13: return new short16(Xse.bsrli_si128(x._v8_8,  5 * sizeof(short)), Xse.setzero_si128());
-                        case 14: return new short16(Xse.bsrli_si128(x._v8_8,  6 * sizeof(short)), Xse.setzero_si128());
-                        case 15: return new short16(Xse.bsrli_si128(x._v8_8,  7 * sizeof(short)), Xse.setzero_si128());
+                        case 1:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 1 * sizeof(short)), Xse.bslli_si128(x.__x8, 7 * sizeof(short)), new v128(0, 0, 0, 0, 0, 0, 0, -1)),
+                                                    Xse.bsrli_si128(x.__x8, 1 * sizeof(short)));
+                        case 2:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 2 * sizeof(short)), Xse.bslli_si128(x.__x8, 6 * sizeof(short)), new v128(0, 0, 0, 0, 0, 0, -1, -1)),
+                                                    Xse.bsrli_si128(x.__x8, 2 * sizeof(short)));
+                        case 3:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 3 * sizeof(short)), Xse.bslli_si128(x.__x8, 5 * sizeof(short)), new v128(0, 0, 0, 0, 0, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x.__x8, 3 * sizeof(short)));
+                        case 4:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 4 * sizeof(short)), Xse.bslli_si128(x.__x8, 4 * sizeof(short)), new v128(0, 0, 0, 0, -1, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x.__x8, 4 * sizeof(short)));
+                        case 5:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 5 * sizeof(short)), Xse.bslli_si128(x.__x8, 3 * sizeof(short)), new v128(0, 0, 0, -1, -1, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x.__x8, 5 * sizeof(short)));
+                        case 6:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 6 * sizeof(short)), Xse.bslli_si128(x.__x8, 2 * sizeof(short)), new v128(0, 0, -1, -1, -1, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x.__x8, 6 * sizeof(short)));
+                        case 7:  return new short16(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 7 * sizeof(short)), Xse.bslli_si128(x.__x8, 1 * sizeof(short)), new v128(0, -1, -1, -1, -1, -1, -1, -1)),
+                                                    Xse.bsrli_si128(x.__x8, 7 * sizeof(short)));
+                        case 8:  return new short16(x.__x8, Xse.setzero_si128());
+                        case 9:  return new short16(Xse.bsrli_si128(x.__x8,  1 * sizeof(short)), Xse.setzero_si128());
+                        case 10: return new short16(Xse.bsrli_si128(x.__x8,  2 * sizeof(short)), Xse.setzero_si128());
+                        case 11: return new short16(Xse.bsrli_si128(x.__x8,  3 * sizeof(short)), Xse.setzero_si128());
+                        case 12: return new short16(Xse.bsrli_si128(x.__x8,  4 * sizeof(short)), Xse.setzero_si128());
+                        case 13: return new short16(Xse.bsrli_si128(x.__x8,  5 * sizeof(short)), Xse.setzero_si128());
+                        case 14: return new short16(Xse.bsrli_si128(x.__x8,  6 * sizeof(short)), Xse.setzero_si128());
+                        case 15: return new short16(Xse.bsrli_si128(x.__x8,  7 * sizeof(short)), Xse.setzero_si128());
 
                         default: return x;
                     }
@@ -2392,7 +2521,7 @@ namespace MaxMath
             {
                 switch (n)
                 {
-                    case 1: return new long3(Xse.insert_epi64(Xse.bsrli_si128(x._xy, 1 * sizeof(long)), (ulong)x.z, 1), 0);
+                    case 1: return new long3(Xse.insert_epi64(Xse.bsrli_si128(x.__x0, 1 * sizeof(long)), (ulong)x.z, 1), 0);
                     case 2: return new long3(x.z, 0, 0);
 
                     default: return x;
@@ -2425,9 +2554,9 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1: return new long4(Xse.alignr_epi8(x._xy, x._zw, 1 * sizeof(long)), Xse.bsrli_si128(x._zw, 1 * sizeof(long)));
-                        case 2: return new long4(x._zw, Xse.setzero_si128());
-                        case 3: return new long4(Xse.bsrli_si128(x._zw, 1 * sizeof(long)), Xse.setzero_si128());
+                        case 1: return new long4(Xse.alignr_epi8(x.__x0, x.__x2, 1 * sizeof(long)), Xse.bsrli_si128(x.__x2, 1 * sizeof(long)));
+                        case 2: return new long4(x.__x2, Xse.setzero_si128());
+                        case 3: return new long4(Xse.bsrli_si128(x.__x2, 1 * sizeof(long)), Xse.setzero_si128());
 
                         default: return x;
                     }
@@ -2457,10 +2586,10 @@ namespace MaxMath
                 {
                     switch (n)
                     {
-                        case 1: return new long4(Xse.blendv_si128(Xse.bsrli_si128(x._xy, 1 * sizeof(long)), Xse.bslli_si128(x._zw, 1 * sizeof(long)), new long2(0, -1)),
-                                                 Xse.bsrli_si128(x._zw, 1 * sizeof(long)));
-                        case 2: return new long4(x._zw, Xse.setzero_si128());
-                        case 3: return new long4(Xse.bsrli_si128(x._zw, 1 * sizeof(long)), Xse.setzero_si128());
+                        case 1: return new long4(Xse.blendv_si128(Xse.bsrli_si128(x.__x0, 1 * sizeof(long)), Xse.bslli_si128(x.__x2, 1 * sizeof(long)), new long2(0, -1)),
+                                                 Xse.bsrli_si128(x.__x2, 1 * sizeof(long)));
+                        case 2: return new long4(x.__x2, Xse.setzero_si128());
+                        case 3: return new long4(Xse.bsrli_si128(x.__x2, 1 * sizeof(long)), Xse.setzero_si128());
 
                         default: return x;
                     }
@@ -2517,6 +2646,136 @@ namespace MaxMath
         public static ulong4 vshr(ulong4 x, int n)
         {
             return (ulong4)vshr((long4)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x2 vshr(mask8x2 x, int n)
+        {
+            return (v128)vshr((byte2)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x3 vshr(mask8x3 x, int n)
+        {
+            return (v128)vshr((byte3)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x4 vshr(mask8x4 x, int n)
+        {
+            return (v128)vshr((byte4)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x8 vshr(mask8x8 x, int n)
+        {
+            return (v128)vshr((byte8)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x16 vshr(mask8x16 x, int n)
+        {
+            return (v128)vshr((byte16)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask8x32 vshr(mask8x32 x, int n)
+        {
+            return (v256)vshr((byte32)(v256)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x2 vshr(mask16x2 x, int n)
+        {
+            return (v128)vshr((ushort2)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x3 vshr(mask16x3 x, int n)
+        {
+            return (v128)vshr((ushort3)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x4 vshr(mask16x4 x, int n)
+        {
+            return (v128)vshr((ushort4)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x8 vshr(mask16x8 x, int n)
+        {
+            return (v128)vshr((ushort8)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask16x16 vshr(mask16x16 x, int n)
+        {
+            return (v256)vshr((ushort16)(v256)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x2 vshr(mask32x2 x, int n)
+        {
+            return (v128)vshr((uint2)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x3 vshr(mask32x3 x, int n)
+        {
+            return (v128)vshr((uint3)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x4 vshr(mask32x4 x, int n)
+        {
+            return (v128)vshr((uint4)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 vshr(mask32x8 x, int n)
+        {
+            return (v256)vshr((uint8)(v256)x, n);
+        }
+
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x2 vshr(mask64x2 x, int n)
+        {
+            return (v128)vshr((ulong2)(v128)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x3 vshr(mask64x3 x, int n)
+        {
+            return (v256)vshr((ulong3)(v256)x, n);
+        }
+
+        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask64x4 vshr(mask64x4 x, int n)
+        {
+            return (v256)vshr((ulong4)(v256)x, n);
         }
     }
 }

@@ -2,20 +2,18 @@ using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst;
 using MaxMath.Intrinsics;
 
-using static Unity.Mathematics.math;
 using static Unity.Burst.Intrinsics.X86;
-using static MaxMath.maxmath;
+using static MaxMath.math;
 using static MaxMath.LUT.FLOATING_POINT;
 
 namespace MaxMath
 {
     /// <summary>       An 8-bit 1.3.4.-3 IEEE 754 floating point number, often called a "mini-float".       </summary>
     [Serializable]
-    unsafe public readonly partial struct quarter : IEquatable<quarter>, IComparable<quarter>, IComparable, IFormattable, IConvertible
+    unsafe public partial struct quarter : IEquatable<quarter>, IComparable<quarter>, IComparable, IFormattable, IConvertible
     {
         // Change the number of exponent bits ("->3<- + (SIGN_BIT ? 0 : 1)")
         // And everything will fall into place correctly
@@ -42,9 +40,106 @@ namespace MaxMath
         internal const int  F64_SHR_PLACE_MANTISSA = MANTISSA_BITS + ((1 + F64_EXPONENT_BITS) - (MANTISSA_BITS + EXPONENT_BITS));
         internal const long F64_MAGIC              = (((1L << F64_EXPONENT_BITS) - 1) - (1 + -EXPONENT_BIAS)) << F64_MANTISSA_BITS;
         internal const ulong DEPOSIT_MASK_64       = (1ul << (F64_BITS - 1)) | (((1ul << (BITS - 1)) - 1) << (F64_BITS - BITS - (F64_EXPONENT_BITS - EXPONENT_BITS)));
+        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(bool x)
+        {
+            this = x ? (quarter)1f : (quarter)0f;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(byte x)
+        {
+            this = (quarter)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(sbyte x)
+        {
+            this = (quarter)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(ushort x)
+        {
+            this = (quarter)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(short x)
+        {
+            this = (quarter)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(uint f)
+        {
+            this = (quarter)f;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(int f)
+        {
+            this = (quarter)f;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(ulong d)
+        {
+            this = (quarter)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(long d)
+        {
+            this = (quarter)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(UInt128 d)
+        {
+            this = (quarter)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(Int128 d)
+        {
+            this = (quarter)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(quarter x)
+        {
+            this = x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(half x)
+        {
+            this = (quarter)x;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(float f)
+        {
+            this = (quarter)f;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(double d)
+        {
+            this = (quarter)d;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public quarter(quadruple d)
+        {
+            this = (quarter)d;
+        }
 
 
-        public readonly byte value;
+        public byte value;
 
 
         #region CONSTANTS
@@ -63,6 +158,23 @@ namespace MaxMath
         #endregion
 
         #region TYPE_CONVERSION
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter(bool q) => q ? (quarter)1 : (quarter)0;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator bool(quarter q) => andnot(q != 0, isnan(q));
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool2(quarter q) => (bool)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool3(quarter q) => (bool)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.bool4(quarter q) => (bool)q;
+
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static quarter FromHalf(half h, bool promiseInRange = false, bool promiseAbs = false, bool promiseNotSubnormal = false)
         {
@@ -504,6 +616,10 @@ namespace MaxMath
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator quarter(Unity.Mathematics.half q) => (quarter)(half)q;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half(quarter q)
         {
             return ToHalf(q, false, false);
@@ -679,65 +795,65 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte(quarter q)
         {
-            return (byte)maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
+            return (byte)math.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort(quarter q)
         {
-            return (ushort)maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
+            return (ushort)math.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint(quarter q)
         {
-            return maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
+            return math.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong(quarter q)
         {
-            return maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
+            return math.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator UInt128(quarter q)
         {
-            return maxmath.BASE_cvtf8i32(q, signed: false, trunc: true);
+            return math.BASE_cvtf8i32(q, signed: false, trunc: true);
         }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator sbyte(quarter q)
         {
-            return (sbyte)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
+            return (sbyte)math.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator short(quarter q)
         {
-            return (short)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
+            return (short)math.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator int(quarter q)
         {
-            return (int)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
+            return (int)math.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long(quarter q)
         {
-            return (int)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
+            return (int)math.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Int128(quarter q)
         {
-            return (int)maxmath.BASE_cvtf8i32(q, signed: true, trunc: true);
+            return (int)math.BASE_cvtf8i32(q, signed: true, trunc: true);
         }
-
-
+        
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half2(quarter q)
         {
@@ -759,7 +875,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator half8(quarter q)
         {
-            return (half8)(half)q;
+            return (half8)(half)q;     
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator half16(quarter q)
+        {
+            return (half16)(half)q;
         }
 
 
@@ -781,6 +903,12 @@ namespace MaxMath
             return (float4)(float)q;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator float8(quarter q)
+        {
+            return (float8)(float)q;
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator double2(quarter q)
@@ -800,14 +928,66 @@ namespace MaxMath
             return (double4)(double)q;
         }
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.half(quarter q) => (half)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.half2(quarter q) => (half2)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.half3(quarter q) => (half3)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.half4(quarter q) => (half4)q;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float2(quarter q) => (float2)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float3(quarter q) => (float3)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.float4(quarter q) => (float4)q;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double2(quarter q) => (double2)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double3(quarter q) => (double3)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Unity.Mathematics.double4(quarter q) => (double4)q;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint2(quarter q) => (uint2)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint3(quarter q) => (uint3)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.uint4(quarter q) => (uint4)q;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.int2(quarter q) => (int2)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.int3(quarter q) => (int3)q;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Unity.Mathematics.int4(quarter q) => (int4)q;
         #endregion
 
         #region ARITHMETIC
-        internal bool IsZero => (value & 0b0111_1111) == 0;
-        internal bool IsNotZero => (value & 0b0111_1111) != 0;
+        internal readonly bool IsZero => (value & 0b0111_1111) == 0;
+        internal readonly bool IsNotZero => (value & 0b0111_1111) != 0;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        internal readonly bool IsEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
         {
             neitherNaN |= constexpr.IS_TRUE(!isnan(this)) && constexpr.IS_TRUE(!isnan(other));
             neitherZero |= constexpr.IS_TRUE(IsNotZero) && constexpr.IS_TRUE(other.IsNotZero);
@@ -854,7 +1034,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool IsNotEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        internal readonly bool IsNotEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
         {
             neitherNaN |= constexpr.IS_TRUE(!isnan(this)) && constexpr.IS_TRUE(!isnan(other));
             neitherZero |= constexpr.IS_TRUE(IsNotZero) && constexpr.IS_TRUE(other.IsNotZero);
@@ -901,7 +1081,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool IsLessThan(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        internal readonly bool IsLessThan(quarter other, bool neitherNaN = false, bool neitherZero = false)
         {
             neitherNaN |= constexpr.IS_TRUE(!isnan(this)) && constexpr.IS_TRUE(!isnan(other));
             neitherZero |= constexpr.IS_TRUE(IsNotZero) && constexpr.IS_TRUE(other.IsNotZero);
@@ -965,7 +1145,7 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool IsLessThanOrEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        internal readonly bool IsLessThanOrEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
         {
             neitherNaN |= constexpr.IS_TRUE(!isnan(this)) && constexpr.IS_TRUE(!isnan(other));
             neitherZero |= constexpr.IS_TRUE(IsNotZero) && constexpr.IS_TRUE(other.IsNotZero);
@@ -1028,13 +1208,13 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool IsGreaterThan(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        internal readonly bool IsGreaterThan(quarter other, bool neitherNaN = false, bool neitherZero = false)
         {
             return other.IsLessThan(this, neitherNaN, neitherZero);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool IsGreaterThanOrEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
+        internal readonly bool IsGreaterThanOrEqualTo(quarter other, bool neitherNaN = false, bool neitherZero = false)
         {
             return other.IsLessThanOrEqualTo(this, neitherNaN, neitherZero);
         }
@@ -1051,330 +1231,6 @@ namespace MaxMath
         {
             return asquarter((byte)(value.value ^ 0b1000_0000));
         }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (quarter left, quarter right)
-        {
-            return left.IsEqualTo(right);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (half left, quarter right)
-        {
-            if (constexpr.IS_TRUE(left.IsZero()))
-            {
-                return right.IsZero;
-            }
-            else if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left.IsZero();
-            }
-
-            return (float)left == (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (quarter left, half right)
-        {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right.IsZero();
-            }
-            else if (constexpr.IS_TRUE(right.IsZero()))
-            {
-                return left.IsZero;
-            }
-
-            return (float)left == (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (float left, quarter right)
-        {
-            if (constexpr.IS_TRUE(left == 0f))
-            {
-                return right.IsZero;
-            }
-            else if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left == 0f;
-            }
-
-            return left == (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (quarter left, float right)
-        {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right == 0f;
-            }
-            else if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left.IsZero;
-            }
-
-            return (float)left == right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (double left, quarter right)
-        {
-            if (constexpr.IS_TRUE(left == 0d))
-            {
-                return right.IsZero;
-            }
-            else if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left == 0d;
-            }
-
-            return left == (double)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator == (quarter left, double right)
-        {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right == 0d;
-            }
-            else if (constexpr.IS_TRUE(right == 0d))
-            {
-                return left.IsZero;
-            }
-
-            return (double)left == right;
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (quarter left, quarter right)
-        {
-            return left.IsNotEqualTo(right);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (half left, quarter right)
-        {
-            if (constexpr.IS_TRUE(left.IsZero()))
-            {
-                return right.IsNotZero;
-            }
-            else if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left.IsNotZero();
-            }
-
-            return (float)left != (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (quarter left, half right)
-        {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right.IsNotZero();
-            }
-            else if (constexpr.IS_TRUE(right.IsZero()))
-            {
-                return left.IsNotZero;
-            }
-
-            return (float)left != (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (float left, quarter right)
-        {
-            if (constexpr.IS_TRUE(left == 0f))
-            {
-                return right.IsNotZero;
-            }
-            else if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left != 0f;
-            }
-
-            return left != (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (quarter left, float right)
-        {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right != 0f;
-            }
-            else if (constexpr.IS_TRUE(right == 0f))
-            {
-                return left.IsNotZero;
-            }
-
-            return (float)left != right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (double left, quarter right)
-        {
-            if (constexpr.IS_TRUE(left == 0d))
-            {
-                return right.IsNotZero;
-            }
-            else if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left != 0d;
-            }
-
-            return left != (double)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator != (quarter left, double right)
-        {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right != 0d;
-            }
-            else if (constexpr.IS_TRUE(right == 0d))
-            {
-                return left.IsNotZero;
-            }
-
-            return (double)left != right;
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator < (quarter left, quarter right)
-        {
-            return left.IsLessThan(right);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator < (half left, quarter right)
-        {
-            return (float)left < (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator < (quarter left, half right)
-        {
-            return (float)left < (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator < (float left, quarter right)
-        {
-            return left < (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator < (quarter left, float right)
-        {
-            return (float)left < right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator < (double left, quarter right)
-        {
-            return left < (double)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator < (quarter left, double right)
-        {
-            return (double)left < right;
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (quarter left, quarter right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (half left, quarter right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (quarter left, half right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (float left, quarter right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (quarter left, float right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (double left, quarter right) => right < left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator > (quarter left, double right) => right < left;
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator <= (quarter left, quarter right)
-        {
-            return left.IsLessThanOrEqualTo(right);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator <= (half left, quarter right)
-        {
-            return (float)left <= (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator <= (quarter left, half right)
-        {
-            return (float)left <= (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator <= (float left, quarter right)
-        {
-            return left <= (float)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator <= (quarter left, float right)
-        {
-            return (float)left <= right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator <= (double left, quarter right)
-        {
-            return left <= (double)right;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator <= (quarter left, double right)
-        {
-            return (double)left <= right;
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (quarter left, quarter right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (half left, quarter right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (quarter left, half right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (float left, quarter right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (quarter left, float right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (double left, quarter right) => right <= left;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator >= (quarter left, double right) => right <= left;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1590,26 +1446,3201 @@ namespace MaxMath
         {
             return (double)left % right;
         }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (byte left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, byte right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (ushort left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, ushort right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (uint left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, uint right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (ulong left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, ulong right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (UInt128 left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, UInt128 right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (sbyte left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, sbyte right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (short left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, short right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (int left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, int right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (long left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, long right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (Int128 left, quarter right)
+        {
+            return (float)left + (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter left, Int128 right)
+        {
+            return (float)left + (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (byte left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, byte right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (ushort left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, ushort right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (uint left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, uint right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (ulong left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, ulong right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (UInt128 left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, UInt128 right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (sbyte left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, sbyte right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (short left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, short right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (int left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, int right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (long left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, long right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (Int128 left, quarter right)
+        {
+            return (float)left - (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter left, Int128 right)
+        {
+            return (float)left - (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (byte left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, byte right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (ushort left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, ushort right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (uint left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, uint right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (ulong left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, ulong right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (UInt128 left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, UInt128 right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (sbyte left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, sbyte right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (short left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, short right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (int left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, int right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (long left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, long right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (Int128 left, quarter right)
+        {
+            return (float)left * (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter left, Int128 right)
+        {
+            return (float)left * (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (byte left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, byte right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (ushort left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, ushort right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (uint left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, uint right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (ulong left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, ulong right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (UInt128 left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, UInt128 right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (sbyte left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, sbyte right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (short left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, short right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (int left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, int right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (long left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, long right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (Int128 left, quarter right)
+        {
+            return (float)left / (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter left, Int128 right)
+        {
+            return (float)left / (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (byte left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, byte right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (ushort left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, ushort right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (uint left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, uint right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (ulong left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, ulong right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (UInt128 left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, UInt128 right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (sbyte left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, sbyte right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (short left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, short right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (int left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, int right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (long left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, long right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (Int128 left, quarter right)
+        {
+            return (float)left % (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter left, Int128 right)
+        {
+            return (float)left % (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (quarter lhs, Unity.Mathematics.half rhs) => (float)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (quarter lhs, Unity.Mathematics.half rhs) => (float)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (quarter lhs, Unity.Mathematics.half rhs) => (float)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (quarter lhs, Unity.Mathematics.half rhs) => (float)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (quarter lhs, Unity.Mathematics.half rhs) => (float)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator + (Unity.Mathematics.half lhs, quarter rhs) => lhs + (float)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator - (Unity.Mathematics.half lhs, quarter rhs) => lhs - (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator * (Unity.Mathematics.half lhs, quarter rhs) => lhs * (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator / (Unity.Mathematics.half lhs, quarter rhs) => lhs / (float)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float operator % (Unity.Mathematics.half lhs, quarter rhs) => lhs % (float)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (quarter lhs, Unity.Mathematics.half2 rhs) => (float2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (quarter lhs, Unity.Mathematics.half2 rhs) => (float2)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (quarter lhs, Unity.Mathematics.half2 rhs) => (float2)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (quarter lhs, Unity.Mathematics.half2 rhs) => (float2)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (quarter lhs, Unity.Mathematics.half2 rhs) => (float2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (Unity.Mathematics.half2 lhs, quarter rhs) => lhs + (float2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (Unity.Mathematics.half2 lhs, quarter rhs) => lhs - (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (Unity.Mathematics.half2 lhs, quarter rhs) => lhs * (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (Unity.Mathematics.half2 lhs, quarter rhs) => lhs / (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (Unity.Mathematics.half2 lhs, quarter rhs) => lhs % (float2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (quarter lhs, Unity.Mathematics.half3 rhs) => (float3)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (quarter lhs, Unity.Mathematics.half3 rhs) => (float3)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (quarter lhs, Unity.Mathematics.half3 rhs) => (float3)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (quarter lhs, Unity.Mathematics.half3 rhs) => (float3)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (quarter lhs, Unity.Mathematics.half3 rhs) => (float3)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (Unity.Mathematics.half3 lhs, quarter rhs) => lhs + (float3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (Unity.Mathematics.half3 lhs, quarter rhs) => lhs - (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (Unity.Mathematics.half3 lhs, quarter rhs) => lhs * (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (Unity.Mathematics.half3 lhs, quarter rhs) => lhs / (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (Unity.Mathematics.half3 lhs, quarter rhs) => lhs % (float3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (quarter lhs, Unity.Mathematics.half4 rhs) => (float4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (quarter lhs, Unity.Mathematics.half4 rhs) => (float4)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (quarter lhs, Unity.Mathematics.half4 rhs) => (float4)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (quarter lhs, Unity.Mathematics.half4 rhs) => (float4)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (quarter lhs, Unity.Mathematics.half4 rhs) => (float4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (Unity.Mathematics.half4 lhs, quarter rhs) => lhs + (float4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (Unity.Mathematics.half4 lhs, quarter rhs) => lhs - (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (Unity.Mathematics.half4 lhs, quarter rhs) => lhs * (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (Unity.Mathematics.half4 lhs, quarter rhs) => lhs / (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (Unity.Mathematics.half4 lhs, quarter rhs) => lhs % (float4)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (Unity.Mathematics.float2 lhs, quarter rhs) => lhs + (float2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (Unity.Mathematics.float2 lhs, quarter rhs) => lhs - (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (Unity.Mathematics.float2 lhs, quarter rhs) => lhs * (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (Unity.Mathematics.float2 lhs, quarter rhs) => lhs / (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (Unity.Mathematics.float2 lhs, quarter rhs) => lhs % (float2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (Unity.Mathematics.float3 lhs, quarter rhs) => lhs + (float3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (Unity.Mathematics.float3 lhs, quarter rhs) => lhs - (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (Unity.Mathematics.float3 lhs, quarter rhs) => lhs * (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (Unity.Mathematics.float3 lhs, quarter rhs) => lhs / (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (Unity.Mathematics.float3 lhs, quarter rhs) => lhs % (float3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (Unity.Mathematics.float4 lhs, quarter rhs) => lhs + (float4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (Unity.Mathematics.float4 lhs, quarter rhs) => lhs - (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (Unity.Mathematics.float4 lhs, quarter rhs) => lhs * (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (Unity.Mathematics.float4 lhs, quarter rhs) => lhs / (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (Unity.Mathematics.float4 lhs, quarter rhs) => lhs % (float4)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator + (Unity.Mathematics.double2 lhs, quarter rhs) => lhs + (double2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator - (Unity.Mathematics.double2 lhs, quarter rhs) => lhs - (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator * (Unity.Mathematics.double2 lhs, quarter rhs) => lhs * (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator / (Unity.Mathematics.double2 lhs, quarter rhs) => lhs / (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator % (Unity.Mathematics.double2 lhs, quarter rhs) => lhs % (double2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator + (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator - (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator * (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator / (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 operator % (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator + (Unity.Mathematics.double3 lhs, quarter rhs) => lhs + (double3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator - (Unity.Mathematics.double3 lhs, quarter rhs) => lhs - (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator * (Unity.Mathematics.double3 lhs, quarter rhs) => lhs * (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator / (Unity.Mathematics.double3 lhs, quarter rhs) => lhs / (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator % (Unity.Mathematics.double3 lhs, quarter rhs) => lhs % (double3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator + (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator - (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator * (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator / (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 operator % (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator + (Unity.Mathematics.double4 lhs, quarter rhs) => lhs + (double4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator - (Unity.Mathematics.double4 lhs, quarter rhs) => lhs - (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator * (Unity.Mathematics.double4 lhs, quarter rhs) => lhs * (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator / (Unity.Mathematics.double4 lhs, quarter rhs) => lhs / (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator % (Unity.Mathematics.double4 lhs, quarter rhs) => lhs % (double4)rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator + (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator - (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator * (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator / (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 operator % (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (Unity.Mathematics.int2 lhs, quarter rhs) => lhs + (float2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (Unity.Mathematics.int2 lhs, quarter rhs) => lhs - (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (Unity.Mathematics.int2 lhs, quarter rhs) => lhs * (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (Unity.Mathematics.int2 lhs, quarter rhs) => lhs / (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (Unity.Mathematics.int2 lhs, quarter rhs) => lhs % (float2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (quarter lhs, Unity.Mathematics.int2 rhs) => (float2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (quarter lhs, Unity.Mathematics.int2 rhs) => (float2)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (quarter lhs, Unity.Mathematics.int2 rhs) => (float2)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (quarter lhs, Unity.Mathematics.int2 rhs) => (float2)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (quarter lhs, Unity.Mathematics.int2 rhs) => (float2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (Unity.Mathematics.int3 lhs, quarter rhs) => lhs + (float3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (Unity.Mathematics.int3 lhs, quarter rhs) => lhs - (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (Unity.Mathematics.int3 lhs, quarter rhs) => lhs * (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (Unity.Mathematics.int3 lhs, quarter rhs) => lhs / (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (Unity.Mathematics.int3 lhs, quarter rhs) => lhs % (float3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (quarter lhs, Unity.Mathematics.int3 rhs) => (float3)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (quarter lhs, Unity.Mathematics.int3 rhs) => (float3)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (quarter lhs, Unity.Mathematics.int3 rhs) => (float3)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (quarter lhs, Unity.Mathematics.int3 rhs) => (float3)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (quarter lhs, Unity.Mathematics.int3 rhs) => (float3)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (Unity.Mathematics.int4 lhs, quarter rhs) => lhs + (float4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (Unity.Mathematics.int4 lhs, quarter rhs) => lhs - (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (Unity.Mathematics.int4 lhs, quarter rhs) => lhs * (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (Unity.Mathematics.int4 lhs, quarter rhs) => lhs / (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (Unity.Mathematics.int4 lhs, quarter rhs) => lhs % (float4)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (quarter lhs, Unity.Mathematics.int4 rhs) => (float4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (quarter lhs, Unity.Mathematics.int4 rhs) => (float4)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (quarter lhs, Unity.Mathematics.int4 rhs) => (float4)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (quarter lhs, Unity.Mathematics.int4 rhs) => (float4)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (quarter lhs, Unity.Mathematics.int4 rhs) => (float4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (Unity.Mathematics.uint2 lhs, quarter rhs) => lhs + (float2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (Unity.Mathematics.uint2 lhs, quarter rhs) => lhs - (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (Unity.Mathematics.uint2 lhs, quarter rhs) => lhs * (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (Unity.Mathematics.uint2 lhs, quarter rhs) => lhs / (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (Unity.Mathematics.uint2 lhs, quarter rhs) => lhs % (float2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator + (quarter lhs, Unity.Mathematics.uint2 rhs) => (float2)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator - (quarter lhs, Unity.Mathematics.uint2 rhs) => (float2)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator * (quarter lhs, Unity.Mathematics.uint2 rhs) => (float2)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator / (quarter lhs, Unity.Mathematics.uint2 rhs) => (float2)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float2 operator % (quarter lhs, Unity.Mathematics.uint2 rhs) => (float2)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (Unity.Mathematics.uint3 lhs, quarter rhs) => lhs + (float3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (Unity.Mathematics.uint3 lhs, quarter rhs) => lhs - (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (Unity.Mathematics.uint3 lhs, quarter rhs) => lhs * (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (Unity.Mathematics.uint3 lhs, quarter rhs) => lhs / (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (Unity.Mathematics.uint3 lhs, quarter rhs) => lhs % (float3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator + (quarter lhs, Unity.Mathematics.uint3 rhs) => (float3)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator - (quarter lhs, Unity.Mathematics.uint3 rhs) => (float3)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator * (quarter lhs, Unity.Mathematics.uint3 rhs) => (float3)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator / (quarter lhs, Unity.Mathematics.uint3 rhs) => (float3)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float3 operator % (quarter lhs, Unity.Mathematics.uint3 rhs) => (float3)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (Unity.Mathematics.uint4 lhs, quarter rhs) => lhs + (float4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (Unity.Mathematics.uint4 lhs, quarter rhs) => lhs - (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (Unity.Mathematics.uint4 lhs, quarter rhs) => lhs * (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (Unity.Mathematics.uint4 lhs, quarter rhs) => lhs / (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (Unity.Mathematics.uint4 lhs, quarter rhs) => lhs % (float4)rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator + (quarter lhs, Unity.Mathematics.uint4 rhs) => (float4)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator - (quarter lhs, Unity.Mathematics.uint4 rhs) => (float4)lhs - rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator * (quarter lhs, Unity.Mathematics.uint4 rhs) => (float4)lhs * rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator / (quarter lhs, Unity.Mathematics.uint4 rhs) => (float4)lhs / rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float4 operator % (quarter lhs, Unity.Mathematics.uint4 rhs) => (float4)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, quarter right)
+        {
+            return left.IsEqualTo(right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (half left, quarter right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right.IsZero;
+            }
+            else if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left.IsZero;
+            }
+
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left == right;
+                }
+            }
+
+            if (BurstArchitecture.IsF16Supported)
+            {
+                return (float)left == (float)right;
+            }
+            else
+            {
+                return left == (half)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, half right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right.IsZero;
+            }
+            else if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left.IsZero;
+            }
+
+            if (constexpr.IS_CONST(right))
+            {
+                if ((half)(quarter)right == right)
+                {
+                    return left == (quarter)right;
+                }
+            }
+
+            if (BurstArchitecture.IsF16Supported)
+            {
+                return (float)left == (float)right;
+            }
+            else
+            {
+                return (half)left == right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (float left, quarter right)
+        {
+            if (constexpr.IS_TRUE(left == 0f))
+            {
+                return right.IsZero;
+            }
+            else if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left == 0f;
+            }
+
+            return left == (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, float right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right == 0f;
+            }
+            else if (constexpr.IS_TRUE(right == 0f))
+            {
+                return left.IsZero;
+            }
+
+            return (float)left == right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (double left, quarter right)
+        {
+            if (constexpr.IS_TRUE(left == 0d))
+            {
+                return right.IsZero;
+            }
+            else if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left == 0d;
+            }
+
+            return left == (double)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, double right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right == 0d;
+            }
+            else if (constexpr.IS_TRUE(right == 0d))
+            {
+                return left.IsZero;
+            }
+
+            return (double)left == right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, quarter right)
+        {
+            return left.IsNotEqualTo(right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (half left, quarter right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right.IsNotZero;
+            }
+            else if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left.IsNotZero;
+            }
+
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left != right;
+                }
+            }
+
+            if (BurstArchitecture.IsF16Supported)
+            {
+                return (float)left != (float)right;
+            }
+            else
+            {
+                return left != (half)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, half right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right.IsNotZero;
+            }
+            else if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left.IsNotZero;
+            }
+
+            if (constexpr.IS_CONST(right))
+            {
+                if ((half)(quarter)right == right)
+                {
+                    return left != (quarter)right;
+                }
+            }
+
+            if (BurstArchitecture.IsF16Supported)
+            {
+                return (float)left != (float)right;
+            }
+            else
+            {
+                return (half)left != right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (float left, quarter right)
+        {
+            if (constexpr.IS_TRUE(left == 0f))
+            {
+                return right.IsNotZero;
+            }
+            else if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left != 0f;
+            }
+
+            return left != (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, float right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right != 0f;
+            }
+            else if (constexpr.IS_TRUE(right == 0f))
+            {
+                return left.IsNotZero;
+            }
+
+            return (float)left != right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (double left, quarter right)
+        {
+            if (constexpr.IS_TRUE(left == 0d))
+            {
+                return right.IsNotZero;
+            }
+            else if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left != 0d;
+            }
+
+            return left != (double)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, double right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right != 0d;
+            }
+            else if (constexpr.IS_TRUE(right == 0d))
+            {
+                return left.IsNotZero;
+            }
+
+            return (double)left != right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, quarter right)
+        {
+            return left.IsLessThan(right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (half left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left < right;
+                }
+            }
+
+            if (BurstArchitecture.IsF16Supported)
+            {
+                return (float)left < (float)right;
+            }
+            else
+            {
+                return left < (half)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, half right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((half)(quarter)right == right)
+                {
+                    return left < (quarter)right;
+                }
+            }
+
+            if (BurstArchitecture.IsF16Supported)
+            {
+                return (float)left < (float)right;
+            }
+            else
+            {
+                return (half)left < right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (float left, quarter right)
+        {
+            return left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, float right)
+        {
+            return (float)left < right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (double left, quarter right)
+        {
+            return left < (double)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, double right)
+        {
+            return (double)left < right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, quarter right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (half left, quarter right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, half right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (float left, quarter right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, float right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (double left, quarter right) => right < left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, double right) => right < left;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, quarter right)
+        {
+            return left.IsLessThanOrEqualTo(right);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (half left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                if ((half)(quarter)left == left)
+                {
+                    return (quarter)left <= right;
+                }
+            }
+
+            if (BurstArchitecture.IsF16Supported)
+            {
+                return (float)left <= (float)right;
+            }
+            else
+            {
+                return left <= (half)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, half right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if ((half)(quarter)right == right)
+                {
+                    return left <= (quarter)right;
+                }
+            }
+
+            if (BurstArchitecture.IsF16Supported)
+            {
+                return (float)left <= (float)right;
+            }
+            else
+            {
+                return (half)left <= right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (float left, quarter right)
+        {
+            return left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, float right)
+        {
+            return (float)left <= right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (double left, quarter right)
+        {
+            return left <= (double)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, double right)
+        {
+            return (double)left <= right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, quarter right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (half left, quarter right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, half right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (float left, quarter right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, float right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (double left, quarter right) => right <= left;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, double right) => right <= left;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (byte left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, byte right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (ushort left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, ushort right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (uint left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, uint right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (ulong left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, ulong right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (UInt128 left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, UInt128 right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (sbyte left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, sbyte right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (short left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, short right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (int left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, int right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (long left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, long right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (Int128 left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(right));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter left, Int128 right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return andnot((quarter)left == (quarter)right, isinf(left));
+            }
+            else
+            {
+                return (float)left == (float)right;
+            }
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (byte left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, byte right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (ushort left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, ushort right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (uint left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, uint right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (ulong left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, ulong right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (UInt128 left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, UInt128 right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (sbyte left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, sbyte right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (short left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, short right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (int left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, int right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (long left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, long right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (Int128 left, quarter right)
+        {
+            if (constexpr.IS_CONST(left))
+            {
+                return (quarter)left != (quarter)right | isinf(right);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter left, Int128 right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                return (quarter)left != (quarter)right | isinf(left);
+            }
+            else
+            {
+                return (float)left != (float)right;
+            }
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (byte left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, byte right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (ushort left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, ushort right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (uint left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, uint right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (ulong left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, ulong right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (UInt128 left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, UInt128 right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (sbyte left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, sbyte right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (short left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, short right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (int left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, int right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (long left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, long right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (Int128 left, quarter right)
+        {
+            return (float)left < (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter left, Int128 right)
+        {
+            return (float)left < (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (byte left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, byte right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (ushort left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, ushort right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (uint left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, uint right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (ulong left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, ulong right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (UInt128 left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, UInt128 right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (sbyte left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, sbyte right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (short left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, short right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (int left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, int right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (long left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, long right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (Int128 left, quarter right)
+        {
+            return (float)left > (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter left, Int128 right)
+        {
+            return (float)left > (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (byte left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, byte right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (ushort left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, ushort right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (uint left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, uint right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (ulong left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, ulong right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (UInt128 left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, UInt128 right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (sbyte left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, sbyte right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (short left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, short right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (int left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, int right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (long left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, long right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (Int128 left, quarter right)
+        {
+            return (float)left <= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter left, Int128 right)
+        {
+            return (float)left <= (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (byte left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, byte right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (ushort left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, ushort right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (uint left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, uint right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (ulong left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, ulong right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (UInt128 left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, UInt128 right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (sbyte left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, sbyte right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (short left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, short right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (int left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, int right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (long left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, long right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (Int128 left, quarter right)
+        {
+            return (float)left >= (float)right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter left, Int128 right)
+        {
+            return (float)left >= (float)right;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (quarter lhs, Unity.Mathematics.half rhs) => (half)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (quarter lhs, Unity.Mathematics.half rhs) => (half)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (quarter lhs, Unity.Mathematics.half rhs) => (half)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (quarter lhs, Unity.Mathematics.half rhs) => (half)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (quarter lhs, Unity.Mathematics.half rhs) => (half)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (quarter lhs, Unity.Mathematics.half rhs) => (half)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator == (Unity.Mathematics.half lhs, quarter rhs) => lhs == (half)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator != (Unity.Mathematics.half lhs, quarter rhs) => lhs != (half)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator < (Unity.Mathematics.half lhs, quarter rhs) => lhs < (half)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator > (Unity.Mathematics.half lhs, quarter rhs) => lhs > (half)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator <= (Unity.Mathematics.half lhs, quarter rhs) => lhs <= (half)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator >= (Unity.Mathematics.half lhs, quarter rhs) => lhs >= (half)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (quarter lhs, Unity.Mathematics.half2 rhs) => (half2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (quarter lhs, Unity.Mathematics.half2 rhs) => (half2)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (quarter lhs, Unity.Mathematics.half2 rhs) => (half2)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (quarter lhs, Unity.Mathematics.half2 rhs) => (half2)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (quarter lhs, Unity.Mathematics.half2 rhs) => (half2)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (quarter lhs, Unity.Mathematics.half2 rhs) => (half2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (Unity.Mathematics.half2 lhs, quarter rhs) => lhs == (half2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (Unity.Mathematics.half2 lhs, quarter rhs) => lhs != (half2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (Unity.Mathematics.half2 lhs, quarter rhs) => lhs < (half2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (Unity.Mathematics.half2 lhs, quarter rhs) => lhs > (half2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (Unity.Mathematics.half2 lhs, quarter rhs) => lhs <= (half2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (Unity.Mathematics.half2 lhs, quarter rhs) => lhs >= (half2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (quarter lhs, Unity.Mathematics.half3 rhs) => (half3)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (quarter lhs, Unity.Mathematics.half3 rhs) => (half3)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter lhs, Unity.Mathematics.half3 rhs) => (half3)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter lhs, Unity.Mathematics.half3 rhs) => (half3)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter lhs, Unity.Mathematics.half3 rhs) => (half3)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter lhs, Unity.Mathematics.half3 rhs) => (half3)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (Unity.Mathematics.half3 lhs, quarter rhs) => lhs == (half3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (Unity.Mathematics.half3 lhs, quarter rhs) => lhs != (half3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (Unity.Mathematics.half3 lhs, quarter rhs) => lhs < (half3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (Unity.Mathematics.half3 lhs, quarter rhs) => lhs > (half3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (Unity.Mathematics.half3 lhs, quarter rhs) => lhs <= (half3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (Unity.Mathematics.half3 lhs, quarter rhs) => lhs >= (half3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (quarter lhs, Unity.Mathematics.half4 rhs) => (half4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (quarter lhs, Unity.Mathematics.half4 rhs) => (half4)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (quarter lhs, Unity.Mathematics.half4 rhs) => (half4)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (quarter lhs, Unity.Mathematics.half4 rhs) => (half4)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (quarter lhs, Unity.Mathematics.half4 rhs) => (half4)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (quarter lhs, Unity.Mathematics.half4 rhs) => (half4)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (Unity.Mathematics.half4 lhs, quarter rhs) => lhs == (half4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (Unity.Mathematics.half4 lhs, quarter rhs) => lhs != (half4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (Unity.Mathematics.half4 lhs, quarter rhs) => lhs < (half4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (Unity.Mathematics.half4 lhs, quarter rhs) => lhs > (half4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (Unity.Mathematics.half4 lhs, quarter rhs) => lhs <= (half4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (Unity.Mathematics.half4 lhs, quarter rhs) => lhs >= (half4)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (Unity.Mathematics.float2 lhs, quarter rhs) => lhs == (float2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (Unity.Mathematics.float2 lhs, quarter rhs) => lhs != (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (Unity.Mathematics.float2 lhs, quarter rhs) => lhs < (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (Unity.Mathematics.float2 lhs, quarter rhs) => lhs > (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (Unity.Mathematics.float2 lhs, quarter rhs) => lhs <= (float2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (Unity.Mathematics.float2 lhs, quarter rhs) => lhs >= (float2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (quarter lhs, Unity.Mathematics.float2 rhs) => (float2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (Unity.Mathematics.float3 lhs, quarter rhs) => lhs == (float3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (Unity.Mathematics.float3 lhs, quarter rhs) => lhs != (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (Unity.Mathematics.float3 lhs, quarter rhs) => lhs < (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (Unity.Mathematics.float3 lhs, quarter rhs) => lhs > (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (Unity.Mathematics.float3 lhs, quarter rhs) => lhs <= (float3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (Unity.Mathematics.float3 lhs, quarter rhs) => lhs >= (float3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter lhs, Unity.Mathematics.float3 rhs) => (float3)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (Unity.Mathematics.float4 lhs, quarter rhs) => lhs == (float4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (Unity.Mathematics.float4 lhs, quarter rhs) => lhs != (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (Unity.Mathematics.float4 lhs, quarter rhs) => lhs < (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (Unity.Mathematics.float4 lhs, quarter rhs) => lhs > (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (Unity.Mathematics.float4 lhs, quarter rhs) => lhs <= (float4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (Unity.Mathematics.float4 lhs, quarter rhs) => lhs >= (float4)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (quarter lhs, Unity.Mathematics.float4 rhs) => (float4)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (Unity.Mathematics.double2 lhs, quarter rhs) => lhs == (double2)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (Unity.Mathematics.double2 lhs, quarter rhs) => lhs != (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (Unity.Mathematics.double2 lhs, quarter rhs) => lhs < (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (Unity.Mathematics.double2 lhs, quarter rhs) => lhs > (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (Unity.Mathematics.double2 lhs, quarter rhs) => lhs <= (double2)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (Unity.Mathematics.double2 lhs, quarter rhs) => lhs >= (double2)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator == (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator != (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator < (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator > (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator <= (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool2 operator >= (quarter lhs, Unity.Mathematics.double2 rhs) => (double2)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (Unity.Mathematics.double3 lhs, quarter rhs) => lhs == (double3)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (Unity.Mathematics.double3 lhs, quarter rhs) => lhs != (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (Unity.Mathematics.double3 lhs, quarter rhs) => lhs < (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (Unity.Mathematics.double3 lhs, quarter rhs) => lhs > (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (Unity.Mathematics.double3 lhs, quarter rhs) => lhs <= (double3)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (Unity.Mathematics.double3 lhs, quarter rhs) => lhs >= (double3)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator == (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator != (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator < (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator > (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator <= (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool3 operator >= (quarter lhs, Unity.Mathematics.double3 rhs) => (double3)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (Unity.Mathematics.double4 lhs, quarter rhs) => lhs == (double4)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (Unity.Mathematics.double4 lhs, quarter rhs) => lhs != (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (Unity.Mathematics.double4 lhs, quarter rhs) => lhs < (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (Unity.Mathematics.double4 lhs, quarter rhs) => lhs > (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (Unity.Mathematics.double4 lhs, quarter rhs) => lhs <= (double4)rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (Unity.Mathematics.double4 lhs, quarter rhs) => lhs >= (double4)rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator == (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator != (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs != rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator < (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs < rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator > (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs > rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator <= (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs <= rhs;
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool4 operator >= (quarter lhs, Unity.Mathematics.double4 rhs) => (double4)lhs >= rhs;
+
+
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator == (Unity.Mathematics.int2 lhs, quarter rhs) => (float2)lhs == rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator != (Unity.Mathematics.int2 lhs, quarter rhs) => (float2)lhs != rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator < (Unity.Mathematics.int2 lhs, quarter rhs) => (float2)lhs < rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator > (Unity.Mathematics.int2 lhs, quarter rhs) => (float2)lhs > rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator <= (Unity.Mathematics.int2 lhs, quarter rhs) => (float2)lhs <= rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator >= (Unity.Mathematics.int2 lhs, quarter rhs) => (float2)lhs >= rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator == (quarter lhs, Unity.Mathematics.int2 rhs) => lhs == (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator != (quarter lhs, Unity.Mathematics.int2 rhs) => lhs != (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator < (quarter lhs, Unity.Mathematics.int2 rhs) => lhs < (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator > (quarter lhs, Unity.Mathematics.int2 rhs) => lhs > (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator <= (quarter lhs, Unity.Mathematics.int2 rhs) => lhs <= (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator >= (quarter lhs, Unity.Mathematics.int2 rhs) => lhs >= (float2)rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator == (Unity.Mathematics.int3 lhs, quarter rhs) => (float3)lhs == rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator != (Unity.Mathematics.int3 lhs, quarter rhs) => (float3)lhs != rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator < (Unity.Mathematics.int3 lhs, quarter rhs) => (float3)lhs < rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator > (Unity.Mathematics.int3 lhs, quarter rhs) => (float3)lhs > rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator <= (Unity.Mathematics.int3 lhs, quarter rhs) => (float3)lhs <= rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator >= (Unity.Mathematics.int3 lhs, quarter rhs) => (float3)lhs >= rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator == (quarter lhs, Unity.Mathematics.int3 rhs) => lhs == (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator != (quarter lhs, Unity.Mathematics.int3 rhs) => lhs != (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator < (quarter lhs, Unity.Mathematics.int3 rhs) => lhs < (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator > (quarter lhs, Unity.Mathematics.int3 rhs) => lhs > (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator <= (quarter lhs, Unity.Mathematics.int3 rhs) => lhs <= (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator >= (quarter lhs, Unity.Mathematics.int3 rhs) => lhs >= (float3)rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator == (Unity.Mathematics.int4 lhs, quarter rhs) => (float4)lhs == rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator != (Unity.Mathematics.int4 lhs, quarter rhs) => (float4)lhs != rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator < (Unity.Mathematics.int4 lhs, quarter rhs) => (float4)lhs < rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator > (Unity.Mathematics.int4 lhs, quarter rhs) => (float4)lhs > rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator <= (Unity.Mathematics.int4 lhs, quarter rhs) => (float4)lhs <= rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator >= (Unity.Mathematics.int4 lhs, quarter rhs) => (float4)lhs >= rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator == (quarter lhs, Unity.Mathematics.int4 rhs) => lhs == (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator != (quarter lhs, Unity.Mathematics.int4 rhs) => lhs != (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator < (quarter lhs, Unity.Mathematics.int4 rhs) => lhs < (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator > (quarter lhs, Unity.Mathematics.int4 rhs) => lhs > (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator <= (quarter lhs, Unity.Mathematics.int4 rhs) => lhs <= (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator >= (quarter lhs, Unity.Mathematics.int4 rhs) => lhs >= (float4)rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator == (Unity.Mathematics.uint2 lhs, quarter rhs) => (float2)lhs == rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator != (Unity.Mathematics.uint2 lhs, quarter rhs) => (float2)lhs != rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator < (Unity.Mathematics.uint2 lhs, quarter rhs) => (float2)lhs < rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator > (Unity.Mathematics.uint2 lhs, quarter rhs) => (float2)lhs > rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator <= (Unity.Mathematics.uint2 lhs, quarter rhs) => (float2)lhs <= rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator >= (Unity.Mathematics.uint2 lhs, quarter rhs) => (float2)lhs >= rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator == (quarter lhs, Unity.Mathematics.uint2 rhs) => lhs == (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator != (quarter lhs, Unity.Mathematics.uint2 rhs) => lhs != (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator < (quarter lhs, Unity.Mathematics.uint2 rhs) => lhs < (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator > (quarter lhs, Unity.Mathematics.uint2 rhs) => lhs > (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator <= (quarter lhs, Unity.Mathematics.uint2 rhs) => lhs <= (float2)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool2 operator >= (quarter lhs, Unity.Mathematics.uint2 rhs) => lhs >= (float2)rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator == (Unity.Mathematics.uint3 lhs, quarter rhs) => (float3)lhs == rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator != (Unity.Mathematics.uint3 lhs, quarter rhs) => (float3)lhs != rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator < (Unity.Mathematics.uint3 lhs, quarter rhs) => (float3)lhs < rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator > (Unity.Mathematics.uint3 lhs, quarter rhs) => (float3)lhs > rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator <= (Unity.Mathematics.uint3 lhs, quarter rhs) => (float3)lhs <= rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator >= (Unity.Mathematics.uint3 lhs, quarter rhs) => (float3)lhs >= rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator == (quarter lhs, Unity.Mathematics.uint3 rhs) => lhs == (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator != (quarter lhs, Unity.Mathematics.uint3 rhs) => lhs != (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator < (quarter lhs, Unity.Mathematics.uint3 rhs) => lhs < (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator > (quarter lhs, Unity.Mathematics.uint3 rhs) => lhs > (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator <= (quarter lhs, Unity.Mathematics.uint3 rhs) => lhs <= (float3)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool3 operator >= (quarter lhs, Unity.Mathematics.uint3 rhs) => lhs >= (float3)rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator == (Unity.Mathematics.uint4 lhs, quarter rhs) => (float4)lhs == rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator != (Unity.Mathematics.uint4 lhs, quarter rhs) => (float4)lhs != rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator < (Unity.Mathematics.uint4 lhs, quarter rhs) => (float4)lhs < rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator > (Unity.Mathematics.uint4 lhs, quarter rhs) => (float4)lhs > rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator <= (Unity.Mathematics.uint4 lhs, quarter rhs) => (float4)lhs <= rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator >= (Unity.Mathematics.uint4 lhs, quarter rhs) => (float4)lhs >= rhs;
+        //
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator == (quarter lhs, Unity.Mathematics.uint4 rhs) => lhs == (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator != (quarter lhs, Unity.Mathematics.uint4 rhs) => lhs != (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator < (quarter lhs, Unity.Mathematics.uint4 rhs) => lhs < (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator > (quarter lhs, Unity.Mathematics.uint4 rhs) => lhs > (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator <= (quarter lhs, Unity.Mathematics.uint4 rhs) => lhs <= (float4)rhs;
+        //
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        //public static bool4 operator >= (quarter lhs, Unity.Mathematics.uint4 rhs) => lhs >= (float4)rhs;
         #endregion
 
         #region PARSING
-        public quarter Parse(string s, IFormatProvider provider)
+        public static quarter Parse(string s, IFormatProvider provider)
         {
             return (quarter)float.Parse(s, provider);
         }
-        public quarter Parse(string s, NumberStyles style, IFormatProvider provider)
+        public static quarter Parse(string s, NumberStyles style, IFormatProvider provider)
         {
             return (quarter)float.Parse(s, style, provider);
         }
-        public quarter Parse(string s, NumberStyles style)
+        public static quarter Parse(string s, NumberStyles style)
         {
             return (quarter)float.Parse(s, style);
         }
-        public quarter Parse(string s)
+        public static quarter Parse(string s)
         {
             return (quarter)float.Parse(s);
         }
-        public bool TryParse(string s, out quarter result)
+        public static bool TryParse(string s, out quarter result)
         {
             bool success = float.TryParse(s, out float cvt);
 
@@ -1617,7 +4648,7 @@ namespace MaxMath
 
             return success && cvt <= MaxValue && cvt >= MinValue;
         }
-        public bool TryParse(string s, NumberStyles style, IFormatProvider provider, out quarter result)
+        public static bool TryParse(string s, NumberStyles style, IFormatProvider provider, out quarter result)
         {
             bool success = float.TryParse(s, style, provider, out float cvt);
 
@@ -1648,11 +4679,11 @@ namespace MaxMath
 
         #region COMPARE_TO
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int CompareTo(quarter other)
+        public readonly int CompareTo(quarter other)
         {
             return compareto((float)this, (float)other);
         }
-        public int CompareTo(object obj)
+        public readonly int CompareTo(object obj)
         {
             return CompareTo((quarter)obj);
         }
@@ -1676,67 +4707,67 @@ namespace MaxMath
         #endregion
 
         #region ICONVERTIBLE
-        public TypeCode GetTypeCode()
+        public readonly TypeCode GetTypeCode()
         {
             return TypeCode.Single;
         }
-        public bool ToBoolean(IFormatProvider provider)
+        public readonly bool ToBoolean(IFormatProvider provider)
         {
             return Convert.ToBoolean(this.IsNotZero, provider);
         }
-        public byte ToByte(IFormatProvider provider)
+        public readonly byte ToByte(IFormatProvider provider)
         {
             return Convert.ToByte((byte)this, provider);
         }
-        public char ToChar(IFormatProvider provider)
+        public readonly char ToChar(IFormatProvider provider)
         {
             return Convert.ToChar((float)this, provider);
         }
-        public DateTime ToDateTime(IFormatProvider provider)
+        public readonly DateTime ToDateTime(IFormatProvider provider)
         {
             return Convert.ToDateTime((float)this, provider);
         }
-        public decimal ToDecimal(IFormatProvider provider)
+        public readonly decimal ToDecimal(IFormatProvider provider)
         {
             return Convert.ToDecimal((decimal)this, provider);
         }
-        public double ToDouble(IFormatProvider provider)
+        public readonly double ToDouble(IFormatProvider provider)
         {
             return Convert.ToDouble((double)this, provider);
         }
-        public short ToInt16(IFormatProvider provider)
+        public readonly short ToInt16(IFormatProvider provider)
         {
             return Convert.ToInt16((short)this, provider);
         }
-        public int ToInt32(IFormatProvider provider)
+        public readonly int ToInt32(IFormatProvider provider)
         {
             return Convert.ToInt32((int)this, provider);
         }
-        public long ToInt64(IFormatProvider provider)
+        public readonly long ToInt64(IFormatProvider provider)
         {
             return Convert.ToInt64((long)this, provider);
         }
-        public sbyte ToSByte(IFormatProvider provider)
+        public readonly sbyte ToSByte(IFormatProvider provider)
         {
             return Convert.ToSByte((sbyte)this, provider);
         }
-        public float ToSingle(IFormatProvider provider)
+        public readonly float ToSingle(IFormatProvider provider)
         {
             return Convert.ToSingle((float)this, provider);
         }
-        public object ToType(Type conversionType, IFormatProvider provider)
+        public readonly object ToType(Type conversionType, IFormatProvider provider)
         {
             return Convert.ChangeType((float)this, conversionType, provider);
         }
-        public ushort ToUInt16(IFormatProvider provider)
+        public readonly ushort ToUInt16(IFormatProvider provider)
         {
             return Convert.ToUInt16((ushort)this, provider);
         }
-        public uint ToUInt32(IFormatProvider provider)
+        public readonly uint ToUInt32(IFormatProvider provider)
         {
             return Convert.ToUInt32((uint)this, provider);
         }
-        public ulong ToUInt64(IFormatProvider provider)
+        public readonly ulong ToUInt64(IFormatProvider provider)
         {
             return Convert.ToUInt64((ulong)this, provider);
         }

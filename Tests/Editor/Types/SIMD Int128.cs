@@ -2,7 +2,7 @@ using Unity.Burst.Intrinsics;
 using NUnit.Framework;
 using MaxMath.Intrinsics;
 
-using static MaxMath.maxmath;
+using static MaxMath.math;
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Tests

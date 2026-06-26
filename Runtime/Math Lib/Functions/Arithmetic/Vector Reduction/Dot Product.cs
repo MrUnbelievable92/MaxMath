@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-using Unity.Mathematics;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
 using MaxMath.Intrinsics;
@@ -518,8 +517,36 @@ namespace MaxMath
     }
 
 
-    unsafe public static partial class maxmath
+    unsafe public static partial class math
     {
+        /// <summary>       Returns the dot product of two <see cref="float"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float dot(float x, float y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+        
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.float2"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float dot(float2 x, float2 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.float3"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float dot(float3 x, float3 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.float4"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float dot(float4 x, float4 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
         /// <summary>       Returns the dot product of two <see cref="MaxMath.float8"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float dot(float8 x, float8 y)
@@ -532,10 +559,47 @@ namespace MaxMath
             }
             else
             {
-                return math.dot(x.v4_0, y.v4_0) + math.dot(x.v4_4, y.v4_4);
+                return dot(x.v4_0, y.v4_0) + dot(x.v4_4, y.v4_4);
             }
         }
+        
 
+        /// <summary>       Returns the dot product of two <see cref="double"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double dot(double x, double y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.double2"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double dot(double2 x, double2 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.double3"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double dot(double3 x, double3 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.double4"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double dot(double4 x, double4 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+
+        /// <summary>       Returns the dot product of two <see cref="byte"/>s.
+        [return: AssumeRange(0ul, (ulong)byte.MaxValue * byte.MaxValue)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(byte a, byte b)
+        {
+            return a * (uint)b;
+        }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.byte2"/>s.
         /// <remarks>
@@ -688,6 +752,14 @@ namespace MaxMath
             }
         }
 
+        
+        /// <summary>       Returns the dot product of two <see cref="sbyte"/>s.
+        [return: AssumeRange((long)sbyte.MinValue * sbyte.MaxValue, (long)sbyte.MinValue * sbyte.MinValue)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(sbyte a, sbyte b)
+        {
+            return a * (int)b;
+        }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte2"/>s.
         /// <remarks>
@@ -840,6 +912,14 @@ namespace MaxMath
             }
         }
 
+        
+        /// <summary>       Returns the dot product of two <see cref="short"/>s.
+        [return: AssumeRange((long)short.MinValue * short.MaxValue, (long)short.MinValue * short.MinValue)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(short a, short b)
+        {
+            return a * (int)b;
+        }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.short2"/>s.
         /// <remarks>
@@ -973,6 +1053,14 @@ namespace MaxMath
             }
         }
 
+        
+        /// <summary>       Returns the dot product of two <see cref="ushort"/>s.
+        [return: AssumeRange(0ul, uint.MaxValue)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(ushort a, ushort b)
+        {
+            return a * (uint)b;
+        }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort2"/>s.
         /// <remarks>
@@ -1105,6 +1193,34 @@ namespace MaxMath
             }
         }
 
+        
+        /// <summary>       Returns the dot product of two <see cref="int"/>s.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(int a, int b)
+        {
+            return a * b;
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.int2"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(int2 x, int2 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.int3"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(int3 x, int3 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.int4"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int dot(int4 x, int4 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.int8"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1113,6 +1229,34 @@ namespace MaxMath
             return csum(x * y);
         }
 
+        
+        /// <summary>       Returns the dot product of two <see cref="uint"/>s.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(uint a, uint b)
+        {
+            return a * b;
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.uint2"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(uint2 x, uint2 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.uint3"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(uint3 x, uint3 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
+
+        /// <summary>       Returns the dot product of two <see cref="MaxMath.uint4"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint dot(uint4 x, uint4 y)
+        {
+            return Unity.Mathematics.math.dot(x, y);
+        }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.uint8"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1121,6 +1265,13 @@ namespace MaxMath
             return csum(x * y);
         }
 
+        
+        /// <summary>       Returns the dot product of two <see cref="long"/>s.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long dot(long a, long b)
+        {
+            return a * b;
+        }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.long2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1143,6 +1294,13 @@ namespace MaxMath
             return csum(x * y);
         }
 
+        
+        /// <summary>       Returns the dot product of two <see cref="ulong"/>s.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong dot(ulong a, ulong b)
+        {
+            return a * b;
+        }
 
         /// <summary>       Returns the dot product of two <see cref="MaxMath.ulong2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
