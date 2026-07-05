@@ -597,10 +597,9 @@ and
 A number of types, members, and Unity.Mathematics.math functions have been marked as obsolete and may need small code adjustments during migration in order to avoid warnings and improve performance.
 
 Vector fields are exposed as ref properties in MaxMath. This means you cannot take their address in an unsafe context, and you must initialize the vector before assigning to its components either directly or using the out keyword.
-
 Because fields are no longer exposed directly, serialized Unity.Mathematics vector values shown in the Inspector may be invalidated during migration. MaxMath uses custom property serialization for these types.  
 
-For best performance, avoid declaring `bool{X}` vectors directly, such as `bool3 cmp = myVec3a > myVec3b`. MaxMath uses optimized mask types behind the scenes. That code still works (bool vectors exist in MaxMath and are not marked as obsolete, all mask types are implicitly convertible to and from bool vectors and matrices), and keeping it as-is does not hurt performance compared to Unity.Mathematics - this would simply be an additional, sometimes very relevant performance optimization.
+For best performance, avoid declaring `bool{X}` vectors directly, such as `bool3 cmp = myVec3a > myVec3b`. MaxMath uses optimized mask types behind the scenes. That code still works (bool vectors exist in MaxMath and are not marked as obsolete, all mask types are implicitly convertible to and from bool vectors and matrices, they retain the entire boolean vector API), and keeping it as-is does not hurt performance compared to Unity.Mathematics - this would simply be an additional, sometimes very relevant performance optimization.
 
 If you encountered another required step during migration, please open an issue to report it.
 
