@@ -11,12 +11,13 @@ MaxMath is the most powerful and extensive SIMD math library available to Unity 
 - **Extensive Test Coverage:** MaxMath is backed by 250,000 lines of unit tests for its 750,000 lines of code, as well as `DEBUG` only runtime checks where appropriate, together ensuring it is _production ready_.
 
 ## Why MaxMath over Unity.Mathematics?
-Prior to version 3.0, MaxMath served as a supplementary library to Unity.Mathematics. Starting with 3.0, it is a drop-in replacement/wrapper for Unity.Mathematics, fully compatible while extending it with additional MaxMath functionality.
+Prior to version 3.0, MaxMath served as a supplementary library to Unity.Mathematics. Starting with 3.0, it is a drop-in replacement/wrapper for Unity.Mathematics, fully compatible while extending it with additional MaxMath functionality. Because MaxMath had been developed as an extension library for several years, this architectural change was among the most difficult design decisions in the project's history. Nevertheless, it ultimately became clear that a wrapper architecture was necessary for the following reasons
 
 MaxMath builds on Unity.Mathematics with additional functionality and numerous performance improvements (See the 3.0 patch notes for the changes). Several bugs in Unity.Mathematics have not been fixed for multiple years, particularly with regards to `half`.
 
 MaxMath is actively maintained, with recent releases and public GitHub Issues/Discussions for feedback. By comparison, Unity.Mathematics still shows a substantial amount of open issues and feature requests in its public repository, and its README notes that pull requests are not accepted.
 
+Given its development history, it appears unlikely that Unity.Mathematics will take advantage of the Unity ecosystem's migration to the CoreCLR scripting runtime and the direct access to hardware intrinsics this enables, limiting its long-term potential for managed C# performance. Likewise, it is unlikely to adopt newer C# language features, such as the generalized shift operators introduced in C# 11, where the shift count is no longer restricted to `int`.
 
 # Types
 
