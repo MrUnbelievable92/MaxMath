@@ -17,7 +17,7 @@ MaxMath builds on Unity.Mathematics with additional functionality and numerous p
 
 MaxMath is actively maintained, with recent releases and public GitHub Issues/Discussions for feedback. By comparison, Unity.Mathematics still shows a substantial amount of open issues and feature requests in its public repository, and its README notes that pull requests are not accepted.
 
-Given its development history, it appears unlikely that Unity.Mathematics will take advantage of the Unity ecosystem's migration to the CoreCLR scripting runtime and the direct access to hardware intrinsics this enables, limiting its long-term potential for managed C# performance. Likewise, it is unlikely to adopt newer C# language features, such as the generalized shift operators introduced in C# 11, where the shift count is no longer restricted to `int`.
+Given its development history, it appears unlikely that Unity.Mathematics will take advantage of the Unity ecosystem's migration to the CoreCLR scripting runtime and the direct access to hardware intrinsics this enables. Instead, it relies entirely on Burst's compiler recognition of its types and functions for SIMD code generation rather than explicit hardware intrinsics within the library itself, limiting its long-term potential for managed C# performance. Likewise, it is unlikely to adopt newer C# language features, such as the generalized shift operators introduced in C# 11, where the shift count is no longer restricted to `int`.
 
 # Types
 
