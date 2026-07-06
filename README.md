@@ -11,7 +11,7 @@ MaxMath is the most powerful and extensive SIMD math library available to Unity 
 - **Extensive Test Coverage:** MaxMath is backed by 250,000 lines of unit tests for its 750,000 lines of code, as well as `DEBUG` only runtime checks where appropriate, together ensuring it is _production ready_.
 
 ## Why MaxMath over Unity.Mathematics?
-Prior to version 3.0, MaxMath served as a supplementary library to Unity.Mathematics. Starting with 3.0, it is a drop-in replacement/wrapper for Unity.Mathematics, fully compatible while extending it with additional MaxMath functionality. Because MaxMath had been developed as an extension library for several years, this architectural change was among the most difficult design decisions in the project's history. Nevertheless, it ultimately became clear that a wrapper architecture was necessary for the following reasons
+Prior to version 3.0, MaxMath served as a supplementary library to Unity.Mathematics. Starting with 3.0, it is a drop-in replacement/wrapper for Unity.Mathematics, fully compatible while extending it with additional MaxMath functionality. Because MaxMath had been developed as an extension library for several years, this architectural change was among the most difficult design decisions in the project's history. Nevertheless, it ultimately became clear that a wrapper architecture was necessary for the following reasons:
 
 MaxMath builds on Unity.Mathematics with additional functionality and numerous performance improvements (See the 3.0 patch notes for the changes). Several bugs in Unity.Mathematics have not been fixed for multiple years, particularly with regards to `half`.
 
