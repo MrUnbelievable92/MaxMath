@@ -19,6 +19,8 @@ MaxMath is actively maintained, with recent releases and public GitHub Issues/Di
 
 Given its development history, it appears unlikely that Unity.Mathematics will take advantage of the Unity ecosystem's migration to the CoreCLR scripting runtime and the direct access to hardware intrinsics this enables. Instead, it relies entirely on Burst's compiler recognition of its types and functions for SIMD code generation rather than explicit hardware intrinsics within the library itself, limiting its long-term potential for managed C# performance. Likewise, it is unlikely to adopt newer C# language features, such as the generalized shift operators introduced in C# 11, where the shift count is no longer restricted to `int`.
 
+Finally, consolidating Unity.Mathematics and MaxMath into a single API eliminates the need to reference and mentally distinguish between two separate math libraries. Requiring both `using Unity.Mathematics;` (or `using static Unity.Mathematics.math;`) and `using MaxMath`; (or `using static MaxMath.maxmath`;) was unnecessarily verbose and fragmented the user experience. A unified API is both more elegant and more intuitive to use.
+
 # Types
 
 <details>
