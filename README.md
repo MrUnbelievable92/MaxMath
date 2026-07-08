@@ -566,7 +566,7 @@ An example for XML documentation used in MaxMath:
 
 MaxMath was designed with performance as a primary objective from the very beginning. While it started as an extension of Unity.Mathematics to cover every C# primitive type - including integer vectors, matrices, and numerous additional mathematical functions - it has since evolved into a complete rewrite and replacement of it.
 
-The 1.x development cycle focused on vectorizing virtually every operation and mathematical function. 
+The 1.x development cycle focused on implementing and often vectorizing every operation and mathematical function. 
 The 2.x cycle introduced architecture-specific implementations with optimized instruction selection and fallbacks across multiple SIMD instruction sets, initially targeting x86 (AVX2 → AVX → SSE4 → SSE2) before expanding to ARM NEON. 
 The current 3.x cycle removes fundamental limitations inherited from Unity.Mathematics, such as inefficient boolean vector representations (and non-vectorized or poorly-vectorized algorithms), by introducing native SIMD masks internally while preserving a familiar boolean vector API.
 
