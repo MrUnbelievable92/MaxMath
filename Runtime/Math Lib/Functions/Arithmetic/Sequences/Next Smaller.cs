@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -485,7 +486,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 nextsmaller(UInt128 x)
         {
-            return x - tobyte(x != MaxMath.UInt128.MinValue);
+            return x - tobyte(x != UInt128.MinValue);
         }
 
 
@@ -504,7 +505,7 @@ namespace MaxMath
             return (byte)(x - tobyte(x != byte.MinValue));
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.byte2"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="byte2"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 nextsmaller(byte2 x)
         {
@@ -519,7 +520,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.byte3"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="byte3"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 nextsmaller(byte3 x)
         {
@@ -535,7 +536,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.byte4"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="byte4"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 nextsmaller(byte4 x)
         {
@@ -552,7 +553,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.byte8"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="byte8"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 nextsmaller(byte8 x)
         {
@@ -573,7 +574,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.byte16"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="byte16"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 nextsmaller(byte16 x)
         {
@@ -602,7 +603,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.byte32"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="byte32"/>, where each component is the next closest <see cref="byte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 nextsmaller(byte32 x)
         {
@@ -625,7 +626,7 @@ namespace MaxMath
             return (sbyte)(x - tobyte(x != sbyte.MinValue));
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.sbyte2"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="sbyte2"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 nextsmaller(sbyte2 x)
         {
@@ -640,7 +641,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.sbyte3"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="sbyte3"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 nextsmaller(sbyte3 x)
         {
@@ -656,7 +657,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.sbyte4"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="sbyte4"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 nextsmaller(sbyte4 x)
         {
@@ -673,7 +674,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.sbyte8"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="sbyte8"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 nextsmaller(sbyte8 x)
         {
@@ -694,7 +695,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.sbyte16"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="sbyte16"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 nextsmaller(sbyte16 x)
         {
@@ -723,7 +724,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.sbyte32"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="sbyte32"/>, where each component is the next closest <see cref="sbyte"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 nextsmaller(sbyte32 x)
         {
@@ -746,7 +747,7 @@ namespace MaxMath
             return (ushort)(x - tobyte(x != ushort.MinValue));
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.ushort2"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="ushort2"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 nextsmaller(ushort2 x)
         {
@@ -761,7 +762,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.ushort3"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="ushort3"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 nextsmaller(ushort3 x)
         {
@@ -777,7 +778,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.ushort4"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="ushort4"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 nextsmaller(ushort4 x)
         {
@@ -794,7 +795,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.ushort8"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="ushort8"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 nextsmaller(ushort8 x)
         {
@@ -815,7 +816,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.ushort16"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="ushort16"/>, where each component is the next closest <see cref="ushort"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 nextsmaller(ushort16 x)
         {
@@ -838,7 +839,7 @@ namespace MaxMath
             return (short)(x - tobyte(x != short.MinValue));
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short2"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="short2"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 nextsmaller(short2 x)
         {
@@ -853,7 +854,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short3"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="short3"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 nextsmaller(short3 x)
         {
@@ -869,7 +870,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short4"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="short4"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 nextsmaller(short4 x)
         {
@@ -886,7 +887,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short8"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="short8"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 nextsmaller(short8 x)
         {
@@ -907,7 +908,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short16"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="short16"/>, where each component is the next closest <see cref="short"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 nextsmaller(short16 x)
         {
@@ -930,7 +931,7 @@ namespace MaxMath
             return x - tobyte(x != uint.MinValue);
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.uint2"/>, where each component is the next closest <see cref="uint"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="uint2"/>, where each component is the next closest <see cref="uint"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 nextsmaller(uint2 x)
         {
@@ -945,7 +946,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.uint3"/>, where each component is the next closest <see cref="uint"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="uint3"/>, where each component is the next closest <see cref="uint"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 nextsmaller(uint3 x)
         {
@@ -961,7 +962,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.uint4"/>, where each component is the next closest <see cref="uint"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="uint4"/>, where each component is the next closest <see cref="uint"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 nextsmaller(uint4 x)
         {
@@ -978,7 +979,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.uint8"/>, where each component is the next closest <see cref="uint"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="uint8"/>, where each component is the next closest <see cref="uint"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 nextsmaller(uint8 x)
         {
@@ -1001,7 +1002,7 @@ namespace MaxMath
             return x - tobyte(x != int.MinValue);
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.int2"/>, where each component is the next closest <see cref="int"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="int2"/>, where each component is the next closest <see cref="int"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 nextsmaller(int2 x)
         {
@@ -1016,7 +1017,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.int3"/>, where each component is the next closest <see cref="int"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="int3"/>, where each component is the next closest <see cref="int"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 nextsmaller(int3 x)
         {
@@ -1032,7 +1033,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.int4"/>, where each component is the next closest <see cref="int"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="int4"/>, where each component is the next closest <see cref="int"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 nextsmaller(int4 x)
         {
@@ -1049,7 +1050,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.int8"/>, where each component is the next closest <see cref="int"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="int8"/>, where each component is the next closest <see cref="int"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 nextsmaller(int8 x)
         {
@@ -1072,7 +1073,7 @@ namespace MaxMath
             return x - tobyte(x != ulong.MinValue);
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.ulong2"/>, where each component is the next closest <see cref="ulong"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="ulong2"/>, where each component is the next closest <see cref="ulong"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 nextsmaller(ulong2 x)
         {
@@ -1087,7 +1088,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.ulong3"/>, where each component is the next closest <see cref="ulong"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="ulong3"/>, where each component is the next closest <see cref="ulong"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 nextsmaller(ulong3 x)
         {
@@ -1102,7 +1103,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.ulong4"/>, where each component is the next closest <see cref="ulong"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="ulong4"/>, where each component is the next closest <see cref="ulong"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 nextsmaller(ulong4 x)
         {
@@ -1125,7 +1126,7 @@ namespace MaxMath
             return x - tobyte(x != long.MinValue);
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long2"/>, where each component is the next closest <see cref="long"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="long2"/>, where each component is the next closest <see cref="long"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 nextsmaller(long2 x)
         {
@@ -1140,7 +1141,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long3"/>, where each component is the next closest <see cref="long"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="long3"/>, where each component is the next closest <see cref="long"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 nextsmaller(long3 x)
         {
@@ -1155,7 +1156,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long4"/>, where each component is the next closest <see cref="long"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
+        /// <summary>       Returns a <see cref="long4"/>, where each component is the next closest <see cref="long"/> smaller than the corresponding component in <paramref name="x"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 nextsmaller(long4 x)
         {
@@ -1171,12 +1172,12 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the next closest <see cref="MaxMath.quarter"/> smaller than <paramref name="x"/>.
+        /// <summary>       Returns the next closest <see cref="quarter"/> smaller than <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1219,12 +1220,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter2"/>, where each component is the next closest <see cref="MaxMath.quarter"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="quarter2"/>, where each component is the next closest <see cref="quarter"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1245,12 +1246,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter3"/>, where each component is the next closest <see cref="MaxMath.quarter"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="quarter3"/>, where each component is the next closest <see cref="quarter"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1272,12 +1273,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter4"/>, where each component is the next closest <see cref="MaxMath.quarter"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="quarter4"/>, where each component is the next closest <see cref="quarter"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1300,12 +1301,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter8"/>, where each component is the next closest <see cref="MaxMath.quarter"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="quarter8"/>, where each component is the next closest <see cref="quarter"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1332,12 +1333,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter16"/>, where each component is the next closest <see cref="MaxMath.quarter"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="quarter16"/>, where each component is the next closest <see cref="quarter"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1372,12 +1373,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.quarter32"/>, where each component is the next closest <see cref="MaxMath.quarter"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="quarter32"/>, where each component is the next closest <see cref="quarter"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that is positive or 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="MaxMath.MaxMath.quarter.PositiveInfinity"/>, <see cref="MaxMath.MaxMath.quarter.NegativeInfinity"/> or <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="quarter.PositiveInfinity"/>, <see cref="quarter.NegativeInfinity"/> or <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1398,7 +1399,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the next closest <see cref="MaxMath.half"/> smaller than <paramref name="x"/>.
+        /// <summary>       Returns the next closest <see cref="half"/> smaller than <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1446,7 +1447,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.half2"/>, where each component is the next closest <see cref="MaxMath.half"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="half2"/>, where each component is the next closest <see cref="half"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1473,7 +1474,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.half3"/>, where each component is the next closest <see cref="MaxMath.half"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="half3"/>, where each component is the next closest <see cref="half"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1501,7 +1502,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.half4"/>, where each component is the next closest <see cref="MaxMath.half"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="half4"/>, where each component is the next closest <see cref="half"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1530,7 +1531,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.half8"/>, where each component is the next closest <see cref="MaxMath.half"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="half8"/>, where each component is the next closest <see cref="half"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1563,7 +1564,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.half16"/>, where each component is the next closest <see cref="MaxMath.half"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="half16"/>, where each component is the next closest <see cref="half"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1649,7 +1650,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float2"/>, where each component is the next closest <see cref="float"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="float2"/>, where each component is the next closest <see cref="float"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1676,7 +1677,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/>, where each component is the next closest <see cref="float"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="float3"/>, where each component is the next closest <see cref="float"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1704,7 +1705,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float4"/>, where each component is the next closest <see cref="float"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="float4"/>, where each component is the next closest <see cref="float"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1733,7 +1734,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float8"/>, where each component is the next closest <see cref="float"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="float8"/>, where each component is the next closest <see cref="float"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1819,7 +1820,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.double2"/>, where each component is the next closest <see cref="double"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="double2"/>, where each component is the next closest <see cref="double"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1845,7 +1846,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.double3"/>, where each component is the next closest <see cref="double"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="double3"/>, where each component is the next closest <see cref="double"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1872,7 +1873,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.double4"/>, where each component is the next closest <see cref="double"/> smaller than the corresponding component in <paramref name="x"/>.
+        /// <summary>       Returns a <see cref="double4"/>, where each component is the next closest <see cref="double"/> smaller than the corresponding component in <paramref name="x"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
@@ -1896,6 +1897,56 @@ namespace MaxMath
             {
                 return new double4(nextsmaller(x.xy, promises),
                                    nextsmaller(x.zw, promises));
+            }
+        }
+
+
+        /// <summary>       Returns the next closest <see cref="quadruple"/> smaller than <paramref name="x"/>.     </summary>
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that is negative 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that is negative or 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that is positive or 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results for any <paramref name="x"/> that is either <see cref="quadruple.PositiveInfinity"/>, <see cref="quadruple.NegativeInfinity"/> or <see cref="quadruple.NaN"/>.       </para>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple nextsmaller(quadruple x, Promise promises = Promise.Nothing)
+        {
+            Int128 __x = asint128(x);
+            Int128 summand;
+            long sign = (long)__x.hi64 >> 63;
+            Int128 sign128 = new Int128(sign, sign);
+
+            if (promises.Promises(Promise.NonZero))
+            {
+                if (promises.Promises(Promise.Positive) | promises.Promises(Promise.Negative))
+                {
+                    summand = 1;
+                }
+                else
+                {
+                    summand = 1 | sign;
+                }
+            }
+            else
+            {
+                Int128 isNotZero = (Int128)UInt128.blendmask((__x.hi64 != 1ul << 63) & __x.IsNotZero);
+                summand = 1 | (sign128 & isNotZero);
+                __x |= andnot(new Int128(0x0000_0000_0000_0002, 0x8000_0000_0000_0000), isNotZero);
+            }
+
+            if (!promises.Promises(Promise.Unsafe0))
+            {
+                Int128 notNanInf = (Int128)UInt128.blendmask(((UInt128)__x & quadruple.SIGNALING_EXPONENT) != quadruple.SIGNALING_EXPONENT);
+                summand &= notNanInf;
+            }
+
+            if (promises.Promises(Promise.Negative))
+            {
+                return asquadruple(__x + summand);
+            }
+            else
+            {
+                return asquadruple(__x - summand);
             }
         }
     }

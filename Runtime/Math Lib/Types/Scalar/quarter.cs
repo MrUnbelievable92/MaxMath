@@ -3,6 +3,8 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst;
+using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -425,17 +427,34 @@ namespace MaxMath
         [SkipLocalsInit]
         internal static quarter GetInteger(ulong i, quarter overflowValue, bool promiseInRange = false)
         {
-            if (promiseInRange || constexpr.IS_TRUE(i < 16ul))
+            if (!(promiseInRange || constexpr.IS_TRUE(i < 16ul)))
             {
-                quarter* possibleValues = stackalloc quarter[] { (quarter)0f, (quarter)1f, (quarter)2f, (quarter)3f, (quarter)4f, (quarter)5f, (quarter)6f, (quarter)7f, (quarter)8f, (quarter)9f, (quarter)10f, (quarter)11f, (quarter)12f, (quarter)13f, (quarter)14f, (quarter)15f };
-
-                return possibleValues[i];
+                i = min(i, 16ul);
             }
-            else
-            {
-                quarter* possibleValues = stackalloc quarter[] { (quarter)0f, (quarter)1f, (quarter)2f, (quarter)3f, (quarter)4f, (quarter)5f, (quarter)6f, (quarter)7f, (quarter)8f, (quarter)9f, (quarter)10f, (quarter)11f, (quarter)12f, (quarter)13f, (quarter)14f, (quarter)15f, overflowValue };
 
-                return possibleValues[min(i, 16ul)];
+            constexpr.ASSUME(i <= 16);
+
+            switch (i)
+            {
+                case 0:  return (quarter)0f;
+                case 1:  return (quarter)1f;
+                case 2:  return (quarter)2f;
+                case 3:  return (quarter)3f;
+                case 4:  return (quarter)4f;
+                case 5:  return (quarter)5f;
+                case 6:  return (quarter)6f;
+                case 7:  return (quarter)7f;
+                case 8:  return (quarter)8f;
+                case 9:  return (quarter)9f;
+                case 10: return (quarter)10f;
+                case 11: return (quarter)11f;
+                case 12: return (quarter)12f;
+                case 13: return (quarter)13f;
+                case 14: return (quarter)14f;
+                case 15: return (quarter)15f;
+                case 16: return overflowValue;
+
+                default: throw Assert.Unreachable();
             }
         }
 

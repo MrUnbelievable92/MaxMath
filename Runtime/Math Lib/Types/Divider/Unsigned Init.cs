@@ -2,8 +2,8 @@ using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
-using DevTools;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.math;
@@ -1315,7 +1315,7 @@ result._typeInfo = new TypeInfo((byte)sizeof(UInt128), 1, columnCount: 1, Signed
             __UInt256__ L2 = (__UInt256__)1u << (int)L;
 
             mulrem = __UInt256__.MaxValue / d + (UInt128)1;
-            mul = __UInt256__.__usf__udiv256x128(new __UInt256__(0, (L2 - d).lo128), d);
+            mul = asm128.__usf__udiv256x128(new __UInt256__(0, (L2 - d).lo128), d);
             mul++;
 
             if (promises.NotOne)

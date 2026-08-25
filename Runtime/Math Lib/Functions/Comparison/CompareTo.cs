@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -466,7 +467,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 compareto(sbyte2 x, sbyte2 y)
         {
@@ -481,7 +482,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 compareto(sbyte3 x, sbyte3 y)
         {
@@ -497,7 +498,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 compareto(sbyte4 x, sbyte4 y)
         {
@@ -514,7 +515,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 compareto(sbyte8 x, sbyte8 y)
         {
@@ -535,7 +536,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 compareto(sbyte16 x, sbyte16 y)
         {
@@ -564,7 +565,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte32"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte32"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 compareto(sbyte32 x, sbyte32 y)
         {
@@ -580,7 +581,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 compareto(byte2 x, byte2 y)
         {
@@ -595,7 +596,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 compareto(byte3 x, byte3 y)
         {
@@ -611,7 +612,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 compareto(byte4 x, byte4 y)
         {
@@ -628,7 +629,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 compareto(byte8 x, byte8 y)
         {
@@ -649,7 +650,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 compareto(byte16 x, byte16 y)
         {
@@ -678,7 +679,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte32"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte32"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 compareto(byte32 x, byte32 y)
         {
@@ -694,7 +695,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a <see cref="MaxMath.short2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 compareto(short2 x, short2 y)
         {
@@ -709,7 +710,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 compareto(short3 x, short3 y)
         {
@@ -725,7 +726,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 compareto(short4 x, short4 y)
         {
@@ -742,7 +743,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 compareto(short8 x, short8 y)
         {
@@ -763,7 +764,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 compareto(short16 x, short16 y)
         {
@@ -779,7 +780,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a <see cref="MaxMath.short2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 compareto(ushort2 x, ushort2 y)
         {
@@ -794,7 +795,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 compareto(ushort3 x, ushort3 y)
         {
@@ -810,7 +811,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 compareto(ushort4 x, ushort4 y)
         {
@@ -827,7 +828,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 compareto(ushort8 x, ushort8 y)
         {
@@ -848,7 +849,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 compareto(ushort16 x, ushort16 y)
         {
@@ -864,7 +865,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="MaxMath.int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(int2 x, int2 y)
         {
@@ -879,7 +880,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(int3 x, int3 y)
         {
@@ -895,7 +896,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(int4 x, int4 y)
         {
@@ -912,7 +913,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 compareto(int8 x, int8 y)
         {
@@ -928,7 +929,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="MaxMath.int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(uint2 x, uint2 y)
         {
@@ -943,7 +944,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(uint3 x, uint3 y)
         {
@@ -959,7 +960,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(uint4 x, uint4 y)
         {
@@ -976,7 +977,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 compareto(uint8 x, uint8 y)
         {
@@ -992,7 +993,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a <see cref="MaxMath.long2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 compareto(long2 x, long2 y)
         {
@@ -1007,7 +1008,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 compareto(long3 x, long3 y)
         {
@@ -1022,7 +1023,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 compareto(long4 x, long4 y)
         {
@@ -1038,7 +1039,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a <see cref="MaxMath.long2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 compareto(ulong2 x, ulong2 y)
         {
@@ -1053,7 +1054,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 compareto(ulong3 x, ulong3 y)
         {
@@ -1068,7 +1069,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 compareto(ulong4 x, ulong4 y)
         {
@@ -1084,7 +1085,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 compareto(quarter2 x, quarter2 y)
         {
@@ -1099,7 +1100,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 compareto(quarter3 x, quarter3 y)
         {
@@ -1115,7 +1116,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 compareto(quarter4 x, quarter4 y)
         {
@@ -1132,7 +1133,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 compareto(quarter8 x, quarter8 y)
         {
@@ -1153,7 +1154,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 compareto(quarter16 x, quarter16 y)
         {
@@ -1182,7 +1183,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.sbyte32"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="sbyte32"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 compareto(quarter32 x, quarter32 y)
         {
@@ -1197,7 +1198,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a <see cref="MaxMath.short2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 compareto(half2 x, half2 y)
         {
@@ -1212,7 +1213,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 compareto(half3 x, half3 y)
         {
@@ -1228,7 +1229,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 compareto(half4 x, half4 y)
         {
@@ -1245,7 +1246,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 compareto(half8 x, half8 y)
         {
@@ -1266,7 +1267,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.short16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="short16"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 compareto(half16 x, half16 y)
         {
@@ -1281,7 +1282,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns an <see cref="MaxMath.int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 compareto(float2 x, float2 y)
         {
@@ -1296,7 +1297,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 compareto(float3 x, float3 y)
         {
@@ -1312,7 +1313,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 compareto(float4 x, float4 y)
         {
@@ -1329,7 +1330,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns an <see cref="MaxMath.int8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns an <see cref="int8"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 compareto(float8 x, float8 y)
         {
@@ -1345,7 +1346,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns a <see cref="MaxMath.long2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long2"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 compareto(double2 x, double2 y)
         {
@@ -1360,7 +1361,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long3"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 compareto(double3 x, double3 y)
         {
@@ -1375,7 +1376,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.long4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
+        /// <summary>       Returns a <see cref="long4"/> with each element set to -1 if the corresponding value in <paramref name="x"/> is smaller than the corresponding value in <paramref name="y"/>, 1 if the corresponding value in <paramref name="x"/> is greater than the corresponding value in <paramref name="y"/> or 0 if both are equal.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 compareto(double4 x, double4 y)
         {
@@ -1388,6 +1389,15 @@ namespace MaxMath
                 return new long4(compareto(x.xy, y.xy),
                                  compareto(x.zw, y.zw));
             }
+        }
+
+
+        /// <summary>       Returns -1 if <paramref name="x"/> is smaller than <paramref name="y"/>, 1 if <paramref name="x"/> is greater than <paramref name="y"/> or 0 if both are equal.      </summary>
+        [return: AssumeRange(-1, 1)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int compareto(quadruple x, quadruple y)
+        {
+            return tobyte(x > y) - tobyte(x < y);
         }
     }
 }

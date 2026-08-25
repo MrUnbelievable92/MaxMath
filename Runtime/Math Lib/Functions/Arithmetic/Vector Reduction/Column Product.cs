@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -762,21 +763,21 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.float2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="float2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float2 c)
         {
             return (c * c.yx).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.float3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="float3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float3 c)
         {
             return ((c * c.yyy) * c.zzz).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.float4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="float4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float4 c)
         {
@@ -786,7 +787,7 @@ namespace MaxMath
             return c.x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.float8"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="float8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprod(float8 c)
         {
@@ -806,21 +807,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.double2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="double2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double2 c)
         {
             return (c * c.yx).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.double3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="double3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double3 c)
         {
             return ((c * c.yyy) * c.zzz).x;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.double4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="double4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprod(double4 c)
         {
@@ -831,7 +832,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte2"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="byte2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces an 8-bit overflow.       </para>
         /// </remarks>
@@ -857,7 +858,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte3"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="byte3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -883,7 +884,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte4"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="byte4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.     </para>
         /// </remarks>
@@ -909,7 +910,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte8"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="byte8"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -934,7 +935,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte16"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="byte16"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -959,7 +960,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.byte32"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="byte32"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -996,7 +997,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte2"/>.
+        /// <summary>       Returns the horizontal product of components of an <see cref="sbyte2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces an 8-bit overflow.       </para>
         /// </remarks>
@@ -1022,7 +1023,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte3"/>.
+        /// <summary>       Returns the horizontal product of components of an <see cref="sbyte3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1048,7 +1049,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte4"/>.
+        /// <summary>       Returns the horizontal product of components of an <see cref="sbyte4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1074,7 +1075,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte8"/>.
+        /// <summary>       Returns the horizontal product of components of an <see cref="sbyte8"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1099,7 +1100,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte16"/>.
+        /// <summary>       Returns the horizontal product of components of an <see cref="sbyte16"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1124,7 +1125,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.sbyte32"/>.
+        /// <summary>       Returns the horizontal product of components of an <see cref="sbyte32"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1161,7 +1162,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short2"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="short2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow.        </para>
         /// </remarks>
@@ -1187,7 +1188,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short3"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="short3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1212,7 +1213,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short4"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="short4"/>.
         /// <remarks>
         ///     <para>     A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.     </para>
         /// </remarks>
@@ -1237,7 +1238,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short8"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="short8"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1262,7 +1263,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.short16"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="short16"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1299,7 +1300,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort2"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="ushort2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow.       </para>
         /// </remarks>
@@ -1325,7 +1326,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort3"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="ushort3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1350,7 +1351,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort4"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="ushort4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1375,7 +1376,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort8"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="ushort8"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1400,7 +1401,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ushort16"/>.
+        /// <summary>       Returns the horizontal product of components of a <see cref="ushort16"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column product of <paramref name="c"/> that produces a 16-bit overflow. It is only recommended to use this overload if each possible multiplication order of elements in <paramref name="c"/> is guaranteed not to produce a 16-bit overflow.       </para>
         /// </remarks>
@@ -1437,7 +1438,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.int2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="int2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int2 c)
         {
@@ -1452,7 +1453,7 @@ namespace MaxMath
 
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.int3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="int3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int3 c)
         {
@@ -1466,7 +1467,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.int4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="int4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int4 c)
         {
@@ -1480,7 +1481,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of an <see cref="MaxMath.int8"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of an <see cref="int8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprod(int8 c)
         {
@@ -1497,7 +1498,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.uint2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="uint2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint2 c)
         {
@@ -1511,7 +1512,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.uint3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="uint3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint3 c)
         {
@@ -1525,7 +1526,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.uint4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="uint4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint4 c)
         {
@@ -1539,7 +1540,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.uint8"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="uint8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprod(uint8 c)
         {
@@ -1556,21 +1557,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.long2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="long2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprod(long2 c)
         {
             return c.x * c.y;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.long3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="long3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprod(long3 c)
         {
             return (c.x * c.y) * c.z;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.long4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="long4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprod(long4 c)
         {
@@ -1578,21 +1579,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ulong2"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="ulong2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprod(ulong2 c)
         {
             return c.x * c.y;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ulong3"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="ulong3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprod(ulong3 c)
         {
             return (c.x * c.y) * c.z;
         }
 
-        /// <summary>       Returns the horizontal product of components of a <see cref="MaxMath.ulong4"/>.       </summary>
+        /// <summary>       Returns the horizontal product of components of a <see cref="ulong4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprod(ulong4 c)
         {

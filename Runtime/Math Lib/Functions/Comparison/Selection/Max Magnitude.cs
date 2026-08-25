@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -360,7 +361,7 @@ namespace MaxMath
             return abs((int)a) > abs((int)b) ? a : b;
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="sbyte2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 maxmag(sbyte2 a, sbyte2 b)
         {
@@ -374,7 +375,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="sbyte3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 maxmag(sbyte3 a, sbyte3 b)
         {
@@ -388,7 +389,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="sbyte4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 maxmag(sbyte4 a, sbyte4 b)
         {
@@ -402,7 +403,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="sbyte8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 maxmag(sbyte8 a, sbyte8 b)
         {
@@ -416,7 +417,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte16"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="sbyte16"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 maxmag(sbyte16 a, sbyte16 b)
         {
@@ -430,7 +431,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.sbyte32"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="sbyte32"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 maxmag(sbyte32 a, sbyte32 b)
         {
@@ -452,7 +453,7 @@ namespace MaxMath
             return abs((int)a) > abs((int)b) ? a : b;
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="short2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 maxmag(short2 a, short2 b)
         {
@@ -466,7 +467,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="short3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 maxmag(short3 a, short3 b)
         {
@@ -480,7 +481,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="short4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 maxmag(short4 a, short4 b)
         {
@@ -494,7 +495,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="short8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 maxmag(short8 a, short8 b)
         {
@@ -508,7 +509,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.short16"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="short16"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 maxmag(short16 a, short16 b)
         {
@@ -537,7 +538,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="int2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -555,7 +556,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="int3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -573,7 +574,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="int4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -591,7 +592,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.int8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="int8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -619,7 +620,7 @@ namespace MaxMath
             return (abs(min) >= 0) & (abs(max) >= abs(min)) ? max : min;
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.long2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="long2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -637,7 +638,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.long3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="long3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -655,7 +656,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.long4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
+        /// <summary>       Returns the componentwise maximum of two <see cref="long4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="a"/> + <paramref name="b"/> component pair that overflows.    </para>
         /// </remarks>
@@ -688,7 +689,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="float2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 maxmag(float2 a, float2 b)
         {
@@ -702,7 +703,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="float3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 maxmag(float3 a, float3 b)
         {
@@ -716,7 +717,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="float4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 maxmag(float4 a, float4 b)
         {
@@ -730,7 +731,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.float8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="float8"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 maxmag(float8 a, float8 b)
         {
@@ -759,7 +760,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="double2"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 maxmag(double2 a, double2 b)
         {
@@ -773,7 +774,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="double3"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 maxmag(double3 a, double3 b)
         {
@@ -787,7 +788,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise maximum of two <see cref="MaxMath.double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
+        /// <summary>       Returns the componentwise maximum of two <see cref="double4"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>) for a component, the sign of the return value is undefined for that component.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 maxmag(double4 a, double4 b)
         {
@@ -799,6 +800,14 @@ namespace MaxMath
             {
                 return new double4(maxmag(a.xy, b.xy), maxmag(a.zw, b.zw));
             }
+        }
+
+
+        /// <summary>       Returns the maximum of two <see cref="quadruple"/>s with regard to their magnitude. If abs(<paramref name="a"/>) is equal to abs(<paramref name="b"/>), the sign of the return value is undefined.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple maxmag(quadruple a, quadruple b)
+        {
+            return select(b, a, abs(a) > abs(b));
         }
     }
 }

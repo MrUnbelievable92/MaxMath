@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
+using MaxMath.CompilerServices;
 using DevTools;
 
 using static MaxMath.math;
@@ -92,15 +92,51 @@ namespace MaxMath
             }
         }
 
-        internal readonly bool NotNaN        => Promises(NOT_NAN);
-        internal readonly bool NotInf        => Promises(NOT_INF);
-        internal readonly bool NonZero       => Promises(NON_ZERO);
-        internal readonly bool NoSignedZero  => Promises(NO_SIGNED_ZERO);
-        internal readonly bool NotSubnormal  => Promises(NOT_SUBNORMAL);
-        internal readonly bool Positive      => Promises(POSITIVE);
-        internal readonly bool Negative      => Promises(NEGATIVE);
-        internal readonly bool ZeroOrGreater => Promises(ZERO_OR_GREATER);
-        internal readonly bool ZeroOrLess    => Promises(ZERO_OR_LESS);
+        internal bool NotNaN
+        {
+            readonly get => Promises(NOT_NAN);
+            set => this |= NOT_NAN;
+        }
+        internal bool NotInf
+        {
+            readonly get => Promises(NOT_INF);
+            set => this |= NOT_INF;
+        }
+        internal bool NonZero 
+        {
+            readonly get => Promises(NON_ZERO);
+            set => this |= NON_ZERO;
+        }
+        internal bool NoSignedZero
+        {
+            readonly get => Promises(NO_SIGNED_ZERO);
+            set => this |= NO_SIGNED_ZERO;
+        }
+        internal bool NotSubnormal
+        {
+            readonly get => Promises(NOT_SUBNORMAL);
+            set => this |= NOT_SUBNORMAL;
+        }
+        internal bool Positive
+        {
+            readonly get => Promises(POSITIVE);
+            set => this |= POSITIVE;
+        }
+        internal bool Negative
+        {
+            readonly get => Promises(NEGATIVE);
+            set => this |= NEGATIVE;
+        }
+        internal bool ZeroOrGreater
+        {
+            readonly get => Promises(ZERO_OR_GREATER);
+            set => this |= ZERO_OR_GREATER;
+        }
+        internal bool ZeroOrLess
+        {
+            readonly get => Promises(ZERO_OR_LESS);
+            set => this |= ZERO_OR_LESS;
+        }
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -297,11 +333,18 @@ namespace MaxMath
                 this ^= ZERO_OR_GREATER;
                 this |= ZERO_OR_LESS;
             }
-            else if (Positive)
+            else if (ZeroOrLess)
             {
                 this ^= ZERO_OR_LESS;
                 this |= ZERO_OR_GREATER;
             }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal void MakeFiniteNotNaN()
+        {
+            this |= NOT_INF;
+            this |= NOT_NAN;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

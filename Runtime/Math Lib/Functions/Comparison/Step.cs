@@ -77,5 +77,13 @@ namespace MaxMath
         {
             return Unity.Mathematics.math.step(y, x);
         }
+
+
+        /// <summary>       Returns the result of a step function where the result is 1.0 when <paramref name="x"/> <see langword=">="/> <paramref name="threshold"/> and 0.0 otherwise.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple step(quadruple threshold, quadruple x)
+        {
+            return select(0.0, 1.0, x >= threshold);
+        }
     }
 }

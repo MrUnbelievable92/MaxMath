@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -236,42 +237,42 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 vror(bool2 x, int n)
         {
             return tobool(vror(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 vror(bool3 x, int n)
         {
             return tobool(vror(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 vror(bool4 x, int n)
         {
             return tobool(vror(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 vror(bool8 x, int n)
         {
             return tobool(vror(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 vror(bool16 x, int n)
         {
             return tobool(vror(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool32"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool32"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 vror(bool32 x, int n)
         {
@@ -279,14 +280,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vror(byte2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vror(byte3 x, int n)
         {
@@ -299,7 +300,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 vror(byte4 x, int n)
         {
@@ -322,7 +323,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 vror(byte8 x, int n)
         {
@@ -349,7 +350,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte16 vror(byte16 x, int n)
@@ -389,7 +390,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte32"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte32"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte32 vror(byte32 x, int n)
@@ -461,42 +462,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 vror(sbyte2 x, int n)
         {
             return (sbyte2)vror((byte2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 vror(sbyte3 x, int n)
         {
             return (sbyte3)vror((byte3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 vror(sbyte4 x, int n)
         {
             return (sbyte4)vror((byte4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 vror(sbyte8 x, int n)
         {
             return (sbyte8)vror((byte8)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 vror(sbyte16 x, int n)
         {
             return (sbyte16)vror((byte16)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte32"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte32"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 vror(sbyte32 x, int n)
         {
@@ -504,14 +505,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vror(short2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vror(short3 x, int n)
         {
@@ -524,7 +525,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 vror(short4 x, int n)
         {
@@ -547,7 +548,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short8 vror(short8 x, int n)
@@ -579,7 +580,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short16 vror(short16 x, int n)
@@ -634,35 +635,35 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 vror(ushort2 x, int n)
         {
             return (ushort2)vror((short2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 vror(ushort3 x, int n)
         {
             return (ushort3)vror((short3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 vror(ushort4 x, int n)
         {
             return (ushort4)vror((short4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 vror(ushort8 x, int n)
         {
             return (ushort8)vror((short8)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 vror(ushort16 x, int n)
         {
@@ -670,14 +671,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vror(int2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vror(int3 x, int n)
         {
@@ -690,7 +691,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int4 vror(int4 x, int n)
@@ -718,7 +719,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int8 vror(int8 x, int n)
@@ -766,28 +767,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 vror(uint2 x, int n)
         {
             return (uint2)vror((int2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 vror(uint3 x, int n)
         {
             return (uint3)vror((int3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 vror(uint4 x, int n)
         {
             return (uint4)vror((int4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 vror(uint8 x, int n)
         {
@@ -795,14 +796,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="long2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vror(long2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="long3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 vror(long3 x, int n)
         {
@@ -815,7 +816,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="long4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static long4 vror(long4 x, int n)
@@ -859,21 +860,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ulong2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 vror(ulong2 x, int n)
         {
             return (ulong2)vror((long2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ulong3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 vror(ulong3 x, int n)
         {
             return (ulong3)vror((long3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ulong4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 vror(ulong4 x, int n)
         {
@@ -881,42 +882,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 vror(quarter2 x, int n)
         {
             return asquarter(vror(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 vror(quarter3 x, int n)
         {
             return asquarter(vror(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 vror(quarter4 x, int n)
         {
             return asquarter(vror(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 vror(quarter8 x, int n)
         {
             return asquarter(vror(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter16 vror(quarter16 x, int n)
         {
             return asquarter(vror(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter32"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter32"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter32 vror(quarter32 x, int n)
         {
@@ -924,35 +925,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vror(half2 x, int n)
         {
             return ashalf(vror(asushort(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 vror(half3 x, int n)
         {
             return ashalf(vror(asushort(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 vror(half4 x, int n)
         {
             return ashalf(vror(asushort(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vror(half8 x, int n)
         {
             return ashalf(vror(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half16 vror(half16 x, int n)
         {
@@ -960,14 +961,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vror(float2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 vror(float3 x, int n)
         {
@@ -980,7 +981,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static float4 vror(float4 x, int n)
@@ -1010,7 +1011,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static float8 vror(float8 x, int n)
@@ -1058,14 +1059,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.double2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 vror(double2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.double3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 vror(double3 x, int n)
         {
@@ -1078,7 +1079,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.double4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static double4 vror(double4 x, int n)
@@ -1122,42 +1123,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2 vror(mask8x2 x, int n)
         {
             return (v128)vror((byte2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3 vror(mask8x3 x, int n)
         {
             return (v128)vror((byte3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4 vror(mask8x4 x, int n)
         {
             return (v128)vror((byte4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x8 vror(mask8x8 x, int n)
         {
             return (v128)vror((byte8)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x16 vror(mask8x16 x, int n)
         {
             return (v128)vror((byte16)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool32"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool32"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x32 vror(mask8x32 x, int n)
         {
@@ -1165,35 +1166,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2 vror(mask16x2 x, int n)
         {
             return (v128)vror((ushort2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3 vror(mask16x3 x, int n)
         {
             return (v128)vror((ushort3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4 vror(mask16x4 x, int n)
         {
             return (v128)vror((ushort4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x8 vror(mask16x8 x, int n)
         {
             return (v128)vror((ushort8)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool16"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x16 vror(mask16x16 x, int n)
         {
@@ -1201,28 +1202,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2 vror(mask32x2 x, int n)
         {
             return (v128)vror((uint2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3 vror(mask32x3 x, int n)
         {
             return (v128)vror((uint3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4 vror(mask32x4 x, int n)
         {
             return (v128)vror((uint4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool8"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x8 vror(mask32x8 x, int n)
         {
@@ -1230,21 +1231,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2 vror(mask64x2 x, int n)
         {
             return (v128)vror((ulong2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3 vror(mask64x3 x, int n)
         {
             return (v256)vror((ulong3)(v256)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> right by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4 vror(mask64x4 x, int n)
         {
@@ -1252,42 +1253,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 vrol(bool2 x, int n)
         {
             return tobool(vrol(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 vrol(bool3 x, int n)
         {
             return tobool(vrol(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 vrol(bool4 x, int n)
         {
             return tobool(vrol(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 vrol(bool8 x, int n)
         {
             return tobool(vrol(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 vrol(bool16 x, int n)
         {
             return tobool(vrol(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool32"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool32"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 vrol(bool32 x, int n)
         {
@@ -1295,14 +1296,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vrol(byte2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vrol(byte3 x, int n)
         {
@@ -1315,7 +1316,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte4 vrol(byte4 x, int n)
@@ -1339,7 +1340,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte8 vrol(byte8 x, int n)
@@ -1405,7 +1406,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte16 vrol(byte16 x, int n)
@@ -1439,7 +1440,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.byte32"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="byte32"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte32 vrol(byte32 x, int n)
@@ -1634,42 +1635,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 vrol(sbyte2 x, int n)
         {
             return (sbyte2)vrol((byte2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 vrol(sbyte3 x, int n)
         {
             return (sbyte3)vrol((byte3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 vrol(sbyte4 x, int n)
         {
             return (sbyte4)vrol((byte4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 vrol(sbyte8 x, int n)
         {
             return (sbyte8)vrol((byte8)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 vrol(sbyte16 x, int n)
         {
             return (sbyte16)vrol((byte16)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.sbyte32"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="sbyte32"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 vrol(sbyte32 x, int n)
         {
@@ -1677,14 +1678,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vrol(short2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vrol(short3 x, int n)
         {
@@ -1697,7 +1698,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short4 vrol(short4 x, int n)
@@ -1721,7 +1722,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short8 vrol(short8 x, int n)
@@ -1747,7 +1748,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.short16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="short16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short16 vrol(short16 x, int n)
@@ -1878,35 +1879,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 vrol(ushort2 x, int n)
         {
             return (ushort2)vrol((short2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 vrol(ushort3 x, int n)
         {
             return (ushort3)vrol((short3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 vrol(ushort4 x, int n)
         {
             return (ushort4)vrol((short4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 vrol(ushort8 x, int n)
         {
             return (ushort8)vrol((short8)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ushort16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ushort16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 vrol(ushort16 x, int n)
         {
@@ -1914,14 +1915,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vrol(int2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vrol(int3 x, int n)
         {
@@ -1934,7 +1935,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int4 vrol(int4 x, int n)
@@ -1962,7 +1963,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within an <see cref="MaxMath.int8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within an <see cref="int8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int8 vrol(int8 x, int n)
@@ -2015,21 +2016,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 vrol(uint2 x, int n)
         {
             return (uint2)vrol((int2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 vrol(uint3 x, int n)
         {
             return (uint3)vrol((int3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static uint4 vrol(uint4 x, int n)
@@ -2037,7 +2038,7 @@ namespace MaxMath
             return (uint4)vrol((int4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 vrol(uint8 x, int n)
         {
@@ -2045,14 +2046,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="long2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vrol(long2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="long3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 vrol(long3 x, int n)
         {
@@ -2065,7 +2066,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.long4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="long4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static long4 vrol(long4 x, int n)
@@ -2109,42 +2110,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ulong2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 vrol(ulong2 x, int n)
         {
             return (ulong2)vrol((long2)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ulong3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 vrol(ulong3 x, int n)
         {
             return (ulong3)vrol((long3)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.ulong4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="ulong4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 vrol(ulong4 x, int n)
         {
             return (ulong4)vrol((long4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 vrol(quarter2 x, int n)
         {
             return asquarter(vrol(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 vrol(quarter3 x, int n)
         {
             return asquarter(vrol(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static quarter4 vrol(quarter4 x, int n)
@@ -2152,21 +2153,21 @@ namespace MaxMath
             return asquarter(vrol(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 vrol(quarter8 x, int n)
         {
             return asquarter(vrol(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter16 vrol(quarter16 x, int n)
         {
             return asquarter(vrol(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.quarter32"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="quarter32"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter32 vrol(quarter32 x, int n)
         {
@@ -2174,35 +2175,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vrol(half2 x, int n)
         {
             return ashalf(vrol(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 vrol(half3 x, int n)
         {
             return ashalf(vrol(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 vrol(half4 x, int n)
         {
             return ashalf(vrol(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vrol(half8 x, int n)
         {
             return ashalf(vrol(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.half16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="half16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half16 vrol(half16 x, int n)
         {
@@ -2210,14 +2211,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vrol(float2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 vrol(float3 x, int n)
         {
@@ -2230,7 +2231,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static float4 vrol(float4 x, int n)
@@ -2260,7 +2261,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.float8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="float8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static float8 vrol(float8 x, int n)
@@ -2335,14 +2336,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.double2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 vrol(double2 x, int n)
         {
             return isdivisible(n, 2) ? x : x.yx;
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.double3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 vrol(double3 x, int n)
         {
@@ -2355,7 +2356,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.double4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="double4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static double4 vrol(double4 x, int n)
@@ -2399,42 +2400,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2 vrol(mask8x2 x, int n)
         {
             return (v128)vrol((byte2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3 vrol(mask8x3 x, int n)
         {
             return (v128)vrol((byte3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4 vrol(mask8x4 x, int n)
         {
             return (v128)vrol((byte4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x8 vrol(mask8x8 x, int n)
         {
             return (v128)vrol((byte8)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x16 vrol(mask8x16 x, int n)
         {
             return (v128)vrol((byte16)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool32"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool32"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x32 vrol(mask8x32 x, int n)
         {
@@ -2442,35 +2443,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2 vrol(mask16x2 x, int n)
         {
             return (v128)vrol((ushort2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3 vrol(mask16x3 x, int n)
         {
             return (v128)vrol((ushort3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4 vrol(mask16x4 x, int n)
         {
             return (v128)vrol((ushort4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x8 vrol(mask16x8 x, int n)
         {
             return (v128)vrol((ushort8)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool16"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x16 vrol(mask16x16 x, int n)
         {
@@ -2478,28 +2479,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2 vrol(mask32x2 x, int n)
         {
             return (v128)vrol((uint2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3 vrol(mask32x3 x, int n)
         {
             return (v128)vrol((uint3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4 vrol(mask32x4 x, int n)
         {
             return (v128)vrol((uint4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool8"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x8 vrol(mask32x8 x, int n)
         {
@@ -2507,21 +2508,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool2"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2 vrol(mask64x2 x, int n)
         {
             return (v128)vrol((ulong2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool3"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3 vrol(mask64x3 x, int n)
         {
             return (v256)vrol((ulong3)(v256)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/>.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="bool4"/> left by <paramref name="n"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4 vrol(mask64x4 x, int n)
         {

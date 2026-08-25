@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -8,7 +9,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.byte2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="byte2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 reverse(byte2 x)
         {
@@ -23,7 +24,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.byte3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="byte3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 reverse(byte3 x)
         {
@@ -41,7 +42,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.byte4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="byte4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 reverse(byte4 x)
         {
@@ -57,7 +58,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.byte8"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="byte8"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 reverse(byte8 x)
         {
@@ -77,7 +78,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.byte16"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="byte16"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 reverse(byte16 x)
         {
@@ -99,7 +100,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.byte32"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="byte32"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 reverse(byte32 x)
         {
@@ -116,42 +117,42 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.sbyte2"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="sbyte2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 reverse(sbyte2 x)
         {
             return (sbyte2)reverse((byte2)x);
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.sbyte3"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="sbyte3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 reverse(sbyte3 x)
         {
             return (sbyte3)reverse((byte3)x);
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.sbyte4"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="sbyte4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 reverse(sbyte4 x)
         {
             return (sbyte4)reverse((byte4)x);
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.sbyte8"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="sbyte8"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 reverse(sbyte8 x)
         {
             return (sbyte8)reverse((byte8)x);
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.sbyte16"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="sbyte16"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 reverse(sbyte16 x)
         {
             return (sbyte16)reverse((byte16)x);
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.sbyte32"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="sbyte32"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 reverse(sbyte32 x)
         {
@@ -159,7 +160,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.ushort2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="ushort2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 reverse(ushort2 x)
         {
@@ -174,7 +175,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.ushort3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="ushort3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 reverse(ushort3 x)
         {
@@ -192,7 +193,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.ushort4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="ushort4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 reverse(ushort4 x)
         {
@@ -212,7 +213,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.ushort8"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="ushort8"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 reverse(ushort8 x)
         {
@@ -234,7 +235,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.ushort16"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="ushort16"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 reverse(ushort16 x)
         {
@@ -251,35 +252,35 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.short2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="short2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 reverse(short2 x)
         {
             return (short2)reverse((ushort2)x);
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.short3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="short3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 reverse(short3 x)
         {
             return (short3)reverse((ushort3)x);
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.short4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="short4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 reverse(short4 x)
         {
             return (short4)reverse((ushort4)x);
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.short8"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="short8"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 reverse(short8 x)
         {
             return (short8)reverse((ushort8)x);
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.short16"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="short16"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 reverse(short16 x)
         {
@@ -287,7 +288,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.uint2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="uint2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 reverse(uint2 x)
         {
@@ -302,7 +303,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.uint3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="uint3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 reverse(uint3 x)
         {
@@ -320,7 +321,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.uint4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="uint4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 reverse(uint4 x)
         {
@@ -354,28 +355,28 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.int2"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="int2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 reverse(int2 x)
         {
             return (int2)reverse((uint2)x);
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.int3"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="int3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 reverse(int3 x)
         {
             return (int3)reverse((uint3)x);
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.int4"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="int4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 reverse(int4 x)
         {
             return (int4)reverse((uint4)x);
         }
 
-        /// <summary>       Reverses the element order of an <see cref="MaxMath.int8"/>.        </summary>
+        /// <summary>       Reverses the element order of an <see cref="int8"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 reverse(int8 x)
         {
@@ -383,42 +384,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.ulong2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="ulong2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 reverse(ulong2 x)
         {
             return x.yx;
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.ulong3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="ulong3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 reverse(ulong3 x)
         {
             return x.zyx;
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.ulong4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="ulong4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 reverse(ulong4 x)
         {
             return x.wzyx;
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.long2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="long2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 reverse(long2 x)
         {
             return x.yx;
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.long3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="long3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 reverse(long3 x)
         {
             return x.zyx;
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.long4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="long4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 reverse(long4 x)
         {
@@ -426,42 +427,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.quarter2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="quarter2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 reverse(quarter2 x)
         {
             return asquarter(reverse(asbyte(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.quarter3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="quarter3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 reverse(quarter3 x)
         {
             return asquarter(reverse(asbyte(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.quarter4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="quarter4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 reverse(quarter4 x)
         {
             return asquarter(reverse(asbyte(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.quarter8"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="quarter8"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 reverse(quarter8 x)
         {
             return asquarter(reverse(asbyte(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.quarter16"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="quarter16"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter16 reverse(quarter16 x)
         {
             return asquarter(reverse(asbyte(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.quarter32"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="quarter32"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter32 reverse(quarter32 x)
         {
@@ -469,35 +470,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.half2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="half2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 reverse(half2 x)
         {
             return ashalf(reverse(asushort(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.half3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="half3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 reverse(half3 x)
         {
             return ashalf(reverse(asushort(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.half4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="half4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 reverse(half4 x)
         {
             return ashalf(reverse(asushort(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.half8"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="half8"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 reverse(half8 x)
         {
             return ashalf(reverse(asushort(x)));
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.half16"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="half16"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half16 reverse(half16 x)
         {
@@ -505,7 +506,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.float2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="float2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 reverse(float2 x)
         {
@@ -519,7 +520,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.float3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="float3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 reverse(float3 x)
         {
@@ -533,7 +534,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.float4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="float4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 reverse(float4 x)
         {
@@ -547,7 +548,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.float8"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="float8"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 reverse(float8 x)
         {
@@ -562,7 +563,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.double2"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="double2"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 reverse(double2 x)
         {
@@ -576,7 +577,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.double3"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="double3"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 reverse(double3 x)
         {
@@ -590,7 +591,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Reverses the element order of a <see cref="MaxMath.double4"/>.        </summary>
+        /// <summary>       Reverses the element order of a <see cref="double4"/>.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 reverse(double4 x)
         {

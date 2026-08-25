@@ -4,21 +4,21 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.sbyte4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="sbyte4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(sbyte4x4 m)
         {
             return determinant((int4x4)m);
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.short4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="short4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(short4x4 m)
         {
             return determinant((int4x4)m);
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.int4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="int4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(int4x4 m)
         {
@@ -40,14 +40,14 @@ namespace MaxMath
             return t.x + t.z;
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.int4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="int4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(Unity.Mathematics.int4x4 m)
         {
             return determinant((int4x4)m);
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.long4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="long4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long determinant(long4x4 m)
         {
@@ -73,7 +73,7 @@ namespace MaxMath
             return (lo + hi).x;
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.float4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="float4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float determinant(float4x4 m)
         {
@@ -95,14 +95,14 @@ namespace MaxMath
             return t.x + t.z;
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.float4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="float4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float determinant(Unity.Mathematics.float4x4 m)
         {
             return determinant((float4x4)m);
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.double4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="double4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double determinant(double4x4 m)
         {
@@ -128,7 +128,7 @@ namespace MaxMath
             return (lo + hi).x;
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.double4x4"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="double4x4"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double determinant(Unity.Mathematics.double4x4 m)
         {
@@ -136,21 +136,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.sbyte3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="sbyte3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(sbyte3x3 m)
         {
             return determinant((int3x3)m);
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.short3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="short3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(short3x3 m)
         {
             return determinant((int3x3)m);
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.int3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="int3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(int3x3 m)
         {
@@ -165,14 +165,14 @@ namespace MaxMath
             return csum(t);
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.int3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="int3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(Unity.Mathematics.int3x3 m)
         {
             return determinant((int3x3)m);
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.long3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="long3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long determinant(long3x3 m)
         {
@@ -183,28 +183,28 @@ namespace MaxMath
             return m.c0.x * m00 - m.c1.x * m01 + m.c2.x * m02;
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.float3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="float3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float determinant(float3x3 m)
         {
             return Unity.Mathematics.math.determinant(m);
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.float3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="float3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float determinant(Unity.Mathematics.float3x3 m)
         {
             return determinant((float3x3)m);
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.double3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="double3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double determinant(double3x3 m)
         {
             return Unity.Mathematics.math.determinant(m);
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.double3x3"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="double3x3"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double determinant(Unity.Mathematics.double3x3 m)
         {
@@ -212,21 +212,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.sbyte2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="sbyte2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(sbyte2x2 m)
         {
             return determinant((int2x2)m);
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.short2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="short2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(short2x2 m)
         {
             return determinant((int2x2)m);
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.int2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="int2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(int2x2 m)
         {
@@ -234,21 +234,21 @@ namespace MaxMath
             return t.x - t.y;
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.int2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="int2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int determinant(Unity.Mathematics.int2x2 m)
         {
             return determinant((int2x2)m);
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.long2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="long2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long determinant(long2x2 m)
         {
             return m.c0.x * m.c1.y - m.c1.x * m.c0.y;
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.float2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="float2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float determinant(float2x2 m)
         {
@@ -256,14 +256,14 @@ namespace MaxMath
             return t.x - t.y;
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.float2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="float2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float determinant(Unity.Mathematics.float2x2 m)
         {
             return determinant((float2x2)m);
         }
 
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.double2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="double2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double determinant(double2x2 m)
         {
@@ -271,7 +271,7 @@ namespace MaxMath
             return t.x - t.y;
         }
         
-        /// <summary>   Returns the determinant of an <see cref="MaxMath.double2x2"/> matrix.</summary>
+        /// <summary>   Returns the determinant of an <see cref="double2x2"/> matrix.</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double determinant(Unity.Mathematics.double2x2 m)
         {

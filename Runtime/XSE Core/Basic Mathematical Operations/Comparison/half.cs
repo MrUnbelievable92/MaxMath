@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.FLOATING_POINT;

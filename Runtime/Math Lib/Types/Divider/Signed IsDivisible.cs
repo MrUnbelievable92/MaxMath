@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -168,19 +169,30 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 result;
+
                 if (promises.Pow2)
                 {
                     divisor = promise_abs_epi64(divisor, promises);
-                    return bmdivisible_epu64(Xse.abs_epi64(a), divisor, mulLo, mulHi, promises);
+                    result = bmdivisible_epu64(Xse.abs_epi64(a), divisor, mulLo, mulHi, promises);
+                }
+                else
+                {
+                    bmcvti2u_epi64(ref mulLo, ref mulHi, ref divisor, promises);
+
+                    a = Xse.abs_epi64(a);
+                    long cmpLo = tobyte(Xse.extract_epi64(a, 0) * mulLo <= mulLo - 1);
+                    long cmpHi = tobyte(Xse.extract_epi64(a, 1) * mulHi <= mulHi - 1);
+
+                    result = Xse.neg_epi64(Xse.unpacklo_epi64(Xse.cvtsi64x_si128(cmpLo), Xse.cvtsi64x_si128(cmpHi)));
                 }
 
-                bmcvti2u_epi64(ref mulLo, ref mulHi, ref divisor, promises);
+                constexpr.ASSUME(result.ULong0 == (a.SLong0 % divisor.SLong0 == 0 ? ulong.MaxValue : 0));
+                constexpr.ASSUME(result.ULong1 == (a.SLong1 % divisor.SLong1 == 0 ? ulong.MaxValue : 0));
 
-                a = Xse.abs_epi64(a);
-                long cmpLo = tobyte(Xse.extract_epi64(a, 0) * mulLo <= mulLo - 1);
-                long cmpHi = tobyte(Xse.extract_epi64(a, 1) * mulHi <= mulHi - 1);
+                constexpr.ASSUME_IS_MASK_EPI64(result);
 
-                return Xse.neg_epi64(Xse.unpacklo_epi64(Xse.cvtsi64x_si128(cmpLo), Xse.cvtsi64x_si128(cmpHi)));
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -190,15 +202,30 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
+                v256 result;
+
                 if (promises.Pow2)
                 {
                     divisor = mm256_promise_abs_epi64(divisor, promises, elements);
-                    return mm256_bmnotdivisible_epu64(Xse.mm256_abs_epi64(a, elements), divisor, mulLo, mulHi, promises, elements);
+                    result = mm256_bmnotdivisible_epu64(Xse.mm256_abs_epi64(a, elements), divisor, mulLo, mulHi, promises, elements);
+                }
+                else
+                {
+                    mm256_bmcvti2u_epi64(ref mulLo, ref mulHi, ref divisor, promises, elements);
+                    result = mm256_bmnotdivisible_epu64(Xse.mm256_abs_epi64(a, elements), divisor, mulLo, mulHi, promises, elements);
                 }
 
-                mm256_bmcvti2u_epi64(ref mulLo, ref mulHi, ref divisor, promises, elements);
+                constexpr.ASSUME(result.ULong0 == (a.SLong0 % divisor.SLong0 != 0 ? ulong.MaxValue : 0));
+                constexpr.ASSUME(result.ULong1 == (a.SLong1 % divisor.SLong1 != 0 ? ulong.MaxValue : 0));
+                constexpr.ASSUME(result.ULong2 == (a.SLong2 % divisor.SLong2 != 0 ? ulong.MaxValue : 0));
+                if (elements > 3)
+                {
+                    constexpr.ASSUME(result.ULong3 == (a.SLong3 % divisor.SLong3 != 0 ? ulong.MaxValue : 0));
+                }
 
-                return mm256_bmnotdivisible_epu64(Xse.mm256_abs_epi64(a, elements), divisor, mulLo, mulHi, promises, elements);
+                constexpr.ASSUME_IS_MASK_EPI64(result);
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }

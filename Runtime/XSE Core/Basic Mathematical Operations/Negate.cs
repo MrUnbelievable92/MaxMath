@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -12,7 +13,14 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                return sub_epi8(setzero_si128(), a);
+                v128 result = sub_epi8(setzero_si128(), a);
+
+                if (constexpr.IS_MASK_EPI8(a))
+                {
+                    constexpr.ASSUME_LE_EPU8(result, 1);
+                }
+
+                return result;
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -26,7 +34,14 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                return sub_epi16(setzero_si128(), a);
+                v128 result = sub_epi16(setzero_si128(), a);
+
+                if (constexpr.IS_MASK_EPI16(a))
+                {
+                    constexpr.ASSUME_LE_EPU16(result, 1);
+                }
+
+                return result;
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -40,7 +55,14 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                return sub_epi32(setzero_si128(), a);
+                v128 result = sub_epi32(setzero_si128(), a);
+
+                if (constexpr.IS_MASK_EPI32(a))
+                {
+                    constexpr.ASSUME_LE_EPU32(result, 1);
+                }
+
+                return result;
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -54,7 +76,14 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                return sub_epi64(setzero_si128(), a);
+                v128 result = sub_epi64(setzero_si128(), a);
+
+                if (constexpr.IS_MASK_EPI64(a))
+                {
+                    constexpr.ASSUME_LE_EPU64(result, 1);
+                }
+
+                return result;
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -69,7 +98,14 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi8(Avx.mm256_setzero_si256(), a);
+                v256 result = Avx2.mm256_sub_epi8(Avx.mm256_setzero_si256(), a);
+                
+                if (constexpr.IS_MASK_EPI8(a))
+                {
+                    constexpr.ASSUME_LE_EPU8(result, 1);
+                }
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -79,7 +115,14 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi16(Avx.mm256_setzero_si256(), a);
+                v256 result = Avx2.mm256_sub_epi16(Avx.mm256_setzero_si256(), a);
+                
+                if (constexpr.IS_MASK_EPI16(a))
+                {
+                    constexpr.ASSUME_LE_EPU16(result, 1);
+                }
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -89,7 +132,14 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi32(Avx.mm256_setzero_si256(), a);
+                v256 result = Avx2.mm256_sub_epi32(Avx.mm256_setzero_si256(), a);
+                
+                if (constexpr.IS_MASK_EPI32(a))
+                {
+                    constexpr.ASSUME_LE_EPU32(result, 1);
+                }
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -99,7 +149,14 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Avx2.mm256_sub_epi64(Avx.mm256_setzero_si256(), a);
+                v256 result = Avx2.mm256_sub_epi64(Avx.mm256_setzero_si256(), a);
+                
+                if (constexpr.IS_MASK_EPI64(a))
+                {
+                    constexpr.ASSUME_LE_EPU64(result, 1);
+                }
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }

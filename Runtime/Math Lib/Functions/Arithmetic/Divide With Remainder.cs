@@ -1,8 +1,9 @@
 using System;
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -54,8 +55,8 @@ namespace MaxMath
             {
 Assert.AreNotEqual(0u, divisor);
 
-                remainder = MaxMath.UInt128.__const.urem(dividend, divisor);
-                return MaxMath.UInt128.__const.udiv(dividend, divisor);
+                remainder = UInt128.__const.urem(dividend, divisor);
+                return UInt128.__const.udiv(dividend, divisor);
             }
 
             return asm128.__udivrem128x64(dividend, divisor, out remainder);
@@ -69,8 +70,8 @@ Assert.AreNotEqual(0u, divisor);
             {
 Assert.AreNotEqual(0u, divisor);
 
-                remainder = MaxMath.UInt128.__const.urem(dividend, divisor);
-                return MaxMath.UInt128.__const.udiv(dividend, divisor);
+                remainder = UInt128.__const.urem(dividend, divisor);
+                return UInt128.__const.udiv(dividend, divisor);
             }
 
             return asm128.__udivrem128x128(dividend, divisor, out remainder);
@@ -142,8 +143,8 @@ Assert.AreNotEqual(0u, divisor);
             {
 Assert.AreNotEqual(0u, divisor);
 
-                remainder = MaxMath.UInt128.__const.irem(dividend, divisor);
-                return MaxMath.UInt128.__const.idiv(dividend, divisor);
+                remainder = UInt128.__const.irem(dividend, divisor);
+                return UInt128.__const.idiv(dividend, divisor);
             }
 
             ulong absDivisor = constexpr.IS_TRUE(divisor >= 0) ? (ulong)divisor : (ulong)abs(divisor);
@@ -162,8 +163,8 @@ Assert.AreNotEqual(0u, divisor);
             {
 Assert.AreNotEqual(0u, divisor);
 
-                remainder = MaxMath.UInt128.__const.irem(dividend, divisor);
-                return MaxMath.UInt128.__const.idiv(dividend, divisor);
+                remainder = UInt128.__const.irem(dividend, divisor);
+                return UInt128.__const.idiv(dividend, divisor);
             }
 
             if (constexpr.IS_TRUE(isinrange(divisor, long.MinValue, long.MaxValue)))
@@ -2428,6 +2429,16 @@ Assert.AreNotEqual(0u, divisor);
         public static double4 divrem(double4 dividend, double4 divisor, out double4 remainder)
         {
             remainder = divisor * modf(dividend / divisor, out double4 quotient);
+
+            return quotient;
+        }
+
+
+        /// <summary>       Returns the truncated quotient of the <paramref name="dividend"/> divided by the <paramref name="divisor"/> with the <paramref name="remainder"/> as an <see langword="out"/> parameter.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple divrem(quadruple dividend, quadruple divisor, out quadruple remainder, bool fastApproximate = false)
+        {
+            remainder = divisor * modf(div(dividend, divisor, fastApproximate), out quadruple quotient);
 
             return quotient;
         }

@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.Intrinsics.Xse;
@@ -190,6 +191,129 @@ namespace MaxMath
 			{
 				this = new bool8((bool4)x0123, (bool4)x4567);
 			}
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(bool4 x0123, bool4 x4567) 
+			: this((mask32x4)x0123, x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(bool4 x0123, mask32x4 x4567) 
+			: this((mask32x4)x0123, x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask32x4 x0123, bool4 x4567) 
+			: this(x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask64x4 x0123, mask64x4 x4567)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+				v256 inter = Avx.mm256_shuffle_ps(x0123, x4567, 0b1000_1000);
+				this = Avx2.mm256_permute4x64_epi64(inter, Sse.SHUFFLE(3, 1, 2, 0));
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = new mask32x8((mask32x4)x0123, (mask32x4)x4567);
+			}
+			else
+			{
+				this = new bool8((bool4)x0123, (bool4)x4567);
+			}
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask64x4 x0123, mask32x4 x4567) 
+			: this((mask32x4)x0123, x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask64x4 x0123, mask16x4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask64x4 x0123, mask8x4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask64x4 x0123, bool4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask32x4 x0123, mask64x4 x4567)
+			: this(x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask16x4 x0123, mask64x4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask8x4 x0123, mask64x4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(bool4 x0123, mask64x4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(bool4 x0123, mask16x4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(bool4 x0123, mask8x4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask16x4 x0123, bool4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask32x8(mask8x4 x0123, bool4 x4567)
+			: this((mask32x4)x0123, (mask32x4)x4567)
+		{
+
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

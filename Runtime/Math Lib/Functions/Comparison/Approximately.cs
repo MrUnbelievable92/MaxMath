@@ -1,6 +1,7 @@
 using MaxMath.Intrinsics;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.FLOATING_POINT;
@@ -264,7 +265,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.float2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float2"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="float2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float2"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -291,7 +292,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.float3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float3"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="float3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float3"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -318,7 +319,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.float4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float4"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="float4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float4"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -345,7 +346,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.float8"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float8"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="float8"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float8"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -391,7 +392,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.double2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double2"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="double2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double2"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -418,7 +419,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.double3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double3"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="double3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double3"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -436,7 +437,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.double4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double4"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="double4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double4"/> <paramref name="b"/>, given a <paramref name="tolerance"/> component.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -452,6 +453,34 @@ namespace MaxMath
             {
                 return new mask64x4(approx(a.xy, b.xy, tolerance.xy, promises), approx(a.zw, b.zw, tolerance.zw, promises));
             }
+        }
+
+
+        /// <summary>       Returns <see langword="true"/> if the two <see cref="quadruple"/>s <paramref name="a"/> and <paramref name="b"/> are approximately equal to each other, given a <paramref name="tolerance"/>.      </summary>
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="quadruple.PositiveInfinity"/>, and <see cref="quadruple.NegativeInfinity"/>.     </para>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool approx(quadruple a, quadruple b, quadruple tolerance, Promise promises = Promise.Nothing)
+        {
+            Promise basePromise = FloatingPointPromise<quadruple>.NOT_NAN | (promises.Promises(Promise.Unsafe0) ? FloatingPointPromise<quadruple>.NOT_INF : Promise.Nothing);
+            quadruple.ConstChecked promisedA = a;
+            quadruple.ConstChecked promisedB = b;
+            promisedA.Promise |= basePromise;
+            promisedB.Promise |= basePromise;
+
+            quadruple cmp = abs(quadruple.Subtract(promisedB, promisedA));
+
+            if (!promises.Promises(Promise.Unsafe0))
+            {
+                bool ainf = isinf(a);
+                bool binf = isinf(b);
+                cmp = select(select(cmp, quadruple.NaN, ainf | binf),
+                             select(0f, quadruple.NaN, quadruple.NotEqual(promisedA, promisedB)),
+                             ainf & binf);
+            }
+
+            return cmp <= tolerance;
         }
 
 
@@ -473,7 +502,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.float2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float2"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="float2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float2"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -491,7 +520,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.float3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float3"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="float3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float3"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -509,7 +538,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.float4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float4"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="float4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float4"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -527,7 +556,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.float8"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.float8"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="float8"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="float8"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -564,7 +593,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.double2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double2"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="double2"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double2"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -582,7 +611,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.double3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double3"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="double3"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double3"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -600,7 +629,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.double4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="MaxMath.double4"/> <paramref name="b"/>.
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="double4"/> <paramref name="a"/> whether it is approximately equal to the corresponding component in the <see cref="double4"/> <paramref name="b"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="double.PositiveInfinity"/>, and <see cref="double.NegativeInfinity"/>.     </para>
         /// </remarks>
@@ -616,6 +645,17 @@ namespace MaxMath
             {
                 return new mask64x4(approx(a.xy, b.xy, promises), approx(a.zw, b.zw, promises));
             }
+        }
+
+
+        /// <summary>       Returns <see langword="true"/> if the two <see cref="quadruple"/>s <paramref name="a"/> and <paramref name="b"/> are approximately equal to each other.      </summary>
+        /// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for <see cref="float.PositiveInfinity"/>, and <see cref="float.NegativeInfinity"/>.     </para>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool approx(quadruple a, quadruple b, Promise promises = Promise.Nothing)
+        {
+            return approx(a, b, max(F128_TO_LAST_DIGIT * max(abs(a), abs(b)), asquadruple(bitmask128((ulong)MANTISSA_ROUNDING_BITS))), promises);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -280,7 +281,7 @@ namespace MaxMath
 	        return res;
         }
 
-        /// <summary>       Subtracts <paramref name="y"/> from <paramref name="x"/> and returns the result, which is clamped to <see cref="MaxMath.UInt128.MinValue"/> if underflow occurs.    </summary>
+        /// <summary>       Subtracts <paramref name="y"/> from <paramref name="x"/> and returns the result, which is clamped to <see cref="UInt128.MinValue"/> if underflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 subsaturated(UInt128 x, UInt128 y)
         {
@@ -1087,6 +1088,14 @@ namespace MaxMath
         public static double4 subsaturated(double4 x, double4 y)
         {
             return clamp(x - y, double.MinValue, double.MaxValue);
+        }
+
+
+        /// <summary>       Subtracts <paramref name="y"/> from <paramref name=x"/> and returns the result, which is clamped to <see cref="quadruple.MaxValue"/> if overflow occurs or <see cref="quadruple.MinValue"/> if underflow occurs.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple subsaturated(quadruple x, quadruple y)
+        {
+            return clamp(x - y, quadruple.MinValue, quadruple.MaxValue);
         }
     }
 }

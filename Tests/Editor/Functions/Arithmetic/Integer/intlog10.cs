@@ -71,11 +71,10 @@ namespace MaxMath.Tests
 
             return result;
         }
-
+        
         [Test]
-        public static void _UInt128()
+        public static void _uint()
         {
-            Assert.AreEqual(0, math.intlog10(0));
             Assert.AreEqual(0, math.intlog10(9));
             Assert.AreEqual(1, math.intlog10(10));
             Assert.AreEqual(1, math.intlog10(11));
@@ -103,6 +102,11 @@ namespace MaxMath.Tests
             Assert.AreEqual(8, math.intlog10(999999999));
             Assert.AreEqual(9, math.intlog10(1000000000));
             Assert.AreEqual(9, math.intlog10(1000000001));
+        }
+        
+        [Test]
+        public static void _ulong()
+        {
             Assert.AreEqual(9, math.intlog10(9999999999));
             Assert.AreEqual(10, math.intlog10(10000000000));
             Assert.AreEqual(10, math.intlog10(10000000001));
@@ -134,6 +138,69 @@ namespace MaxMath.Tests
             Assert.AreEqual(19, math.intlog10(10000000000000000000));
             Assert.AreEqual(19, math.intlog10(10000000000000000001));
             Assert.AreEqual(19, math.intlog10(ulong.MaxValue));
+        }
+
+        [Test]
+        public static void _UInt128()
+        {
+            Assert.AreEqual((UInt128)0, (UInt128)math.intlog10(9));
+            Assert.AreEqual((UInt128)1, (UInt128)math.intlog10(10));
+            Assert.AreEqual((UInt128)1, (UInt128)math.intlog10(11));
+            Assert.AreEqual((UInt128)1, (UInt128)math.intlog10(99));
+            Assert.AreEqual((UInt128)2, (UInt128)math.intlog10(100));
+            Assert.AreEqual((UInt128)2, (UInt128)math.intlog10(101));
+            Assert.AreEqual((UInt128)2, (UInt128)math.intlog10(999));
+            Assert.AreEqual((UInt128)3, (UInt128)math.intlog10(1000));
+            Assert.AreEqual((UInt128)3, (UInt128)math.intlog10(1001));
+            Assert.AreEqual((UInt128)3, (UInt128)math.intlog10(9999));
+            Assert.AreEqual((UInt128)4, (UInt128)math.intlog10(10000));
+            Assert.AreEqual((UInt128)4, (UInt128)math.intlog10(10001));
+            Assert.AreEqual((UInt128)4, (UInt128)math.intlog10(99999));
+            Assert.AreEqual((UInt128)5, (UInt128)math.intlog10(100000));
+            Assert.AreEqual((UInt128)5, (UInt128)math.intlog10(100001));
+            Assert.AreEqual((UInt128)5, (UInt128)math.intlog10(999999));
+            Assert.AreEqual((UInt128)6, (UInt128)math.intlog10(1000000));
+            Assert.AreEqual((UInt128)6, (UInt128)math.intlog10(1000001));
+            Assert.AreEqual((UInt128)6, (UInt128)math.intlog10(9999999));
+            Assert.AreEqual((UInt128)7, (UInt128)math.intlog10(10000000));
+            Assert.AreEqual((UInt128)7, (UInt128)math.intlog10(10000001));
+            Assert.AreEqual((UInt128)7, (UInt128)math.intlog10(99999999));
+            Assert.AreEqual((UInt128)8, (UInt128)math.intlog10(100000000));
+            Assert.AreEqual((UInt128)8, (UInt128)math.intlog10(100000001));
+            Assert.AreEqual((UInt128)8, (UInt128)math.intlog10(999999999));
+            Assert.AreEqual((UInt128)9, (UInt128)math.intlog10(1000000000));
+            Assert.AreEqual((UInt128)9, (UInt128)math.intlog10(1000000001));
+            Assert.AreEqual((UInt128)9, (UInt128)math.intlog10(9999999999));
+            Assert.AreEqual((UInt128)10, (UInt128)math.intlog10(10000000000));
+            Assert.AreEqual((UInt128)10, (UInt128)math.intlog10(10000000001));
+            Assert.AreEqual((UInt128)10, (UInt128)math.intlog10(99999999999));
+            Assert.AreEqual((UInt128)11, (UInt128)math.intlog10(100000000000));
+            Assert.AreEqual((UInt128)11, (UInt128)math.intlog10(100000000001));
+            Assert.AreEqual((UInt128)11, (UInt128)math.intlog10(999999999999));
+            Assert.AreEqual((UInt128)12, (UInt128)math.intlog10(1000000000000));
+            Assert.AreEqual((UInt128)12, (UInt128)math.intlog10(1000000000001));
+            Assert.AreEqual((UInt128)12, (UInt128)math.intlog10(9999999999999));
+            Assert.AreEqual((UInt128)13, (UInt128)math.intlog10(10000000000000));
+            Assert.AreEqual((UInt128)13, (UInt128)math.intlog10(10000000000001));
+            Assert.AreEqual((UInt128)13, (UInt128)math.intlog10(99999999999999));
+            Assert.AreEqual((UInt128)14, (UInt128)math.intlog10(100000000000000));
+            Assert.AreEqual((UInt128)14, (UInt128)math.intlog10(100000000000001));
+            Assert.AreEqual((UInt128)14, (UInt128)math.intlog10(999999999999999));
+            Assert.AreEqual((UInt128)15, (UInt128)math.intlog10(1000000000000000));
+            Assert.AreEqual((UInt128)15, (UInt128)math.intlog10(1000000000000001));
+            Assert.AreEqual((UInt128)15, (UInt128)math.intlog10(9999999999999999));
+            Assert.AreEqual((UInt128)16, (UInt128)math.intlog10(10000000000000000));
+            Assert.AreEqual((UInt128)16, (UInt128)math.intlog10(10000000000000001));
+            Assert.AreEqual((UInt128)16, (UInt128)math.intlog10(99999999999999999));
+            Assert.AreEqual((UInt128)17, (UInt128)math.intlog10(100000000000000000));
+            Assert.AreEqual((UInt128)17, (UInt128)math.intlog10(100000000000000001));
+            Assert.AreEqual((UInt128)17, (UInt128)math.intlog10(999999999999999999));
+            Assert.AreEqual((UInt128)18, (UInt128)math.intlog10(1000000000000000000));
+            Assert.AreEqual((UInt128)18, (UInt128)math.intlog10(1000000000000000001));
+            Assert.AreEqual((UInt128)18, (UInt128)math.intlog10(9999999999999999999));
+            Assert.AreEqual((UInt128)19, (UInt128)math.intlog10(10000000000000000000));
+            Assert.AreEqual((UInt128)19, (UInt128)math.intlog10(10000000000000000001));
+            Assert.AreEqual((UInt128)19, (UInt128)math.intlog10(ulong.MaxValue));
             Assert.AreEqual((UInt128)19, math.intlog10((UInt128)"99999999999999999999"));
             Assert.AreEqual((UInt128)20, math.intlog10((UInt128)"100000000000000000000"));
             Assert.AreEqual((UInt128)20, math.intlog10((UInt128)"100000000000000000001"));

@@ -2,7 +2,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
+using MaxMath.CompilerServices;
 
 namespace MaxMath
 {

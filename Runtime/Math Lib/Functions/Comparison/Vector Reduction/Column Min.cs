@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -419,7 +420,7 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.byte2"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="byte2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte2 c)
         {
@@ -433,7 +434,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.byte3"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="byte3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte3 c)
         {
@@ -447,7 +448,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.byte4"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="byte4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte4 c)
         {
@@ -461,7 +462,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.byte8"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="byte8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte8 c)
         {
@@ -475,7 +476,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.byte16"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="byte16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte16 c)
         {
@@ -489,7 +490,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.byte32"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="byte32"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cmin(byte32 c)
         {
@@ -497,7 +498,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.sbyte2"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="sbyte2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte2 c)
         {
@@ -511,7 +512,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.sbyte3"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="sbyte3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte3 c)
         {
@@ -525,7 +526,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.sbyte4"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="sbyte4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte4 c)
         {
@@ -539,7 +540,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.sbyte8"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="sbyte8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte8 c)
         {
@@ -553,7 +554,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.sbyte16"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="sbyte16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte16 c)
         {
@@ -567,7 +568,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.sbyte32"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="sbyte32"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cmin(sbyte32 c)
         {
@@ -575,7 +576,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.short2"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="short2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short2 c)
         {
@@ -589,7 +590,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.short3"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="short3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short3 c)
         {
@@ -603,7 +604,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.short4"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="short4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short4 c)
         {
@@ -617,7 +618,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.short8"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="short8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short8 c)
         {
@@ -631,7 +632,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.short16"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="short16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cmin(short16 c)
         {
@@ -639,7 +640,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.ushort2"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="ushort2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort2 c)
         {
@@ -653,7 +654,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.ushort3"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="ushort3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort3 c)
         {
@@ -667,7 +668,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.ushort4"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="ushort4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort4 c)
         {
@@ -681,7 +682,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.ushort8"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="ushort8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort8 c)
         {
@@ -695,7 +696,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.ushort16"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="ushort16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cmin(ushort16 c)
         {
@@ -703,28 +704,28 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.int2"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="int2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cmin(int2 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.int3"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="int3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cmin(int3 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.int4"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="int4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cmin(int4 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of an <see cref="MaxMath.int8"/>.      </summary>
+        /// <summary>       Returns the minimum component of an <see cref="int8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cmin(int8 c)
         {
@@ -732,28 +733,28 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.uint2"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="uint2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cmin(uint2 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.uint3"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="uint3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cmin(uint3 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.uint4"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="uint4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cmin(uint4 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.uint8"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="uint8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cmin(uint8 c)
         {
@@ -761,7 +762,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.long2"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="long2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmin(long2 c)
         {
@@ -775,7 +776,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.long3"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="long3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmin(long3 c)
         {
@@ -795,7 +796,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.long4"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="long4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cmin(long4 c)
         {
@@ -812,7 +813,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.ulong2"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="ulong2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmin(ulong2 c)
         {
@@ -826,7 +827,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.ulong3"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="ulong3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmin(ulong3 c)
         {
@@ -846,7 +847,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.ulong4"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="ulong4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cmin(ulong4 c)
         {
@@ -863,28 +864,28 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.float2"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="float2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cmin(float2 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.float3"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="float3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cmin(float3 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.float4"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="float4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cmin(float4 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.float8"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="float8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cmin(float8 c)
         {
@@ -892,21 +893,21 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.double2"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="double2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cmin(double2 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.double3"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="double3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cmin(double3 c)
         {
             return Unity.Mathematics.math.cmin(c);
         }
 
-        /// <summary>       Returns the minimum component of a <see cref="MaxMath.double4"/>.      </summary>
+        /// <summary>       Returns the minimum component of a <see cref="double4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cmin(double4 c)
         {

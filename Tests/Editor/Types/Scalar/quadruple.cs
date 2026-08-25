@@ -1,6 +1,6 @@
-using NUnit.Framework;
 using System;
-
+using NUnit.Framework;
+using MaxMath.CompilerServices;
 
 using static MaxMath.math;
 
@@ -20,7 +20,7 @@ namespace MaxMath.Tests
             {
                 for (int i = 0; i < 1; ++i)
                 {
-                    initialGuess = mad(-b, (initialGuess / b) - a, initialGuess);
+                    initialGuess = quadruple.mulAddF128(-b, (initialGuess / b) - a, initialGuess, false, false);
                 }
             }
             return isnan(initialGuess) ? (negative ? quadruple.NegativeInfinity : quadruple.PositiveInfinity) : initialGuess;
@@ -34,7 +34,7 @@ namespace MaxMath.Tests
             {
                 for (int i = 0; i < 1; ++i)
                 {
-                    initialGuess -= ((initialGuess * b) + (-a)) / b;
+                    initialGuess -= quadruple.mulAddF128(initialGuess, b, -a, false, false) / b;
                 }
             }
             return isnan(initialGuess) ? (negative ? quadruple.NegativeInfinity : quadruple.PositiveInfinity) : initialGuess;
@@ -50,6 +50,7 @@ namespace MaxMath.Tests
                     initialGuess = 0.5 * (initialGuess + (a / initialGuess));
                 }
             }
+
             return isnan(initialGuess) ? (negative ? quadruple.NegativeInfinity : quadruple.PositiveInfinity) : initialGuess;
         }
 

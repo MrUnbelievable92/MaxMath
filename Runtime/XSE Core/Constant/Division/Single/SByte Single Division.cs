@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -10,6 +11,7 @@ namespace MaxMath.Intrinsics
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static v128 constdiv_epi8(v128 vector, sbyte divisor, byte elements = 16)
 		{
+			v128 result;
 			if (Ssse3.IsSsse3Supported)
 			{
 				if (elements <= 8)
@@ -19,766 +21,893 @@ namespace MaxMath.Intrinsics
 						case -128: return abs_epi8(cmpeq_epi8(new v128(sbyte.MinValue), vector));
 						case -127:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-130));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-130));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -126:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-131));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-131));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -125:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-132));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-132));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -124:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-133));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-133));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -123:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-134));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-134));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -122:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-135));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-135));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -121:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-136));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-136));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -120:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-137));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-137));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -119:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-138));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-138));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -118:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-140));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-140));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -117:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-141));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-141));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -116:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-142));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-142));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -115:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-143));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-143));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -114:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-144));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-144));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -113:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-146));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-146));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -112:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-147));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-147));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -111:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-148));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-148));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -110:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-150));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-150));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -109:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-151));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-151));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -108:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-153));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-153));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -107:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-154));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-154));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -106:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-156));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-156));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -105:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-157));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-157));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -104:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-159));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-159));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -103:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-160));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-160));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -102:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-162));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-162));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -101:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-163));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-163));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -100:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-165));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-165));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -99:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-167));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-167));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -98:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-168));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-168));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -97:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-170));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-170));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -96:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-172));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-172));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -95:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-174));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-174));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -94:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-176));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-176));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -93:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-178));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-178));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -92:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-180));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-180));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -91:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-182));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-182));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -90:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-184));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-184));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -89:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-186));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-186));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -88:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-188));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-188));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -87:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-190));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-190));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -86:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-192));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-192));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -85:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-195));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-195));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -84:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-197));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-197));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -83:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-199));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-199));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -82:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-202));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-202));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -81:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-204));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-204));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -80:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-207));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-207));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -79:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-210));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-210));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -78:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-212));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-212));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -77:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-215));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-215));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -76:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-218));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-218));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -75:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-221));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-221));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -74:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-224));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-224));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -73:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-227));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-227));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -72:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-230));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-230));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -71:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-234));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-234));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -70:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-237));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-237));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -69:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-240));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-240));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -68:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-244));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-244));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -67:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-248));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-248));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -66:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-252));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-252));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case -65:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-255));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(-255));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 65:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(255));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(255));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 66:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(249));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(249));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 67:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(245));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(245));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 68:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(241));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(241));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 69:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(238));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(238));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 70:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(235));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(235));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 71:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(231));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(231));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 72:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(228));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(228));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 73:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(225));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(225));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 74:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(222));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(222));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 75:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(219));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(219));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 76:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(216));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(216));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 77:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(213));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(213));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 78:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(211));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(211));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 79:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(208));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(208));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 80:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(205));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(205));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 81:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(203));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(203));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 82:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(200));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(200));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 83:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(198));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(198));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 84:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(196));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(196));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 85:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(193));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(193));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 86:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(191));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(191));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 87:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(189));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(189));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 88:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(187));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(187));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 89:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(185));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(185));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 90:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(183));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(183));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 91:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(181));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(181));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 92:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(179));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(179));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 93:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(177));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(177));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 94:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(175));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(175));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 95:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(173));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(173));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 96:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(171));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(171));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 97:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(169));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(169));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 98:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(168));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(168));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 99:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(166));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(166));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 100:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(164));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(164));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 101:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(163));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(163));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 102:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(161));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(161));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 103:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(160));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(160));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 104:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(158));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(158));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 105:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(157));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(157));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 106:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(155));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(155));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 107:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(154));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(154));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 108:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(152));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(152));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 109:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(151));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(151));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 110:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(149));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(149));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 111:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(148));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(148));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 112:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(147));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(147));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 113:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(145));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(145));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 114:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(144));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(144));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 115:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(143));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(143));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 116:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(142));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(142));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 117:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(141));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(141));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 118:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(139));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(139));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 119:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(138));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(138));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 120:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(137));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(137));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 121:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(136));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(136));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 122:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(135));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(135));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 123:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(134));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(134));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 124:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(133));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(133));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 125:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(132));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(132));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 126:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(131));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(131));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 						case 127:
 						{
-							v128 result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(130));
+							result = mulhrs_epi16(cvtepi8_epi16(vector), new short8(130));
 
-							return packs_epi16(result, result);
+							result = packs_epi16(result, result);
+							break;
 						}
 
 						default:
 						{
 							Divider<sbyte>.bminit_i8(divisor, out ushort mul16, Promise.Nothing);
 
-							return Divider<sbyte>.bmdiv_epi8_si8(vector, mul16, divisor, Promise.Nothing, elements);
+							result = Divider<sbyte>.bmdiv_epi8_si8(vector, mul16, divisor, Promise.Nothing, elements);
+							break;
 						}
 					}
 				}
@@ -796,7 +925,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -126:
 						{
@@ -806,7 +936,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -125:
 						{
@@ -816,7 +947,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -124:
 						{
@@ -826,7 +958,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -123:
 						{
@@ -836,7 +969,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -122:
 						{
@@ -846,7 +980,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -121:
 						{
@@ -856,7 +991,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -120:
 						{
@@ -866,7 +1002,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -119:
 						{
@@ -876,7 +1013,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -118:
 						{
@@ -886,7 +1024,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -117:
 						{
@@ -896,7 +1035,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -116:
 						{
@@ -906,7 +1046,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -115:
 						{
@@ -916,7 +1057,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -114:
 						{
@@ -926,7 +1068,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -113:
 						{
@@ -936,7 +1079,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -112:
 						{
@@ -946,7 +1090,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -111:
 						{
@@ -956,7 +1101,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -110:
 						{
@@ -966,7 +1112,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -109:
 						{
@@ -976,7 +1123,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -108:
 						{
@@ -986,7 +1134,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -107:
 						{
@@ -996,7 +1145,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -106:
 						{
@@ -1006,7 +1156,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -105:
 						{
@@ -1016,7 +1167,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -104:
 						{
@@ -1026,7 +1178,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -103:
 						{
@@ -1036,7 +1189,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -102:
 						{
@@ -1046,7 +1200,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -101:
 						{
@@ -1056,7 +1211,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -100:
 						{
@@ -1066,7 +1222,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -99:
 						{
@@ -1076,7 +1233,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -98:
 						{
@@ -1086,7 +1244,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -97:
 						{
@@ -1096,7 +1255,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -96:
 						{
@@ -1106,7 +1266,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -95:
 						{
@@ -1116,7 +1277,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -94:
 						{
@@ -1126,7 +1288,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -93:
 						{
@@ -1136,7 +1299,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -92:
 						{
@@ -1146,7 +1310,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -91:
 						{
@@ -1156,7 +1321,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -90:
 						{
@@ -1166,7 +1332,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -89:
 						{
@@ -1176,7 +1343,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -88:
 						{
@@ -1186,7 +1354,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -87:
 						{
@@ -1196,7 +1365,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -86:
 						{
@@ -1206,7 +1376,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -85:
 						{
@@ -1216,7 +1387,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -84:
 						{
@@ -1226,7 +1398,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -83:
 						{
@@ -1236,7 +1409,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -82:
 						{
@@ -1246,7 +1420,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -81:
 						{
@@ -1256,7 +1431,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -80:
 						{
@@ -1266,7 +1442,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -79:
 						{
@@ -1276,7 +1453,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -78:
 						{
@@ -1286,7 +1464,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -77:
 						{
@@ -1296,7 +1475,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -76:
 						{
@@ -1306,7 +1486,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -75:
 						{
@@ -1316,7 +1497,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -74:
 						{
@@ -1326,7 +1508,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -73:
 						{
@@ -1336,7 +1519,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -72:
 						{
@@ -1346,7 +1530,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -71:
 						{
@@ -1356,7 +1541,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -70:
 						{
@@ -1366,7 +1552,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -69:
 						{
@@ -1376,7 +1563,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -68:
 						{
@@ -1386,7 +1574,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -67:
 						{
@@ -1396,7 +1585,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -66:
 						{
@@ -1406,7 +1596,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case -65:
 						{
@@ -1416,7 +1607,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 65:
 						{
@@ -1426,7 +1618,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 66:
 						{
@@ -1436,7 +1629,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 67:
 						{
@@ -1446,7 +1640,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 68:
 						{
@@ -1456,7 +1651,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 69:
 						{
@@ -1466,7 +1662,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 70:
 						{
@@ -1476,7 +1673,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 71:
 						{
@@ -1486,7 +1684,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 72:
 						{
@@ -1496,7 +1695,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 73:
 						{
@@ -1506,7 +1706,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 74:
 						{
@@ -1516,7 +1717,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 75:
 						{
@@ -1526,7 +1728,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 76:
 						{
@@ -1536,7 +1739,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 77:
 						{
@@ -1546,7 +1750,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 78:
 						{
@@ -1556,7 +1761,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 79:
 						{
@@ -1566,7 +1772,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 80:
 						{
@@ -1576,7 +1783,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 81:
 						{
@@ -1586,7 +1794,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 82:
 						{
@@ -1596,7 +1805,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 83:
 						{
@@ -1606,7 +1816,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 84:
 						{
@@ -1616,7 +1827,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 85:
 						{
@@ -1626,7 +1838,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 86:
 						{
@@ -1636,7 +1849,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 87:
 						{
@@ -1646,7 +1860,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 88:
 						{
@@ -1656,7 +1871,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 89:
 						{
@@ -1666,7 +1882,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 90:
 						{
@@ -1676,7 +1893,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 91:
 						{
@@ -1686,7 +1904,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 92:
 						{
@@ -1696,7 +1915,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 93:
 						{
@@ -1706,7 +1926,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 94:
 						{
@@ -1716,7 +1937,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 95:
 						{
@@ -1726,7 +1948,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 96:
 						{
@@ -1736,7 +1959,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 97:
 						{
@@ -1746,7 +1970,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 98:
 						{
@@ -1756,7 +1981,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 99:
 						{
@@ -1766,7 +1992,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 100:
 						{
@@ -1776,7 +2003,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 101:
 						{
@@ -1786,7 +2014,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 102:
 						{
@@ -1796,7 +2025,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 103:
 						{
@@ -1806,7 +2036,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 104:
 						{
@@ -1816,7 +2047,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 105:
 						{
@@ -1826,7 +2058,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 106:
 						{
@@ -1836,7 +2069,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 107:
 						{
@@ -1846,7 +2080,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 108:
 						{
@@ -1856,7 +2091,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 109:
 						{
@@ -1866,7 +2102,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 110:
 						{
@@ -1876,7 +2113,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 111:
 						{
@@ -1886,7 +2124,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 112:
 						{
@@ -1896,7 +2135,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 113:
 						{
@@ -1906,7 +2146,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 114:
 						{
@@ -1916,7 +2157,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 115:
 						{
@@ -1926,7 +2168,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 116:
 						{
@@ -1936,7 +2179,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 117:
 						{
@@ -1946,7 +2190,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 118:
 						{
@@ -1956,7 +2201,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 119:
 						{
@@ -1966,7 +2212,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 120:
 						{
@@ -1976,7 +2223,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 121:
 						{
@@ -1986,7 +2234,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 122:
 						{
@@ -1996,7 +2245,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 123:
 						{
@@ -2006,7 +2256,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 124:
 						{
@@ -2016,7 +2267,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 125:
 						{
@@ -2026,7 +2278,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 126:
 						{
@@ -2036,7 +2289,8 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 						case 127:
 						{
@@ -2046,17 +2300,22 @@ namespace MaxMath.Intrinsics
 							v128 lo = mulhrs_epi16(unpacklo_epi8(vector, cvtMask), MAGIC);
 							v128 hi = mulhrs_epi16(unpackhi_epi8(vector, cvtMask), MAGIC);
 
-							return packs_epi16(lo, hi);
+							result = packs_epi16(lo, hi);
+							break;
 						}
 
 						default:
 						{
 							Divider<sbyte>.bminit_i8(divisor, out ushort mul16, Promise.Nothing);
 
-							return Divider<sbyte>.bmdiv_epi8_si8(vector, mul16, divisor, Promise.Nothing, elements);
+							result = Divider<sbyte>.bmdiv_epi8_si8(vector, mul16, divisor, Promise.Nothing, elements);
+							break;
 						}
 					}
 				}
+
+				constexpr.ASSUME_DIVISION_EPI8(result, vector, set1_epi8(divisor), elements);
+				return result;
 			}
 			else if (BurstArchitecture.IsSIMDSupported)
 			{
@@ -2077,6 +2336,8 @@ namespace MaxMath.Intrinsics
 		{
 			if (Avx2.IsAvx2Supported)
 			{
+				v256 result;
+
 				switch (divisor)
 				{
 					case -128: return mm256_abs_epi8(Avx2.mm256_cmpeq_epi8(new sbyte32(sbyte.MinValue), vector));
@@ -2089,7 +2350,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -126:
 					{
@@ -2099,7 +2361,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -125:
 					{
@@ -2109,7 +2372,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -124:
 					{
@@ -2119,7 +2383,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -123:
 					{
@@ -2129,7 +2394,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -122:
 					{
@@ -2139,7 +2405,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -121:
 					{
@@ -2149,7 +2416,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -120:
 					{
@@ -2159,7 +2427,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -119:
 					{
@@ -2169,7 +2438,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -118:
 					{
@@ -2179,7 +2449,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -117:
 					{
@@ -2189,7 +2460,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -116:
 					{
@@ -2199,7 +2471,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -115:
 					{
@@ -2209,7 +2482,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -114:
 					{
@@ -2219,7 +2493,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -113:
 					{
@@ -2229,7 +2504,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -112:
 					{
@@ -2239,7 +2515,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -111:
 					{
@@ -2249,7 +2526,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -110:
 					{
@@ -2259,7 +2537,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -109:
 					{
@@ -2269,7 +2548,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -108:
 					{
@@ -2279,7 +2559,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -107:
 					{
@@ -2289,7 +2570,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -106:
 					{
@@ -2299,7 +2581,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -105:
 					{
@@ -2309,7 +2592,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -104:
 					{
@@ -2319,7 +2603,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -103:
 					{
@@ -2329,7 +2614,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -102:
 					{
@@ -2339,7 +2625,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -101:
 					{
@@ -2349,7 +2636,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -100:
 					{
@@ -2359,7 +2647,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -99:
 					{
@@ -2369,7 +2658,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -98:
 					{
@@ -2379,7 +2669,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -97:
 					{
@@ -2389,7 +2680,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -96:
 					{
@@ -2399,7 +2691,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -95:
 					{
@@ -2409,7 +2702,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -94:
 					{
@@ -2419,7 +2713,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -93:
 					{
@@ -2429,7 +2724,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -92:
 					{
@@ -2439,7 +2735,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -91:
 					{
@@ -2449,7 +2746,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -90:
 					{
@@ -2459,7 +2757,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -89:
 					{
@@ -2469,7 +2768,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -88:
 					{
@@ -2479,7 +2779,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -87:
 					{
@@ -2489,7 +2790,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -86:
 					{
@@ -2499,7 +2801,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -85:
 					{
@@ -2509,7 +2812,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -84:
 					{
@@ -2519,7 +2823,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -83:
 					{
@@ -2529,7 +2834,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -82:
 					{
@@ -2539,7 +2845,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -81:
 					{
@@ -2549,7 +2856,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -80:
 					{
@@ -2559,7 +2867,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -79:
 					{
@@ -2569,7 +2878,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -78:
 					{
@@ -2579,7 +2889,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -77:
 					{
@@ -2589,7 +2900,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -76:
 					{
@@ -2599,7 +2911,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -75:
 					{
@@ -2609,7 +2922,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -74:
 					{
@@ -2619,7 +2933,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -73:
 					{
@@ -2629,7 +2944,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -72:
 					{
@@ -2639,7 +2955,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -71:
 					{
@@ -2649,7 +2966,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -70:
 					{
@@ -2659,7 +2977,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -69:
 					{
@@ -2669,7 +2988,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -68:
 					{
@@ -2679,7 +2999,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -67:
 					{
@@ -2689,7 +3010,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -66:
 					{
@@ -2699,7 +3021,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -65:
 					{
@@ -2709,7 +3032,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case -2:
 					{
@@ -2719,7 +3043,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 2:
 					{
@@ -2729,7 +3054,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 65:
 					{
@@ -2739,7 +3065,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 66:
 					{
@@ -2749,7 +3076,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 67:
 					{
@@ -2759,7 +3087,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 68:
 					{
@@ -2769,7 +3098,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 69:
 					{
@@ -2779,7 +3109,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 70:
 					{
@@ -2789,7 +3120,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 71:
 					{
@@ -2799,7 +3131,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 72:
 					{
@@ -2809,7 +3142,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 73:
 					{
@@ -2819,7 +3153,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 74:
 					{
@@ -2829,7 +3164,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 75:
 					{
@@ -2839,7 +3175,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 76:
 					{
@@ -2849,7 +3186,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 77:
 					{
@@ -2859,7 +3197,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 78:
 					{
@@ -2869,7 +3208,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 79:
 					{
@@ -2879,7 +3219,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 80:
 					{
@@ -2889,7 +3230,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 81:
 					{
@@ -2899,7 +3241,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 82:
 					{
@@ -2909,7 +3252,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 83:
 					{
@@ -2919,7 +3263,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 84:
 					{
@@ -2929,7 +3274,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 85:
 					{
@@ -2939,7 +3285,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 86:
 					{
@@ -2949,7 +3296,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 87:
 					{
@@ -2959,7 +3307,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 88:
 					{
@@ -2969,7 +3318,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 89:
 					{
@@ -2979,7 +3329,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 90:
 					{
@@ -2989,7 +3340,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 91:
 					{
@@ -2999,7 +3351,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 92:
 					{
@@ -3009,7 +3362,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 93:
 					{
@@ -3019,7 +3373,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 94:
 					{
@@ -3029,7 +3384,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 95:
 					{
@@ -3039,7 +3395,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 96:
 					{
@@ -3049,7 +3406,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 97:
 					{
@@ -3059,7 +3417,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 98:
 					{
@@ -3069,7 +3428,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 99:
 					{
@@ -3079,7 +3439,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 100:
 					{
@@ -3089,7 +3450,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 101:
 					{
@@ -3099,7 +3461,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 102:
 					{
@@ -3109,7 +3472,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 103:
 					{
@@ -3119,7 +3483,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 104:
 					{
@@ -3129,7 +3494,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 105:
 					{
@@ -3139,7 +3505,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 106:
 					{
@@ -3149,7 +3516,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 107:
 					{
@@ -3159,7 +3527,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 108:
 					{
@@ -3169,7 +3538,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 109:
 					{
@@ -3179,7 +3549,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 110:
 					{
@@ -3189,7 +3560,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 111:
 					{
@@ -3199,7 +3571,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 112:
 					{
@@ -3209,7 +3582,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 113:
 					{
@@ -3219,7 +3593,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 114:
 					{
@@ -3229,7 +3604,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 115:
 					{
@@ -3239,7 +3615,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 116:
 					{
@@ -3249,7 +3626,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 117:
 					{
@@ -3259,7 +3637,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 118:
 					{
@@ -3269,7 +3648,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 119:
 					{
@@ -3279,7 +3659,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 120:
 					{
@@ -3289,7 +3670,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 121:
 					{
@@ -3299,7 +3681,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 122:
 					{
@@ -3309,7 +3692,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 123:
 					{
@@ -3319,7 +3703,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 124:
 					{
@@ -3329,7 +3714,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 125:
 					{
@@ -3339,7 +3725,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 126:
 					{
@@ -3349,7 +3736,8 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 					case 127:
 					{
@@ -3359,14 +3747,19 @@ namespace MaxMath.Intrinsics
 						v256 lo = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpacklo_epi8(vector, cvtMask), MAGIC);
 						v256 hi = Avx2.mm256_mulhrs_epi16(Avx2.mm256_unpackhi_epi8(vector, cvtMask), MAGIC);
 
-						return Avx2.mm256_packs_epi16(lo, hi);
+						result = Avx2.mm256_packs_epi16(lo, hi);
+						break;
 					}
 
 					default:
 					{
-						return (sbyte32)vector / new Divider<sbyte>(divisor);
+						result = (sbyte32)vector / new Divider<sbyte>(divisor);
+						break;
 					}
 				}
+
+				constexpr.ASSUME_DIVISION_EPI8(result, vector, mm256_set1_epi8(divisor));
+				return result;
 			}
 			else throw new IllegalInstructionException();
 		}

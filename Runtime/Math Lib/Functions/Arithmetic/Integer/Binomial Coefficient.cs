@@ -2,8 +2,9 @@ using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.FACTORIAL;
@@ -14,266 +15,622 @@ namespace MaxMath
     {
         unsafe public static partial class Xse
         {
-            public static v128 comb_epu8(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 16)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool CONST_CHECK_comb_ep8(v128 n, v128 k, out v128 r, byte unsafeLevels = 0, byte elements = 16)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return comb_ep8(n, k, false, unsafeLevels, elements);
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U64, elements))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U32, elements))
+                        {
+                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U16, elements))
+                            {
+                                if (unsafeLevels > 3 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U8, elements))
+                                {
+                                    r = naivecomb_epu8(n, k, elements);
+                                }
+                                else
+                                {
+                                    if (elements <= 8)
+                                    {
+                                        r = cvtepi16_epi8(naivecomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), false, elements), elements);
+                                    }
+                                    else
+                                    {
+                                        if (Avx2.IsAvx2Supported)
+                                        {
+                                            r = mm256_cvtepi16_epi8(mm256_naivecomb_epu16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k), false));
+                                        }
+                                        else
+                                        {
+                                            v128 nLo16 = cvt2x2epu8_epi16(n, out v128 nHi16);
+                                            v128 kLo16 = cvt2x2epu8_epi16(k, out v128 kHi16);
+
+                                            v128 resultLo = naivecomb_epu16(nLo16, kLo16, false, elements);
+                                            v128 resultHi = naivecomb_epu16(nHi16, kHi16, false, elements);
+
+                                            r = cvt2x2epi16_epi8(resultLo, resultHi);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (elements <= 4)
+                                {
+                                    r = cvtepi32_epi8(naivecomb_epu32(cvtepu8_epi32(n), cvtepu8_epi32(k), elements));
+                                }
+                                else
+                                {
+                                    if (Avx2.IsAvx2Supported)
+                                    {
+                                        if (elements == 8)
+                                        {
+                                            r = mm256_cvtepi32_epi8(mm256_naivecomb_epu32(Avx2.mm256_cvtepu8_epi32(n), Avx2.mm256_cvtepu8_epi32(k)));
+                                        }
+                                        else
+                                        {
+                                            v256 loN32 = Avx2.mm256_cvtepu8_epi32(n);
+                                            v256 hiN32 = Avx2.mm256_cvtepu8_epi32(bsrli_si128(n, 8 * sizeof(byte)));
+                                            v256 loK32 = Avx2.mm256_cvtepu8_epi32(k);
+                                            v256 hiK32 = Avx2.mm256_cvtepu8_epi32(bsrli_si128(k, 8 * sizeof(byte)));
+
+                                            v128 resultLo = mm256_cvtepi32_epi8(mm256_naivecomb_epu32(loN32, loK32));
+                                            v128 resultHi = mm256_cvtepi32_epi8(mm256_naivecomb_epu32(hiN32, hiK32));
+
+                                            r = unpacklo_epi64(resultLo, resultHi);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (elements == 8)
+                                        {
+                                            v128 loN32 = cvt2x2epu8_epi32(n, out v128 hiN32);
+                                            v128 loK32 = cvt2x2epu8_epi32(k, out v128 hiK32);
+
+                                            v128 resultLo = naivecomb_epu32(loN32, loK32);
+                                            v128 resultHi = naivecomb_epu32(hiN32, hiK32);
+
+                                            v128 result = cvt2x2epi32_epi16(resultLo, resultHi);
+
+                                            r = cvt2x2epi16_epi8(result, result);
+                                        }
+                                        else
+                                        {
+                                            cvt4x4epu8_epi32(n, out v128 n32_0, out v128 n32_1, out v128 n32_2, out v128 n32_3);
+                                            cvt4x4epu8_epi32(k, out v128 k32_0, out v128 k32_1, out v128 k32_2, out v128 k32_3);
+
+                                            v128 result32_0 = naivecomb_epu32(n32_0, k32_0);
+                                            v128 result32_1 = naivecomb_epu32(n32_1, k32_1);
+                                            v128 result32_2 = naivecomb_epu32(n32_2, k32_2);
+                                            v128 result32_3 = naivecomb_epu32(n32_3, k32_3);
+
+                                            r = cvt4x4epi32_epi8(result32_0, result32_1, result32_2, result32_3, signed: false);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            switch (elements)
+                            {
+                                case 2:
+                                {
+                                    r = unpacklo_epi8(cvtsi64x_si128(math.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0)),
+                                                         cvtsi64x_si128(math.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0)));
+
+                                    break;
+                                }
+
+                                case 3:
+                                case 4:
+                                {
+                                    if (Avx2.IsAvx2Supported)
+                                    {
+                                        r = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(Avx2.mm256_cvtepu8_epi64(n), Avx2.mm256_cvtepu8_epi64(k), elements));
+                                    }
+                                    else
+                                    {
+                                        r = new v128((byte)math.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0),
+                                                        (byte)math.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0),
+                                                        (byte)math.comb((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), Promise.Unsafe0),
+                                                        (byte)(elements == 4 ? math.comb((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), Promise.Unsafe0) : 0),
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0);
+                                    }
+
+                                    break;
+                                }
+
+                                case 8:
+                                {
+                                    if (Avx2.IsAvx2Supported)
+                                    {
+                                        v256 n64Lo = Avx2.mm256_cvtepu8_epi64(n);
+                                        v256 k64Lo = Avx2.mm256_cvtepu8_epi64(k);
+                                        v256 n64Hi = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n, 4 * sizeof(byte)));
+                                        v256 k64Hi = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k, 4 * sizeof(byte)));
+
+                                        v128 lo = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n64Lo, k64Lo));
+                                        v128 hi = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n64Hi, k64Hi));
+
+                                        r = unpacklo_epi32(lo, hi);
+                                    }
+                                    else
+                                    {
+                                        v128 _0_1 = naivecomb_epu64(cvtepu8_epi64(n), cvtepu8_epi64(k), true);
+                                        v128 _2_3 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 2 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 2 * sizeof(byte))), true);
+
+                                        v128 _4 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 4), (ulong)extract_epi8(k, 4), Promise.Unsafe0));
+                                        v128 _5 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 5), (ulong)extract_epi8(k, 5), Promise.Unsafe0));
+                                        v128 _6 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 6), (ulong)extract_epi8(k, 6), Promise.Unsafe0));
+                                        v128 _7 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 7), (ulong)extract_epi8(k, 7), Promise.Unsafe0));
+
+                                        v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
+                                        v128 _4_5 = unpacklo_epi8(_4, _5);
+                                        v128 _6_7 = unpacklo_epi8(_6, _7);
+                                        v128 _4_5_6_7 = unpacklo_epi16(_4_5, _6_7);
+
+                                        r = unpacklo_epi32(_0_1_2_3, _4_5_6_7);
+                                    }
+
+                                    break;
+                                }
+
+                                default:
+                                {
+                                    if (Avx2.IsAvx2Supported)
+                                    {
+                                        v256 n0 = Avx2.mm256_cvtepu8_epi64(n);
+                                        v256 k0 = Avx2.mm256_cvtepu8_epi64(k);
+                                        v256 n1 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n,  4 * sizeof(byte)));
+                                        v256 k1 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k,  4 * sizeof(byte)));
+                                        v256 n2 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n,  8 * sizeof(byte)));
+                                        v256 k2 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k,  8 * sizeof(byte)));
+                                        v256 n3 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n, 12 * sizeof(byte)));
+                                        v256 k3 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k, 12 * sizeof(byte)));
+
+                                        v128 result0 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n0, k0));
+                                        v128 result1 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n1, k1));
+                                        v128 result2 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n2, k2));
+                                        v128 result3 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n3, k3));
+
+                                        r = unpacklo_epi64(unpacklo_epi32(result0, result1), unpacklo_epi32(result2, result3));
+                                    }
+                                    else
+                                    {
+                                        v128 _0_1 = naivecomb_epu64(cvtepu8_epi64(n), cvtepu8_epi64(k), true);
+                                        v128 _2_3 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 2 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 2 * sizeof(byte))), true);
+                                        v128 _4_5 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 4 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 4 * sizeof(byte))), true);
+                                        v128 _6_7 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 6 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 6 * sizeof(byte))), true);
+
+                                        v128 _8  = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 8),  (ulong)extract_epi8(k, 8),  Promise.Unsafe0));
+                                        v128 _9  = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 9),  (ulong)extract_epi8(k, 9),  Promise.Unsafe0));
+                                        v128 _10 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 10), (ulong)extract_epi8(k, 10), Promise.Unsafe0));
+                                        v128 _11 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 11), (ulong)extract_epi8(k, 11), Promise.Unsafe0));
+                                        v128 _12 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 12), (ulong)extract_epi8(k, 12), Promise.Unsafe0));
+                                        v128 _13 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 13), (ulong)extract_epi8(k, 13), Promise.Unsafe0));
+                                        v128 _14 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 14), (ulong)extract_epi8(k, 14), Promise.Unsafe0));
+                                        v128 _15 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 15), (ulong)extract_epi8(k, 15), Promise.Unsafe0));
+
+                                        v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
+                                        v128 _4_5_6_7 = unpacklo_epi16(cvtepi64_epi8(_4_5), cvtepi64_epi8(_6_7));
+                                        v128 lo = unpacklo_epi32(_0_1_2_3, _4_5_6_7);
+
+                                        v128 _8_9   = unpacklo_epi8( _8,  _9);
+                                        v128 _10_11 = unpacklo_epi8(_10, _11);
+                                        v128 _12_13 = unpacklo_epi8(_12, _13);
+                                        v128 _14_15 = unpacklo_epi8(_14, _15);
+                                        v128 _8_9_10_11 = unpacklo_epi16(_8_9, _10_11);
+                                        v128 _12_13_14_15 = unpacklo_epi16(_12_13, _14_15);
+                                        v128 hi = unpacklo_epi32(_8_9_10_11, _12_13_14_15);
+
+                                        r = unpacklo_epi64(lo, hi);
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        return true;
+                    }
+
+                    r = default;
+                    return false;
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool CONST_CHECK_comb_ep16(v128 n, v128 k, out v128 r, byte unsafeLevels = 0, byte elements = 8)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U64, elements))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U32, elements))
+                        {
+                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U16, elements))
+                            {
+                                r = naivecomb_epu16(n, k, unsafeLevels > 3 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U8, elements), elements);
+                            }
+                            else
+                            {
+                                if (elements <= 4)
+                                {
+                                    r = cvtepi32_epi16(naivecomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), elements), elements);
+                                }
+                                else
+                                {
+                                    if (Avx2.IsAvx2Supported)
+                                    {
+                                        r = mm256_cvtepi32_epi16(mm256_naivecomb_epu32(Avx2.mm256_cvtepu16_epi32(n), Avx2.mm256_cvtepu16_epi32(k)));
+                                    }
+                                    else
+                                    {
+                                        v128 nLo32 = cvt2x2epu16_epi32(n, out v128 nHi32);
+                                        v128 kLo32 = cvt2x2epu16_epi32(k, out v128 kHi32);
+
+                                        r = cvt2x2epi32_epi16(naivecomb_epu32(nLo32, kLo32), naivecomb_epu32(nHi32, kHi32));
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            switch (elements)
+                            {
+                                case 2:
+                                {
+                                    r = unpacklo_epi16(cvtsi32_si128((int)math.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0)),
+                                                       cvtsi32_si128((int)math.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0)));
+
+                                    break;
+                                }
+
+                                case 3:
+                                case 4:
+                                {
+                                    if (Avx2.IsAvx2Supported)
+                                    {
+                                        r = mm256_cvtepi64_epi16(mm256_naivecomb_epu64(Avx2.mm256_cvtepu16_epi64(n), Avx2.mm256_cvtepu16_epi64(k), elements));
+                                    }
+                                    else
+                                    {
+                                        r = new v128((ushort)math.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0),
+                                                        (ushort)math.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0),
+                                                        (ushort)math.comb((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), Promise.Unsafe0),
+                                                        (ushort)(elements == 4 ? math.comb((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), Promise.Unsafe0) : 0),
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0);
+                                    }
+
+                                    break;
+                                }
+
+                                default:
+                                {
+                                    if (Avx2.IsAvx2Supported)
+                                    {
+                                        v256 n64Lo = Avx2.mm256_cvtepu16_epi64(n);
+                                        v256 k64Lo = Avx2.mm256_cvtepu16_epi64(k);
+                                        v256 n64Hi = Avx2.mm256_cvtepu16_epi64(bsrli_si128(n, 4 * sizeof(ushort)));
+                                        v256 k64Hi = Avx2.mm256_cvtepu16_epi64(bsrli_si128(k, 4 * sizeof(ushort)));
+
+                                        v128 result64Lo = mm256_cvtepi64_epi16(mm256_naivecomb_epu64(n64Lo, k64Lo));
+                                        v128 result64Hi = mm256_cvtepi64_epi16(mm256_naivecomb_epu64(n64Hi, k64Hi));
+
+                                        r = unpacklo_epi64(result64Lo, result64Hi);
+                                    }
+                                    else
+                                    {
+                                        v128 _0_1 = naivecomb_epu64(cvtepu16_epi64(n), cvtepu16_epi64(k), true);
+                                        v128 _2_3 = naivecomb_epu64(cvtepu16_epi64(bsrli_si128(n, 2 * sizeof(ushort))), cvtepu16_epi64(bsrli_si128(k, 2 * sizeof(ushort))), true);
+
+                                        v128 _4 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 4), (ulong)extract_epi16(k, 4), Promise.Unsafe0));
+                                        v128 _5 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 5), (ulong)extract_epi16(k, 5), Promise.Unsafe0));
+                                        v128 _6 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 6), (ulong)extract_epi16(k, 6), Promise.Unsafe0));
+                                        v128 _7 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 7), (ulong)extract_epi16(k, 7), Promise.Unsafe0));
+
+                                        v128 _0_1_2_3 = unpacklo_epi32(cvtepi64_epi16(_0_1), cvtepi64_epi16(_2_3));
+                                        v128 _4_5 = unpacklo_epi16(_4, _5);
+                                        v128 _6_7 = unpacklo_epi16(_6, _7);
+                                        v128 _4_5_6_7 = unpacklo_epi32(_4_5, _6_7);
+
+                                        r = unpacklo_epi64(_0_1_2_3, _4_5_6_7);
+                                    }
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        return true;
+                    }
+
+                    r = default;
+                    return false;
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool CONST_CHECK_comb_ep32(v128 n, v128 k, out v128 r, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64, elements))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U32, elements))
+                        {
+                            r = naivecomb_epu32(n, k, elements);
+                        }
+                        else
+                        {
+                            if (elements > 2)
+                            {
+                                if (Avx2.IsAvx2Supported)
+                                {
+                                    r = mm256_cvtepi64_epi32(mm256_naivecomb_epu64(Avx2.mm256_cvtepu32_epi64(n), Avx2.mm256_cvtepu32_epi64(k), elements));
+                                }
+                                else
+                                {
+                                    v128 lo = unpacklo_epi32(cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
+                                                             cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
+                                    v128 hi = cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 2), (ulong)extract_epi32(k, 2), Promise.Unsafe0));
+
+                                    if (elements == 4)
+                                    {
+                                        hi = unpacklo_epi32(hi, cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 3), (ulong)extract_epi32(k, 3), Promise.Unsafe0)));
+                                    }
+
+                                    r = unpacklo_epi64(lo, hi);
+                                }
+                            }
+                            else
+                            {
+                                r = unpacklo_epi32(cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
+                                                   cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
+                            }
+                        }
+
+                        return true;
+                    }
+
+                    r = default;
+                    return false;
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool CONST_CHECK_comb_ep64(v128 n, v128 k, out v128 r, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U64))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U32))
+                        {
+                            v128 nFactorial  = gamma_epu64(n, true);
+                            v128 kFactorial  = gamma_epu64(k, true);
+                            v128 nkFactorial = gamma_epu64(sub_epi64(n, k), true);
+
+                            r = cvttpd_epu64(div_pd(usfcvtepu64_pd(nFactorial), usfcvtepu64_pd(mullo_epi64(kFactorial, nkFactorial))), nonZero: true);
+                        }
+                        else
+                        {
+                            r = unpacklo_epi64(cvtsi64x_si128(math.comb(extract_epi64(n, 0), extract_epi64(k, 0), Promise.Unsafe0)),
+                                               cvtsi64x_si128(math.comb(extract_epi64(n, 1), extract_epi64(k, 1), Promise.Unsafe0)));
+                        }
+
+                        return true;
+                    }
+
+                    r = default;
+                    return false;
                 }
                 else throw new IllegalInstructionException();
             }
 
-            public static v128 comb_epi8(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 16)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-VectorAssert.IsNonNegative<sbyte16, sbyte>(n, elements, NumericDataType.Integer);
-VectorAssert.IsNonNegative<sbyte16, sbyte>(k, elements, NumericDataType.Integer);
-
-                    return comb_ep8(n, k, true, unsafeLevels, elements);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static void comb_epu8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-                    comb_ep8x2(n0, n1, k0, k1, out r0, out r1, false, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static void comb_epi8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-VectorAssert.IsNonNegative<sbyte16, sbyte>(n0, 16, NumericDataType.Integer);
-VectorAssert.IsNonNegative<sbyte16, sbyte>(k0, 16, NumericDataType.Integer);
-VectorAssert.IsNonNegative<sbyte16, sbyte>(n1, 16, NumericDataType.Integer);
-VectorAssert.IsNonNegative<sbyte16, sbyte>(k1, 16, NumericDataType.Integer);
-
-                    comb_ep8x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v128 comb_epu16(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 8)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-                    return comb_ep16(n, k, false, unsafeLevels, elements);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v128 comb_epi16(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 8)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-VectorAssert.IsNonNegative<short8, short>(n, elements, NumericDataType.Integer);
-VectorAssert.IsNonNegative<short8, short>(k, elements, NumericDataType.Integer);
-
-                    return comb_ep16(n, k, true, unsafeLevels, elements);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static void comb_epu16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-                    comb_ep16x2(n0, n1, k0, k1, out r0, out r1, false, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static void comb_epi16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-VectorAssert.IsNonNegative<short8, short>(n0, 8, NumericDataType.Integer);
-VectorAssert.IsNonNegative<short8, short>(k0, 8, NumericDataType.Integer);
-VectorAssert.IsNonNegative<short8, short>(n1, 8, NumericDataType.Integer);
-VectorAssert.IsNonNegative<short8, short>(k1, 8, NumericDataType.Integer);
-
-                    comb_ep16x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v128 comb_epu32(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 4)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-                    return comb_ep32(n, k, false, unsafeLevels, elements);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v128 comb_epi32(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 4)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-VectorAssert.IsNonNegative<int4, int>(n, elements, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int4, int>(k, elements, NumericDataType.Integer);
-
-                    return comb_ep32(n, k, true, unsafeLevels, elements);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static void comb_epu32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-                    comb_ep32x2(n0, n1, k0, k1, out r0, out r1, false, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static void comb_epi32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-VectorAssert.IsNonNegative<int4, int>(n0, 4, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int4, int>(k0, 4, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int4, int>(n1, 4, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int4, int>(k1, 4, NumericDataType.Integer);
-
-                    comb_ep32x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v128 comb_epu64(v128 n, v128 k, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-                    return comb_ep64(n, k, false, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v128 comb_epi64(v128 n, v128 k, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-VectorAssert.IsNonNegative<long2, long>(n, 2, NumericDataType.Integer);
-VectorAssert.IsNonNegative<long2, long>(k, 2, NumericDataType.Integer);
-
-                    return comb_ep64(n, k, true, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static void comb_epu64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-                    comb_ep64x2(n0, n1, k0, k1, out r0, out r1, false, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static void comb_epi64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-VectorAssert.IsNonNegative<long2, long>(n0, 2, NumericDataType.Integer);
-VectorAssert.IsNonNegative<long2, long>(k0, 2, NumericDataType.Integer);
-VectorAssert.IsNonNegative<long2, long>(n1, 2, NumericDataType.Integer);
-VectorAssert.IsNonNegative<long2, long>(k1, 2, NumericDataType.Integer);
-
-                    comb_ep64x2(n0, n1, k0, k1, out r0, out r1, true, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v256 mm256_comb_epu8(v256 n, v256 k, byte unsafeLevels = 0)
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool CONST_CHECK_comb_ep8(v256 n, v256 k, out v256 r, byte unsafeLevels = 0)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_comb_ep8(n, k, false, unsafeLevels);
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U64))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U32))
+                        {
+                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U16))
+                            {
+                                if (unsafeLevels > 3 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U8))
+                                {
+                                    r = mm256_naivecomb_epu8(n, k);
+                                }
+                                else
+                                {
+                                    v256 nLo16 = mm256_cvt2x2epu8_epi16(n, out v256 nHi16);
+                                    v256 kLo16 = mm256_cvt2x2epu8_epi16(k, out v256 kHi16);
+
+                                    r = mm256_cvt2x2epi16_epi8(mm256_naivecomb_epu16(nLo16, kLo16), mm256_naivecomb_epu16(nHi16, kHi16));
+                                }
+                            }
+                            else
+                            {
+                                mm256_cvt4x4epu8_epi32(n, out v256 n32_0, out v256 n32_1, out v256 n32_2, out v256 n32_3);
+                                mm256_cvt4x4epu8_epi32(k, out v256 k32_0, out v256 k32_1, out v256 k32_2, out v256 k32_3);
+
+                                v256 result32_0 = mm256_naivecomb_epu32(n32_0, k32_0);
+                                v256 result32_1 = mm256_naivecomb_epu32(n32_1, k32_1);
+                                v256 result32_2 = mm256_naivecomb_epu32(n32_2, k32_2);
+                                v256 result32_3 = mm256_naivecomb_epu32(n32_3, k32_3);
+
+                                r = mm256_cvt4x4epi32_epi8(result32_0, result32_1, result32_2, result32_3, signed: false);
+                            }
+                        }
+                        else
+                        {
+                            mm256_cvt8x8epu8_epi64(n, out v256 n64_0, out v256 n64_1, out v256 n64_2, out v256 n64_3, out v256 n64_4, out v256 n64_5, out v256 n64_6, out v256 n64_7);
+                            mm256_cvt8x8epu8_epi64(k, out v256 k64_0, out v256 k64_1, out v256 k64_2, out v256 k64_3, out v256 k64_4, out v256 k64_5, out v256 k64_6, out v256 k64_7);
+
+                            v256 result64_0 = mm256_naivecomb_epu64(n64_0, k64_0);
+                            v256 result64_1 = mm256_naivecomb_epu64(n64_1, k64_1);
+                            v256 result64_2 = mm256_naivecomb_epu64(n64_2, k64_2);
+                            v256 result64_3 = mm256_naivecomb_epu64(n64_3, k64_3);
+                            v256 result64_4 = mm256_naivecomb_epu64(n64_4, k64_4);
+                            v256 result64_5 = mm256_naivecomb_epu64(n64_5, k64_5);
+                            v256 result64_6 = mm256_naivecomb_epu64(n64_6, k64_6);
+                            v256 result64_7 = mm256_naivecomb_epu64(n64_7, k64_7);
+
+                            v256 result32_0 = mm256_cvt2x2epi64_epi32(result64_0, result64_1);
+                            v256 result32_1 = mm256_cvt2x2epi64_epi32(result64_2, result64_3);
+                            v256 result32_2 = mm256_cvt2x2epi64_epi32(result64_4, result64_5);
+                            v256 result32_3 = mm256_cvt2x2epi64_epi32(result64_6, result64_7);
+
+                            v256 result16_0 = mm256_cvt2x2epi32_epi16(result32_0, result32_1);
+                            v256 result16_1 = mm256_cvt2x2epi32_epi16(result32_2, result32_3);
+
+                            r = mm256_cvt2x2epi16_epi8(result16_0, result16_1);
+                        }
+
+                        return true;
+                    }
+
+                    r = default;
+                    return false;
                 }
                 else throw new IllegalInstructionException();
             }
-
-            public static v256 mm256_comb_epi8(v256 n, v256 k, byte unsafeLevels = 0)
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool CONST_CHECK_comb_ep16(v256 n, v256 k, out v256 r, byte unsafeLevels = 0)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-VectorAssert.IsNonNegative<sbyte32, sbyte>(n, 32, NumericDataType.Integer);
-VectorAssert.IsNonNegative<sbyte32, sbyte>(k, 32, NumericDataType.Integer);
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U64))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U32))
+                        {
+                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U16))
+                            {
+                                r = mm256_naivecomb_epu16(n, k, unsafeLevels > 3 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U8));
+                            }
+                            else
+                            {
+                                v256 nLo32 = mm256_cvt2x2epu16_epi32(n, out v256 nHi32);
+                                v256 kLo32 = mm256_cvt2x2epu16_epi32(k, out v256 kHi32);
 
-                    return mm256_comb_ep8(n, k, true, unsafeLevels);
+                                v256 resultLo = mm256_naivecomb_epu32(nLo32, kLo32);
+                                v256 resultHi = mm256_naivecomb_epu32(nHi32, kHi32);
+
+                                r = mm256_cvt2x2epi32_epi16(resultLo, resultHi);
+                            }
+                        }
+                        else
+                        {
+                            v256 nLo32 = mm256_cvt2x2epu16_epi32(n, out v256 nHi32);
+                            v256 kLo32 = mm256_cvt2x2epu16_epi32(k, out v256 kHi32);
+                            v256 n64LoLo = mm256_cvt2x2epu32_epi64(nLo32, out v256 n64LoHi);
+                            v256 n64HiLo = mm256_cvt2x2epu32_epi64(nHi32, out v256 n64HiHi);
+                            v256 k64LoLo = mm256_cvt2x2epu32_epi64(kLo32, out v256 k64LoHi);
+                            v256 k64HiLo = mm256_cvt2x2epu32_epi64(kHi32, out v256 k64HiHi);
+
+                            v256 resultLoLo = mm256_naivecomb_epu64(n64LoLo, k64LoLo);
+                            v256 resultLoHi = mm256_naivecomb_epu64(n64LoHi, k64LoHi);
+                            v256 resultHiLo = mm256_naivecomb_epu64(n64HiLo, k64HiLo);
+                            v256 resultHiHi = mm256_naivecomb_epu64(n64HiHi, k64HiHi);
+
+                            v256 result32Lo = mm256_cvt2x2epi64_epi32(resultLoLo, resultLoHi);
+                            v256 result32Hi = mm256_cvt2x2epi64_epi32(resultHiLo, resultHiHi);
+
+                            r = mm256_cvt2x2epi32_epi16(result32Lo, result32Hi);
+                        }
+
+                        return true;
+                    }
+
+                    r = default;
+                    return false;
                 }
                 else throw new IllegalInstructionException();
             }
-
-            public static v256 mm256_comb_epu16(v256 n, v256 k, byte unsafeLevels = 0)
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool CONST_CHECK_comb_ep32(v256 n, v256 k, out v256 r, byte unsafeLevels = 0)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_comb_ep16(n, k, false, unsafeLevels);
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U32))
+                        {
+                            r = mm256_naivecomb_epu32(n, k);
+                        }
+                        else
+                        {
+                            v256 n64Lo = mm256_cvt2x2epu32_epi64(n, out v256 n64Hi);
+                            v256 k64Lo = mm256_cvt2x2epu32_epi64(k, out v256 k64Hi);
+
+                            v256 resultLo = mm256_naivecomb_epu64(n64Lo, k64Lo);
+                            v256 resultHi = mm256_naivecomb_epu64(n64Hi, k64Hi);
+
+                            r = mm256_cvt2x2epi64_epi32(resultLo, resultHi);
+                        }
+
+                        return true;
+                    }
+
+                    r = default;
+                    return false;
                 }
                 else throw new IllegalInstructionException();
             }
-
-            public static v256 mm256_comb_epi16(v256 n, v256 k, byte unsafeLevels = 0)
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static bool CONST_CHECK_comb_ep64(v256 n, v256 k, out v256 r, byte unsafeLevels = 0, byte elements = 4)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-VectorAssert.IsNonNegative<short16, short>(n, 16, NumericDataType.Integer);
-VectorAssert.IsNonNegative<short16, short>(k, 16, NumericDataType.Integer);
+                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U64))
+                    {
+                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U32))
+                        {
+                            v256 nFactorial  = mm256_gamma_epu64(n, true);
+                            v256 kFactorial  = mm256_gamma_epu64(k, true);
+                            v256 nkFactorial = mm256_gamma_epu64(Avx2.mm256_sub_epi64(n, k), true);
 
-                    return mm256_comb_ep16(n, k, true, unsafeLevels);
+                            r = mm256_cvttpd_epu64(Avx.mm256_div_pd(mm256_usfcvtepu64_pd(nFactorial), mm256_usfcvtepu64_pd(mm256_mullo_epi64(kFactorial, nkFactorial, elements))), elements: elements, nonZero: true);
+                        }
+                        else
+                        {
+                            r = mm256_naivecomb_epu64(n, k, elements);
+                        }
+
+                        return true;
+                    }
+
+                    r = default;
+                    return false;
                 }
                 else throw new IllegalInstructionException();
             }
-
-            public static v256 mm256_comb_epu32(v256 n, v256 k, byte unsafeLevels = 0)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return mm256_comb_ep32(n, k, false, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v256 mm256_comb_epi32(v256 n, v256 k, byte unsafeLevels = 0)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-VectorAssert.IsNonNegative<int8, int>(n, 8, NumericDataType.Integer);
-VectorAssert.IsNonNegative<int8, int>(k, 8, NumericDataType.Integer);
-
-                    return mm256_comb_ep32(n, k, true, unsafeLevels);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v256 mm256_comb_epu64(v256 n, v256 k, byte unsafeLevels = 0, byte elements = 4)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-                    return mm256_comb_ep64(n, k, false, unsafeLevels, elements);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            public static v256 mm256_comb_epi64(v256 n, v256 k, byte unsafeLevels = 0, byte elements = 4)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-VectorAssert.IsNonNegative<long4, long>(n, elements, NumericDataType.Integer);
-VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
-
-                    return mm256_comb_ep64(n, k, true, unsafeLevels, elements);
-                }
-                else throw new IllegalInstructionException();
-            }
-
+            
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             internal static void next_comb_divider([NoAlias] ref Divider<byte16> d, [NoAlias] ref int indexCurrentDivider)
@@ -563,35 +920,35 @@ VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
                         i = add_epi16(i, ONE);
                         n = sub_epi16(n, ONE);
                         c = mullo_epi16(c, n);
-                        c = constdiv_epu16(c, 2, elements, __unsafe: true);
+                        c = constdiv_epu16(c, 2, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi16(k, i);
                         i = add_epi16(i, ONE);
                         n = sub_epi16(n, ONE);
                         c = mullo_epi16(c, n);
-                        c = constdiv_epu16(c, 3, elements, __unsafe: true);
+                        c = constdiv_epu16(c, 3, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi16(k, i);
                         i = add_epi16(i, ONE);
                         n = sub_epi16(n, ONE);
                         c = mullo_epi16(c, n);
-                        c = constdiv_epu16(c, 4, elements, __unsafe: true);
+                        c = constdiv_epu16(c, 4, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi16(k, i);
                         i = add_epi16(i, ONE);
                         n = sub_epi16(n, ONE);
                         c = mullo_epi16(c, n);
-                        c = constdiv_epu16(c, 5, elements, __unsafe: true);
+                        c = constdiv_epu16(c, 5, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi16(k, i);
                         i = add_epi16(i, ONE);
                         n = sub_epi16(n, ONE);
                         c = mullo_epi16(c, n);
-                        c = constdiv_epu16(c, 6, elements, __unsafe: true);
+                        c = constdiv_epu16(c, 6, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi16(k, i);
@@ -673,35 +1030,35 @@ VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
                         i = add_epi32(i, ONE);
                         n = sub_epi32(n, ONE);
                         c = mullo_epi32(c, n, elements);
-                        c = constdiv_epu32(c, 2, elements, __unsafe: true);
+                        c = constdiv_epu32(c, 2, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi32(k, i);
                         i = add_epi32(i, ONE);
                         n = sub_epi32(n, ONE);
                         c = mullo_epi32(c, n, elements);
-                        c = constdiv_epu32(c, 3, elements, __unsafe: true);
+                        c = constdiv_epu32(c, 3, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi32(k, i);
                         i = add_epi32(i, ONE);
                         n = sub_epi32(n, ONE);
                         c = mullo_epi32(c, n, elements);
-                        c = constdiv_epu32(c, 4, elements, __unsafe: true);
+                        c = constdiv_epu32(c, 4, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi32(k, i);
                         i = add_epi32(i, ONE);
                         n = sub_epi32(n, ONE);
                         c = mullo_epi32(c, n, elements);
-                        c = constdiv_epu32(c, 5, elements, __unsafe: true);
+                        c = constdiv_epu32(c, 5, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi32(k, i);
                         i = add_epi32(i, ONE);
                         n = sub_epi32(n, ONE);
                         c = mullo_epi32(c, n, elements);
-                        c = constdiv_epu32(c, 6, elements, __unsafe: true);
+                        c = constdiv_epu32(c, 6, elements);
                         results = blendv_si128(results, c, cmp);
 
                         cmp = cmpgt_epi32(k, i);
@@ -781,35 +1138,35 @@ VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
                         i = Avx2.mm256_add_epi16(i, ONE);
                         n = Avx2.mm256_sub_epi16(n, ONE);
                         c = Avx2.mm256_mullo_epi16(c, n);
-                        c = mm256_constdiv_epu16(c, 2, __unsafe: true);
+                        c = mm256_constdiv_epu16(c, 2);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi16(k, i);
                         i = Avx2.mm256_add_epi16(i, ONE);
                         n = Avx2.mm256_sub_epi16(n, ONE);
                         c = Avx2.mm256_mullo_epi16(c, n);
-                        c = mm256_constdiv_epu16(c, 3, __unsafe: true);
+                        c = mm256_constdiv_epu16(c, 3);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi16(k, i);
                         i = Avx2.mm256_add_epi16(i, ONE);
                         n = Avx2.mm256_sub_epi16(n, ONE);
                         c = Avx2.mm256_mullo_epi16(c, n);
-                        c = mm256_constdiv_epu16(c, 4, __unsafe: true);
+                        c = mm256_constdiv_epu16(c, 4);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi16(k, i);
                         i = Avx2.mm256_add_epi16(i, ONE);
                         n = Avx2.mm256_sub_epi16(n, ONE);
                         c = Avx2.mm256_mullo_epi16(c, n);
-                        c = mm256_constdiv_epu16(c, 5, __unsafe: true);
+                        c = mm256_constdiv_epu16(c, 5);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi16(k, i);
                         i = Avx2.mm256_add_epi16(i, ONE);
                         n = Avx2.mm256_sub_epi16(n, ONE);
                         c = Avx2.mm256_mullo_epi16(c, n);
-                        c = mm256_constdiv_epu16(c, 6, __unsafe: true);
+                        c = mm256_constdiv_epu16(c, 6);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi16(k, i);
@@ -874,35 +1231,35 @@ VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
                         i = Avx2.mm256_add_epi32(i, ONE);
                         n = Avx2.mm256_sub_epi32(n, ONE);
                         c = Avx2.mm256_mullo_epi32(c, n);
-                        c = mm256_constdiv_epu32(c, 2, __unsafe: true);
+                        c = mm256_constdiv_epu32(c, 2);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi32(k, i);
                         i = Avx2.mm256_add_epi32(i, ONE);
                         n = Avx2.mm256_sub_epi32(n, ONE);
                         c = Avx2.mm256_mullo_epi32(c, n);
-                        c = mm256_constdiv_epu32(c, 3, __unsafe: true);
+                        c = mm256_constdiv_epu32(c, 3);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi32(k, i);
                         i = Avx2.mm256_add_epi32(i, ONE);
                         n = Avx2.mm256_sub_epi32(n, ONE);
                         c = Avx2.mm256_mullo_epi32(c, n);
-                        c = mm256_constdiv_epu32(c, 4, __unsafe: true);
+                        c = mm256_constdiv_epu32(c, 4);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi32(k, i);
                         i = Avx2.mm256_add_epi32(i, ONE);
                         n = Avx2.mm256_sub_epi32(n, ONE);
                         c = Avx2.mm256_mullo_epi32(c, n);
-                        c = mm256_constdiv_epu32(c, 5, __unsafe: true);
+                        c = mm256_constdiv_epu32(c, 5);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi32(k, i);
                         i = Avx2.mm256_add_epi32(i, ONE);
                         n = Avx2.mm256_sub_epi32(n, ONE);
                         c = Avx2.mm256_mullo_epi32(c, n);
-                        c = mm256_constdiv_epu32(c, 6, __unsafe: true);
+                        c = mm256_constdiv_epu32(c, 6);
                         results = mm256_blendv_si256(results, c, cmp);
 
                         cmp = Avx2.mm256_cmpgt_epi32(k, i);
@@ -941,6 +1298,664 @@ VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
                     }
 
                     return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epu8(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 16)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
+
+                    if (CONST_CHECK_comb_ep8(n, k, out v128 r, unsafeLevels, elements))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU8(n, (uint)sbyte.MaxValue))
+                        {
+                            switch (elements)
+                            {
+                                case 2:  return impl_comb_epi8v2(n, k);
+                                case 3:  return impl_comb_epi8v3(n, k);
+                                case 4:  return impl_comb_epi8v4(n, k);
+                                case 8:  return impl_comb_epi8v8(n, k);
+                                default: return impl_comb_epi8v16(n, k);
+                            }
+                        }
+                        else
+                        {
+                            switch (elements)
+                            {
+                                case 2:  return impl_comb_epu8v2(n, k);
+                                case 3:  return impl_comb_epu8v3(n, k);
+                                case 4:  return impl_comb_epu8v4(n, k);
+                                case 8:  return impl_comb_epu8v8(n, k);
+                                default: return impl_comb_epu8v16(n, k);
+                            }
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epi8(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 16)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<sbyte16, sbyte>(n, elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte16, sbyte>(k, elements, NumericDataType.Integer);
+VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
+                    
+                    if (CONST_CHECK_comb_ep8(n, k, out v128 r, unsafeLevels, elements))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        switch (elements)
+                        {
+                            case 2:  return impl_comb_epi8v2(n, k);
+                            case 3:  return impl_comb_epi8v3(n, k);
+                            case 4:  return impl_comb_epi8v4(n, k);
+                            case 8:  return impl_comb_epi8v8(n, k);
+                            default: return impl_comb_epi8v16(n, k);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epu8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<byte16, byte>(k0, n0, 16);
+VectorAssert.IsNotGreater<byte16, byte>(k1, n1, 16);
+
+                    if (CONST_CHECK_comb_ep8(n0, k0, out v128 __r0, unsafeLevels, 16)
+                     && CONST_CHECK_comb_ep8(n1, k1, out v128 __r1, unsafeLevels, 16))
+                    {
+                        r0 = __r0;
+                        r1 = __r1;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU8(n0, (uint)sbyte.MaxValue)
+                         && constexpr.ALL_LE_EPU8(n1, (uint)sbyte.MaxValue))
+                        {
+                            impl_comb_epi8x2(n0, n1, k0, k1, out r0, out r1);
+                        }
+                        else
+                        {
+                            impl_comb_epu8x2(n0, n1, k0, k1, out r0, out r1);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epi8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<sbyte16, sbyte>(n0, 16, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte16, sbyte>(k0, 16, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte16, sbyte>(n1, 16, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte16, sbyte>(k1, 16, NumericDataType.Integer);
+VectorAssert.IsNotGreater<byte16, byte>(k0, n0, 16);
+VectorAssert.IsNotGreater<byte16, byte>(k1, n1, 16);
+                    
+                    if (CONST_CHECK_comb_ep8(n0, k0, out v128 __r0, unsafeLevels, 16)
+                     && CONST_CHECK_comb_ep8(n1, k1, out v128 __r1, unsafeLevels, 16))
+                    {
+                        r0 = __r0;
+                        r1 = __r1;
+                    }
+                    else
+                    {
+                        impl_comb_epi8x2(n0, n1, k0, k1, out r0, out r1);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epu16(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 8)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
+
+                    if (CONST_CHECK_comb_ep16(n, k, out v128 r, unsafeLevels, elements))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU16(n, (uint)short.MaxValue))
+                        {
+                            switch (elements)
+                            {
+                                case 2:  return impl_comb_epi16v2(n, k);
+                                case 3:  return impl_comb_epi16v3(n, k);
+                                case 4:  return impl_comb_epi16v4(n, k);
+                                default: return impl_comb_epi16v8(n, k);
+                            }
+                        }
+                        else
+                        {
+                            switch (elements)
+                            {
+                                case 2:  return impl_comb_epu16v2(n, k);
+                                case 3:  return impl_comb_epu16v3(n, k);
+                                case 4:  return impl_comb_epu16v4(n, k);
+                                default: return impl_comb_epu16v8(n, k);
+                            }
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epi16(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 8)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<short8, short>(n, elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short8, short>(k, elements, NumericDataType.Integer);
+VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
+                    
+                    if (CONST_CHECK_comb_ep16(n, k, out v128 r, unsafeLevels, elements))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        switch (elements)
+                        {
+                            case 2:  return impl_comb_epi16v2(n, k);
+                            case 3:  return impl_comb_epi16v3(n, k);
+                            case 4:  return impl_comb_epi16v4(n, k);
+                            default: return impl_comb_epi16v8(n, k);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epu16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<ushort8, ushort>(k0, n0, 8);
+VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
+
+                    if (CONST_CHECK_comb_ep16(n0, k0, out v128 __r0, unsafeLevels, 8)
+                     && CONST_CHECK_comb_ep16(n1, k1, out v128 __r1, unsafeLevels, 8))
+                    {
+                        r0 = __r0;
+                        r1 = __r1;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU16(n0, (uint)short.MaxValue) 
+                         && constexpr.ALL_LE_EPU16(n1, (uint)short.MaxValue))
+                        {
+                            impl_comb_epi16x2(n0, n1, k0, k1, out r0, out r1);
+                        }
+                        else
+                        {
+                            impl_comb_epu16x2(n0, n1, k0, k1, out r0, out r1);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epi16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<short8, short>(n0, 8, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short8, short>(k0, 8, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short8, short>(n1, 8, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short8, short>(k1, 8, NumericDataType.Integer);
+VectorAssert.IsNotGreater<ushort8, ushort>(k0, n0, 8);
+VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
+                    
+                    if (CONST_CHECK_comb_ep16(n0, k0, out v128 __r0, unsafeLevels, 8)
+                     && CONST_CHECK_comb_ep16(n1, k1, out v128 __r1, unsafeLevels, 8))
+                    {
+                        r0 = __r0;
+                        r1 = __r1;
+                    }
+                    else
+                    {
+                        impl_comb_epi16x2(n0, n1, k0, k1, out r0, out r1);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epu32(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<uint4, uint>(k, n, elements);
+
+                    if (CONST_CHECK_comb_ep32(n, k, out v128 r, unsafeLevels, elements))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU32(n, int.MaxValue))
+                        {
+                            switch (elements)
+                            {
+                                case 2:  return impl_comb_epi32v2(n, k);
+                                case 3:  return impl_comb_epi32v3(n, k);
+                                default: return impl_comb_epi32v4(n, k);
+                            }
+                        }
+                        else
+                        {
+                            switch (elements)
+                            {
+                                case 2:  return impl_comb_epu32v2(n, k);
+                                case 3:  return impl_comb_epu32v3(n, k);
+                                default: return impl_comb_epu32v4(n, k);
+                            }
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epi32(v128 n, v128 k, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<int4, int>(n, elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(k, elements, NumericDataType.Integer);
+VectorAssert.IsNotGreater<uint4, uint>(k, n, elements);
+
+                    if (CONST_CHECK_comb_ep32(n, k, out v128 r, unsafeLevels, elements))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        switch (elements)
+                        {
+                            case 2:  return impl_comb_epi32v2(n, k);
+                            case 3:  return impl_comb_epi32v3(n, k);
+                            default: return impl_comb_epi32v4(n, k);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epu32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<uint4, uint>(k0, n0, 4);
+VectorAssert.IsNotGreater<uint4, uint>(k1, n1, 4);
+
+                    if (CONST_CHECK_comb_ep32(n0, k0, out v128 __r0, unsafeLevels, 4)
+                     && CONST_CHECK_comb_ep32(n1, k1, out v128 __r1, unsafeLevels, 4))
+                    {
+                        r0 = __r0;
+                        r1 = __r1;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU32(n0, int.MaxValue) 
+                         && constexpr.ALL_LE_EPU32(n1, int.MaxValue))
+                        {
+                            impl_comb_epi32x2(n0, n1, k0, k1, out r0, out r1);
+                        }
+                        else
+                        {
+                            impl_comb_epu32x2(n0, n1, k0, k1, out r0, out r1);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epi32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<int4, int>(n0, 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(k0, 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(n1, 4, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int4, int>(k1, 4, NumericDataType.Integer);
+VectorAssert.IsNotGreater<uint4, uint>(k0, n0, 4);
+VectorAssert.IsNotGreater<uint4, uint>(k1, n1, 4);
+
+                    if (CONST_CHECK_comb_ep32(n0, k0, out v128 __r0, unsafeLevels, 4)
+                     && CONST_CHECK_comb_ep32(n1, k1, out v128 __r1, unsafeLevels, 4))
+                    {
+                        r0 = __r0;
+                        r1 = __r1;
+                    }
+                    else
+                    {
+                        impl_comb_epi32x2(n0, n1, k0, k1, out r0, out r1);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epu64(v128 n, v128 k, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
+
+                    if (CONST_CHECK_comb_ep64(n, k, out v128 r, unsafeLevels))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU64(n, long.MaxValue))
+                        {
+                            return impl_comb_epi64(n, k);
+                        }
+                        else
+                        {
+                            return impl_comb_epu64(n, k);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 comb_epi64(v128 n, v128 k, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<long2, long>(n, 2, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long2, long>(k, 2, NumericDataType.Integer);
+VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
+
+                    if (CONST_CHECK_comb_ep64(n, k, out v128 r, unsafeLevels))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        return impl_comb_epi64(n, k);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epu64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotGreater<ulong2, ulong>(k0, n0, 2);
+VectorAssert.IsNotGreater<ulong2, ulong>(k1, n1, 2);
+
+                    if (CONST_CHECK_comb_ep64(n0, k0, out v128 __r0, unsafeLevels)
+                     && CONST_CHECK_comb_ep64(n1, k1, out v128 __r1, unsafeLevels))
+                    {
+                        r0 = __r0;
+                        r1 = __r1;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU64(n0, long.MaxValue) 
+                         && constexpr.ALL_LE_EPU64(n1, long.MaxValue))
+                        {
+                            impl_comb_epi64x2(n0, n1, k0, k1, out r0, out r1);
+                        }
+                        else
+                        {
+                            impl_comb_epu64x2(n0, n1, k0, k1, out r0, out r1);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static void comb_epi64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, byte unsafeLevels = 0)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNonNegative<long2, long>(n0, 2, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long2, long>(k0, 2, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long2, long>(n1, 2, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long2, long>(k1, 2, NumericDataType.Integer);
+VectorAssert.IsNotGreater<ulong2, ulong>(k0, n0, 2);
+VectorAssert.IsNotGreater<ulong2, ulong>(k1, n1, 2);
+
+                    if (CONST_CHECK_comb_ep64(n0, k0, out v128 __r0, unsafeLevels)
+                     && CONST_CHECK_comb_ep64(n1, k1, out v128 __r1, unsafeLevels))
+                    {
+                        r0 = __r0;
+                        r1 = __r1;
+                    }
+                    else
+                    {
+                        impl_comb_epi64x2(n0, n1, k0, k1, out r0, out r1);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epu8(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
+
+                    if (CONST_CHECK_comb_ep8(n, k, out v256 r, unsafeLevels))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU8(n, (uint)sbyte.MaxValue))
+                        {
+                            return impl_mm256_comb_epi8(n, k);
+                        }
+                        else
+                        {
+                            return impl_mm256_comb_epu8(n, k);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epi8(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNonNegative<sbyte32, sbyte>(n, 32, NumericDataType.Integer);
+VectorAssert.IsNonNegative<sbyte32, sbyte>(k, 32, NumericDataType.Integer);
+VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
+
+                    if (CONST_CHECK_comb_ep8(n, k, out v256 r, unsafeLevels))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        return impl_mm256_comb_epi8(n, k);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epu16(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
+
+                    if (CONST_CHECK_comb_ep16(n, k, out v256 r, unsafeLevels))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU16(n, (uint)short.MaxValue))
+                        {
+                            return impl_mm256_comb_epi16(n, k);
+                        }
+                        else
+                        {
+                            return impl_mm256_comb_epu16(n, k);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epi16(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNonNegative<short16, short>(n, 16, NumericDataType.Integer);
+VectorAssert.IsNonNegative<short16, short>(k, 16, NumericDataType.Integer);
+VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
+
+                    if (CONST_CHECK_comb_ep16(n, k, out v256 r, unsafeLevels))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        return impl_mm256_comb_epi16(n, k);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epu32(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
+
+                    if (CONST_CHECK_comb_ep32(n, k, out v256 r, unsafeLevels))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        return impl_mm256_comb_epu32(n, k);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epi32(v256 n, v256 k, byte unsafeLevels = 0)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNonNegative<int8, int>(n, 8, NumericDataType.Integer);
+VectorAssert.IsNonNegative<int8, int>(k, 8, NumericDataType.Integer);
+VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
+
+                    if (CONST_CHECK_comb_ep32(n, k, out v256 r, unsafeLevels))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU32(n, int.MaxValue))
+                        {
+                            return impl_mm256_comb_epi32(n, k);
+                        }
+                        else
+                        {
+                            return impl_mm256_comb_epu32(n, k);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epu64(v256 n, v256 k, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNotGreater<ulong4, ulong>(k, n, elements);
+
+                    if (CONST_CHECK_comb_ep64(n, k, out v256 r, unsafeLevels, elements))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        if (constexpr.ALL_LE_EPU64(n, long.MaxValue, elements))
+                        {
+                            return elements == 4 ? impl_mm256_comb_epi64v4(n, k)
+                                                 : impl_mm256_comb_epi64v3(n, k);
+                        }
+                        else
+                        {
+                            return elements == 4 ? impl_mm256_comb_epu64v4(n, k)
+                                                 : impl_mm256_comb_epu64v3(n, k);
+                        }
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v256 mm256_comb_epi64(v256 n, v256 k, byte unsafeLevels = 0, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+VectorAssert.IsNonNegative<long4, long>(n, elements, NumericDataType.Integer);
+VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
+VectorAssert.IsNotGreater<ulong4, ulong>(k, n, elements);
+
+                    if (CONST_CHECK_comb_ep64(n, k, out v256 r, unsafeLevels, elements))
+                    {
+                        return r;
+                    }
+                    else
+                    {
+                        return elements == 4 ? impl_mm256_comb_epi64v4(n, k)
+                                             : impl_mm256_comb_epi64v3(n, k);
+                    }
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1071,288 +2086,158 @@ VectorAssert.IsNonNegative<long4, long>(k, elements, NumericDataType.Integer);
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 comb_ep8(v128 n, v128 k, bool signed, byte unsafeLevels = 0, byte elements = 16)
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi8v2(v128 n, v128 k)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
-
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U64, elements))
-                    {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U32, elements))
-                        {
-                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U16, elements))
-                            {
-                                if (unsafeLevels > 3 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U8, elements))
-                                {
-                                    return naivecomb_epu8(n, k, elements);
-                                }
-                                else
-                                {
-                                    if (elements <= 8)
-                                    {
-                                        return cvtepi16_epi8(naivecomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), false, elements), elements);
-                                    }
-                                    else
-                                    {
-                                        if (Avx2.IsAvx2Supported)
-                                        {
-                                            return mm256_cvtepi16_epi8(mm256_naivecomb_epu16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k), false));
-                                        }
-                                        else
-                                        {
-                                            v128 nLo16 = cvt2x2epu8_epi16(n, out v128 nHi16);
-                                            v128 kLo16 = cvt2x2epu8_epi16(k, out v128 kHi16);
-
-                                            v128 resultLo = naivecomb_epu16(nLo16, kLo16, false, elements);
-                                            v128 resultHi = naivecomb_epu16(nHi16, kHi16, false, elements);
-
-                                            return cvt2x2epi16_epi8(resultLo, resultHi);
-                                        }
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (elements <= 4)
-                                {
-                                    return cvtepi32_epi8(naivecomb_epu32(cvtepu8_epi32(n), cvtepu8_epi32(k), elements));
-                                }
-                                else
-                                {
-                                    if (Avx2.IsAvx2Supported)
-                                    {
-                                        if (elements == 8)
-                                        {
-                                            return mm256_cvtepi32_epi8(mm256_naivecomb_epu32(Avx2.mm256_cvtepu8_epi32(n), Avx2.mm256_cvtepu8_epi32(k)));
-                                        }
-                                        else
-                                        {
-                                            v256 loN32 = Avx2.mm256_cvtepu8_epi32(n);
-                                            v256 hiN32 = Avx2.mm256_cvtepu8_epi32(bsrli_si128(n, 8 * sizeof(byte)));
-                                            v256 loK32 = Avx2.mm256_cvtepu8_epi32(k);
-                                            v256 hiK32 = Avx2.mm256_cvtepu8_epi32(bsrli_si128(k, 8 * sizeof(byte)));
-
-                                            v128 resultLo = mm256_cvtepi32_epi8(mm256_naivecomb_epu32(loN32, loK32));
-                                            v128 resultHi = mm256_cvtepi32_epi8(mm256_naivecomb_epu32(hiN32, hiK32));
-
-                                            return unpacklo_epi64(resultLo, resultHi);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (elements == 8)
-                                        {
-                                            v128 loN32 = cvt2x2epu8_epi32(n, out v128 hiN32);
-                                            v128 loK32 = cvt2x2epu8_epi32(k, out v128 hiK32);
-
-                                            v128 resultLo = naivecomb_epu32(loN32, loK32);
-                                            v128 resultHi = naivecomb_epu32(hiN32, hiK32);
-
-                                            v128 result = cvt2x2epi32_epi16(resultLo, resultHi);
-
-                                            return cvt2x2epi16_epi8(result, result);
-                                        }
-                                        else
-                                        {
-                                            cvt4x4epu8_epi32(n, out v128 n32_0, out v128 n32_1, out v128 n32_2, out v128 n32_3);
-                                            cvt4x4epu8_epi32(k, out v128 k32_0, out v128 k32_1, out v128 k32_2, out v128 k32_3);
-
-                                            v128 result32_0 = naivecomb_epu32(n32_0, k32_0);
-                                            v128 result32_1 = naivecomb_epu32(n32_1, k32_1);
-                                            v128 result32_2 = naivecomb_epu32(n32_2, k32_2);
-                                            v128 result32_3 = naivecomb_epu32(n32_3, k32_3);
-
-                                            v128 result16_0 = cvt2x2epi32_epi16(result32_0, result32_1);
-                                            v128 result16_1 = cvt2x2epi32_epi16(result32_2, result32_3);
-
-                                            return cvt2x2epi16_epi8(result16_0, result16_1);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            switch (elements)
-                            {
-                                case 2:
-                                {
-                                    return unpacklo_epi8(cvtsi64x_si128(math.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0)),
-                                                         cvtsi64x_si128(math.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0)));
-                                }
-
-                                case 3:
-                                case 4:
-                                {
-                                    if (Avx2.IsAvx2Supported)
-                                    {
-                                        return mm256_cvtepi64_epi8(mm256_naivecomb_epu64(Avx2.mm256_cvtepu8_epi64(n), Avx2.mm256_cvtepu8_epi64(k), elements));
-                                    }
-                                    else
-                                    {
-                                        return new v128((byte)math.comb((ulong)extract_epi8(n, 0), (ulong)extract_epi8(k, 0), Promise.Unsafe0),
-                                                        (byte)math.comb((ulong)extract_epi8(n, 1), (ulong)extract_epi8(k, 1), Promise.Unsafe0),
-                                                        (byte)math.comb((ulong)extract_epi8(n, 2), (ulong)extract_epi8(k, 2), Promise.Unsafe0),
-                                                        (byte)(elements == 4 ? math.comb((ulong)extract_epi8(n, 3), (ulong)extract_epi8(k, 3), Promise.Unsafe0) : 0),
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0);
-                                    }
-                                }
-
-                                case 8:
-                                {
-                                    if (Avx2.IsAvx2Supported)
-                                    {
-                                        v256 n64Lo = Avx2.mm256_cvtepu8_epi64(n);
-                                        v256 k64Lo = Avx2.mm256_cvtepu8_epi64(k);
-                                        v256 n64Hi = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n, 4 * sizeof(byte)));
-                                        v256 k64Hi = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k, 4 * sizeof(byte)));
-
-                                        v128 lo = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n64Lo, k64Lo));
-                                        v128 hi = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n64Hi, k64Hi));
-
-                                        return unpacklo_epi32(lo, hi);
-                                    }
-                                    else
-                                    {
-                                        v128 _0_1 = naivecomb_epu64(cvtepu8_epi64(n), cvtepu8_epi64(k), true);
-                                        v128 _2_3 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 2 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 2 * sizeof(byte))), true);
-
-                                        v128 _4 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 4), (ulong)extract_epi8(k, 4), Promise.Unsafe0));
-                                        v128 _5 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 5), (ulong)extract_epi8(k, 5), Promise.Unsafe0));
-                                        v128 _6 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 6), (ulong)extract_epi8(k, 6), Promise.Unsafe0));
-                                        v128 _7 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 7), (ulong)extract_epi8(k, 7), Promise.Unsafe0));
-
-                                        v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
-                                        v128 _4_5 = unpacklo_epi8(_4, _5);
-                                        v128 _6_7 = unpacklo_epi8(_6, _7);
-                                        v128 _4_5_6_7 = unpacklo_epi16(_4_5, _6_7);
-
-                                        return unpacklo_epi32(_0_1_2_3, _4_5_6_7);
-                                    }
-                                }
-
-                                default:
-                                {
-                                    if (Avx2.IsAvx2Supported)
-                                    {
-                                        v256 n0 = Avx2.mm256_cvtepu8_epi64(n);
-                                        v256 k0 = Avx2.mm256_cvtepu8_epi64(k);
-                                        v256 n1 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n,  4 * sizeof(byte)));
-                                        v256 k1 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k,  4 * sizeof(byte)));
-                                        v256 n2 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n,  8 * sizeof(byte)));
-                                        v256 k2 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k,  8 * sizeof(byte)));
-                                        v256 n3 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(n, 12 * sizeof(byte)));
-                                        v256 k3 = Avx2.mm256_cvtepu8_epi64(bsrli_si128(k, 12 * sizeof(byte)));
-
-                                        v128 result0 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n0, k0));
-                                        v128 result1 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n1, k1));
-                                        v128 result2 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n2, k2));
-                                        v128 result3 = mm256_cvtepi64_epi8(mm256_naivecomb_epu64(n3, k3));
-
-                                        return unpacklo_epi64(unpacklo_epi32(result0, result1), unpacklo_epi32(result2, result3));
-                                    }
-                                    else
-                                    {
-                                        v128 _0_1 = naivecomb_epu64(cvtepu8_epi64(n), cvtepu8_epi64(k), true);
-                                        v128 _2_3 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 2 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 2 * sizeof(byte))), true);
-                                        v128 _4_5 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 4 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 4 * sizeof(byte))), true);
-                                        v128 _6_7 = naivecomb_epu64(cvtepu8_epi64(bsrli_si128(n, 6 * sizeof(byte))), cvtepu8_epi64(bsrli_si128(k, 6 * sizeof(byte))), true);
-
-                                        v128 _8  = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 8),  (ulong)extract_epi8(k, 8),  Promise.Unsafe0));
-                                        v128 _9  = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 9),  (ulong)extract_epi8(k, 9),  Promise.Unsafe0));
-                                        v128 _10 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 10), (ulong)extract_epi8(k, 10), Promise.Unsafe0));
-                                        v128 _11 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 11), (ulong)extract_epi8(k, 11), Promise.Unsafe0));
-                                        v128 _12 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 12), (ulong)extract_epi8(k, 12), Promise.Unsafe0));
-                                        v128 _13 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 13), (ulong)extract_epi8(k, 13), Promise.Unsafe0));
-                                        v128 _14 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 14), (ulong)extract_epi8(k, 14), Promise.Unsafe0));
-                                        v128 _15 = cvtsi32_si128((byte)math.comb((ulong)extract_epi8(n, 15), (ulong)extract_epi8(k, 15), Promise.Unsafe0));
-
-                                        v128 _0_1_2_3 = unpacklo_epi16(cvtepi64_epi8(_0_1), cvtepi64_epi8(_2_3));
-                                        v128 _4_5_6_7 = unpacklo_epi16(cvtepi64_epi8(_4_5), cvtepi64_epi8(_6_7));
-                                        v128 lo = unpacklo_epi32(_0_1_2_3, _4_5_6_7);
-
-                                        v128 _8_9   = unpacklo_epi8( _8,  _9);
-                                        v128 _10_11 = unpacklo_epi8(_10, _11);
-                                        v128 _12_13 = unpacklo_epi8(_12, _13);
-                                        v128 _14_15 = unpacklo_epi8(_14, _15);
-                                        v128 _8_9_10_11 = unpacklo_epi16(_8_9, _10_11);
-                                        v128 _12_13_14_15 = unpacklo_epi16(_12_13, _14_15);
-                                        v128 hi = unpacklo_epi32(_8_9_10_11, _12_13_14_15);
-
-                                        return unpacklo_epi64(lo, hi);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-
-                    // ARM has native mullo_epi8, X86 does not
-                    if (Sse2.IsSse2Supported)
-                    {
-                        if (elements <= 8)
-                        {
-                            return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: elements), elements);
-                        }
-                        else if (Avx2.IsAvx2Supported)
-                        {
-                            return mm256_cvtepi16_epi8(mm256_castcomb_epu16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k)));
-                        }
-                    }
-
-                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU8(n, byte.MaxValue);
-                    Divider<byte16> loopDivider = new Divider<byte16>(new byte16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24), Divider<byte16>.WELL_KNOWN_COMB_PROMISES);
-                    int indexCurrentDivider = 0;
-
-                    PRELOOP_comb_ep8(ref n, ref k, out v128 results, out v128 i, out v128 c);
-
-                    v128 cmp;
-
-                    while (CMP_EPI ? notallfalse_epi128<byte>(cmp = cmpgt_epi8(k, i))
-                                   : notalltrue_epi128<byte>(cmp = cmple_epu8(k, i)))
-                    {
-                        LOOP_comb_ep8(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, CMP_EPI, nextDividerTest: true);
-                    }
-
-                    return results;
+                    return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: 2), 2);
                 }
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void comb_ep8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte unsafeLevels = 0)
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu8v2(v128 n, v128 k)
             {
-                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1, bool CMP_EPI)
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: 2), 2);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi8v3(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: 3), 3);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu8v3(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: 3), 3);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi8v4(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: 4), 4);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu8v4(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: 4), 4);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi8v8(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: 8), 8);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu8v8(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi16_epi8(castcomb_epu16(cvtepu8_epi16(n), cvtepu8_epi16(k), elements: 8), 8);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi8v16(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    // ARM has native mullo_epi8, X86 does not
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return mm256_cvtepi16_epi8(mm256_castcomb_epu16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k)));
+                    }
+                    else
+                    {
+                    Divider<byte16> loopDivider = new Divider<byte16>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new byte16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24) : new byte16(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), Divider<byte16>.WELL_KNOWN_COMB_PROMISES);
+                        int indexCurrentDivider = 0;
+
+                        PRELOOP_comb_ep8(ref n, ref k, out v128 results, out v128 i, out v128 c);
+
+                        v128 cmp;
+
+                        while (notallfalse_epi128<byte>(cmp = cmpgt_epi8(k, i)))
+                        {
+                            LOOP_comb_ep8(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, true, nextDividerTest: true);
+                        }
+
+                        return results;
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu8v16(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    // ARM has native mullo_epi8, X86 does not
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return mm256_cvtepi16_epi8(mm256_castcomb_epu16(Avx2.mm256_cvtepu8_epi16(n), Avx2.mm256_cvtepu8_epi16(k)));
+                    }
+                    else
+                    {
+                    Divider<byte16> loopDivider = new Divider<byte16>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new byte16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24) : new byte16(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), Divider<byte16>.WELL_KNOWN_COMB_PROMISES);
+                        int indexCurrentDivider = 0;
+
+                        PRELOOP_comb_ep8(ref n, ref k, out v128 results, out v128 i, out v128 c);
+
+                        v128 cmp;
+
+                        while (notalltrue_epi128<byte>(cmp = cmple_epu8(k, i)))
+                        {
+                            LOOP_comb_ep8(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, false, nextDividerTest: true);
+                        }
+
+                        return results;
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void impl_comb_epi8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1)
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        if (CMP_EPI)
-                        {
-                            cmp0 = cmpgt_epi8(k0, i);
-                            cmp1 = cmpgt_epi8(k1, i);
-
-                            return notallfalse_epi128<byte>(or_si128(cmp0, cmp1));
-                        }
-                        else
-                        {
-                            cmp0 = cmple_epu8(k0, i);
-                            cmp1 = cmple_epu8(k1, i);
-
-                            return notalltrue_epi128<byte>(and_si128(cmp0, cmp1));
-                        }
+                        cmp0 = cmpgt_epi8(k0, i);
+                        cmp1 = cmpgt_epi8(k1, i);
+                        
+                        return notallfalse_epi128<byte>(or_si128(cmp0, cmp1));
                     }
                     else throw new IllegalInstructionException();
                 }
@@ -1360,19 +2245,7 @@ VectorAssert.IsNotGreater<byte16, byte>(k, n, elements);
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<byte16, byte>(k0, n0, 16);
-VectorAssert.IsNotGreater<byte16, byte>(k1, n1, 16);
-
-                    if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU8(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU8(n1, MAX_INVERSE_FACTORIAL_U64)))
-                    {
-                        r0 = comb_ep8(n0, k0, signed, unsafeLevels);
-                        r1 = comb_ep8(n1, k1, signed, unsafeLevels);
-
-                        return;
-                    }
-
-                    bool CMP_EPI = signed || (constexpr.ALL_LT_EPU8(n0, byte.MaxValue) && constexpr.ALL_LT_EPU8(n1, byte.MaxValue));
-                    Divider<byte16> loopDivider = new Divider<byte16>(new byte16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24), Divider<byte16>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<byte16> loopDivider = new Divider<byte16>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new byte16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24) : new byte16(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), Divider<byte16>.WELL_KNOWN_COMB_PROMISES);
                     int indexCurrentDivider = 0;
 
                     PRELOOP_comb_ep8(ref n0, ref k0, out r0, out v128 i, out v128 c0);
@@ -1381,14 +2254,51 @@ VectorAssert.IsNotGreater<byte16, byte>(k1, n1, 16);
                     v128 cmp0 = Uninitialized<byte16>.Create();
                     v128 cmp1 = Uninitialized<byte16>.Create();
 
-                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1))
                     {
-                        LOOP_comb_ep8(ref n0, ref i, ref c0, ref r0, ref loopDivider, ref indexCurrentDivider, cmp0, CMP_EPI, nextDividerTest: false);
-                        LOOP_comb_ep8(ref n1, ref i, ref c1, ref r1, ref loopDivider, ref indexCurrentDivider, cmp1, CMP_EPI, nextDividerTest: true);
+                        LOOP_comb_ep8(ref n0, ref i, ref c0, ref r0, ref loopDivider, ref indexCurrentDivider, cmp0, true, nextDividerTest: false);
+                        LOOP_comb_ep8(ref n1, ref i, ref c1, ref r1, ref loopDivider, ref indexCurrentDivider, cmp1, true, nextDividerTest: true);
                     }
                 }
                 else throw new IllegalInstructionException();
             }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void impl_comb_epu8x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1)
+                {
+                    if (BurstArchitecture.IsSIMDSupported)
+                    {
+                        cmp0 = cmple_epu8(k0, i);
+                        cmp1 = cmple_epu8(k1, i);
+                        
+                        return notalltrue_epi128<byte>(and_si128(cmp0, cmp1));
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<byte16> loopDivider = new Divider<byte16>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new byte16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24) : new byte16(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), Divider<byte16>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep8(ref n0, ref k0, out r0, out v128 i, out v128 c0);
+                    PRELOOP_comb_ep8(ref n1, ref k1, out r1, out _,      out v128 c1);
+
+                    v128 cmp0 = Uninitialized<byte16>.Create();
+                    v128 cmp1 = Uninitialized<byte16>.Create();
+
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1))
+                    {
+                        LOOP_comb_ep8(ref n0, ref i, ref c0, ref r0, ref loopDivider, ref indexCurrentDivider, cmp0, false, nextDividerTest: false);
+                        LOOP_comb_ep8(ref n1, ref i, ref c1, ref r1, ref loopDivider, ref indexCurrentDivider, cmp1, false, nextDividerTest: true);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_comb_ep16([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 results, [NoAlias] out v128 i, [NoAlias] out v128 c)
@@ -1513,191 +2423,161 @@ VectorAssert.IsNotGreater<byte16, byte>(k1, n1, 16);
                 }
                 else throw new IllegalInstructionException();
             }
-
+            
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 comb_ep16(v128 n, v128 k, bool signed, byte unsafeLevels = 0, byte elements = 8)
+            private static bool CONTINUELOOP_comb_ep16(v128 k, v128 i, ref v128 cmp, bool signed, byte elements)
             {
-                static bool ContinueLoop(v128 k, v128 i, ref v128 cmp, bool CMP_EPI, byte elements)
-                {
-                    if (BurstArchitecture.IsSIMDSupported)
-                    {
-                        if (CMP_EPI)
-                        {
-                            return notallfalse_epi128<ushort>(cmp = cmpgt_epi16(k, i), elements);
-                        }
-                        else
-                        {
-                            if (Sse4_1.IsSse41Supported)
-                            {
-                                return notalltrue_epi128<ushort>(cmp = cmple_epu16(k, i, elements), elements);
-                            }
-                            else
-                            {
-                                return notallfalse_epi128<ushort>(cmp = cmpgt_epu16(k, i, elements), elements);
-                            }
-                        }
-                    }
-                    else throw new IllegalInstructionException();
-                }
-
-
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
-
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U64, elements))
+                    if (signed)
                     {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U32, elements))
+                        return notallfalse_epi128<ushort>(cmp = cmpgt_epi16(k, i), elements);
+                    }
+                    else
+                    {
+                        if (Sse4_1.IsSse41Supported)
                         {
-                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U16, elements))
-                            {
-                                return naivecomb_epu16(n, k, unsafeLevels > 3 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U8, elements), elements);
-                            }
-                            else
-                            {
-                                if (elements <= 4)
-                                {
-                                    return cvtepi32_epi16(naivecomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), elements), elements);
-                                }
-                                else
-                                {
-                                    if (Avx2.IsAvx2Supported)
-                                    {
-                                        return mm256_cvtepi32_epi16(mm256_naivecomb_epu32(Avx2.mm256_cvtepu16_epi32(n), Avx2.mm256_cvtepu16_epi32(k)));
-                                    }
-                                    else
-                                    {
-                                        v128 nLo32 = cvt2x2epu16_epi32(n, out v128 nHi32);
-                                        v128 kLo32 = cvt2x2epu16_epi32(k, out v128 kHi32);
-
-                                        return cvt2x2epi32_epi16(naivecomb_epu32(nLo32, kLo32), naivecomb_epu32(nHi32, kHi32));
-                                    }
-                                }
-                            }
+                            return notalltrue_epi128<ushort>(cmp = cmple_epu16(k, i, elements), elements);
                         }
                         else
                         {
-                            switch (elements)
-                            {
-                                case 2:
-                                {
-                                    return unpacklo_epi16(cvtsi32_si128((int)math.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0)),
-                                                          cvtsi32_si128((int)math.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0)));
-                                }
-
-                                case 3:
-                                case 4:
-                                {
-                                    if (Avx2.IsAvx2Supported)
-                                    {
-                                        return mm256_cvtepi64_epi16(mm256_naivecomb_epu64(Avx2.mm256_cvtepu16_epi64(n), Avx2.mm256_cvtepu16_epi64(k), elements));
-                                    }
-                                    else
-                                    {
-                                        return new v128((ushort)math.comb((ulong)extract_epi16(n, 0), (ulong)extract_epi16(k, 0), Promise.Unsafe0),
-                                                        (ushort)math.comb((ulong)extract_epi16(n, 1), (ulong)extract_epi16(k, 1), Promise.Unsafe0),
-                                                        (ushort)math.comb((ulong)extract_epi16(n, 2), (ulong)extract_epi16(k, 2), Promise.Unsafe0),
-                                                        (ushort)(elements == 4 ? math.comb((ulong)extract_epi16(n, 3), (ulong)extract_epi16(k, 3), Promise.Unsafe0) : 0),
-                                                        0,
-                                                        0,
-                                                        0,
-                                                        0);
-                                    }
-                                }
-
-                                default:
-                                {
-                                    if (Avx2.IsAvx2Supported)
-                                    {
-                                        v256 n64Lo = Avx2.mm256_cvtepu16_epi64(n);
-                                        v256 k64Lo = Avx2.mm256_cvtepu16_epi64(k);
-                                        v256 n64Hi = Avx2.mm256_cvtepu16_epi64(bsrli_si128(n, 4 * sizeof(ushort)));
-                                        v256 k64Hi = Avx2.mm256_cvtepu16_epi64(bsrli_si128(k, 4 * sizeof(ushort)));
-
-                                        v128 result64Lo = mm256_cvtepi64_epi16(mm256_naivecomb_epu64(n64Lo, k64Lo));
-                                        v128 result64Hi = mm256_cvtepi64_epi16(mm256_naivecomb_epu64(n64Hi, k64Hi));
-
-                                        return unpacklo_epi64(result64Lo, result64Hi);
-                                    }
-                                    else
-                                    {
-                                        v128 _0_1 = naivecomb_epu64(cvtepu16_epi64(n), cvtepu16_epi64(k), true);
-                                        v128 _2_3 = naivecomb_epu64(cvtepu16_epi64(bsrli_si128(n, 2 * sizeof(ushort))), cvtepu16_epi64(bsrli_si128(k, 2 * sizeof(ushort))), true);
-
-                                        v128 _4 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 4), (ulong)extract_epi16(k, 4), Promise.Unsafe0));
-                                        v128 _5 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 5), (ulong)extract_epi16(k, 5), Promise.Unsafe0));
-                                        v128 _6 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 6), (ulong)extract_epi16(k, 6), Promise.Unsafe0));
-                                        v128 _7 = cvtsi32_si128((ushort)math.comb((ulong)extract_epi16(n, 7), (ulong)extract_epi16(k, 7), Promise.Unsafe0));
-
-                                        v128 _0_1_2_3 = unpacklo_epi32(cvtepi64_epi16(_0_1), cvtepi64_epi16(_2_3));
-                                        v128 _4_5 = unpacklo_epi16(_4, _5);
-                                        v128 _6_7 = unpacklo_epi16(_6, _7);
-                                        v128 _4_5_6_7 = unpacklo_epi32(_4_5, _6_7);
-
-                                        return unpacklo_epi64(_0_1_2_3, _4_5_6_7);
-                                    }
-                                }
-                            }
+                            return notallfalse_epi128<ushort>(cmp = cmpgt_epu16(k, i, elements), elements);
                         }
                     }
-                    if (elements <= 4)
-                    {
-                        return cvtepi32_epi16(castcomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), elements), elements);
-                    }
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return mm256_cvtepi32_epi16(mm256_castcomb_epu32(Avx2.mm256_cvtepu16_epi32(n), Avx2.mm256_cvtepu16_epi32(k)));
-                    }
-
-                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU16(n, ushort.MaxValue);
-                    Divider<ushort8> loopDivider = new Divider<ushort8>(new ushort8(9, 10, 11, 12, 13, 14, 15, 16), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
-                    int indexCurrentDivider = 0;
-
-                    PRELOOP_comb_ep16(ref n, ref k, out v128 results, out v128 i, out v128 c);
-
-                    v128 cmp = Uninitialized<ushort8>.Create();
-
-                    while (ContinueLoop(k, i, ref cmp, CMP_EPI, elements))
-                    {
-                        LOOP_comb_ep16(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, CMP_EPI, true, elements);
-                    }
-
-                    return results;
                 }
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void comb_ep16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte unsafeLevels = 0)
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi16v2(v128 n, v128 k)
             {
-                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1, bool CMP_EPI)
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi32_epi16(castcomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), 2), 2);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu16v2(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi32_epi16(castcomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), 2), 2);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi16v3(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi32_epi16(castcomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), 3), 3);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu16v3(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi32_epi16(castcomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), 3), 3);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi16v4(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi32_epi16(castcomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), 4), 4);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu16v4(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    return cvtepi32_epi16(castcomb_epu32(cvtepu16_epi32(n), cvtepu16_epi32(k), 4), 4);
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi16v8(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return mm256_cvtepi32_epi16(mm256_castcomb_epu32(Avx2.mm256_cvtepu16_epi32(n), Avx2.mm256_cvtepu16_epi32(k)));
+                    }
+                    else
+                    {
+                    Divider<ushort8> loopDivider = new Divider<ushort8>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ushort8(9, 10, 11, 12, 13, 14, 15, 16) : new ushort8(2, 3, 4, 5, 6, 7, 8, 9), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
+                        int indexCurrentDivider = 0;
+
+                        PRELOOP_comb_ep16(ref n, ref k, out v128 results, out v128 i, out v128 c);
+
+                        v128 cmp = Uninitialized<ushort8>.Create();
+
+                        while (CONTINUELOOP_comb_ep16(k, i, ref cmp, true, 8))
+                        {
+                            LOOP_comb_ep16(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, true, true, 8);
+                        }
+
+                        return results;
+                    }
+
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu16v8(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return mm256_cvtepi32_epi16(mm256_castcomb_epu32(Avx2.mm256_cvtepu16_epi32(n), Avx2.mm256_cvtepu16_epi32(k)));
+                    }
+                    else
+                    {
+                    Divider<ushort8> loopDivider = new Divider<ushort8>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ushort8(9, 10, 11, 12, 13, 14, 15, 16) : new ushort8(2, 3, 4, 5, 6, 7, 8, 9), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
+                        int indexCurrentDivider = 0;
+
+                        PRELOOP_comb_ep16(ref n, ref k, out v128 results, out v128 i, out v128 c);
+
+                        v128 cmp = Uninitialized<ushort8>.Create();
+
+                        while (CONTINUELOOP_comb_ep16(k, i, ref cmp, false, 8))
+                        {
+                            LOOP_comb_ep16(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, false, true, 8);
+                        }
+
+                        return results;
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void impl_comb_epi16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1)
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        if (CMP_EPI)
-                        {
-                            cmp0 = cmpgt_epi16(k0, i);
-                            cmp1 = cmpgt_epi16(k1, i);
-
-                            return notallfalse_epi128<ushort>(or_si128(cmp0, cmp1));
-                        }
-                        else
-                        {
-                            if (Sse4_1.IsSse41Supported)
-                            {
-                                cmp0 = cmple_epu16(k0, i);
-                                cmp1 = cmple_epu16(k1, i);
-
-                                return notalltrue_epi128<ushort>(and_si128(cmp0, cmp1));
-                            }
-                            else
-                            {
-                                cmp0 = cmpgt_epu16(k0, i);
-                                cmp1 = cmpgt_epu16(k1, i);
-
-                                return notallfalse_epi128<ushort>(or_si128(cmp0, cmp1));
-                            }
-                        }
+                        cmp0 = cmpgt_epi16(k0, i);
+                        cmp1 = cmpgt_epi16(k1, i);
+                        
+                        return notallfalse_epi128<ushort>(or_si128(cmp0, cmp1));
                     }
                     else throw new IllegalInstructionException();
                 }
@@ -1705,19 +2585,7 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k, n, elements);
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<ushort8, ushort>(k0, n0, 8);
-VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
-
-                    if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU16(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU16(n1, MAX_INVERSE_FACTORIAL_U64)))
-                    {
-                        r0 = comb_ep16(n0, k0, signed, unsafeLevels);
-                        r1 = comb_ep16(n1, k1, signed, unsafeLevels);
-
-                        return;
-                    }
-
-                    bool CMP_EPI = signed || (constexpr.ALL_LT_EPU16(n0, ushort.MaxValue) && constexpr.ALL_LT_EPU16(n1, ushort.MaxValue));
-                    Divider<ushort8> loopDivider = new Divider<ushort8>(new ushort8(9, 10, 11, 12, 13, 14, 15, 16), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<ushort8> loopDivider = new Divider<ushort8>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ushort8(9, 10, 11, 12, 13, 14, 15, 16) : new ushort8(2, 3, 4, 5, 6, 7, 8, 9), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
                     int indexCurrentDivider = 0;
 
                     PRELOOP_comb_ep16(ref n0, ref k0, out r0, out v128 i, out v128 c0);
@@ -1726,14 +2594,61 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
                     v128 cmp0 = Uninitialized<ushort8>.Create();
                     v128 cmp1 = Uninitialized<ushort8>.Create();
 
-                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1))
                     {
-                        LOOP_comb_ep16(ref n0, ref i, ref c0, ref r0, ref loopDivider, ref indexCurrentDivider, cmp0, CMP_EPI, nextDividerTest: false);
-                        LOOP_comb_ep16(ref n1, ref i, ref c1, ref r1, ref loopDivider, ref indexCurrentDivider, cmp1, CMP_EPI, nextDividerTest: true);
+                        LOOP_comb_ep16(ref n0, ref i, ref c0, ref r0, ref loopDivider, ref indexCurrentDivider, cmp0, true, nextDividerTest: false);
+                        LOOP_comb_ep16(ref n1, ref i, ref c1, ref r1, ref loopDivider, ref indexCurrentDivider, cmp1, true, nextDividerTest: true);
                     }
                 }
                 else throw new IllegalInstructionException();
             }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void impl_comb_epu16x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1)
+                {
+                    if (BurstArchitecture.IsSIMDSupported)
+                    {
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            cmp0 = cmple_epu16(k0, i);
+                            cmp1 = cmple_epu16(k1, i);
+                        
+                            return notalltrue_epi128<ushort>(and_si128(cmp0, cmp1));
+                        }
+                        else
+                        {
+                            cmp0 = cmpgt_epu16(k0, i);
+                            cmp1 = cmpgt_epu16(k1, i);
+                        
+                            return notallfalse_epi128<ushort>(or_si128(cmp0, cmp1));
+                        }
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<ushort8> loopDivider = new Divider<ushort8>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ushort8(9, 10, 11, 12, 13, 14, 15, 16) : new ushort8(2, 3, 4, 5, 6, 7, 8, 9), Divider<ushort8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep16(ref n0, ref k0, out r0, out v128 i, out v128 c0);
+                    PRELOOP_comb_ep16(ref n1, ref k1, out r1, out _,      out v128 c1);
+
+                    v128 cmp0 = Uninitialized<ushort8>.Create();
+                    v128 cmp1 = Uninitialized<ushort8>.Create();
+
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1))
+                    {
+                        LOOP_comb_ep16(ref n0, ref i, ref c0, ref r0, ref loopDivider, ref indexCurrentDivider, cmp0, false, nextDividerTest: false);
+                        LOOP_comb_ep16(ref n1, ref i, ref c1, ref r1, ref loopDivider, ref indexCurrentDivider, cmp1, false, nextDividerTest: true);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_comb_ep32([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 results, [NoAlias] out v128 i, [NoAlias] out v128 c, byte elements = 4)
@@ -1950,86 +2865,47 @@ VectorAssert.IsNotGreater<ushort8, ushort>(k1, n1, 8);
                 }
                 else throw new IllegalInstructionException();
             }
-
+            
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 comb_ep32(v128 n, v128 k, bool signed, byte unsafeLevels = 0, byte elements = 4)
+            private static bool CONTINUELOOP_comb_ep32(v128 k, v128 i, ref v128 cmp, bool signed, byte elements = 4)
             {
-                static bool ContinueLoop(v128 k, v128 i, ref v128 cmp, bool CMP_EPI, byte elements)
-                {
-                    if (BurstArchitecture.IsSIMDSupported)
-                    {
-                        if (CMP_EPI)
-                        {
-                            return notallfalse_epi128<uint>(cmp = cmpgt_epi32(k, i), elements);
-                        }
-                        else
-                        {
-                            if (Sse4_1.IsSse41Supported)
-                            {
-                                return notalltrue_epi128<uint>(cmp = cmple_epu32(k, i, elements), elements);
-                            }
-                            else
-                            {
-                                return notallfalse_epi128<uint>(cmp = cmpgt_epu32(k, i, elements), elements);
-                            }
-                        }
-                    }
-                    else throw new IllegalInstructionException();
-                }
-
-
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<uint4, uint>(k, n, elements);
-
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64, elements))
+                    if (signed)
                     {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U32, elements))
+                        return notallfalse_epi128<uint>(cmp = cmpgt_epi32(k, i), elements);
+                    }
+                    else
+                    {
+                        if (Sse4_1.IsSse41Supported)
                         {
-                            return naivecomb_epu32(n, k, elements);
+                            return notalltrue_epi128<uint>(cmp = cmple_epu32(k, i, elements), elements);
                         }
                         else
                         {
-                            if (elements > 2)
-                            {
-                                if (Avx2.IsAvx2Supported)
-                                {
-                                    return mm256_cvtepi64_epi32(mm256_naivecomb_epu64(Avx2.mm256_cvtepu32_epi64(n), Avx2.mm256_cvtepu32_epi64(k), elements));
-                                }
-                                else
-                                {
-                                    v128 lo = unpacklo_epi32(cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
-                                                             cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
-                                    v128 hi = cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 2), (ulong)extract_epi32(k, 2), Promise.Unsafe0));
-
-                                    if (elements == 4)
-                                    {
-                                        hi = unpacklo_epi32(hi, cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 3), (ulong)extract_epi32(k, 3), Promise.Unsafe0)));
-                                    }
-
-                                    return unpacklo_epi64(lo, hi);
-                                }
-                            }
-                            else
-                            {
-                                return unpacklo_epi32(cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 0), (ulong)extract_epi32(k, 0), Promise.Unsafe0)),
-                                                      cvtsi32_si128((int)math.comb((ulong)extract_epi32(n, 1), (ulong)extract_epi32(k, 1), Promise.Unsafe0)));
-                            }
+                            return notallfalse_epi128<uint>(cmp = cmpgt_epu32(k, i, elements), elements);
                         }
                     }
+                }
+                else throw new IllegalInstructionException();
+            }
 
-                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU32(n, uint.MaxValue);
-                    Divider<uint4> loopDividerSSE = new Divider<uint4>(new uint4(9, 10, 11, 12), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
-                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(new uint4(13, 14, 15, 16), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi32v2(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(9, 10, 11, 12) : new uint4(2, 3, 4, 5), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(13, 14, 15, 16) : new uint4(6, 7, 8, 9), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
                     int indexCurrentDivider = 0;
 
-                    PRELOOP_comb_ep32(ref n, ref k, out v128 results, out v128 i, out v128 c, elements);
+                    PRELOOP_comb_ep32(ref n, ref k, out v128 results, out v128 i, out v128 c, 2);
 
                     v128 cmp = Uninitialized<ulong2>.Create();
-
-                    while (ContinueLoop(k, i, ref cmp, CMP_EPI, elements))
+                    
+                    while (CONTINUELOOP_comb_ep32(k, i, ref cmp, true, 2))
                     {
-                        LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp, CMP_EPI, true, elements);
+                        LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp, true, true, 2);
                     }
 
                     return results;
@@ -2037,37 +2913,132 @@ VectorAssert.IsNotGreater<uint4, uint>(k, n, elements);
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void comb_ep32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte unsafeLevels = 0)
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu32v2(v128 n, v128 k)
             {
-                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1, bool CMP_EPI)
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(9, 10, 11, 12) : new uint4(2, 3, 4, 5), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(13, 14, 15, 16) : new uint4(6, 7, 8, 9), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep32(ref n, ref k, out v128 results, out v128 i, out v128 c, 2);
+
+                    v128 cmp = Uninitialized<ulong2>.Create();
+                    
+                    while (CONTINUELOOP_comb_ep32(k, i, ref cmp, false, 2))
+                    {
+                        LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp, false, true, 2);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi32v3(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(9, 10, 11, 12) : new uint4(2, 3, 4, 5), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(13, 14, 15, 16) : new uint4(6, 7, 8, 9), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep32(ref n, ref k, out v128 results, out v128 i, out v128 c, 3);
+
+                    v128 cmp = Uninitialized<ulong2>.Create();
+                    
+                    while (CONTINUELOOP_comb_ep32(k, i, ref cmp, true, 3))
+                    {
+                        LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp, true, true, 3);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu32v3(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(9, 10, 11, 12) : new uint4(2, 3, 4, 5), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(13, 14, 15, 16) : new uint4(6, 7, 8, 9), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep32(ref n, ref k, out v128 results, out v128 i, out v128 c, 3);
+
+                    v128 cmp = Uninitialized<ulong2>.Create();
+                    
+                    while (CONTINUELOOP_comb_ep32(k, i, ref cmp, false, 3))
+                    {
+                        LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp, false, true, 3);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi32v4(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(9, 10, 11, 12) : new uint4(2, 3, 4, 5), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(13, 14, 15, 16) : new uint4(6, 7, 8, 9), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep32(ref n, ref k, out v128 results, out v128 i, out v128 c, 4);
+
+                    v128 cmp = Uninitialized<ulong2>.Create();
+                    
+                    while (CONTINUELOOP_comb_ep32(k, i, ref cmp, true, 4))
+                    {
+                        LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp, true, true, 4);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu32v4(v128 n, v128 k)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(9, 10, 11, 12) : new uint4(2, 3, 4, 5), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(13, 14, 15, 16) : new uint4(6, 7, 8, 9), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep32(ref n, ref k, out v128 results, out v128 i, out v128 c, 4);
+
+                    v128 cmp = Uninitialized<ulong2>.Create();
+
+                    while (CONTINUELOOP_comb_ep32(k, i, ref cmp, false, 4))
+                    {
+                        LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp, false, true, 4);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void impl_comb_epi32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1)
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        if (CMP_EPI)
-                        {
-                            cmp0 = cmpgt_epi32(k0, i);
-                            cmp1 = cmpgt_epi32(k1, i);
-
-                            return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
-                        }
-                        else
-                        {
-                            if (Sse4_1.IsSse41Supported)
-                            {
-                                cmp0 = cmple_epu32(k0, i);
-                                cmp1 = cmple_epu32(k1, i);
-
-                                return notalltrue_epi128<uint>(and_si128(cmp0, cmp1));
-                            }
-                            else
-                            {
-                                cmp0 = cmpgt_epu32(k0, i);
-                                cmp1 = cmpgt_epu32(k1, i);
-
-                                return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
-                            }
-                        }
+                        cmp0 = cmpgt_epi32(k0, i);
+                        cmp1 = cmpgt_epi32(k1, i);
+                        
+                        return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
                     }
                     else throw new IllegalInstructionException();
                 }
@@ -2075,20 +3046,8 @@ VectorAssert.IsNotGreater<uint4, uint>(k, n, elements);
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<uint4, uint>(k0, n0, 4);
-VectorAssert.IsNotGreater<uint4, uint>(k1, n1, 4);
-
-                    if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU32(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU32(n1, MAX_INVERSE_FACTORIAL_U64)))
-                    {
-                        r0 = comb_ep32(n0, k0, signed, unsafeLevels);
-                        r1 = comb_ep32(n1, k1, signed, unsafeLevels);
-
-                        return;
-                    }
-
-                    bool CMP_EPI = signed || (constexpr.ALL_LT_EPU32(n0, uint.MaxValue) && constexpr.ALL_LT_EPU32(n1, uint.MaxValue));
-                    Divider<uint4> loopDividerSSE = new Divider<uint4>(new uint4(9, 10, 11, 12), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
-                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(new uint4(13, 14, 15, 16), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(9, 10, 11, 12) : new uint4(2, 3, 4, 5), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(13, 14, 15, 16) : new uint4(6, 7, 8, 9), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
                     int indexCurrentDivider = 0;
 
                     PRELOOP_comb_ep32(ref n0, ref k0, out r0, out v128 i, out v128 c0);
@@ -2097,14 +3056,62 @@ VectorAssert.IsNotGreater<uint4, uint>(k1, n1, 4);
                     v128 cmp0 = Uninitialized<ulong2>.Create();
                     v128 cmp1 = Uninitialized<ulong2>.Create();
 
-                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1))
                     {
-                        LOOP_comb_ep32(ref n0, ref i, ref c0, ref r0, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp0, CMP_EPI, nextDividerTest: false);
-                        LOOP_comb_ep32(ref n1, ref i, ref c1, ref r1, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp1, CMP_EPI, nextDividerTest: true);
+                        LOOP_comb_ep32(ref n0, ref i, ref c0, ref r0, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp0, true, nextDividerTest: false);
+                        LOOP_comb_ep32(ref n1, ref i, ref c1, ref r1, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp1, true, nextDividerTest: true);
                     }
                 }
                 else throw new IllegalInstructionException();
             }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void impl_comb_epu32x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1)
+                {
+                    if (BurstArchitecture.IsSIMDSupported)
+                    {
+                        if (Sse4_1.IsSse41Supported)
+                        {
+                            cmp0 = cmple_epu32(k0, i);
+                            cmp1 = cmple_epu32(k1, i);
+                        
+                            return notalltrue_epi128<uint>(and_si128(cmp0, cmp1));
+                        }
+                        else
+                        {
+                            cmp0 = cmpgt_epu32(k0, i);
+                            cmp1 = cmpgt_epu32(k1, i);
+                        
+                            return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
+                        }
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<uint4> loopDividerSSE = new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(9, 10, 11, 12) : new uint4(2, 3, 4, 5), Divider<uint4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<uint8> loopDividerAVX = new Divider<uint8>(loopDividerSSE, new Divider<uint4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint4(13, 14, 15, 16) : new uint4(6, 7, 8, 9), Divider<uint4>.WELL_KNOWN_COMB_PROMISES));
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep32(ref n0, ref k0, out r0, out v128 i, out v128 c0);
+                    PRELOOP_comb_ep32(ref n1, ref k1, out r1, out _,      out v128 c1);
+
+                    v128 cmp0 = Uninitialized<ulong2>.Create();
+                    v128 cmp1 = Uninitialized<ulong2>.Create();
+
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1))
+                    {
+                        LOOP_comb_ep32(ref n0, ref i, ref c0, ref r0, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp0, false, nextDividerTest: false);
+                        LOOP_comb_ep32(ref n1, ref i, ref c1, ref r1, ref loopDividerSSE, ref loopDividerAVX, ref indexCurrentDivider, cmp1, false, nextDividerTest: true);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             private static void PRELOOP_comb_ep64([NoAlias] ref v128 n, [NoAlias] ref v128 k, [NoAlias] out v128 results, [NoAlias] out v128 i, [NoAlias] out v128 c, bool signed)
@@ -2283,39 +3290,18 @@ VectorAssert.IsNotGreater<uint4, uint>(k1, n1, 4);
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 comb_ep64(v128 n, v128 k, bool signed, byte unsafeLevels = 0)
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epi64(v128 n, v128 k)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
-
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U64))
-                    {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U32))
-                        {
-                            v128 nFactorial  = gamma_epu64(n, true);
-                            v128 kFactorial  = gamma_epu64(k, true);
-                            v128 nkFactorial = gamma_epu64(sub_epi64(n, k), true);
-
-                            return cvttpd_epu64(div_pd(usfcvtepu64_pd(nFactorial), usfcvtepu64_pd(mullo_epi64(kFactorial, nkFactorial))), nonZero: true);
-                        }
-                        else
-                        {
-                            return unpacklo_epi64(cvtsi64x_si128(math.comb(extract_epi64(n, 0), extract_epi64(k, 0), Promise.Unsafe0)),
-                                                  cvtsi64x_si128(math.comb(extract_epi64(n, 1), extract_epi64(k, 1), Promise.Unsafe0)));
-                        }
-                    }
-
-                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU64(n, ulong.MaxValue);
-                    Divider<ulong4> loopDividerAVX = new Divider<ulong4>(new ulong4(9, 10, 11, 12), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<ulong4> loopDividerAVX = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
                     int indexCurrentDivider = 0;
 
-                    PRELOOP_comb_ep64(ref n, ref k, out v128 results, out v128 i, out v128 c, signed);
+                    PRELOOP_comb_ep64(ref n, ref k, out v128 results, out v128 i, out v128 c, true);
 
                     v128 cmp;
-                    while (notallfalse_epi128<ulong>(cmp = CMP_EPI ? cmpgt_epi64(k, i)
-                                                                   : cmpgt_epu64(k, i)))
+                    while (notallfalse_epi128<ulong>(cmp = cmpgt_epi64(k, i)))
                     {
                         LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDividerAVX, ref indexCurrentDivider, cmp, true);
                     }
@@ -2325,23 +3311,36 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void comb_ep64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, byte unsafeLevels = 0)
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v128 impl_comb_epu64(v128 n, v128 k)
             {
-                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1, bool CMP_EPI)
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<ulong4> loopDividerAVX = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep64(ref n, ref k, out v128 results, out v128 i, out v128 c, false);
+
+                    v128 cmp;
+                    while (notallfalse_epi128<ulong>(cmp = cmpgt_epu64(k, i)))
+                    {
+                        LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDividerAVX, ref indexCurrentDivider, cmp, true);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void impl_comb_epi64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1)
                 {
                     if (BurstArchitecture.IsSIMDSupported)
                     {
-                        if (CMP_EPI)
-                        {
-                            cmp0 = cmpgt_epi64(k0, i);
-                            cmp1 = cmpgt_epi64(k1, i);
-                        }
-                        else
-                        {
-                            cmp0 = cmpgt_epu64(k0, i);
-                            cmp1 = cmpgt_epu64(k1, i);
-                        }
+                        cmp0 = cmpgt_epi64(k0, i);
+                        cmp1 = cmpgt_epi64(k1, i);
 
                         return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
                     }
@@ -2351,28 +3350,16 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k, n, 2);
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-VectorAssert.IsNotGreater<ulong2, ulong>(k0, n0, 2);
-VectorAssert.IsNotGreater<ulong2, ulong>(k1, n1, 2);
-
-                    if (unsafeLevels > 0 || (constexpr.ALL_LE_EPU64(n0, MAX_INVERSE_FACTORIAL_U64) && constexpr.ALL_LE_EPU64(n1, MAX_INVERSE_FACTORIAL_U64)))
-                    {
-                        r0 = comb_ep64(n0, k0, signed, unsafeLevels);
-                        r1 = comb_ep64(n1, k1, signed, unsafeLevels);
-
-                        return;
-                    }
-
-                    bool CMP_EPI = signed || (constexpr.ALL_LT_EPU64(n0, ulong.MaxValue) && constexpr.ALL_LT_EPU64(n1, ulong.MaxValue));
-                    Divider<ulong4> loopDividerAVX = new Divider<ulong4>(new ulong4(9, 10, 11, 12), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<ulong4> loopDividerAVX = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
                     int indexCurrentDivider = 0;
 
-                    PRELOOP_comb_ep64(ref n0, ref k0, out r0, out v128 i, out v128 c0, signed);
-                    PRELOOP_comb_ep64(ref n1, ref k1, out r1, out _,      out v128 c1, signed);
+                    PRELOOP_comb_ep64(ref n0, ref k0, out r0, out v128 i, out v128 c0, true);
+                    PRELOOP_comb_ep64(ref n1, ref k1, out r1, out _,      out v128 c1, true);
 
                     v128 cmp0 = Uninitialized<ulong2>.Create();
                     v128 cmp1 = Uninitialized<ulong2>.Create();
 
-                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1, CMP_EPI))
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1))
                     {
                         LOOP_comb_ep64(ref n0, ref i, ref c0, ref r0, ref loopDividerAVX, ref indexCurrentDivider, cmp0, nextDividerTest: false);
                         LOOP_comb_ep64(ref n1, ref i, ref c1, ref r1, ref loopDividerAVX, ref indexCurrentDivider, cmp1, nextDividerTest: true);
@@ -2381,82 +3368,53 @@ VectorAssert.IsNotGreater<ulong2, ulong>(k1, n1, 2);
                 else throw new IllegalInstructionException();
             }
 
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static void impl_comb_epu64x2(v128 n0, v128 n1, v128 k0, v128 k1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            {
+                static bool ContinueLoop(v128 k0, v128 k1, v128 i, [NoAlias] ref v128 cmp0, [NoAlias] ref v128 cmp1)
+                {
+                    if (BurstArchitecture.IsSIMDSupported)
+                    {
+                        cmp0 = cmpgt_epu64(k0, i);
+                        cmp1 = cmpgt_epu64(k1, i);
+
+                        return notallfalse_epi128<uint>(or_si128(cmp0, cmp1));
+                    }
+                    else throw new IllegalInstructionException();
+                }
+
+
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+                    Divider<ulong4> loopDividerAVX = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+
+                    PRELOOP_comb_ep64(ref n0, ref k0, out r0, out v128 i, out v128 c0, false);
+                    PRELOOP_comb_ep64(ref n1, ref k1, out r1, out _,      out v128 c1, false);
+
+                    v128 cmp0 = Uninitialized<ulong2>.Create();
+                    v128 cmp1 = Uninitialized<ulong2>.Create();
+
+                    while (ContinueLoop(k0, k1, i, ref cmp0, ref cmp1))
+                    {
+                        LOOP_comb_ep64(ref n0, ref i, ref c0, ref r0, ref loopDividerAVX, ref indexCurrentDivider, cmp0, nextDividerTest: false);
+                        LOOP_comb_ep64(ref n1, ref i, ref c1, ref r1, ref loopDividerAVX, ref indexCurrentDivider, cmp1, nextDividerTest: true);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+
+
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v256 mm256_comb_ep8(v256 n, v256 k, bool signed, byte unsafeLevels = 0)
+            private static void mm256_PRELOOP_comb_ep8([NoAlias] ref v256 n, [NoAlias] ref v256 k, [NoAlias] out v256 results, [NoAlias] out v256 i, [NoAlias] out v256 c)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
-
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U64))
-                    {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U32))
-                        {
-                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U16))
-                            {
-                                if (unsafeLevels > 3 || constexpr.ALL_LE_EPU8(n, MAX_INVERSE_FACTORIAL_U8))
-                                {
-                                    return mm256_naivecomb_epu8(n, k);
-                                }
-                                else
-                                {
-                                    v256 nLo16 = mm256_cvt2x2epu8_epi16(n, out v256 nHi16);
-                                    v256 kLo16 = mm256_cvt2x2epu8_epi16(k, out v256 kHi16);
-
-                                    return mm256_cvt2x2epi16_epi8(mm256_naivecomb_epu16(nLo16, kLo16), mm256_naivecomb_epu16(nHi16, kHi16));
-                                }
-                            }
-                            else
-                            {
-                                mm256_cvt4x4epu8_epi32(n, out v256 n32_0, out v256 n32_1, out v256 n32_2, out v256 n32_3);
-                                mm256_cvt4x4epu8_epi32(k, out v256 k32_0, out v256 k32_1, out v256 k32_2, out v256 k32_3);
-
-                                v256 result32_0 = mm256_naivecomb_epu32(n32_0, k32_0);
-                                v256 result32_1 = mm256_naivecomb_epu32(n32_1, k32_1);
-                                v256 result32_2 = mm256_naivecomb_epu32(n32_2, k32_2);
-                                v256 result32_3 = mm256_naivecomb_epu32(n32_3, k32_3);
-
-                                v256 result16_0 = mm256_cvt2x2epi32_epi16(result32_0, result32_1);
-                                v256 result16_1 = mm256_cvt2x2epi32_epi16(result32_2, result32_3);
-
-                                return mm256_cvt2x2epi16_epi8(result16_0, result16_1);
-                            }
-                        }
-                        else
-                        {
-                            mm256_cvt8x8epu8_epi64(n, out v256 n64_0, out v256 n64_1, out v256 n64_2, out v256 n64_3, out v256 n64_4, out v256 n64_5, out v256 n64_6, out v256 n64_7);
-                            mm256_cvt8x8epu8_epi64(k, out v256 k64_0, out v256 k64_1, out v256 k64_2, out v256 k64_3, out v256 k64_4, out v256 k64_5, out v256 k64_6, out v256 k64_7);
-
-                            v256 result64_0 = mm256_naivecomb_epu64(n64_0, k64_0);
-                            v256 result64_1 = mm256_naivecomb_epu64(n64_1, k64_1);
-                            v256 result64_2 = mm256_naivecomb_epu64(n64_2, k64_2);
-                            v256 result64_3 = mm256_naivecomb_epu64(n64_3, k64_3);
-                            v256 result64_4 = mm256_naivecomb_epu64(n64_4, k64_4);
-                            v256 result64_5 = mm256_naivecomb_epu64(n64_5, k64_5);
-                            v256 result64_6 = mm256_naivecomb_epu64(n64_6, k64_6);
-                            v256 result64_7 = mm256_naivecomb_epu64(n64_7, k64_7);
-
-                            v256 result32_0 = mm256_cvt2x2epi64_epi32(result64_0, result64_1);
-                            v256 result32_1 = mm256_cvt2x2epi64_epi32(result64_2, result64_3);
-                            v256 result32_2 = mm256_cvt2x2epi64_epi32(result64_4, result64_5);
-                            v256 result32_3 = mm256_cvt2x2epi64_epi32(result64_6, result64_7);
-
-                            v256 result16_0 = mm256_cvt2x2epi32_epi16(result32_0, result32_1);
-                            v256 result16_1 = mm256_cvt2x2epi32_epi16(result32_2, result32_3);
-
-                            return mm256_cvt2x2epi16_epi8(result16_0, result16_1);
-                        }
-                    }
-
-                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU8(n, byte.MaxValue);
                     v256 ONE = mm256_set1_epi8(1);
-                    Divider<byte32> loopDivider = new Divider<byte32>(new byte32(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40), Divider<byte32>.WELL_KNOWN_COMB_PROMISES);
-                    int indexCurrentDivider = 0;
-
                     v256 cmp;
-                    v256 results;
-                    v256 i = ONE;
-                    v256 c = n;
+                    i = ONE;
+                    c = n;
                     k = Avx2.mm256_min_epu8(k, Avx2.mm256_sub_epi8(n, k));
                     results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi8(k, Avx.mm256_setzero_si256()));
 
@@ -2524,28 +3482,51 @@ VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
                         c = Avx2.mm256_add_epi8(mm256_mullo_epi8(mm256_constdiv_epu8(c, 7), n), mm256_constdiv_epu8(mulrem7, 7));
                         results = mm256_blendv_si256(results, c, cmp);
                     }
+                }
+                else throw new IllegalInstructionException();
+            }
 
-                    while (CMP_EPI ? mm256_notallfalse_epi256<byte>(cmp = Avx2.mm256_cmpgt_epi8(k, i))
-                                   : mm256_notalltrue_epi256<byte>(cmp = mm256_cmple_epu8(k, i)))
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void mm256_LOOP_comb_ep8([NoAlias] ref v256 n, [NoAlias] ref v256 i, [NoAlias] ref v256 c, [NoAlias] ref v256 results, [NoAlias] ref Divider<byte32> loopDividerAVX, [NoAlias] ref int indexCurrentDivider, v256 cmp, bool signed)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    i = Avx2.mm256_add_epi8(i, mm256_set1_epi8(1));
+                    n = Avx2.mm256_sub_epi8(n, mm256_set1_epi8(1));
+                    
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
-                        i = Avx2.mm256_add_epi8(i, ONE);
-                        n = Avx2.mm256_sub_epi8(n, ONE);
+                        v256 q = mm256_divrem_epu8(c, i, out v256 r);
+                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(q, n), mm256_div_epu8(mm256_mullo_epi8(r, n), i));
+                    }
+                    else
+                    {
+                        Divider<byte> currentDivider = loopDividerAVX.GetInnerDivider<byte>(indexCurrentDivider);
+                        v256 q = currentDivider.DivRem(c, out byte32 r);
+                        c = Avx2.mm256_add_epi8(mm256_mullo_epi8(q, n), (r * n) / currentDivider);
+                        next_comb_divider(ref loopDividerAVX, ref indexCurrentDivider);
+                    }
+                    
+                    results = signed ? mm256_blendv_si256(results, c, cmp)
+                                     : mm256_blendv_si256(c, results, cmp);
+                }
+                else throw new IllegalInstructionException();
+            }
 
-                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                        {
-                            v256 q = mm256_divrem_epu8(c, i, out v256 r);
-                            c = Avx2.mm256_add_epi8(mm256_mullo_epi8(q, n), mm256_div_epu8(mm256_mullo_epi8(r, n), i));
-                        }
-                        else
-                        {
-                            Divider<byte> currentDivider = loopDivider.GetInnerDivider<byte>(indexCurrentDivider);
-                            v256 q = currentDivider.DivRem(c, out byte32 r);
-                            c = Avx2.mm256_add_epi8(mm256_mullo_epi8(q, n), (r * n) / currentDivider);
-                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
-                        }
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epi8(v256 n, v256 k)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<byte32> loopDivider = new Divider<byte32>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new byte32(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40) : new byte32(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33), Divider<byte32>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
+                    
+                    mm256_PRELOOP_comb_ep8(ref n, ref k, out v256 results, out v256 i, out v256 c);
 
-                        results = CMP_EPI ? mm256_blendv_si256(results, c, cmp)
-                                          : mm256_blendv_si256(c, results, cmp);
+                    while (mm256_notallfalse_epi256<byte>(cmp = Avx2.mm256_cmpgt_epi8(k, i)))
+                    {
+                        mm256_LOOP_comb_ep8(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, true);
                     }
 
                     return results;
@@ -2553,62 +3534,37 @@ VectorAssert.IsNotGreater<byte32, byte>(k, n, 32);
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v256 mm256_comb_ep16(v256 n, v256 k, bool signed, byte unsafeLevels = 0)
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epu8(v256 n, v256 k)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
+                    Divider<byte32> loopDivider = new Divider<byte32>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new byte32(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40) : new byte32(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33), Divider<byte32>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
+                    
+                    mm256_PRELOOP_comb_ep8(ref n, ref k, out v256 results, out v256 i, out v256 c);
 
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U64))
+                    while (mm256_notalltrue_epi256<byte>(cmp = mm256_cmple_epu8(k, i)))
                     {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U32))
-                        {
-                            if (unsafeLevels > 2 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U16))
-                            {
-                                return mm256_naivecomb_epu16(n, k, unsafeLevels > 3 || constexpr.ALL_LE_EPU16(n, MAX_INVERSE_FACTORIAL_U8));
-                            }
-                            else
-                            {
-                                v256 nLo32 = mm256_cvt2x2epu16_epi32(n, out v256 nHi32);
-                                v256 kLo32 = mm256_cvt2x2epu16_epi32(k, out v256 kHi32);
-
-                                v256 resultLo = mm256_naivecomb_epu32(nLo32, kLo32);
-                                v256 resultHi = mm256_naivecomb_epu32(nHi32, kHi32);
-
-                                return mm256_cvt2x2epi32_epi16(resultLo, resultHi);
-                            }
-                        }
-                        else
-                        {
-                            v256 nLo32 = mm256_cvt2x2epu16_epi32(n, out v256 nHi32);
-                            v256 kLo32 = mm256_cvt2x2epu16_epi32(k, out v256 kHi32);
-                            v256 n64LoLo = mm256_cvt2x2epu32_epi64(nLo32, out v256 n64LoHi);
-                            v256 n64HiLo = mm256_cvt2x2epu32_epi64(nHi32, out v256 n64HiHi);
-                            v256 k64LoLo = mm256_cvt2x2epu32_epi64(kLo32, out v256 k64LoHi);
-                            v256 k64HiLo = mm256_cvt2x2epu32_epi64(kHi32, out v256 k64HiHi);
-
-                            v256 resultLoLo = mm256_naivecomb_epu64(n64LoLo, k64LoLo);
-                            v256 resultLoHi = mm256_naivecomb_epu64(n64LoHi, k64LoHi);
-                            v256 resultHiLo = mm256_naivecomb_epu64(n64HiLo, k64HiLo);
-                            v256 resultHiHi = mm256_naivecomb_epu64(n64HiHi, k64HiHi);
-
-                            v256 result32Lo = mm256_cvt2x2epi64_epi32(resultLoLo, resultLoHi);
-                            v256 result32Hi = mm256_cvt2x2epi64_epi32(resultHiLo, resultHiHi);
-
-                            return mm256_cvt2x2epi32_epi16(result32Lo, result32Hi);
-                        }
+                        mm256_LOOP_comb_ep8(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, false);
                     }
 
-                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU16(n, ushort.MaxValue);
-                    v256 ONE = mm256_set1_epi16(1);
-                    Divider<ushort16> loopDivider = new Divider<ushort16>(new ushort16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24), Divider<ushort16>.WELL_KNOWN_COMB_PROMISES);
-                    int indexCurrentDivider = 0;
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
 
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void mm256_PRELOOP_comb_ep16([NoAlias] ref v256 n, [NoAlias] ref v256 k, [NoAlias] out v256 results, [NoAlias] out v256 i, [NoAlias] out v256 c)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 ONE = mm256_set1_epi16(1);
                     v256 cmp;
-                    v256 results;
-                    v256 i = ONE;
-                    v256 c = n;
+                    i = ONE;
+                    c = n;
                     k = Avx2.mm256_min_epu16(k, Avx2.mm256_sub_epi16(n, k));
                     results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi16(k, Avx.mm256_setzero_si256()));
 
@@ -2660,28 +3616,51 @@ VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
                         c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(mm256_constdiv_epu16(c, 8), n), mm256_constdiv_epu16(Avx2.mm256_mullo_epi16(mm256_constrem_epu16(c, 8), n), 8));
                         results = mm256_blendv_si256(results, c, cmp);
                     }
+                }
+                else throw new IllegalInstructionException();
+            }
 
-                    while (CMP_EPI ? mm256_notallfalse_epi256<byte>(cmp = Avx2.mm256_cmpgt_epi16(k, i))
-                                   : mm256_notalltrue_epi256<byte>(cmp = mm256_cmple_epu16(k, i)))
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void mm256_LOOP_comb_ep16([NoAlias] ref v256 n, [NoAlias] ref v256 i, [NoAlias] ref v256 c, [NoAlias] ref v256 results, [NoAlias] ref Divider<ushort16> loopDividerAVX, [NoAlias] ref int indexCurrentDivider, v256 cmp, bool signed)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    i = Avx2.mm256_add_epi16(i, mm256_set1_epi16(1));
+                    n = Avx2.mm256_sub_epi16(n, mm256_set1_epi16(1));
+                    
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
-                        i = Avx2.mm256_add_epi16(i, ONE);
-                        n = Avx2.mm256_sub_epi16(n, ONE);
+                        v256 q = mm256_divrem_epu16(c, i, out v256 r);
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(q, n), mm256_div_epu16(Avx2.mm256_mullo_epi16(r, n), i));
+                    }
+                    else
+                    {
+                        Divider<ushort> currentDivider = loopDividerAVX.GetInnerDivider<ushort>(indexCurrentDivider);
+                        v256 q = currentDivider.DivRem(c, out ushort16 r);
+                        c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(q, n), (r * n) / currentDivider);
+                        next_comb_divider(ref loopDividerAVX, ref indexCurrentDivider);
+                    }
+                    
+                    results = signed ? mm256_blendv_si256(results, c, cmp)
+                                     : mm256_blendv_si256(c, results, cmp);
+                }
+                else throw new IllegalInstructionException();
+            }
 
-                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                        {
-                            v256 q = mm256_divrem_epu16(c, i, out v256 r);
-                            c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(q, n), mm256_div_epu16(Avx2.mm256_mullo_epi16(r, n), i));
-                        }
-                        else
-                        {
-                            Divider<ushort> currentDivider = loopDivider.GetInnerDivider<ushort>(indexCurrentDivider);
-                            v256 q = currentDivider.DivRem(c, out ushort16 r);
-                            c = Avx2.mm256_add_epi16(Avx2.mm256_mullo_epi16(q, n), (r * n) / currentDivider);
-                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
-                        }
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epi16(v256 n, v256 k)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<ushort16> loopDivider = new Divider<ushort16>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ushort16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24) : new ushort16(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), Divider<ushort16>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
+                    
+                    mm256_PRELOOP_comb_ep16(ref n, ref k, out v256 results, out v256 i, out v256 c);
 
-                        results = CMP_EPI ? mm256_blendv_si256(results, c, cmp)
-                                          : mm256_blendv_si256(c, results, cmp);
+                    while (mm256_notallfalse_epi256<byte>(cmp = Avx2.mm256_cmpgt_epi16(k, i)))
+                    {
+                        mm256_LOOP_comb_ep16(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, true);
                     }
 
                     return results;
@@ -2689,40 +3668,38 @@ VectorAssert.IsNotGreater<ushort16, ushort>(k, n, 16);
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v256 mm256_comb_ep32(v256 n, v256 k, bool signed, byte unsafeLevels = 0)
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epu16(v256 n, v256 k)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
+                    Divider<ushort16> loopDivider = new Divider<ushort16>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ushort16(9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24) : new ushort16(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), Divider<ushort16>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
+                    
+                    mm256_PRELOOP_comb_ep16(ref n, ref k, out v256 results, out v256 i, out v256 c);
 
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U64))
+                    while (mm256_notalltrue_epi256<byte>(cmp = mm256_cmple_epu16(k, i)))
                     {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU32(n, MAX_INVERSE_FACTORIAL_U32))
-                        {
-                            return mm256_naivecomb_epu32(n, k);
-                        }
-                        else
-                        {
-                            v256 n64Lo = mm256_cvt2x2epu32_epi64(n, out v256 n64Hi);
-                            v256 k64Lo = mm256_cvt2x2epu32_epi64(k, out v256 k64Hi);
-
-                            v256 resultLo = mm256_naivecomb_epu64(n64Lo, k64Lo);
-                            v256 resultHi = mm256_naivecomb_epu64(n64Hi, k64Hi);
-
-                            return mm256_cvt2x2epi64_epi32(resultLo, resultHi);
-                        }
+                        mm256_LOOP_comb_ep16(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, false);
                     }
 
-                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU32(n, uint.MaxValue);
-                    v256 ONE = mm256_set1_epi32(1);
-                    Divider<uint8> loopDivider = new Divider<uint8>(new uint8(9, 10, 11, 12, 13, 14, 15, 16), Divider<uint8>.WELL_KNOWN_COMB_PROMISES);
-                    int indexCurrentDivider = 0;
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
 
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void mm256_PRELOOP_comb_ep32([NoAlias] ref v256 n, [NoAlias] ref v256 k, [NoAlias] out v256 results, [NoAlias] out v256 i, [NoAlias] out v256 c)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    v256 ONE = mm256_set1_epi32(1);
+                    
                     v256 cmp;
-                    v256 results;
-                    v256 i = ONE;
-                    v256 c = n;
+                    i = ONE;
+                    c = n;
                     k = Avx2.mm256_min_epu32(k, Avx2.mm256_sub_epi32(n, k));
                     results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi32(k, Avx.mm256_setzero_si256()));
 
@@ -2774,28 +3751,51 @@ VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
                         c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(mm256_constdiv_epu32(c, 8), n), mm256_constdiv_epu32(Avx2.mm256_mullo_epi32(mm256_constrem_epu32(c, 8), n), 8));
                         results = mm256_blendv_si256(results, c, cmp);
                     }
+                }
+                else throw new IllegalInstructionException();
+            }
 
-                    while (CMP_EPI ? mm256_notallfalse_epi256<uint>(cmp = Avx2.mm256_cmpgt_epi32(k, i))
-                                   : mm256_notalltrue_epi256<uint>(cmp = mm256_cmple_epu32(k, i)))
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void mm256_LOOP_comb_ep32([NoAlias] ref v256 n, [NoAlias] ref v256 i, [NoAlias] ref v256 c, [NoAlias] ref v256 results, [NoAlias] ref Divider<uint8> loopDividerAVX, [NoAlias] ref int indexCurrentDivider, v256 cmp, bool signed)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    i = Avx2.mm256_add_epi32(i, mm256_set1_epi32(1));
+                    n = Avx2.mm256_sub_epi32(n, mm256_set1_epi32(1));
+                    
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
-                        i = Avx2.mm256_add_epi32(i, ONE);
-                        n = Avx2.mm256_sub_epi32(n, ONE);
+                        v256 q = mm256_divrem_epu32(c, i, out v256 r);
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(q, n), mm256_div_epu32(Avx2.mm256_mullo_epi32(r, n), i));
+                    }
+                    else
+                    {
+                        Divider<uint> currentDivider = loopDividerAVX.GetInnerDivider<uint>(indexCurrentDivider);
+                        v256 q = currentDivider.DivRem(c, out uint8 r);
+                        c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(q, n), (r * n) / currentDivider);
+                        next_comb_divider(ref loopDividerAVX, ref indexCurrentDivider);
+                    }
+                    
+                    results = signed ? mm256_blendv_si256(results, c, cmp)
+                                     : mm256_blendv_si256(c, results, cmp);
+                }
+                else throw new IllegalInstructionException();
+            }
 
-                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                        {
-                            v256 q = mm256_divrem_epu32(c, i, out v256 r);
-                            c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(q, n), mm256_div_epu32(Avx2.mm256_mullo_epi32(r, n), i));
-                        }
-                        else
-                        {
-                            Divider<uint> currentDivider = loopDivider.GetInnerDivider<uint>(indexCurrentDivider);
-                            v256 q = currentDivider.DivRem(c, out uint8 r);
-                            c = Avx2.mm256_add_epi32(Avx2.mm256_mullo_epi32(q, n), (r * n) / currentDivider);
-                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
-                        }
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epi32(v256 n, v256 k)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<uint8> loopDivider = new Divider<uint8>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint8(9, 10, 11, 12, 13, 14, 15, 16) : new uint8(2, 3, 4, 5, 6, 7, 8, 9), Divider<uint8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
 
-                        results = CMP_EPI ? mm256_blendv_si256(results, c, cmp)
-                                          : mm256_blendv_si256(c, results, cmp);
+                    mm256_PRELOOP_comb_ep32(ref n, ref k, out v256 results, out v256 i, out v256 c);
+
+                    while (mm256_notallfalse_epi256<uint>(cmp = Avx2.mm256_cmpgt_epi32(k, i)))
+                    {
+                        mm256_LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, true);
                     }
 
                     return results;
@@ -2803,41 +3803,40 @@ VectorAssert.IsNotGreater<uint8, uint>(k, n, 8);
                 else throw new IllegalInstructionException();
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v256 mm256_comb_ep64(v256 n, v256 k, bool signed, byte unsafeLevels = 0, byte elements = 4)
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epu32(v256 n, v256 k)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-VectorAssert.IsNotGreater<ulong4, ulong>(k, n, elements);
+                    Divider<uint8> loopDivider = new Divider<uint8>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new uint8(9, 10, 11, 12, 13, 14, 15, 16) : new uint8(2, 3, 4, 5, 6, 7, 8, 9), Divider<uint8>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
 
-                    if (unsafeLevels > 0 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U64))
+                    mm256_PRELOOP_comb_ep32(ref n, ref k, out v256 results, out v256 i, out v256 c);
+
+                    while (mm256_notalltrue_epi256<uint>(cmp = mm256_cmple_epu32(k, i)))
                     {
-                        if (unsafeLevels > 1 || constexpr.ALL_LE_EPU64(n, MAX_INVERSE_FACTORIAL_U32))
-                        {
-                            v256 nFactorial  = mm256_gamma_epu64(n, true);
-                            v256 kFactorial  = mm256_gamma_epu64(k, true);
-                            v256 nkFactorial = mm256_gamma_epu64(Avx2.mm256_sub_epi64(n, k), true);
-
-                            return mm256_cvttpd_epu64(Avx.mm256_div_pd(mm256_usfcvtepu64_pd(nFactorial), mm256_usfcvtepu64_pd(mm256_mullo_epi64(kFactorial, nkFactorial, elements))), elements: elements, nonZero: true);
-                        }
-                        else
-                        {
-                            return mm256_naivecomb_epu64(n, k, elements);
-                        }
+                        mm256_LOOP_comb_ep32(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, false);
                     }
 
-                    bool CMP_EPI = signed || constexpr.ALL_LT_EPU64(n, ulong.MaxValue, elements);
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void mm256_PRELOOP_comb_ep64([NoAlias] ref v256 n, [NoAlias] ref v256 k, [NoAlias] out v256 results, [NoAlias] out v256 i, [NoAlias] out v256 c, bool signed, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
                     v256 ONE = mm256_set1_epi64x(1);
-                    Divider<ulong4> loopDivider = new Divider<ulong4>(new ulong4(9, 10, 11, 12), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
-                    int indexCurrentDivider = 0;
 
                     v256 cmp;
-                    v256 results;
-                    v256 i = ONE;
-                    v256 c = n;
-                    k = signed || constexpr.ALL_LE_EPU64(n, (ulong)long.MaxValue)
-                      ? mm256_min_epi64(k, Avx2.mm256_sub_epi64(n, k))
-                      : mm256_min_epu64(k, Avx2.mm256_sub_epi64(n, k));
+                    i = ONE;
+                    c = n;
+                    k = signed ? mm256_min_epi64(k, Avx2.mm256_sub_epi64(n, k))
+                               : mm256_min_epu64(k, Avx2.mm256_sub_epi64(n, k));
                     results = mm256_blendv_si256(c, ONE, Avx2.mm256_cmpeq_epi64(k, Avx.mm256_setzero_si256()));
 
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR != OptimizeFor.Size)
@@ -2955,35 +3954,121 @@ VectorAssert.IsNotGreater<ulong4, ulong>(k, n, elements);
                               results = mm256_blendv_si256(results, c, cmp);
                         //}
                     }
+                }
+                else throw new IllegalInstructionException();
+            }
 
-                    while (mm256_notallfalse_epi256<ulong>(cmp = CMP_EPI ? Avx2.mm256_cmpgt_epi64(k, i)
-                                                                         : mm256_cmpgt_epu64(k, i, elements), elements))
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            private static void mm256_LOOP_comb_ep64([NoAlias] ref v256 n, [NoAlias] ref v256 i, [NoAlias] ref v256 c, [NoAlias] ref v256 results, [NoAlias] ref Divider<ulong4> loopDividerAVX, [NoAlias] ref int indexCurrentDivider, v256 cmp, byte elements = 4)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    i = Avx2.mm256_add_epi64(i, mm256_set1_epi64x(1));
+                    n = Avx2.mm256_sub_epi64(n, mm256_set1_epi64x(1));
+                    
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
-                        i = Avx2.mm256_add_epi64(i, ONE);
-                        n = Avx2.mm256_sub_epi64(n, ONE);
-
-                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        v256 q = mm256_divrem_epu64(c, i, out v256 r, bLEu32max: true);
+                        c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, elements), mm256_div_epu64(mm256_mullo_epi64(r, n, elements), i, bLEu32max: true));
+                    }
+                    else
+                    {
+                        Divider<ulong> currentDivider = loopDividerAVX.GetInnerDivider<ulong>(indexCurrentDivider);
+                        if (elements == 3)
                         {
-                            v256 q = mm256_divrem_epu64(c, i, out v256 r, bLEu32max: true);
-                            c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, elements), mm256_div_epu64(mm256_mullo_epi64(r, n, elements), i, bLEu32max: true));
+                            v256 q = currentDivider.DivRem(c, out ulong3 r);
+                            c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, 3), (ulong3)mm256_mullo_epi64(r, n, 3) / currentDivider);
                         }
                         else
                         {
-                            Divider<ulong> currentDivider = loopDivider.GetInnerDivider<ulong>(indexCurrentDivider);
-                            if (elements == 3)
-                            {
-                                v256 q = currentDivider.DivRem(c, out ulong3 r);
-                                c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, 3), (ulong3)mm256_mullo_epi64(r, n, 3) / currentDivider);
-                            }
-                            else
-                            {
-                                v256 q = currentDivider.DivRem(c, out ulong4 r);
-                                c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, 4), (ulong4)mm256_mullo_epi64(r, n, 4) / currentDivider);
-                            }
-                            next_comb_divider(ref loopDivider, ref indexCurrentDivider);
+                            v256 q = currentDivider.DivRem(c, out ulong4 r);
+                            c = Avx2.mm256_add_epi64(mm256_mullo_epi64(q, n, 4), (ulong4)mm256_mullo_epi64(r, n, 4) / currentDivider);
                         }
+                        next_comb_divider(ref loopDividerAVX, ref indexCurrentDivider);
+                    }
+                    
+                    results = mm256_blendv_si256(results, c, cmp);
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epi64v3(v256 n, v256 k)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<ulong4> loopDivider = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
 
-                        results = mm256_blendv_si256(results, c, cmp);
+                    mm256_PRELOOP_comb_ep64(ref n, ref k, out v256 results, out v256 i, out v256 c, true, 3);
+                    
+                    while (mm256_notallfalse_epi256<ulong>(cmp = Avx2.mm256_cmpgt_epi64(k, i)))
+                    {
+                        mm256_LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, 3);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+            
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epi64v4(v256 n, v256 k)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<ulong4> loopDivider = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
+
+                    mm256_PRELOOP_comb_ep64(ref n, ref k, out v256 results, out v256 i, out v256 c, true, 4);
+                    
+                    while (mm256_notallfalse_epi256<ulong>(cmp = Avx2.mm256_cmpgt_epi64(k, i)))
+                    {
+                        mm256_LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, 4);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epu64v3(v256 n, v256 k)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<ulong4> loopDivider = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
+
+                    mm256_PRELOOP_comb_ep64(ref n, ref k, out v256 results, out v256 i, out v256 c, false, 3);
+
+                    while (mm256_notallfalse_epi256<ulong>(cmp = mm256_cmpgt_epu64(k, i, 3), 3))
+                    {
+                        mm256_LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, 3);
+                    }
+
+                    return results;
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            private static v256 impl_mm256_comb_epu64v4(v256 n, v256 k)
+            {
+                if (Avx2.IsAvx2Supported)
+                {
+                    Divider<ulong4> loopDivider = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    int indexCurrentDivider = 0;
+                    v256 cmp;
+
+                    mm256_PRELOOP_comb_ep64(ref n, ref k, out v256 results, out v256 i, out v256 c, false, 4);
+
+                    while (mm256_notallfalse_epi256<ulong>(cmp = mm256_cmpgt_epu64(k, i, 4), 4))
+                    {
+                        mm256_LOOP_comb_ep64(ref n, ref i, ref c, ref results, ref loopDivider, ref indexCurrentDivider, cmp, 4);
                     }
 
                     return results;
@@ -4325,7 +5410,7 @@ Assert.IsNotGreater(k, n);
 
                 if (Avx2.IsAvx2Supported)
                 {
-                    Divider<ulong4> loopDivider = new Divider<ulong4>(new ulong4(9, 10, 11, 12), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
+                    Divider<ulong4> loopDivider = new Divider<ulong4>(COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance ? new ulong4(9, 10, 11, 12) : new ulong4(2, 3, 4, 5), Divider<ulong4>.WELL_KNOWN_COMB_PROMISES);
                     int indexCurrentDivider = 0;
 
                     while (k > i++)
@@ -4362,6 +5447,7 @@ Assert.IsNotGreater(k, n);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+
                 return Xse.comb_epu64(n, k, useFactorial.CountUnsafeLevels());
             }
             else

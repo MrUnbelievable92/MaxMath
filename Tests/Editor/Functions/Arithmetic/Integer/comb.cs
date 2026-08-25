@@ -2639,7 +2639,16 @@ namespace MaxMath.Tests
                 c = math.comb(n, 0);
                 for (int j = 0; j < 3; j++)
                 {
+                    try
+                    {
+
                     AssertEqual(c[j], n[j], 0);
+                    }
+                    catch (System.Exception)
+                    {
+                        UnityEngine.Debug.Log(j);
+                        throw;
+                    }
                 }
 
                 c = math.comb(n, new ulong3(0, 1, 0));

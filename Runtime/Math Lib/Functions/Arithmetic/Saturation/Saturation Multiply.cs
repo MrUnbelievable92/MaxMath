@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -502,8 +503,8 @@ namespace MaxMath
                         return result;
                     }
 
-                    UInt128 x = MaxMath.UInt128.umul128(a.ULong0, b.ULong0);
-                    UInt128 y = MaxMath.UInt128.umul128(a.ULong1, b.ULong1);
+                    UInt128 x = UInt128.umul128(a.ULong0, b.ULong0);
+                    UInt128 y = UInt128.umul128(a.ULong1, b.ULong1);
 
                     v128 _NOT_OverflowMask = cmpeq_epi64(setzero_si128(), new v128(x.hi64, y.hi64));
 
@@ -1008,8 +1009,8 @@ namespace MaxMath
 
                     v128 MAX_VALUE = srli_epi64(setall_si128(), 1);
 
-                    UInt128 x = MaxMath.UInt128.umul128(a.ULong0, b.ULong0);
-                    UInt128 y = MaxMath.UInt128.umul128(a.ULong1, b.ULong1);
+                    UInt128 x = UInt128.umul128(a.ULong0, b.ULong0);
+                    UInt128 y = UInt128.umul128(a.ULong1, b.ULong1);
                     v128 xNegative = srai_epi64(a, 63);
                     v128 yNegative = srai_epi64(b, 63);
                     v128 mask = sub_epi64(MAX_VALUE, xor_si128(xNegative, yNegative));
@@ -1083,7 +1084,7 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Multiplies <paramref name="x"/> with <paramref name="y"/> and returns the result, which is clamped to <see cref="MaxMath.UInt128.MaxValue"/> if overflow occurs.    </summary>
+        /// <summary>       Multiplies <paramref name="x"/> with <paramref name="y"/> and returns the result, which is clamped to <see cref="UInt128.MaxValue"/> if overflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 mulsaturated(UInt128 x, UInt128 y)
         {
@@ -1098,7 +1099,7 @@ namespace MaxMath
 
             __UInt256__ product = __UInt256__.umul256(x, y);
 
-            return select(product.lo128, MaxMath.UInt128.MaxValue, product.hi128.IsNotZero);
+            return select(product.lo128, UInt128.MaxValue, product.hi128.IsNotZero);
         }
 
 
@@ -1444,7 +1445,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            UInt128 product = MaxMath.UInt128.umul128(x, y);
+            UInt128 product = UInt128.umul128(x, y);
 
             return product.lo64 | (ulong)(-(long)tobyte(product.hi64 != 0));
         }
@@ -1808,7 +1809,7 @@ namespace MaxMath
                 return addsaturated(x, x);
             }
 
-            Int128 product = MaxMath.UInt128.imul128(x, y);
+            Int128 product = UInt128.imul128(x, y);
 
             return (long)product.hi64 < -1 ? long.MinValue : product.hi64 != 0 ? long.MaxValue : (long)product.lo64;
         }
@@ -1920,6 +1921,14 @@ namespace MaxMath
         public static double4 mulsaturated(double4 x, double4 y)
         {
             return clamp(x * y, double.MinValue, double.MaxValue);
+        }
+
+
+        /// <summary>       Multiplies <paramref name="x"/> with <paramref name="y"/> and returns the result, which is clamped to <see cref="quadruple.MaxValue"/> if overflow occurs or <see cref="quadruple.MinValue"/> if underflow occurs.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple mulsaturated(quadruple x, quadruple y)
+        {
+            return clamp(x * y, quadruple.MinValue, quadruple.MaxValue);
         }
     }
 }

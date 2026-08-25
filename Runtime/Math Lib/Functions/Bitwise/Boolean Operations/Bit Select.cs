@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -29,7 +30,7 @@ namespace MaxMath
             return (byte)bits_select((uint)a, (uint)b, (uint)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.byte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="byte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 bits_select(byte2 a, byte2 b, byte2 c)
         {
@@ -43,7 +44,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.byte3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="byte3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 bits_select(byte3 a, byte3 b, byte3 c)
         {
@@ -57,7 +58,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.byte4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="byte4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 bits_select(byte4 a, byte4 b, byte4 c)
         {
@@ -71,7 +72,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.byte8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="byte8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 bits_select(byte8 a, byte8 b, byte8 c)
         {
@@ -92,7 +93,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.byte16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="byte16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 bits_select(byte16 a, byte16 b, byte16 c)
         {
@@ -121,7 +122,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.byte32"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="byte32"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 bits_select(byte32 a, byte32 b, byte32 c)
         {
@@ -143,42 +144,42 @@ namespace MaxMath
             return (sbyte)bits_select((byte)a, (byte)b, (byte)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.sbyte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="sbyte2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 bits_select(sbyte2 a, sbyte2 b, sbyte2 c)
         {
             return (sbyte2)bits_select((byte2)a, (byte2)b, (byte2)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.sbyte3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="sbyte3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 bits_select(sbyte3 a, sbyte3 b, sbyte3 c)
         {
             return (sbyte3)bits_select((byte3)a, (byte3)b, (byte3)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.sbyte4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="sbyte4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 bits_select(sbyte4 a, sbyte4 b, sbyte4 c)
         {
             return (sbyte4)bits_select((byte4)a, (byte4)b, (byte4)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.sbyte8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="sbyte8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 bits_select(sbyte8 a, sbyte8 b, sbyte8 c)
         {
             return (sbyte8)bits_select((byte8)a, (byte8)b, (byte8)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.sbyte16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="sbyte16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 bits_select(sbyte16 a, sbyte16 b, sbyte16 c)
         {
             return (sbyte16)bits_select((byte16)a, (byte16)b, (byte16)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.sbyte32"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="sbyte32"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 bits_select(sbyte32 a, sbyte32 b, sbyte32 c)
         {
@@ -193,7 +194,7 @@ namespace MaxMath
             return (ushort)bits_select((uint)a, (uint)b, (uint)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.ushort2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="ushort2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 bits_select(ushort2 a, ushort2 b, ushort2 c)
         {
@@ -207,7 +208,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.ushort3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="ushort3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 bits_select(ushort3 a, ushort3 b, ushort3 c)
         {
@@ -221,7 +222,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.ushort4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="ushort4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 bits_select(ushort4 a, ushort4 b, ushort4 c)
         {
@@ -235,7 +236,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.ushort8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="ushort8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 bits_select(ushort8 a, ushort8 b, ushort8 c)
         {
@@ -256,7 +257,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.ushort16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="ushort16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 bits_select(ushort16 a, ushort16 b, ushort16 c)
         {
@@ -278,35 +279,35 @@ namespace MaxMath
             return (short)bits_select((ushort)a, (ushort)b, (ushort)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.short2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="short2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 bits_select(short2 a, short2 b, short2 c)
         {
             return (short2)bits_select((ushort2)a, (ushort2)b, (ushort2)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.short3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="short3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 bits_select(short3 a, short3 b, short3 c)
         {
             return (short3)bits_select((ushort3)a, (ushort3)b, (ushort3)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.short4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="short4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 bits_select(short4 a, short4 b, short4 c)
         {
             return (short4)bits_select((ushort4)a, (ushort4)b, (ushort4)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.short8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="short8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 bits_select(short8 a, short8 b, short8 c)
         {
             return (short8)bits_select((ushort8)a, (ushort8)b, (ushort8)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.short16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="short16"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 bits_select(short16 a, short16 b, short16 c)
         {
@@ -321,7 +322,7 @@ namespace MaxMath
             return andnot(a, c) | (b & c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.uint2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="uint2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 bits_select(uint2 a, uint2 b, uint2 c)
         {
@@ -335,7 +336,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.uint3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="uint3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 bits_select(uint3 a, uint3 b, uint3 c)
         {
@@ -349,7 +350,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.uint4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="uint4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 bits_select(uint4 a, uint4 b, uint4 c)
         {
@@ -363,7 +364,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.uint8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="uint8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 bits_select(uint8 a, uint8 b, uint8 c)
         {
@@ -385,28 +386,28 @@ namespace MaxMath
             return (int)bits_select((uint)a, (uint)b, (uint)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.int2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="int2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 bits_select(int2 a, int2 b, int2 c)
         {
             return (int2)bits_select((uint2)a, (uint2)b, (uint2)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.int3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="int3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 bits_select(int3 a, int3 b, int3 c)
         {
             return (int3)bits_select((uint3)a, (uint3)b, (uint3)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.int4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="int4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 bits_select(int4 a, int4 b, int4 c)
         {
             return (int4)bits_select((uint4)a, (uint4)b, (uint4)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.int8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="int8"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 bits_select(int8 a, int8 b, int8 c)
         {
@@ -421,7 +422,7 @@ namespace MaxMath
             return andnot(a, c) | (b & c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.ulong2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="ulong2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 bits_select(ulong2 a, ulong2 b, ulong2 c)
         {
@@ -435,7 +436,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.ulong3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="ulong3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 bits_select(ulong3 a, ulong3 b, ulong3 c)
         {
@@ -449,7 +450,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.ulong4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="ulong4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 bits_select(ulong4 a, ulong4 b, ulong4 c)
         {
@@ -471,21 +472,21 @@ namespace MaxMath
             return (long)bits_select((ulong)a, (ulong)b, (ulong)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.long2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="long2"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 bits_select(long2 a, long2 b, long2 c)
         {
             return (long2)bits_select((ulong2)a, (ulong2)b, (ulong2)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.long3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="long3"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 bits_select(long3 a, long3 b, long3 c)
         {
             return (long3)bits_select((ulong3)a, (ulong3)b, (ulong3)c);
         }
 
-        /// <summary>       Returns a bitwise selection between two <see cref="MaxMath.long4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
+        /// <summary>       Returns a bitwise selection between two <see cref="long4"/>s <paramref name="a"/> and <paramref name="b"/> based on a bitmask <paramref name="c"/>. For each bit, the bit from <paramref name="b"/> is selected when the corresponding LSB order bit in <paramref name="c"/> is 1, otherwise the bit from <paramref name="a"/> is selected.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 bits_select(long4 a, long4 b, long4 c)
         {

@@ -19,7 +19,7 @@ namespace MaxMath
             internal const uint RCP32_PRECISION_LOSS_U16 = 0x4000_0002;
 
             internal const uint MAX_ACCURATE_INT_SQRT_F32 = 16_785_406;
-            internal const ulong MAX_ACCURATE_INT_SQRT_F64 = 2275475126346874; // NO, larger
+            internal const ulong MAX_ACCURATE_INT_SQRT_F64 = 4_503_239_301_588_329;
             internal static UInt128 MAX_SQRT_F64_NO_UI64_OVERFLOW_UI128 => new UInt128(0xFFFF_FFFF_FFFF_FFFF, 0xFFFF_FFFF_FFFF_FBFF);
         }
     }

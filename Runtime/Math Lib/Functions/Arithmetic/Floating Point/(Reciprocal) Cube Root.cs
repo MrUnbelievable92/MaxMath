@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -1112,7 +1114,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.float2"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="float2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1133,7 +1135,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.float3"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="float3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1154,7 +1156,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.float4"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="float4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1175,7 +1177,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.float8"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="float8"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1269,7 +1271,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.double2"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="double2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0 values, including negative 0.                                                                </para>
@@ -1290,7 +1292,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.double3"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="double3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0 values, including negative 0.                                                                </para>
@@ -1311,7 +1313,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise cube root of a <see cref="MaxMath.double4"/>.
+        /// <summary>       Returns the componentwise cube root of a <see cref="double4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0 values, including negative 0.                                                                </para>
@@ -1330,6 +1332,82 @@ namespace MaxMath
             {
                 return new double4(cbrt(x.xy, promises), cbrt(x.zw, promises));
             }
+        }
+
+
+        /// <summary>       Returns the cube root of a <see cref="quadruple"/>.    </summary>
+        public static quadruple cbrt(quadruple x)
+        {
+            ulong sign = x.value.hi64 & (1ul << 63);
+            if (!isfinite(x) | quadruple.IsZero(x))
+            {
+                return x;
+            }
+
+            quadruple.ConstChecked __x = abs(x);
+            __x.Promise.MakeFiniteNotNaN();
+            __x.Promise.Positive = true;
+            quadruple.ConstChecked y = frexp(__x, out int e);
+            y.Promise.MakeFiniteNotNaN();
+
+            y = quadruple.fmadd(y,
+                quadruple.fmadd(y,
+                quadruple.fmsub(y,
+                quadruple.fmadd(y,
+                quadruple.fmsub(y, LUT.R_CBRT.F128_C0,
+                                   LUT.R_CBRT.F128_C1),
+                                   LUT.R_CBRT.F128_C2),
+                                   LUT.R_CBRT.F128_C3),
+                                   LUT.R_CBRT.F128_C4),
+                                   LUT.R_CBRT.F128_C5);
+            if (e >= 0)
+            {
+                int rem = e;
+                e /= 3;
+                rem -= 3 * e;
+                if (rem == 1)
+                {
+                    y *= CBRT2_QUAD;
+                }
+                else if (rem == 2)
+                {
+                    y *= CBRT4_QUAD;
+                }
+            }
+            else
+            {
+                e = -e;
+                int rem = e;
+                e /= 3;
+                rem -= 3 * e;
+                if (rem == 1)
+                {
+                    y *= RCBRT2_QUAD;
+                }
+                else if (rem == 2)
+                {
+                    y *= RCBRT4_QUAD;
+                }
+                e = -e;
+            }
+
+            y = ldexp(y, e);
+
+            y = quadruple.fnmadd(ONE_THIRD_QUADRUPLE,   y - (__x / square(y)),   y);
+            y = quadruple.fnmadd(ONE_THIRD_QUADRUPLE,   y - (__x / square(y)),   y);
+
+            if (COMPILATION_OPTIONS.FLOAT_PRECISION != FloatPrecision.Low)
+            {
+                y = quadruple.fnmadd(ONE_THIRD_QUADRUPLE,   y - (__x / square(y)),   y);
+            }
+
+            y.Value = new quadruple(y.Value.value.lo64, y.Value.value.hi64 ^ sign);
+            if (sign != 0)
+            {
+                y.Promise.Negative = true;
+            }
+
+            return y;
         }
 
 
@@ -1405,7 +1483,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.float2"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="float2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1426,7 +1504,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.float3"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="float3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1447,7 +1525,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.float4"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="float4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1468,7 +1546,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.float8"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="float8"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.        </para>
@@ -1558,7 +1636,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.double2"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="double2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.                                                              </para>
@@ -1579,7 +1657,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.double3"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="double3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.                                                              </para>
@@ -1600,7 +1678,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="MaxMath.double4"/>.
+        /// <summary>       Returns the componentwise reciprocal cube root of a <see cref="double4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values, including negative 0.       </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0, including negative 0.                                                              </para>
@@ -1619,6 +1697,93 @@ namespace MaxMath
             {
                 return new double4(rcbrt(x.xy, promises), rcbrt(x.zw, promises));
             }
+        }
+
+        
+        /// <summary>       Returns the reciprocal cube root of a <see cref="quadruple"/>.     </summary>
+        public static quadruple rcbrt(quadruple x)
+        {
+            ulong sign = x.value.hi64 & (1ul << 63);
+
+            if (!isfinite(x))
+            {
+                if (isnan(x))
+                {
+                    return x;
+                }
+
+                return copysign(0, x);
+            }
+            if (x == 0)
+            {
+                return new quadruple(quadruple.PositiveInfinity.value.lo64, quadruple.PositiveInfinity.value.hi64 | x.value.hi64);
+            }
+            
+            quadruple.ConstChecked __x = abs(x);
+            __x.Promise.MakeFiniteNotNaN();
+            __x.Promise.Positive = true;
+            quadruple.ConstChecked y = frexp(__x, out int e);
+            y.Promise.MakeFiniteNotNaN();
+
+            y = quadruple.fmadd(y,
+                quadruple.fmadd(y,
+                quadruple.fmsub(y,
+                quadruple.fmadd(y,
+                quadruple.fmsub(y, LUT.R_CBRT.F128_C0,
+                                   LUT.R_CBRT.F128_C1),
+                                   LUT.R_CBRT.F128_C2),
+                                   LUT.R_CBRT.F128_C3),
+                                   LUT.R_CBRT.F128_C4),
+                                   LUT.R_CBRT.F128_C5);
+            if (e >= 0)
+            {
+                int rem = e;
+                e = (int)((uint)e / 3);
+                rem -= 3 * e;
+                if (rem == 1)
+                {
+                    y *= CBRT2_QUAD;
+                }
+                else if (rem == 2)
+                {
+                    y *= CBRT4_QUAD;
+                }
+            }
+            else
+            {
+                int rem = e = -e;
+                e = (int)((uint)e / 3);
+                rem -= 3 * e;
+                if (rem == 1)
+                {
+                    y *= RCBRT2_QUAD;
+                }
+                else if (rem == 2)
+                {
+                    y *= RCBRT4_QUAD;
+                }
+                e = -e;
+            }
+
+            quadruple.ConstChecked thirdX = __x * ONE_THIRD_QUADRUPLE;
+            y = ldexp(y, e);
+            quadruple inv = rcp(y);
+
+            y = inv *  quadruple.fnmadd(thirdX / y,   square(inv),   FOUR_THIRDS_QUADRUPLE);
+            y       *= quadruple.fnmadd(thirdX * y,   square(y),     FOUR_THIRDS_QUADRUPLE);
+
+            if (COMPILATION_OPTIONS.FLOAT_PRECISION != FloatPrecision.Low)
+            {
+                y *= quadruple.fnmadd(thirdX * y,   square(y),   FOUR_THIRDS_QUADRUPLE);
+            }
+            
+            y.Value = new quadruple(y.Value.value.lo64, y.Value.value.hi64 ^ sign);
+            if (sign != 0)
+            {
+                y.Promise.Negative = true;
+            }
+
+            return y;
         }
     }
 }

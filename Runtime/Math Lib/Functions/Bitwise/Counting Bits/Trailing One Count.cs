@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -32,6 +33,24 @@ namespace MaxMath
                     }
 
                     constexpr.ASSUME_LE_EPU8(result, 8);
+
+                    constexpr.ASSUME(result.Byte0  == math.t1cnt(a.Byte0));
+                    constexpr.ASSUME(result.Byte1  == math.t1cnt(a.Byte1));
+                    constexpr.ASSUME(result.Byte2  == math.t1cnt(a.Byte2));
+                    constexpr.ASSUME(result.Byte3  == math.t1cnt(a.Byte3));
+                    constexpr.ASSUME(result.Byte4  == math.t1cnt(a.Byte4));
+                    constexpr.ASSUME(result.Byte5  == math.t1cnt(a.Byte5));
+                    constexpr.ASSUME(result.Byte6  == math.t1cnt(a.Byte6));
+                    constexpr.ASSUME(result.Byte7  == math.t1cnt(a.Byte7));
+                    constexpr.ASSUME(result.Byte8  == math.t1cnt(a.Byte8));
+                    constexpr.ASSUME(result.Byte9  == math.t1cnt(a.Byte9));
+                    constexpr.ASSUME(result.Byte10 == math.t1cnt(a.Byte10));
+                    constexpr.ASSUME(result.Byte11 == math.t1cnt(a.Byte11));
+                    constexpr.ASSUME(result.Byte12 == math.t1cnt(a.Byte12));
+                    constexpr.ASSUME(result.Byte13 == math.t1cnt(a.Byte13));
+                    constexpr.ASSUME(result.Byte14 == math.t1cnt(a.Byte14));
+                    constexpr.ASSUME(result.Byte15 == math.t1cnt(a.Byte15));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -51,6 +70,40 @@ namespace MaxMath
                                                       Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_HI, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, Avx2.mm256_srli_epi16(a, 4))));
 
                     constexpr.ASSUME_LE_EPU8(result, 8);
+
+                    constexpr.ASSUME(result.Byte0  == math.t1cnt(a.Byte0));
+                    constexpr.ASSUME(result.Byte1  == math.t1cnt(a.Byte1));
+                    constexpr.ASSUME(result.Byte2  == math.t1cnt(a.Byte2));
+                    constexpr.ASSUME(result.Byte3  == math.t1cnt(a.Byte3));
+                    constexpr.ASSUME(result.Byte4  == math.t1cnt(a.Byte4));
+                    constexpr.ASSUME(result.Byte5  == math.t1cnt(a.Byte5));
+                    constexpr.ASSUME(result.Byte6  == math.t1cnt(a.Byte6));
+                    constexpr.ASSUME(result.Byte7  == math.t1cnt(a.Byte7));
+                    constexpr.ASSUME(result.Byte8  == math.t1cnt(a.Byte8));
+                    constexpr.ASSUME(result.Byte9  == math.t1cnt(a.Byte9));
+                    constexpr.ASSUME(result.Byte10 == math.t1cnt(a.Byte10));
+                    constexpr.ASSUME(result.Byte11 == math.t1cnt(a.Byte11));
+                    constexpr.ASSUME(result.Byte12 == math.t1cnt(a.Byte12));
+                    constexpr.ASSUME(result.Byte13 == math.t1cnt(a.Byte13));
+                    constexpr.ASSUME(result.Byte14 == math.t1cnt(a.Byte14));
+                    constexpr.ASSUME(result.Byte15 == math.t1cnt(a.Byte15));
+                    constexpr.ASSUME(result.Byte16 == math.t1cnt(a.Byte16));
+                    constexpr.ASSUME(result.Byte17 == math.t1cnt(a.Byte17));
+                    constexpr.ASSUME(result.Byte18 == math.t1cnt(a.Byte18));
+                    constexpr.ASSUME(result.Byte19 == math.t1cnt(a.Byte19));
+                    constexpr.ASSUME(result.Byte20 == math.t1cnt(a.Byte20));
+                    constexpr.ASSUME(result.Byte21 == math.t1cnt(a.Byte21));
+                    constexpr.ASSUME(result.Byte22 == math.t1cnt(a.Byte22));
+                    constexpr.ASSUME(result.Byte23 == math.t1cnt(a.Byte23));
+                    constexpr.ASSUME(result.Byte24 == math.t1cnt(a.Byte24));
+                    constexpr.ASSUME(result.Byte25 == math.t1cnt(a.Byte25));
+                    constexpr.ASSUME(result.Byte26 == math.t1cnt(a.Byte26));
+                    constexpr.ASSUME(result.Byte27 == math.t1cnt(a.Byte27));
+                    constexpr.ASSUME(result.Byte28 == math.t1cnt(a.Byte28));
+                    constexpr.ASSUME(result.Byte29 == math.t1cnt(a.Byte29));
+                    constexpr.ASSUME(result.Byte30 == math.t1cnt(a.Byte30));
+                    constexpr.ASSUME(result.Byte31 == math.t1cnt(a.Byte31));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -79,6 +132,16 @@ namespace MaxMath
                     }
 
                     constexpr.ASSUME_LE_EPU8(result, 16);
+
+                    constexpr.ASSUME(result.UShort0  == math.t1cnt(a.UShort0));
+                    constexpr.ASSUME(result.UShort1  == math.t1cnt(a.UShort1));
+                    constexpr.ASSUME(result.UShort2  == math.t1cnt(a.UShort2));
+                    constexpr.ASSUME(result.UShort3  == math.t1cnt(a.UShort3));
+                    constexpr.ASSUME(result.UShort4  == math.t1cnt(a.UShort4));
+                    constexpr.ASSUME(result.UShort5  == math.t1cnt(a.UShort5));
+                    constexpr.ASSUME(result.UShort6  == math.t1cnt(a.UShort6));
+                    constexpr.ASSUME(result.UShort7  == math.t1cnt(a.UShort7));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -100,6 +163,24 @@ namespace MaxMath
                     v256 result = Avx2.mm256_min_epu8(t1cnt_bytes, Avx2.mm256_srli_epi16(Avx2.mm256_add_epi8(t1cnt_bytes, mm256_set1_epi8(8)), 8));
 
                     constexpr.ASSUME_LE_EPU8(result, 16);
+
+                    constexpr.ASSUME(result.UShort0  == math.t1cnt(a.UShort0));
+                    constexpr.ASSUME(result.UShort1  == math.t1cnt(a.UShort1));
+                    constexpr.ASSUME(result.UShort2  == math.t1cnt(a.UShort2));
+                    constexpr.ASSUME(result.UShort3  == math.t1cnt(a.UShort3));
+                    constexpr.ASSUME(result.UShort4  == math.t1cnt(a.UShort4));
+                    constexpr.ASSUME(result.UShort5  == math.t1cnt(a.UShort5));
+                    constexpr.ASSUME(result.UShort6  == math.t1cnt(a.UShort6));
+                    constexpr.ASSUME(result.UShort7  == math.t1cnt(a.UShort7));
+                    constexpr.ASSUME(result.UShort8  == math.t1cnt(a.UShort8));
+                    constexpr.ASSUME(result.UShort9  == math.t1cnt(a.UShort9));
+                    constexpr.ASSUME(result.UShort10 == math.t1cnt(a.UShort10));
+                    constexpr.ASSUME(result.UShort11 == math.t1cnt(a.UShort11));
+                    constexpr.ASSUME(result.UShort12 == math.t1cnt(a.UShort12));
+                    constexpr.ASSUME(result.UShort13 == math.t1cnt(a.UShort13));
+                    constexpr.ASSUME(result.UShort14 == math.t1cnt(a.UShort14));
+                    constexpr.ASSUME(result.UShort15 == math.t1cnt(a.UShort15));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -110,7 +191,17 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return tzcnt_epi32(not_si128(a), elements);
+                    v128 result = tzcnt_epi32(not_si128(a), elements);
+                    
+                    constexpr.ASSUME(result.UInt0  == math.t1cnt(a.UInt0));
+                    constexpr.ASSUME(result.UInt1  == math.t1cnt(a.UInt1));
+                    if (elements > 2)
+                    {
+                        constexpr.ASSUME(result.UInt2  == math.t1cnt(a.UInt2));
+                        constexpr.ASSUME(result.UInt3  == math.t1cnt(a.UInt3));
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -120,7 +211,18 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_tzcnt_epi32(mm256_not_si256(a));
+                    v256 result = mm256_tzcnt_epi32(mm256_not_si256(a));
+
+                    constexpr.ASSUME(result.UInt0  == math.t1cnt(a.UInt0));
+                    constexpr.ASSUME(result.UInt1  == math.t1cnt(a.UInt1));
+                    constexpr.ASSUME(result.UInt2  == math.t1cnt(a.UInt2));
+                    constexpr.ASSUME(result.UInt3  == math.t1cnt(a.UInt3));
+                    constexpr.ASSUME(result.UInt4  == math.t1cnt(a.UInt4));
+                    constexpr.ASSUME(result.UInt5  == math.t1cnt(a.UInt5));
+                    constexpr.ASSUME(result.UInt6  == math.t1cnt(a.UInt6));
+                    constexpr.ASSUME(result.UInt7  == math.t1cnt(a.UInt7));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -131,7 +233,12 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return tzcnt_epi64(not_si128(a));
+                    v128 result = tzcnt_epi64(not_si128(a));
+
+                    constexpr.ASSUME(result.ULong0  == math.t1cnt(a.ULong0));
+                    constexpr.ASSUME(result.ULong1  == math.t1cnt(a.ULong1));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -141,7 +248,14 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_tzcnt_epi64(mm256_not_si256(a));
+                    v256 result = mm256_tzcnt_epi64(mm256_not_si256(a));
+
+                    constexpr.ASSUME(result.ULong0  == math.t1cnt(a.ULong0));
+                    constexpr.ASSUME(result.ULong1  == math.t1cnt(a.ULong1));
+                    constexpr.ASSUME(result.ULong2  == math.t1cnt(a.ULong2));
+                    constexpr.ASSUME(result.ULong3  == math.t1cnt(a.ULong3));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -183,7 +297,7 @@ namespace MaxMath
             return tzcnt((byte)~x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.byte2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="byte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 t1cnt(byte2 x)
         {
@@ -197,7 +311,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.byte3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="byte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 t1cnt(byte3 x)
         {
@@ -211,7 +325,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.byte4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="byte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 t1cnt(byte4 x)
         {
@@ -225,7 +339,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.byte8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="byte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 t1cnt(byte8 x)
         {
@@ -239,7 +353,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.byte16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="byte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 t1cnt(byte16 x)
         {
@@ -253,7 +367,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.byte32"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="byte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 t1cnt(byte32 x)
         {
@@ -276,42 +390,42 @@ namespace MaxMath
             return t1cnt((byte)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="MaxMath.sbyte2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 t1cnt(sbyte2 x)
         {
             return (sbyte2)t1cnt((byte2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="MaxMath.sbyte3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 t1cnt(sbyte3 x)
         {
             return (sbyte3)t1cnt((byte3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="MaxMath.sbyte4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 t1cnt(sbyte4 x)
         {
             return (sbyte4)t1cnt((byte4)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="MaxMath.sbyte8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 t1cnt(sbyte8 x)
         {
             return (sbyte8)t1cnt((byte8)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="MaxMath.sbyte16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 t1cnt(sbyte16 x)
         {
             return (sbyte16)t1cnt((byte16)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="MaxMath.sbyte32"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 t1cnt(sbyte32 x)
         {
@@ -327,7 +441,7 @@ namespace MaxMath
             return tzcnt((ushort)~x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ushort2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="ushort2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 t1cnt(ushort2 x)
         {
@@ -341,7 +455,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ushort3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="ushort3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 t1cnt(ushort3 x)
         {
@@ -355,7 +469,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ushort4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="ushort4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 t1cnt(ushort4 x)
         {
@@ -369,7 +483,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ushort8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="ushort8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 t1cnt(ushort8 x)
         {
@@ -383,7 +497,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ushort16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="ushort16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 t1cnt(ushort16 x)
         {
@@ -406,35 +520,35 @@ namespace MaxMath
             return t1cnt((ushort)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.short2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 t1cnt(short2 x)
         {
             return (short2)t1cnt((ushort2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.short3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 t1cnt(short3 x)
         {
             return (short3)t1cnt((ushort3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.short4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 t1cnt(short4 x)
         {
             return (short4)t1cnt((ushort4)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.short8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 t1cnt(short8 x)
         {
             return (short8)t1cnt((ushort8)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.short16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 t1cnt(short16 x)
         {
@@ -450,7 +564,7 @@ namespace MaxMath
             return tzcnt(~x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.uint2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="uint2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 t1cnt(uint2 x)
         {
@@ -464,7 +578,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.uint3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="uint3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 t1cnt(uint3 x)
         {
@@ -478,7 +592,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.uint4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="uint4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 t1cnt(uint4 x)
         {
@@ -492,7 +606,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.uint8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="uint8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 t1cnt(uint8 x)
         {
@@ -515,28 +629,28 @@ namespace MaxMath
             return t1cnt((uint)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.int2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 t1cnt(int2 x)
         {
             return t1cnt((uint2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.int3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 t1cnt(int3 x)
         {
             return t1cnt((uint3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.int4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 t1cnt(int4 x)
         {
             return t1cnt((uint4)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="MaxMath.int8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of an <see cref="int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 t1cnt(int8 x)
         {
@@ -552,7 +666,7 @@ namespace MaxMath
             return tzcnt(~x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ulong2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="ulong2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 t1cnt(ulong2 x)
         {
@@ -566,7 +680,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ulong3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="ulong3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 t1cnt(ulong3 x)
         {
@@ -580,7 +694,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.ulong4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="ulong4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 t1cnt(ulong4 x)
         {
@@ -603,21 +717,21 @@ namespace MaxMath
             return t1cnt((ulong)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.long2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 t1cnt(long2 x)
         {
             return (long2)t1cnt((ulong2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.long3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 t1cnt(long3 x)
         {
             return (long3)t1cnt((ulong3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="MaxMath.long4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing ones in the binary representations of a <see cref="long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 t1cnt(long4 x)
         {

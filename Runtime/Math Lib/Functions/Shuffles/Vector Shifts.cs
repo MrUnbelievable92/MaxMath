@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -238,42 +239,42 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 vshl(bool2 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 vshl(bool3 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 vshl(bool4 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 vshl(bool8 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 vshl(bool16 x, int n)
         {
             return tobool(vshl(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 vshl(bool32 x, int n)
         {
@@ -281,7 +282,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="int2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vshl(int2 x, int n)
         {
@@ -300,7 +301,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="int3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vshl(int3 x, int n)
         {
@@ -320,7 +321,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="int4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int4 vshl(int4 x, int n)
@@ -342,7 +343,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="int8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int8 vshl(int8 x, int n)
@@ -431,28 +432,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="uint2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 vshl(uint2 x, int n)
         {
             return (uint2)vshl((int2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="uint3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 vshl(uint3 x, int n)
         {
             return (uint3)vshl((int3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="uint4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 vshl(uint4 x, int n)
         {
             return (uint4)vshl((int4)x, n);
         }
 
-        /// <summary>       Returns the result of rotating the components within a <see cref="MaxMath.uint8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of rotating the components within a <see cref="uint8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 vshl(uint8 x, int n)
         {
@@ -460,42 +461,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 vshl(quarter2 x, int n)
         {
             return asquarter(vshl(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 vshl(quarter3 x, int n)
         {
             return asquarter(vshl(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 vshl(quarter4 x, int n)
         {
             return asquarter(vshl(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 vshl(quarter8 x, int n)
         {
             return asquarter(vshl(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter16 vshl(quarter16 x, int n)
         {
             return asquarter(vshl(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter32 vshl(quarter32 x, int n)
         {
@@ -503,35 +504,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vshl(half2 x, int n)
         {
             return ashalf(vshl(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 vshl(half3 x, int n)
         {
             return ashalf(vshl(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 vshl(half4 x, int n)
         {
             return ashalf(vshl(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vshl(half8 x, int n)
         {
             return ashalf(vshl(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half16 vshl(half16 x, int n)
         {
@@ -539,28 +540,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="float2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vshl(float2 x, int n)
         {
             return asfloat(vshl(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="float3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 vshl(float3 x, int n)
         {
             return asfloat(vshl(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="float4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 vshl(float4 x, int n)
         {
             return asfloat(vshl(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="float8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vshl(float8 x, int n)
         {
@@ -568,21 +569,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="double2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 vshl(double2 x, int n)
         {
             return asdouble(vshl(aslong(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="double3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 vshl(double3 x, int n)
         {
             return asdouble(vshl(aslong(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="double4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 vshl(double4 x, int n)
         {
@@ -590,7 +591,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vshl(byte2 x, int n)
         {
@@ -609,7 +610,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vshl(byte3 x, int n)
         {
@@ -629,7 +630,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte4 vshl(byte4 x, int n)
@@ -658,7 +659,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte8 vshl(byte8 x, int n)
@@ -691,7 +692,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte16 vshl(byte16 x, int n)
@@ -725,7 +726,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte32 vshl(byte32 x, int n)
@@ -911,42 +912,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 vshl(sbyte2 x, int n)
         {
             return (sbyte2)vshl((byte2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 vshl(sbyte3 x, int n)
         {
             return (sbyte3)vshl((byte3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 vshl(sbyte4 x, int n)
         {
             return (sbyte4)vshl((byte4)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 vshl(sbyte8 x, int n)
         {
             return (sbyte8)vshl((byte8)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 vshl(sbyte16 x, int n)
         {
             return (sbyte16)vshl((byte16)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 vshl(sbyte32 x, int n)
         {
@@ -954,7 +955,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vshl(short2 x, int n)
         {
@@ -973,7 +974,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vshl(short3 x, int n)
         {
@@ -993,7 +994,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short4 vshl(short4 x, int n)
@@ -1022,7 +1023,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short8 vshl(short8 x, int n)
@@ -1048,7 +1049,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short16 vshl(short16 x, int n)
@@ -1178,35 +1179,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 vshl(ushort2 x, int n)
         {
             return (ushort2)vshl((short2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 vshl(ushort3 x, int n)
         {
             return (ushort3)vshl((short3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 vshl(ushort4 x, int n)
         {
             return (ushort4)vshl((short4)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 vshl(ushort8 x, int n)
         {
             return (ushort8)vshl((short8)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 vshl(ushort16 x, int n)
         {
@@ -1214,7 +1215,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.long2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="long2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vshl(long2 x, int n)
         {
@@ -1233,7 +1234,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.long3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="long3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 vshl(long3 x, int n)
         {
@@ -1270,7 +1271,7 @@ namespace MaxMath
 
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.long4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="long4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static long4 vshl(long4 x, int n)
@@ -1357,21 +1358,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ulong2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ulong2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 vshl(ulong2 x, int n)
         {
             return (ulong2)vshl((long2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ulong3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ulong3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 vshl(ulong3 x, int n)
         {
             return (ulong3)vshl((long3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ulong4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ulong4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 vshl(ulong4 x, int n)
         {
@@ -1379,42 +1380,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2 vshl(mask8x2 x, int n)
         {
             return (v128)vshl((byte2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3 vshl(mask8x3 x, int n)
         {
             return (v128)vshl((byte3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4 vshl(mask8x4 x, int n)
         {
             return (v128)vshl((byte4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x8 vshl(mask8x8 x, int n)
         {
             return (v128)vshl((byte8)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x16 vshl(mask8x16 x, int n)
         {
             return (v128)vshl((byte16)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool32"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x32 vshl(mask8x32 x, int n)
         {
@@ -1422,35 +1423,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2 vshl(mask16x2 x, int n)
         {
             return (v128)vshl((ushort2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3 vshl(mask16x3 x, int n)
         {
             return (v128)vshl((ushort3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4 vshl(mask16x4 x, int n)
         {
             return (v128)vshl((ushort4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x8 vshl(mask16x8 x, int n)
         {
             return (v128)vshl((ushort8)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool16"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x16 vshl(mask16x16 x, int n)
         {
@@ -1458,28 +1459,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2 vshl(mask32x2 x, int n)
         {
             return (v128)vshl((uint2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3 vshl(mask32x3 x, int n)
         {
             return (v128)vshl((uint3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4 vshl(mask32x4 x, int n)
         {
             return (v128)vshl((uint4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool8"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x8 vshl(mask32x8 x, int n)
         {
@@ -1487,21 +1488,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2 vshl(mask64x2 x, int n)
         {
             return (v128)vshl((ulong2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3 vshl(mask64x3 x, int n)
         {
             return (v256)vshl((ulong3)(v256)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> left by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4 vshl(mask64x4 x, int n)
         {
@@ -1509,49 +1510,49 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool2 vshr(bool2 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool3 vshr(bool3 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool4 vshr(bool4 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool8 vshr(bool8 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool16 vshr(bool16 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool32 vshr(bool32 x, int n)
         {
             return tobool(vshr(tobyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="int2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 vshr(int2 x, int n)
         {
@@ -1570,7 +1571,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="int3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 vshr(int3 x, int n)
         {
@@ -1590,7 +1591,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="int4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int4 vshr(int4 x, int n)
@@ -1612,7 +1613,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.int8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="int8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static int8 vshr(int8 x, int n)
@@ -1707,28 +1708,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="uint2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 vshr(uint2 x, int n)
         {
             return (uint2)vshr((int2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="uint3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 vshr(uint3 x, int n)
         {
             return (uint3)vshr((int3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="uint4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 vshr(uint4 x, int n)
         {
             return (uint4)vshr((int4)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.uint8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="uint8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 vshr(uint8 x, int n)
         {
@@ -1736,42 +1737,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 vshr(quarter2 x, int n)
         {
             return asquarter(vshr(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 vshr(quarter3 x, int n)
         {
             return asquarter(vshr(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 vshr(quarter4 x, int n)
         {
             return asquarter(vshr(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 vshr(quarter8 x, int n)
         {
             return asquarter(vshr(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter16 vshr(quarter16 x, int n)
         {
             return asquarter(vshr(asbyte(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.quarter32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="quarter32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter32 vshr(quarter32 x, int n)
         {
@@ -1779,63 +1780,63 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 vshr(half2 x, int n)
         {
             return ashalf(vshr(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 vshr(half3 x, int n)
         {
             return ashalf(vshr(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 vshr(half4 x, int n)
         {
             return ashalf(vshr(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 vshr(half8 x, int n)
         {
             return ashalf(vshr(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.half16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="half16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half16 vshr(half16 x, int n)
         {
             return ashalf(vshr(asshort(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="float2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 vshr(float2 x, int n)
         {
             return asfloat(vshr(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="float3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 vshr(float3 x, int n)
         {
             return asfloat(vshr(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="float4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 vshr(float4 x, int n)
         {
             return asfloat(vshr(asint(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.float8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="float8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 vshr(float8 x, int n)
         {
@@ -1843,7 +1844,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="double2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 vshr(double2 x, int n)
         {
@@ -1851,14 +1852,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="double3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 vshr(double3 x, int n)
         {
             return asdouble(vshr(aslong(x), n));
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.double4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="double4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 vshr(double4 x, int n)
         {
@@ -1866,7 +1867,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 vshr(byte2 x, int n)
         {
@@ -1885,7 +1886,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 vshr(byte3 x, int n)
         {
@@ -1905,7 +1906,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte4 vshr(byte4 x, int n)
@@ -1934,7 +1935,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte8 vshr(byte8 x, int n)
@@ -1967,7 +1968,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte16 vshr(byte16 x, int n)
@@ -2001,7 +2002,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.byte32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="byte32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static byte32 vshr(byte32 x, int n)
@@ -2187,42 +2188,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 vshr(sbyte2 x, int n)
         {
             return (sbyte2)vshr((byte2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 vshr(sbyte3 x, int n)
         {
             return (sbyte3)vshr((byte3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 vshr(sbyte4 x, int n)
         {
             return (sbyte4)vshr((byte4)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 vshr(sbyte8 x, int n)
         {
             return (sbyte8)vshr((byte8)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 vshr(sbyte16 x, int n)
         {
             return (sbyte16)vshr((byte16)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within an <see cref="MaxMath.sbyte32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within an <see cref="sbyte32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 vshr(sbyte32 x, int n)
         {
@@ -2230,7 +2231,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 vshr(short2 x, int n)
         {
@@ -2249,7 +2250,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 vshr(short3 x, int n)
         {
@@ -2269,7 +2270,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short4 vshr(short4 x, int n)
@@ -2291,7 +2292,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short8 vshr(short8 x, int n)
@@ -2317,7 +2318,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.short16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="short16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static short16 vshr(short16 x, int n)
@@ -2447,35 +2448,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 vshr(ushort2 x, int n)
         {
             return (ushort2)vshr((short2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 vshr(ushort3 x, int n)
         {
             return (ushort3)vshr((short3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 vshr(ushort4 x, int n)
         {
             return (ushort4)vshr((short4)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 vshr(ushort8 x, int n)
         {
             return (ushort8)vshr((short8)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ushort16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ushort16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 vshr(ushort16 x, int n)
         {
@@ -2484,7 +2485,7 @@ namespace MaxMath
 
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.long2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="long2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 vshr(long2 x, int n)
         {
@@ -2503,7 +2504,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.long3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="long3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 vshr(long3 x, int n)
         {
@@ -2539,7 +2540,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.long4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="long4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [SkipLocalsInit]
         public static long4 vshr(long4 x, int n)
@@ -2627,21 +2628,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ulong2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ulong2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 vshr(ulong2 x, int n)
         {
             return (ulong2)vshr((long2)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ulong3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ulong3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 vshr(ulong3 x, int n)
         {
             return (ulong3)vshr((long3)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.ulong4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="ulong4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 vshr(ulong4 x, int n)
         {
@@ -2649,42 +2650,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2 vshr(mask8x2 x, int n)
         {
             return (v128)vshr((byte2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3 vshr(mask8x3 x, int n)
         {
             return (v128)vshr((byte3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4 vshr(mask8x4 x, int n)
         {
             return (v128)vshr((byte4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x8 vshr(mask8x8 x, int n)
         {
             return (v128)vshr((byte8)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x16 vshr(mask8x16 x, int n)
         {
             return (v128)vshr((byte16)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool32"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 31], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x32 vshr(mask8x32 x, int n)
         {
@@ -2692,35 +2693,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2 vshr(mask16x2 x, int n)
         {
             return (v128)vshr((ushort2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3 vshr(mask16x3 x, int n)
         {
             return (v128)vshr((ushort3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4 vshr(mask16x4 x, int n)
         {
             return (v128)vshr((ushort4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x8 vshr(mask16x8 x, int n)
         {
             return (v128)vshr((ushort8)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool16"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 15], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x16 vshr(mask16x16 x, int n)
         {
@@ -2728,28 +2729,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2 vshr(mask32x2 x, int n)
         {
             return (v128)vshr((uint2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3 vshr(mask32x3 x, int n)
         {
             return (v128)vshr((uint3)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4 vshr(mask32x4 x, int n)
         {
             return (v128)vshr((uint4)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool8"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 7], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x8 vshr(mask32x8 x, int n)
         {
@@ -2757,21 +2758,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool2"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 1], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2 vshr(mask64x2 x, int n)
         {
             return (v128)vshr((ulong2)(v128)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool3"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 2], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3 vshr(mask64x3 x, int n)
         {
             return (v256)vshr((ulong3)(v256)x, n);
         }
 
-        /// <summary>       Returns the result of shifting the components within a <see cref="MaxMath.bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
+        /// <summary>       Returns the result of shifting the components within a <see cref="bool4"/> right by <paramref name="n"/> while shifting in zeros. If <paramref name="n"/> is not in the interval [0, 3], the result is undefined.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4 vshr(mask64x4 x, int n)
         {

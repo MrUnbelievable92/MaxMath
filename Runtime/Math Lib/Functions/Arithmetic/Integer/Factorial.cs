@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -460,7 +462,7 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="MaxMath.UInt128.MaxValue"/>.
+        /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="UInt128.MaxValue"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation if <paramref name="x"/> is outside the interval [0, 34].       </para>
         /// </remarks>
@@ -479,51 +481,53 @@ namespace MaxMath
                 noOverflow |= Promise.NoOverflow;
             }
 
-            UInt128* TABLE = stackalloc UInt128[36]
-            {
-                1,
-                1,
-                2,
-                6,
-                24,
-                120,
-                720,
-                5_040,
-                40_320,
-                362_880,
-                3_628_800,
-                39_916_800,
-                479_001_600,
-                6_227_020_800ul,
-                87_178_291_200ul,
-                1_307_674_368_000ul,
-                20_922_789_888_000ul,
-                355_687_428_096_000ul,
-                6_402_373_705_728_000ul,
-                121_645_100_408_832_000ul,
-                2_432_902_008_176_640_000ul,
-                /*51_090_942_171_709_440_000*/new UInt128(0xC507_7D36_B8C4_0000, 0x0000_0000_0000_0002),
-                /*1_124_000_727_777_607_680_000*/new UInt128(0xEEA4_C2B3_E0D8_0000, 0x0000_0000_0000_003C),
-                /*25_852_016_738_884_976_640_000*/new UInt128(0x70CD_7E29_3368_0000, 0x0000_0000_0000_0579),
-                /*620_448_401_733_239_439_360_000*/new UInt128(0x9343_D3DC_D1C0_0000, 0x0000_0000_0000_8362),
-                /*15_511_210_043_330_985_984_000_000*/new UInt128(0x619F_B090_7BC0_0000, 0x0000_0000_000C_D4A0),
-                /*403_291_461_126_605_635_584_000_000*/new UInt128(0xEA37_EEAC_9180_0000, 0x0000_0000_014D_9849),
-                /*10_888_869_450_418_352_160_768_000_000*/new UInt128(0xB3E6_2C33_5880_0000, 0x0000_0000_232F_0FCB),
-                /*304_888_344_611_713_860_501_504_000_000*/new UInt128(0xAD2C_D59D_AE00_0000, 0x0000_0003_D925_BA47),
-                /*8_841_761_993_739_701_954_543_616_000_000*/new UInt128(0x9E14_32DC_B600_0000, 0x0000_006F_9946_1A1E),
-                /*265_252_859_812_191_058_636_308_480_000_000*/new UInt128(0x865D_F5DD_5400_0000, 0x0000_0D13_F637_0F96),
-                /*8_222_838_654_177_922_817_725_562_880_000_000*/new UInt128(0x4560_C5CD_2C00_0000, 0x0001_956A_D0AA_E33A),
-                /*263_130_836_933_693_530_167_218_012_160_000_000*/new UInt128(0xAC18_B9A5_8000_0000, 0x0032_AD5A_155C_6748),
-                /*8_683_317_618_811_886_495_518_194_401_280_000_000*/new UInt128(0x2F2F_EE55_8000_0000, 0x0688_589C_C0E9_505E),
-                /*295_232_799_039_604_140_847_618_609_643_520_000_000*/new UInt128(0x445D_A75B_0000_0000, 0xDE1B_C4D1_9EFC_AC82),
-                MaxMath.UInt128.MaxValue
-            };
-
             ulong offset = noOverflow.Promises(Promise.NoOverflow)
-                           ? (ulong)sizeof(UInt128) * x.lo64
-                           : min((ulong)sizeof(UInt128) * x.lo64, (ulong)sizeof(UInt128) * 35ul);
+                           ? x.lo64
+                           : min(x.lo64, 35ul);
 
-            return *(UInt128*)((byte*)TABLE + offset);
+            constexpr.ASSUME(offset >= 0 && offset <= 35);
+
+            switch (offset)
+            {
+                case 0:  return 1;
+                case 1:  return 1;
+                case 2:  return 2;
+                case 3:  return 6;
+                case 4:  return 24;
+                case 5:  return 120;
+                case 6:  return 720;
+                case 7:  return 5_040;
+                case 8:  return 40_320;
+                case 9:  return 362_880;
+                case 10: return 3_628_800;
+                case 11: return 39_916_800;
+                case 12: return 479_001_600;
+                case 13: return 6_227_020_800ul;
+                case 14: return 87_178_291_200ul;
+                case 15: return 1_307_674_368_000ul;
+                case 16: return 20_922_789_888_000ul;
+                case 17: return 355_687_428_096_000ul;
+                case 18: return 6_402_373_705_728_000ul;
+                case 19: return 121_645_100_408_832_000ul;
+                case 20: return 2_432_902_008_176_640_000ul;
+                case 21: return /*51_090_942_171_709_440_000*/new UInt128(0xC507_7D36_B8C4_0000, 0x0000_0000_0000_0002);
+                case 22: return /*1_124_000_727_777_607_680_000*/new UInt128(0xEEA4_C2B3_E0D8_0000, 0x0000_0000_0000_003C);
+                case 23: return /*25_852_016_738_884_976_640_000*/new UInt128(0x70CD_7E29_3368_0000, 0x0000_0000_0000_0579);
+                case 24: return /*620_448_401_733_239_439_360_000*/new UInt128(0x9343_D3DC_D1C0_0000, 0x0000_0000_0000_8362);
+                case 25: return /*15_511_210_043_330_985_984_000_000*/new UInt128(0x619F_B090_7BC0_0000, 0x0000_0000_000C_D4A0);
+                case 26: return /*403_291_461_126_605_635_584_000_000*/new UInt128(0xEA37_EEAC_9180_0000, 0x0000_0000_014D_9849);
+                case 27: return /*10_888_869_450_418_352_160_768_000_000*/new UInt128(0xB3E6_2C33_5880_0000, 0x0000_0000_232F_0FCB);
+                case 28: return /*304_888_344_611_713_860_501_504_000_000*/new UInt128(0xAD2C_D59D_AE00_0000, 0x0000_0003_D925_BA47);
+                case 29: return /*8_841_761_993_739_701_954_543_616_000_000*/new UInt128(0x9E14_32DC_B600_0000, 0x0000_006F_9946_1A1E);
+                case 30: return /*265_252_859_812_191_058_636_308_480_000_000*/new UInt128(0x865D_F5DD_5400_0000, 0x0000_0D13_F637_0F96);
+                case 31: return /*8_222_838_654_177_922_817_725_562_880_000_000*/new UInt128(0x4560_C5CD_2C00_0000, 0x0001_956A_D0AA_E33A);
+                case 32: return /*263_130_836_933_693_530_167_218_012_160_000_000*/new UInt128(0xAC18_B9A5_8000_0000, 0x0032_AD5A_155C_6748);
+                case 33: return /*8_683_317_618_811_886_495_518_194_401_280_000_000*/new UInt128(0x2F2F_EE55_8000_0000, 0x0688_589C_C0E9_505E);
+                case 34: return /*295_232_799_039_604_140_847_618_609_643_520_000_000*/new UInt128(0x445D_A75B_0000_0000, 0xDE1B_C4D1_9EFC_AC82);
+                case 35: return UInt128.MaxValue;
+
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the factorial of <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="Int128.MaxValue"/>.
@@ -552,50 +556,52 @@ namespace MaxMath
                 }
             }
 
-            Int128* TABLE = stackalloc Int128[35]
-            {
-                1,
-                1,
-                2,
-                6,
-                24,
-                120,
-                720,
-                5_040,
-                40_320,
-                362_880,
-                3_628_800,
-                39_916_800,
-                479_001_600,
-                6_227_020_800ul,
-                87_178_291_200ul,
-                1_307_674_368_000ul,
-                20_922_789_888_000ul,
-                355_687_428_096_000ul,
-                6_402_373_705_728_000ul,
-                121_645_100_408_832_000ul,
-                2_432_902_008_176_640_000ul,
-                /*51_090_942_171_709_440_000*/new Int128(0xC507_7D36_B8C4_0000, 0x0000_0000_0000_0002),
-                /*1_124_000_727_777_607_680_000*/new Int128(0xEEA4_C2B3_E0D8_0000, 0x0000_0000_0000_003C),
-                /*25_852_016_738_884_976_640_000*/new Int128(0x70CD_7E29_3368_0000, 0x0000_0000_0000_0579),
-                /*620_448_401_733_239_439_360_000*/new Int128(0x9343_D3DC_D1C0_0000, 0x0000_0000_0000_8362),
-                /*15_511_210_043_330_985_984_000_000*/new Int128(0x619F_B090_7BC0_0000, 0x0000_0000_000C_D4A0),
-                /*403_291_461_126_605_635_584_000_000*/new Int128(0xEA37_EEAC_9180_0000, 0x0000_0000_014D_9849),
-                /*10_888_869_450_418_352_160_768_000_000*/new Int128(0xB3E6_2C33_5880_0000, 0x0000_0000_232F_0FCB),
-                /*304_888_344_611_713_860_501_504_000_000*/new Int128(0xAD2C_D59D_AE00_0000, 0x0000_0003_D925_BA47),
-                /*8_841_761_993_739_701_954_543_616_000_000*/new Int128(0x9E14_32DC_B600_0000, 0x0000_006F_9946_1A1E),
-                /*265_252_859_812_191_058_636_308_480_000_000*/new Int128(0x865D_F5DD_5400_0000, 0x0000_0D13_F637_0F96),
-                /*8_222_838_654_177_922_817_725_562_880_000_000*/new Int128(0x4560_C5CD_2C00_0000, 0x0001_956A_D0AA_E33A),
-                /*263_130_836_933_693_530_167_218_012_160_000_000*/new Int128(0xAC18_B9A5_8000_0000, 0x0032_AD5A_155C_6748),
-                /*8_683_317_618_811_886_495_518_194_401_280_000_000*/new Int128(0x2F2F_EE55_8000_0000, 0x0688_589C_C0E9_505E),
-                MaxMath.Int128.MaxValue
-            };
-
             int offset = noOverflow.Promises(Promise.NoOverflow)
-                         ? sizeof(Int128) * (int)x.lo64
-                         : (int)min((uint)(sizeof(Int128) * (uint)x), (uint)sizeof(Int128) * 34u);
+                         ? (int)x.lo64
+                         : (int)min((uint)x, 34u);
 
-            return *(Int128*)((byte*)TABLE + offset);
+            constexpr.ASSUME(offset >= 0 && offset <= 34);
+            
+            switch (offset)
+            {
+                case 0:  return 1;
+                case 1:  return 1;
+                case 2:  return 2;
+                case 3:  return 6;
+                case 4:  return 24;
+                case 5:  return 120;
+                case 6:  return 720;
+                case 7:  return 5_040;
+                case 8:  return 40_320;
+                case 9:  return 362_880;
+                case 10: return 3_628_800;
+                case 11: return 39_916_800;
+                case 12: return 479_001_600;
+                case 13: return 6_227_020_800ul;
+                case 14: return 87_178_291_200ul;
+                case 15: return 1_307_674_368_000ul;
+                case 16: return 20_922_789_888_000ul;
+                case 17: return 355_687_428_096_000ul;
+                case 18: return 6_402_373_705_728_000ul;
+                case 19: return 121_645_100_408_832_000ul;
+                case 20: return 2_432_902_008_176_640_000ul;
+                case 21: return /*51_090_942_171_709_440_000*/new Int128(0xC507_7D36_B8C4_0000, 0x0000_0000_0000_0002);
+                case 22: return /*1_124_000_727_777_607_680_000*/new Int128(0xEEA4_C2B3_E0D8_0000, 0x0000_0000_0000_003C);
+                case 23: return /*25_852_016_738_884_976_640_000*/new Int128(0x70CD_7E29_3368_0000, 0x0000_0000_0000_0579);
+                case 24: return /*620_448_401_733_239_439_360_000*/new Int128(0x9343_D3DC_D1C0_0000, 0x0000_0000_0000_8362);
+                case 25: return /*15_511_210_043_330_985_984_000_000*/new Int128(0x619F_B090_7BC0_0000, 0x0000_0000_000C_D4A0);
+                case 26: return /*403_291_461_126_605_635_584_000_000*/new Int128(0xEA37_EEAC_9180_0000, 0x0000_0000_014D_9849);
+                case 27: return /*10_888_869_450_418_352_160_768_000_000*/new Int128(0xB3E6_2C33_5880_0000, 0x0000_0000_232F_0FCB);
+                case 28: return /*304_888_344_611_713_860_501_504_000_000*/new Int128(0xAD2C_D59D_AE00_0000, 0x0000_0003_D925_BA47);
+                case 29: return /*8_841_761_993_739_701_954_543_616_000_000*/new Int128(0x9E14_32DC_B600_0000, 0x0000_006F_9946_1A1E);
+                case 30: return /*265_252_859_812_191_058_636_308_480_000_000*/new Int128(0x865D_F5DD_5400_0000, 0x0000_0D13_F637_0F96);
+                case 31: return /*8_222_838_654_177_922_817_725_562_880_000_000*/new Int128(0x4560_C5CD_2C00_0000, 0x0001_956A_D0AA_E33A);
+                case 32: return /*263_130_836_933_693_530_167_218_012_160_000_000*/new Int128(0xAC18_B9A5_8000_0000, 0x0032_AD5A_155C_6748);
+                case 33: return /*8_683_317_618_811_886_495_518_194_401_280_000_000*/new Int128(0x2F2F_EE55_8000_0000, 0x0688_589C_C0E9_505E);
+                case 34: return MaxMath.Int128.MaxValue;
+
+                default: throw Assert.Unreachable();
+            }
         }
 
 
@@ -612,13 +618,24 @@ namespace MaxMath
                 noOverflow |= Promise.NoOverflow;
             }
 
-            ulong TABLE = bitfield(1, 1, 2, 6, 24, 120, byte.MaxValue, byte.MaxValue);
-
             uint offset = noOverflow.Promises(Promise.NoOverflow)
-                          ? sizeof(byte) * (uint)x
-                          : min(sizeof(byte) * (uint)x, sizeof(byte) * 7);
+                          ? (uint)x
+                          : min((uint)x, 6);
+            
+            constexpr.ASSUME(offset >= 0 && offset <= 6);
+            
+            switch (offset)
+            {
+                case 0:  return 1;
+                case 1:  return 1;
+                case 2:  return 2;
+                case 3:  return 6;
+                case 4:  return 24;
+                case 5:  return 120;
+                case 6:  return byte.MaxValue;
 
-            return *((byte*)&TABLE + offset);
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="byte.MaxValue"/>.
@@ -743,14 +760,24 @@ namespace MaxMath
                 noOverflow |= Promise.NoOverflow;
             }
 
-
-            ulong TABLE = bitfield(1, 1, 2, 6, 24, 120, sbyte.MaxValue, sbyte.MaxValue);
-
             int offset = noOverflow.Promises(Promise.NoOverflow)
-                         ? sizeof(byte) * (int)x
-                         : (int)min((uint)(sizeof(byte) * (byte)x), (uint)sizeof(byte) * 7u);
+                         ? (int)x
+                         : (int)min((uint)((byte)x), 6u);
+            
+            constexpr.ASSUME(offset >= 0 && offset <= 6);
+            
+            switch (offset)
+            {
+                case 0:  return 1;
+                case 1:  return 1;
+                case 2:  return 2;
+                case 3:  return 6;
+                case 4:  return 24;
+                case 5:  return 120;
+                case 6:  return sbyte.MaxValue;
 
-            return *((sbyte*)&TABLE + offset);
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="sbyte.MaxValue"/>.
@@ -881,13 +908,27 @@ namespace MaxMath
                 noOverflow |= Promise.NoOverflow;
             }
 
-            ushort* TABLE = stackalloc ushort[10] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, ushort.MaxValue };
-
             uint offset = noOverflow.Promises(Promise.NoOverflow)
-                          ? sizeof(ushort) * (uint)x
-                          : min(sizeof(ushort) * (uint)x, sizeof(ushort) * 9);
+                          ? (uint)x
+                          : min((uint)x, 9);
 
-            return *(ushort*)((byte*)TABLE + offset);
+            constexpr.ASSUME(offset >= 0 && offset <= 9);
+            
+            switch (offset)
+            {
+                case 0: return 1;
+                case 1: return 1;
+                case 2: return 2;
+                case 3: return 6;
+                case 4: return 24;
+                case 5: return 120;
+                case 6: return 720;
+                case 7: return 5_040;
+                case 8: return 40_320;
+                case 9: return ushort.MaxValue;
+
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ushort.MaxValue"/>.
@@ -1000,13 +1041,26 @@ namespace MaxMath
                 return factorial((byte)x, noOverflow);
             }
 
-            short* TABLE = stackalloc short[9] { 1, 1, 2, 6, 24, 120, 720, 5_040, short.MaxValue };
-
             int offset = noOverflow.Promises(Promise.NoOverflow)
-                         ? sizeof(short) * (int)x
-                         : (int)min((uint)(sizeof(short) * (ushort)x), (uint)sizeof(short) * 8u);
+                         ? (int)x
+                         : (int)min((ushort)x, 8u);
 
-            return *(short*)((byte*)TABLE + offset);
+            constexpr.ASSUME(offset >= 0 && offset <= 8);
+            
+            switch (offset)
+            {
+                case 0: return 1;
+                case 1: return 1;
+                case 2: return 2;
+                case 3: return 6;
+                case 4: return 24;
+                case 5: return 120;
+                case 6: return 720;
+                case 7: return 5_040;
+                case 8: return short.MaxValue;
+
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="short.MaxValue"/>.
@@ -1119,13 +1173,31 @@ namespace MaxMath
                 noOverflow |= Promise.NoOverflow;
             }
 
-            uint* TABLE = stackalloc uint[14] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, uint.MaxValue };
-
             uint offset = noOverflow.Promises(Promise.NoOverflow)
-                          ? sizeof(uint) * (uint)x
-                          : min(sizeof(uint) * (uint)x, sizeof(uint) * 13);
+                          ? x
+                          : min(x, 13);
+            
+            constexpr.ASSUME(offset >= 0 && offset <= 13);
+            
+            switch (offset)
+            {
+                case 0:  return 1;
+                case 1:  return 1;
+                case 2:  return 2;
+                case 3:  return 6;
+                case 4:  return 24;
+                case 5:  return 120;
+                case 6:  return 720;
+                case 7:  return 5_040;
+                case 8:  return 40_320;
+                case 9:  return 362_880;
+                case 10: return 3_628_800;
+                case 11: return 39_916_800;
+                case 12: return 479_001_600;
+                case 13: return uint.MaxValue;
 
-            return *(uint*)((byte*)TABLE + offset);
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="uint.MaxValue"/>.
@@ -1227,13 +1299,31 @@ namespace MaxMath
                 }
             }
 
-            int* TABLE = stackalloc int[14] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, int.MaxValue };
-
             int offset = noOverflow.Promises(Promise.NoOverflow)
-                         ? sizeof(int) * (int)x
-                         : (int)min((uint)(sizeof(int) * (uint)x), (uint)sizeof(int) * 13u);
+                         ? x
+                         : min(x, 13);
+            
+            constexpr.ASSUME(offset >= 0 && offset <= 13);
+            
+            switch (offset)
+            {
+                case 0:  return 1;
+                case 1:  return 1;
+                case 2:  return 2;
+                case 3:  return 6;
+                case 4:  return 24;
+                case 5:  return 120;
+                case 6:  return 720;
+                case 7:  return 5_040;
+                case 8:  return 40_320;
+                case 9:  return 362_880;
+                case 10: return 3_628_800;
+                case 11: return 39_916_800;
+                case 12: return 479_001_600;
+                case 13: return int.MaxValue;
 
-            return *(int*)((byte*)TABLE + offset);
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="int.MaxValue"/>.
@@ -1328,13 +1418,39 @@ namespace MaxMath
                 noOverflow |= Promise.NoOverflow;
             }
 
-            ulong* TABLE = stackalloc ulong[22] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, 6_227_020_800ul, 87_178_291_200ul, 1_307_674_368_000ul, 20_922_789_888_000ul, 355_687_428_096_000ul, 6_402_373_705_728_000ul, 121_645_100_408_832_000ul, 2_432_902_008_176_640_000ul, ulong.MaxValue };
-
             ulong offset = noOverflow.Promises(Promise.NoOverflow)
-                           ? sizeof(ulong) * (ulong)x
-                           : min(sizeof(ulong) * (ulong)x, sizeof(ulong) * 21);
+                           ? x
+                           : min(x, 21);
+            
+            constexpr.ASSUME(offset >= 0 && offset <= 21);
+            
+            switch (offset)
+            {
+                case 0:  return 1;
+                case 1:  return 1;
+                case 2:  return 2;
+                case 3:  return 6;
+                case 4:  return 24;
+                case 5:  return 120;
+                case 6:  return 720;
+                case 7:  return 5_040;
+                case 8:  return 40_320;
+                case 9:  return 362_880;
+                case 10: return 3_628_800;
+                case 11: return 39_916_800;
+                case 12: return 479_001_600;
+                case 13: return 6_227_020_800ul;
+                case 14: return 87_178_291_200ul;
+                case 15: return 1_307_674_368_000ul;
+                case 16: return 20_922_789_888_000ul;
+                case 17: return 355_687_428_096_000ul;
+                case 18: return 6_402_373_705_728_000ul;
+                case 19: return 121_645_100_408_832_000ul;
+                case 20: return 2_432_902_008_176_640_000ul;
+                case 21: return ulong.MaxValue;
 
-            return *(ulong*)((byte*)TABLE + offset);
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="ulong.MaxValue"/>.
@@ -1418,13 +1534,39 @@ namespace MaxMath
                 }
             }
 
-            long* TABLE = stackalloc long[22] { 1, 1, 2, 6, 24, 120, 720, 5_040, 40_320, 362_880, 3_628_800, 39_916_800, 479_001_600, 6_227_020_800L, 87_178_291_200L, 1_307_674_368_000L, 20_922_789_888_000L, 355_687_428_096_000L, 6_402_373_705_728_000L, 121_645_100_408_832_000L, 2_432_902_008_176_640_000L, long.MaxValue };
+            long offset = noOverflow.Promises(Promise.NoOverflow)
+                          ? x
+                          : min(x, 21);
+            
+            constexpr.ASSUME(offset >= 0 && offset <= 21);
+            
+            switch (offset)
+            {
+                case 0:  return 1;
+                case 1:  return 1;
+                case 2:  return 2;
+                case 3:  return 6;
+                case 4:  return 24;
+                case 5:  return 120;
+                case 6:  return 720;
+                case 7:  return 5_040;
+                case 8:  return 40_320;
+                case 9:  return 362_880;
+                case 10: return 3_628_800;
+                case 11: return 39_916_800;
+                case 12: return 479_001_600;
+                case 13: return 6_227_020_800L;
+                case 14: return 87_178_291_200L;
+                case 15: return 1_307_674_368_000L;
+                case 16: return 20_922_789_888_000L;
+                case 17: return 355_687_428_096_000L;
+                case 18: return 6_402_373_705_728_000L;
+                case 19: return 121_645_100_408_832_000L;
+                case 20: return 2_432_902_008_176_640_000L;
+                case 21: return long.MaxValue;
 
-            int offset = noOverflow.Promises(Promise.NoOverflow)
-                         ? sizeof(long) * (int)x
-                         : (int)min((uint)(sizeof(long) * (uint)x), (uint)sizeof(long) * 21u);
-
-            return *(long*)((byte*)TABLE + offset);
+                default: throw Assert.Unreachable();
+            }
         }
 
         /// <summary>   Returns the componentwise factorial of each <paramref name="x"/>, where any <paramref name="x"/>! causing an overflow results in <see cref="long.MaxValue"/>.

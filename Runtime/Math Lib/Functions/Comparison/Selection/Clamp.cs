@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -122,6 +123,14 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
+        /// <summary>       Returns the result of clamping the float value <paramref name="x"/> into the interval [0, 1].      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple saturate(quadruple x)
+        {
+            return clamp(x, 0, 1);
+        }
+
+
         /// <summary>       Returns the result of a clamping of a <see cref="double"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double saturate(double x)
@@ -129,21 +138,21 @@ namespace MaxMath
             return Unity.Mathematics.math.saturate(x);
         }
         
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.double4"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="double4"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 saturate(double2 x)
         {
             return Unity.Mathematics.math.saturate(x);
         }
         
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.double3"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="double3"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 saturate(double3 x)
         {
             return Unity.Mathematics.math.saturate(x);
         }
         
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.double4"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="double4"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 saturate(double4 x)
         {
@@ -158,7 +167,7 @@ namespace MaxMath
             return asfloat((uint)andnot(min(asuint(x), asuint(1f)), asint(x) >> 31));
         }
         
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.float4"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="float4"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 saturate(float2 x)
         {
@@ -172,7 +181,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.float3"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="float3"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 saturate(float3 x)
         {
@@ -186,7 +195,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.float4"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="float4"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 saturate(float4 x)
         {
@@ -200,7 +209,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.float8"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="float8"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 saturate(float8 x)
         {
@@ -215,14 +224,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a clamping of the value <see cref="MaxMath.quarter"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a clamping of the value <see cref="quarter"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter saturate(quarter x)
         {
             return asquarter(andnot(min(x.value, ONE_AS_QUARTER), (byte)((sbyte)x.value >> 31)));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.quarter2"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="quarter2"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 saturate(quarter2 x)
         {
@@ -236,7 +245,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.quarter3"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="quarter3"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 saturate(quarter3 x)
         {
@@ -250,7 +259,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.quarter4"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="quarter4"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 saturate(quarter4 x)
         {
@@ -264,7 +273,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.quarter8"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="quarter8"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 saturate(quarter8 x)
         {
@@ -285,7 +294,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.quarter16"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="quarter16"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter16 saturate(quarter16 x)
         {
@@ -314,7 +323,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.quarter32"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="quarter32"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter32 saturate(quarter32 x)
         {
@@ -329,14 +338,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a clamping of the value <see cref="MaxMath.half"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a clamping of the value <see cref="half"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half saturate(half x)
         {
             return ashalf(andnot(min(x.value, ONE_AS_HALF), (ushort)((short)x.value >> 31)));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.half2"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="half2"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 saturate(half2 x)
         {
@@ -350,7 +359,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.half3"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="half3"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 saturate(half3 x)
         {
@@ -364,7 +373,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.half4"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="half4"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 saturate(half4 x)
         {
@@ -378,7 +387,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.half8"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="half8"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 saturate(half8 x)
         {
@@ -399,7 +408,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of a <see cref="MaxMath.half16"/> into the interval [0, 1].       </summary>
+        /// <summary>       Returns the result of a componentwise clamping of a <see cref="half16"/> into the interval [0, 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half16 saturate(half16 x)
         {
@@ -436,42 +445,42 @@ namespace MaxMath
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.byte2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="byte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 clamp(byte2 x, byte2 a, byte2 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.byte3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="byte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 clamp(byte3 x, byte3 a, byte3 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.byte4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="byte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 clamp(byte4 x, byte4 a, byte4 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.byte8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="byte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 clamp(byte8 x, byte8 a, byte8 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.byte16"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="byte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 clamp(byte16 x, byte16 a, byte16 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.byte32"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="byte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 clamp(byte32 x, byte32 a, byte32 b)
         {
@@ -486,42 +495,42 @@ namespace MaxMath
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.sbyte2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="sbyte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 clamp(sbyte2 x, sbyte2 a, sbyte2 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.sbyte3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="sbyte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 clamp(sbyte3 x, sbyte3 a, sbyte3 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.sbyte4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="sbyte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 clamp(sbyte4 x, sbyte4 a, sbyte4 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.sbyte8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="sbyte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 clamp(sbyte8 x, sbyte8 a, sbyte8 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.sbyte16"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="sbyte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 clamp(sbyte16 x, sbyte16 a, sbyte16 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.sbyte32"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="sbyte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 clamp(sbyte32 x, sbyte32 a, sbyte32 b)
         {
@@ -536,35 +545,35 @@ namespace MaxMath
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.ushort2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="ushort2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 clamp(ushort2 x, ushort2 a, ushort2 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.ushort3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="ushort3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 clamp(ushort3 x, ushort3 a, ushort3 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.ushort4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="ushort4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 clamp(ushort4 x, ushort4 a, ushort4 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.ushort8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="ushort8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 clamp(ushort8 x, ushort8 a, ushort8 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.ushort16"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="ushort16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 clamp(ushort16 x, ushort16 a, ushort16 b)
         {
@@ -579,35 +588,35 @@ namespace MaxMath
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.short2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="short2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 clamp(short2 x, short2 a, short2 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.short3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="short3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 clamp(short3 x, short3 a, short3 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.short4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="short4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 clamp(short4 x, short4 a, short4 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.short8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="short8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 clamp(short8 x, short8 a, short8 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.short16"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="short16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 clamp(short16 x, short16 a, short16 b)
         {
@@ -622,28 +631,28 @@ namespace MaxMath
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.int2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="int2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 clamp(int2 x, int2 a, int2 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.int3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="int3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 clamp(int3 x, int3 a, int3 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.int4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="int4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 clamp(int4 x, int4 a, int4 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.int8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="int8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 clamp(int8 x, int8 a, int8 b)
         {
@@ -658,28 +667,28 @@ namespace MaxMath
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.uint2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="uint2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 clamp(uint2 x, uint2 a, uint2 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.uint3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="uint3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 clamp(uint3 x, uint3 a, uint3 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.uint4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="uint4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 clamp(uint4 x, uint4 a, uint4 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.uint8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="uint8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 clamp(uint8 x, uint8 a, uint8 b)
         {
@@ -694,21 +703,21 @@ namespace MaxMath
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.ulong2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="ulong2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 clamp(ulong2 x, ulong2 a, ulong2 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.ulong3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="ulong3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 clamp(ulong3 x, ulong3 a, ulong3 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.ulong4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="ulong4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 clamp(ulong4 x, ulong4 a, ulong4 b)
         {
@@ -723,28 +732,35 @@ namespace MaxMath
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.long2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="long2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 clamp(long2 x, long2 a, long2 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.long3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="long3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 clamp(long3 x, long3 a, long3 b)
         {
             return max(a, min(x, b));
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.long4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="long4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 clamp(long4 x, long4 a, long4 b)
         {
             return max(a, min(x, b));
         }
 
-        
+
+        /// <summary>       Returns the result of clamping the value <paramref name="valueToClamp"/> into the interval (inclusive) [<paramref name="lowerBound"/>, <paramref name="upperBound"/>], where <paramref name="valueToClamp"/>, <paramref name="lowerBound"/> and <paramref name="upperBound"/> are float values.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple clamp(quadruple valueToClamp, quadruple lowerBound, quadruple upperBound)
+        {
+            return max(lowerBound, min(upperBound, valueToClamp));
+        }
+
         /// <summary>       Returns the result of a clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="double"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
@@ -756,7 +772,7 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.double2"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="double2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -767,7 +783,7 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.double3"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="double3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -778,7 +794,7 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.double4"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="double4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -801,7 +817,7 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.float2"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="float2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -812,7 +828,7 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.float3"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="float3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -823,7 +839,7 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.float4"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="float4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -834,7 +850,7 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.float8"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="float8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -846,10 +862,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.half"/>s.
+        /// <summary>       Returns the result of a clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="half"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -858,10 +874,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.half2"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="half2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -870,10 +886,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.half3"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="half3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -882,10 +898,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.half4"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="half4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -894,10 +910,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.half8"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="half8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -906,10 +922,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.half16"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="half16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -919,10 +935,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.quarter"/>s.
+        /// <summary>       Returns the result of a clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="quarter"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="x"/>, <paramref name="b"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter clamp(quarter x, quarter a, quarter b, Promise promises = Promise.Nothing)
@@ -930,10 +946,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.quarter2"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="quarter2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -942,10 +958,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.quarter3"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="quarter3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -954,10 +970,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.quarter4"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="quarter4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -966,10 +982,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.quarter8"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="quarter8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -978,10 +994,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.quarter16"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="quarter16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -990,10 +1006,10 @@ namespace MaxMath
             return max(a, min(x, b, promises), promises);
         }
 
-        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="MaxMath.quarter32"/>s.
+        /// <summary>       Returns the result of a componentwise clamping of the value <paramref name="x"/> into the interval [<paramref name="a"/>, <paramref name="b"/>], where <paramref name="x"/>, <paramref name="a"/> and <paramref name="b"/> are <see cref="quarter32"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

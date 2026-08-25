@@ -1,7 +1,8 @@
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -458,7 +459,7 @@ namespace MaxMath
             return x >= 0 ? (sbyte)-x : x;
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.sbyte2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 nabs(sbyte2 x)
         {
@@ -472,7 +473,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.sbyte3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 nabs(sbyte3 x)
         {
@@ -486,7 +487,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.sbyte4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 nabs(sbyte4 x)
         {
@@ -500,7 +501,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.sbyte8"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 nabs(sbyte8 x)
         {
@@ -514,7 +515,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.sbyte16"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 nabs(sbyte16 x)
         {
@@ -528,7 +529,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.sbyte32"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 nabs(sbyte32 x)
         {
@@ -551,7 +552,7 @@ namespace MaxMath
             return x >= 0 ? (short)-x : x;
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.short2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 nabs(short2 x)
         {
@@ -565,7 +566,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.short3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 nabs(short3 x)
         {
@@ -579,7 +580,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.short4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 nabs(short4 x)
         {
@@ -593,7 +594,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.short8"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 nabs(short8 x)
         {
@@ -607,7 +608,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.short16"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 nabs(short16 x)
         {
@@ -630,7 +631,7 @@ namespace MaxMath
             return x >= 0 ? -x : x;
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.int2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 nabs(int2 x)
         {
@@ -644,7 +645,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.int3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 nabs(int3 x)
         {
@@ -658,7 +659,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.int4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 nabs(int4 x)
         {
@@ -672,7 +673,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of an <see cref="MaxMath.int8"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of an <see cref="int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 nabs(int8 x)
         {
@@ -695,7 +696,7 @@ namespace MaxMath
             return x >= 0 ? -x : x;
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.long2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 nabs(long2 x)
         {
@@ -709,7 +710,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.long3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 nabs(long3 x)
         {
@@ -723,7 +724,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.long4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 nabs(long4 x)
         {
@@ -738,7 +739,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the negative absolute value of a <see cref="MaxMath.quarter"/>.    </summary>
+        /// <summary>       Returns the negative absolute value of a <see cref="quarter"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter nabs(quarter x)
         {
@@ -752,7 +753,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.quarter2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="quarter2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 nabs(quarter2 x)
         {
@@ -766,7 +767,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.quarter3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="quarter3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 nabs(quarter3 x)
         {
@@ -780,7 +781,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.quarter4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="quarter4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 nabs(quarter4 x)
         {
@@ -794,7 +795,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.quarter8"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="quarter8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 nabs(quarter8 x)
         {
@@ -808,7 +809,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.quarter16"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="quarter16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter16 nabs(quarter16 x)
         {
@@ -822,7 +823,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.quarter32"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="quarter32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter32 nabs(quarter32 x)
         {
@@ -837,7 +838,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the negative absolute value of a <see cref="MaxMath.half"/>.    </summary>
+        /// <summary>       Returns the negative absolute value of a <see cref="half"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half nabs(half x)
         {
@@ -851,7 +852,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="half2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 nabs(half2 x)
         {
@@ -865,7 +866,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="half3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 nabs(half3 x)
         {
@@ -879,7 +880,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="half4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 nabs(half4 x)
         {
@@ -893,7 +894,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half8"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="half8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 nabs(half8 x)
         {
@@ -907,7 +908,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.half16"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="half16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half16 nabs(half16 x)
         {
@@ -936,7 +937,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.float2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="float2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 nabs(float2 x)
         {
@@ -950,7 +951,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.float3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="float3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 nabs(float3 x)
         {
@@ -964,7 +965,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.float4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="float4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 nabs(float4 x)
         {
@@ -978,7 +979,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.float8"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="float8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 nabs(float8 x)
         {
@@ -1007,7 +1008,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.double2"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="double2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 nabs(double2 x)
         {
@@ -1021,7 +1022,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.double3"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="double3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 nabs(double3 x)
         {
@@ -1035,7 +1036,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise negative absolute value of a <see cref="MaxMath.double4"/>.    </summary>
+        /// <summary>       Returns the componentwise negative absolute value of a <see cref="double4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 nabs(double4 x)
         {
@@ -1046,6 +1047,21 @@ namespace MaxMath
             else
             {
                 return new double4(nabs(x.xy), nabs(x.zw));
+            }
+        }
+
+        
+        /// <summary>       Returns the negative absolute value of a <see cref="quadruple"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple nabs(quadruple x)
+        {
+            if (constexpr.IS_TRUE((long)x.value.hi64 < 0))
+            {
+                return x;
+            }
+            else
+            {
+                return new quadruple(x.value.lo64, x.value.hi64 | (1ul << 63));
             }
         }
     }

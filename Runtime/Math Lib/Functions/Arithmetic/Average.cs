@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -491,7 +492,7 @@ namespace MaxMath
             return (byte)(((uint)x + (uint)y + 1u) / 2u);
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.byte2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="byte2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 avg(byte2 x, byte2 y)
         {
@@ -505,7 +506,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.byte3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="byte3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 avg(byte3 x, byte3 y)
         {
@@ -519,7 +520,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.byte4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="byte4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 avg(byte4 x, byte4 y)
         {
@@ -533,7 +534,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.byte8"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="byte8"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 avg(byte8 x, byte8 y)
         {
@@ -547,7 +548,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.byte16"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="byte16"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 avg(byte16 x, byte16 y)
         {
@@ -561,7 +562,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.byte32"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="byte32"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 avg(byte32 x, byte32 y)
         {
@@ -585,7 +586,7 @@ namespace MaxMath
             return (sbyte)((intermediate + (int)((uint)~intermediate >> 31)) >> 1);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.sbyte2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="sbyte2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 avg(sbyte2 x, sbyte2 y)
         {
@@ -599,7 +600,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.sbyte3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="sbyte3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 avg(sbyte3 x, sbyte3 y)
         {
@@ -613,7 +614,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.sbyte4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="sbyte4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 avg(sbyte4 x, sbyte4 y)
         {
@@ -627,7 +628,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.sbyte8"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="sbyte8"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 avg(sbyte8 x, sbyte8 y)
         {
@@ -641,7 +642,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.sbyte16"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="sbyte16"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 avg(sbyte16 x, sbyte16 y)
         {
@@ -655,7 +656,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.sbyte32"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="sbyte32"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 avg(sbyte32 x, sbyte32 y)
         {
@@ -677,7 +678,7 @@ namespace MaxMath
             return (ushort)(((uint)x + (uint)y + 1u) / 2u);
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ushort2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="ushort2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 avg(ushort2 x, ushort2 y)
         {
@@ -691,7 +692,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ushort3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="ushort3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 avg(ushort3 x, ushort3 y)
         {
@@ -705,7 +706,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ushort4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="ushort4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 avg(ushort4 x, ushort4 y)
         {
@@ -719,7 +720,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ushort4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="ushort4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 avg(ushort8 x, ushort8 y)
         {
@@ -733,7 +734,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ushort16"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="ushort16"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 avg(ushort16 x, ushort16 y)
         {
@@ -757,7 +758,7 @@ namespace MaxMath
             return (short)((intermediate + (int)((uint)~intermediate >> 31)) >> 1);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="short2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -775,7 +776,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="short3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -793,7 +794,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="short4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -811,7 +812,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short8"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="short8"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -829,7 +830,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.short16"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="short16"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>       A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
         /// </summary>
@@ -854,7 +855,7 @@ namespace MaxMath
             return (uint)(((ulong)x + (ulong)y + 1u) / 2);
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.uint2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -879,7 +880,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.uint3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -904,7 +905,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.uint4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -929,7 +930,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.uint8"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="uint8"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -957,7 +958,7 @@ namespace MaxMath
             return (int)((intermediate + (long)((ulong)~intermediate >> 63)) >> 1);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.int2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="int2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -975,7 +976,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.int3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="int3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -993,7 +994,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.int4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="int4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1011,7 +1012,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.int8"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="int8"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1048,7 +1049,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ulong2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="ulong2"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1073,7 +1074,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ulong3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="ulong3"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1091,7 +1092,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="MaxMath.ulong4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
+        /// <summary>       Returns the componentwise ceiling of the average value of two <see cref="ulong4"/>s, equivalent to ⌈(<paramref name="x"/> + <paramref name="y"/>) / 2⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1134,7 +1135,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.long2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="long2"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1152,7 +1153,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.long3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="long3"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1170,7 +1171,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.long4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
+        /// <summary>       Returns the componentwise average value of two <see cref="long4"/>s where fractional results round away from zero; equivalent to ((<paramref name="x"/> + <paramref name="y"/>) / 2 >= 0 ? 1 : -1) * ⌈|(<paramref name="x"/> + <paramref name="y"/>) / 2|⌉.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> <see langword="+"/> <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1 component pair that overflows. It is only recommended to use this overload if each <paramref name="x"/> or <paramref name="y"/> <see langword="+"/>/<see langword="-"/> 1, as well as each <see langword="("/><paramref name="x"/> <see langword="+"/> <paramref name="y"/><see langword=")"/> <see langword="+"/>/<see langword="-"/> 1 is guaranteed not to overflow.      </para>
         /// </remarks>
@@ -1205,7 +1206,7 @@ namespace MaxMath
             return 0.5f * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.float2"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="float2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 avg(float2 x, float2 y)
         {
@@ -1221,7 +1222,7 @@ namespace MaxMath
             return 0.5f * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.float3"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="float3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 avg(float3 x, float3 y)
         {
@@ -1237,7 +1238,7 @@ namespace MaxMath
             return 0.5f * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.float4"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="float4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 avg(float4 x, float4 y)
         {
@@ -1253,7 +1254,7 @@ namespace MaxMath
             return 0.5f * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.float8"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="float8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 avg(float8 x, float8 y)
         {
@@ -1286,7 +1287,7 @@ namespace MaxMath
             return 0.5d * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.double2"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="double2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 avg(double2 x, double2 y)
         {
@@ -1302,7 +1303,7 @@ namespace MaxMath
             return 0.5d * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.double3"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="double3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 avg(double3 x, double3 y)
         {
@@ -1318,7 +1319,7 @@ namespace MaxMath
             return 0.5d * (x + y);
         }
 
-        /// <summary>       Returns the componentwise average value of two <see cref="MaxMath.double4"/>s.     </summary>
+        /// <summary>       Returns the componentwise average value of two <see cref="double4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 avg(double4 x, double4 y)
         {
@@ -1332,6 +1333,23 @@ namespace MaxMath
             }
 
             return 0.5d * (x + y);
+        }
+
+
+        /// <summary>       Returns the average value of two <see cref="quadruple"/>s.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple avg(quadruple x, quadruple y)
+        {
+            if (constexpr.IS_CONST(x))
+            {
+                return mad(0.5, y, 0.5 * x);
+            }
+            if (constexpr.IS_CONST(y))
+            {
+                return mad(0.5, x, 0.5 * y);
+            }
+
+            return 0.5 * (x + y);
         }
     }
 }

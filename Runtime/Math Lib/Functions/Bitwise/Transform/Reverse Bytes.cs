@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -114,7 +115,7 @@ namespace MaxMath
             return rol(x, 8);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.ushort2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="ushort2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 reversebytes(ushort2 x)
         {
@@ -128,7 +129,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.ushort3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="ushort3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 reversebytes(ushort3 x)
         {
@@ -142,7 +143,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.ushort4"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="ushort4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 reversebytes(ushort4 x)
         {
@@ -156,7 +157,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.ushort8"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="ushort8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 reversebytes(ushort8 x)
         {
@@ -170,7 +171,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.ushort16"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="ushort16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 reversebytes(ushort16 x)
         {
@@ -198,7 +199,7 @@ namespace MaxMath
             return (byte0 << 24) | (byte1 << 8) | (byte2 >> 8) | (byte3 >> 24);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.uint2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="uint2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 reversebytes(uint2 x)
         {
@@ -212,7 +213,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.uint3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="uint3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 reversebytes(uint3 x)
         {
@@ -226,7 +227,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.uint4"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="uint4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 reversebytes(uint4 x)
         {
@@ -241,7 +242,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.uint8"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="uint8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 reversebytes(uint8 x)
         {
@@ -273,7 +274,7 @@ namespace MaxMath
             return (byte0 << 56) | (byte1 << 40) | (byte2 << 24) | (byte3 << 8) | (byte4 >> 8) | (byte5 >> 24) | (byte6 >> 40) | (byte7 >> 56);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.ulong2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="ulong2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 reversebytes(ulong2 x)
         {
@@ -287,7 +288,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.ulong3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="ulong3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 reversebytes(ulong3 x)
         {
@@ -301,7 +302,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.ulong3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="ulong3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 reversebytes(ulong4 x)
         {
@@ -323,35 +324,35 @@ namespace MaxMath
             return (short)reversebytes((ushort)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.short2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="short2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 reversebytes(short2 x)
         {
             return (short2)reversebytes((ushort2)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.short3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="short3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 reversebytes(short3 x)
         {
             return (short3)reversebytes((ushort3)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.short4"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="short4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 reversebytes(short4 x)
         {
             return (short4)reversebytes((ushort4)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.short8"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="short8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 reversebytes(short8 x)
         {
             return (short8)reversebytes((ushort8)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.short16"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="short16"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 reversebytes(short16 x)
         {
@@ -366,28 +367,28 @@ namespace MaxMath
             return (int)reversebytes((uint)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of an <see cref="MaxMath.int2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of an <see cref="int2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 reversebytes(int2 x)
         {
             return (int2)reversebytes((uint2)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of an <see cref="MaxMath.int3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of an <see cref="int3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 reversebytes(int3 x)
         {
             return (int3)reversebytes((uint3)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of an <see cref="MaxMath.int4"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of an <see cref="int4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 reversebytes(int4 x)
         {
             return (int4)reversebytes((uint4)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of an <see cref="MaxMath.int8"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of an <see cref="int8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 reversebytes(int8 x)
         {
@@ -402,21 +403,21 @@ namespace MaxMath
             return (long)reversebytes((ulong)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.long2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="long2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 reversebytes(long2 x)
         {
             return (long2)reversebytes((ulong2)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.long3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="long3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 reversebytes(long3 x)
         {
             return (long3)reversebytes((ulong3)x);
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.long4"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="long4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 reversebytes(long4 x)
         {
@@ -424,35 +425,35 @@ namespace MaxMath
         }
 
 
-        ///<summary>        Returns the result of performing a reversal of the byte order of a <see cref="MaxMath.half"/>.      </summary>
+        ///<summary>        Returns the result of performing a reversal of the byte order of a <see cref="half"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half reversebytes(half x)
         {
             return ashalf(reversebytes(asushort(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.half2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="half2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 reversebytes(half2 x)
         {
             return ashalf(reversebytes(asushort(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.half3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="half3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 reversebytes(half3 x)
         {
             return ashalf(reversebytes(asushort(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.half4"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="half4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 reversebytes(half4 x)
         {
             return ashalf(reversebytes(asushort(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.half8"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="half8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 reversebytes(half8 x)
         {
@@ -467,28 +468,28 @@ namespace MaxMath
             return asfloat(reversebytes(asuint(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.float2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="float2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 reversebytes(float2 x)
         {
             return asfloat(reversebytes(asuint(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.float3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="float3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 reversebytes(float3 x)
         {
             return asfloat(reversebytes(asuint(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.float4"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="float4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 reversebytes(float4 x)
         {
             return asfloat(reversebytes(asuint(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.float8"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="float8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 reversebytes(float8 x)
         {
@@ -503,25 +504,33 @@ namespace MaxMath
             return asdouble(reversebytes(asulong(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.double2"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="double2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 reversebytes(double2 x)
         {
             return asdouble(reversebytes(asulong(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.double3"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="double3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 reversebytes(double3 x)
         {
             return asdouble(reversebytes(asulong(x)));
         }
 
-        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="MaxMath.double4"/>.      </summary>
+        /// <summary>       Returns the result of performing a componentwise reversal of the byte order of a <see cref="double4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 reversebytes(double4 x)
         {
             return asdouble(reversebytes(asulong(x)));
+        }
+
+
+        ///<summary>        Returns the result of performing a reversal of the byte order of a <see cref="quadruple"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple reversebytes(quadruple x)
+        {
+            return asquadruple(reversebytes(asuint128(x)));
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -38,7 +39,7 @@ namespace MaxMath
 //                ushort2 mul = input._bigM.Reinterpret<BigM, ushort2>();
 //                DividerPromise promises = input._promises;
 //
-//                if (ArchitectureInfo.IsSIMDSupported)
+//                if (BurstArchitecture.IsSIMDSupported)
 //                {
 //                    v128 __mul = mul;
 //                    bmcvti2u_epi8(ref __mul, divisor, promises);

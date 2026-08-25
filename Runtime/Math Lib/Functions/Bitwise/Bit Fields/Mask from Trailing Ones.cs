@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -15,7 +16,26 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return andnot_si128(inc_epi8(a), a);
+                    v128 result = andnot_si128(inc_epi8(a), a);
+
+                    Assume.t1mask(result.Byte0,  a.Byte0);
+                    Assume.t1mask(result.Byte1,  a.Byte1);
+                    Assume.t1mask(result.Byte2,  a.Byte2);
+                    Assume.t1mask(result.Byte3,  a.Byte3);
+                    Assume.t1mask(result.Byte4,  a.Byte4);
+                    Assume.t1mask(result.Byte5,  a.Byte5);
+                    Assume.t1mask(result.Byte6,  a.Byte6);
+                    Assume.t1mask(result.Byte7,  a.Byte7);
+                    Assume.t1mask(result.Byte8,  a.Byte8);
+                    Assume.t1mask(result.Byte9,  a.Byte9);
+                    Assume.t1mask(result.Byte10, a.Byte10);
+                    Assume.t1mask(result.Byte11, a.Byte11);
+                    Assume.t1mask(result.Byte12, a.Byte12);
+                    Assume.t1mask(result.Byte13, a.Byte13);
+                    Assume.t1mask(result.Byte14, a.Byte14);
+                    Assume.t1mask(result.Byte15, a.Byte15);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -25,7 +45,18 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return andnot_si128(inc_epi16(a), a);
+                    v128 result = andnot_si128(inc_epi16(a), a);
+
+                    Assume.t1mask(result.UShort0, a.UShort0);
+                    Assume.t1mask(result.UShort1, a.UShort1);
+                    Assume.t1mask(result.UShort2, a.UShort2);
+                    Assume.t1mask(result.UShort3, a.UShort3);
+                    Assume.t1mask(result.UShort4, a.UShort4);
+                    Assume.t1mask(result.UShort5, a.UShort5);
+                    Assume.t1mask(result.UShort6, a.UShort6);
+                    Assume.t1mask(result.UShort7, a.UShort7);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -35,7 +66,14 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return andnot_si128(inc_epi32(a), a);
+                    v128 result = andnot_si128(inc_epi32(a), a);
+
+                    Assume.t1mask(result.UInt0, a.UInt0);
+                    Assume.t1mask(result.UInt1, a.UInt1);
+                    Assume.t1mask(result.UInt2, a.UInt2);
+                    Assume.t1mask(result.UInt3, a.UInt3);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -45,7 +83,12 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return andnot_si128(inc_epi64(a), a);
+                    v128 result = andnot_si128(inc_epi64(a), a);
+
+                    Assume.t1mask(result.ULong0, a.ULong0);
+                    Assume.t1mask(result.ULong1, a.ULong1);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -56,7 +99,42 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_andnot_si256(mm256_inc_epi8(a), a);
+                    v256 result = Avx2.mm256_andnot_si256(mm256_inc_epi8(a), a);
+
+                    Assume.t1mask(result.Byte0,  a.Byte0);
+                    Assume.t1mask(result.Byte1,  a.Byte1);
+                    Assume.t1mask(result.Byte2,  a.Byte2);
+                    Assume.t1mask(result.Byte3,  a.Byte3);
+                    Assume.t1mask(result.Byte4,  a.Byte4);
+                    Assume.t1mask(result.Byte5,  a.Byte5);
+                    Assume.t1mask(result.Byte6,  a.Byte6);
+                    Assume.t1mask(result.Byte7,  a.Byte7);
+                    Assume.t1mask(result.Byte8,  a.Byte8);
+                    Assume.t1mask(result.Byte9,  a.Byte9);
+                    Assume.t1mask(result.Byte10, a.Byte10);
+                    Assume.t1mask(result.Byte11, a.Byte11);
+                    Assume.t1mask(result.Byte12, a.Byte12);
+                    Assume.t1mask(result.Byte13, a.Byte13);
+                    Assume.t1mask(result.Byte14, a.Byte14);
+                    Assume.t1mask(result.Byte15, a.Byte15);
+                    Assume.t1mask(result.Byte16, a.Byte16);
+                    Assume.t1mask(result.Byte17, a.Byte17);
+                    Assume.t1mask(result.Byte18, a.Byte18);
+                    Assume.t1mask(result.Byte19, a.Byte19);
+                    Assume.t1mask(result.Byte20, a.Byte20);
+                    Assume.t1mask(result.Byte21, a.Byte21);
+                    Assume.t1mask(result.Byte22, a.Byte22);
+                    Assume.t1mask(result.Byte23, a.Byte23);
+                    Assume.t1mask(result.Byte24, a.Byte24);
+                    Assume.t1mask(result.Byte25, a.Byte25);
+                    Assume.t1mask(result.Byte26, a.Byte26);
+                    Assume.t1mask(result.Byte27, a.Byte27);
+                    Assume.t1mask(result.Byte28, a.Byte28);
+                    Assume.t1mask(result.Byte29, a.Byte29);
+                    Assume.t1mask(result.Byte30, a.Byte30);
+                    Assume.t1mask(result.Byte31, a.Byte31);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -66,7 +144,26 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_andnot_si256(mm256_inc_epi16(a), a);
+                    v256 result = Avx2.mm256_andnot_si256(mm256_inc_epi16(a), a);
+
+                    Assume.t1mask(result.UShort0,  a.UShort0);
+                    Assume.t1mask(result.UShort1,  a.UShort1);
+                    Assume.t1mask(result.UShort2,  a.UShort2);
+                    Assume.t1mask(result.UShort3,  a.UShort3);
+                    Assume.t1mask(result.UShort4,  a.UShort4);
+                    Assume.t1mask(result.UShort5,  a.UShort5);
+                    Assume.t1mask(result.UShort6,  a.UShort6);
+                    Assume.t1mask(result.UShort7,  a.UShort7);
+                    Assume.t1mask(result.UShort8,  a.UShort8);
+                    Assume.t1mask(result.UShort9,  a.UShort9);
+                    Assume.t1mask(result.UShort10, a.UShort10);
+                    Assume.t1mask(result.UShort11, a.UShort11);
+                    Assume.t1mask(result.UShort12, a.UShort12);
+                    Assume.t1mask(result.UShort13, a.UShort13);
+                    Assume.t1mask(result.UShort14, a.UShort14);
+                    Assume.t1mask(result.UShort15, a.UShort15);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -76,7 +173,18 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_andnot_si256(mm256_inc_epi32(a), a);
+                    v256 result = Avx2.mm256_andnot_si256(mm256_inc_epi32(a), a);
+
+                    Assume.t1mask(result.UInt0, a.UInt0);
+                    Assume.t1mask(result.UInt1, a.UInt1);
+                    Assume.t1mask(result.UInt2, a.UInt2);
+                    Assume.t1mask(result.UInt3, a.UInt3);
+                    Assume.t1mask(result.UInt4, a.UInt4);
+                    Assume.t1mask(result.UInt5, a.UInt5);
+                    Assume.t1mask(result.UInt6, a.UInt6);
+                    Assume.t1mask(result.UInt7, a.UInt7);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -86,10 +194,61 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_andnot_si256(mm256_inc_epi64(a), a);
+                    v256 result = Avx2.mm256_andnot_si256(mm256_inc_epi64(a), a);
+
+                    Assume.t1mask(result.ULong0, a.ULong0);
+                    Assume.t1mask(result.ULong1, a.ULong1);
+                    Assume.t1mask(result.ULong2, a.ULong2);
+                    Assume.t1mask(result.ULong3, a.ULong3);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
+        }
+    }
+
+
+    unsafe internal static partial class Assume
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void t1mask(byte result, byte x)
+        {
+            constexpr.ASSUME((result & x) == result);
+            constexpr.ASSUME((result & (result + 1)) == 0);
+            constexpr.ASSUME(math.countbits(result) == math.tzcnt((byte)~x));
+            constexpr.ASSUME(result == math.tzmask((byte)~x));
+            constexpr.ASSUME(result == (byte)(((x + 1) & (byte)~x) - 1));
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void t1mask(ushort result, ushort x)
+        {
+            constexpr.ASSUME((result & x) == result);
+            constexpr.ASSUME((result & (result + 1)) == 0);
+            constexpr.ASSUME(math.countbits(result) == math.tzcnt((ushort)~x));
+            constexpr.ASSUME(result == math.tzmask((ushort)~x));
+            constexpr.ASSUME(result == (ushort)(((x + 1) & (ushort)~x) - 1));
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void t1mask(uint result, uint x)
+        {
+            constexpr.ASSUME((result & x) == result);
+            constexpr.ASSUME((result & (result + 1)) == 0);
+            constexpr.ASSUME(math.countbits(result) == math.tzcnt(~x));
+            constexpr.ASSUME(result == math.tzmask(~x));
+            constexpr.ASSUME(result == ((x + 1) & ~x) - 1);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void t1mask(ulong result, ulong x)
+        {
+            constexpr.ASSUME((result & x) == result);
+            constexpr.ASSUME((result & (result + 1)) == 0);
+            constexpr.ASSUME(math.countbits(result) == math.tzcnt(~x));
+            constexpr.ASSUME(result == math.tzmask(~x));
+            constexpr.ASSUME(result == ((x + 1) & ~x) - 1);
         }
     }
 
@@ -100,7 +259,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 t1mask(UInt128 x)
         {
-            return andnot(x, x + 1);
+            UInt128 result = andnot(x, x + 1);
+            
+            constexpr.ASSUME((result & x) == result);
+            constexpr.ASSUME((result & (result + 1)) == 0);
+            constexpr.ASSUME(math.countbits(result) == math.tzcnt(~x));
+            constexpr.ASSUME(result == math.tzmask(~x));
+            constexpr.ASSUME(result == ((x + 1) & ~x) - 1);
+
+            return result;
         }
 
         /// <summary>       Sets all the trailing ones in the binary representation of an <see cref="Int128"/> to 1 and the remaining bits to 0.    </summary>
@@ -115,10 +282,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte t1mask(byte x)
         {
-            return andnot(x, (byte)(x + 1));
+            byte result = andnot(x, (byte)(x + 1));
+
+            Assume.t1mask(result, x);
+
+            return result;
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.byte2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="byte2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 t1mask(byte2 x)
         {
@@ -132,7 +303,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.byte3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="byte3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 t1mask(byte3 x)
         {
@@ -146,7 +317,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.byte4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="byte4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 t1mask(byte4 x)
         {
@@ -160,7 +331,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.byte8"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="byte8"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 t1mask(byte8 x)
         {
@@ -174,7 +345,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.byte16"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="byte16"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 t1mask(byte16 x)
         {
@@ -188,7 +359,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.byte32"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="byte32"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 t1mask(byte32 x)
         {
@@ -210,42 +381,42 @@ namespace MaxMath
             return (sbyte)t1mask((byte)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.sbyte2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="sbyte2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 t1mask(sbyte2 x)
         {
             return (sbyte2)t1mask((byte2)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.sbyte3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="sbyte3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 t1mask(sbyte3 x)
         {
             return (sbyte3)t1mask((byte3)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.sbyte4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="sbyte4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 t1mask(sbyte4 x)
         {
             return (sbyte4)t1mask((byte4)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.sbyte8"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="sbyte8"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 t1mask(sbyte8 x)
         {
             return (sbyte8)t1mask((byte8)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.sbyte16"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="sbyte16"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 t1mask(sbyte16 x)
         {
             return (sbyte16)t1mask((byte16)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.sbyte32"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="sbyte32"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 t1mask(sbyte32 x)
         {
@@ -257,10 +428,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort t1mask(ushort x)
         {
-            return andnot(x, (ushort)(x + 1));
+            ushort result = andnot(x, (ushort)(x + 1));
+
+            Assume.t1mask(result, x);
+
+            return result;
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.ushort2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="ushort2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 t1mask(ushort2 x)
         {
@@ -274,7 +449,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.ushort3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="ushort3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 t1mask(ushort3 x)
         {
@@ -288,7 +463,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.ushort4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="ushort4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 t1mask(ushort4 x)
         {
@@ -302,7 +477,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.ushort8"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="ushort8"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 t1mask(ushort8 x)
         {
@@ -316,7 +491,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.ushort16"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="ushort16"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 t1mask(ushort16 x)
         {
@@ -338,35 +513,35 @@ namespace MaxMath
             return (short)t1mask((ushort)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.short2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="short2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 t1mask(short2 x)
         {
             return (short2)t1mask((ushort2)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.short3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="short3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 t1mask(short3 x)
         {
             return (short3)t1mask((ushort3)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.short4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="short4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 t1mask(short4 x)
         {
             return (short4)t1mask((ushort4)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.short8"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="short8"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 t1mask(short8 x)
         {
             return (short8)t1mask((ushort8)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.short16"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="short16"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 t1mask(short16 x)
         {
@@ -378,10 +553,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint t1mask(uint x)
         {
-            return andnot(x, x + 1);
+            uint result = andnot(x, x + 1);
+
+            Assume.t1mask(result, x);
+
+            return result;
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.uint2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="uint2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 t1mask(uint2 x)
         {
@@ -395,7 +574,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.uint3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="uint3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 t1mask(uint3 x)
         {
@@ -409,7 +588,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.uint4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="uint4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 t1mask(uint4 x)
         {
@@ -423,7 +602,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.uint8"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="uint8"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 t1mask(uint8 x)
         {
@@ -445,28 +624,28 @@ namespace MaxMath
             return (int)t1mask((uint)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.int2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="int2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 t1mask(int2 x)
         {
             return (int2)t1mask((uint2)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.int3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="int3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 t1mask(int3 x)
         {
             return (int3)t1mask((uint3)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.int4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="int4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 t1mask(int4 x)
         {
             return (int4)t1mask((uint4)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.int8"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="int8"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 t1mask(int8 x)
         {
@@ -478,10 +657,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong t1mask(ulong x)
         {
-            return andnot(x, x + 1);
+            ulong result = andnot(x, x + 1);
+
+            Assume.t1mask(result, x);
+
+            return result;
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.ulong2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="ulong2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 t1mask(ulong2 x)
         {
@@ -495,7 +678,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.ulong3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="ulong3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 t1mask(ulong3 x)
         {
@@ -509,7 +692,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.ulong4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="ulong4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 t1mask(ulong4 x)
         {
@@ -531,21 +714,21 @@ namespace MaxMath
             return (long)t1mask((ulong)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.long2"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="long2"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 t1mask(long2 x)
         {
             return (long2)t1mask((ulong2)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.long3"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="long3"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 t1mask(long3 x)
         {
             return (long3)t1mask((ulong3)x);
         }
 
-        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="MaxMath.long4"/> component to 1 and the remaining bits to 0.    </summary>
+        /// <summary>       Sets all the trailing ones in the binary representations of each <see cref="long4"/> component to 1 and the remaining bits to 0.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 t1mask(long4 x)
         {

@@ -8,33 +8,41 @@ namespace MaxMath.Tests
 {
     public static class ImplicitOverloadGenerator
     {
-        public static string GenerateImplicitOverloads(Dictionary<Type, Type[]> conversionMap, Type sourceClass)
+        public static string GenerateImplicitOverloads(Dictionary<Type, Type[]> conversionMap, Type sourceClass, string methodName = null, Func<MethodInfo, bool> methodSelector = null)
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
-            var binding = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
-            var methods = sourceClass.GetMethods(binding)
+            BindingFlags binding = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+            MethodInfo[] methods = sourceClass.GetMethods(binding)
                                      .Where(m => !m.IsSpecialName && m.IsStatic)
                                      .ToArray();
+            if (methodName != null)
+            {
+                methods = methods.Where(m => m.Name == methodName).ToArray();
+            }
+            if (methodSelector != null)
+            {
+                methods = methods.Where(methodSelector).ToArray();
+            }
 
-            var existingSigs = new HashSet<string>();
-            foreach (var m in methods)
+            HashSet<string> existingSigs = new HashSet<string>();
+            foreach (MethodInfo m in methods)
             {
                 existingSigs.Add(SignatureKey(m.Name, m.GetParameters().Select(p => p.ParameterType).ToArray()));
             }
 
-            foreach (var method in methods)
+            foreach (MethodInfo method in methods)
             {
                 if (method.IsGenericMethod) continue;
-                var parameters = method.GetParameters();
+                ParameterInfo[] parameters = method.GetParameters();
                 if (parameters.Any(p => p.ParameterType.IsByRef)) continue;
 
-                foreach (var kv in conversionMap)
+                foreach (KeyValuePair<Type, Type[]> kv in conversionMap)
                 {
-                    var targetType = kv.Key;
-                    var convertibleTypes = kv.Value ?? Array.Empty<Type>();
+                    Type targetType = kv.Key;
+                    Type[] convertibleTypes = kv.Value ?? Array.Empty<Type>();
 
-                    var indexes = parameters
+                    int[] indexes = parameters
                                   .Select((p, idx) => new { p, idx })
                                   .Where(x => x.p.ParameterType == targetType)
                                   .Select(x => x.idx)
@@ -42,44 +50,44 @@ namespace MaxMath.Tests
 
                     if (indexes.Length < 2) continue;
 
-                    var choicesPerPosition = indexes
+                    Type[][] choicesPerPosition = indexes
                         .Select(_ => (new Type[] { targetType }).Concat(convertibleTypes).Distinct().ToArray())
                         .ToArray();
 
-                    foreach (var combination in CartesianProduct(choicesPerPosition))
+                    foreach (Type[] combination in CartesianProduct(choicesPerPosition))
                     {
                         if (combination.All(t => t == targetType)) continue;
                         if (combination.All(t => t != targetType)) continue;
 
-                        var finalParamTypes = parameters
+                        Type[] finalParamTypes = parameters
                             .Select((p, i) =>
                             {
-                                var posInIndexes = Array.IndexOf(indexes, i);
+                                int posInIndexes = Array.IndexOf(indexes, i);
                                 return posInIndexes >= 0 ? combination[posInIndexes] : p.ParameterType;
                             })
                             .ToArray();
 
-                        var sigKey = SignatureKey(method.Name, finalParamTypes);
+                        string sigKey = SignatureKey(method.Name, finalParamTypes);
                         if (existingSigs.Contains(sigKey)) continue;
 
-                        var visibility = method.IsPublic ? "public" : "internal";
-                        var returnTypeCode = GetTypeCodeName(method.ReturnType);
-                        var methodName = method.Name;
+                        string visibility = method.IsPublic ? "public" : "internal";
+                        string returnTypeCode = GetTypeCodeName(method.ReturnType);
+                        methodName = method.Name;
 
-                        var paramDecls = new List<string>();
+                        List<string> paramDecls = new List<string>();
                         for (int i = 0; i < parameters.Length; i++)
                         {
-                            var t = finalParamTypes[i];
-                            var name = parameters[i].Name ?? ("p" + i);
+                            Type t = finalParamTypes[i];
+                            string name = parameters[i].Name ?? ("p" + i);
                             paramDecls.Add($"{GetTypeCodeName(t)} {name}");
                         }
 
-                        var callArgs = new List<string>();
+                        List<string> callArgs = new List<string>();
                         for (int i = 0; i < parameters.Length; i++)
                         {
-                            var declaredOrig = parameters[i].ParameterType;
-                            var provided = finalParamTypes[i];
-                            var name = parameters[i].Name ?? ("p" + i);
+                            Type declaredOrig = parameters[i].ParameterType;
+                            Type provided = finalParamTypes[i];
+                            string name = parameters[i].Name ?? ("p" + i);
 
                             if (provided != declaredOrig)
                             {
@@ -91,13 +99,13 @@ namespace MaxMath.Tests
                             }
                         }
 
-                        var originalCref = $"M:{sourceClass.FullName}.{methodName}({string.Join(",", parameters.Select(p => CrefTypeName(p.ParameterType)))})";
+                        string originalCref = $"M:{sourceClass.FullName}.{methodName}({string.Join(",", parameters.Select(p => CrefTypeName(p.ParameterType)))})";
 
                         sb.AppendLine("/// <inheritdoc cref=\"" + originalCref + "\" />");
                         sb.AppendLine($"{visibility} static {returnTypeCode} {methodName}({string.Join(", ", paramDecls)})");
                         sb.AppendLine("{");
-                        var callPrefix = method.ReturnType == typeof(void) ? "" : "return ";
-                        var qualifiedClass = sourceClass.FullName.Contains(".") ? $"{sourceClass.FullName}" : sourceClass.FullName;
+                        string callPrefix = method.ReturnType == typeof(void) ? "" : "return ";
+                        string qualifiedClass = sourceClass.FullName.Contains(".") ? $"{sourceClass.FullName}" : sourceClass.FullName;
                         sb.AppendLine($"    {callPrefix}{qualifiedClass}.{methodName}({string.Join(", ", callArgs)});");
                         sb.AppendLine("}");
                         sb.AppendLine();
@@ -137,10 +145,10 @@ namespace MaxMath.Tests
             }
             if (t.IsGenericType)
             {
-                var baseName = t.GetGenericTypeDefinition().FullName;
-                var backtick = baseName.IndexOf('`');
+                string baseName = t.GetGenericTypeDefinition().FullName;
+                int backtick = baseName.IndexOf('`');
                 if (backtick >= 0) baseName = baseName.Substring(0, backtick);
-                var args = string.Join(", ", t.GetGenericArguments().Select(GetTypeCodeName));
+                string args = string.Join(", ", t.GetGenericArguments().Select(GetTypeCodeName));
                 return $"{baseName}<{args}>";
             }
             return (t.FullName ?? t.Name);
@@ -150,11 +158,11 @@ namespace MaxMath.Tests
         {
             if (t.IsGenericType)
             {
-                var def = t.GetGenericTypeDefinition();
-                var baseName = def.FullName;
-                var backtick = baseName.IndexOf('`');
+                Type def = t.GetGenericTypeDefinition();
+                string baseName = def.FullName;
+                int backtick = baseName.IndexOf('`');
                 if (backtick >= 0) baseName = baseName.Substring(0, backtick);
-                var args = string.Join(",", t.GetGenericArguments().Select(CrefTypeName));
+                string args = string.Join(",", t.GetGenericArguments().Select(CrefTypeName));
                 return baseName + "{" + args + "}";
             }
             if (t.IsArray)
@@ -174,7 +182,7 @@ namespace MaxMath.Tests
             int[] idx = new int[choicesPerPosition.Length];
             while (true)
             {
-                var current = new Type[choicesPerPosition.Length];
+                Type[] current = new Type[choicesPerPosition.Length];
                 for (int i = 0; i < idx.Length; i++) current[i] = choicesPerPosition[i][idx[i]];
                 yield return current;
 

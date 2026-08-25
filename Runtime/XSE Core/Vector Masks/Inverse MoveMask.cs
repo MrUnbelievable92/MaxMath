@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -63,8 +64,8 @@ namespace MaxMath
                     switch (result)
                     {
                         case MaskType.SignBit: return shiftBoolsToSignBit;
-                        case MaskType.AllOnes: return srai_epi8(shiftBoolsToSignBit, 7);
-                        case MaskType.One:     return srli_epi8(shiftBoolsToSignBit, 7);
+                        case MaskType.AllOnes: return srai_epi8(shiftBoolsToSignBit, 7, elements: elements);
+                        case MaskType.One:     return srli_epi8(shiftBoolsToSignBit, 7, elements: elements);
 
                         default : throw new ArgumentOutOfRangeException();
                     }

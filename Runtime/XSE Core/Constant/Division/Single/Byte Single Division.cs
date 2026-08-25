@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -14,9 +15,11 @@ namespace MaxMath.Intrinsics
             {
 				__unsafe |= constexpr.ALL_LT_EPU8(vector, 1 << 7, elements);
 
+				v128 result;
+
 				if (divisor == 128)
 				{
-					return srli_epi8(vector, 7);
+					result = srli_epi8(vector, 7, elements: elements);
 				}
 				else if (divisor > 127)
 				{
@@ -28,15 +31,15 @@ namespace MaxMath.Intrinsics
 					}
 					else
 					{
-						cmp = cmpge_epu8(vector, set1_epi8(divisor));
+						cmp = cmpge_epu8(vector, set1_epi8(divisor), elements: elements);
 					}
 
-					return neg_epi8(cmp);
+					result = neg_epi8(cmp);
 				}
 				else if (divisor > 84)
 				{
-					v128 cmp1 = cmpge_epu8(vector, set1_epi8(divisor));
-					v128 cmp2 = cmpge_epu8(vector, set1_epi8((byte)(2 * divisor)));
+					v128 cmp1 = cmpge_epu8(vector, set1_epi8(divisor), elements: elements);
+					v128 cmp2 = cmpge_epu8(vector, set1_epi8((byte)(2 * divisor)), elements: elements);
 
 					cmp1 = neg_epi8(cmp1);
 
@@ -46,25 +49,26 @@ namespace MaxMath.Intrinsics
 						cmp2 = add_epi8(cmp2, cmp3);
                     }
 
-					return sub_epi8(cmp1, cmp2);
+					result = sub_epi8(cmp1, cmp2);
 				}
 				else
 				{
 					switch (divisor)
 					{
-						case 1:  return vector;
-						case 2:  return srli_epi8(vector, 1);
-						case 4:	 return srli_epi8(vector, 2);
-						case 8:	 return srli_epi8(vector, 3);
-						case 16: return srli_epi8(vector, 4);
-						case 32: return srli_epi8(vector, 5);
-						case 64: return srli_epi8(vector, 6);
+						case 1:  result = vector;									break;
+						case 2:  result = srli_epi8(vector, 1, elements: elements);	break;
+						case 4:	 result = srli_epi8(vector, 2, elements: elements);	break;
+						case 8:	 result = srli_epi8(vector, 3, elements: elements);	break;
+						case 16: result = srli_epi8(vector, 4, elements: elements);	break;
+						case 32: result = srli_epi8(vector, 5, elements: elements);	break;
+						case 64: result = srli_epi8(vector, 6, elements: elements);	break;
 
 						case 3:
 						{
 							if (__unsafe)
 							{
-								return mulhi_epu8(vector, set1_epi8(86), elements);
+								result = mulhi_epu8(vector, set1_epi8(86), elements);
+								break;
 							}
 							else goto default;
 						}
@@ -72,7 +76,8 @@ namespace MaxMath.Intrinsics
 						{
 							if (__unsafe)
 							{
-								return mulhi_epu8(vector, set1_epi8(43), elements);
+								result = mulhi_epu8(vector, set1_epi8(43), elements);
+								break;
 							}
 							else goto default;
 						}
@@ -81,15 +86,21 @@ namespace MaxMath.Intrinsics
 						{
 							switch (elements)
 							{
-								case  2: return (byte2) vector / new Divider<byte>(divisor);
-								case  3: return (byte3) vector / new Divider<byte>(divisor);
-								case  4: return (byte4) vector / new Divider<byte>(divisor);
-								case  8: return (byte8) vector / new Divider<byte>(divisor);
-								default: return (byte16)vector / new Divider<byte>(divisor);
+								case  2: result = (byte2) vector / new Divider<byte>(divisor); break;
+								case  3: result = (byte3) vector / new Divider<byte>(divisor); break;
+								case  4: result = (byte4) vector / new Divider<byte>(divisor); break;
+								case  8: result = (byte8) vector / new Divider<byte>(divisor); break;
+								default: result = (byte16)vector / new Divider<byte>(divisor); break;
 							}
+
+							break;
 						}
 					}
 				}
+
+				constexpr.ASSUME_DIVISION_EPU8(result, vector, set1_epi8(divisor), elements);
+				
+				return result;
             }
 			else throw new IllegalInstructionException();
 		}
@@ -101,19 +112,21 @@ namespace MaxMath.Intrinsics
             {
 				__unsafe |= constexpr.ALL_LT_EPU8(vector, 1 << 7);
 
+				v256 result;
+
 				if (divisor == 128)
 				{
-					return mm256_srli_epi8(vector, 7);
+					result = mm256_srli_epi8(vector, 7);
 				}
 				else if (divisor > 127)
 				{
 					if (divisor == byte.MaxValue)
 					{
-						return mm256_abs_epi8(Avx2.mm256_cmpeq_epi8(vector, mm256_set1_epi8(byte.MaxValue)));
+						result = mm256_abs_epi8(Avx2.mm256_cmpeq_epi8(vector, mm256_set1_epi8(byte.MaxValue)));
 					}
 					else
 					{
-						return mm256_abs_epi8(mm256_cmpge_epu8(vector, mm256_set1_epi8(divisor)));
+						result = mm256_abs_epi8(mm256_cmpge_epu8(vector, mm256_set1_epi8(divisor)));
 					}
 				}
 				else if (divisor > 84)
@@ -129,25 +142,26 @@ namespace MaxMath.Intrinsics
 						cmp2 = Avx2.mm256_add_epi8(cmp2, cmp3);
                     }
 
-					return Avx2.mm256_sub_epi8(cmp1, cmp2);
+					result = Avx2.mm256_sub_epi8(cmp1, cmp2);
 				}
 				else
 				{
 					switch (divisor)
 					{
-						case 1:  return vector;
-						case 2:  return mm256_srli_epi8(vector, 1);
-						case 4:	 return mm256_srli_epi8(vector, 2);
-						case 8:	 return mm256_srli_epi8(vector, 3);
-						case 16: return mm256_srli_epi8(vector, 4);
-						case 32: return mm256_srli_epi8(vector, 5);
-						case 64: return mm256_srli_epi8(vector, 6);
+						case 1:  result = vector;					  break;
+						case 2:  result = mm256_srli_epi8(vector, 1); break;
+						case 4:	 result = mm256_srli_epi8(vector, 2); break;
+						case 8:	 result = mm256_srli_epi8(vector, 3); break;
+						case 16: result = mm256_srli_epi8(vector, 4); break;
+						case 32: result = mm256_srli_epi8(vector, 5); break;
+						case 64: result = mm256_srli_epi8(vector, 6); break;
 
 						case 3:
 						{
 							if (__unsafe)
 							{
-								return mm256_mulhi_epu8(vector, mm256_set1_epi8(86));
+								result = mm256_mulhi_epu8(vector, mm256_set1_epi8(86));
+								break;
 							}
 							else goto default;
 						}
@@ -155,17 +169,23 @@ namespace MaxMath.Intrinsics
 						{
 							if (__unsafe)
 							{
-								return mm256_mulhi_epu8(vector, mm256_set1_epi8(43));
+								result = mm256_mulhi_epu8(vector, mm256_set1_epi8(43));
+								break;
 							}
 							else goto default;
 						}
 
 						default:
 						{
-							return (byte32)vector / new Divider<byte>(divisor);
+							result = (byte32)vector / new Divider<byte>(divisor);
+							break;
 						}
 					}
 				}
+
+				constexpr.ASSUME_DIVISION_EPU8(result, vector, mm256_set1_epi8(divisor));
+
+				return result;
             }
 			else throw new IllegalInstructionException();
 		}

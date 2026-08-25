@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -474,6 +475,14 @@ namespace MaxMath
         public static double4 divsaturated(double4 x, double4 y)
         {
             return clamp(x / y, double.MinValue, double.MaxValue);
+        }
+
+
+        /// <summary>       Divides <paramref name="x"/> by <paramref name="y"/> and returns the result, which is clamped to <see cref="quadruple.MaxValue"/> if overflow occurs or <see cref="quadruple.MinValue"/> if underflow occurs.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple divsaturated(quadruple x, quadruple y)
+        {
+            return clamp(x / y, quadruple.MinValue, quadruple.MaxValue);
         }
     }
 }

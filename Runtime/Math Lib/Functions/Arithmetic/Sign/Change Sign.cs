@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -356,6 +357,38 @@ namespace MaxMath
             {
                 return new double4(chgsign(x.xy, y.xy), chgsign(x.zw, y.zw));
             }
+        }
+
+
+        /// <summary>   Change the sign of <paramref name="x"/> based on the most significant bit of <paramref name="y"/> [msb(<paramref name="y"/>) <see langword="?"/> <see langword="-"/><paramref name="x"/> <see langword=":"/> <paramref name="x"/>].     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple chgsign(quadruple x, quadruple y)
+        {
+            return new quadruple{ value = x.value ^ (y.value & ((UInt128)1 << 127)) };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quadruple.ConstChecked chgsign(quadruple.ConstChecked x, quadruple.ConstChecked y)
+        {
+            if (y.Promise.Positive)
+            {
+                ;
+            }
+            else if (y.Promise.Negative)
+            {
+                x.Value = -x.Value;
+                x.Promise.FlipSign();
+            }
+            else
+            {
+                x.Value = new quadruple{ value = x.Value.value ^ (y.Value.value & ((UInt128)1 << 127)) };
+                if ((long)y.Value.value.hi64 < 0)
+                {
+                    x.Promise.FlipSign();
+                }
+            }
+
+            return x;
         }
     }
 }

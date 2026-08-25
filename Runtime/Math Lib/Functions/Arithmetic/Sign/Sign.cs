@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -15,34 +16,69 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 soz_epi8(v128 a, bool ge0 = false, bool le0 = false, bool non0 = false, byte elements = 16)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return sign_epi8(set1_epi8(1), a);
-                }
-                else if (BurstArchitecture.IsSIMDSupported)
-                {
-                    v128 ONE = set1_epi8(1);
-
                     v128 result;
-
-                    if (ge0 || constexpr.ALL_GE_EPI8(a, 0, elements))
+                    
+                    if (Ssse3.IsSsse3Supported)
                     {
-                        result = andnot_si128(cmpeq_epi8(a, setzero_si128()), ONE);
-                    }
-                    else if (le0 || constexpr.ALL_LE_EPI8(a, 0, elements))
-                    {
-                        result = srai_epi8(a, 7, elements: elements);
-                    }
-                    else if (non0 || constexpr.ALL_NEQ_EPI8(a, 0, elements))
-                    {
-                        result = or_si128(ONE, srai_epi8(a, 7, elements: elements));
+                        result = sign_epi8(set1_epi8(1), a);
                     }
                     else
                     {
-                        result = sub_epi8(srai_epi8(a, 7, elements: elements), cmpgt_epi8(a, setzero_si128()));
+                        v128 ONE = set1_epi8(1);
+
+                        if (ge0 || constexpr.ALL_GE_EPI8(a, 0, elements))
+                        {
+                            result = andnot_si128(cmpeq_epi8(a, setzero_si128()), ONE);
+                        }
+                        else if (le0 || constexpr.ALL_LE_EPI8(a, 0, elements))
+                        {
+                            result = srai_epi8(a, 7, elements: elements);
+                        }
+                        else if (non0 || constexpr.ALL_NEQ_EPI8(a, 0, elements))
+                        {
+                            result = or_si128(ONE, srai_epi8(a, 7, elements: elements));
+                        }
+                        else
+                        {
+                            result = sub_epi8(srai_epi8(a, 7, elements: elements), cmpgt_epi8(a, setzero_si128()));
+                        }
                     }
 
-                    constexpr.ASSUME_RANGE_EPI8(result, -1, 1);
+                    Assume.sign(result.SByte0,  a.SByte0);
+                    Assume.sign(result.SByte1,  a.SByte1);
+
+                    if (elements > 2)
+                    {
+                        Assume.sign(result.SByte2,  a.SByte2);
+
+                        if (elements > 3)
+                        {
+                            Assume.sign(result.SByte3,  a.SByte3);
+
+                            if (elements > 4)
+                            {
+                                Assume.sign(result.SByte4,  a.SByte4);
+                                Assume.sign(result.SByte5,  a.SByte5);
+                                Assume.sign(result.SByte6,  a.SByte6);
+                                Assume.sign(result.SByte7,  a.SByte7);
+
+                                if (elements > 8)
+                                {
+                                    Assume.sign(result.SByte8,  a.SByte8);
+                                    Assume.sign(result.SByte9,  a.SByte9);
+                                    Assume.sign(result.SByte10, a.SByte10);
+                                    Assume.sign(result.SByte11, a.SByte11);
+                                    Assume.sign(result.SByte12, a.SByte12);
+                                    Assume.sign(result.SByte13, a.SByte13);
+                                    Assume.sign(result.SByte14, a.SByte14);
+                                    Assume.sign(result.SByte15, a.SByte15);
+                                }
+                            }
+                        }
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -55,7 +91,39 @@ namespace MaxMath
                 {
                     v256 result = Avx2.mm256_sign_epi8(mm256_set1_epi8(1), a);
 
-                    constexpr.ASSUME_RANGE_EPI8(result, -1, 1);
+                    Assume.sign(result.SByte0,  a.SByte0);
+                    Assume.sign(result.SByte1,  a.SByte1);
+                    Assume.sign(result.SByte2,  a.SByte2);
+                    Assume.sign(result.SByte3,  a.SByte3);
+                    Assume.sign(result.SByte4,  a.SByte4);
+                    Assume.sign(result.SByte5,  a.SByte5);
+                    Assume.sign(result.SByte6,  a.SByte6);
+                    Assume.sign(result.SByte7,  a.SByte7);
+                    Assume.sign(result.SByte8,  a.SByte8);
+                    Assume.sign(result.SByte9,  a.SByte9);
+                    Assume.sign(result.SByte10, a.SByte10);
+                    Assume.sign(result.SByte11, a.SByte11);
+                    Assume.sign(result.SByte12, a.SByte12);
+                    Assume.sign(result.SByte13, a.SByte13);
+                    Assume.sign(result.SByte14, a.SByte14);
+                    Assume.sign(result.SByte15, a.SByte15);
+                    Assume.sign(result.SByte16, a.SByte16);
+                    Assume.sign(result.SByte17, a.SByte17);
+                    Assume.sign(result.SByte18, a.SByte18);
+                    Assume.sign(result.SByte19, a.SByte19);
+                    Assume.sign(result.SByte20, a.SByte20);
+                    Assume.sign(result.SByte21, a.SByte21);
+                    Assume.sign(result.SByte22, a.SByte22);
+                    Assume.sign(result.SByte23, a.SByte23);
+                    Assume.sign(result.SByte24, a.SByte24);
+                    Assume.sign(result.SByte25, a.SByte25);
+                    Assume.sign(result.SByte26, a.SByte26);
+                    Assume.sign(result.SByte27, a.SByte27);
+                    Assume.sign(result.SByte28, a.SByte28);
+                    Assume.sign(result.SByte29, a.SByte29);
+                    Assume.sign(result.SByte30, a.SByte30);
+                    Assume.sign(result.SByte31, a.SByte31);
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -64,34 +132,57 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 soz_epi16(v128 a, bool ge0 = false, bool le0 = false, bool non0 = false, byte elements = 8)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return sign_epi16(set1_epi16(1), a);
-                }
-                else if (BurstArchitecture.IsSIMDSupported)
-                {
-                    v128 ONE = set1_epi16(1);
-
                     v128 result;
 
-                    if (ge0 || constexpr.ALL_GE_EPI16(a, 0, elements))
+                    if (Ssse3.IsSsse3Supported)
                     {
-                        result = andnot_si128(cmpeq_epi16(a, setzero_si128()), ONE);
-                    }
-                    else if (le0 || constexpr.ALL_LE_EPI16(a, 0, elements))
-                    {
-                        result = srai_epi16(a, 15);
-                    }
-                    else if (non0 || constexpr.ALL_NEQ_EPI16(a, 0, elements))
-                    {
-                        result = or_si128(ONE, srai_epi16(a, 15));
+                        result = sign_epi16(set1_epi16(1), a);
                     }
                     else
                     {
-                        result = sub_epi16(srai_epi16(a, 15), cmpgt_epi16(a, setzero_si128()));
+                        v128 ONE = set1_epi16(1);
+
+                        if (ge0 || constexpr.ALL_GE_EPI16(a, 0, elements))
+                        {
+                            result = andnot_si128(cmpeq_epi16(a, setzero_si128()), ONE);
+                        }
+                        else if (le0 || constexpr.ALL_LE_EPI16(a, 0, elements))
+                        {
+                            result = srai_epi16(a, 15);
+                        }
+                        else if (non0 || constexpr.ALL_NEQ_EPI16(a, 0, elements))
+                        {
+                            result = or_si128(ONE, srai_epi16(a, 15));
+                        }
+                        else
+                        {
+                            result = sub_epi16(srai_epi16(a, 15), cmpgt_epi16(a, setzero_si128()));
+                        }
                     }
 
-                    constexpr.ASSUME_RANGE_EPI16(result, -1, 1);
+                    Assume.sign(result.SShort0, a.SShort0);
+                    Assume.sign(result.SShort1, a.SShort1);
+
+                    if (elements > 2)
+                    {
+                        Assume.sign(result.SShort2, a.SShort2);
+
+                        if (elements > 3)
+                        {
+                            Assume.sign(result.SShort3, a.SShort3);
+
+                            if (elements > 4)
+                            {
+                                Assume.sign(result.SShort4, a.SShort4);
+                                Assume.sign(result.SShort5, a.SShort5);
+                                Assume.sign(result.SShort6, a.SShort6);
+                                Assume.sign(result.SShort7, a.SShort7);
+                            }
+                        }
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -104,7 +195,23 @@ namespace MaxMath
                 {
                     v256 result = Avx2.mm256_sign_epi16(mm256_set1_epi16(1), a);
 
-                    constexpr.ASSUME_RANGE_EPI16(result, -1, 1);
+                    Assume.sign(result.SShort0,  a.SShort0);
+                    Assume.sign(result.SShort1,  a.SShort1);
+                    Assume.sign(result.SShort2,  a.SShort2);
+                    Assume.sign(result.SShort3,  a.SShort3);
+                    Assume.sign(result.SShort4,  a.SShort4);
+                    Assume.sign(result.SShort5,  a.SShort5);
+                    Assume.sign(result.SShort6,  a.SShort6);
+                    Assume.sign(result.SShort7,  a.SShort7);
+                    Assume.sign(result.SShort8,  a.SShort8);
+                    Assume.sign(result.SShort9,  a.SShort9);
+                    Assume.sign(result.SShort10, a.SShort10);
+                    Assume.sign(result.SShort11, a.SShort11);
+                    Assume.sign(result.SShort12, a.SShort12);
+                    Assume.sign(result.SShort13, a.SShort13);
+                    Assume.sign(result.SShort14, a.SShort14);
+                    Assume.sign(result.SShort15, a.SShort15);
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -113,34 +220,49 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 soz_epi32(v128 a, bool ge0 = false, bool le0 = false, bool non0 = false, byte elements = 4)
             {
-                if (Ssse3.IsSsse3Supported)
+                if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return sign_epi32(set1_epi32(1), a);
-                }
-                else if (BurstArchitecture.IsSIMDSupported)
-                {
-                    v128 ONE = set1_epi32(1);
-
                     v128 result;
 
-                    if (ge0 || constexpr.ALL_GE_EPI32(a, 0, elements))
+                    if (Ssse3.IsSsse3Supported)
                     {
-                        result = andnot_si128(cmpeq_epi32(a, setzero_si128()), ONE);
-                    }
-                    else if (le0 || constexpr.ALL_LE_EPI32(a, 0, elements))
-                    {
-                        result = srai_epi32(a, 31);
-                    }
-                    else if (non0 || constexpr.ALL_NEQ_EPI32(a, 0, elements))
-                    {
-                        result = or_si128(ONE, srai_epi32(a, 31));
+                        result = sign_epi32(set1_epi32(1), a);
                     }
                     else
                     {
-                        result = sub_epi32(srai_epi32(a, 31), cmpgt_epi32(a, setzero_si128()));
+                        v128 ONE = set1_epi32(1);
+
+                        if (ge0 || constexpr.ALL_GE_EPI32(a, 0, elements))
+                        {
+                            result = andnot_si128(cmpeq_epi32(a, setzero_si128()), ONE);
+                        }
+                        else if (le0 || constexpr.ALL_LE_EPI32(a, 0, elements))
+                        {
+                            result = srai_epi32(a, 31);
+                        }
+                        else if (non0 || constexpr.ALL_NEQ_EPI32(a, 0, elements))
+                        {
+                            result = or_si128(ONE, srai_epi32(a, 31));
+                        }
+                        else
+                        {
+                            result = sub_epi32(srai_epi32(a, 31), cmpgt_epi32(a, setzero_si128()));
+                        }
                     }
 
-                    constexpr.ASSUME_RANGE_EPI32(result, -1, 1);
+                    Assume.sign(result.SInt0, a.SInt0);
+                    Assume.sign(result.SInt1, a.SInt1);
+
+                    if (elements > 2)
+                    {
+                        Assume.sign(result.SInt2, a.SInt2);
+
+                        if (elements > 3)
+                        {
+                            Assume.sign(result.SInt3, a.SInt3);
+                        }
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -153,7 +275,15 @@ namespace MaxMath
                 {
                     v256 result = Avx2.mm256_sign_epi32(mm256_set1_epi32(1), a);
 
-                    constexpr.ASSUME_RANGE_EPI32(result, -1, 1);
+                    Assume.sign(result.SInt0, a.SInt0);
+                    Assume.sign(result.SInt1, a.SInt1);
+                    Assume.sign(result.SInt2, a.SInt2);
+                    Assume.sign(result.SInt3, a.SInt3);
+                    Assume.sign(result.SInt4, a.SInt4);
+                    Assume.sign(result.SInt5, a.SInt5);
+                    Assume.sign(result.SInt6, a.SInt6);
+                    Assume.sign(result.SInt7, a.SInt7);
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -184,7 +314,9 @@ namespace MaxMath
                         result = sub_epi64(srai_epi64(a, 63), cmpgt_epi64(a, setzero_si128()));
                     }
 
-                    constexpr.ASSUME_RANGE_EPI64(result, -1, 1);
+                    Assume.sign(result.SLong0, a.SLong0);
+                    Assume.sign(result.SLong1, a.SLong1);
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -215,7 +347,19 @@ namespace MaxMath
                         result = Avx2.mm256_sub_epi64(mm256_srai_epi64(a, 63, elements: elements), Avx2.mm256_cmpgt_epi64(a, Avx.mm256_setzero_si256()));
                     }
 
-                    constexpr.ASSUME_RANGE_EPI64(result, -1, 1);
+                    Assume.sign(result.SLong0, a.SLong0);
+                    Assume.sign(result.SLong1, a.SLong1);
+
+                    if (elements > 2)
+                    {
+                        Assume.sign(result.SLong2, a.SLong2);
+
+                        if (elements > 3)
+                        {
+                            Assume.sign(result.SLong3, a.SLong3);
+                        }
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -664,6 +808,46 @@ namespace MaxMath
             }
         }
     }
+    
+
+    unsafe internal static partial class Assume
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void sign(sbyte result, sbyte x)
+        {
+            constexpr.ASSUME((x < 0)  == (result == -1));
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x > 0)  == (result == 1));
+            constexpr.ASSUME(result == -1 || result == 0 || result == 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void sign(short result, short x)
+        {
+            constexpr.ASSUME((x < 0)  == (result == -1));
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x > 0)  == (result == 1));
+            constexpr.ASSUME(result == -1 || result == 0 || result == 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void sign(int result, int x)
+        {
+            constexpr.ASSUME((x < 0)  == (result == -1));
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x > 0)  == (result == 1));
+            constexpr.ASSUME(result == -1 || result == 0 || result == 1);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void sign(long result, long x)
+        {
+            constexpr.ASSUME((x < 0)  == (result == -1));
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x > 0)  == (result == 1));
+            constexpr.ASSUME(result == -1 || result == 0 || result == 1);
+        }
+    }
 
 
     unsafe public static partial class math
@@ -679,22 +863,31 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long sign(Int128 x, Promise promises = Promise.Nothing)
         {
+            long result;
+
             if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
             {
-                return tolong(x.IsNotZero);
+                result = tolong(x.IsNotZero);
             }
             else if (promises.Promises(Promise.ZeroOrLess) || constexpr.IS_TRUE(x <= 0))
             {
-                return (long)x.hi64 >> 63;
+                result = (long)x.hi64 >> 63;
             }
             else if (promises.Promises(Promise.NonZero) || constexpr.IS_TRUE(x.IsNotZero))
             {
-                return 1 | ((long)x.hi64 >> 63);
+                result = 1 | ((long)x.hi64 >> 63);
             }
             else
             {
-                return ((long)x.hi64 >> 63) | (long)((-x).hi64 >> 63);
+                result = ((long)x.hi64 >> 63) | (long)((-x).hi64 >> 63);
             }
+            
+            constexpr.ASSUME((x < 0)  == (result == -1));
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x > 0)  == (result == 1));
+            constexpr.ASSUME(result == -1 || result == 0 || result == 1);
+
+            return result;
         }
 
 
@@ -712,7 +905,7 @@ namespace MaxMath
             return sign((int)x, promises);
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="sbyte2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -732,7 +925,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="sbyte3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -752,7 +945,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="sbyte4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -772,7 +965,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte8"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="sbyte8"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -799,7 +992,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte16"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="sbyte16"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -834,7 +1027,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.sbyte32"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="sbyte32"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -869,7 +1062,7 @@ namespace MaxMath
             return sign((int)x, promises);
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="short2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -889,7 +1082,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="short3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -909,7 +1102,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="short4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -929,7 +1122,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short8"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="short8"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -956,7 +1149,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.short16"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="short16"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -988,25 +1181,31 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int sign(int x, Promise promises = Promise.Nothing)
         {
+            int result;
+
             if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
             {
-                return toint(x != 0);
+                result = toint(x != 0);
             }
             else if (promises.Promises(Promise.ZeroOrLess) || constexpr.IS_TRUE(x <= 0))
             {
-                return x >> 31;
+                result = x >> 31;
             }
             else if (promises.Promises(Promise.NonZero) || constexpr.IS_TRUE(x != 0))
             {
-                return 1 | (x >> 31);
+                result = 1 | (x >> 31);
             }
             else
             {
-                return (x >> 31) | toint(x > 0);
+                result = (x >> 31) | toint(x > 0);
             }
+
+            Assume.sign(result, x);
+
+            return result;
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.int2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="int2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1026,7 +1225,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.int3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="int3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1046,7 +1245,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.int4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="int4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1066,7 +1265,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of an <see cref="MaxMath.int8"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of an <see cref="int8"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1098,25 +1297,31 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long sign(long x, Promise promises = Promise.Nothing)
         {
+            long result;
+
             if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
             {
-                return tolong(x != 0);
+                result = tolong(x != 0);
             }
             else if (promises.Promises(Promise.ZeroOrLess) || constexpr.IS_TRUE(x <= 0))
             {
-                return x >> 63;
+                result = x >> 63;
             }
             else if (promises.Promises(Promise.NonZero) || constexpr.IS_TRUE(x != 0))
             {
-                return 1 | (x >> 63);
+                result = 1 | (x >> 63);
             }
             else
             {
-                return (x >> 63) | tolong(x > 0);
+                result = (x >> 63) | tolong(x > 0);
             }
+
+            Assume.sign(result, x);
+
+            return result;
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.long2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="long2"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1136,7 +1341,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.long3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="long3"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1156,7 +1361,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.long4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="long4"/>. 1 for positive components, 0 for zero components and -1 for a negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1177,12 +1382,12 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sign of a <see cref="MaxMath.quarter"/>. 1.0f for a positive <see cref="MaxMath.quarter"/>, 0.0f for zero and -1.0f for a negative <see cref="MaxMath.quarter"/>
+        /// <summary>       Returns the sign of a <see cref="quarter"/>. 1.0f for a positive <see cref="quarter"/>, 0.0f for zero and -1.0f for a negative <see cref="quarter"/>
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1233,12 +1438,12 @@ namespace MaxMath
             return asquarter(result);
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.quarter2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="quarter2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1254,12 +1459,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.quarter3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="quarter3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1275,12 +1480,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.quarter4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="quarter4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1296,12 +1501,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.quarter8"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="quarter8"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1324,12 +1529,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.quarter16"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="quarter16"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1360,12 +1565,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.quarter32"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="quarter32"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.MaxMath.quarter.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="quarter.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1382,12 +1587,12 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sign of a <see cref="MaxMath.half"/>. 1.0f for a positive <see cref="MaxMath.half"/>, 0.0f for zero and -1.0f for a negative <see cref="MaxMath.half"/>
+        /// <summary>       Returns the sign of a <see cref="half"/>. 1.0f for a positive <see cref="half"/>, 0.0f for zero and -1.0f for a negative <see cref="half"/>
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1438,12 +1643,12 @@ namespace MaxMath
             return ashalf(result);
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.half2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="half2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1459,12 +1664,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.half3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="half3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1480,12 +1685,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.half4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="half4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1501,12 +1706,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.half8"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="half8"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1529,12 +1734,12 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.half16"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="half16"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrLess"/> flag set returns undefined results for any <paramref name="x"/> greater than 0.     </para>
-        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="MaxMath.half.NaN"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for any <paramref name="x"/> that is <see cref="half.NaN"/>.     </para>
         /// </remarks>
 		/// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1614,7 +1819,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.float2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="float2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1635,7 +1840,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.float3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="float3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1656,7 +1861,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.float4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="float4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1677,7 +1882,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.float8"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="float8"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1762,7 +1967,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.double2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="double2"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1783,7 +1988,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.double3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="double3"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1804,7 +2009,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise sign of a <see cref="MaxMath.double4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
+        /// <summary>       Returns the componentwise sign of a <see cref="double4"/>. 1.0f for positive components, 0.0f for zero components and -1.0f for negative components
 		/// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for any <paramref name="x"/> equal to 0.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for any <paramref name="x"/> less than 0.     </para>
@@ -1823,6 +2028,30 @@ namespace MaxMath
             {
                 return new double4(sign(x.xy, promises), sign(x.zw, promises));
             }
+        }
+
+
+        /// <summary>       Returns the sign of a <see cref="quadruple"/> value. -1 if it is less than zero, 0 if it is zero and 1 if it is greater than zero.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int sign(quadruple x)
+        {
+            int signBit = (int)(x.value.hi64 >> 63);
+            int isNonZero;
+            int isNegative = signBit;
+
+            if (COMPILATION_OPTIONS.FLOAT_SIGNED_ZERO)
+            {
+                UInt128 withoutSignBit = x.value << 1;
+                isNonZero = tobyte(withoutSignBit.IsNotZero);
+                isNegative &= isNonZero;
+            }
+            else
+            {
+                isNonZero = tobyte(x.value.IsNotZero);
+            }
+
+            int isPositive = andnot(isNonZero, signBit);
+            return isPositive - isNegative;
         }
     }
 }

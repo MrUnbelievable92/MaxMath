@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -7,7 +8,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Returns the componentwise reciprocal a <see cref="MaxMath.float8"/>.      </summary>
+        /// <summary>       Returns the componentwise reciprocal a <see cref="float8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 rcp(float8 x)
         {
@@ -15,21 +16,21 @@ namespace MaxMath
             return 1f / x;
         }
 
-        /// <summary>       Returns the componentwise reciprocal a <see cref="MaxMath.float4"/>.      </summary>
+        /// <summary>       Returns the componentwise reciprocal a <see cref="float4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 rcp(float4 x)
         {
             return Unity.Mathematics.math.rcp(x);
         }
 
-        /// <summary>       Returns the componentwise reciprocal a <see cref="MaxMath.float3"/>.      </summary>
+        /// <summary>       Returns the componentwise reciprocal a <see cref="float3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 rcp(float3 x)
         {
             return Unity.Mathematics.math.rcp(x);
         }
 
-        /// <summary>       Returns the componentwise reciprocal a <see cref="MaxMath.float2"/>.      </summary>
+        /// <summary>       Returns the componentwise reciprocal a <see cref="float2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 rcp(float2 x)
         {
@@ -44,36 +45,50 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise reciprocal a <see cref="MaxMath.double4"/>.      </summary>
+        /// <summary>       Returns the componentwise reciprocal a <see cref="double4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 rcp(double4 x)
         {
             return Unity.Mathematics.math.rcp(x);
         }
 
-        /// <summary>       Returns the componentwise reciprocal a <see cref="MaxMath.double3"/>.      </summary>
+        /// <summary>       Returns the componentwise reciprocal a <see cref="double3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 rcp(double3 x)
         {
             return Unity.Mathematics.math.rcp(x);
         }
 
-        /// <summary>       Returns the componentwise reciprocal a <see cref="MaxMath.double2"/>.      </summary>
+        /// <summary>       Returns the componentwise reciprocal a <see cref="double2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 rcp(double2 x)
         {
             return Unity.Mathematics.math.rcp(x);
         }
 
-        /// <summary>       Returns the componentwise reciprocal a <see cref="double"/>.      </summary>
+        /// <summary>       Returns the reciprocal a <see cref="double"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double rcp(double x)
         {
             return Unity.Mathematics.math.rcp(x);
         }
 
+        
+        /// <summary>       Returns the reciprocal a <see cref="quadruple"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple rcp(quadruple x)
+        {
+            return quadruple.Reciprocal(x);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quadruple.ConstChecked rcp(quadruple.ConstChecked x)
+        {
+            return quadruple.Reciprocal(x);
+        }
 
-        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="MaxMath.float8"/>.      </summary>
+
+        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="float8"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 fastrcp(float8 x)
         {
@@ -87,7 +102,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="MaxMath.float4"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="float4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 fastrcp(float4 x)
         {
@@ -101,7 +116,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="MaxMath.float3"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="float3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 fastrcp(float3 x)
         {
@@ -115,7 +130,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="MaxMath.float2"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="float2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 fastrcp(float2 x)
         {
@@ -144,7 +159,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="MaxMath.double4"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="double4"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 fastrcp(double4 x)
         {
@@ -158,7 +173,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="MaxMath.double3"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="double3"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 fastrcp(double3 x)
         {
@@ -172,7 +187,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="MaxMath.double2"/>.      </summary>
+        /// <summary>       Returns the componentwise fast approximate reciprocal a <see cref="double2"/>.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 fastrcp(double2 x)
         {
@@ -196,10 +211,25 @@ namespace MaxMath
             }
             else
             {
-                ulong guess = Xse.MAGIC_RCP_PD - *(ulong*)&x;
+                double guess = asdouble(Xse.MAGIC_RCP_PD - asulong(x));
 
-                return *(double*)&guess * (2d - (*(double*)&guess * x));
+                return guess * (2d - (guess * x));
             }
+        }
+
+
+        /// <summary>       Returns the fast approximate reciprocal a <see cref="quadruple"/>.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple fastrcp(quadruple x)
+        {
+            quadruple.ConstChecked guess = asquadruple(new UInt128(0x7C78_0F8A_8D8B_448C, 0x7FFD_E623_8502_7785) - asuint128(x));
+            guess.Promise.MakeFiniteNotNaN();
+
+            quadruple.ConstChecked __x = x;
+            __x.Promise.MakeFiniteNotNaN();
+            __x.Promise.NonZero = true;
+
+            return guess * quadruple.fnmadd(guess, __x, 2);
         }
     }
 }

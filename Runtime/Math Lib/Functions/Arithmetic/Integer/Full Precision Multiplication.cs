@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -28,7 +29,7 @@ namespace MaxMath
             hi = (byte)(full >> 8);
         }
         
-        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="MaxMath.byte2"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="byte2"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(byte2 x, byte2 y, [NoAlias] out byte2 lo, [NoAlias] out byte2 hi)
         {
@@ -47,7 +48,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="MaxMath.byte3"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="byte3"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(byte3 x, byte3 y, [NoAlias] out byte3 lo, [NoAlias] out byte3 hi)
         {
@@ -67,7 +68,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="MaxMath.byte4"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="byte4"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(byte4 x, byte4 y, [NoAlias] out byte4 lo, [NoAlias] out byte4 hi)
         {
@@ -88,7 +89,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="MaxMath.byte8"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="byte8"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(byte8 x, byte8 y, [NoAlias] out byte8 lo, [NoAlias] out byte8 hi)
         {
@@ -113,7 +114,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="MaxMath.byte16"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="byte16"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(byte16 x, byte16 y, [NoAlias] out byte16 lo, [NoAlias] out byte16 hi)
         {
@@ -146,7 +147,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="MaxMath.byte32"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 16-bit products of two <see cref="byte32"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(byte32 x, byte32 y, [NoAlias] out byte32 lo, [NoAlias] out byte32 hi)
         {
@@ -175,7 +176,7 @@ namespace MaxMath
             hi = (ushort)(full >> 16);
         }
         
-        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="MaxMath.ushort2"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="ushort2"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(ushort2 x, ushort2 y, [NoAlias] out ushort2 lo, [NoAlias] out ushort2 hi)
         {
@@ -194,7 +195,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="MaxMath.ushort3"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="ushort3"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(ushort3 x, ushort3 y, [NoAlias] out ushort3 lo, [NoAlias] out ushort3 hi)
         {
@@ -214,7 +215,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="MaxMath.ushort4"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="ushort4"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(ushort4 x, ushort4 y, [NoAlias] out ushort4 lo, [NoAlias] out ushort4 hi)
         {
@@ -235,7 +236,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="MaxMath.ushort8"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="ushort8"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(ushort8 x, ushort8 y, [NoAlias] out ushort8 lo, [NoAlias] out ushort8 hi)
         {
@@ -260,7 +261,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="MaxMath.ushort16"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 32-bit products of two <see cref="ushort16"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(ushort16 x, ushort16 y, [NoAlias] out ushort16 lo, [NoAlias] out ushort16 hi)
         {
@@ -289,7 +290,7 @@ namespace MaxMath
             hi = (uint)(full >> 32);
         }
         
-        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="MaxMath.uint2"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="uint2"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(uint2 x, uint2 y, [NoAlias] out uint2 lo, [NoAlias] out uint2 hi)
         {
@@ -308,7 +309,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="MaxMath.uint3"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="uint3"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(uint3 x, uint3 y, [NoAlias] out uint3 lo, [NoAlias] out uint3 hi)
         {
@@ -328,7 +329,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="MaxMath.uint4"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="uint4"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(uint4 x, uint4 y, [NoAlias] out uint4 lo, [NoAlias] out uint4 hi)
         {
@@ -349,7 +350,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="MaxMath.uint32"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 64-bit products of two <see cref="uint32"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(uint8 x, uint8 y, [NoAlias] out uint8 lo, [NoAlias] out uint8 hi)
         {
@@ -376,7 +377,7 @@ namespace MaxMath
             lo = Common.umul128(x, y, out hi);
         }
         
-        /// <summary>       Computes the componentwise full unsigned 128-bit products of two <see cref="MaxMath.ulong2"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 128-bit products of two <see cref="ulong2"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(ulong2 x, ulong2 y, [NoAlias] out ulong2 lo, [NoAlias] out ulong2 hi)
         {
@@ -395,7 +396,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 128-bit products of two <see cref="MaxMath.ulong3"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 128-bit products of two <see cref="ulong3"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(ulong3 x, ulong3 y, [NoAlias] out ulong3 lo, [NoAlias] out ulong3 hi)
         {
@@ -414,7 +415,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full unsigned 128-bit products of two <see cref="MaxMath.ulong4"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full unsigned 128-bit products of two <see cref="ulong4"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(ulong4 x, ulong4 y, [NoAlias] out ulong4 lo, [NoAlias] out ulong4 hi)
         {
@@ -453,7 +454,7 @@ namespace MaxMath
             hi = (sbyte)(full >> 8);
         }
         
-        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="MaxMath.sbyte2"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="sbyte2"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(sbyte2 x, sbyte2 y, [NoAlias] out sbyte2 lo, [NoAlias] out sbyte2 hi)
         {
@@ -472,7 +473,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="MaxMath.sbyte3"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="sbyte3"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(sbyte3 x, sbyte3 y, [NoAlias] out sbyte3 lo, [NoAlias] out sbyte3 hi)
         {
@@ -492,7 +493,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="MaxMath.sbyte4"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="sbyte4"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(sbyte4 x, sbyte4 y, [NoAlias] out sbyte4 lo, [NoAlias] out sbyte4 hi)
         {
@@ -513,7 +514,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="MaxMath.sbyte8"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="sbyte8"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(sbyte8 x, sbyte8 y, [NoAlias] out sbyte8 lo, [NoAlias] out sbyte8 hi)
         {
@@ -538,7 +539,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="MaxMath.sbyte16"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="sbyte16"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(sbyte16 x, sbyte16 y, [NoAlias] out sbyte16 lo, [NoAlias] out sbyte16 hi)
         {
@@ -571,7 +572,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="MaxMath.sbyte32"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 16-bit products of two <see cref="sbyte32"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(sbyte32 x, sbyte32 y, [NoAlias] out sbyte32 lo, [NoAlias] out sbyte32 hi)
         {
@@ -600,7 +601,7 @@ namespace MaxMath
             hi = (short)(full >> 16);
         }
         
-        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="MaxMath.short2"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="short2"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(short2 x, short2 y, [NoAlias] out short2 lo, [NoAlias] out short2 hi)
         {
@@ -619,7 +620,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="MaxMath.short3"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="short3"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(short3 x, short3 y, [NoAlias] out short3 lo, [NoAlias] out short3 hi)
         {
@@ -639,7 +640,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="MaxMath.short4"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="short4"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(short4 x, short4 y, [NoAlias] out short4 lo, [NoAlias] out short4 hi)
         {
@@ -660,7 +661,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="MaxMath.short8"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="short8"/> values, returning the packed, respective 8 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(short8 x, short8 y, [NoAlias] out short8 lo, [NoAlias] out short8 hi)
         {
@@ -685,7 +686,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="MaxMath.short16"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 32-bit products of two <see cref="short16"/> values, returning the packed, respective 16 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(short16 x, short16 y, [NoAlias] out short16 lo, [NoAlias] out short16 hi)
         {
@@ -714,7 +715,7 @@ namespace MaxMath
             hi = (int)(full >> 32);
         }
         
-        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="MaxMath.int2"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="int2"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(int2 x, int2 y, [NoAlias] out int2 lo, [NoAlias] out int2 hi)
         {
@@ -733,7 +734,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="MaxMath.int3"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="int3"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(int3 x, int3 y, [NoAlias] out int3 lo, [NoAlias] out int3 hi)
         {
@@ -753,7 +754,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="MaxMath.int4"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="int4"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(int4 x, int4 y, [NoAlias] out int4 lo, [NoAlias] out int4 hi)
         {
@@ -774,7 +775,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="MaxMath.int32"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 64-bit products of two <see cref="int32"/> values, returning the packed, respective 32 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(int8 x, int8 y, [NoAlias] out int8 lo, [NoAlias] out int8 hi)
         {
@@ -798,21 +799,13 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(long x, long y, [NoAlias] out long lo, [NoAlias] out long hi)
         {
-            mulwide((ulong)x, (ulong)y, out ulong ulo, out ulong uhi);
-            lo = (long)ulo;
-            hi = (long)uhi;
+            Int128 r = UInt128.imul128(x, y);
 
-            if (constexpr.IS_TRUE(x >= 0 && y >= 0))
-            {
-                ;
-            }
-            else
-            {
-                hi -= ((x >> 63) & y) + ((y >> 63) & x);
-            }
+            lo = (long)r.lo64;
+            hi = (long)r.hi64;
         }
         
-        /// <summary>       Computes the componentwise full signed 128-bit products of two <see cref="MaxMath.long2"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 128-bit products of two <see cref="long2"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(long2 x, long2 y, [NoAlias] out long2 lo, [NoAlias] out long2 hi)
         {
@@ -831,7 +824,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 128-bit products of two <see cref="MaxMath.long3"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 128-bit products of two <see cref="long3"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(long3 x, long3 y, [NoAlias] out long3 lo, [NoAlias] out long3 hi)
         {
@@ -850,7 +843,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Computes the componentwise full signed 128-bit products of two <see cref="MaxMath.long4"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
+        /// <summary>       Computes the componentwise full signed 128-bit products of two <see cref="long4"/> values, returning the packed, respective 64 bit halves as <see langword="out"/> parameters.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void mulwide(long4 x, long4 y, [NoAlias] out long4 lo, [NoAlias] out long4 hi)
         {

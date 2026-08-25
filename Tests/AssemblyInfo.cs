@@ -13,8 +13,6 @@ using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("56a1853d-be2b-4627-88ad-22004aad9ec5")]
-
 // Style
 [assembly: SuppressMessage("Style", "IDE1006: Naming Styles", Justification = "Test Coverage Detection")]
 [assembly: SuppressMessage("Style", "IDE0066: Use 'switch' expression", Justification = "Coding Guidelines")]
@@ -23,6 +21,6 @@ using System.Runtime.InteropServices;
 [assembly: SuppressMessage("Style", "IDE0057: Substring can be simplified", Justification = "Coding Guidelines")]
 [assembly: SuppressMessage("Style", "IDE0034: 'default' expression can be simplified", Justification = "Coding Guidelines")]
 
-[assembly: AssemblyVersion("3.0")]
-[assembly: AssemblyFileVersion("3.0")]
-[assembly: AssemblyInformationalVersion("3.0 Release")]
+[assembly: AssemblyVersion("3.1")]
+[assembly: AssemblyFileVersion("3.1")]
+[assembly: AssemblyInformationalVersion("3.1 Release")]

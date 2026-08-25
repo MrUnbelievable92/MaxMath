@@ -85,5 +85,14 @@ namespace MaxMath
 
             return square(temp) * mad(-2d, temp, 3d);
         }
+
+
+        /// <summary>       Returns a smooth Hermite interpolation between 0.0 and 1.0 when <paramref name="x"/> is in the interval (inclusive) [<paramref name="xMin"/>, <paramref name="xMax"/>].        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple smoothstep(quadruple xMin, quadruple xMax, quadruple x)
+        {
+            quadruple t = saturate((x - xMin) / (xMax - xMin));
+            return square(t) * mad(t, -2.0, 3.0);
+        }
     }
 }

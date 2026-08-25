@@ -2,8 +2,9 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.math;
@@ -136,7 +137,7 @@ Assert.AreNotEqual(State, 0ul);
             return (long)NextState() < 0;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.bool2"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -145,7 +146,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool2*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.bool3"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -154,7 +155,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool3*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.bool4"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -163,7 +164,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool4*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool8"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool8"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8 NextBool8()
         {
@@ -172,7 +173,7 @@ Assert.AreNotEqual(State, 0ul);
             return *(bool8*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool16"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool16"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
@@ -186,7 +187,7 @@ Assert.AreNotEqual(State, 0ul);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool32"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool32"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
@@ -208,21 +209,21 @@ Assert.AreNotEqual(State, 0ul);
             return long.MinValue ^ (long)NextState();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.long2"/> with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="long2"/> with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long2 NextLong2()
         {
             return long.MinValue ^ (long2)NextState2();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.long3"/> with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="long3"/> with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3 NextLong3()
         {
             return long.MinValue ^ (long3)NextState3();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.long4"/> with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="long4"/> with all components in the interval [-9.223.372.036.854.775.807, 9.223.372.036.854.775.807].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long4 NextLong4()
         {
@@ -236,10 +237,10 @@ Assert.AreNotEqual(State, 0ul);
         {
 Assert.IsNotSmaller(max, min);
 
-            return min + (long)MaxMath.UInt128.umul128(NextState(), (ulong)(max - min)).hi64;
+            return min + (long)UInt128.umul128(NextState(), (ulong)(max - min)).hi64;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.long2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="long2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long2 NextLong2(long2 min, long2 max)
         {
@@ -247,13 +248,13 @@ VectorAssert.IsNotSmaller<long2, long>(max, min, 2);
 
             max -= min;
 
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), (ulong)(max.x));
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), (ulong)(max.y));
+            UInt128 x = UInt128.umul128(NextState(), (ulong)(max.x));
+            UInt128 y = UInt128.umul128(NextState(), (ulong)(max.y));
 
             return min + new long2((long)x.hi64, (long)y.hi64);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.long3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="long3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long3 NextLong3(long3 min, long3 max)
         {
@@ -261,14 +262,14 @@ VectorAssert.IsNotSmaller<long3, long>(max, min, 3);
 
             max -= min;
 
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), (ulong)(max.x));
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), (ulong)(max.y));
-            UInt128 z = MaxMath.UInt128.umul128(NextState(), (ulong)(max.z));
+            UInt128 x = UInt128.umul128(NextState(), (ulong)(max.x));
+            UInt128 y = UInt128.umul128(NextState(), (ulong)(max.y));
+            UInt128 z = UInt128.umul128(NextState(), (ulong)(max.z));
 
             return min + new long3((long)x.hi64, (long)y.hi64, (long)z.hi64);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.long4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="long4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long4 NextLong4(long4 min, long4 max)
         {
@@ -276,10 +277,10 @@ VectorAssert.IsNotSmaller<long4, long>(max, min, 4);
 
             max -= min;
 
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), (ulong)(max.x));
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), (ulong)(max.y));
-            UInt128 z = MaxMath.UInt128.umul128(NextState(), (ulong)(max.z));
-            UInt128 w = MaxMath.UInt128.umul128(NextState(), (ulong)(max.w));
+            UInt128 x = UInt128.umul128(NextState(), (ulong)(max.x));
+            UInt128 y = UInt128.umul128(NextState(), (ulong)(max.y));
+            UInt128 z = UInt128.umul128(NextState(), (ulong)(max.z));
+            UInt128 w = UInt128.umul128(NextState(), (ulong)(max.w));
 
             return min + new long4((long)x.hi64, (long)y.hi64, (long)z.hi64, (long)w.hi64);
         }
@@ -292,21 +293,21 @@ VectorAssert.IsNotSmaller<long4, long>(max, min, 4);
             return NextState() - 1;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong2"/> with all components in the interval [min, 18.446.744.073.709.551.614].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong2"/> with all components in the interval [min, 18.446.744.073.709.551.614].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2 NextULong2()
         {
             return ulong.MaxValue + NextState2();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong3"/> with all components in the interval [min, 18.446.744.073.709.551.614].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong3"/> with all components in the interval [min, 18.446.744.073.709.551.614].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3()
         {
             return ulong.MaxValue + NextState3();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong4"/> with all components in the interval [min, 18.446.744.073.709.551.614].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong4"/> with all components in the interval [min, 18.446.744.073.709.551.614].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4()
         {
@@ -318,38 +319,38 @@ VectorAssert.IsNotSmaller<long4, long>(max, min, 4);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong NextULong(ulong max)
         {
-            return MaxMath.UInt128.umul128(NextState(), max).hi64;
+            return UInt128.umul128(NextState(), max).hi64;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong2"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong2"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2 NextULong2(ulong2 max)
         {
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), max.x);
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), max.y);
+            UInt128 x = UInt128.umul128(NextState(), max.x);
+            UInt128 y = UInt128.umul128(NextState(), max.y);
 
             return new ulong2(x.hi64, y.hi64);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong3"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong3"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3(ulong3 max)
         {
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), max.x);
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), max.y);
-            UInt128 z = MaxMath.UInt128.umul128(NextState(), max.z);
+            UInt128 x = UInt128.umul128(NextState(), max.x);
+            UInt128 y = UInt128.umul128(NextState(), max.y);
+            UInt128 z = UInt128.umul128(NextState(), max.z);
 
             return new ulong3(x.hi64, y.hi64, z.hi64);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong4"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong4"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4(ulong4 max)
         {
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), max.x);
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), max.y);
-            UInt128 z = MaxMath.UInt128.umul128(NextState(), max.z);
-            UInt128 w = MaxMath.UInt128.umul128(NextState(), max.w);
+            UInt128 x = UInt128.umul128(NextState(), max.x);
+            UInt128 y = UInt128.umul128(NextState(), max.y);
+            UInt128 z = UInt128.umul128(NextState(), max.z);
+            UInt128 w = UInt128.umul128(NextState(), max.w);
 
             return new ulong4(x.hi64, y.hi64, z.hi64, w.hi64);
         }
@@ -361,10 +362,10 @@ VectorAssert.IsNotSmaller<long4, long>(max, min, 4);
         {
 Assert.IsNotSmaller(max, min);
 
-            return min + MaxMath.UInt128.umul128(NextState(), max - min).hi64;
+            return min + UInt128.umul128(NextState(), max - min).hi64;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong2 NextULong2(ulong2 min, ulong2 max)
         {
@@ -372,13 +373,13 @@ VectorAssert.IsNotSmaller<ulong2, ulong>(max, min, 2);
 
             max -= min;
 
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), max.x);
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), max.y);
+            UInt128 x = UInt128.umul128(NextState(), max.x);
+            UInt128 y = UInt128.umul128(NextState(), max.y);
 
             return min + new ulong2(x.hi64, y.hi64);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong3 NextULong3(ulong3 min, ulong3 max)
         {
@@ -386,24 +387,24 @@ VectorAssert.IsNotSmaller<ulong3, ulong>(max, min, 3);
 
             max -= min;
 
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), max.x);
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), max.y);
-            UInt128 z = MaxMath.UInt128.umul128(NextState(), max.z);
+            UInt128 x = UInt128.umul128(NextState(), max.x);
+            UInt128 y = UInt128.umul128(NextState(), max.y);
+            UInt128 z = UInt128.umul128(NextState(), max.z);
 
             return min + new ulong3(x.hi64, y.hi64, z.hi64);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ulong4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ulong4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ulong4 NextULong4(ulong4 min, ulong4 max)
         {
 VectorAssert.IsNotSmaller<ulong4, ulong>(max, min, 4);
 
             max -= min;
-            UInt128 x = MaxMath.UInt128.umul128(NextState(), max.x);
-            UInt128 y = MaxMath.UInt128.umul128(NextState(), max.y);
-            UInt128 z = MaxMath.UInt128.umul128(NextState(), max.z);
-            UInt128 w = MaxMath.UInt128.umul128(NextState(), max.w);
+            UInt128 x = UInt128.umul128(NextState(), max.x);
+            UInt128 y = UInt128.umul128(NextState(), max.y);
+            UInt128 z = UInt128.umul128(NextState(), max.z);
+            UInt128 w = UInt128.umul128(NextState(), max.w);
 
             return min + new ulong4(x.hi64, y.hi64, z.hi64, w.hi64);
         }
@@ -416,21 +417,21 @@ VectorAssert.IsNotSmaller<ulong4, ulong>(max, min, 4);
             return -1d + asdouble(asulong(1d) | (NextState() >> (F64_EXPONENT_BITS + 1)));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.double2"/> with all components in the interval [0, 1).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="double2"/> with all components in the interval [0, 1).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double2 NextDouble2()
         {
             return -1d + asdouble(asulong(1d) | (NextState2() >> (F64_EXPONENT_BITS + 1)));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.double3"/> with all components in the interval [0, 1).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="double3"/> with all components in the interval [0, 1).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double3 NextDouble3()
         {
             return -1d + asdouble(asulong(1d) | (NextState3() >> (F64_EXPONENT_BITS + 1)));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.double4"/> with all components in the interval [0, 1).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="double4"/> with all components in the interval [0, 1).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double4 NextDouble4()
         {
@@ -447,7 +448,7 @@ Assert.IsNotSmaller(max, min);
             return mad(NextDouble(), (max - min), min);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.double2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="double2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double2 NextDouble2(double2 min, double2 max)
         {
@@ -456,7 +457,7 @@ VectorAssert.IsNotSmaller<double2, double>(max, min, 2);
             return mad(NextDouble2(), (max - min), min);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.double3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="double3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double3 NextDouble3(double3 min, double3 max)
         {
@@ -465,7 +466,7 @@ VectorAssert.IsNotSmaller<double3, double>(max, min, 3);
             return mad(NextDouble3(), (max - min), min);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.double4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="double4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public double4 NextDouble4(double4 min, double4 max)
         {

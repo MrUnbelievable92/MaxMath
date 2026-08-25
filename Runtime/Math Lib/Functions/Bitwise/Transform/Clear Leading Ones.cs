@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -102,7 +103,7 @@ namespace MaxMath
         {
             int __l1cnt = l1cnt(x);
 
-            return (__l1cnt == 128) ? 0 : x & (MaxMath.UInt128.MaxValue >> __l1cnt);
+            return (__l1cnt == 128) ? 0 : x & (UInt128.MaxValue >> __l1cnt);
         }
 
         /// <summary>       Zeros out all leading ones in <paramref name="x"/>.       </summary>
@@ -407,7 +408,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint l1clear(uint x)
         {
-            return (uint)((ulong)x & ((ulong)uint.MaxValue >> l1cnt(x)));
+            if (Bmi2.IsBmi2Supported)
+            {
+                return bits_zerohigh(x, 32 - l1cnt(x));
+            }
+            else
+            {
+                return (uint)((ulong)x & ((ulong)uint.MaxValue >> l1cnt(x)));
+            }
         }
 
         /// <summary>       Zeros out all leading ones in each <paramref name="x"/> component.       </summary>
@@ -506,8 +514,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong l1clear(ulong x)
         {
-            // double register shift > branch
-            return x & ((UInt128)ulong.MaxValue >> l1cnt(x)).lo64;
+            if (Bmi2.IsBmi2Supported)
+            {
+                return bits_zerohigh(x, 64 - l1cnt(x));
+            }
+            else
+            {
+                // double register shift > branch
+                return x & ((UInt128)ulong.MaxValue >> l1cnt(x)).lo64;
+            }
         }
 
         /// <summary>       Zeros out all leading ones in each <paramref name="x"/> component.       </summary>

@@ -20,7 +20,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="float8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 msub(float8 a, float8 b, float8 c)
         {
@@ -28,7 +28,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.uint8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="uint8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 msub(uint8 a, uint8 b, uint8 c)
         {
@@ -36,7 +36,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.int8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="int8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 msub(int8 a, int8 b, int8 c)
         {
@@ -52,42 +52,42 @@ namespace MaxMath
             return ((uint)a * (uint)b) - (uint)c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.byte2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="byte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 msub(byte2 a, byte2 b, byte2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.byte3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="byte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 msub(byte3 a, byte3 b, byte3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.byte4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="byte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 msub(byte4 a, byte4 b, byte4 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.byte8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="byte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 msub(byte8 a, byte8 b, byte8 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.byte16"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="byte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 msub(byte16 a, byte16 b, byte16 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.byte32"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="byte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 msub(byte32 a, byte32 b, byte32 c)
         {
@@ -103,42 +103,42 @@ namespace MaxMath
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.sbyte2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="sbyte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 msub(sbyte2 a, sbyte2 b, sbyte2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.sbyte3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="sbyte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 msub(sbyte3 a, sbyte3 b, sbyte3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.sbyte4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="sbyte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 msub(sbyte4 a, sbyte4 b, sbyte4 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.sbyte8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="sbyte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 msub(sbyte8 a, sbyte8 b, sbyte8 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.sbyte16"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="sbyte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 msub(sbyte16 a, sbyte16 b, sbyte16 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.sbyte32"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="sbyte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 msub(sbyte32 a, sbyte32 b, sbyte32 c)
         {
@@ -154,35 +154,35 @@ namespace MaxMath
             return ((uint)a * (uint)b) - (uint)c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ushort2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="ushort2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 msub(ushort2 a, ushort2 b, ushort2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ushort3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="ushort3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 msub(ushort3 a, ushort3 b, ushort3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ushort4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="ushort4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 msub(ushort4 a, ushort4 b, ushort4 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ushort8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="ushort8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 msub(ushort8 a, ushort8 b, ushort8 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ushort16"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="ushort16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 msub(ushort16 a, ushort16 b, ushort16 c)
         {
@@ -198,35 +198,35 @@ namespace MaxMath
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.short2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="short2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 msub(short2 a, short2 b, short2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.short3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="short3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 msub(short3 a, short3 b, short3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.short4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="short4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 msub(short4 a, short4 b, short4 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.short8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="short8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 msub(short8 a, short8 b, short8 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.short16"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="short16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 msub(short16 a, short16 b, short16 c)
         {
@@ -241,21 +241,21 @@ namespace MaxMath
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.int2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="int2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 msub(int2 a, int2 b, int2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.int3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="int3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 msub(int3 a, int3 b, int3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.int4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="int4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 msub(int4 a, int4 b, int4 c)
         {
@@ -270,21 +270,21 @@ namespace MaxMath
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.uint2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="uint2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 msub(uint2 a, uint2 b, uint2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.uint3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="uint3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 msub(uint3 a, uint3 b, uint3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.uint4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="uint4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 msub(uint4 a, uint4 b, uint4 c)
         {
@@ -299,21 +299,21 @@ namespace MaxMath
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ulong2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="ulong2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 msub(ulong2 a, ulong2 b, ulong2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ulong3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="ulong3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 msub(ulong3 a, ulong3 b, ulong3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.ulong4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="ulong4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 msub(ulong4 a, ulong4 b, ulong4 c)
         {
@@ -328,21 +328,21 @@ namespace MaxMath
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.long2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="long2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 msub(long2 a, long2 b, long2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.long3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="long3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 msub(long3 a, long3 b, long3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.long4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="long4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 msub(long4 a, long4 b, long4 c)
         {
@@ -357,21 +357,21 @@ namespace MaxMath
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="float2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 msub(float2 a, float2 b, float2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="float3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 msub(float3 a, float3 b, float3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="float4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 msub(float4 a, float4 b, float4 c)
         {
@@ -386,25 +386,33 @@ namespace MaxMath
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="double2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 msub(double2 a, double2 b, double2 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="double3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 msub(double3 a, double3 b, double3 c)
         {
             return (a * b) - c;
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="double4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 msub(double4 a, double4 b, double4 c)
         {
             return (a * b) - c;
+        }
+
+        
+        /// <summary>       Returns the result of a multiply-subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="-"/> <paramref name="c"/>) on 3 <see cref="quadruple"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple msub(quadruple a, quadruple b, quadruple c)
+        {
+            return quadruple.fmsub(a, b, c);
         }
     }
 }

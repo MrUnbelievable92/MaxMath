@@ -6383,18 +6383,7 @@ namespace MaxMath.Tests
                         sb[j] = new half { value = rng.NextUShort() };
                     }
 
-                    try
-                    {
-
                     Assert.AreEqual(math.toquartersaturated(sb)[j], (quarter)(sb[j] < quarter.MinValue ? quarter.MinValue : sb[j] > quarter.MaxValue ? quarter.MaxValue : (quarter)sb[j]));
-                    }
-                    catch (System.Exception)
-                    {
-                        UnityEngine.Debug.Log(sb[j]);
-                        UnityEngine.Debug.Log((quarter)sb[j]);
-                        UnityEngine.Debug.Log(math.toquartersaturated(sb)[j]);
-                        throw;
-                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -7,7 +8,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Converts a <see cref="MaxMath.quarter"/> to its <see cref="float"/> representation.
+        /// <summary>       Converts a <see cref="quarter"/> to its <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -19,7 +20,7 @@ namespace MaxMath
             return MaxMath.quarter.ToFloat(x, inRange: promise.Promises(Promise.NoOverflow), abs: promise.Promises(Promise.ZeroOrGreater));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter2"/> to its respective <see cref="float"/> representation.
+        /// <summary>       Converts each value in a <see cref="quarter2"/> to its respective <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -38,7 +39,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter3"/> to its respective <see cref="float"/> representation.
+        /// <summary>       Converts each value in a <see cref="quarter3"/> to its respective <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -57,7 +58,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter4"/> to its respective <see cref="float"/> representation.
+        /// <summary>       Converts each value in a <see cref="quarter4"/> to its respective <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -76,7 +77,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.quarter8"/> to its respective <see cref="float"/> representation.
+        /// <summary>       Converts each value in a <see cref="quarter8"/> to its respective <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -96,7 +97,7 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Converts a <see cref="MaxMath.half"/> to its <see cref="float"/> representation.
+        /// <summary>       Converts a <see cref="half"/> to its <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -108,7 +109,7 @@ namespace MaxMath
             return MaxMath.half.ToFloat(x, inRange: promise.Promises(Promise.NoOverflow), abs: promise.Promises(Promise.ZeroOrGreater));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half2"/> to its respective <see cref="float"/> representation.
+        /// <summary>       Converts each value in a <see cref="half2"/> to its respective <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -127,7 +128,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half3"/> to its respective <see cref="float"/> representation.
+        /// <summary>       Converts each value in a <see cref="half3"/> to its respective <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -146,7 +147,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half4"/> to its respective <see cref="float"/> representation.
+        /// <summary>       Converts each value in a <see cref="half4"/> to its respective <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -165,7 +166,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its respective <see cref="float"/> representation.
+        /// <summary>       Converts each value in a <see cref="half8"/> to its respective <see cref="float"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -182,6 +183,20 @@ namespace MaxMath
             {
                 return new float8(tofloatunsafe(x.v4_0, promise), tofloatunsafe(x.v4_4, promise));
             }
+        }
+
+        
+        /// <summary>       Converts a <see cref="quadruple"/> to its <see cref="float"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-3.40282346638528859811704183484516925440e+38, 3.40282346638528859811704183484516925440e+38].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values that would result in a subnormal <see cref="half"/> value, which applies to input values with an absolute value that lies in the interval (7.006492321624085354618647916449581E-46, 1.1754942106924410754870294448492873E-38].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float tofloatunsafe(quadruple x, Promise promise = Promise.NoOverflow)
+        {
+            return quadruple.ToFloat(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
         }
     }
 }

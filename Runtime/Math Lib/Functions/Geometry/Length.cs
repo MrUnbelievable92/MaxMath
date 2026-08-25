@@ -11,28 +11,28 @@ namespace MaxMath
             return Unity.Mathematics.math.lengthsq(x);
         }
         
-        /// <summary>       Returns the squared length of a <see cref="MaxMath.float2"/>.     </summary>
+        /// <summary>       Returns the squared length of a <see cref="float2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float lengthsq(float2 x)
         {
             return Unity.Mathematics.math.lengthsq(x);
         }
         
-        /// <summary>       Returns the squared length of a <see cref="MaxMath.float3"/>.     </summary>
+        /// <summary>       Returns the squared length of a <see cref="float3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float lengthsq(float3 x)
         {
             return Unity.Mathematics.math.lengthsq(x);
         }
         
-        /// <summary>       Returns the squared length of a <see cref="MaxMath.float4"/>.     </summary>
+        /// <summary>       Returns the squared length of a <see cref="float4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float lengthsq(float4 x)
         {
             return Unity.Mathematics.math.lengthsq(x);
         }
 
-        /// <summary>       Returns the squared length of a <see cref="MaxMath.float8"/>.     </summary>
+        /// <summary>       Returns the squared length of a <see cref="float8"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float lengthsq(float8 x)
         {
@@ -47,25 +47,33 @@ namespace MaxMath
             return Unity.Mathematics.math.lengthsq(x);
         }
         
-        /// <summary>       Returns the squared length of a <see cref="MaxMath.double2"/>.     </summary>
+        /// <summary>       Returns the squared length of a <see cref="double2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double lengthsq(double2 x)
         {
             return Unity.Mathematics.math.lengthsq(x);
         }
         
-        /// <summary>       Returns the squared length of a <see cref="MaxMath.double3"/>.     </summary>
+        /// <summary>       Returns the squared length of a <see cref="double3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double lengthsq(double3 x)
         {
             return Unity.Mathematics.math.lengthsq(x);
         }
         
-        /// <summary>       Returns the squared length of a <see cref="MaxMath.double4"/>.     </summary>
+        /// <summary>       Returns the squared length of a <see cref="double4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double lengthsq(double4 x)
         {
             return Unity.Mathematics.math.lengthsq(x);
+        }
+
+
+        /// <summary>       Returns the squared length of a <see cref="quadruple"/> value. Equivalent to squaring the value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple lengthsq(quadruple x)
+        {
+            return square(x);
         }
 
 
@@ -76,28 +84,28 @@ namespace MaxMath
             return Unity.Mathematics.math.length(x);
         }
 
-        /// <summary>       Returns the length of a <see cref="MaxMath.float2"/>.     </summary>
+        /// <summary>       Returns the length of a <see cref="float2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float length(float2 x)
         {
             return Unity.Mathematics.math.length(x);
         }
 
-        /// <summary>       Returns the length of a <see cref="MaxMath.float3"/>.     </summary>
+        /// <summary>       Returns the length of a <see cref="float3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float length(float3 x)
         {
             return Unity.Mathematics.math.length(x);
         }
 
-        /// <summary>       Returns the length of a <see cref="MaxMath.float4"/>.     </summary>
+        /// <summary>       Returns the length of a <see cref="float4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float length(float4 x)
         {
             return Unity.Mathematics.math.length(x);
         }
 
-        /// <summary>       Returns the length of a <see cref="MaxMath.float8"/>.     </summary>
+        /// <summary>       Returns the length of a <see cref="float8"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float length(float8 x)
         {
@@ -112,25 +120,33 @@ namespace MaxMath
             return Unity.Mathematics.math.length(x);
         }
 
-        /// <summary>       Returns the length of a <see cref="MaxMath.double2"/>.     </summary>
+        /// <summary>       Returns the length of a <see cref="double2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double length(double2 x)
         {
             return Unity.Mathematics.math.length(x);
         }
 
-        /// <summary>       Returns the length of a <see cref="MaxMath.double3"/>.     </summary>
+        /// <summary>       Returns the length of a <see cref="double3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double length(double3 x)
         {
             return Unity.Mathematics.math.length(x);
         }
 
-        /// <summary>       Returns the length of a <see cref="MaxMath.double4"/>.     </summary>
+        /// <summary>       Returns the length of a <see cref="double4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double length(double4 x)
         {
             return Unity.Mathematics.math.length(x);
+        }
+
+
+        /// <summary>       Returns the length of a <see cref="quadruple"/> value. Equivalent to the absolute value.     </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple length(quadruple x)
+        {
+            return abs(x);
         }
     }
 }

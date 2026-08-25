@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -247,7 +248,7 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.float2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="float2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 subadd(float2 a, float2 b)
         {
@@ -261,7 +262,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.float3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="float3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 subadd(float3 a, float3 b)
         {
@@ -275,7 +276,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.float4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="float4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 subadd(float4 a, float4 b)
         {
@@ -289,7 +290,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.float8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="float8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 subadd(float8 a, float8 b)
         {
@@ -304,7 +305,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.double2"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="double2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 subadd(double2 a, double2 b)
         {
@@ -318,7 +319,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.double3"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="double3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 subadd(double3 a, double3 b)
         {
@@ -332,7 +333,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.double4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="double4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 subadd(double4 a, double4 b)
         {
@@ -347,7 +348,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.byte2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="byte2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 subadd(byte2 a, byte2 b)
         {
@@ -361,7 +362,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.byte3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="byte3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 subadd(byte3 a, byte3 b)
         {
@@ -375,7 +376,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.byte4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="byte4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 subadd(byte4 a, byte4 b)
         {
@@ -389,7 +390,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.byte8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="byte8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 subadd(byte8 a, byte8 b)
         {
@@ -403,7 +404,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.byte16"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="byte16"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 subadd(byte16 a, byte16 b)
         {
@@ -417,7 +418,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.byte32"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="byte32"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 subadd(byte32 a, byte32 b)
         {
@@ -432,42 +433,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.sbyte2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="sbyte2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 subadd(sbyte2 a, sbyte2 b)
         {
             return (sbyte2)subadd((byte2)a, (byte2)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.sbyte3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="sbyte3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 subadd(sbyte3 a, sbyte3 b)
         {
             return (sbyte3)subadd((byte3)a, (byte3)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.sbyte4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="sbyte4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 subadd(sbyte4 a, sbyte4 b)
         {
             return (sbyte4)subadd((byte4)a, (byte4)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.sbyte8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="sbyte8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 subadd(sbyte8 a, sbyte8 b)
         {
             return (sbyte8)subadd((byte8)a, (byte8)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.sbyte16"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="sbyte16"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 subadd(sbyte16 a, sbyte16 b)
         {
             return (sbyte16)subadd((byte16)a, (byte16)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.sbyte32"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="sbyte32"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 subadd(sbyte32 a, sbyte32 b)
         {
@@ -475,7 +476,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.ushort2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="ushort2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 subadd(ushort2 a, ushort2 b)
         {
@@ -489,7 +490,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.ushort3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="ushort3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 subadd(ushort3 a, ushort3 b)
         {
@@ -503,7 +504,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.ushort4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="ushort4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 subadd(ushort4 a, ushort4 b)
         {
@@ -517,7 +518,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.ushort8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="ushort8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 subadd(ushort8 a, ushort8 b)
         {
@@ -531,7 +532,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.ushort16"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="ushort16"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 subadd(ushort16 a, ushort16 b)
         {
@@ -546,35 +547,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.short2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="short2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 subadd(short2 a, short2 b)
         {
             return (short2)subadd((ushort2)a, (ushort2)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.short3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="short3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 subadd(short3 a, short3 b)
         {
             return (short3)subadd((ushort3)a, (ushort3)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.short4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="short4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 subadd(short4 a, short4 b)
         {
             return (short4)subadd((ushort4)a, (ushort4)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.short8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="short8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 subadd(short8 a, short8 b)
         {
             return (short8)subadd((ushort8)a, (ushort8)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.short16"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="short16"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 subadd(short16 a, short16 b)
         {
@@ -582,7 +583,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.uint2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="uint2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 subadd(uint2 a, uint2 b)
         {
@@ -596,7 +597,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.uint3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="uint3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 subadd(uint3 a, uint3 b)
         {
@@ -610,7 +611,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.uint4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="uint4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 subadd(uint4 a, uint4 b)
         {
@@ -624,7 +625,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.uint8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="uint8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 subadd(uint8 a, uint8 b)
         {
@@ -639,28 +640,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.int2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="int2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 subadd(int2 a, int2 b)
         {
             return (int2)subadd((uint2)a, (uint2)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.int3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="int3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 subadd(int3 a, int3 b)
         {
             return (int3)subadd((uint3)a, (uint3)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.int4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="int4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 subadd(int4 a, int4 b)
         {
             return (int4)subadd((uint4)a, (uint4)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.int8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="int8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 subadd(int8 a, int8 b)
         {
@@ -668,7 +669,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.ulong2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="ulong2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 subadd(ulong2 a, ulong2 b)
         {
@@ -682,7 +683,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.ulong3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="ulong3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 subadd(ulong3 a, ulong3 b)
         {
@@ -696,7 +697,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.ulong4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="ulong4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 subadd(ulong4 a, ulong4 b)
         {
@@ -711,21 +712,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.long2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="long2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 subadd(long2 a, long2 b)
         {
             return (long2)subadd((ulong2)a, (ulong2)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="MaxMath.long3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="b"/>) on two <see cref="long3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 subadd(long3 a, long3 b)
         {
             return (long3)subadd((ulong3)a, (ulong3)b);
         }
 
-        /// <summary>       Returns the result of a componentwise subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="MaxMath.long4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise alternating subtract/add operation (<paramref name ="a"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="b"/>) on two <see cref="long4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 subadd(long4 a, long4 b)
         {

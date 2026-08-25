@@ -1,7 +1,8 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -57,23 +58,60 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+                    v128 result;
+
                     if (pow2 || constexpr.ALL_POW2_EPU8(b, elements))
                     {
                         if (nonNegative || constexpr.ALL_GE_EPI8(a, 0, elements))
                         {
-                            return and_si128(a, neg_epi8(b));
+                            result = and_si128(a, neg_epi8(b));
                         }
                         else
                         {
-                            b = dec_epi8(b);
+                            v128 mask = dec_epi8(b);
 
-                            return andnot_si128(b, add_epi8(a, and_si128(b, srai_epi8(a, 7))));
+                            result = andnot_si128(mask, add_epi8(a, and_si128(mask, srai_epi8(a, 7))));
                         }
                     }
                     else
                     {
-                        return divmullo_epi8(a, b, b, out _, noOverflow: true, saturated: false, elements);
+                        result = divmullo_epi8(a, b, b, out _, noOverflow: true, saturated: false, elements);
                     }
+
+                    Assume.truncmultiple(result.SByte0,  a.SByte0,  b.Byte0,  pow2);
+                    Assume.truncmultiple(result.SByte1,  a.SByte1,  b.Byte1,  pow2);
+
+                    if (elements > 2)
+                    {
+                        Assume.truncmultiple(result.SByte2,  a.SByte2,  b.Byte2,  pow2);
+
+                        if (elements > 3)
+                        {
+                            Assume.truncmultiple(result.SByte3,  a.SByte3,  b.Byte3,  pow2);
+
+                            if (elements > 4)
+                            {
+                                Assume.truncmultiple(result.SByte4,  a.SByte4,  b.Byte4,  pow2);
+                                Assume.truncmultiple(result.SByte5,  a.SByte5,  b.Byte5,  pow2);
+                                Assume.truncmultiple(result.SByte6,  a.SByte6,  b.Byte6,  pow2);
+                                Assume.truncmultiple(result.SByte7,  a.SByte7,  b.Byte7,  pow2);
+
+                                if (elements > 8)
+                                {
+                                    Assume.truncmultiple(result.SByte8,  a.SByte8,  b.Byte8,  pow2);
+                                    Assume.truncmultiple(result.SByte9,  a.SByte9,  b.Byte9,  pow2);
+                                    Assume.truncmultiple(result.SByte10, a.SByte10, b.Byte10, pow2);
+                                    Assume.truncmultiple(result.SByte11, a.SByte11, b.Byte11, pow2);
+                                    Assume.truncmultiple(result.SByte12, a.SByte12, b.Byte12, pow2);
+                                    Assume.truncmultiple(result.SByte13, a.SByte13, b.Byte13, pow2);
+                                    Assume.truncmultiple(result.SByte14, a.SByte14, b.Byte14, pow2);
+                                    Assume.truncmultiple(result.SByte15, a.SByte15, b.Byte15, pow2);
+                                }
+                            }
+                        }
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -83,23 +121,48 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+                    v128 result;
+
                     if (pow2 || constexpr.ALL_POW2_EPU16(b, elements))
                     {
                         if (nonNegative || constexpr.ALL_GE_EPI16(a, 0, elements))
                         {
-                            return and_si128(a, neg_epi16(b));
+                            result = and_si128(a, neg_epi16(b));
                         }
                         else
                         {
-                            b = dec_epi16(b);
+                            v128 mask = dec_epi16(b);
 
-                            return andnot_si128(b, add_epi16(a, and_si128(b, srai_epi16(a, 15))));
+                            result = andnot_si128(mask, add_epi16(a, and_si128(mask, srai_epi16(a, 15))));
                         }
                     }
                     else
                     {
-                        return mullo_epi16(b, div_epi16(a, b, elements: elements));
+                        result = mullo_epi16(b, div_epi16(a, b, elements: elements));
                     }
+
+                    Assume.truncmultiple(result.SShort0, a.SShort0, b.UShort0, pow2);
+                    Assume.truncmultiple(result.SShort1, a.SShort1, b.UShort1, pow2);
+
+                    if (elements > 2)
+                    {
+                        Assume.truncmultiple(result.SShort2, a.SShort2, b.UShort2, pow2);
+
+                        if (elements > 3)
+                        {
+                            Assume.truncmultiple(result.SShort3, a.SShort3, b.UShort3, pow2);
+
+                            if (elements > 4)
+                            {
+                                Assume.truncmultiple(result.SShort4, a.SShort4, b.UShort4, pow2);
+                                Assume.truncmultiple(result.SShort5, a.SShort5, b.UShort5, pow2);
+                                Assume.truncmultiple(result.SShort6, a.SShort6, b.UShort6, pow2);
+                                Assume.truncmultiple(result.SShort7, a.SShort7, b.UShort7, pow2);
+                            }
+                        }
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -109,23 +172,40 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+                    v128 result;
+
                     if (pow2 || constexpr.ALL_POW2_EPU32(b, elements))
                     {
                         if (nonNegative || constexpr.ALL_GE_EPI32(a, 0, elements))
                         {
-                            return and_si128(a, neg_epi32(b));
+                            result = and_si128(a, neg_epi32(b));
                         }
                         else
                         {
-                            b = dec_epi32(b);
+                            v128 mask = dec_epi32(b);
 
-                            return andnot_si128(b, add_epi32(a, and_si128(b, srai_epi32(a, 31))));
+                            result = andnot_si128(mask, add_epi32(a, and_si128(mask, srai_epi32(a, 31))));
                         }
                     }
                     else
                     {
-                        return mullo_epi32(b, div_epi32(a, b, elements), elements);
+                        result = mullo_epi32(b, div_epi32(a, b, elements), elements);
                     }
+
+                    Assume.truncmultiple(result.SInt0, a.SInt0, b.UInt0, pow2);
+                    Assume.truncmultiple(result.SInt1, a.SInt1, b.UInt1, pow2);
+
+                    if (elements > 2)
+                    {
+                        Assume.truncmultiple(result.SInt2, a.SInt2, b.UInt2, pow2);
+
+                        if (elements > 3)
+                        {
+                            Assume.truncmultiple(result.SInt3, a.SInt3, b.UInt3, pow2);
+                        }
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -135,23 +215,30 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+                    v128 result;
+
                     if (pow2 || constexpr.ALL_POW2_EPU64(b))
                     {
                         if (nonNegative || constexpr.ALL_GE_EPI64(a, 0))
                         {
-                            return and_si128(a, neg_epi64(b));
+                            result = and_si128(a, neg_epi64(b));
                         }
                         else
                         {
-                            b = dec_epi64(b);
+                            v128 mask = dec_epi64(b);
 
-                            return andnot_si128(b, add_epi64(a, and_si128(b, srai_epi64(a, 63))));
+                            result = andnot_si128(mask, add_epi64(a, and_si128(mask, srai_epi64(a, 63))));
                         }
                     }
                     else
                     {
-                        return mullo_epi64(b, div_epi64(a, b));
+                        result = sub_epi64(a, rem_epi64(a, b));
                     }
+
+                    Assume.truncmultiple(result.SLong0, a.SLong0, b.ULong0, pow2);
+                    Assume.truncmultiple(result.SLong1, a.SLong1, b.ULong1, pow2);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -203,23 +290,60 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    v256 result;
+
                     if (pow2 || constexpr.ALL_POW2_EPU8(b))
                     {
                         if (nonNegative || constexpr.ALL_GE_EPI8(a, 0))
                         {
-                            return Avx2.mm256_and_si256(a, mm256_neg_epi8(b));
+                            result = Avx2.mm256_and_si256(a, mm256_neg_epi8(b));
                         }
                         else
                         {
-                            b = mm256_dec_epi8(b);
+                            v256 mask = mm256_dec_epi8(b);
 
-                            return Avx2.mm256_andnot_si256(b, Avx2.mm256_add_epi8(a, Avx2.mm256_and_si256(b, mm256_srai_epi8(a, 7))));
+                            result = Avx2.mm256_andnot_si256(mask, Avx2.mm256_add_epi8(a, Avx2.mm256_and_si256(mask, mm256_srai_epi8(a, 7))));
                         }
                     }
                     else
                     {
-                        return mm256_divmullo_epi8(a, b, b, out _, noOverflow: true);
+                        result = mm256_divmullo_epi8(a, b, b, out _, noOverflow: true);
                     }
+
+                    Assume.truncmultiple(result.SByte0,  a.SByte0,  b.Byte0,  pow2);
+                    Assume.truncmultiple(result.SByte1,  a.SByte1,  b.Byte1,  pow2);
+                    Assume.truncmultiple(result.SByte2,  a.SByte2,  b.Byte2,  pow2);
+                    Assume.truncmultiple(result.SByte3,  a.SByte3,  b.Byte3,  pow2);
+                    Assume.truncmultiple(result.SByte4,  a.SByte4,  b.Byte4,  pow2);
+                    Assume.truncmultiple(result.SByte5,  a.SByte5,  b.Byte5,  pow2);
+                    Assume.truncmultiple(result.SByte6,  a.SByte6,  b.Byte6,  pow2);
+                    Assume.truncmultiple(result.SByte7,  a.SByte7,  b.Byte7,  pow2);
+                    Assume.truncmultiple(result.SByte8,  a.SByte8,  b.Byte8,  pow2);
+                    Assume.truncmultiple(result.SByte9,  a.SByte9,  b.Byte9,  pow2);
+                    Assume.truncmultiple(result.SByte10, a.SByte10, b.Byte10, pow2);
+                    Assume.truncmultiple(result.SByte11, a.SByte11, b.Byte11, pow2);
+                    Assume.truncmultiple(result.SByte12, a.SByte12, b.Byte12, pow2);
+                    Assume.truncmultiple(result.SByte13, a.SByte13, b.Byte13, pow2);
+                    Assume.truncmultiple(result.SByte14, a.SByte14, b.Byte14, pow2);
+                    Assume.truncmultiple(result.SByte15, a.SByte15, b.Byte15, pow2);
+                    Assume.truncmultiple(result.SByte16, a.SByte16, b.Byte16, pow2);
+                    Assume.truncmultiple(result.SByte17, a.SByte17, b.Byte17, pow2);
+                    Assume.truncmultiple(result.SByte18, a.SByte18, b.Byte18, pow2);
+                    Assume.truncmultiple(result.SByte19, a.SByte19, b.Byte19, pow2);
+                    Assume.truncmultiple(result.SByte20, a.SByte20, b.Byte20, pow2);
+                    Assume.truncmultiple(result.SByte21, a.SByte21, b.Byte21, pow2);
+                    Assume.truncmultiple(result.SByte22, a.SByte22, b.Byte22, pow2);
+                    Assume.truncmultiple(result.SByte23, a.SByte23, b.Byte23, pow2);
+                    Assume.truncmultiple(result.SByte24, a.SByte24, b.Byte24, pow2);
+                    Assume.truncmultiple(result.SByte25, a.SByte25, b.Byte25, pow2);
+                    Assume.truncmultiple(result.SByte26, a.SByte26, b.Byte26, pow2);
+                    Assume.truncmultiple(result.SByte27, a.SByte27, b.Byte27, pow2);
+                    Assume.truncmultiple(result.SByte28, a.SByte28, b.Byte28, pow2);
+                    Assume.truncmultiple(result.SByte29, a.SByte29, b.Byte29, pow2);
+                    Assume.truncmultiple(result.SByte30, a.SByte30, b.Byte30, pow2);
+                    Assume.truncmultiple(result.SByte31, a.SByte31, b.Byte31, pow2);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -229,23 +353,44 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    v256 result;
+
                     if (pow2 || constexpr.ALL_POW2_EPU16(b))
                     {
                         if (nonNegative || constexpr.ALL_GE_EPI16(a, 0))
                         {
-                            return Avx2.mm256_and_si256(a, mm256_neg_epi16(b));
+                            result = Avx2.mm256_and_si256(a, mm256_neg_epi16(b));
                         }
                         else
                         {
-                            b = mm256_dec_epi16(b);
+                            v256 mask = mm256_dec_epi16(b);
 
-                            return Avx2.mm256_andnot_si256(b, Avx2.mm256_add_epi16(a, Avx2.mm256_and_si256(b, Avx2.mm256_srai_epi16(a, 15))));
+                            result = Avx2.mm256_andnot_si256(mask, Avx2.mm256_add_epi16(a, Avx2.mm256_and_si256(mask, Avx2.mm256_srai_epi16(a, 15))));
                         }
                     }
                     else
                     {
-                        return Avx2.mm256_mullo_epi16(b, mm256_div_epi16(a, b));
+                        result = Avx2.mm256_mullo_epi16(b, mm256_div_epi16(a, b));
                     }
+
+                    Assume.truncmultiple(result.SShort0,  a.SShort0,  b.UShort0,  pow2);
+                    Assume.truncmultiple(result.SShort1,  a.SShort1,  b.UShort1,  pow2);
+                    Assume.truncmultiple(result.SShort2,  a.SShort2,  b.UShort2,  pow2);
+                    Assume.truncmultiple(result.SShort3,  a.SShort3,  b.UShort3,  pow2);
+                    Assume.truncmultiple(result.SShort4,  a.SShort4,  b.UShort4,  pow2);
+                    Assume.truncmultiple(result.SShort5,  a.SShort5,  b.UShort5,  pow2);
+                    Assume.truncmultiple(result.SShort6,  a.SShort6,  b.UShort6,  pow2);
+                    Assume.truncmultiple(result.SShort7,  a.SShort7,  b.UShort7,  pow2);
+                    Assume.truncmultiple(result.SShort8,  a.SShort8,  b.UShort8,  pow2);
+                    Assume.truncmultiple(result.SShort9,  a.SShort9,  b.UShort9,  pow2);
+                    Assume.truncmultiple(result.SShort10, a.SShort10, b.UShort10, pow2);
+                    Assume.truncmultiple(result.SShort11, a.SShort11, b.UShort11, pow2);
+                    Assume.truncmultiple(result.SShort12, a.SShort12, b.UShort12, pow2);
+                    Assume.truncmultiple(result.SShort13, a.SShort13, b.UShort13, pow2);
+                    Assume.truncmultiple(result.SShort14, a.SShort14, b.UShort14, pow2);
+                    Assume.truncmultiple(result.SShort15, a.SShort15, b.UShort15, pow2);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -255,23 +400,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    v256 result;
+
                     if (pow2 || constexpr.ALL_POW2_EPU32(b))
                     {
                         if (nonNegative || constexpr.ALL_GE_EPI32(a, 0))
                         {
-                            return Avx2.mm256_and_si256(a, mm256_neg_epi32(b));
+                            result = Avx2.mm256_and_si256(a, mm256_neg_epi32(b));
                         }
                         else
                         {
-                            b = mm256_dec_epi32(b);
+                            v256 mask = mm256_dec_epi32(b);
 
-                            return Avx2.mm256_andnot_si256(b, Avx2.mm256_add_epi32(a, Avx2.mm256_and_si256(b, Avx2.mm256_srai_epi32(a, 31))));
+                            result = Avx2.mm256_andnot_si256(mask, Avx2.mm256_add_epi32(a, Avx2.mm256_and_si256(mask, Avx2.mm256_srai_epi32(a, 31))));
                         }
                     }
                     else
                     {
-                        return Avx2.mm256_mullo_epi32(b, mm256_div_epi32(a, b));
+                        result = Avx2.mm256_mullo_epi32(b, mm256_div_epi32(a, b));
                     }
+
+                    Assume.truncmultiple(result.SInt0, a.SInt0, b.UInt0, pow2);
+                    Assume.truncmultiple(result.SInt1, a.SInt1, b.UInt1, pow2);
+                    Assume.truncmultiple(result.SInt2, a.SInt2, b.UInt2, pow2);
+                    Assume.truncmultiple(result.SInt3, a.SInt3, b.UInt3, pow2);
+                    Assume.truncmultiple(result.SInt4, a.SInt4, b.UInt4, pow2);
+                    Assume.truncmultiple(result.SInt5, a.SInt5, b.UInt5, pow2);
+                    Assume.truncmultiple(result.SInt6, a.SInt6, b.UInt6, pow2);
+                    Assume.truncmultiple(result.SInt7, a.SInt7, b.UInt7, pow2);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -281,23 +439,36 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    v256 result;
+
                     if (pow2 || constexpr.ALL_POW2_EPU64(b, elements))
                     {
                         if (nonNegative || constexpr.ALL_GE_EPI64(a, 0, elements))
                         {
-                            return Avx2.mm256_and_si256(a, mm256_neg_epi64(b));
+                            result = Avx2.mm256_and_si256(a, mm256_neg_epi64(b));
                         }
                         else
                         {
-                            b = mm256_dec_epi64(b);
+                            v256 mask = mm256_dec_epi64(b);
 
-                            return Avx2.mm256_andnot_si256(b, Avx2.mm256_add_epi64(a, Avx2.mm256_and_si256(b, mm256_srai_epi64(a, 63, elements))));
+                            result = Avx2.mm256_andnot_si256(mask, Avx2.mm256_add_epi64(a, Avx2.mm256_and_si256(mask, mm256_srai_epi64(a, 63, elements))));
                         }
                     }
                     else
                     {
-                        return mm256_mullo_epi64(b, mm256_div_epi64(a, b, elements: elements), elements);
+                        result = Avx2.mm256_sub_epi64(a, mm256_rem_epi64(a, b, elements: elements));
                     }
+
+                    Assume.truncmultiple(result.SLong0, a.SLong0, b.ULong0, pow2);
+                    Assume.truncmultiple(result.SLong1, a.SLong1, b.ULong1, pow2);
+                    Assume.truncmultiple(result.SLong2, a.SLong2, b.ULong2, pow2);
+
+                    if (elements > 3)
+                    {
+                        Assume.truncmultiple(result.SLong3, a.SLong3, b.ULong3, pow2);
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -347,6 +518,130 @@ namespace MaxMath
     }
 
 
+    unsafe internal static partial class Assume
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void truncmultiple(sbyte result, sbyte x, byte n, bool promisePow2)
+        {
+            if (promisePow2 || constexpr.IS_TRUE(math.ispow2(n)))
+            {
+                constexpr.ASSUME((result & (n - 1)) == 0);
+            }
+
+            constexpr.ASSUME((result % (sbyte)n) == 0);
+
+            if (constexpr.IS_TRUE(x >= 0))
+            {
+                constexpr.ASSUME(result >= 0);
+                constexpr.ASSUME(result <= x);
+                if (constexpr.IS_TRUE(n <= sbyte.MaxValue))
+                {
+                    constexpr.ASSUME((sbyte)(x - result) < n);
+                }
+            }
+            else if (constexpr.IS_TRUE(x < 0))
+            {
+                constexpr.ASSUME(result <= 0);
+                constexpr.ASSUME(result >= x);
+                if (constexpr.IS_TRUE(n <= sbyte.MaxValue))
+                {
+                    constexpr.ASSUME((sbyte)(result - x) < n);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void truncmultiple(short result, short x, ushort n, bool promisePow2)
+        {
+            if (promisePow2 || constexpr.IS_TRUE(math.ispow2(n)))
+            {
+                constexpr.ASSUME((result & (n - 1)) == 0);
+            }
+
+            constexpr.ASSUME((result % (short)n) == 0);
+            
+            if (constexpr.IS_TRUE(x >= 0))
+            {
+                constexpr.ASSUME(result >= 0);
+                constexpr.ASSUME(result <= x);
+                if (constexpr.IS_TRUE(n <= short.MaxValue))
+                {
+                    constexpr.ASSUME((short)(x - result) < n);
+                }
+            }
+            else if (constexpr.IS_TRUE(x < 0))
+            {
+                constexpr.ASSUME(result <= 0);
+                constexpr.ASSUME(result >= x);
+                if (constexpr.IS_TRUE(n <= short.MaxValue))
+                {
+                    constexpr.ASSUME((short)(result - x) < n);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void truncmultiple(int result, int x, uint n, bool promisePow2)
+        {
+            if (promisePow2 || constexpr.IS_TRUE(math.ispow2(n)))
+            {
+                constexpr.ASSUME((result & (int)(n - 1)) == 0);
+            }
+
+            constexpr.ASSUME((result % (int)n) == 0);
+            
+            if (constexpr.IS_TRUE(x >= 0))
+            {
+                constexpr.ASSUME(result >= 0);
+                constexpr.ASSUME(result <= x);
+                if (constexpr.IS_TRUE(n <= int.MaxValue))
+                {
+                    constexpr.ASSUME(x - result < (int)n);
+                }
+            }
+            else if (constexpr.IS_TRUE(x < 0))
+            {
+                constexpr.ASSUME(result <= 0);
+                constexpr.ASSUME(result >= x);
+                if (constexpr.IS_TRUE(n <= int.MaxValue))
+                {
+                    constexpr.ASSUME(result - x < (int)n);
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void truncmultiple(long result, long x, ulong n, bool promisePow2)
+        {
+            if (promisePow2 || constexpr.IS_TRUE(math.ispow2(n)))
+            {
+                constexpr.ASSUME((result & (long)(n - 1)) == 0);
+            }
+
+            constexpr.ASSUME((result % (long)n) == 0);
+            
+            if (constexpr.IS_TRUE(x >= 0))
+            {
+                constexpr.ASSUME(result >= 0);
+                constexpr.ASSUME(result <= x);
+                if (constexpr.IS_TRUE(n <= long.MaxValue))
+                {
+                    constexpr.ASSUME(x - result < (long)n);
+                }
+            }
+            else if (constexpr.IS_TRUE(x < 0))
+            {
+                constexpr.ASSUME(result <= 0);
+                constexpr.ASSUME(result >= x);
+                if (constexpr.IS_TRUE(n <= long.MaxValue))
+                {
+                    constexpr.ASSUME(result - x < (long)n);
+                }
+            }
+        }
+    }
+
+
     unsafe public static partial class math
     {
         /// <summary>       Returns <paramref name="x"/> rounded to the nearest multiple toward 0 of <paramref name="n"/> where <paramref name="n"/> &gt; 0.
@@ -369,23 +664,53 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int128 truncmultiple(Int128 x, UInt128 n, Promise promises = Promise.Nothing)
         {
+            Int128 result;
+            
             if (promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(ispow2(n)))
             {
                 if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
                 {
-                    return x & (Int128)(0 - n);
+                    result = x & -(Int128)n;
                 }
                 else
                 {
-                    n--;
+                    UInt128 mask = n - 1;
 
-                    return andnot(x + ((Int128)n & (x >> 127)), (Int128)n);
+                    result = andnot(x + ((Int128)mask & (x >> 127)), (Int128)mask);
                 }
             }
             else
             {
-                return (Int128)n * (x / (Int128)n);
+                result = (Int128)n * (x / (Int128)n);
             }
+            
+            if (promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(ispow2(n)))
+            {
+                constexpr.ASSUME((result & (Int128)(n - 1)) == 0);
+            }
+
+            //constexpr.ASSUME((result % (Int128)n) == 0);
+            
+            if (constexpr.IS_TRUE(x >= 0))
+            {
+                constexpr.ASSUME(result >= 0);
+                constexpr.ASSUME(result <= x);
+                if (constexpr.IS_TRUE(n <= (UInt128)Int128.MaxValue))
+                {
+                    constexpr.ASSUME(x - result < (Int128)n);
+                }
+            }
+            else if (constexpr.IS_TRUE(x < 0))
+            {
+                constexpr.ASSUME(result <= 0);
+                constexpr.ASSUME(result >= x);
+                if (constexpr.IS_TRUE(n <= (UInt128)Int128.MaxValue))
+                {
+                    constexpr.ASSUME(result - x < (Int128)n);
+                }
+            }
+
+            return result;
         }
 
 
@@ -443,23 +768,29 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long truncmultiple(long x, ulong n, Promise promises = Promise.Nothing)
         {
+            long result;
+
             if (promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(ispow2(n)))
             {
                 if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
                 {
-                    return x & (long)(0 - n);
+                    result = x & -(long)n;
                 }
                 else
                 {
-                    n--;
+                    ulong mask = n - 1;
 
-                    return andnot(x + ((long)n & (x >> 63)), (long)n);
+                    result = andnot(x + ((long)mask & (x >> 63)), (long)mask);
                 }
             }
             else
             {
-                return (long)n * (x / (long)n);
+                result = (long)n * (x / (long)n);
             }
+
+            Assume.truncmultiple(result, x, n, promises.Promises(Promise.Unsafe0));
+
+            return result;
         }
 
         /// <summary>       Returns the componentwise result of rounding <paramref name="x"/> to the nearest multiple toward 0 of <paramref name="n"/> where <paramref name="n"/> &gt; 0.
@@ -585,23 +916,29 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int truncmultiple(int x, uint n, Promise promises = Promise.Nothing)
         {
+            int result;
+
             if (promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE(ispow2(n)))
             {
                 if (promises.Promises(Promise.ZeroOrGreater) || constexpr.IS_TRUE(x >= 0))
                 {
-                    return x & (int)(0 - n);
+                    result = x & -(int)n;
                 }
                 else
                 {
-                    n--;
+                    uint mask = n - 1;
 
-                    return andnot(x + ((int)n & (x >> 31)), (int)n);
+                    result = andnot(x + ((int)mask & (x >> 31)), (int)mask);
                 }
             }
             else
             {
-                return (int)n * (x / (int)n);
+                result = (int)n * (x / (int)n);
             }
+
+            Assume.truncmultiple(result, x, n, promises.Promises(Promise.Unsafe0));
+
+            return result;
         }
 
         /// <summary>       Returns the componentwise result of rounding <paramref name="x"/> to the nearest multiple toward 0 of <paramref name="n"/> where <paramref name="n"/> &gt; 0.
@@ -1219,6 +1556,16 @@ VectorAssert.IsGreater<double4, double>(m, 0d, 4);
             {
                 return new double4(truncmultiple(x.xy, m.xy), truncmultiple(x.zw, m.zw));
             }
+        }
+
+
+        /// <summary>       Returns <paramref name="x"/> rounded to the nearest multiple toward 0 of <paramref name="m"/> &gt; 0.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple truncmultiple(quadruple x, quadruple m)
+        {
+Assert.IsGreater(m, 0);
+
+            return m * trunc(x / m);
         }
     }
 }

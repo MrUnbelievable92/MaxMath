@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -9,7 +10,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="MaxMath.byte2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="byte2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(byte2 v, byte x)
@@ -37,7 +38,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="MaxMath.byte3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="byte3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(byte3 v, byte x)
@@ -65,7 +66,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="MaxMath.byte4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="byte4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(byte4 v, byte x)
@@ -93,7 +94,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="MaxMath.byte8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="byte8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(byte8 v, byte x)
@@ -121,7 +122,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="MaxMath.byte16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="byte16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(byte16 v, byte x)
@@ -150,7 +151,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="MaxMath.byte32"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="byte"/> <paramref name="x"/> in a <see cref="byte32"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(byte32 v, byte x)
@@ -182,7 +183,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="MaxMath.sbyte2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="sbyte2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(sbyte2 v, sbyte x)
@@ -190,7 +191,7 @@ namespace MaxMath
             return indexof((byte2)v, (byte)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="MaxMath.sbyte3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="sbyte3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(sbyte3 v, sbyte x)
@@ -198,7 +199,7 @@ namespace MaxMath
             return indexof((byte3)v, (byte)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="MaxMath.sbyte4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="sbyte4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(sbyte4 v, sbyte x)
@@ -206,7 +207,7 @@ namespace MaxMath
             return indexof((byte4)v, (byte)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="MaxMath.sbyte8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="sbyte8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(sbyte8 v, sbyte x)
@@ -214,7 +215,7 @@ namespace MaxMath
             return indexof((byte8)v, (byte)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="MaxMath.sbyte16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="sbyte16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(sbyte16 v, sbyte x)
@@ -222,7 +223,7 @@ namespace MaxMath
             return indexof((byte16)v, (byte)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="MaxMath.sbyte32"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="sbyte"/> <paramref name="x"/> in an <see cref="sbyte32"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(sbyte32 v, sbyte x)
@@ -231,7 +232,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="ushort2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(ushort2 v, ushort x)
@@ -259,7 +260,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="ushort3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(ushort3 v, ushort x)
@@ -287,7 +288,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="ushort4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(ushort4 v, ushort x)
@@ -315,7 +316,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="ushort8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(ushort8 v, ushort x)
@@ -343,7 +344,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="MaxMath.ushort16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ushort"/> <paramref name="x"/> in a <see cref="ushort16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(ushort16 v, ushort x)
@@ -375,7 +376,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="MaxMath.short2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="short2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(short2 v, short x)
@@ -383,7 +384,7 @@ namespace MaxMath
             return indexof((ushort2)v, (ushort)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="MaxMath.short3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="short3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(short3 v, short x)
@@ -391,7 +392,7 @@ namespace MaxMath
             return indexof((ushort3)v, (ushort)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="MaxMath.short4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="short4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(short4 v, short x)
@@ -399,7 +400,7 @@ namespace MaxMath
             return indexof((ushort4)v, (ushort)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="MaxMath.short8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="short8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(short8 v, short x)
@@ -407,7 +408,7 @@ namespace MaxMath
             return indexof((ushort8)v, (ushort)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="MaxMath.short16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="short"/> <paramref name="x"/> in a <see cref="short16"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 16.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 16L)]
         public static int indexof(short16 v, short x)
@@ -416,7 +417,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="MaxMath.uint2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="uint2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(uint2 v, uint x)
@@ -444,7 +445,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="MaxMath.uint3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="uint3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(uint3 v, uint x)
@@ -472,7 +473,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="MaxMath.uint4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="uint4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(uint4 v, uint x)
@@ -500,7 +501,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="MaxMath.uint8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="uint"/> <paramref name="x"/> in a <see cref="uint8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(uint8 v, uint x)
@@ -532,7 +533,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="MaxMath.int2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="int2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(int2 v, int x)
@@ -540,7 +541,7 @@ namespace MaxMath
             return indexof((uint2)v, (uint)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="MaxMath.int3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="int3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(int3 v, int x)
@@ -548,7 +549,7 @@ namespace MaxMath
             return indexof((uint3)v, (uint)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="MaxMath.int4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="int4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(int4 v, int x)
@@ -556,7 +557,7 @@ namespace MaxMath
             return indexof((uint4)v, (uint)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="MaxMath.int8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of an <see cref="int"/> <paramref name="x"/> in an <see cref="int8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(int8 v, int x)
@@ -565,7 +566,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ulong"/> <paramref name="x"/> in a <see cref="MaxMath.ulong2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ulong"/> <paramref name="x"/> in a <see cref="ulong2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(ulong2 v, ulong x)
@@ -593,7 +594,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ulong"/> <paramref name="x"/> in a <see cref="MaxMath.ulong3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ulong"/> <paramref name="x"/> in a <see cref="ulong3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(ulong3 v, ulong x)
@@ -624,7 +625,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="ulong"/> <paramref name="x"/> in a <see cref="MaxMath.ulong4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="ulong"/> <paramref name="x"/> in a <see cref="ulong4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(ulong4 v, ulong x)
@@ -656,7 +657,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="long"/> <paramref name="x"/> in a <see cref="MaxMath.long2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="long"/> <paramref name="x"/> in a <see cref="long2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(long2 v, long x)
@@ -664,7 +665,7 @@ namespace MaxMath
             return indexof((ulong2)v, (ulong)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="long"/> <paramref name="x"/> in a <see cref="MaxMath.long3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="long"/> <paramref name="x"/> in a <see cref="long3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(long3 v, long x)
@@ -672,7 +673,7 @@ namespace MaxMath
             return indexof((ulong3)v, (ulong)x);
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="long"/> <paramref name="x"/> in a <see cref="MaxMath.long4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="long"/> <paramref name="x"/> in a <see cref="long4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(long4 v, long x)
@@ -681,7 +682,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="MaxMath.float2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="float2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float2 v, float x)
@@ -709,7 +710,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="MaxMath.float3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="float3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float3 v, float x)
@@ -737,7 +738,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="MaxMath.float4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="float4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float4 v, float x)
@@ -765,7 +766,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="MaxMath.float8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="float"/> <paramref name="x"/> in a <see cref="float8"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static int indexof(float8 v, float x)
@@ -797,7 +798,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="MaxMath.double2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="double2"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(double2 v, double x)
@@ -825,7 +826,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="MaxMath.double3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="double3"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(double3 v, double x)
@@ -855,7 +856,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="MaxMath.double4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
+        /// <summary>       Returns the index of the first occurence of a <see cref="double"/> <paramref name="x"/> in a <see cref="double4"/> <paramref name="v"/>. If no value in <paramref name="v"/> is equal to <paramref name="x"/>, this function returns 32.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [return: AssumeRange(0L, 32L)]
         public static long indexof(double4 v, double x)

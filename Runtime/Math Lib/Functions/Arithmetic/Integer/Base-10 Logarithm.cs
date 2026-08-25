@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -30,6 +32,13 @@ namespace MaxMath
                         result = sub_epi8(result, cmpge_epu8(a, HUNDRED, elements));
 
                         constexpr.ASSUME_LE_EPU8(result, 2, elements);
+
+                        constexpr.ASSUME_LE_EPU8(result, a, elements);
+                        if (constexpr.ALL_GT_EPU8(a, 1, elements))
+                        {
+                            constexpr.ASSUME_LT_EPU8(result, a, elements);
+                        }
+
                         return result;
                     }
                 }
@@ -55,6 +64,13 @@ namespace MaxMath
                         result = Avx2.mm256_sub_epi8(result, mm256_cmpge_epu8(a, HUNDRED));
 
                         constexpr.ASSUME_LE_EPU8(result, 2);
+
+                        constexpr.ASSUME_LE_EPU8(result, a);
+                        if (constexpr.ALL_GT_EPU8(a, 1))
+                        {
+                            constexpr.ASSUME_LT_EPU8(result, a);
+                        }
+
                         return result;
                     }
                 }
@@ -67,6 +83,9 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+VectorAssert.IsNotSmaller<sbyte16, sbyte>(a, 0, elements);
+constexpr.ASSUME_GE_EPI8(a, 0, elements);
+
                     v128 NINE = set1_epi8(9);
                     v128 NINETY_NINE = set1_epi8(99);
 
@@ -75,6 +94,13 @@ namespace MaxMath
                     result = sub_epi8(result, cmpgt_epi8(a, NINETY_NINE));
 
                     constexpr.ASSUME_LE_EPU8(result, 2, elements);
+
+                    constexpr.ASSUME_LE_EPU8(result, a, elements);
+                    if (constexpr.ALL_GT_EPU8(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a, elements);
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -85,6 +111,9 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+VectorAssert.IsNotSmaller<sbyte32, sbyte>(a, 0, 32);
+constexpr.ASSUME_GE_EPI8(a, 0, 32);
+
                     v256 NINE = mm256_set1_epi8(9);
                     v256 NINETY_NINE = mm256_set1_epi8(99);
 
@@ -93,6 +122,13 @@ namespace MaxMath
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_cmpgt_epi8(a, NINETY_NINE));
 
                     constexpr.ASSUME_LE_EPU8(result, 2);
+
+                    constexpr.ASSUME_LE_EPU8(result, a);
+                    if (constexpr.ALL_GT_EPU8(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a);
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -151,6 +187,13 @@ namespace MaxMath
                         }
 
                         constexpr.ASSUME_LE_EPU16(result, 4, elements);
+
+                        constexpr.ASSUME_LE_EPU16(result, a, elements);
+                        if (constexpr.ALL_GT_EPU16(a, 1, elements))
+                        {
+                            constexpr.ASSUME_LT_EPU16(result, a, elements);
+                        }
+
                         return result;
                     }
                 }
@@ -180,6 +223,13 @@ namespace MaxMath
                         result = Avx2.mm256_sub_epi16(result, mm256_cmpge_epu16(a, _10_000));
 
                         constexpr.ASSUME_LE_EPU16(result, 4);
+
+                        constexpr.ASSUME_LE_EPU16(result, a);
+                        if (constexpr.ALL_GT_EPU16(a, 1))
+                        {
+                            constexpr.ASSUME_LT_EPU16(result, a);
+                        }
+
                         return result;
                     }
                 }
@@ -192,6 +242,9 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+VectorAssert.IsNotSmaller<short8, short>(a, 0, elements);
+constexpr.ASSUME_GE_EPI16(a, 0, elements);
+
                     if (constexpr.ALL_LE_EPU16(a, byte.MaxValue, elements))
                     {
                         return log10_epu8(a, (byte)(elements * 2)); // 0 stays 0 (high bits)
@@ -225,6 +278,13 @@ namespace MaxMath
                         }
 
                         constexpr.ASSUME_LE_EPU16(result, 4, elements);
+
+                        constexpr.ASSUME_LE_EPU16(result, a, elements);
+                        if (constexpr.ALL_GT_EPU16(a, 1, elements))
+                        {
+                            constexpr.ASSUME_LT_EPU16(result, a, elements);
+                        }
+
                         return result;
                     }
                 }
@@ -236,6 +296,9 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+VectorAssert.IsNotSmaller<short16, short>(a, 0, 16);
+constexpr.ASSUME_GE_EPI16(a, 0, 16);
+
                     if (constexpr.ALL_LE_EPU16(a, byte.MaxValue))
                     {
                         return mm256_log10_epu8(a); // 0 stays 0 (high bits)
@@ -254,6 +317,13 @@ namespace MaxMath
                         result = Avx2.mm256_sub_epi16(result, Avx2.mm256_cmpgt_epi16(a, _9_999));
 
                         constexpr.ASSUME_LE_EPU16(result, 4);
+
+                        constexpr.ASSUME_LE_EPU16(result, a);
+                        if (constexpr.ALL_GT_EPU16(a, 1))
+                        {
+                            constexpr.ASSUME_LT_EPU16(result, a);
+                        }
+
                         return result;
                     }
                 }
@@ -553,6 +623,13 @@ namespace MaxMath
                         }
 
                         constexpr.ASSUME_LE_EPU32(result, 9, elements);
+
+                        constexpr.ASSUME_LE_EPU32(result, a, elements);
+                        if (constexpr.ALL_GT_EPU32(a, 1, elements))
+                        {
+                            constexpr.ASSUME_LT_EPU32(result, a, elements);
+                        }
+
                         return result;
                     }
                 }
@@ -608,6 +685,13 @@ namespace MaxMath
                         v256 result = Avx2.mm256_add_epi32(result_100, result_1000);
 
                         constexpr.ASSUME_LE_EPU32(result, 9);
+
+                        constexpr.ASSUME_LE_EPU32(result, a);
+                        if (constexpr.ALL_GT_EPU32(a, 1))
+                        {
+                            constexpr.ASSUME_LT_EPU32(result, a);
+                        }
+
                         return result;
                     }
                 }
@@ -620,6 +704,9 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+VectorAssert.IsNotSmaller<int4, int>(a, 0, elements);
+constexpr.ASSUME_GE_EPI32(a, 0, elements);
+
                     if (constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements))
                     {
                         return log10_epu16(a, (byte)(elements * 2)); // 0 stays 0 (high bits)
@@ -809,6 +896,13 @@ namespace MaxMath
                         }
 
                         constexpr.ASSUME_LE_EPU32(result, 9, elements);
+
+                        constexpr.ASSUME_LE_EPU32(result, a, elements);
+                        if (constexpr.ALL_GT_EPU32(a, 1, elements))
+                        {
+                            constexpr.ASSUME_LT_EPU32(result, a, elements);
+                        }
+
                         return result;
                     }
                 }
@@ -820,6 +914,9 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+VectorAssert.IsNotSmaller<int8, int>(a, 0, 8);
+constexpr.ASSUME_GE_EPI32(a, 0, 8);
+
                     if (constexpr.ALL_LE_EPU32(a, ushort.MaxValue))
                     {
                         return mm256_log10_epu16(a); // 0 stays 0 (high bits)
@@ -864,6 +961,13 @@ namespace MaxMath
                         v256 result = Avx2.mm256_add_epi32(result_99, result_999);
 
                         constexpr.ASSUME_LE_EPU32(result, 9);
+
+                        constexpr.ASSUME_LE_EPU32(result, a);
+                        if (constexpr.ALL_GT_EPU32(a, 1))
+                        {
+                            constexpr.ASSUME_LT_EPU32(result, a);
+                        }
+
                         return result;
                     }
                 }
@@ -883,82 +987,16 @@ namespace MaxMath
                     }
                 }
 
-                // STACKALLOC >1kB???
-                UInt128* guess = stackalloc UInt128[65]
-                {
-                    new UInt128(0, 19) - 10000000000000000000ul,
-                    new UInt128(0, 18) - 1000000000000000000ul,
-                    new UInt128(0, 18) - 1000000000000000000ul,
-                    new UInt128(0, 18) - 1000000000000000000ul,
-                    new UInt128(0, 18) - 1000000000000000000ul,
-                    new UInt128(0, 17) - 100000000000000000ul,
-                    new UInt128(0, 17) - 100000000000000000ul,
-                    new UInt128(0, 17) - 100000000000000000ul,
-                    new UInt128(0, 16) - 10000000000000000ul,
-                    new UInt128(0, 16) - 10000000000000000ul,
-                    new UInt128(0, 16) - 10000000000000000ul,
-                    new UInt128(0, 15) - 1000000000000000ul,
-                    new UInt128(0, 15) - 1000000000000000ul,
-                    new UInt128(0, 15) - 1000000000000000ul,
-                    new UInt128(0, 15) - 1000000000000000ul,
-                    new UInt128(0, 14) - 100000000000000ul,
-                    new UInt128(0, 14) - 100000000000000ul,
-                    new UInt128(0, 14) - 100000000000000ul,
-                    new UInt128(0, 13) - 10000000000000ul,
-                    new UInt128(0, 13) - 10000000000000ul,
-                    new UInt128(0, 13) - 10000000000000ul,
-                    new UInt128(0, 12) - 1000000000000ul,
-                    new UInt128(0, 12) - 1000000000000ul,
-                    new UInt128(0, 12) - 1000000000000ul,
-                    new UInt128(0, 12) - 1000000000000ul,
-                    new UInt128(0, 11) - 100000000000ul,
-                    new UInt128(0, 11) - 100000000000ul,
-                    new UInt128(0, 11) - 100000000000ul,
-                    new UInt128(0, 10) - 10000000000ul,
-                    new UInt128(0, 10) - 10000000000ul,
-                    new UInt128(0, 10) - 10000000000ul,
-                    new UInt128(0, 9)  - 1000000000ul,
-                    new UInt128(0, 9)  - 1000000000ul,
-                    new UInt128(0, 9)  - 1000000000ul,
-                    new UInt128(0, 9)  - 1000000000ul,
-                    new UInt128(0, 8)  - 100000000ul,
-                    new UInt128(0, 8)  - 100000000ul,
-                    new UInt128(0, 8)  - 100000000ul,
-                    new UInt128(0, 7)  - 10000000ul,
-                    new UInt128(0, 7)  - 10000000ul,
-                    new UInt128(0, 7)  - 10000000ul,
-                    new UInt128(0, 6)  - 1000000ul,
-                    new UInt128(0, 6)  - 1000000ul,
-                    new UInt128(0, 6)  - 1000000ul,
-                    new UInt128(0, 6)  - 1000000ul,
-                    new UInt128(0, 5)  - 100000ul,
-                    new UInt128(0, 5)  - 100000ul,
-                    new UInt128(0, 5)  - 100000ul,
-                    new UInt128(0, 4)  - 10000ul,
-                    new UInt128(0, 4)  - 10000ul,
-                    new UInt128(0, 4)  - 10000ul,
-                    new UInt128(0, 3)  - 1000ul,
-                    new UInt128(0, 3)  - 1000ul,
-                    new UInt128(0, 3)  - 1000ul,
-                    new UInt128(0, 3)  - 1000ul,
-                    new UInt128(0, 2)  - 100ul,
-                    new UInt128(0, 2)  - 100ul,
-                    new UInt128(0, 2)  - 100ul,
-                    new UInt128(0, 1)  - 10ul,
-                    new UInt128(0, 1)  - 10ul,
-                    new UInt128(0, 1)  - 10ul,
-                    new UInt128(0, 0),
-                    new UInt128(0, 0),
-                    new UInt128(0, 0),
-                    new UInt128(0, 0),
-                };
-
-                UInt128 adjust0 = guess[math.lzcnt(a.ULong0)];
-                UInt128 adjust1 = guess[math.lzcnt(a.ULong1)];
-
-                v128 result = new v128((adjust0 + a.ULong0).hi64, (adjust1 + a.ULong1).hi64);
+                v128 result = new v128(math.intlog10(a.ULong0), math.intlog10(a.ULong1));
 
                 constexpr.ASSUME_LE_EPU64(result, 19);
+
+                constexpr.ASSUME_LE_EPU64(result, a);
+                if (constexpr.ALL_GT_EPU64(a, 1))
+                {
+                    constexpr.ASSUME_LT_EPU64(result, a);
+                }
+
                 return result;
             }
 
@@ -974,91 +1012,16 @@ namespace MaxMath
                     }
                     else
                     {
-                        // STACKALLOC >1kB???
-                        UInt128* guess = stackalloc UInt128[65]
-                        {
-                            new UInt128(0, 19) - 10000000000000000000ul,
-                            new UInt128(0, 18) - 1000000000000000000ul,
-                            new UInt128(0, 18) - 1000000000000000000ul,
-                            new UInt128(0, 18) - 1000000000000000000ul,
-                            new UInt128(0, 18) - 1000000000000000000ul,
-                            new UInt128(0, 17) - 100000000000000000ul,
-                            new UInt128(0, 17) - 100000000000000000ul,
-                            new UInt128(0, 17) - 100000000000000000ul,
-                            new UInt128(0, 16) - 10000000000000000ul,
-                            new UInt128(0, 16) - 10000000000000000ul,
-                            new UInt128(0, 16) - 10000000000000000ul,
-                            new UInt128(0, 15) - 1000000000000000ul,
-                            new UInt128(0, 15) - 1000000000000000ul,
-                            new UInt128(0, 15) - 1000000000000000ul,
-                            new UInt128(0, 15) - 1000000000000000ul,
-                            new UInt128(0, 14) - 100000000000000ul,
-                            new UInt128(0, 14) - 100000000000000ul,
-                            new UInt128(0, 14) - 100000000000000ul,
-                            new UInt128(0, 13) - 10000000000000ul,
-                            new UInt128(0, 13) - 10000000000000ul,
-                            new UInt128(0, 13) - 10000000000000ul,
-                            new UInt128(0, 12) - 1000000000000ul,
-                            new UInt128(0, 12) - 1000000000000ul,
-                            new UInt128(0, 12) - 1000000000000ul,
-                            new UInt128(0, 12) - 1000000000000ul,
-                            new UInt128(0, 11) - 100000000000ul,
-                            new UInt128(0, 11) - 100000000000ul,
-                            new UInt128(0, 11) - 100000000000ul,
-                            new UInt128(0, 10) - 10000000000ul,
-                            new UInt128(0, 10) - 10000000000ul,
-                            new UInt128(0, 10) - 10000000000ul,
-                            new UInt128(0, 9)  - 1000000000ul,
-                            new UInt128(0, 9)  - 1000000000ul,
-                            new UInt128(0, 9)  - 1000000000ul,
-                            new UInt128(0, 9)  - 1000000000ul,
-                            new UInt128(0, 8)  - 100000000ul,
-                            new UInt128(0, 8)  - 100000000ul,
-                            new UInt128(0, 8)  - 100000000ul,
-                            new UInt128(0, 7)  - 10000000ul,
-                            new UInt128(0, 7)  - 10000000ul,
-                            new UInt128(0, 7)  - 10000000ul,
-                            new UInt128(0, 6)  - 1000000ul,
-                            new UInt128(0, 6)  - 1000000ul,
-                            new UInt128(0, 6)  - 1000000ul,
-                            new UInt128(0, 6)  - 1000000ul,
-                            new UInt128(0, 5)  - 100000ul,
-                            new UInt128(0, 5)  - 100000ul,
-                            new UInt128(0, 5)  - 100000ul,
-                            new UInt128(0, 4)  - 10000ul,
-                            new UInt128(0, 4)  - 10000ul,
-                            new UInt128(0, 4)  - 10000ul,
-                            new UInt128(0, 3)  - 1000ul,
-                            new UInt128(0, 3)  - 1000ul,
-                            new UInt128(0, 3)  - 1000ul,
-                            new UInt128(0, 3)  - 1000ul,
-                            new UInt128(0, 2)  - 100ul,
-                            new UInt128(0, 2)  - 100ul,
-                            new UInt128(0, 2)  - 100ul,
-                            new UInt128(0, 1)  - 10ul,
-                            new UInt128(0, 1)  - 10ul,
-                            new UInt128(0, 1)  - 10ul,
-                            new UInt128(0, 0),
-                            new UInt128(0, 0),
-                            new UInt128(0, 0),
-                            new UInt128(0, 0),
-                        };
-
-                        UInt128 adjust0 = guess[math.lzcnt(a.ULong0)];
-                        UInt128 adjust1 = guess[math.lzcnt(a.ULong1)];
-                        UInt128 adjust2 = guess[math.lzcnt(a.ULong2)];
-
-                        v128 lo = new v128((adjust0 + a.ULong0).hi64, (adjust1 + a.ULong1).hi64);
-                        v128 hi = Xse.cvtsi64x_si128((long)((adjust2 + a.ULong2).hi64));
-                        if (elements > 3)
-                        {
-                            UInt128 adjust3 = guess[math.lzcnt(a.ULong3)];
-                            hi = Xse.unpacklo_epi64(hi, Xse.cvtsi64x_si128((long)((adjust3 + a.ULong3).hi64)));
-                        }
-
-                        v256 result = new v256(lo, hi);
+                        v256 result = new v256(math.intlog10(a.ULong0), math.intlog10(a.ULong1), math.intlog10(a.ULong2), math.intlog10(a.ULong3));
 
                         constexpr.ASSUME_LE_EPU64(result, 19, elements);
+
+                        constexpr.ASSUME_LE_EPU64(result, a);
+                        if (constexpr.ALL_GT_EPU64(a, 1, elements))
+                        {
+                            constexpr.ASSUME_LT_EPU64(result, a, elements);
+                        }
+
                         return result;
                     }
                 }
@@ -1072,6 +1035,9 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+VectorAssert.IsNotSmaller<long2, long>(a, 0, 2);
+constexpr.ASSUME_GE_EPI64(a, 0, 2);
+
                     return log10_epu64(a);
                 }
                 else throw new IllegalInstructionException();
@@ -1083,6 +1049,9 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+VectorAssert.IsNotSmaller<long4, long>(a, 0, elements);
+constexpr.ASSUME_GE_EPI64(a, 0, elements);
+
                     return mm256_log10_epu64(a, elements);
                 }
                 else throw new IllegalInstructionException();
@@ -1113,34 +1082,37 @@ namespace MaxMath
             }
             else
             {
-                UInt128* lut = stackalloc UInt128[]
-                {
-                    10000000000000000000ul,
-                    /*100000000000000000000: */ new UInt128(0x6BC7_5E2D_6310_0000, 0x0000_0000_0000_0005),
-                    /*1000000000000000000000: */ new UInt128(0x35C9_ADC5_DEA0_0000, 0x0000_0000_0000_0036),
-                    /*10000000000000000000000: */ new UInt128(0x19E0_C9BA_B240_0000, 0x0000_0000_0000_021E),
-                    /*100000000000000000000000: */ new UInt128(0x02C7_E14A_F680_0000, 0x0000_0000_0000_152D),
-                    /*1000000000000000000000000: */ new UInt128(0x1BCE_CCED_A100_0000, 0x0000_0000_0000_D3C2),
-                    /*10000000000000000000000000: */ new UInt128(0x1614_0148_4A00_0000, 0x0000_0000_0008_4595),
-                    /*100000000000000000000000000: */ new UInt128(0xDCC8_0CD2_E400_0000, 0x0000_0000_0052_B7D2),
-                    /*1000000000000000000000000000: */ new UInt128(0x9FD0_803C_E800_0000, 0x0000_0000_033B_2E3C),
-                    /*10000000000000000000000000000: */ new UInt128(0x3E25_0261_1000_0000, 0x0000_0000_204F_CE5E),
-                    /*100000000000000000000000000000: */ new UInt128(0x6D72_17CA_A000_0000, 0x0000_0001_431E_0FAE),
-                    /*1000000000000000000000000000000: */ new UInt128(0x4674_EDEA_4000_0000, 0x0000_000C_9F2C_9CD0),
-                    /*10000000000000000000000000000000: */ new UInt128(0xC091_4B26_8000_0000, 0x0000_007E_37BE_2022),
-                    /*100000000000000000000000000000000: */ new UInt128(0x85AC_EF81_0000_0000, 0x0000_04EE_2D6D_415B),
-                    /*1000000000000000000000000000000000: */ new UInt128(0x38C1_5B0A_0000_0000, 0x0000_314D_C644_8D93),
-                    /*10000000000000000000000000000000000: */ new UInt128(0x378D_8E64_0000_0000, 0x0001_ED09_BEAD_87C0),
-                    /*100000000000000000000000000000000000: */ new UInt128(0x2B87_8FE8_0000_0000, 0x0013_4261_72C7_4D82),
-                    /*1000000000000000000000000000000000000: */ new UInt128(0xB34B_9F10_0000_0000, 0x00C0_97CE_7BC9_0715),
-                    /*10000000000000000000000000000000000000: */ new UInt128(0x00F4_36A0_0000_0000, 0x0785_EE10_D5DA_46D9),
-                    /*100000000000000000000000000000000000000: */ new UInt128(0x098A_2240_0000_0000, 0x4B3B_4CA8_5A86_C47A)
-                };
-
-
                 uint result = 128 - (uint)lzcnt(x.hi64);
                 result = (result * 157_287) >> 19;
-                result -= tobyte(x < lut[result - 19]);
+                UInt128 guess1;
+                uint lutIdx = result - 19;
+                constexpr.ASSUME(lutIdx >= 0 && lutIdx <= 19);
+                switch (lutIdx)
+                {
+                    case 0:  guess1 = 10000000000000000000ul; break;
+                    case 1:  guess1 = /*100000000000000000000: */ new UInt128(0x6BC7_5E2D_6310_0000, 0x0000_0000_0000_0005); break;
+                    case 2:  guess1 = /*1000000000000000000000: */ new UInt128(0x35C9_ADC5_DEA0_0000, 0x0000_0000_0000_0036); break;
+                    case 3:  guess1 = /*10000000000000000000000: */ new UInt128(0x19E0_C9BA_B240_0000, 0x0000_0000_0000_021E); break;
+                    case 4:  guess1 = /*100000000000000000000000: */ new UInt128(0x02C7_E14A_F680_0000, 0x0000_0000_0000_152D); break;
+                    case 5:  guess1 = /*1000000000000000000000000: */ new UInt128(0x1BCE_CCED_A100_0000, 0x0000_0000_0000_D3C2); break;
+                    case 6:  guess1 = /*10000000000000000000000000: */ new UInt128(0x1614_0148_4A00_0000, 0x0000_0000_0008_4595); break;
+                    case 7:  guess1 = /*100000000000000000000000000: */ new UInt128(0xDCC8_0CD2_E400_0000, 0x0000_0000_0052_B7D2); break;
+                    case 8:  guess1 = /*1000000000000000000000000000: */ new UInt128(0x9FD0_803C_E800_0000, 0x0000_0000_033B_2E3C); break;
+                    case 9:  guess1 = /*10000000000000000000000000000: */ new UInt128(0x3E25_0261_1000_0000, 0x0000_0000_204F_CE5E); break;
+                    case 10: guess1 = /*100000000000000000000000000000: */ new UInt128(0x6D72_17CA_A000_0000, 0x0000_0001_431E_0FAE); break;
+                    case 11: guess1 = /*1000000000000000000000000000000: */ new UInt128(0x4674_EDEA_4000_0000, 0x0000_000C_9F2C_9CD0); break;
+                    case 12: guess1 = /*10000000000000000000000000000000: */ new UInt128(0xC091_4B26_8000_0000, 0x0000_007E_37BE_2022); break;
+                    case 13: guess1 = /*100000000000000000000000000000000: */ new UInt128(0x85AC_EF81_0000_0000, 0x0000_04EE_2D6D_415B); break;
+                    case 14: guess1 = /*1000000000000000000000000000000000: */ new UInt128(0x38C1_5B0A_0000_0000, 0x0000_314D_C644_8D93); break;
+                    case 15: guess1 = /*10000000000000000000000000000000000: */ new UInt128(0x378D_8E64_0000_0000, 0x0001_ED09_BEAD_87C0); break;
+                    case 16: guess1 = /*100000000000000000000000000000000000: */ new UInt128(0x2B87_8FE8_0000_0000, 0x0013_4261_72C7_4D82); break;
+                    case 17: guess1 = /*1000000000000000000000000000000000000: */ new UInt128(0xB34B_9F10_0000_0000, 0x00C0_97CE_7BC9_0715); break;
+                    case 18: guess1 = /*10000000000000000000000000000000000000: */ new UInt128(0x00F4_36A0_0000_0000, 0x0785_EE10_D5DA_46D9); break;
+                    case 19: guess1 = /*100000000000000000000000000000000000000: */ new UInt128(0x098A_2240_0000_0000, 0x4B3B_4CA8_5A86_C47A); break;
+
+                    default: throw Assert.Unreachable();
+                };
+                result -= tobyte(x < guess1);
 
                 // fails at 10^31 = 10000000000000000000000000000000
                 // fails at 10^34 = 10000000000000000000000000000000000
@@ -1148,7 +1120,42 @@ namespace MaxMath
                 // thus...
                 if (Hint.Unlikely(result >= 30 & isdivisible(result, 3)))
                 {
-                    result += tobyte(x >= lut[result - 18]);
+                    UInt128 guess2;
+                    lutIdx = result - 18;
+                    constexpr.ASSUME(lutIdx >= 0 && lutIdx <= 19); // ensuring the same switch table is used
+                    switch (lutIdx)
+                    {
+                        case 0:  guess2 = 10000000000000000000ul; break;
+                        case 1:  guess2 = /*100000000000000000000: */ new UInt128(0x6BC7_5E2D_6310_0000, 0x0000_0000_0000_0005); break;
+                        case 2:  guess2 = /*1000000000000000000000: */ new UInt128(0x35C9_ADC5_DEA0_0000, 0x0000_0000_0000_0036); break;
+                        case 3:  guess2 = /*10000000000000000000000: */ new UInt128(0x19E0_C9BA_B240_0000, 0x0000_0000_0000_021E); break;
+                        case 4:  guess2 = /*100000000000000000000000: */ new UInt128(0x02C7_E14A_F680_0000, 0x0000_0000_0000_152D); break;
+                        case 5:  guess2 = /*1000000000000000000000000: */ new UInt128(0x1BCE_CCED_A100_0000, 0x0000_0000_0000_D3C2); break;
+                        case 6:  guess2 = /*10000000000000000000000000: */ new UInt128(0x1614_0148_4A00_0000, 0x0000_0000_0008_4595); break;
+                        case 7:  guess2 = /*100000000000000000000000000: */ new UInt128(0xDCC8_0CD2_E400_0000, 0x0000_0000_0052_B7D2); break;
+                        case 8:  guess2 = /*1000000000000000000000000000: */ new UInt128(0x9FD0_803C_E800_0000, 0x0000_0000_033B_2E3C); break;
+                        case 9:  guess2 = /*10000000000000000000000000000: */ new UInt128(0x3E25_0261_1000_0000, 0x0000_0000_204F_CE5E); break;
+                        case 10: guess2 = /*100000000000000000000000000000: */ new UInt128(0x6D72_17CA_A000_0000, 0x0000_0001_431E_0FAE); break;
+                        case 11: guess2 = /*1000000000000000000000000000000: */ new UInt128(0x4674_EDEA_4000_0000, 0x0000_000C_9F2C_9CD0); break;
+                        case 12: guess2 = /*10000000000000000000000000000000: */ new UInt128(0xC091_4B26_8000_0000, 0x0000_007E_37BE_2022); break;
+                        case 13: guess2 = /*100000000000000000000000000000000: */ new UInt128(0x85AC_EF81_0000_0000, 0x0000_04EE_2D6D_415B); break;
+                        case 14: guess2 = /*1000000000000000000000000000000000: */ new UInt128(0x38C1_5B0A_0000_0000, 0x0000_314D_C644_8D93); break;
+                        case 15: guess2 = /*10000000000000000000000000000000000: */ new UInt128(0x378D_8E64_0000_0000, 0x0001_ED09_BEAD_87C0); break;
+                        case 16: guess2 = /*100000000000000000000000000000000000: */ new UInt128(0x2B87_8FE8_0000_0000, 0x0013_4261_72C7_4D82); break;
+                        case 17: guess2 = /*1000000000000000000000000000000000000: */ new UInt128(0xB34B_9F10_0000_0000, 0x00C0_97CE_7BC9_0715); break;
+                        case 18: guess2 = /*10000000000000000000000000000000000000: */ new UInt128(0x00F4_36A0_0000_0000, 0x0785_EE10_D5DA_46D9); break;
+                        case 19: guess2 = /*100000000000000000000000000000000000000: */ new UInt128(0x098A_2240_0000_0000, 0x4B3B_4CA8_5A86_C47A); break;
+
+                        default: throw Assert.Unreachable();
+                    };
+
+                    result += tobyte(x >= guess2);
+                }
+
+                constexpr.ASSUME(result <= x);
+                if (constexpr.IS_TRUE(x > 1))
+                {
+                    constexpr.ASSUME(result < x);
                 }
 
                 return result;
@@ -1161,7 +1168,15 @@ namespace MaxMath
         [return: AssumeRange(0ul, 2ul)]
         public static byte intlog10(byte x)
         {
-            return (byte)(tobyte(x >= 10) + tobyte(x >= 100));
+            byte result = (byte)(tobyte(x >= 10) + tobyte(x >= 100));
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+
+            return result;
         }
 
         /// <summary>       Computes the componentwise base-10 logarithm of <paramref name="x"/>.    </summary>
@@ -1277,7 +1292,15 @@ namespace MaxMath
         [return: AssumeRange(0, 2)]
         public static sbyte intlog10(sbyte x)
         {
-            return (sbyte)(tobyte(x >= 10) + tobyte(x >= 100));
+            sbyte result = (sbyte)(tobyte(x >= 10) + tobyte(x >= 100));
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+
+            return result;
         }
 
         /// <summary>       Computes the componentwise base-10 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than or equal to 0, otherwise the result is undefined.    </summary>
@@ -1398,7 +1421,15 @@ namespace MaxMath
                 return intlog10((byte)x);
             }
 
-            return (ushort)(tobyte(x >= 10) + tobyte(x >= 100) + tobyte(x >= 1_000) + tobyte(x >= 10_000));
+            ushort result = (ushort)(tobyte(x >= 10) + tobyte(x >= 100) + tobyte(x >= 1_000) + tobyte(x >= 10_000));
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+
+            return result;
         }
 
         /// <summary>       Computes the componentwise base-10 logarithm of <paramref name="x"/>.    </summary>
@@ -1490,7 +1521,15 @@ namespace MaxMath
                 return intlog10((byte)x);
             }
 
-            return (short)(tobyte(x >= 10) + tobyte(x >= 100) + tobyte(x >= 1_000) + tobyte(x >= 10_000));
+            short result = (short)(tobyte(x >= 10) + tobyte(x >= 100) + tobyte(x >= 1_000) + tobyte(x >= 10_000));
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+
+            return result;
         }
 
         /// <summary>       Computes the componentwise base-10 logarithm of <paramref name="x"/>. <paramref name="x"/> must be greater than or equal to 0, otherwise the result is undefined.    </summary>
@@ -1582,6 +1621,8 @@ namespace MaxMath
                 return intlog10((ushort)x);
             }
 
+            uint result;
+
             if (Sse4_1.IsSse41Supported)
             {
                 v128 MASK_SMALL = new v128(10, 100, 1_000, 10_000);
@@ -1592,7 +1633,7 @@ namespace MaxMath
                 v128 cmp = Xse.cmpge_epu32(splat, MASK_SMALL);
                 cmp = Xse.add_epi32(cmp, Xse.cmpge_epu32(splat, MASK_LARGE));
 
-                return tobyte(x >= 1_000_000_000) - Xse.vsum_epi32(cmp, true, 4).UInt0;
+                result = tobyte(x >= 1_000_000_000) - Xse.vsum_epi32(cmp, true, 4).UInt0;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
@@ -1604,7 +1645,7 @@ namespace MaxMath
                 v128 cmp = Xse.cmpgt_epu32(splat, MASK_SMALL);
                 cmp = Xse.add_epi32(cmp, Xse.cmpgt_epu32(splat, MASK_LARGE));
 
-                return tobyte(x >= 1_000_000_000) - Xse.vsum_epi32(cmp, true, 4).UInt0;
+                result = tobyte(x >= 1_000_000_000) - Xse.vsum_epi32(cmp, true, 4).UInt0;
             }
             else
             {
@@ -1624,8 +1665,16 @@ namespace MaxMath
 
                 ulong adjust = guess[lzcnt(x)];
 
-                return (uint)((adjust + x) >> 32);
+                result = (uint)((adjust + x) >> 32);
             }
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+
+            return result;
         }
 
         /// <summary>       Computes the componentwise base-10 logarithm of <paramref name="x"/>.    </summary>
@@ -1639,25 +1688,7 @@ namespace MaxMath
             }
             else
             {
-                ulong* guess = stackalloc ulong[33]
-                {
-                    (9ul << 32) - 1000000000,   (9ul << 32) - 1000000000,   (9ul << 32) - 1000000000,
-                    (8ul << 32) - 100000000,   (8ul << 32) - 100000000,   (8ul << 32) - 100000000,
-                    (7ul << 32) - 10000000,   (7ul << 32) - 10000000,   (7ul << 32) - 10000000,
-                    (6ul << 32) - 1000000,   (6ul << 32) - 1000000,   (6ul << 32) - 1000000,   (6ul << 32) - 1000000,
-                    (5ul << 32) - 100000,   (5ul << 32) - 100000,   (5ul << 32) - 100000,
-                    (4ul << 32) - 10000,   (4ul << 32) - 10000,   (4ul << 32) - 10000,
-                    (3ul << 32) - 1000,   (3ul << 32) - 1000,   (3ul << 32) - 1000,   (3ul << 32) - 1000,
-                    (2ul << 32) - 100,   (2ul << 32) - 100,   (2ul << 32) - 100,
-                    (1ul << 32) - 10,   (1ul << 32) - 10,   (1ul << 32) - 10,
-                    0,                 0,                  0,                   0
-                };
-
-                ulong adjustX = guess[lzcnt(x.x)];
-                ulong adjustY = guess[lzcnt(x.y)];
-
-                return new uint2((uint)((adjustX + x.x) >> 32),
-                                 (uint)((adjustY + x.y) >> 32));
+                return new uint2(intlog10(x.x), intlog10(x.y));
             }
         }
 
@@ -1672,27 +1703,7 @@ namespace MaxMath
             }
             else
             {
-                ulong* guess = stackalloc ulong[33]
-                {
-                    (9ul << 32) - 1000000000,   (9ul << 32) - 1000000000,   (9ul << 32) - 1000000000,
-                    (8ul << 32) - 100000000,   (8ul << 32) - 100000000,   (8ul << 32) - 100000000,
-                    (7ul << 32) - 10000000,   (7ul << 32) - 10000000,   (7ul << 32) - 10000000,
-                    (6ul << 32) - 1000000,   (6ul << 32) - 1000000,   (6ul << 32) - 1000000,   (6ul << 32) - 1000000,
-                    (5ul << 32) - 100000,   (5ul << 32) - 100000,   (5ul << 32) - 100000,
-                    (4ul << 32) - 10000,   (4ul << 32) - 10000,   (4ul << 32) - 10000,
-                    (3ul << 32) - 1000,   (3ul << 32) - 1000,   (3ul << 32) - 1000,   (3ul << 32) - 1000,
-                    (2ul << 32) - 100,   (2ul << 32) - 100,   (2ul << 32) - 100,
-                    (1ul << 32) - 10,   (1ul << 32) - 10,   (1ul << 32) - 10,
-                    0,                 0,                  0,                   0
-                };
-
-                ulong adjustX = guess[lzcnt(x.x)];
-                ulong adjustY = guess[lzcnt(x.y)];
-                ulong adjustZ = guess[lzcnt(x.z)];
-
-                return new uint3((uint)((adjustX + x.x) >> 32),
-                                 (uint)((adjustY + x.y) >> 32),
-                                 (uint)((adjustZ + x.z) >> 32));
+                return new uint3(intlog10(x.x), intlog10(x.y), intlog10(x.z));
             }
         }
 
@@ -1707,29 +1718,7 @@ namespace MaxMath
             }
             else
             {
-                ulong* guess = stackalloc ulong[33]
-                {
-                    (9ul << 32) - 1000000000,   (9ul << 32) - 1000000000,   (9ul << 32) - 1000000000,
-                    (8ul << 32) - 100000000,   (8ul << 32) - 100000000,   (8ul << 32) - 100000000,
-                    (7ul << 32) - 10000000,   (7ul << 32) - 10000000,   (7ul << 32) - 10000000,
-                    (6ul << 32) - 1000000,   (6ul << 32) - 1000000,   (6ul << 32) - 1000000,   (6ul << 32) - 1000000,
-                    (5ul << 32) - 100000,   (5ul << 32) - 100000,   (5ul << 32) - 100000,
-                    (4ul << 32) - 10000,   (4ul << 32) - 10000,   (4ul << 32) - 10000,
-                    (3ul << 32) - 1000,   (3ul << 32) - 1000,   (3ul << 32) - 1000,   (3ul << 32) - 1000,
-                    (2ul << 32) - 100,   (2ul << 32) - 100,   (2ul << 32) - 100,
-                    (1ul << 32) - 10,   (1ul << 32) - 10,   (1ul << 32) - 10,
-                    0,                 0,                  0,                   0
-                };
-
-                ulong adjustX = guess[lzcnt(x.x)];
-                ulong adjustY = guess[lzcnt(x.y)];
-                ulong adjustZ = guess[lzcnt(x.z)];
-                ulong adjustW = guess[lzcnt(x.w)];
-
-                return new uint4((uint)((adjustX + x.x) >> 32),
-                                 (uint)((adjustY + x.y) >> 32),
-                                 (uint)((adjustZ + x.z) >> 32),
-                                 (uint)((adjustW + x.w) >> 32));
+                return new uint4(intlog10(x.x), intlog10(x.y), intlog10(x.z), intlog10(x.w));
             }
         }
 
@@ -1742,43 +1731,9 @@ namespace MaxMath
             {
                 return Xse.mm256_log10_epu32(x);
             }
-            else if (BurstArchitecture.IsSIMDSupported)
-            {
-                return new uint8(intlog10(x.v4_0), intlog10(x.v4_4));
-            }
             else
             {
-                ulong* guess = stackalloc ulong[33]
-                {
-                    (9ul << 32) - 1000000000,   (9ul << 32) - 1000000000,   (9ul << 32) - 1000000000,
-                    (8ul << 32) - 100000000,   (8ul << 32) - 100000000,   (8ul << 32) - 100000000,
-                    (7ul << 32) - 10000000,   (7ul << 32) - 10000000,   (7ul << 32) - 10000000,
-                    (6ul << 32) - 1000000,   (6ul << 32) - 1000000,   (6ul << 32) - 1000000,   (6ul << 32) - 1000000,
-                    (5ul << 32) - 100000,   (5ul << 32) - 100000,   (5ul << 32) - 100000,
-                    (4ul << 32) - 10000,   (4ul << 32) - 10000,   (4ul << 32) - 10000,
-                    (3ul << 32) - 1000,   (3ul << 32) - 1000,   (3ul << 32) - 1000,   (3ul << 32) - 1000,
-                    (2ul << 32) - 100,   (2ul << 32) - 100,   (2ul << 32) - 100,
-                    (1ul << 32) - 10,   (1ul << 32) - 10,   (1ul << 32) - 10,
-                    0,                 0,                  0,                   0
-                };
-
-                ulong adjust0 = guess[lzcnt(x.x0)];
-                ulong adjust1 = guess[lzcnt(x.x1)];
-                ulong adjust2 = guess[lzcnt(x.x2)];
-                ulong adjust3 = guess[lzcnt(x.x3)];
-                ulong adjust4 = guess[lzcnt(x.x4)];
-                ulong adjust5 = guess[lzcnt(x.x5)];
-                ulong adjust6 = guess[lzcnt(x.x6)];
-                ulong adjust7 = guess[lzcnt(x.x7)];
-
-                return new uint8((uint)((adjust0 + x.x0) >> 32),
-                                 (uint)((adjust1 + x.x1) >> 32),
-                                 (uint)((adjust2 + x.x2) >> 32),
-                                 (uint)((adjust3 + x.x3) >> 32),
-                                 (uint)((adjust4 + x.x4) >> 32),
-                                 (uint)((adjust5 + x.x5) >> 32),
-                                 (uint)((adjust6 + x.x6) >> 32),
-                                 (uint)((adjust7 + x.x7) >> 32));
+                return new uint8(intlog10(x.v4_0), intlog10(x.v4_4));
             }
         }
 
@@ -1804,7 +1759,15 @@ namespace MaxMath
                 cmp = Xse.add_epi32(cmp, Xse.cmpgt_epi32(splat, MASK_LARGE));
                 cmp = Xse.vsum_epi32(cmp, true);
 
-                return tobyte(x > 999_999_999) - cmp.SInt0;
+                int result = tobyte(x > 999_999_999) - cmp.SInt0;
+            
+                constexpr.ASSUME(result <= x);
+                if (constexpr.IS_TRUE(x > 1))
+                {
+                    constexpr.ASSUME(result < x);
+                }
+
+                return result;
             }
             else
             {
@@ -1866,13 +1829,9 @@ namespace MaxMath
             {
                 return Xse.mm256_log10_epi32(x);
             }
-            else if (BurstArchitecture.IsSIMDSupported)
-            {
-                return new int8(intlog10(x.v4_0), intlog10(x.v4_4));
-            }
             else
             {
-                return (int8)intlog10((uint8)x);
+                return new int8(intlog10(x.v4_0), intlog10(x.v4_4));
             }
         }
 
@@ -1888,78 +1847,107 @@ namespace MaxMath
                 return intlog10((uint)x);
             }
 
-            UInt128* guess = stackalloc UInt128[65]
+            UInt128 guess;
+            switch (lzcnt(x))
             {
-                new UInt128(0, 19) - 10000000000000000000ul,
-                new UInt128(0, 18) - 1000000000000000000ul,
-                new UInt128(0, 18) - 1000000000000000000ul,
-                new UInt128(0, 18) - 1000000000000000000ul,
-                new UInt128(0, 18) - 1000000000000000000ul,
-                new UInt128(0, 17) - 100000000000000000ul,
-                new UInt128(0, 17) - 100000000000000000ul,
-                new UInt128(0, 17) - 100000000000000000ul,
-                new UInt128(0, 16) - 10000000000000000ul,
-                new UInt128(0, 16) - 10000000000000000ul,
-                new UInt128(0, 16) - 10000000000000000ul,
-                new UInt128(0, 15) - 1000000000000000ul,
-                new UInt128(0, 15) - 1000000000000000ul,
-                new UInt128(0, 15) - 1000000000000000ul,
-                new UInt128(0, 15) - 1000000000000000ul,
-                new UInt128(0, 14) - 100000000000000ul,
-                new UInt128(0, 14) - 100000000000000ul,
-                new UInt128(0, 14) - 100000000000000ul,
-                new UInt128(0, 13) - 10000000000000ul,
-                new UInt128(0, 13) - 10000000000000ul,
-                new UInt128(0, 13) - 10000000000000ul,
-                new UInt128(0, 12) - 1000000000000ul,
-                new UInt128(0, 12) - 1000000000000ul,
-                new UInt128(0, 12) - 1000000000000ul,
-                new UInt128(0, 12) - 1000000000000ul,
-                new UInt128(0, 11) - 100000000000ul,
-                new UInt128(0, 11) - 100000000000ul,
-                new UInt128(0, 11) - 100000000000ul,
-                new UInt128(0, 10) - 10000000000ul,
-                new UInt128(0, 10) - 10000000000ul,
-                new UInt128(0, 10) - 10000000000ul,
-                new UInt128(0, 9)  - 1000000000ul,
-                new UInt128(0, 9)  - 1000000000ul,
-                new UInt128(0, 9)  - 1000000000ul,
-                new UInt128(0, 9)  - 1000000000ul,
-                new UInt128(0, 8)  - 100000000ul,
-                new UInt128(0, 8)  - 100000000ul,
-                new UInt128(0, 8)  - 100000000ul,
-                new UInt128(0, 7)  - 10000000ul,
-                new UInt128(0, 7)  - 10000000ul,
-                new UInt128(0, 7)  - 10000000ul,
-                new UInt128(0, 6)  - 1000000ul,
-                new UInt128(0, 6)  - 1000000ul,
-                new UInt128(0, 6)  - 1000000ul,
-                new UInt128(0, 6)  - 1000000ul,
-                new UInt128(0, 5)  - 100000ul,
-                new UInt128(0, 5)  - 100000ul,
-                new UInt128(0, 5)  - 100000ul,
-                new UInt128(0, 4)  - 10000ul,
-                new UInt128(0, 4)  - 10000ul,
-                new UInt128(0, 4)  - 10000ul,
-                new UInt128(0, 3)  - 1000ul,
-                new UInt128(0, 3)  - 1000ul,
-                new UInt128(0, 3)  - 1000ul,
-                new UInt128(0, 3)  - 1000ul,
-                new UInt128(0, 2)  - 100ul,
-                new UInt128(0, 2)  - 100ul,
-                new UInt128(0, 2)  - 100ul,
-                new UInt128(0, 1)  - 10ul,
-                new UInt128(0, 1)  - 10ul,
-                new UInt128(0, 1)  - 10ul,
-                new UInt128(0, 0),
-                new UInt128(0, 0),
-                new UInt128(0, 0),
-                new UInt128(0, 0),
+                case 0: 
+                    guess = new UInt128(0, 19) - 10000000000000000000ul; break;
+                case 1: 
+                case 2: 
+                case 3: 
+                case 4:
+                    guess = new UInt128(0, 18) - 1000000000000000000ul; break;
+                case 5:
+                case 6: 
+                case 7: 
+                    guess = new UInt128(0, 17) - 100000000000000000ul; break;
+                case 8: 
+                case 9: 
+                case 10:
+                    guess = new UInt128(0, 16) - 10000000000000000ul; break;
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                    guess = new UInt128(0, 15) - 1000000000000000ul; break;
+                case 15:
+                case 16:
+                case 17:
+                    guess = new UInt128(0, 14) - 100000000000000ul; break;
+                case 18:
+                case 19:
+                case 20:
+                    guess = new UInt128(0, 13) - 10000000000000ul; break;
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                    guess = new UInt128(0, 12) - 1000000000000ul; break;
+                case 25:
+                case 26:
+                case 27:
+                    guess = new UInt128(0, 11) - 100000000000ul; break;
+                case 28:
+                case 29:
+                case 30:
+                    guess = new UInt128(0, 10) - 10000000000ul; break;
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                    guess = new UInt128(0, 9)  - 1000000000ul; break;
+                case 35:
+                case 36:
+                case 37:
+                    guess = new UInt128(0, 8)  - 100000000ul; break;
+                case 38:
+                case 39:
+                case 40:
+                    guess = new UInt128(0, 7)  - 10000000ul; break;
+                case 41:
+                case 42:
+                case 43:
+                case 44:
+                    guess = new UInt128(0, 6)  - 1000000ul; break;
+                case 45:
+                case 46:
+                case 47:
+                    guess = new UInt128(0, 5)  - 100000ul; break;
+                case 48:
+                case 49:
+                case 50:
+                    guess = new UInt128(0, 4)  - 10000ul; break;
+                case 51:
+                case 52:
+                case 53:
+                case 54:
+                    guess = new UInt128(0, 3)  - 1000ul; break;
+                case 55:
+                case 56:
+                case 57:
+                    guess = new UInt128(0, 2)  - 100ul; break;
+                case 58:
+                case 59:
+                case 60:
+                    guess = new UInt128(0, 1)  - 10ul; break;
+                case 61:
+                case 62:
+                case 63:
+                case 64:
+                    guess = new UInt128(0, 0); break;
+
+                default: throw DevTools.Assert.Unreachable();
             };
 
-            UInt128 adjust = guess[lzcnt(x)];
+            ulong result = (guess + x).hi64;
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
 
-            return (adjust + x).hi64;
+            return result;
         }
 
         /// <summary>       Computes the componentwise base-10 logarithm of <paramref name="x"/>.    </summary>

@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -492,7 +493,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte2"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 abs(sbyte2 x)
         {
@@ -506,7 +507,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte3"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 abs(sbyte3 x)
         {
@@ -520,7 +521,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte4"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 abs(sbyte4 x)
         {
@@ -534,7 +535,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte8"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 abs(sbyte8 x)
         {
@@ -548,7 +549,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte16"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 abs(sbyte16 x)
         {
@@ -562,7 +563,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.sbyte32"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 abs(sbyte32 x)
         {
@@ -596,7 +597,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short2"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 abs(short2 x)
         {
@@ -610,7 +611,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short3"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 abs(short3 x)
         {
@@ -624,7 +625,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short4"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 abs(short4 x)
         {
@@ -638,7 +639,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short8"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 abs(short8 x)
         {
@@ -652,7 +653,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.short16"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 abs(short16 x)
         {
@@ -674,28 +675,28 @@ namespace MaxMath
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.int2"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 abs(int2 x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.int3"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 abs(int3 x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.int4"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 abs(int4 x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of an <see cref="MaxMath.int8"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of an <see cref="int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 abs(int8 x)
         {
@@ -717,7 +718,7 @@ namespace MaxMath
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.long2"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 abs(long2 x)
         {
@@ -731,7 +732,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.long3"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 abs(long3 x)
         {
@@ -745,7 +746,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.long4"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 abs(long4 x)
         {
@@ -760,7 +761,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the absolute value of a <see cref="MaxMath.quarter"/>.    </summary>
+        /// <summary>       Returns the absolute value of a <see cref="quarter"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter abs(quarter x)
         {
@@ -774,7 +775,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter2"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="quarter2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter2 abs(quarter2 x)
         {
@@ -788,7 +789,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter3"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="quarter3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter3 abs(quarter3 x)
         {
@@ -802,7 +803,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter4"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="quarter4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter4 abs(quarter4 x)
         {
@@ -816,7 +817,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter8"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="quarter8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter8 abs(quarter8 x)
         {
@@ -830,7 +831,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter16"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="quarter16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter16 abs(quarter16 x)
         {
@@ -844,7 +845,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.quarter32"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="quarter32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static quarter32 abs(quarter32 x)
         {
@@ -859,7 +860,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the absolute value of a <see cref="MaxMath.half"/>.    </summary>
+        /// <summary>       Returns the absolute value of a <see cref="half"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half abs(half x)
         {
@@ -873,7 +874,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.half2"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="half2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half2 abs(half2 x)
         {
@@ -887,7 +888,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.half3"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="half3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half3 abs(half3 x)
         {
@@ -901,7 +902,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.half4"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="half4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half4 abs(half4 x)
         {
@@ -915,7 +916,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.half8"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="half8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half8 abs(half8 x)
         {
@@ -929,7 +930,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.half16"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="half16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static half16 abs(half16 x)
         {
@@ -944,35 +945,35 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Returns the componentwise absolute value of a <see cref="float"/>.    </summary>
+        /// <summary>       Returns the absolute value of a <see cref="float"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float abs(float x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.float2"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="float2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 abs(float2 x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.float3"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="float3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 abs(float3 x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.float4"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="float4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 abs(float4 x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.float8"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="float8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 abs(float8 x)
         {
@@ -987,32 +988,61 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Returns the componentwise absolute value of a <see cref="double"/>.    </summary>
+        /// <summary>       Returns the absolute value of a <see cref="double"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double abs(double x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.double2"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="double2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 abs(double2 x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.double3"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="double3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 abs(double3 x)
         {
             return Unity.Mathematics.math.abs(x);
         }
 
-        /// <summary>       Returns the componentwise absolute value of a <see cref="MaxMath.double4"/>.    </summary>
+        /// <summary>       Returns the componentwise absolute value of a <see cref="double4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 abs(double4 x)
         {
             return Unity.Mathematics.math.abs(x);
+        }
+
+        
+        /// <summary>       Returns the absolute value of a <see cref="quadruple"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple abs(quadruple x)
+        {
+            if (constexpr.IS_TRUE((long)x.value.hi64 >= 0))
+            {
+                return x;
+            }
+            else
+            {
+                return new quadruple(x.value.lo64, x.value.hi64 & bitmask64(63ul));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static quadruple.ConstChecked abs(quadruple.ConstChecked x)
+        {
+            if (!(constexpr.IS_TRUE((long)x.Value.value.hi64 >= 0)
+               || x.Promise.ZeroOrGreater))
+            {
+                x.Value = new quadruple(x.Value.value.lo64, x.Value.value.hi64 & bitmask64(63ul));
+            }
+            
+            x.Promise.ZeroOrGreater = true;
+
+            return x;
         }
     }
 }

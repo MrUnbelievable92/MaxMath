@@ -7,7 +7,7 @@ endm
 
 M_UDIV_128x64 macro fulldiv
 
-        xor         r10, r10
+        xor         r10d, r10d
         cmp         r8, rdx
         
         mov         rax, rcx 
@@ -43,11 +43,11 @@ m endp
 
 ;__udivrem128x64_divLEhi
 ;rcx: lo,   rdx: hi     r8: div     r9 rem64 + quoHI PTR   r.hi = 0
-align 16
+;align 16
 n proc public
    
         mov         rax, rdx 
-        xor         rdx, rdx 
+        xor         edx, edx 
         div         r8       
         mov         [r9 + 8], rax
     
@@ -78,11 +78,11 @@ p endp
 
 ;__udiv128x64_divLEhi
 ;rcx: lo,   rdx: hi     r8: div     r9 qHi PTR     r.hi = 0
-align 16
+;align 16
 q proc public
 
         mov         rax, rdx
-        xor         rdx, rdx
+        xor         edx, edx
         div         r8
         mov         [r9], rax
     
@@ -113,11 +113,11 @@ s endp
 
 ;__urem128x64_divLEhi
 ;rcx: lo,   rdx: hi     r8: div     r.hi = 0
-align 16
+;align 16
 t proc public
 
         mov         rax, rdx
-        xor         rdx, rdx
+        xor         edx, edx
         div         r8
     
 ;__usf__urem

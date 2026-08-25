@@ -158,7 +158,7 @@ namespace MaxMath.Tests
             {
                 sbyte8 b = rng.NextSByte8(sbyte.MinValue / 8, sbyte.MaxValue / 8);
 
-                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b));
             }
         }
 
@@ -171,7 +171,7 @@ namespace MaxMath.Tests
             {
                 sbyte16 b = rng.NextSByte16(sbyte.MinValue / 16, sbyte.MaxValue / 16);
 
-                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b));
             }
         }
 
@@ -184,7 +184,7 @@ namespace MaxMath.Tests
             {
                 sbyte32 b = rng.NextSByte32(sbyte.MinValue / 32, sbyte.MaxValue / 32);
 
-                Assert.AreEqual(math.csum(b), math.csum(b, Promise.NoOverflow));
+                Assert.AreEqual(math.csum(b), math.csum(b));
             }
         }
 

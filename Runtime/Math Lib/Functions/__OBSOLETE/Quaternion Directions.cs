@@ -5,7 +5,7 @@ namespace MaxMath
     // A little more optimized and accurate (3 fmad ops) than the standard mul(q, new float3({-1/0/1}, {-1/0/1}, {-1/0/1}) calculation
     unsafe public static partial class math
     {
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space left direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space left direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         [System.Obsolete("This extension method exists as a property and will be removed in a subsequent release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 left(this quaternion rotation)
@@ -15,7 +15,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + mad(temp, rotation.value.wwww, new float4(-1f, 0f, 0f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space right direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space right direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         [System.Obsolete("This extension method exists as a property and will be removed in a subsequent release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 right(this quaternion rotation)
@@ -25,7 +25,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + mad(temp, rotation.value.wwww, new float4(1f, 0f, 0f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space up direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space up direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         [System.Obsolete("This extension method exists as a property and will be removed in a subsequent release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 up(this quaternion rotation)
@@ -35,7 +35,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + mad(temp, rotation.value.wwww, new float4(0f, 1f, 0f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space down direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space down direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         [System.Obsolete("This extension method exists as a property and will be removed in a subsequent release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 down(this quaternion rotation)
@@ -45,7 +45,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + mad(temp, rotation.value.wwww, new float4(0f, -1f, 0f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space forward direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space forward direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         [System.Obsolete("This extension method exists as a property and will be removed in a subsequent release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 forward(this quaternion rotation)
@@ -55,7 +55,7 @@ namespace MaxMath
             return (((rotation.value.yzxw * temp.zxyw) - (rotation.value.zxyw * temp.yzxw)) + mad(temp, rotation.value.wwww, new float4(0f, 0f, 1f, 0f))).xyz;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space backward direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space backward direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         [System.Obsolete("This extension method exists as a property and will be removed in a subsequent release.")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 back(this quaternion rotation)

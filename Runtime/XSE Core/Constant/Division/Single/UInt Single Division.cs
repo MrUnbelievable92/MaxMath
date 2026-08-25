@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -14,6 +15,8 @@ namespace MaxMath.Intrinsics
             {
 				__unsafe |= constexpr.ALL_LE_EPU32(vector, 0x7FFF_FFFFu, elements);
 
+				v128 result;
+
 				switch (divisor)
 				{
 					case 3:
@@ -27,14 +30,16 @@ namespace MaxMath.Intrinsics
 								v128 lo = mul_epu32(RCP3, shuffle_epi32(vector, Sse.SHUFFLE(1, 1, 0, 0)));
 								v128 hi = mul_epu32(RCP3, shuffle_epi32(vector, Sse.SHUFFLE(3, 3, 2, 2)));
 
-								return shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
+								result = shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 							}
 							else
 							{
 								v128 div = mul_epu32(RCP3, shuffle_epi32(vector, Sse.SHUFFLE(1, 1, 0, 0)));
 
-								return shuffle_epi32(div, Sse.SHUFFLE(3, 1, 3, 1));
+								result = shuffle_epi32(div, Sse.SHUFFLE(3, 1, 3, 1));
 							}
+
+							break;
                         }
 						else
 						{
@@ -47,15 +52,17 @@ namespace MaxMath.Intrinsics
 								lo = srli_epi32(lo, 1);
 								hi = srli_epi32(hi, 1);
 
-								return shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
+								result = shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 							}
 							else
 							{
 								v128 div = mul_epu32(RCP3, shuffle_epi32(vector, Sse.SHUFFLE(1, 1, 0, 0)));
 								div = srli_epi32(div, 1);
 
-								return shuffle_epi32(div, Sse.SHUFFLE(3, 1, 3, 1));
+								result = shuffle_epi32(div, Sse.SHUFFLE(3, 1, 3, 1));
 							}
+
+							break;
 						}
 					}
 					case 6:
@@ -69,14 +76,16 @@ namespace MaxMath.Intrinsics
 								v128 lo = mul_epu32(RCP6, shuffle_epi32(vector, Sse.SHUFFLE(1, 1, 0, 0)));
 								v128 hi = mul_epu32(RCP6, shuffle_epi32(vector, Sse.SHUFFLE(3, 3, 2, 2)));
 
-								return shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
+								result = shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 							}
 							else
 							{
 								v128 div = mul_epu32(RCP6, shuffle_epi32(vector, Sse.SHUFFLE(1, 1, 0, 0)));
 
-								return shuffle_epi32(div, Sse.SHUFFLE(3, 1, 3, 1));
+								result = shuffle_epi32(div, Sse.SHUFFLE(3, 1, 3, 1));
 							}
+
+							break;
                         }
 						else goto default;
 					}
@@ -91,6 +100,9 @@ namespace MaxMath.Intrinsics
 						}
 					}
 				}
+				
+				constexpr.ASSUME_DIVISION_EPU32(result, vector, set1_epi32(divisor), elements);
+				return result;
             }
 			else throw new IllegalInstructionException();
 		}
@@ -101,6 +113,8 @@ namespace MaxMath.Intrinsics
             if (Avx2.IsAvx2Supported)
             {
 				__unsafe |= constexpr.ALL_LE_EPU32(vector, 0x7FFF_FFFFu);
+
+				v256 result;
 
 				switch (divisor)
 				{
@@ -113,7 +127,7 @@ namespace MaxMath.Intrinsics
 							v256 lo = Avx2.mm256_mul_epu32(RCP3, Avx2.mm256_shuffle_epi32(vector, Sse.SHUFFLE(1, 1, 0, 0)));
 							v256 hi = Avx2.mm256_mul_epu32(RCP3, Avx2.mm256_shuffle_epi32(vector, Sse.SHUFFLE(3, 3, 2, 2)));
 
-							return Avx.mm256_shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
+							result = Avx.mm256_shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
                         }
 						else
 						{
@@ -124,8 +138,10 @@ namespace MaxMath.Intrinsics
 							lo = Avx2.mm256_srli_epi32(lo, 1);
 							hi = Avx2.mm256_srli_epi32(hi, 1);
 
-							return Avx.mm256_shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
+							result = Avx.mm256_shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
 						}
+
+						break;
 					}
 					case 6:
 					{
@@ -136,7 +152,9 @@ namespace MaxMath.Intrinsics
 							v256 lo = Avx2.mm256_mul_epu32(RCP6, Avx2.mm256_shuffle_epi32(vector, Sse.SHUFFLE(1, 1, 0, 0)));
 							v256 hi = Avx2.mm256_mul_epu32(RCP6, Avx2.mm256_shuffle_epi32(vector, Sse.SHUFFLE(3, 3, 2, 2)));
 
-							return Avx.mm256_shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
+							result = Avx.mm256_shuffle_ps(lo, hi, Sse.SHUFFLE(3, 1, 3, 1));
+
+							break;
                         }
 						else goto default;
 					}
@@ -146,6 +164,9 @@ namespace MaxMath.Intrinsics
 						return (uint8)vector / new Divider<uint>(divisor);
 					}
 				}
+
+				constexpr.ASSUME_DIVISION_EPU32(result, vector, mm256_set1_epi32(divisor));
+				return result;
             }
 			else throw new IllegalInstructionException();
 		}

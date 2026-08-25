@@ -1,5 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
+
 using static Unity.Burst.Intrinsics.X86;
 
 namespace MaxMath.Intrinsics
@@ -48,7 +50,7 @@ namespace MaxMath.Intrinsics
 		{
 			if (Sse2.IsSse2Supported)
 			{
-				return (MaxMath.UInt128.MaxValue >> (128 - (8 * sizeof(T) * elements))).Reinterpret<UInt128, v128>();
+				return (UInt128.MaxValue >> (128 - (8 * sizeof(T) * elements))).Reinterpret<UInt128, v128>();
 			}
 			else throw new IllegalInstructionException();
 		}

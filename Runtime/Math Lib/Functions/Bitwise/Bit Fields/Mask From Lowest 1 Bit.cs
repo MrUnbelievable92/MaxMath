@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -15,7 +16,26 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return or_si128(a, neg_epi8(a));
+                    v128 result = or_si128(a, neg_epi8(a));
+
+                    Assume.bits_maskfromlowest(result.Byte0,  a.Byte0);
+                    Assume.bits_maskfromlowest(result.Byte1,  a.Byte1);
+                    Assume.bits_maskfromlowest(result.Byte2,  a.Byte2);
+                    Assume.bits_maskfromlowest(result.Byte3,  a.Byte3);
+                    Assume.bits_maskfromlowest(result.Byte4,  a.Byte4);
+                    Assume.bits_maskfromlowest(result.Byte5,  a.Byte5);
+                    Assume.bits_maskfromlowest(result.Byte6,  a.Byte6);
+                    Assume.bits_maskfromlowest(result.Byte7,  a.Byte7);
+                    Assume.bits_maskfromlowest(result.Byte8,  a.Byte8);
+                    Assume.bits_maskfromlowest(result.Byte9,  a.Byte9);
+                    Assume.bits_maskfromlowest(result.Byte10, a.Byte10);
+                    Assume.bits_maskfromlowest(result.Byte11, a.Byte11);
+                    Assume.bits_maskfromlowest(result.Byte12, a.Byte12);
+                    Assume.bits_maskfromlowest(result.Byte13, a.Byte13);
+                    Assume.bits_maskfromlowest(result.Byte14, a.Byte14);
+                    Assume.bits_maskfromlowest(result.Byte15, a.Byte15);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -25,7 +45,18 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return or_si128(a, neg_epi16(a));
+                    v128 result = or_si128(a, neg_epi16(a));
+
+                    Assume.bits_maskfromlowest(result.UShort0, a.UShort0);
+                    Assume.bits_maskfromlowest(result.UShort1, a.UShort1);
+                    Assume.bits_maskfromlowest(result.UShort2, a.UShort2);
+                    Assume.bits_maskfromlowest(result.UShort3, a.UShort3);
+                    Assume.bits_maskfromlowest(result.UShort4, a.UShort4);
+                    Assume.bits_maskfromlowest(result.UShort5, a.UShort5);
+                    Assume.bits_maskfromlowest(result.UShort6, a.UShort6);
+                    Assume.bits_maskfromlowest(result.UShort7, a.UShort7);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -35,7 +66,14 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return or_si128(a, neg_epi32(a));
+                    v128 result = or_si128(a, neg_epi32(a));
+
+                    Assume.bits_maskfromlowest(result.UInt0, a.UInt0);
+                    Assume.bits_maskfromlowest(result.UInt1, a.UInt1);
+                    Assume.bits_maskfromlowest(result.UInt2, a.UInt2);
+                    Assume.bits_maskfromlowest(result.UInt3, a.UInt3);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -45,7 +83,12 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    return or_si128(a, neg_epi64(a));
+                    v128 result = or_si128(a, neg_epi64(a));
+
+                    Assume.bits_maskfromlowest(result.ULong0, a.ULong0);
+                    Assume.bits_maskfromlowest(result.ULong1, a.ULong1);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -56,7 +99,42 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_or_si256(a, mm256_neg_epi8(a));
+                    v256 result = Avx2.mm256_or_si256(a, mm256_neg_epi8(a));
+
+                    Assume.bits_maskfromlowest(result.Byte0,  a.Byte0);
+                    Assume.bits_maskfromlowest(result.Byte1,  a.Byte1);
+                    Assume.bits_maskfromlowest(result.Byte2,  a.Byte2);
+                    Assume.bits_maskfromlowest(result.Byte3,  a.Byte3);
+                    Assume.bits_maskfromlowest(result.Byte4,  a.Byte4);
+                    Assume.bits_maskfromlowest(result.Byte5,  a.Byte5);
+                    Assume.bits_maskfromlowest(result.Byte6,  a.Byte6);
+                    Assume.bits_maskfromlowest(result.Byte7,  a.Byte7);
+                    Assume.bits_maskfromlowest(result.Byte8,  a.Byte8);
+                    Assume.bits_maskfromlowest(result.Byte9,  a.Byte9);
+                    Assume.bits_maskfromlowest(result.Byte10, a.Byte10);
+                    Assume.bits_maskfromlowest(result.Byte11, a.Byte11);
+                    Assume.bits_maskfromlowest(result.Byte12, a.Byte12);
+                    Assume.bits_maskfromlowest(result.Byte13, a.Byte13);
+                    Assume.bits_maskfromlowest(result.Byte14, a.Byte14);
+                    Assume.bits_maskfromlowest(result.Byte15, a.Byte15);
+                    Assume.bits_maskfromlowest(result.Byte16, a.Byte16);
+                    Assume.bits_maskfromlowest(result.Byte17, a.Byte17);
+                    Assume.bits_maskfromlowest(result.Byte18, a.Byte18);
+                    Assume.bits_maskfromlowest(result.Byte19, a.Byte19);
+                    Assume.bits_maskfromlowest(result.Byte20, a.Byte20);
+                    Assume.bits_maskfromlowest(result.Byte21, a.Byte21);
+                    Assume.bits_maskfromlowest(result.Byte22, a.Byte22);
+                    Assume.bits_maskfromlowest(result.Byte23, a.Byte23);
+                    Assume.bits_maskfromlowest(result.Byte24, a.Byte24);
+                    Assume.bits_maskfromlowest(result.Byte25, a.Byte25);
+                    Assume.bits_maskfromlowest(result.Byte26, a.Byte26);
+                    Assume.bits_maskfromlowest(result.Byte27, a.Byte27);
+                    Assume.bits_maskfromlowest(result.Byte28, a.Byte28);
+                    Assume.bits_maskfromlowest(result.Byte29, a.Byte29);
+                    Assume.bits_maskfromlowest(result.Byte30, a.Byte30);
+                    Assume.bits_maskfromlowest(result.Byte31, a.Byte31);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -66,7 +144,26 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_or_si256(a, mm256_neg_epi16(a));
+                    v256 result = Avx2.mm256_or_si256(a, mm256_neg_epi16(a));
+
+                    Assume.bits_maskfromlowest(result.UShort0,  a.UShort0);
+                    Assume.bits_maskfromlowest(result.UShort1,  a.UShort1);
+                    Assume.bits_maskfromlowest(result.UShort2,  a.UShort2);
+                    Assume.bits_maskfromlowest(result.UShort3,  a.UShort3);
+                    Assume.bits_maskfromlowest(result.UShort4,  a.UShort4);
+                    Assume.bits_maskfromlowest(result.UShort5,  a.UShort5);
+                    Assume.bits_maskfromlowest(result.UShort6,  a.UShort6);
+                    Assume.bits_maskfromlowest(result.UShort7,  a.UShort7);
+                    Assume.bits_maskfromlowest(result.UShort8,  a.UShort8);
+                    Assume.bits_maskfromlowest(result.UShort9,  a.UShort9);
+                    Assume.bits_maskfromlowest(result.UShort10, a.UShort10);
+                    Assume.bits_maskfromlowest(result.UShort11, a.UShort11);
+                    Assume.bits_maskfromlowest(result.UShort12, a.UShort12);
+                    Assume.bits_maskfromlowest(result.UShort13, a.UShort13);
+                    Assume.bits_maskfromlowest(result.UShort14, a.UShort14);
+                    Assume.bits_maskfromlowest(result.UShort15, a.UShort15);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -76,7 +173,18 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_or_si256(a, mm256_neg_epi32(a));
+                    v256 result = Avx2.mm256_or_si256(a, mm256_neg_epi32(a));
+
+                    Assume.bits_maskfromlowest(result.UInt0, a.UInt0);
+                    Assume.bits_maskfromlowest(result.UInt1, a.UInt1);
+                    Assume.bits_maskfromlowest(result.UInt2, a.UInt2);
+                    Assume.bits_maskfromlowest(result.UInt3, a.UInt3);
+                    Assume.bits_maskfromlowest(result.UInt4, a.UInt4);
+                    Assume.bits_maskfromlowest(result.UInt5, a.UInt5);
+                    Assume.bits_maskfromlowest(result.UInt6, a.UInt6);
+                    Assume.bits_maskfromlowest(result.UInt7, a.UInt7);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -86,10 +194,61 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return Avx2.mm256_or_si256(a, mm256_neg_epi64(a));
+                    v256 result = Avx2.mm256_or_si256(a, mm256_neg_epi64(a));
+
+                    Assume.bits_maskfromlowest(result.ULong0, a.ULong0);
+                    Assume.bits_maskfromlowest(result.ULong1, a.ULong1);
+                    Assume.bits_maskfromlowest(result.ULong2, a.ULong2);
+                    Assume.bits_maskfromlowest(result.ULong3, a.ULong3);
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
+        }
+    }
+
+
+    unsafe internal static partial class Assume
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void bits_maskfromlowest(byte result, byte x)
+        {
+            constexpr.ASSUME(result == (byte)~math.tzmask(x));
+            constexpr.ASSUME((result & x) == x);
+            constexpr.ASSUME((result ^ math.tzmask(x)) == byte.MaxValue);
+            constexpr.ASSUME((result & math.tzmask(x)) == 0);
+            constexpr.ASSUME(math.countbits(result) == 8 - math.tzcnt(x));
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void bits_maskfromlowest(ushort result, ushort x)
+        {
+            constexpr.ASSUME(result == (ushort)~math.tzmask(x));
+            constexpr.ASSUME((result & x) == x);
+            constexpr.ASSUME((result ^ math.tzmask(x)) == ushort.MaxValue);
+            constexpr.ASSUME((result & math.tzmask(x)) == 0);
+            constexpr.ASSUME(math.countbits(result) == 16 - math.tzcnt(x));
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void bits_maskfromlowest(uint result, uint x)
+        {
+            constexpr.ASSUME(result == ~math.tzmask(x));
+            constexpr.ASSUME((result & x) == x);
+            constexpr.ASSUME((result ^ math.tzmask(x)) == uint.MaxValue);
+            constexpr.ASSUME((result & math.tzmask(x)) == 0);
+            constexpr.ASSUME(math.countbits(result) == 32 - math.tzcnt(x));
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void bits_maskfromlowest(ulong result, ulong x)
+        {
+            constexpr.ASSUME(result == ~math.tzmask(x));
+            constexpr.ASSUME((result & x) == x);
+            constexpr.ASSUME((result ^ math.tzmask(x)) == ulong.MaxValue);
+            constexpr.ASSUME((result & math.tzmask(x)) == 0);
+            constexpr.ASSUME(math.countbits(result) == 64 - math.tzcnt(x));
         }
     }
 
@@ -100,7 +259,15 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 bits_maskfromlowest(UInt128 x)
         {
-            return x | (UInt128)(-((Int128)x));
+            UInt128 result = x | (UInt128)(-((Int128)x));
+            
+            constexpr.ASSUME(result == ~math.tzmask(x));
+            constexpr.ASSUME((result & x) == x);
+            constexpr.ASSUME((result ^ math.tzmask(x)) == UInt128.MaxValue);
+            constexpr.ASSUME((result & math.tzmask(x)) == 0);
+            constexpr.ASSUME(math.countbits(result) == 128 - math.tzcnt(x));
+
+            return result;
         }
 
         /// <summary>       Sets all the high order bits from the lowest set bit in <paramref name="x"/> to 1 and the remaining bits to 0.     </summary>
@@ -378,7 +545,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint bits_maskfromlowest(uint x)
         {
-            return x | (uint)-(int)x;
+            uint result = x | (uint)-(int)x;
+
+            Assume.bits_maskfromlowest(result, x);
+
+            return result;
         }
 
         /// <summary>       Sets all the componentwise high order bits from the lowest set bits in each <paramref name="x"/> component to 1 and the remaining bits to 0.     </summary>
@@ -478,7 +649,11 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong bits_maskfromlowest(ulong x)
         {
-            return x | (ulong)-(long)x;
+            ulong result = x | (ulong)-(long)x;
+
+            Assume.bits_maskfromlowest(result, x);
+
+            return result;
         }
 
         /// <summary>       Sets all the componentwise high order bits from the lowest set bits in each <paramref name="x"/> component to 1 and the remaining bits to 0.     </summary>

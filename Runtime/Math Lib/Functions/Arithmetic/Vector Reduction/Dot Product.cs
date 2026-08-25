@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -526,28 +527,28 @@ namespace MaxMath
             return Unity.Mathematics.math.dot(x, y);
         }
         
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.float2"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="float2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float dot(float2 x, float2 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.float3"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="float3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float dot(float3 x, float3 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.float4"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="float4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float dot(float4 x, float4 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.float8"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="float8"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float dot(float8 x, float8 y)
         {
@@ -571,25 +572,33 @@ namespace MaxMath
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.double2"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="double2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double dot(double2 x, double2 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.double3"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="double3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double dot(double3 x, double3 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.double4"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="double4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double dot(double4 x, double4 y)
         {
             return Unity.Mathematics.math.dot(x, y);
+        }
+
+
+        /// <summary>       Returns the dot product of two <see cref="quadruple"/> values.      </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple dot(quadruple x, quadruple y)
+        {
+            return x * y;
         }
 
 
@@ -601,7 +610,7 @@ namespace MaxMath
             return a * (uint)b;
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.byte2"/>s.
+        /// <summary>       Returns the dot product of two <see cref="byte2"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
@@ -625,7 +634,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.byte3"/>s.
+        /// <summary>       Returns the dot product of two <see cref="byte3"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
@@ -649,7 +658,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.byte4"/>s.
+        /// <summary>       Returns the dot product of two <see cref="byte4"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
@@ -673,7 +682,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.byte8"/>s.
+        /// <summary>       Returns the dot product of two <see cref="byte8"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
@@ -697,7 +706,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.byte16"/>s.
+        /// <summary>       Returns the dot product of two <see cref="byte16"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
@@ -721,7 +730,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.byte32"/>s.
+        /// <summary>       Returns the dot product of two <see cref="byte32"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. This overload is safe if each element is less than 128.      </para>
@@ -761,7 +770,7 @@ namespace MaxMath
             return a * (int)b;
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte2"/>s.
+        /// <summary>       Returns the dot product of two <see cref="sbyte2"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
@@ -785,7 +794,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte3"/>s.
+        /// <summary>       Returns the dot product of two <see cref="sbyte3"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
@@ -809,7 +818,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte4"/>s.
+        /// <summary>       Returns the dot product of two <see cref="sbyte4"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
@@ -833,7 +842,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte8"/>s.
+        /// <summary>       Returns the dot product of two <see cref="sbyte8"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
@@ -857,7 +866,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte16"/>s.
+        /// <summary>       Returns the dot product of two <see cref="sbyte16"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
@@ -881,7 +890,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.sbyte32"/>s.
+        /// <summary>       Returns the dot product of two <see cref="sbyte32"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.     </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components combined with the first summation of adjacent products, i.e. (<paramref name="a"/>.x * <paramref name="b"/>.x) + (<paramref name="a"/>.y * <paramref name="b"/>.y) for each pair of 2 adjacent elements in both vectors, results in a signed 16 bit overflow. Additionally, each element in <paramref name="a"/> must be greater than or equal to 0. This overload is safe if each element in <paramref name="a"/> lies within the interval [0, 127] and each elements in <paramref name="b"/> lies within the interval [-127, 127].      </para>
@@ -921,7 +930,7 @@ namespace MaxMath
             return a * (int)b;
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.short2"/>s.
+        /// <summary>       Returns the dot product of two <see cref="short2"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -947,7 +956,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.short3"/>s.
+        /// <summary>       Returns the dot product of two <see cref="short3"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -972,7 +981,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.short4"/>s.
+        /// <summary>       Returns the dot product of two <see cref="short4"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -997,7 +1006,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.short8"/>s.
+        /// <summary>       Returns the dot product of two <see cref="short8"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -1022,7 +1031,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.short16"/>s.
+        /// <summary>       Returns the dot product of two <see cref="short16"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -1062,7 +1071,7 @@ namespace MaxMath
             return a * (uint)b;
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort2"/>s.
+        /// <summary>       Returns the dot product of two <see cref="ushort2"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -1087,7 +1096,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort3"/>s.
+        /// <summary>       Returns the dot product of two <see cref="ushort3"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -1112,7 +1121,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort4"/>s.
+        /// <summary>       Returns the dot product of two <see cref="ushort4"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -1137,7 +1146,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort8"/>s.
+        /// <summary>       Returns the dot product of two <see cref="ushort8"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -1162,7 +1171,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.ushort16"/>s.
+        /// <summary>       Returns the dot product of two <see cref="ushort16"/>s.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results if any multiplication of corresponding <paramref name="x"/> and <paramref name="y"/> components or any possible summation of all resulting products produces a 16-bit overflow.      </para>
         /// </remarks>
@@ -1201,28 +1210,28 @@ namespace MaxMath
             return a * b;
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.int2"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="int2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(int2 x, int2 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.int3"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="int3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(int3 x, int3 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.int4"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="int4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(int4 x, int4 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.int8"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="int8"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int dot(int8 x, int8 y)
         {
@@ -1237,28 +1246,28 @@ namespace MaxMath
             return a * b;
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.uint2"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="uint2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(uint2 x, uint2 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.uint3"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="uint3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(uint3 x, uint3 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.uint4"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="uint4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(uint4 x, uint4 y)
         {
             return Unity.Mathematics.math.dot(x, y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.uint8"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="uint8"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint dot(uint8 x, uint8 y)
         {
@@ -1273,21 +1282,21 @@ namespace MaxMath
             return a * b;
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.long2"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="long2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long dot(long2 x, long2 y)
         {
             return csum(x * y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.long3"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="long3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long dot(long3 x, long3 y)
         {
             return csum(x * y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.long4"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="long4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long dot(long4 x, long4 y)
         {
@@ -1302,21 +1311,21 @@ namespace MaxMath
             return a * b;
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.ulong2"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="ulong2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong dot(ulong2 x, ulong2 y)
         {
             return csum(x * y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.ulong3"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="ulong3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong dot(ulong3 x, ulong3 y)
         {
             return csum(x * y);
         }
 
-        /// <summary>       Returns the dot product of two <see cref="MaxMath.ulong4"/>s.       </summary>
+        /// <summary>       Returns the dot product of two <see cref="ulong4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong dot(ulong4 x, ulong4 y)
         {

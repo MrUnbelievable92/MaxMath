@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -8,7 +9,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>		Returns the <see cref="MaxMath.long2x2"/> transposition of a <see cref="MaxMath.long2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="long2x2"/> transposition of a <see cref="long2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2x2 transpose(long2x2 v)
         {
@@ -24,7 +25,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.long3x2"/> transposition of a <see cref="MaxMath.long2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="long3x2"/> transposition of a <see cref="long2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3x2 transpose(long2x3 v)
         {
@@ -46,7 +47,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.long4x2"/> transposition of a <see cref="MaxMath.long2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="long4x2"/> transposition of a <see cref="long2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x2 transpose(long2x4 v)
         {
@@ -74,7 +75,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.long2x3"/> transposition of a <see cref="MaxMath.long3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="long2x3"/> transposition of a <see cref="long3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2x3 transpose(long3x2 v)
         {
@@ -99,7 +100,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.long3x3"/> transposition of a <see cref="MaxMath.long3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="long3x3"/> transposition of a <see cref="long3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3x3 transpose(long3x3 v)
         {
@@ -126,7 +127,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.long4x3"/> transposition of a <see cref="MaxMath.long3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="long4x3"/> transposition of a <see cref="long3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x3 transpose(long3x4 v)
         {
@@ -154,7 +155,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.long2x4"/> transposition of a <see cref="MaxMath.long4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="long2x4"/> transposition of a <see cref="long4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2x4 transpose(long4x2 v)
         {
@@ -182,7 +183,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the long<see cref="MaxMath.long3x4"/>3x4 transposition of a <see cref="MaxMath.long4x3"/>.		</summary>
+        /// <summary>		Returns the long<see cref="long3x4"/>3x4 transposition of a <see cref="long4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3x4 transpose(long4x3 v)
         {
@@ -211,7 +212,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.long4x4"/> transposition of a <see cref="MaxMath.long4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="long4x4"/> transposition of a <see cref="long4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4x4 transpose(long4x4 v)
         {
@@ -245,63 +246,63 @@ namespace MaxMath
         }
 
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong2x2"/> transposition of a u <see cref="MaxMath.long2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong2x2"/> transposition of a u <see cref="long2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2x2 transpose(ulong2x2 v)
         {
             return (ulong2x2)transpose((long2x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong3x2"/> transposition of a u <see cref="MaxMath.long2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong3x2"/> transposition of a u <see cref="long2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3x2 transpose(ulong2x3 v)
         {
             return (ulong3x2)transpose((long2x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong4x2"/> transposition of a u <see cref="MaxMath.long2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong4x2"/> transposition of a u <see cref="long2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4x2 transpose(ulong2x4 v)
         {
             return (ulong4x2)transpose((long2x4)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong2x3"/> transposition of a u <see cref="MaxMath.long3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong2x3"/> transposition of a u <see cref="long3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2x3 transpose(ulong3x2 v)
         {
             return (ulong2x3)transpose((long3x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong3x3"/> transposition of a u <see cref="MaxMath.long3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong3x3"/> transposition of a u <see cref="long3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3x3 transpose(ulong3x3 v)
         {
             return (ulong3x3)transpose((long3x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong4x3"/> transposition of a u <see cref="MaxMath.long3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong4x3"/> transposition of a u <see cref="long3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4x3 transpose(ulong3x4 v)
         {
             return (ulong4x3)transpose((long3x4)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong2x4"/> transposition of a u <see cref="MaxMath.long4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong2x4"/> transposition of a u <see cref="long4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2x4 transpose(ulong4x2 v)
         {
             return (ulong2x4)transpose((long4x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong3x4"/> transposition of a u <see cref="MaxMath.long4x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong3x4"/> transposition of a u <see cref="long4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3x4 transpose(ulong4x3 v)
         {
             return (ulong3x4)transpose((long4x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ulong4x4"/> transposition of a u <see cref="MaxMath.long4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="ulong4x4"/> transposition of a u <see cref="long4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4x4 transpose(ulong4x4 v)
         {
@@ -309,56 +310,56 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.int2x2"/> transposition of an <see cref="MaxMath.int2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="int2x2"/> transposition of an <see cref="int2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2x2 transpose(int2x2 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.int3x2"/> transposition of an <see cref="MaxMath.int2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="int3x2"/> transposition of an <see cref="int2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3x2 transpose(int2x3 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.int4x2"/> transposition of an <see cref="MaxMath.int2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="int4x2"/> transposition of an <see cref="int2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4x2 transpose(int2x4 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.int2x3"/> transposition of an <see cref="MaxMath.int3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="int2x3"/> transposition of an <see cref="int3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2x3 transpose(int3x2 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.int3x3"/> transposition of an <see cref="MaxMath.int3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="int3x3"/> transposition of an <see cref="int3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3x3 transpose(int3x3 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.int4x3"/> transposition of an <see cref="MaxMath.int3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="int4x3"/> transposition of an <see cref="int3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4x3 transpose(int3x4 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.int2x4"/> transposition of an <see cref="MaxMath.int4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="int2x4"/> transposition of an <see cref="int4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2x4 transpose(int4x2 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the int<see cref="MaxMath.int3x4"/>3x4 transposition of an <see cref="MaxMath.int4x3"/>.		</summary>
+        /// <summary>		Returns the int<see cref="int3x4"/>3x4 transposition of an <see cref="int4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3x4 transpose(int4x3 v)
         {
@@ -380,7 +381,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.int4x4"/> transposition of an <see cref="MaxMath.int4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="int4x4"/> transposition of an <see cref="int4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4x4 transpose(int4x4 v)
         {
@@ -388,63 +389,63 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.uint2x2"/> transposition of a <see cref="MaxMath.uint2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="uint2x2"/> transposition of a <see cref="uint2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2x2 transpose(uint2x2 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.uint3x2"/> transposition of a <see cref="MaxMath.uint2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="uint3x2"/> transposition of a <see cref="uint2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3x2 transpose(uint2x3 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.uint4x2"/> transposition of a <see cref="MaxMath.uint2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="uint4x2"/> transposition of a <see cref="uint2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4x2 transpose(uint2x4 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.uint2x3"/> transposition of a <see cref="MaxMath.uint3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="uint2x3"/> transposition of a <see cref="uint3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2x3 transpose(uint3x2 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.uint3x3"/> transposition of a <see cref="MaxMath.uint3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="uint3x3"/> transposition of a <see cref="uint3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3x3 transpose(uint3x3 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.uint4x3"/> transposition of a <see cref="MaxMath.uint3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="uint4x3"/> transposition of a <see cref="uint3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4x3 transpose(uint3x4 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.uint2x4"/> transposition of a <see cref="MaxMath.uint4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="uint2x4"/> transposition of a <see cref="uint4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2x4 transpose(uint4x2 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the uint<see cref="MaxMath.uint3x4"/>3x4 transposition of a <see cref="MaxMath.uint4x3"/>.		</summary>
+        /// <summary>		Returns the uint<see cref="uint3x4"/>3x4 transposition of a <see cref="uint4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3x4 transpose(uint4x3 v)
         {
             return Unity.Mathematics.math.transpose(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.uint4x4"/> transposition of a <see cref="MaxMath.uint4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="uint4x4"/> transposition of a <see cref="uint4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4x4 transpose(uint4x4 v)
         {
@@ -452,7 +453,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>		Returns the <see cref="MaxMath.short2x2"/> transposition of a <see cref="MaxMath.short2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="short2x2"/> transposition of a <see cref="short2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2x2 transpose(short2x2 v)
         {
@@ -470,7 +471,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.short3x2"/> transposition of a <see cref="MaxMath.short2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="short3x2"/> transposition of a <see cref="short2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3x2 transpose(short2x3 v)
         {
@@ -489,7 +490,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.short4x2"/> transposition of a <see cref="MaxMath.short2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="short4x2"/> transposition of a <see cref="short2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4x2 transpose(short2x4 v)
         {
@@ -510,7 +511,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.short2x3"/> transposition of a <see cref="MaxMath.short3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="short2x3"/> transposition of a <see cref="short3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2x3 transpose(short3x2 v)
         {
@@ -529,7 +530,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.short3x3"/> transposition of a <see cref="MaxMath.short3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="short3x3"/> transposition of a <see cref="short3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3x3 transpose(short3x3 v)
         {
@@ -549,7 +550,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.short4x3"/> transposition of a <see cref="MaxMath.short3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="short4x3"/> transposition of a <see cref="short3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4x3 transpose(short3x4 v)
         {
@@ -574,7 +575,7 @@ namespace MaxMath
 
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.short2x4"/> transposition of a <see cref="MaxMath.short4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="short2x4"/> transposition of a <see cref="short4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2x4 transpose(short4x2 v)
         {
@@ -594,7 +595,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.short3x4"/> transposition of a <see cref="MaxMath.short4x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="short3x4"/> transposition of a <see cref="short4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3x4 transpose(short4x3 v)
         {
@@ -615,7 +616,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.short4x4"/> transposition of a <see cref="MaxMath.short4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="short4x4"/> transposition of a <see cref="short4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4x4 transpose(short4x4 v)
         {
@@ -642,63 +643,63 @@ namespace MaxMath
         }
 
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort2x2"/> transposition of a <see cref="MaxMath.ushort2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort2x2"/> transposition of a <see cref="ushort2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2x2 transpose(ushort2x2 v)
         {
             return (ushort2x2)transpose((short2x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort3x2"/> transposition of a <see cref="MaxMath.ushort2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort3x2"/> transposition of a <see cref="ushort2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3x2 transpose(ushort2x3 v)
         {
             return (ushort3x2)transpose((short2x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort4x2"/> transposition of a <see cref="MaxMath.ushort2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort4x2"/> transposition of a <see cref="ushort2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4x2 transpose(ushort2x4 v)
         {
             return (ushort4x2)transpose((short2x4)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort2x3"/> transposition of a u <see cref="MaxMath.short3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort2x3"/> transposition of a u <see cref="short3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2x3 transpose(ushort3x2 v)
         {
             return (ushort2x3)transpose((short3x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort3x3"/> transposition of a u <see cref="MaxMath.short3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort3x3"/> transposition of a u <see cref="short3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3x3 transpose(ushort3x3 v)
         {
             return (ushort3x3)transpose((short3x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort4x3"/> transposition of a <see cref="MaxMath.ushort3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort4x3"/> transposition of a <see cref="ushort3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4x3 transpose(ushort3x4 v)
         {
             return (ushort4x3)transpose((short3x4)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort2x4"/> transposition of a u <see cref="MaxMath.short4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort2x4"/> transposition of a u <see cref="short4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2x4 transpose(ushort4x2 v)
         {
             return (ushort2x4)transpose((short4x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort3x4"/> transposition of a u <see cref="MaxMath.short4x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort3x4"/> transposition of a u <see cref="short4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3x4 transpose(ushort4x3 v)
         {
             return (ushort3x4)transpose((short4x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.ushort4x4"/> transposition of a u <see cref="MaxMath.short4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="ushort4x4"/> transposition of a u <see cref="short4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4x4 transpose(ushort4x4 v)
         {
@@ -706,7 +707,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte2x2"/> transposition of an <see cref="MaxMath.sbyte2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte2x2"/> transposition of an <see cref="sbyte2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2x2 transpose(sbyte2x2 v)
         {
@@ -724,7 +725,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte3x2"/> transposition of an <see cref="MaxMath.sbyte2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte3x2"/> transposition of an <see cref="sbyte2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3x2 transpose(sbyte2x3 v)
         {
@@ -754,7 +755,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte4x2"/> transposition of an <see cref="MaxMath.sbyte2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte4x2"/> transposition of an <see cref="sbyte2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4x2 transpose(sbyte2x4 v)
         {
@@ -775,7 +776,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte2x3"/> transposition of an <see cref="MaxMath.sbyte3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte2x3"/> transposition of an <see cref="sbyte3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2x3 transpose(sbyte3x2 v)
         {
@@ -794,7 +795,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte3x3"/> transposition of an <see cref="MaxMath.sbyte3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte3x3"/> transposition of an <see cref="sbyte3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3x3 transpose(sbyte3x3 v)
         {
@@ -827,7 +828,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte4x3"/> transposition of an <see cref="MaxMath.sbyte3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte4x3"/> transposition of an <see cref="sbyte3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4x3 transpose(sbyte3x4 v)
         {
@@ -849,7 +850,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte2x4"/> transposition of an <see cref="MaxMath.sbyte4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte2x4"/> transposition of an <see cref="sbyte4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2x4 transpose(sbyte4x2 v)
         {
@@ -869,7 +870,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte3x4"/> transposition of an <see cref="MaxMath.sbyte4x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte3x4"/> transposition of an <see cref="sbyte4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3x4 transpose(sbyte4x3 v)
         {
@@ -900,7 +901,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.sbyte4x4"/> transposition of an <see cref="MaxMath.sbyte4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="sbyte4x4"/> transposition of an <see cref="sbyte4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4x4 transpose(sbyte4x4 v)
         {
@@ -924,63 +925,63 @@ namespace MaxMath
         }
 
 
-        /// <summary>		Returns the <see cref="MaxMath.byte2x2"/> transposition of a <see cref="MaxMath.byte2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte2x2"/> transposition of a <see cref="byte2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2x2 transpose(byte2x2 v)
         {
             return (byte2x2)transpose((sbyte2x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.byte3x2"/> transposition of a <see cref="MaxMath.byte2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte3x2"/> transposition of a <see cref="byte2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3x2 transpose(byte2x3 v)
         {
             return (byte3x2)transpose((sbyte2x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.byte4x2"/> transposition of a <see cref="MaxMath.byte2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte4x2"/> transposition of a <see cref="byte2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4x2 transpose(byte2x4 v)
         {
             return (byte4x2)transpose((sbyte2x4)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.byte2x3"/> transposition of a <see cref="MaxMath.byte3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte2x3"/> transposition of a <see cref="byte3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2x3 transpose(byte3x2 v)
         {
             return (byte2x3)transpose((sbyte3x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.byte3x3"/> transposition of a <see cref="MaxMath.byte3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte3x3"/> transposition of a <see cref="byte3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3x3 transpose(byte3x3 v)
         {
             return (byte3x3)transpose((sbyte3x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.byte4x3"/> transposition of a <see cref="bMaxMath.yte3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte4x3"/> transposition of a <see cref="bMaxMath.yte3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4x3 transpose(byte3x4 v)
         {
             return (byte4x3)transpose((sbyte3x4)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.byte2x4"/> transposition of a <see cref="MaxMath.byte4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte2x4"/> transposition of a <see cref="byte4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2x4 transpose(byte4x2 v)
         {
             return (byte2x4)transpose((sbyte4x2)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.byte3x4"/> transposition of a <see cref="MaxMath.byte4x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte3x4"/> transposition of a <see cref="byte4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3x4 transpose(byte4x3 v)
         {
             return (byte3x4)transpose((sbyte4x3)v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.byte4x4"/> transposition of a <see cref="MaxMath.byte4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="byte4x4"/> transposition of a <see cref="byte4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4x4 transpose(byte4x4 v)
         {
@@ -988,7 +989,7 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.float2x2"/> transposition of a <see cref="MaxMath.float2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="float2x2"/> transposition of a <see cref="float2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2x2 transpose(float2x2 v)
         {
@@ -996,7 +997,7 @@ namespace MaxMath
             return r.Reinterpret<uint2x2, float2x2>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float3x2"/> transposition of a <see cref="MaxMath.float2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="float3x2"/> transposition of a <see cref="float2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3x2 transpose(float2x3 v)
         {
@@ -1004,7 +1005,7 @@ namespace MaxMath
             return r.Reinterpret<uint3x2, float3x2>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float4x2"/> transposition of a <see cref="MaxMath.float2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="float4x2"/> transposition of a <see cref="float2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4x2 transpose(float2x4 v)
         {
@@ -1012,7 +1013,7 @@ namespace MaxMath
             return r.Reinterpret<uint4x2, float4x2>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float2x3"/> transposition of a <see cref="MaxMath.float3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="float2x3"/> transposition of a <see cref="float3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2x3 transpose(float3x2 v)
         {
@@ -1020,7 +1021,7 @@ namespace MaxMath
             return r.Reinterpret<uint2x3, float2x3>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float3x3"/> transposition of a <see cref="MaxMath.float3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="float3x3"/> transposition of a <see cref="float3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3x3 transpose(float3x3 v)
         {
@@ -1028,7 +1029,7 @@ namespace MaxMath
             return r.Reinterpret<uint3x3, float3x3>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float4x3"/> transposition of a <see cref="MaxMath.float3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="float4x3"/> transposition of a <see cref="float3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4x3 transpose(float3x4 v)
         {
@@ -1036,7 +1037,7 @@ namespace MaxMath
             return r.Reinterpret<uint4x3, float4x3>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float2x4"/> transposition of a <see cref="MaxMath.float4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="float2x4"/> transposition of a <see cref="float4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2x4 transpose(float4x2 v)
         {
@@ -1044,7 +1045,7 @@ namespace MaxMath
             return r.Reinterpret<uint2x4, float2x4>();
         }
 
-        /// <summary>		Returns the float<see cref="MaxMath.float3x4"/>3x4 transposition of a <see cref="MaxMath.float4x3"/>.		</summary>
+        /// <summary>		Returns the float<see cref="float3x4"/>3x4 transposition of a <see cref="float4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3x4 transpose(float4x3 v)
         {
@@ -1052,7 +1053,7 @@ namespace MaxMath
             return r.Reinterpret<uint3x4, float3x4>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float4x4"/> transposition of a <see cref="MaxMath.float4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="float4x4"/> transposition of a <see cref="float4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4x4 transpose(float4x4 v)
         {
@@ -1061,7 +1062,7 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.double2x2"/> transposition of a <see cref="MaxMath.double2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="double2x2"/> transposition of a <see cref="double2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2x2 transpose(double2x2 v)
         {
@@ -1069,7 +1070,7 @@ namespace MaxMath
             return r.Reinterpret<ulong2x2, double2x2>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double3x2"/> transposition of a <see cref="MaxMath.double2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="double3x2"/> transposition of a <see cref="double2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3x2 transpose(double2x3 v)
         {
@@ -1077,7 +1078,7 @@ namespace MaxMath
             return r.Reinterpret<ulong3x2, double3x2>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double4x2"/> transposition of a <see cref="MaxMath.double2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="double4x2"/> transposition of a <see cref="double2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4x2 transpose(double2x4 v)
         {
@@ -1085,7 +1086,7 @@ namespace MaxMath
             return r.Reinterpret<ulong4x2, double4x2>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double2x3"/> transposition of a <see cref="MaxMath.double3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="double2x3"/> transposition of a <see cref="double3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2x3 transpose(double3x2 v)
         {
@@ -1093,7 +1094,7 @@ namespace MaxMath
             return r.Reinterpret<ulong2x3, double2x3>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double3x3"/> transposition of a <see cref="MaxMath.double3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="double3x3"/> transposition of a <see cref="double3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3x3 transpose(double3x3 v)
         {
@@ -1101,7 +1102,7 @@ namespace MaxMath
             return r.Reinterpret<ulong3x3, double3x3>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double4x3"/> transposition of a <see cref="MaxMath.double3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="double4x3"/> transposition of a <see cref="double3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4x3 transpose(double3x4 v)
         {
@@ -1109,7 +1110,7 @@ namespace MaxMath
             return r.Reinterpret<ulong4x3, double4x3>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double2x4"/> transposition of a <see cref="MaxMath.double4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="double2x4"/> transposition of a <see cref="double4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2x4 transpose(double4x2 v)
         {
@@ -1117,7 +1118,7 @@ namespace MaxMath
             return r.Reinterpret<ulong2x4, double2x4>();
         }
 
-        /// <summary>		Returns the double<see cref="MaxMath.double3x4"/>3x4 transposition of a <see cref="MaxMath.double4x3"/>.		</summary>
+        /// <summary>		Returns the double<see cref="double3x4"/>3x4 transposition of a <see cref="double4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3x4 transpose(double4x3 v)
         {
@@ -1125,7 +1126,7 @@ namespace MaxMath
             return r.Reinterpret<ulong3x4, double3x4>();
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double4x4"/> transposition of a <see cref="MaxMath.double4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="double4x4"/> transposition of a <see cref="double4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4x4 transpose(double4x4 v)
         {
@@ -1134,81 +1135,81 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.bool2x2"/> transposition of a <see cref="MaxMath.bool2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x2"/> transposition of a <see cref="bool2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x2 transpose(bool2x2 v) => transpose((mask8x2x2)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x2"/> transposition of a <see cref="MaxMath.bool2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x2"/> transposition of a <see cref="bool2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x2 transpose(bool2x3 v) => transpose((mask8x2x3)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x2"/> transposition of a <see cref="MaxMath.bool2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x2"/> transposition of a <see cref="bool2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x2 transpose(bool2x4 v) => transpose((mask8x2x4)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x3"/> transposition of a <see cref="MaxMath.bool3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x3"/> transposition of a <see cref="bool3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x3 transpose(bool3x2 v) => transpose((mask8x3x2)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x3"/> transposition of a <see cref="MaxMath.bool3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x3"/> transposition of a <see cref="bool3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x3 transpose(bool3x3 v) => transpose((mask8x3x3)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x3"/> transposition of a <see cref="MaxMath.bool3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x3"/> transposition of a <see cref="bool3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x3 transpose(bool3x4 v) => transpose((mask8x3x4)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x4"/> transposition of a <see cref="MaxMath.bool4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x4"/> transposition of a <see cref="bool4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x4 transpose(bool4x2 v) => transpose((mask8x4x2)v);
 
-        /// <summary>		Returns the bool<see cref="MaxMath.bool3x4"/>3x4 transposition of a <see cref="MaxMath.bool4x3"/>.		</summary>
+        /// <summary>		Returns the bool<see cref="bool3x4"/>3x4 transposition of a <see cref="bool4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x4 transpose(bool4x3 v) => transpose((mask8x4x3)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x4"/> transposition of a <see cref="MaxMath.bool4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x4"/> transposition of a <see cref="bool4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x4 transpose(bool4x4 v) => transpose((mask8x4x4)v);
 
         
-        /// <summary>		Returns the <see cref="MaxMath.Unity.Mathematics.bool2x2"/> transposition of a <see cref="MaxMath.Unity.Mathematics.bool2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x2"/> transposition of a <see cref="bool2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x2 transpose(Unity.Mathematics.bool2x2 v) => transpose((bool2x2)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.Unity.Mathematics.bool3x2"/> transposition of a <see cref="MaxMath.Unity.Mathematics.bool2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x2"/> transposition of a <see cref="bool2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x2 transpose(Unity.Mathematics.bool2x3 v) => transpose((bool2x3)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.Unity.Mathematics.bool4x2"/> transposition of a <see cref="MaxMath.Unity.Mathematics.bool2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x2"/> transposition of a <see cref="bool2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x2 transpose(Unity.Mathematics.bool2x4 v) => transpose((bool2x4)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.Unity.Mathematics.bool2x3"/> transposition of a <see cref="MaxMath.Unity.Mathematics.bool3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x3"/> transposition of a <see cref="bool3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x3 transpose(Unity.Mathematics.bool3x2 v) => transpose((bool3x2)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.Unity.Mathematics.bool3x3"/> transposition of a <see cref="MaxMath.Unity.Mathematics.bool3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x3"/> transposition of a <see cref="bool3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x3 transpose(Unity.Mathematics.bool3x3 v) => transpose((bool3x3)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.Unity.Mathematics.bool4x3"/> transposition of a <see cref="MaxMath.Unity.Mathematics.bool3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x3"/> transposition of a <see cref="bool3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x3 transpose(Unity.Mathematics.bool3x4 v) => transpose((bool3x4)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.Unity.Mathematics.bool2x4"/> transposition of a <see cref="MaxMath.Unity.Mathematics.bool4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x4"/> transposition of a <see cref="bool4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x4 transpose(Unity.Mathematics.bool4x2 v) => transpose((bool4x2)v);
 
-        /// <summary>		Returns the Unity.Mathematics.bool<see cref="MaxMath.Unity.Mathematics.bool3x4"/>3x4 transposition of a <see cref="MaxMath.Unity.Mathematics.bool4x3"/>.		</summary>
+        /// <summary>		Returns the Unity.Mathematics.bool<see cref="bool3x4"/>3x4 transposition of a <see cref="bool4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x4 transpose(Unity.Mathematics.bool4x3 v) => transpose((bool4x3)v);
 
-        /// <summary>		Returns the <see cref="MaxMath.Unity.Mathematics.bool4x4"/> transposition of a <see cref="MaxMath.Unity.Mathematics.bool4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x4"/> transposition of a <see cref="bool4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x4 transpose(Unity.Mathematics.bool4x4 v) => transpose((bool4x4)v);
 
         
-        /// <summary>		Returns the <see cref="MaxMath.bool2x2"/> transposition of a <see cref="MaxMath.bool2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x2"/> transposition of a <see cref="bool2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x2 transpose(mask8x2x2 v)
         {
@@ -1217,7 +1218,7 @@ namespace MaxMath
             return new mask8x2x2 { c0 = (v128)t.c0, c1 = (v128)t.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x2"/> transposition of a <see cref="MaxMath.bool2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x2"/> transposition of a <see cref="bool2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x2 transpose(mask8x2x3 v)
         {
@@ -1226,7 +1227,7 @@ namespace MaxMath
             return new mask8x3x2 { c0 = (v128)t2.c0, c1 = (v128)t2.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x2"/> transposition of a <see cref="MaxMath.bool2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x2"/> transposition of a <see cref="bool2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x2 transpose(mask8x2x4 v)
         {
@@ -1235,7 +1236,7 @@ namespace MaxMath
             return new mask8x4x2 { c0 = (v128)t2.c0, c1 = (v128)t2.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x3"/> transposition of a <see cref="MaxMath.bool3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x3"/> transposition of a <see cref="bool3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x3 transpose(mask8x3x2 v)
         {
@@ -1244,7 +1245,7 @@ namespace MaxMath
             return new mask8x2x3 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x3"/> transposition of a <see cref="MaxMath.bool3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x3"/> transposition of a <see cref="bool3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x3 transpose(mask8x3x3 v)
         {
@@ -1253,7 +1254,7 @@ namespace MaxMath
             return new mask8x3x3 { c0 = (v128)t.c0, c1 = (v128)t.c1, c2 = (v128)t.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x3"/> transposition of a <see cref="MaxMath.bool3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x3"/> transposition of a <see cref="bool3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x3 transpose(mask8x3x4 v)
         {
@@ -1262,7 +1263,7 @@ namespace MaxMath
             return new mask8x4x3 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x4"/> transposition of a <see cref="MaxMath.bool4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x4"/> transposition of a <see cref="bool4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2x4 transpose(mask8x4x2 v)
         {
@@ -1271,7 +1272,7 @@ namespace MaxMath
             return new mask8x2x4 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2, c3 = (v128)t2.c3 };
         }
 
-        /// <summary>		Returns the mask8x<see cref="MaxMath.bool3x4"/>3x4 transposition of a <see cref="MaxMath.bool4x3"/>.		</summary>
+        /// <summary>		Returns the mask8x<see cref="bool3x4"/>3x4 transposition of a <see cref="bool4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3x4 transpose(mask8x4x3 v)
         {
@@ -1280,7 +1281,7 @@ namespace MaxMath
             return new mask8x3x4 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2, c3 = (v128)t2.c3 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x4"/> transposition of a <see cref="MaxMath.bool4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x4"/> transposition of a <see cref="bool4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4x4 transpose(mask8x4x4 v)
         {
@@ -1290,7 +1291,7 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.bool2x2"/> transposition of a <see cref="MaxMath.bool2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x2"/> transposition of a <see cref="bool2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2x2 transpose(mask16x2x2 v)
         {
@@ -1299,7 +1300,7 @@ namespace MaxMath
             return new mask16x2x2 { c0 = (v128)t.c0, c1 = (v128)t.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x2"/> transposition of a <see cref="MaxMath.bool2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x2"/> transposition of a <see cref="bool2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3x2 transpose(mask16x2x3 v)
         {
@@ -1308,7 +1309,7 @@ namespace MaxMath
             return new mask16x3x2 { c0 = (v128)t2.c0, c1 = (v128)t2.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x2"/> transposition of a <see cref="MaxMath.bool2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x2"/> transposition of a <see cref="bool2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4x2 transpose(mask16x2x4 v)
         {
@@ -1317,7 +1318,7 @@ namespace MaxMath
             return new mask16x4x2 { c0 = (v128)t2.c0, c1 = (v128)t2.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x3"/> transposition of a <see cref="MaxMath.bool3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x3"/> transposition of a <see cref="bool3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2x3 transpose(mask16x3x2 v)
         {
@@ -1326,7 +1327,7 @@ namespace MaxMath
             return new mask16x2x3 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x3"/> transposition of a <see cref="MaxMath.bool3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x3"/> transposition of a <see cref="bool3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3x3 transpose(mask16x3x3 v)
         {
@@ -1335,7 +1336,7 @@ namespace MaxMath
             return new mask16x3x3 { c0 = (v128)t.c0, c1 = (v128)t.c1, c2 = (v128)t.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x3"/> transposition of a <see cref="MaxMath.bool3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x3"/> transposition of a <see cref="bool3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4x3 transpose(mask16x3x4 v)
         {
@@ -1344,7 +1345,7 @@ namespace MaxMath
             return new mask16x4x3 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x4"/> transposition of a <see cref="MaxMath.bool4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x4"/> transposition of a <see cref="bool4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2x4 transpose(mask16x4x2 v)
         {
@@ -1353,7 +1354,7 @@ namespace MaxMath
             return new mask16x2x4 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2, c3 = (v128)t2.c3 };
         }
 
-        /// <summary>		Returns the mask16x<see cref="MaxMath.bool3x4"/>3x4 transposition of a <see cref="MaxMath.bool4x3"/>.		</summary>
+        /// <summary>		Returns the mask16x<see cref="bool3x4"/>3x4 transposition of a <see cref="bool4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3x4 transpose(mask16x4x3 v)
         {
@@ -1362,7 +1363,7 @@ namespace MaxMath
             return new mask16x3x4 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2, c3 = (v128)t2.c3 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x4"/> transposition of a <see cref="MaxMath.bool4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x4"/> transposition of a <see cref="bool4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4x4 transpose(mask16x4x4 v)
         {
@@ -1372,7 +1373,7 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.bool2x2"/> transposition of a <see cref="MaxMath.bool2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x2"/> transposition of a <see cref="bool2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2x2 transpose(mask32x2x2 v)
         {
@@ -1381,7 +1382,7 @@ namespace MaxMath
             return new mask32x2x2 { c0 = (v128)t.c0, c1 = (v128)t.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x2"/> transposition of a <see cref="MaxMath.bool2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x2"/> transposition of a <see cref="bool2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3x2 transpose(mask32x2x3 v)
         {
@@ -1390,7 +1391,7 @@ namespace MaxMath
             return new mask32x3x2 { c0 = (v128)t2.c0, c1 = (v128)t2.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x2"/> transposition of a <see cref="MaxMath.bool2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x2"/> transposition of a <see cref="bool2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4x2 transpose(mask32x2x4 v)
         {
@@ -1399,7 +1400,7 @@ namespace MaxMath
             return new mask32x4x2 { c0 = (v128)t2.c0, c1 = (v128)t2.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x3"/> transposition of a <see cref="MaxMath.bool3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x3"/> transposition of a <see cref="bool3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2x3 transpose(mask32x3x2 v)
         {
@@ -1408,7 +1409,7 @@ namespace MaxMath
             return new mask32x2x3 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x3"/> transposition of a <see cref="MaxMath.bool3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x3"/> transposition of a <see cref="bool3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3x3 transpose(mask32x3x3 v)
         {
@@ -1417,7 +1418,7 @@ namespace MaxMath
             return new mask32x3x3 { c0 = (v128)t.c0, c1 = (v128)t.c1, c2 = (v128)t.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x3"/> transposition of a <see cref="MaxMath.bool3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x3"/> transposition of a <see cref="bool3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4x3 transpose(mask32x3x4 v)
         {
@@ -1426,7 +1427,7 @@ namespace MaxMath
             return new mask32x4x3 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x4"/> transposition of a <see cref="MaxMath.bool4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x4"/> transposition of a <see cref="bool4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2x4 transpose(mask32x4x2 v)
         {
@@ -1435,7 +1436,7 @@ namespace MaxMath
             return new mask32x2x4 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2, c3 = (v128)t2.c3 };
         }
 
-        /// <summary>		Returns the mask32x<see cref="MaxMath.bool3x4"/>3x4 transposition of a <see cref="MaxMath.bool4x3"/>.		</summary>
+        /// <summary>		Returns the mask32x<see cref="bool3x4"/>3x4 transposition of a <see cref="bool4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3x4 transpose(mask32x4x3 v)
         {
@@ -1444,7 +1445,7 @@ namespace MaxMath
             return new mask32x3x4 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2, c3 = (v128)t2.c3 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x4"/> transposition of a <see cref="MaxMath.bool4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x4"/> transposition of a <see cref="bool4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4x4 transpose(mask32x4x4 v)
         {
@@ -1454,7 +1455,7 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.bool2x2"/> transposition of a <see cref="MaxMath.bool2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x2"/> transposition of a <see cref="bool2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2x2 transpose(mask64x2x2 v)
         {
@@ -1463,7 +1464,7 @@ namespace MaxMath
             return new mask64x2x2 { c0 = (v128)t.c0, c1 = (v128)t.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x2"/> transposition of a <see cref="MaxMath.bool2x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x2"/> transposition of a <see cref="bool2x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3x2 transpose(mask64x2x3 v)
         {
@@ -1472,7 +1473,7 @@ namespace MaxMath
             return new mask64x3x2 { c0 = (v256)t2.c0, c1 = (v256)t2.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x2"/> transposition of a <see cref="MaxMath.bool2x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x2"/> transposition of a <see cref="bool2x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4x2 transpose(mask64x2x4 v)
         {
@@ -1481,7 +1482,7 @@ namespace MaxMath
             return new mask64x4x2 { c0 = (v256)t2.c0, c1 = (v256)t2.c1 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x3"/> transposition of a <see cref="MaxMath.bool3x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x3"/> transposition of a <see cref="bool3x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2x3 transpose(mask64x3x2 v)
         {
@@ -1490,7 +1491,7 @@ namespace MaxMath
             return new mask64x2x3 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool3x3"/> transposition of a <see cref="MaxMath.bool3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool3x3"/> transposition of a <see cref="bool3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3x3 transpose(mask64x3x3 v)
         {
@@ -1499,7 +1500,7 @@ namespace MaxMath
             return new mask64x3x3 { c0 = (v256)t.c0, c1 = (v256)t.c1, c2 = (v256)t.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x3"/> transposition of a <see cref="MaxMath.bool3x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x3"/> transposition of a <see cref="bool3x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4x3 transpose(mask64x3x4 v)
         {
@@ -1508,7 +1509,7 @@ namespace MaxMath
             return new mask64x4x3 { c0 = (v256)t2.c0, c1 = (v256)t2.c1, c2 = (v256)t2.c2 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool2x4"/> transposition of a <see cref="MaxMath.bool4x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool2x4"/> transposition of a <see cref="bool4x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2x4 transpose(mask64x4x2 v)
         {
@@ -1517,7 +1518,7 @@ namespace MaxMath
             return new mask64x2x4 { c0 = (v128)t2.c0, c1 = (v128)t2.c1, c2 = (v128)t2.c2, c3 = (v128)t2.c3 };
         }
 
-        /// <summary>		Returns the mask64x<see cref="MaxMath.bool3x4"/>3x4 transposition of a <see cref="MaxMath.bool4x3"/>.		</summary>
+        /// <summary>		Returns the mask64x<see cref="bool3x4"/>3x4 transposition of a <see cref="bool4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3x4 transpose(mask64x4x3 v)
         {
@@ -1526,7 +1527,7 @@ namespace MaxMath
             return new mask64x3x4 { c0 = (v256)t2.c0, c1 = (v256)t2.c1, c2 = (v256)t2.c2, c3 = (v256)t2.c3 };
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.bool4x4"/> transposition of a <see cref="MaxMath.bool4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="bool4x4"/> transposition of a <see cref="bool4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4x4 transpose(mask64x4x4 v)
         {

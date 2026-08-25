@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.FLOATING_POINT;
@@ -706,14 +707,29 @@ namespace MaxMath.Intrinsics
             {
                 if (elements <= 4)
                 {
-                    return cvtps_ph(cvtepu16_ps(a));
+                    v128 t = cvtps_ph(cvtepu16_ps(a));
+
+                    if (overflowValue != half.PositiveInfinity && !inRange)
+                    {
+                        t = blendv_si128(t, set1_ph(overflowValue), cmpgt_epu16(a, set1_epi16((ushort)half.MaxValue)));
+                    }
+
+                    return t;
                 }
                 else
                 {
                     v128 floatLo = cvt2x2epu16_ps(a, out v128 floatHi);
             
-                    return unpacklo_epi64(cvtps_ph(floatLo),
-                                          cvtps_ph(floatHi));
+
+                    v128 t = unpacklo_epi64(cvtps_ph(floatLo),
+                                            cvtps_ph(floatHi));
+                    
+                    if (overflowValue != half.PositiveInfinity && !inRange)
+                    {
+                        t = blendv_si128(t, set1_ph(overflowValue), cmpgt_epu16(a, set1_epi16((ushort)half.MaxValue)));
+                    }
+
+                    return t;
                 }
             }
             else if (BurstArchitecture.IsSIMDSupported)
@@ -970,7 +986,7 @@ namespace MaxMath.Intrinsics
             {
                 inRange |= absBelow2pow11;
                 
-                if (constexpr.IS_TRUE(overflowValue == float.PositiveInfinity))
+                if (constexpr.IS_TRUE(overflowValue == half.PositiveInfinity))
                 {
                     if (Avx2.IsAvx2Supported)
                     {
@@ -981,7 +997,24 @@ namespace MaxMath.Intrinsics
                     }
                 }
 
-                v128 result = cvtepu16_ph(packs_epi32(a, a), overflowValue, nonZero: nonZero, inRange: true, absBelow2pow11: absBelow2pow11, elements: elements);
+                v128 packed;
+                if (Sse4_1.IsSse41Supported)
+                {
+                    packed = packus_epi32(a, a);
+                }
+                else
+                {
+                    if (absBelow2pow11)
+                    {
+                        packed = packs_epi32(a, a);
+                    }
+                    else
+                    {
+                        packed = cvtepi32_epi16(a, elements);
+                    }
+                }
+
+                v128 result = cvtepu16_ph(packed, overflowValue, nonZero: nonZero, inRange: true, absBelow2pow11: absBelow2pow11, elements: elements);
                 if (!inRange)
                 {
                     v128 overflowMask = cmpgt_epu32(a, set1_epi32((ushort)MaxMath.half.MaxValue));
@@ -998,7 +1031,7 @@ namespace MaxMath.Intrinsics
         {
             inRange |= absBelow2pow11;
 
-            if (constexpr.IS_TRUE(overflowValue == float.PositiveInfinity))
+            if (constexpr.IS_TRUE(overflowValue == half.PositiveInfinity))
             {
                 if (Avx2.IsAvx2Supported)
                 {
@@ -1008,7 +1041,16 @@ namespace MaxMath.Intrinsics
             
             if (BurstArchitecture.IsSIMDSupported)
             {
-                v128 result = cvtepi16_ph(packs_epi32(a, a), nonZero: nonZero, nonNegative: nonNegative, absBelow2pow11: absBelow2pow11);
+                v128 result;
+                if (absBelow2pow11)
+                {
+                    result = cvtepi16_ph(packs_epi32(a, a), nonZero: nonZero, nonNegative: nonNegative, absBelow2pow11: absBelow2pow11);
+                }
+                else
+                {
+                    result = cvtepu16_ph(cvtepi32_epi16(nonNegative ? a : abs_epi32(a, elements), elements), overflowValue, nonZero: nonZero, absBelow2pow11: absBelow2pow11);
+                }
+                
                 if (!inRange)
                 {
                     v128 overflowMask = nonNegative ? cmpgt_epi32(a, set1_epi32((ushort)MaxMath.half.MaxValue)) 
@@ -1020,7 +1062,15 @@ namespace MaxMath.Intrinsics
                     
                     result = blendv_si128(result, signedOverflowValue, overflowMask);
                 }
-                return result;
+
+                if (absBelow2pow11)
+                {
+                    return result;
+                }
+                else
+                {
+                    return movsign_ph(result, packs_epi32(a, a), true);
+                }
             }
             else throw new IllegalInstructionException();
         }
@@ -1038,7 +1088,7 @@ namespace MaxMath.Intrinsics
                 }
                 else
                 {
-                    v128 result = cvtepu16_ph(packs_epi32(Avx.mm256_castsi256_si128(a), Avx2.mm256_extracti128_si256(a, 1)), overflowValue, nonZero: nonZero, inRange: true, absBelow2pow11: absBelow2pow11);
+                    v128 result = cvtepu16_ph(packus_epi32(Avx.mm256_castsi256_si128(a), Avx2.mm256_extracti128_si256(a, 1)), overflowValue, nonZero: nonZero, inRange: true, absBelow2pow11: absBelow2pow11);
                     v256 overflowMask = mm256_cmpgt_epu32(a, mm256_set1_epi32((ushort)MaxMath.half.MaxValue));
                     v128 overflowMask128 = packs_epi32(Avx.mm256_castsi256_si128(overflowMask), Avx2.mm256_extracti128_si256(overflowMask, 1));
                     
@@ -1055,7 +1105,7 @@ namespace MaxMath.Intrinsics
             {
                 inRange |= absBelow2pow11;
 
-                if (constexpr.IS_TRUE(overflowValue == float.PositiveInfinity))
+                if (constexpr.IS_TRUE(overflowValue == half.PositiveInfinity))
                 {
                     if (Avx2.IsAvx2Supported)
                     {
@@ -1063,7 +1113,16 @@ namespace MaxMath.Intrinsics
                     }
                 }
 
-                v128 result = cvtepi16_ph(packs_epi32(Avx.mm256_castsi256_si128(a), Avx2.mm256_extracti128_si256(a, 1)), nonZero: nonZero, nonNegative: nonNegative, absBelow2pow11: absBelow2pow11);
+                v128 result;
+                if (absBelow2pow11)
+                {
+                    result = cvtepi16_ph(packs_epi32(Avx.mm256_castsi256_si128(a), Avx2.mm256_extracti128_si256(a, 1)), nonZero: nonZero, nonNegative: nonNegative, absBelow2pow11: absBelow2pow11);
+                }
+                else
+                {
+                    result = cvtepu16_ph(mm256_cvtepi32_epi16(nonNegative ? a : mm256_abs_epi32(a)), overflowValue, nonZero: nonZero, absBelow2pow11: absBelow2pow11);
+                }
+                
                 if (!inRange)
                 {
                     v256 overflowMask = nonNegative ? Avx2.mm256_cmpgt_epi32(a, mm256_set1_epi32((ushort)MaxMath.half.MaxValue))
@@ -1084,7 +1143,15 @@ namespace MaxMath.Intrinsics
                     
                     result = blendv_si128(result, signedOverflowValue128, overflowMask128);
                 }
-                return result;
+
+                if (absBelow2pow11)
+                {
+                    return result;
+                }
+                else
+                {
+                    return movsign_ph(result, packs_epi32(Avx.mm256_castsi256_si128(a), Avx2.mm256_extracti128_si256(a, 1)), true);
+                }
             }
             else throw new IllegalInstructionException();
         }
@@ -1271,7 +1338,11 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvtepu16_ps(v128 a)
         {
-            if (BurstArchitecture.IsSIMDSupported)
+            if (Avx2.IsAvx2Supported)
+            {
+                return cvtepi32_ps(cvtepu16_epi32(a));
+            }
+            else if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 EXP_MASK = set1_epi16(0x4B00);
                 v128 MAGIC = set1_ps(LIMIT_PRECISE_U32_F32);
@@ -1298,16 +1369,12 @@ namespace MaxMath.Intrinsics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mm256_cvtepu16_ps(v128 a)
         {
-            if (Avx.IsAvxSupported)
+            if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
-                {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return Avx.mm256_cvtepi32_ps(Avx2.mm256_cvtepu16_epi32(a));
-                    }
-                }
-
+                return Avx.mm256_cvtepi32_ps(Avx2.mm256_cvtepu16_epi32(a));
+            }
+            else if (Avx.IsAvxSupported)
+            {
                 v128 EXP_MASK = set1_epi16(0x4B00);
                 v256 MAGIC = Avx.mm256_set1_ps(LIMIT_PRECISE_U32_F32);
 

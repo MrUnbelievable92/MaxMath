@@ -3,6 +3,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.FLOATING_POINT;
@@ -511,72 +512,72 @@ namespace MaxMath.Intrinsics
                     case 61:  rLo = mm256_slli_epi64(aLo, 61);    rHi = Avx2.mm256_or_si256(mm256_slli_epi64(aHi, 61), mm256_srli_epi64(aLo, (64 - 61))); return;
                     case 62:  rLo = mm256_slli_epi64(aLo, 62);    rHi = Avx2.mm256_or_si256(mm256_slli_epi64(aHi, 62), mm256_srli_epi64(aLo, (64 - 62))); return;
                     case 63:  rLo = mm256_slli_epi64(aLo, 63);    rHi = Avx2.mm256_or_si256(mm256_slli_epi64(aHi, 63), mm256_srli_epi64(aLo, (64 - 63))); return;
-                    case 64:  rLo = Avx.mm256_setzero_si256();        rHi = aLo;                                                       return;
-                    case 65:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 1);                                        return;
-                    case 66:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 2);                                        return;
-                    case 67:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 3);                                        return;
-                    case 68:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 4);                                        return;
-                    case 69:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 5);                                        return;
-                    case 70:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 6);                                        return;
-                    case 71:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 7);                                        return;
-                    case 72:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 8);                                        return;
-                    case 73:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 9);                                        return;
-                    case 74:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 10);                                       return;
-                    case 75:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 11);                                       return;
-                    case 76:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 12);                                       return;
-                    case 77:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 13);                                       return;
-                    case 78:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 14);                                       return;
-                    case 79:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 15);                                       return;
-                    case 80:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 16);                                       return;
-                    case 81:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 17);                                       return;
-                    case 82:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 18);                                       return;
-                    case 83:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 19);                                       return;
-                    case 84:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 20);                                       return;
-                    case 85:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 21);                                       return;
-                    case 86:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 22);                                       return;
-                    case 87:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 23);                                       return;
-                    case 88:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 24);                                       return;
-                    case 89:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 25);                                       return;
-                    case 90:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 26);                                       return;
-                    case 91:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 27);                                       return;
-                    case 92:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 28);                                       return;
-                    case 93:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 29);                                       return;
-                    case 94:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 30);                                       return;
-                    case 95:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 31);                                       return;
-                    case 96:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 32);                                       return;
-                    case 97:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 33);                                       return;
-                    case 98:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 34);                                       return;
-                    case 99:  rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 35);                                       return;
-                    case 100: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 36);                                       return;
-                    case 101: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 37);                                       return;
-                    case 102: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 38);                                       return;
-                    case 103: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 39);                                       return;
-                    case 104: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 40);                                       return;
-                    case 105: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 41);                                       return;
-                    case 106: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 42);                                       return;
-                    case 107: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 43);                                       return;
-                    case 108: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 44);                                       return;
-                    case 109: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 45);                                       return;
-                    case 110: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 46);                                       return;
-                    case 111: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 47);                                       return;
-                    case 112: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 48);                                       return;
-                    case 113: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 49);                                       return;
-                    case 114: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 50);                                       return;
-                    case 115: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 51);                                       return;
-                    case 116: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 52);                                       return;
-                    case 117: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 53);                                       return;
-                    case 118: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 54);                                       return;
-                    case 119: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 55);                                       return;
-                    case 120: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 56);                                       return;
-                    case 121: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 57);                                       return;
-                    case 122: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 58);                                       return;
-                    case 123: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 59);                                       return;
-                    case 124: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 60);                                       return;
-                    case 125: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 61);                                       return;
-                    case 126: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 62);                                       return;
-                    case 127: rLo = Avx.mm256_setzero_si256();        rHi = mm256_slli_epi64(aLo, 63);                                       return;
-
-                    default:  rLo = aLo;                    rHi = aHi;                                                       return;
+                    case 64:  rLo = Avx.mm256_setzero_si256();    rHi = aLo;                                                                              return;
+                    case 65:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 1);                                                         return;
+                    case 66:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 2);                                                         return;
+                    case 67:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 3);                                                         return;
+                    case 68:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 4);                                                         return;
+                    case 69:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 5);                                                         return;
+                    case 70:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 6);                                                         return;
+                    case 71:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 7);                                                         return;
+                    case 72:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 8);                                                         return;
+                    case 73:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 9);                                                         return;
+                    case 74:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 10);                                                        return;
+                    case 75:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 11);                                                        return;
+                    case 76:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 12);                                                        return;
+                    case 77:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 13);                                                        return;
+                    case 78:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 14);                                                        return;
+                    case 79:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 15);                                                        return;
+                    case 80:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 16);                                                        return;
+                    case 81:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 17);                                                        return;
+                    case 82:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 18);                                                        return;
+                    case 83:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 19);                                                        return;
+                    case 84:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 20);                                                        return;
+                    case 85:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 21);                                                        return;
+                    case 86:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 22);                                                        return;
+                    case 87:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 23);                                                        return;
+                    case 88:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 24);                                                        return;
+                    case 89:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 25);                                                        return;
+                    case 90:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 26);                                                        return;
+                    case 91:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 27);                                                        return;
+                    case 92:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 28);                                                        return;
+                    case 93:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 29);                                                        return;
+                    case 94:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 30);                                                        return;
+                    case 95:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 31);                                                        return;
+                    case 96:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 32);                                                        return;
+                    case 97:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 33);                                                        return;
+                    case 98:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 34);                                                        return;
+                    case 99:  rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 35);                                                        return;
+                    case 100: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 36);                                                        return;
+                    case 101: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 37);                                                        return;
+                    case 102: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 38);                                                        return;
+                    case 103: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 39);                                                        return;
+                    case 104: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 40);                                                        return;
+                    case 105: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 41);                                                        return;
+                    case 106: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 42);                                                        return;
+                    case 107: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 43);                                                        return;
+                    case 108: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 44);                                                        return;
+                    case 109: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 45);                                                        return;
+                    case 110: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 46);                                                        return;
+                    case 111: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 47);                                                        return;
+                    case 112: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 48);                                                        return;
+                    case 113: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 49);                                                        return;
+                    case 114: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 50);                                                        return;
+                    case 115: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 51);                                                        return;
+                    case 116: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 52);                                                        return;
+                    case 117: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 53);                                                        return;
+                    case 118: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 54);                                                        return;
+                    case 119: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 55);                                                        return;
+                    case 120: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 56);                                                        return;
+                    case 121: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 57);                                                        return;
+                    case 122: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 58);                                                        return;
+                    case 123: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 59);                                                        return;
+                    case 124: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 60);                                                        return;
+                    case 125: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 61);                                                        return;
+                    case 126: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 62);                                                        return;
+                    case 127: rLo = Avx.mm256_setzero_si256();    rHi = mm256_slli_epi64(aLo, 63);                                                        return;
+                                                                                                                                                          
+                    default:  rLo = aLo;                          rHi = aHi;                                                                              return;
                 }
             }
             else throw new IllegalInstructionException();
@@ -589,135 +590,135 @@ namespace MaxMath.Intrinsics
             {
                 switch (n)
                 {
-                    case 1:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 1),  mm256_slli_epi64(aHi, (64 - 1)));     rHi = mm256_srli_epi64(aHi, 1);  return;
-                    case 2:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 2),  mm256_slli_epi64(aHi, (64 - 2)));     rHi = mm256_srli_epi64(aHi, 2);  return;
-                    case 3:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 3),  mm256_slli_epi64(aHi, (64 - 3)));     rHi = mm256_srli_epi64(aHi, 3);  return;
-                    case 4:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 4),  mm256_slli_epi64(aHi, (64 - 4)));     rHi = mm256_srli_epi64(aHi, 4);  return;
-                    case 5:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 5),  mm256_slli_epi64(aHi, (64 - 5)));     rHi = mm256_srli_epi64(aHi, 5);  return;
-                    case 6:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 6),  mm256_slli_epi64(aHi, (64 - 6)));     rHi = mm256_srli_epi64(aHi, 6);  return;
-                    case 7:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 7),  mm256_slli_epi64(aHi, (64 - 7)));     rHi = mm256_srli_epi64(aHi, 7);  return;
-                    case 8:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 8),  mm256_slli_epi64(aHi, (64 - 8)));     rHi = mm256_srli_epi64(aHi, 8);  return;
-                    case 9:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 9),  mm256_slli_epi64(aHi, (64 - 9)));     rHi = mm256_srli_epi64(aHi, 9);  return;
-                    case 10:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 10), mm256_slli_epi64(aHi, (64 - 10)));    rHi = mm256_srli_epi64(aHi, 10); return;
-                    case 11:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 11), mm256_slli_epi64(aHi, (64 - 11)));    rHi = mm256_srli_epi64(aHi, 11); return;
-                    case 12:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 12), mm256_slli_epi64(aHi, (64 - 12)));    rHi = mm256_srli_epi64(aHi, 12); return;
-                    case 13:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 13), mm256_slli_epi64(aHi, (64 - 13)));    rHi = mm256_srli_epi64(aHi, 13); return;
-                    case 14:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 14), mm256_slli_epi64(aHi, (64 - 14)));    rHi = mm256_srli_epi64(aHi, 14); return;
-                    case 15:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 15), mm256_slli_epi64(aHi, (64 - 15)));    rHi = mm256_srli_epi64(aHi, 15); return;
-                    case 16:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 16), mm256_slli_epi64(aHi, (64 - 16)));    rHi = mm256_srli_epi64(aHi, 16); return;
-                    case 17:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 17), mm256_slli_epi64(aHi, (64 - 17)));    rHi = mm256_srli_epi64(aHi, 17); return;
-                    case 18:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 18), mm256_slli_epi64(aHi, (64 - 18)));    rHi = mm256_srli_epi64(aHi, 18); return;
-                    case 19:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 19), mm256_slli_epi64(aHi, (64 - 19)));    rHi = mm256_srli_epi64(aHi, 19); return;
-                    case 20:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 20), mm256_slli_epi64(aHi, (64 - 20)));    rHi = mm256_srli_epi64(aHi, 20); return;
-                    case 21:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 21), mm256_slli_epi64(aHi, (64 - 21)));    rHi = mm256_srli_epi64(aHi, 21); return;
-                    case 22:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 22), mm256_slli_epi64(aHi, (64 - 22)));    rHi = mm256_srli_epi64(aHi, 22); return;
-                    case 23:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 23), mm256_slli_epi64(aHi, (64 - 23)));    rHi = mm256_srli_epi64(aHi, 23); return;
-                    case 24:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 24), mm256_slli_epi64(aHi, (64 - 24)));    rHi = mm256_srli_epi64(aHi, 24); return;
-                    case 25:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 25), mm256_slli_epi64(aHi, (64 - 25)));    rHi = mm256_srli_epi64(aHi, 25); return;
-                    case 26:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 26), mm256_slli_epi64(aHi, (64 - 26)));    rHi = mm256_srli_epi64(aHi, 26); return;
-                    case 27:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 27), mm256_slli_epi64(aHi, (64 - 27)));    rHi = mm256_srli_epi64(aHi, 27); return;
-                    case 28:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 28), mm256_slli_epi64(aHi, (64 - 28)));    rHi = mm256_srli_epi64(aHi, 28); return;
-                    case 29:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 29), mm256_slli_epi64(aHi, (64 - 29)));    rHi = mm256_srli_epi64(aHi, 29); return;
-                    case 30:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 30), mm256_slli_epi64(aHi, (64 - 30)));    rHi = mm256_srli_epi64(aHi, 30); return;
-                    case 31:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 31), mm256_slli_epi64(aHi, (64 - 31)));    rHi = mm256_srli_epi64(aHi, 31); return;
-                    case 32:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 32), mm256_slli_epi64(aHi, (64 - 32)));    rHi = mm256_srli_epi64(aHi, 32); return;
-                    case 33:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 33), mm256_slli_epi64(aHi, (64 - 33)));    rHi = mm256_srli_epi64(aHi, 33); return;
-                    case 34:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 34), mm256_slli_epi64(aHi, (64 - 34)));    rHi = mm256_srli_epi64(aHi, 34); return;
-                    case 35:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 35), mm256_slli_epi64(aHi, (64 - 35)));    rHi = mm256_srli_epi64(aHi, 35); return;
-                    case 36:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 36), mm256_slli_epi64(aHi, (64 - 36)));    rHi = mm256_srli_epi64(aHi, 36); return;
-                    case 37:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 37), mm256_slli_epi64(aHi, (64 - 37)));    rHi = mm256_srli_epi64(aHi, 37); return;
-                    case 38:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 38), mm256_slli_epi64(aHi, (64 - 38)));    rHi = mm256_srli_epi64(aHi, 38); return;
-                    case 39:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 39), mm256_slli_epi64(aHi, (64 - 39)));    rHi = mm256_srli_epi64(aHi, 39); return;
-                    case 40:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 40), mm256_slli_epi64(aHi, (64 - 40)));    rHi = mm256_srli_epi64(aHi, 40); return;
-                    case 41:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 41), mm256_slli_epi64(aHi, (64 - 41)));    rHi = mm256_srli_epi64(aHi, 41); return;
-                    case 42:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 42), mm256_slli_epi64(aHi, (64 - 42)));    rHi = mm256_srli_epi64(aHi, 42); return;
-                    case 43:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 43), mm256_slli_epi64(aHi, (64 - 43)));    rHi = mm256_srli_epi64(aHi, 43); return;
-                    case 44:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 44), mm256_slli_epi64(aHi, (64 - 44)));    rHi = mm256_srli_epi64(aHi, 44); return;
-                    case 45:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 45), mm256_slli_epi64(aHi, (64 - 45)));    rHi = mm256_srli_epi64(aHi, 45); return;
-                    case 46:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 46), mm256_slli_epi64(aHi, (64 - 46)));    rHi = mm256_srli_epi64(aHi, 46); return;
-                    case 47:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 47), mm256_slli_epi64(aHi, (64 - 47)));    rHi = mm256_srli_epi64(aHi, 47); return;
-                    case 48:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 48), mm256_slli_epi64(aHi, (64 - 48)));    rHi = mm256_srli_epi64(aHi, 48); return;
-                    case 49:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 49), mm256_slli_epi64(aHi, (64 - 49)));    rHi = mm256_srli_epi64(aHi, 49); return;
-                    case 50:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 50), mm256_slli_epi64(aHi, (64 - 50)));    rHi = mm256_srli_epi64(aHi, 50); return;
-                    case 51:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 51), mm256_slli_epi64(aHi, (64 - 51)));    rHi = mm256_srli_epi64(aHi, 51); return;
-                    case 52:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 52), mm256_slli_epi64(aHi, (64 - 52)));    rHi = mm256_srli_epi64(aHi, 52); return;
-                    case 53:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 53), mm256_slli_epi64(aHi, (64 - 53)));    rHi = mm256_srli_epi64(aHi, 53); return;
-                    case 54:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 54), mm256_slli_epi64(aHi, (64 - 54)));    rHi = mm256_srli_epi64(aHi, 54); return;
-                    case 55:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 55), mm256_slli_epi64(aHi, (64 - 55)));    rHi = mm256_srli_epi64(aHi, 55); return;
-                    case 56:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 56), mm256_slli_epi64(aHi, (64 - 56)));    rHi = mm256_srli_epi64(aHi, 56); return;
-                    case 57:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 57), mm256_slli_epi64(aHi, (64 - 57)));    rHi = mm256_srli_epi64(aHi, 57); return;
-                    case 58:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 58), mm256_slli_epi64(aHi, (64 - 58)));    rHi = mm256_srli_epi64(aHi, 58); return;
-                    case 59:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 59), mm256_slli_epi64(aHi, (64 - 59)));    rHi = mm256_srli_epi64(aHi, 59); return;
-                    case 60:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 60), mm256_slli_epi64(aHi, (64 - 60)));    rHi = mm256_srli_epi64(aHi, 60); return;
-                    case 61:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 61), mm256_slli_epi64(aHi, (64 - 61)));    rHi = mm256_srli_epi64(aHi, 61); return;
-                    case 62:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 62), mm256_slli_epi64(aHi, (64 - 62)));    rHi = mm256_srli_epi64(aHi, 62); return;
-                    case 63:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 63), mm256_slli_epi64(aHi, (64 - 63)));    rHi = mm256_srli_epi64(aHi, 63); return;
-                    case 64:   rLo = aHi;                                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 65:   rLo = mm256_srli_epi64(aHi, 1);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 66:   rLo = mm256_srli_epi64(aHi, 2);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 67:   rLo = mm256_srli_epi64(aHi, 3);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 68:   rLo = mm256_srli_epi64(aHi, 4);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 69:   rLo = mm256_srli_epi64(aHi, 5);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 70:   rLo = mm256_srli_epi64(aHi, 6);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 71:   rLo = mm256_srli_epi64(aHi, 7);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 72:   rLo = mm256_srli_epi64(aHi, 8);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 73:   rLo = mm256_srli_epi64(aHi, 9);                                           rHi = Avx.mm256_setzero_si256();     return;
-                    case 74:   rLo = mm256_srli_epi64(aHi, 10);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 75:   rLo = mm256_srli_epi64(aHi, 11);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 76:   rLo = mm256_srli_epi64(aHi, 12);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 77:   rLo = mm256_srli_epi64(aHi, 13);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 78:   rLo = mm256_srli_epi64(aHi, 14);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 79:   rLo = mm256_srli_epi64(aHi, 15);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 80:   rLo = mm256_srli_epi64(aHi, 16);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 81:   rLo = mm256_srli_epi64(aHi, 17);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 82:   rLo = mm256_srli_epi64(aHi, 18);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 83:   rLo = mm256_srli_epi64(aHi, 19);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 84:   rLo = mm256_srli_epi64(aHi, 20);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 85:   rLo = mm256_srli_epi64(aHi, 21);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 86:   rLo = mm256_srli_epi64(aHi, 22);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 87:   rLo = mm256_srli_epi64(aHi, 23);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 88:   rLo = mm256_srli_epi64(aHi, 24);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 89:   rLo = mm256_srli_epi64(aHi, 25);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 90:   rLo = mm256_srli_epi64(aHi, 26);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 91:   rLo = mm256_srli_epi64(aHi, 27);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 92:   rLo = mm256_srli_epi64(aHi, 28);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 93:   rLo = mm256_srli_epi64(aHi, 29);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 94:   rLo = mm256_srli_epi64(aHi, 30);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 95:   rLo = mm256_srli_epi64(aHi, 31);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 96:   rLo = mm256_srli_epi64(aHi, 32);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 97:   rLo = mm256_srli_epi64(aHi, 33);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 98:   rLo = mm256_srli_epi64(aHi, 34);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 99:   rLo = mm256_srli_epi64(aHi, 35);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 100:  rLo = mm256_srli_epi64(aHi, 36);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 101:  rLo = mm256_srli_epi64(aHi, 37);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 102:  rLo = mm256_srli_epi64(aHi, 38);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 103:  rLo = mm256_srli_epi64(aHi, 39);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 104:  rLo = mm256_srli_epi64(aHi, 40);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 105:  rLo = mm256_srli_epi64(aHi, 41);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 106:  rLo = mm256_srli_epi64(aHi, 42);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 107:  rLo = mm256_srli_epi64(aHi, 43);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 108:  rLo = mm256_srli_epi64(aHi, 44);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 109:  rLo = mm256_srli_epi64(aHi, 45);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 110:  rLo = mm256_srli_epi64(aHi, 46);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 111:  rLo = mm256_srli_epi64(aHi, 47);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 112:  rLo = mm256_srli_epi64(aHi, 48);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 113:  rLo = mm256_srli_epi64(aHi, 49);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 114:  rLo = mm256_srli_epi64(aHi, 50);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 115:  rLo = mm256_srli_epi64(aHi, 51);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 116:  rLo = mm256_srli_epi64(aHi, 52);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 117:  rLo = mm256_srli_epi64(aHi, 53);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 118:  rLo = mm256_srli_epi64(aHi, 54);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 119:  rLo = mm256_srli_epi64(aHi, 55);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 120:  rLo = mm256_srli_epi64(aHi, 56);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 121:  rLo = mm256_srli_epi64(aHi, 57);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 122:  rLo = mm256_srli_epi64(aHi, 58);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 123:  rLo = mm256_srli_epi64(aHi, 59);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 124:  rLo = mm256_srli_epi64(aHi, 60);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 125:  rLo = mm256_srli_epi64(aHi, 61);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 126:  rLo = mm256_srli_epi64(aHi, 62);                                          rHi = Avx.mm256_setzero_si256();     return;
-                    case 127:  rLo = mm256_srli_epi64(aHi, 63);                                          rHi = Avx.mm256_setzero_si256();     return;
+                    case 1:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 1),  mm256_slli_epi64(aHi, (64 - 1)));     rHi = mm256_srli_epi64(aHi, 1);      return;
+                    case 2:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 2),  mm256_slli_epi64(aHi, (64 - 2)));     rHi = mm256_srli_epi64(aHi, 2);      return;
+                    case 3:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 3),  mm256_slli_epi64(aHi, (64 - 3)));     rHi = mm256_srli_epi64(aHi, 3);      return;
+                    case 4:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 4),  mm256_slli_epi64(aHi, (64 - 4)));     rHi = mm256_srli_epi64(aHi, 4);      return;
+                    case 5:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 5),  mm256_slli_epi64(aHi, (64 - 5)));     rHi = mm256_srli_epi64(aHi, 5);      return;
+                    case 6:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 6),  mm256_slli_epi64(aHi, (64 - 6)));     rHi = mm256_srli_epi64(aHi, 6);      return;
+                    case 7:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 7),  mm256_slli_epi64(aHi, (64 - 7)));     rHi = mm256_srli_epi64(aHi, 7);      return;
+                    case 8:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 8),  mm256_slli_epi64(aHi, (64 - 8)));     rHi = mm256_srli_epi64(aHi, 8);      return;
+                    case 9:    rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 9),  mm256_slli_epi64(aHi, (64 - 9)));     rHi = mm256_srli_epi64(aHi, 9);      return;
+                    case 10:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 10), mm256_slli_epi64(aHi, (64 - 10)));    rHi = mm256_srli_epi64(aHi, 10);     return;
+                    case 11:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 11), mm256_slli_epi64(aHi, (64 - 11)));    rHi = mm256_srli_epi64(aHi, 11);     return;
+                    case 12:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 12), mm256_slli_epi64(aHi, (64 - 12)));    rHi = mm256_srli_epi64(aHi, 12);     return;
+                    case 13:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 13), mm256_slli_epi64(aHi, (64 - 13)));    rHi = mm256_srli_epi64(aHi, 13);     return;
+                    case 14:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 14), mm256_slli_epi64(aHi, (64 - 14)));    rHi = mm256_srli_epi64(aHi, 14);     return;
+                    case 15:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 15), mm256_slli_epi64(aHi, (64 - 15)));    rHi = mm256_srli_epi64(aHi, 15);     return;
+                    case 16:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 16), mm256_slli_epi64(aHi, (64 - 16)));    rHi = mm256_srli_epi64(aHi, 16);     return;
+                    case 17:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 17), mm256_slli_epi64(aHi, (64 - 17)));    rHi = mm256_srli_epi64(aHi, 17);     return;
+                    case 18:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 18), mm256_slli_epi64(aHi, (64 - 18)));    rHi = mm256_srli_epi64(aHi, 18);     return;
+                    case 19:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 19), mm256_slli_epi64(aHi, (64 - 19)));    rHi = mm256_srli_epi64(aHi, 19);     return;
+                    case 20:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 20), mm256_slli_epi64(aHi, (64 - 20)));    rHi = mm256_srli_epi64(aHi, 20);     return;
+                    case 21:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 21), mm256_slli_epi64(aHi, (64 - 21)));    rHi = mm256_srli_epi64(aHi, 21);     return;
+                    case 22:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 22), mm256_slli_epi64(aHi, (64 - 22)));    rHi = mm256_srli_epi64(aHi, 22);     return;
+                    case 23:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 23), mm256_slli_epi64(aHi, (64 - 23)));    rHi = mm256_srli_epi64(aHi, 23);     return;
+                    case 24:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 24), mm256_slli_epi64(aHi, (64 - 24)));    rHi = mm256_srli_epi64(aHi, 24);     return;
+                    case 25:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 25), mm256_slli_epi64(aHi, (64 - 25)));    rHi = mm256_srli_epi64(aHi, 25);     return;
+                    case 26:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 26), mm256_slli_epi64(aHi, (64 - 26)));    rHi = mm256_srli_epi64(aHi, 26);     return;
+                    case 27:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 27), mm256_slli_epi64(aHi, (64 - 27)));    rHi = mm256_srli_epi64(aHi, 27);     return;
+                    case 28:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 28), mm256_slli_epi64(aHi, (64 - 28)));    rHi = mm256_srli_epi64(aHi, 28);     return;
+                    case 29:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 29), mm256_slli_epi64(aHi, (64 - 29)));    rHi = mm256_srli_epi64(aHi, 29);     return;
+                    case 30:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 30), mm256_slli_epi64(aHi, (64 - 30)));    rHi = mm256_srli_epi64(aHi, 30);     return;
+                    case 31:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 31), mm256_slli_epi64(aHi, (64 - 31)));    rHi = mm256_srli_epi64(aHi, 31);     return;
+                    case 32:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 32), mm256_slli_epi64(aHi, (64 - 32)));    rHi = mm256_srli_epi64(aHi, 32);     return;
+                    case 33:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 33), mm256_slli_epi64(aHi, (64 - 33)));    rHi = mm256_srli_epi64(aHi, 33);     return;
+                    case 34:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 34), mm256_slli_epi64(aHi, (64 - 34)));    rHi = mm256_srli_epi64(aHi, 34);     return;
+                    case 35:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 35), mm256_slli_epi64(aHi, (64 - 35)));    rHi = mm256_srli_epi64(aHi, 35);     return;
+                    case 36:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 36), mm256_slli_epi64(aHi, (64 - 36)));    rHi = mm256_srli_epi64(aHi, 36);     return;
+                    case 37:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 37), mm256_slli_epi64(aHi, (64 - 37)));    rHi = mm256_srli_epi64(aHi, 37);     return;
+                    case 38:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 38), mm256_slli_epi64(aHi, (64 - 38)));    rHi = mm256_srli_epi64(aHi, 38);     return;
+                    case 39:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 39), mm256_slli_epi64(aHi, (64 - 39)));    rHi = mm256_srli_epi64(aHi, 39);     return;
+                    case 40:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 40), mm256_slli_epi64(aHi, (64 - 40)));    rHi = mm256_srli_epi64(aHi, 40);     return;
+                    case 41:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 41), mm256_slli_epi64(aHi, (64 - 41)));    rHi = mm256_srli_epi64(aHi, 41);     return;
+                    case 42:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 42), mm256_slli_epi64(aHi, (64 - 42)));    rHi = mm256_srli_epi64(aHi, 42);     return;
+                    case 43:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 43), mm256_slli_epi64(aHi, (64 - 43)));    rHi = mm256_srli_epi64(aHi, 43);     return;
+                    case 44:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 44), mm256_slli_epi64(aHi, (64 - 44)));    rHi = mm256_srli_epi64(aHi, 44);     return;
+                    case 45:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 45), mm256_slli_epi64(aHi, (64 - 45)));    rHi = mm256_srli_epi64(aHi, 45);     return;
+                    case 46:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 46), mm256_slli_epi64(aHi, (64 - 46)));    rHi = mm256_srli_epi64(aHi, 46);     return;
+                    case 47:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 47), mm256_slli_epi64(aHi, (64 - 47)));    rHi = mm256_srli_epi64(aHi, 47);     return;
+                    case 48:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 48), mm256_slli_epi64(aHi, (64 - 48)));    rHi = mm256_srli_epi64(aHi, 48);     return;
+                    case 49:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 49), mm256_slli_epi64(aHi, (64 - 49)));    rHi = mm256_srli_epi64(aHi, 49);     return;
+                    case 50:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 50), mm256_slli_epi64(aHi, (64 - 50)));    rHi = mm256_srli_epi64(aHi, 50);     return;
+                    case 51:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 51), mm256_slli_epi64(aHi, (64 - 51)));    rHi = mm256_srli_epi64(aHi, 51);     return;
+                    case 52:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 52), mm256_slli_epi64(aHi, (64 - 52)));    rHi = mm256_srli_epi64(aHi, 52);     return;
+                    case 53:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 53), mm256_slli_epi64(aHi, (64 - 53)));    rHi = mm256_srli_epi64(aHi, 53);     return;
+                    case 54:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 54), mm256_slli_epi64(aHi, (64 - 54)));    rHi = mm256_srli_epi64(aHi, 54);     return;
+                    case 55:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 55), mm256_slli_epi64(aHi, (64 - 55)));    rHi = mm256_srli_epi64(aHi, 55);     return;
+                    case 56:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 56), mm256_slli_epi64(aHi, (64 - 56)));    rHi = mm256_srli_epi64(aHi, 56);     return;
+                    case 57:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 57), mm256_slli_epi64(aHi, (64 - 57)));    rHi = mm256_srli_epi64(aHi, 57);     return;
+                    case 58:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 58), mm256_slli_epi64(aHi, (64 - 58)));    rHi = mm256_srli_epi64(aHi, 58);     return;
+                    case 59:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 59), mm256_slli_epi64(aHi, (64 - 59)));    rHi = mm256_srli_epi64(aHi, 59);     return;
+                    case 60:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 60), mm256_slli_epi64(aHi, (64 - 60)));    rHi = mm256_srli_epi64(aHi, 60);     return;
+                    case 61:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 61), mm256_slli_epi64(aHi, (64 - 61)));    rHi = mm256_srli_epi64(aHi, 61);     return;
+                    case 62:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 62), mm256_slli_epi64(aHi, (64 - 62)));    rHi = mm256_srli_epi64(aHi, 62);     return;
+                    case 63:   rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 63), mm256_slli_epi64(aHi, (64 - 63)));    rHi = mm256_srli_epi64(aHi, 63);     return;
+                    case 64:   rLo = aHi;                                                                                 rHi = Avx.mm256_setzero_si256();     return;
+                    case 65:   rLo = mm256_srli_epi64(aHi, 1);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 66:   rLo = mm256_srli_epi64(aHi, 2);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 67:   rLo = mm256_srli_epi64(aHi, 3);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 68:   rLo = mm256_srli_epi64(aHi, 4);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 69:   rLo = mm256_srli_epi64(aHi, 5);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 70:   rLo = mm256_srli_epi64(aHi, 6);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 71:   rLo = mm256_srli_epi64(aHi, 7);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 72:   rLo = mm256_srli_epi64(aHi, 8);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 73:   rLo = mm256_srli_epi64(aHi, 9);                                                            rHi = Avx.mm256_setzero_si256();     return;
+                    case 74:   rLo = mm256_srli_epi64(aHi, 10);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 75:   rLo = mm256_srli_epi64(aHi, 11);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 76:   rLo = mm256_srli_epi64(aHi, 12);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 77:   rLo = mm256_srli_epi64(aHi, 13);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 78:   rLo = mm256_srli_epi64(aHi, 14);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 79:   rLo = mm256_srli_epi64(aHi, 15);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 80:   rLo = mm256_srli_epi64(aHi, 16);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 81:   rLo = mm256_srli_epi64(aHi, 17);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 82:   rLo = mm256_srli_epi64(aHi, 18);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 83:   rLo = mm256_srli_epi64(aHi, 19);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 84:   rLo = mm256_srli_epi64(aHi, 20);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 85:   rLo = mm256_srli_epi64(aHi, 21);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 86:   rLo = mm256_srli_epi64(aHi, 22);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 87:   rLo = mm256_srli_epi64(aHi, 23);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 88:   rLo = mm256_srli_epi64(aHi, 24);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 89:   rLo = mm256_srli_epi64(aHi, 25);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 90:   rLo = mm256_srli_epi64(aHi, 26);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 91:   rLo = mm256_srli_epi64(aHi, 27);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 92:   rLo = mm256_srli_epi64(aHi, 28);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 93:   rLo = mm256_srli_epi64(aHi, 29);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 94:   rLo = mm256_srli_epi64(aHi, 30);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 95:   rLo = mm256_srli_epi64(aHi, 31);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 96:   rLo = mm256_srli_epi64(aHi, 32);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 97:   rLo = mm256_srli_epi64(aHi, 33);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 98:   rLo = mm256_srli_epi64(aHi, 34);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 99:   rLo = mm256_srli_epi64(aHi, 35);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 100:  rLo = mm256_srli_epi64(aHi, 36);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 101:  rLo = mm256_srli_epi64(aHi, 37);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 102:  rLo = mm256_srli_epi64(aHi, 38);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 103:  rLo = mm256_srli_epi64(aHi, 39);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 104:  rLo = mm256_srli_epi64(aHi, 40);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 105:  rLo = mm256_srli_epi64(aHi, 41);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 106:  rLo = mm256_srli_epi64(aHi, 42);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 107:  rLo = mm256_srli_epi64(aHi, 43);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 108:  rLo = mm256_srli_epi64(aHi, 44);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 109:  rLo = mm256_srli_epi64(aHi, 45);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 110:  rLo = mm256_srli_epi64(aHi, 46);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 111:  rLo = mm256_srli_epi64(aHi, 47);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 112:  rLo = mm256_srli_epi64(aHi, 48);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 113:  rLo = mm256_srli_epi64(aHi, 49);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 114:  rLo = mm256_srli_epi64(aHi, 50);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 115:  rLo = mm256_srli_epi64(aHi, 51);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 116:  rLo = mm256_srli_epi64(aHi, 52);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 117:  rLo = mm256_srli_epi64(aHi, 53);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 118:  rLo = mm256_srli_epi64(aHi, 54);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 119:  rLo = mm256_srli_epi64(aHi, 55);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 120:  rLo = mm256_srli_epi64(aHi, 56);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 121:  rLo = mm256_srli_epi64(aHi, 57);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 122:  rLo = mm256_srli_epi64(aHi, 58);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 123:  rLo = mm256_srli_epi64(aHi, 59);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 124:  rLo = mm256_srli_epi64(aHi, 60);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 125:  rLo = mm256_srli_epi64(aHi, 61);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 126:  rLo = mm256_srli_epi64(aHi, 62);                                                           rHi = Avx.mm256_setzero_si256();     return;
+                    case 127:  rLo = mm256_srli_epi64(aHi, 63);                                                           rHi = Avx.mm256_setzero_si256();     return;
 
-                    default:  rLo = aLo;                                                           rHi = aHi;                 return;
+                    default:  rLo = aLo;                                                                                  rHi = aHi;                           return;
                 }
             }
             else throw new IllegalInstructionException();
@@ -793,72 +794,72 @@ namespace MaxMath.Intrinsics
                     case 61:  rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 61), mm256_slli_epi64(aHi, (64 - 61)));    rHi = mm256_srai_epi64(aHi, 61); return;
                     case 62:  rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 62), mm256_slli_epi64(aHi, (64 - 62)));    rHi = mm256_srai_epi64(aHi, 62); return;
                     case 63:  rLo = Avx2.mm256_or_si256(mm256_srli_epi64(aLo, 63), mm256_slli_epi64(aHi, (64 - 63)));    rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 64:  rLo = aHi;                                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 65:  rLo = mm256_srai_epi64(aHi, 1);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 66:  rLo = mm256_srai_epi64(aHi, 2);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 67:  rLo = mm256_srai_epi64(aHi, 3);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 68:  rLo = mm256_srai_epi64(aHi, 4);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 69:  rLo = mm256_srai_epi64(aHi, 5);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 70:  rLo = mm256_srai_epi64(aHi, 6);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 71:  rLo = mm256_srai_epi64(aHi, 7);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 72:  rLo = mm256_srai_epi64(aHi, 8);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 73:  rLo = mm256_srai_epi64(aHi, 9);                                           rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 74:  rLo = mm256_srai_epi64(aHi, 10);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 75:  rLo = mm256_srai_epi64(aHi, 11);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 76:  rLo = mm256_srai_epi64(aHi, 12);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 77:  rLo = mm256_srai_epi64(aHi, 13);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 78:  rLo = mm256_srai_epi64(aHi, 14);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 79:  rLo = mm256_srai_epi64(aHi, 15);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 80:  rLo = mm256_srai_epi64(aHi, 16);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 81:  rLo = mm256_srai_epi64(aHi, 17);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 82:  rLo = mm256_srai_epi64(aHi, 18);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 83:  rLo = mm256_srai_epi64(aHi, 19);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 84:  rLo = mm256_srai_epi64(aHi, 20);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 85:  rLo = mm256_srai_epi64(aHi, 21);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 86:  rLo = mm256_srai_epi64(aHi, 22);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 87:  rLo = mm256_srai_epi64(aHi, 23);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 88:  rLo = mm256_srai_epi64(aHi, 24);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 89:  rLo = mm256_srai_epi64(aHi, 25);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 90:  rLo = mm256_srai_epi64(aHi, 26);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 91:  rLo = mm256_srai_epi64(aHi, 27);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 92:  rLo = mm256_srai_epi64(aHi, 28);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 93:  rLo = mm256_srai_epi64(aHi, 29);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 94:  rLo = mm256_srai_epi64(aHi, 30);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 95:  rLo = mm256_srai_epi64(aHi, 31);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 96:  rLo = mm256_srai_epi64(aHi, 32);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 97:  rLo = mm256_srai_epi64(aHi, 33);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 98:  rLo = mm256_srai_epi64(aHi, 34);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 99:  rLo = mm256_srai_epi64(aHi, 35);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 100: rLo = mm256_srai_epi64(aHi, 36);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 101: rLo = mm256_srai_epi64(aHi, 37);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 102: rLo = mm256_srai_epi64(aHi, 38);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 103: rLo = mm256_srai_epi64(aHi, 39);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 104: rLo = mm256_srai_epi64(aHi, 40);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 105: rLo = mm256_srai_epi64(aHi, 41);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 106: rLo = mm256_srai_epi64(aHi, 42);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 107: rLo = mm256_srai_epi64(aHi, 43);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 108: rLo = mm256_srai_epi64(aHi, 44);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 109: rLo = mm256_srai_epi64(aHi, 45);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 110: rLo = mm256_srai_epi64(aHi, 46);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 111: rLo = mm256_srai_epi64(aHi, 47);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 112: rLo = mm256_srai_epi64(aHi, 48);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 113: rLo = mm256_srai_epi64(aHi, 49);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 114: rLo = mm256_srai_epi64(aHi, 50);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 115: rLo = mm256_srai_epi64(aHi, 51);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 116: rLo = mm256_srai_epi64(aHi, 52);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 117: rLo = mm256_srai_epi64(aHi, 53);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 118: rLo = mm256_srai_epi64(aHi, 54);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 119: rLo = mm256_srai_epi64(aHi, 55);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 120: rLo = mm256_srai_epi64(aHi, 56);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 121: rLo = mm256_srai_epi64(aHi, 57);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 122: rLo = mm256_srai_epi64(aHi, 58);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 123: rLo = mm256_srai_epi64(aHi, 59);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 124: rLo = mm256_srai_epi64(aHi, 60);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 125: rLo = mm256_srai_epi64(aHi, 61);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 126: rLo = mm256_srai_epi64(aHi, 62);                                          rHi = mm256_srai_epi64(aHi, 63); return;
-                    case 127: rLo = mm256_srai_epi64(aHi, 63);                                          rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 64:  rLo = aHi;                                                                                 rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 65:  rLo = mm256_srai_epi64(aHi, 1);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 66:  rLo = mm256_srai_epi64(aHi, 2);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 67:  rLo = mm256_srai_epi64(aHi, 3);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 68:  rLo = mm256_srai_epi64(aHi, 4);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 69:  rLo = mm256_srai_epi64(aHi, 5);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 70:  rLo = mm256_srai_epi64(aHi, 6);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 71:  rLo = mm256_srai_epi64(aHi, 7);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 72:  rLo = mm256_srai_epi64(aHi, 8);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 73:  rLo = mm256_srai_epi64(aHi, 9);                                                            rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 74:  rLo = mm256_srai_epi64(aHi, 10);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 75:  rLo = mm256_srai_epi64(aHi, 11);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 76:  rLo = mm256_srai_epi64(aHi, 12);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 77:  rLo = mm256_srai_epi64(aHi, 13);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 78:  rLo = mm256_srai_epi64(aHi, 14);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 79:  rLo = mm256_srai_epi64(aHi, 15);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 80:  rLo = mm256_srai_epi64(aHi, 16);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 81:  rLo = mm256_srai_epi64(aHi, 17);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 82:  rLo = mm256_srai_epi64(aHi, 18);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 83:  rLo = mm256_srai_epi64(aHi, 19);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 84:  rLo = mm256_srai_epi64(aHi, 20);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 85:  rLo = mm256_srai_epi64(aHi, 21);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 86:  rLo = mm256_srai_epi64(aHi, 22);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 87:  rLo = mm256_srai_epi64(aHi, 23);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 88:  rLo = mm256_srai_epi64(aHi, 24);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 89:  rLo = mm256_srai_epi64(aHi, 25);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 90:  rLo = mm256_srai_epi64(aHi, 26);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 91:  rLo = mm256_srai_epi64(aHi, 27);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 92:  rLo = mm256_srai_epi64(aHi, 28);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 93:  rLo = mm256_srai_epi64(aHi, 29);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 94:  rLo = mm256_srai_epi64(aHi, 30);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 95:  rLo = mm256_srai_epi64(aHi, 31);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 96:  rLo = mm256_srai_epi64(aHi, 32);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 97:  rLo = mm256_srai_epi64(aHi, 33);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 98:  rLo = mm256_srai_epi64(aHi, 34);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 99:  rLo = mm256_srai_epi64(aHi, 35);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 100: rLo = mm256_srai_epi64(aHi, 36);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 101: rLo = mm256_srai_epi64(aHi, 37);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 102: rLo = mm256_srai_epi64(aHi, 38);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 103: rLo = mm256_srai_epi64(aHi, 39);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 104: rLo = mm256_srai_epi64(aHi, 40);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 105: rLo = mm256_srai_epi64(aHi, 41);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 106: rLo = mm256_srai_epi64(aHi, 42);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 107: rLo = mm256_srai_epi64(aHi, 43);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 108: rLo = mm256_srai_epi64(aHi, 44);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 109: rLo = mm256_srai_epi64(aHi, 45);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 110: rLo = mm256_srai_epi64(aHi, 46);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 111: rLo = mm256_srai_epi64(aHi, 47);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 112: rLo = mm256_srai_epi64(aHi, 48);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 113: rLo = mm256_srai_epi64(aHi, 49);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 114: rLo = mm256_srai_epi64(aHi, 50);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 115: rLo = mm256_srai_epi64(aHi, 51);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 116: rLo = mm256_srai_epi64(aHi, 52);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 117: rLo = mm256_srai_epi64(aHi, 53);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 118: rLo = mm256_srai_epi64(aHi, 54);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 119: rLo = mm256_srai_epi64(aHi, 55);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 120: rLo = mm256_srai_epi64(aHi, 56);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 121: rLo = mm256_srai_epi64(aHi, 57);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 122: rLo = mm256_srai_epi64(aHi, 58);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 123: rLo = mm256_srai_epi64(aHi, 59);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 124: rLo = mm256_srai_epi64(aHi, 60);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 125: rLo = mm256_srai_epi64(aHi, 61);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 126: rLo = mm256_srai_epi64(aHi, 62);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
+                    case 127: rLo = mm256_srai_epi64(aHi, 63);                                                           rHi = mm256_srai_epi64(aHi, 63); return;
 
-                    default:  rLo = aLo;                                                          rHi = aHi;                 return;
+                    default:  rLo = aLo;                                                                                 rHi = aHi;                       return;
                 }
             }
             else throw new IllegalInstructionException();
@@ -1238,6 +1239,16 @@ namespace MaxMath.Intrinsics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 cmpge_epu128(v128 aLo, v128 aHi, v128 bLo, v128 bHi)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                return ternarylogic_si128(cmpgt_epu64(aHi, bHi), cmpgt_epu64(bLo, aLo), cmpeq_epi64(aHi, bHi), TernaryOperation.OxF2);
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v256 mm256_cmpgt_epu128(v256 aLo, v256 aHi, v256 bLo, v256 bHi, byte elements = 4)
         {
             if (Avx2.IsAvx2Supported)
@@ -1257,6 +1268,16 @@ namespace MaxMath.Intrinsics
                 }
 
                 return mm256_ternarylogic_si256(mm256_cmpgt_epu64(aHi, bHi, elements), Avx2.mm256_cmpeq_epi64(aHi, bHi), mm256_cmpgt_epu64(aLo, bLo, elements), TernaryOperation.OxF8);
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_cmpge_epu128(v256 aLo, v256 aHi, v256 bLo, v256 bHi)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                return mm256_ternarylogic_si256(mm256_cmpgt_epu64(aHi, bHi), mm256_cmpgt_epu64(bLo, aLo), Avx2.mm256_cmpeq_epi64(aHi, bHi), TernaryOperation.OxF2);
             }
             else throw new IllegalInstructionException();
         }
@@ -1341,8 +1362,31 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                rLo = add_epi64(aLo, bLo);
-                rHi = add_epi64(aHi, bHi);
+                if (constexpr.ALL_EQ_EPI64(aLo, 0))
+                {
+                    rLo = bLo;
+                }
+                else if (constexpr.ALL_EQ_EPI64(bLo, 0))
+                {
+                    rLo = aLo;
+                }
+                else
+                {
+                    rLo = add_epi64(aLo, bLo);
+                }
+
+                if (constexpr.ALL_EQ_EPI64(aHi, 0))
+                {
+                    rHi = bHi;
+                }
+                else if (constexpr.ALL_EQ_EPI64(bHi, 0))
+                {
+                    rHi = aHi;
+                }
+                else
+                {
+                    rHi = add_epi64(aHi, bHi);
+                }
 
                 v128 carry = cmpgt_epu64(aLo, rLo);
                 rHi = sub_epi64(rHi, carry);
@@ -1355,8 +1399,31 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                rLo = Avx2.mm256_add_epi64(aLo, bLo);
-                rHi = Avx2.mm256_add_epi64(aHi, bHi);
+                if (constexpr.ALL_EQ_EPI64(aLo, 0))
+                {
+                    rLo = bLo;
+                }
+                else if (constexpr.ALL_EQ_EPI64(bLo, 0))
+                {
+                    rLo = aLo;
+                }
+                else
+                {
+                    rLo = Avx2.mm256_add_epi64(aLo, bLo);
+                }
+
+                if (constexpr.ALL_EQ_EPI64(aHi, 0))
+                {
+                    rHi = bHi;
+                }
+                else if (constexpr.ALL_EQ_EPI64(bHi, 0))
+                {
+                    rHi = aHi;
+                }
+                else
+                {
+                    rHi = Avx2.mm256_add_epi64(aHi, bHi);
+                }
 
                 v256 carry = mm256_cmpgt_epu64(aLo, rLo, elements);
                 rHi = Avx2.mm256_sub_epi64(rHi, carry);
@@ -1369,8 +1436,23 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                rLo = sub_epi64(aLo, bLo);
-                rHi = sub_epi64(aHi, bHi);
+                if (constexpr.ALL_EQ_EPI64(bLo, 0))
+                {
+                    rLo = aLo;
+                }
+                else
+                {
+                    rLo = sub_epi64(aLo, bLo);
+                }
+
+                if (constexpr.ALL_EQ_EPI64(bHi, 0))
+                {
+                    rHi = aHi;
+                }
+                else
+                {
+                    rHi = sub_epi64(aHi, bHi);
+                }
 
                 rHi = add_epi64(rHi, cmpgt_epu64(bLo, aLo));
             }
@@ -1382,8 +1464,23 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                rLo = Avx2.mm256_sub_epi64(aLo, bLo);
-                rHi = Avx2.mm256_sub_epi64(aHi, bHi);
+                if (constexpr.ALL_EQ_EPI64(bLo, 0))
+                {
+                    rLo = aLo;
+                }
+                else
+                {
+                    rLo = Avx2.mm256_sub_epi64(aLo, bLo);
+                }
+
+                if (constexpr.ALL_EQ_EPI64(bHi, 0))
+                {
+                    rHi = aHi;
+                }
+                else
+                {
+                    rHi = Avx2.mm256_sub_epi64(aHi, bHi);
+                }
 
                 rHi = Avx2.mm256_add_epi64(rHi, mm256_cmpgt_epu64(bLo, aLo, elements));
             }

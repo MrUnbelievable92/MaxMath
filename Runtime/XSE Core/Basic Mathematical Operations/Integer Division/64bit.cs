@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.CVT_INT_FP;
@@ -46,6 +47,7 @@ VectorAssert.AreNotEqual<ulong4, ulong>(b, 0, elements);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 rem_epu64(v128 a, v128 b, bool nonDivBy1 = false, bool useFPU = false, bool aUSFcvt = false, bool bUSFcvt = false, bool aLEu32max = false, bool bLEu32max = false, bool aIsDbl = false, bool bIsDbl = false)
+
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
@@ -57,11 +59,11 @@ VectorAssert.AreNotEqual<ulong2, ulong>(b, 0, 2);
                 }
 
                 v128 result;
+
                 if ((!aIsDbl && !bIsDbl)
                  && (((aUSFcvt || aLEu32max) || constexpr.ALL_LE_EPU64(a, USF_CVT_EPU64_PD_LIMIT)) && ((bUSFcvt || bLEu32max) || constexpr.ALL_LE_EPU64(b, USF_CVT_EPU64_PD_LIMIT))))
                 {
                     v128 quotient = cvttpd_epu64(div_pd(usfcvtepu64_pd(a), usfcvtepu64_pd(b)));
-
                     result = sub_epi64(a, mullo_epi64(quotient, b, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
                 }
                 else
@@ -85,9 +87,27 @@ VectorAssert.AreNotEqual<ulong2, ulong>(b, 0, 2);
                     }
                 }
 
-                if (!bIsDbl)
+                if (aIsDbl)
                 {
-                    constexpr.ASSUME_LT_EPU64(result, b);
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(result.ULong0 == (ulong)a.Double0 % (ulong)b.Double0);
+                        constexpr.ASSUME(result.ULong1 == (ulong)a.Double1 % (ulong)b.Double1);
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(result.ULong0 == (ulong)a.Double0 % b.ULong0);
+                        constexpr.ASSUME(result.ULong1 == (ulong)a.Double1 % b.ULong1);
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(result.ULong0 == a.ULong0 % (ulong)b.Double0);
+                    constexpr.ASSUME(result.ULong1 == a.ULong1 % (ulong)b.Double1);
+                }
+                else
+                {
+                    constexpr.ASSUME_REMAINDER_EPU64(result, a, b);
                 }
 
                 return result;
@@ -113,7 +133,6 @@ VectorAssert.AreNotEqual<ulong4, ulong>(b, 0, elements);
                  && (((aUSFcvt || aLEu32max) || constexpr.ALL_LE_EPU64(a, USF_CVT_EPU64_PD_LIMIT, elements)) && ((bUSFcvt || bLEu32max) || constexpr.ALL_LE_EPU64(b, USF_CVT_EPU64_PD_LIMIT, elements))))
                 {
                     v256 quotient = mm256_cvttpd_epu64(Avx.mm256_div_pd(mm256_usfcvtepu64_pd(a), mm256_usfcvtepu64_pd(b)), elements: elements);
-
                     result = Avx2.mm256_sub_epi64(a, mm256_mullo_epi64(quotient, b, elements, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
                 }
                 else
@@ -121,9 +140,42 @@ VectorAssert.AreNotEqual<ulong4, ulong>(b, 0, elements);
                     mm256_impl_divrem_epu64(a, b, out result, nonDivBy1, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl, elements);
                 }
 
-                if (!bIsDbl)
+                if (aIsDbl)
                 {
-                    constexpr.ASSUME_LT_EPU64(result, b, elements);
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(result.ULong0 == (ulong)a.Double0 % (ulong)b.Double0);
+                        constexpr.ASSUME(result.ULong1 == (ulong)a.Double1 % (ulong)b.Double1);
+                        constexpr.ASSUME(result.ULong2 == (ulong)a.Double2 % (ulong)b.Double2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(result.ULong3 == (ulong)a.Double3 % (ulong)b.Double3);
+                        }
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(result.ULong0 == (ulong)a.Double0 % b.ULong0);
+                        constexpr.ASSUME(result.ULong1 == (ulong)a.Double1 % b.ULong1);
+                        constexpr.ASSUME(result.ULong2 == (ulong)a.Double2 % b.ULong2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(result.ULong3 == (ulong)a.Double3 % b.ULong3);
+                        }
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(result.ULong0 == a.ULong0 % (ulong)b.Double0);
+                    constexpr.ASSUME(result.ULong1 == a.ULong1 % (ulong)b.Double1);
+                    constexpr.ASSUME(result.ULong2 == a.ULong2 % (ulong)b.Double2);
+                    if (elements > 3)
+                    {
+                        constexpr.ASSUME(result.ULong3 == a.ULong3 % (ulong)b.Double3);
+                    }
+                }
+                else
+                {
+                    constexpr.ASSUME_REMAINDER_EPU64(result, a, b, elements);
                 }
 
                 return result;
@@ -180,18 +232,19 @@ VectorAssert.AreNotEqual<long2, long>(b, 0, 2);
                 {
                     return constdiv_epi64(aIsDbl ? cvttpd_epi64(a) : a, bIsDbl ? cvttpd_epi64(b) : b);
                 }
+
+                v128 result;
+
                 if ((!aIsDbl && !bIsDbl)
                  && (((aUSFcvt || aLEu32max) || (constexpr.ALL_GE_EPI64(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT) && constexpr.ALL_LE_EPI64(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT)))  && ((bUSFcvt || bLEu32max) || (constexpr.ALL_GE_EPI64(b, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT) && constexpr.ALL_LE_EPI64(b, ABS_MASK_USF_CVT_EPI64_PD_LIMIT)))))
                 {
-                    return cvttpd_epi64(div_pd(usfcvtepi64_pd(a), usfcvtepi64_pd(b)));
+                    result = cvttpd_epi64(div_pd(usfcvtepi64_pd(a), usfcvtepi64_pd(b)));
                 }
-
-                if (!(constexpr.IS_CONST(a) && constexpr.IS_CONST(b))
+                else if (!(constexpr.IS_CONST(a) && constexpr.IS_CONST(b))
                   && (bIsDbl || useFPU))
                 {
                     v128 unsignedQuotient = div_epu64(aNonNegative ? a : (aIsDbl ? abs_pd(a) : abs_epi64(a)), bNonNegative ? b : (bIsDbl ? abs_pd(b) : abs_epi64(b)), nonDivBy1, true, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl);
-
-                    return SIGNED_FROM_UNSIGNED_DIV_EPI64(out _, a, b, unsignedQuotient, default(v128), dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
+                    result = SIGNED_FROM_UNSIGNED_DIV_EPI64(out _, a, b, unsignedQuotient, default(v128), dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
                 }
                 else
                 {
@@ -199,22 +252,47 @@ VectorAssert.AreNotEqual<long2, long>(b, 0, 2);
                     {
                         if (bIsDbl)
                         {
-                            return new v128((long)a.Double0 / (long)b.Double0, (long)a.Double1 / (long)b.Double1);
+                            result = new v128((long)a.Double0 / (long)b.Double0, (long)a.Double1 / (long)b.Double1);
                         }
                         else
                         {
-                            return new v128((long)a.Double0 / b.SLong0, (long)a.Double1 / b.SLong1);
+                            result = new v128((long)a.Double0 / b.SLong0, (long)a.Double1 / b.SLong1);
                         }
                     }
                     else if (bIsDbl)
                     {
-                        return new v128(a.SLong0 / (long)b.Double0, a.SLong1 / (long)b.Double1);
+                        result = new v128(a.SLong0 / (long)b.Double0, a.SLong1 / (long)b.Double1);
                     }
                     else
                     {
-                        return new v128(a.SLong0 / b.SLong0, a.SLong1 / b.SLong1);
+                        result = new v128(a.SLong0 / b.SLong0, a.SLong1 / b.SLong1);
                     }
                 }
+
+                if (aIsDbl)
+                {
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(result.SLong0 == (long)a.Double0 / (long)b.Double0);
+                        constexpr.ASSUME(result.SLong1 == (long)a.Double1 / (long)b.Double1);
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(result.SLong0 == (long)a.Double0 / b.SLong0);
+                        constexpr.ASSUME(result.SLong1 == (long)a.Double1 / b.SLong1);
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(result.SLong0 == a.SLong0 / (long)b.Double0);
+                    constexpr.ASSUME(result.SLong1 == a.SLong1 / (long)b.Double1);
+                }
+                else
+                {
+                    constexpr.ASSUME_DIVISION_EPI64(result, a, b);
+                }
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -230,15 +308,59 @@ VectorAssert.AreNotEqual<long4, long>(b, 0, elements);
                 {
                     return mm256_constdiv_epi64(aIsDbl ? mm256_cvttpd_epi64(a, elements) : a, bIsDbl ? mm256_cvttpd_epi64(b, elements) : b, elements);
                 }
+
+                v256 result;
+
                 if ((!aIsDbl && !bIsDbl)
                  && (((aUSFcvt || aLEu32max) || (constexpr.ALL_GE_EPI64(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements) && constexpr.ALL_LE_EPI64(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements))) && ((bUSFcvt || bLEu32max) || (constexpr.ALL_GE_EPI64(b, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements) && constexpr.ALL_LE_EPI64(b, ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements)))))
                 {
-                    return mm256_cvttpd_epi64(Avx.mm256_div_pd(mm256_usfcvtepi64_pd(a), mm256_usfcvtepi64_pd(b)), elements: elements);
+                    result = mm256_cvttpd_epi64(Avx.mm256_div_pd(mm256_usfcvtepi64_pd(a), mm256_usfcvtepi64_pd(b)), elements: elements);
+                }
+                else
+                {
+                    v256 unsignedQuotient = mm256_div_epu64(aNonNegative ? a : (aIsDbl ? mm256_abs_pd(a, elements) : mm256_abs_epi64(a, elements)), bNonNegative ? b : (bIsDbl ? mm256_abs_pd(b, elements) : mm256_abs_epi64(b, elements)), nonDivBy1, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl, elements);
+                    result = SIGNED_FROM_UNSIGNED_DIV_EPI64(out _, a, b, unsignedQuotient, default(v256), elements: elements, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
                 }
 
-                v256 unsignedQuotient = mm256_div_epu64(aNonNegative ? a : (aIsDbl ? mm256_abs_pd(a, elements) : mm256_abs_epi64(a, elements)), bNonNegative ? b : (bIsDbl ? mm256_abs_pd(b, elements) : mm256_abs_epi64(b, elements)), nonDivBy1, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl, elements);
+                if (aIsDbl)
+                {
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(result.SLong0 == (long)a.Double0 / (long)b.Double0);
+                        constexpr.ASSUME(result.SLong1 == (long)a.Double1 / (long)b.Double1);
+                        constexpr.ASSUME(result.SLong2 == (long)a.Double2 / (long)b.Double2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(result.SLong3 == (long)a.Double3 / (long)b.Double3);
+                        }
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(result.SLong0 == (long)a.Double0 / b.SLong0);
+                        constexpr.ASSUME(result.SLong1 == (long)a.Double1 / b.SLong1);
+                        constexpr.ASSUME(result.SLong2 == (long)a.Double2 / b.SLong2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(result.SLong3 == (long)a.Double3 / b.SLong3);
+                        }
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(result.SLong0 == a.SLong0 / (long)b.Double0);
+                    constexpr.ASSUME(result.SLong1 == a.SLong1 / (long)b.Double1);
+                    constexpr.ASSUME(result.SLong2 == a.SLong2 / (long)b.Double2);
+                    if (elements > 3)
+                    {
+                        constexpr.ASSUME(result.SLong3 == a.SLong3 / (long)b.Double3);
+                    }
+                }
+                else
+                {
+                    constexpr.ASSUME_DIVISION_EPI64(result, a, b, elements);
+                }
 
-                return SIGNED_FROM_UNSIGNED_DIV_EPI64(out _, a, b, unsignedQuotient, default(v256), elements: elements, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -255,22 +377,20 @@ VectorAssert.AreNotEqual<long2, long>(b, 0, 2);
                 {
                     return constrem_epi64(aIsDbl ? cvttpd_epi64(a) : a, bIsDbl ? cvttpd_epi64(b) : b);
                 }
+
+                v128 result;
+
                 if ((!aIsDbl && !bIsDbl)
                  && (((aUSFcvt || aLEu32max) || (constexpr.ALL_GE_EPI64(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT) && constexpr.ALL_LE_EPI64(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT))) && ((bUSFcvt || bLEu32max) || (constexpr.ALL_GE_EPI64(b, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT) && constexpr.ALL_LE_EPI64(b, ABS_MASK_USF_CVT_EPI64_PD_LIMIT)))))
                 {
                     v128 quotient = cvttpd_epi64(div_pd(usfcvtepi64_pd(a), usfcvtepi64_pd(b)));
-
-                    return sub_epi64(a, mullo_epi64(quotient, b, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
+                    result = sub_epi64(a, mullo_epi64(quotient, b, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
                 }
-
-                if (!(constexpr.IS_CONST(a) && constexpr.IS_CONST(b))
+                else if (!(constexpr.IS_CONST(a) && constexpr.IS_CONST(b))
                   && (bIsDbl || useFPU))
                 {
                     v128 unsignedRemainder = rem_epu64(aNonNegative ? a : (aIsDbl ? abs_pd(a) : abs_epi64(a)), bNonNegative ? b : (bIsDbl ? abs_pd(b) : abs_epi64(b)), nonDivBy1, true, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl);
-
-                    SIGNED_FROM_UNSIGNED_DIV_EPI64(out v128 signedRemainder, a, b, default(v128), unsignedRemainder, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
-
-                    return signedRemainder;
+                    SIGNED_FROM_UNSIGNED_DIV_EPI64(out result, a, b, default(v128), unsignedRemainder, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
                 }
                 else
                 {
@@ -278,22 +398,47 @@ VectorAssert.AreNotEqual<long2, long>(b, 0, 2);
                     {
                         if (bIsDbl)
                         {
-                            return new v128((long)a.Double0 % (long)b.Double0, (long)a.Double1 % (long)b.Double1);
+                            result = new v128((long)a.Double0 % (long)b.Double0, (long)a.Double1 % (long)b.Double1);
                         }
                         else
                         {
-                            return new v128((long)a.Double0 % b.SLong0, (long)a.Double1 % b.SLong1);
+                            result = new v128((long)a.Double0 % b.SLong0, (long)a.Double1 % b.SLong1);
                         }
                     }
                     else if (bIsDbl)
                     {
-                        return new v128(a.SLong0 % (long)b.Double0, a.SLong1 % (long)b.Double1);
+                        result = new v128(a.SLong0 % (long)b.Double0, a.SLong1 % (long)b.Double1);
                     }
                     else
                     {
-                        return new v128(a.SLong0 % b.SLong0, a.SLong1 % b.SLong1);
+                        result = new v128(a.SLong0 % b.SLong0, a.SLong1 % b.SLong1);
                     }
                 }
+
+                if (aIsDbl)
+                {
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(result.SLong0 == (long)a.Double0 % (long)b.Double0);
+                        constexpr.ASSUME(result.SLong1 == (long)a.Double1 % (long)b.Double1);
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(result.SLong0 == (long)a.Double0 % b.SLong0);
+                        constexpr.ASSUME(result.SLong1 == (long)a.Double1 % b.SLong1);
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(result.SLong0 == a.SLong0 % (long)b.Double0);
+                    constexpr.ASSUME(result.SLong1 == a.SLong1 % (long)b.Double1);
+                }
+                else
+                {
+                    constexpr.ASSUME_REMAINDER_EPI64(result, a, b);
+                }
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -309,19 +454,60 @@ VectorAssert.AreNotEqual<long4, long>(b, 0, elements);
                 {
                     return mm256_constrem_epi64(aIsDbl ? mm256_cvttpd_epi64(a, elements) : a, bIsDbl ? mm256_cvttpd_epi64(b, elements) : b, elements);
                 }
+                
+                v256 result;
+
                 if ((!aIsDbl && !bIsDbl)
                  && (((aUSFcvt || aLEu32max) || (constexpr.ALL_GE_EPI64(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements) && constexpr.ALL_LE_EPI64(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements))) && ((bUSFcvt || bLEu32max) || (constexpr.ALL_GE_EPI64(b, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements) && constexpr.ALL_LE_EPI64(b, ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements)))))
                 {
                     v256 quotient = mm256_cvttpd_epi64(Avx.mm256_div_pd(mm256_usfcvtepi64_pd(a), mm256_usfcvtepi64_pd(b)), elements: elements);
-
-                    return Avx2.mm256_sub_epi64(a, mm256_mullo_epi64(quotient, b, elements, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
+                    result = Avx2.mm256_sub_epi64(a, mm256_mullo_epi64(quotient, b, elements, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
+                }
+                else
+                {
+                    v256 unsignedRemainder = mm256_rem_epu64(aNonNegative ? a : (aIsDbl ? mm256_abs_pd(a, elements) : mm256_abs_epi64(a, elements)), bNonNegative ? b : (bIsDbl ? mm256_abs_pd(b, elements) : mm256_abs_epi64(b, elements)), nonDivBy1, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl, elements);
+                    SIGNED_FROM_UNSIGNED_DIV_EPI64(out result, a, b, default(v256), unsignedRemainder, elements: elements, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
                 }
 
-                v256 unsignedRemainder = mm256_rem_epu64(aNonNegative ? a : (aIsDbl ? mm256_abs_pd(a, elements) : mm256_abs_epi64(a, elements)), bNonNegative ? b : (bIsDbl ? mm256_abs_pd(b, elements) : mm256_abs_epi64(b, elements)), nonDivBy1, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl, elements);
+                if (aIsDbl)
+                {
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(result.SLong0 == (long)a.Double0 % (long)b.Double0);
+                        constexpr.ASSUME(result.SLong1 == (long)a.Double1 % (long)b.Double1);
+                        constexpr.ASSUME(result.SLong2 == (long)a.Double2 % (long)b.Double2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(result.SLong3 == (long)a.Double3 % (long)b.Double3);
+                        }
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(result.SLong0 == (long)a.Double0 % b.SLong0);
+                        constexpr.ASSUME(result.SLong1 == (long)a.Double1 % b.SLong1);
+                        constexpr.ASSUME(result.SLong2 == (long)a.Double2 % b.SLong2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(result.SLong3 == (long)a.Double3 % b.SLong3);
+                        }
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(result.SLong0 == a.SLong0 % (long)b.Double0);
+                    constexpr.ASSUME(result.SLong1 == a.SLong1 % (long)b.Double1);
+                    constexpr.ASSUME(result.SLong2 == a.SLong2 % (long)b.Double2);
+                    if (elements > 3)
+                    {
+                        constexpr.ASSUME(result.SLong3 == a.SLong3 % (long)b.Double3);
+                    }
+                }
+                else
+                {
+                    constexpr.ASSUME_REMAINDER_EPI64(result, a, b, elements);
+                }
 
-                SIGNED_FROM_UNSIGNED_DIV_EPI64(out v256 signedRemainder, a, b, default(v256), unsignedRemainder, elements: elements, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
-
-                return signedRemainder;
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -339,21 +525,20 @@ VectorAssert.AreNotEqual<long2, long>(b, 0, 2);
                     rem =  constrem_epi64(aIsDbl ? cvttpd_epi64(a) : a, bIsDbl ? cvttpd_epi64(b) : b);
                     return constdiv_epi64(aIsDbl ? cvttpd_epi64(a) : a, bIsDbl ? cvttpd_epi64(b) : b);
                 }
+
+                v128 quotient;
+
                 if ((!aIsDbl && !bIsDbl)
                  && (((aUSFcvt || aLEu32max) || (constexpr.ALL_GE_EPI64(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT) && constexpr.ALL_LE_EPI64(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT))) && ((bUSFcvt || bLEu32max) || (constexpr.ALL_GE_EPI64(b, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT) && constexpr.ALL_LE_EPI64(b, ABS_MASK_USF_CVT_EPI64_PD_LIMIT)))))
                 {
-                    v128 quotient = cvttpd_epi64(div_pd(usfcvtepi64_pd(a), usfcvtepi64_pd(b)));
+                    quotient = cvttpd_epi64(div_pd(usfcvtepi64_pd(a), usfcvtepi64_pd(b)));
                     rem = sub_epi64(a, mullo_epi64(quotient, b, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
-
-                    return quotient;
                 }
-
-                if (!(constexpr.IS_CONST(a) && constexpr.IS_CONST(b))
+                else if (!(constexpr.IS_CONST(a) && constexpr.IS_CONST(b))
                   && (bIsDbl || useFPU))
                 {
                     v128 unsignedQuotient = divrem_epu64(aNonNegative ? a : (aIsDbl ? abs_pd(a) : abs_epi64(a)), bNonNegative ? b : (bIsDbl ? abs_pd(b) : abs_epi64(b)), out v128 unsigendRemainder, nonDivBy1, true, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl);
-
-                    return SIGNED_FROM_UNSIGNED_DIV_EPI64(out rem, a, b, unsignedQuotient, unsigendRemainder, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
+                    quotient = SIGNED_FROM_UNSIGNED_DIV_EPI64(out rem, a, b, unsignedQuotient, unsigendRemainder, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
                 }
                 else
                 {
@@ -362,25 +547,60 @@ VectorAssert.AreNotEqual<long2, long>(b, 0, 2);
                         if (bIsDbl)
                         {
                             rem = new v128((long)a.Double0 % (long)b.Double0, (long)a.Double1 % (long)b.Double1);
-                            return new v128((long)a.Double0 / (long)b.Double0, (long)a.Double1 / (long)b.Double1);
+                            quotient = new v128((long)a.Double0 / (long)b.Double0, (long)a.Double1 / (long)b.Double1);
                         }
                         else
                         {
                             rem = new v128((long)a.Double0 % b.SLong0, (long)a.Double1 % b.SLong1);
-                            return new v128((long)a.Double0 / b.SLong0, (long)a.Double1 / b.SLong1);
+                            quotient = new v128((long)a.Double0 / b.SLong0, (long)a.Double1 / b.SLong1);
                         }
                     }
                     else if (bIsDbl)
                     {
                         rem = new v128(a.SLong0 % (long)b.Double0, a.SLong1 % (long)b.Double1);
-                        return new v128(a.SLong0 / (long)b.Double0, a.SLong1 / (long)b.Double1);
+                        quotient = new v128(a.SLong0 / (long)b.Double0, a.SLong1 / (long)b.Double1);
                     }
                     else
                     {
                         rem = new v128(a.SLong0 % b.SLong0, a.SLong1 % b.SLong1);
-                        return new v128(a.SLong0 / b.SLong0, a.SLong1 / b.SLong1);
+                        quotient = new v128(a.SLong0 / b.SLong0, a.SLong1 / b.SLong1);
                     }
                 }
+
+                if (aIsDbl)
+                {
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(quotient.SLong0 == (long)a.Double0 / (long)b.Double0);
+                        constexpr.ASSUME(quotient.SLong1 == (long)a.Double1 / (long)b.Double1);
+
+                        constexpr.ASSUME(rem.SLong0 == (long)a.Double0 % (long)b.Double0);
+                        constexpr.ASSUME(rem.SLong1 == (long)a.Double1 % (long)b.Double1);
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(quotient.SLong0 == (long)a.Double0 / b.SLong0);
+                        constexpr.ASSUME(quotient.SLong1 == (long)a.Double1 / b.SLong1);
+
+                        constexpr.ASSUME(rem.SLong0 == (long)a.Double0 % b.SLong0);
+                        constexpr.ASSUME(rem.SLong1 == (long)a.Double1 % b.SLong1);
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(quotient.SLong0 == a.SLong0 / (long)b.Double0);
+                    constexpr.ASSUME(quotient.SLong1 == a.SLong1 / (long)b.Double1);
+
+                    constexpr.ASSUME(rem.SLong0 == a.SLong0 % (long)b.Double0);
+                    constexpr.ASSUME(rem.SLong1 == a.SLong1 % (long)b.Double1);
+                }
+                else
+                {
+                    constexpr.ASSUME_DIVISION_EPI64(quotient, a, b);
+                    constexpr.ASSUME_REMAINDER_EPI64(rem, a, b);
+                }
+
+                return quotient;
             }
             else throw new IllegalInstructionException();
         }
@@ -397,18 +617,79 @@ VectorAssert.AreNotEqual<long4, long>(b, 0, elements);
                     rem =  mm256_constrem_epi64(aIsDbl ? mm256_cvttpd_epi64(a, elements) : a, bIsDbl ? mm256_cvttpd_epi64(b, elements) : b, elements);
                     return mm256_constdiv_epi64(aIsDbl ? mm256_cvttpd_epi64(a, elements) : a, bIsDbl ? mm256_cvttpd_epi64(b, elements) : b, elements);
                 }
+
+                v256 quotient;
+
                 if ((!aIsDbl && !bIsDbl)
                  && (((aUSFcvt || aLEu32max) || (constexpr.ALL_GE_EPI64(a, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements) && constexpr.ALL_LE_EPI64(a, ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements))) && ((bUSFcvt || bLEu32max) || (constexpr.ALL_GE_EPI64(b, -ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements) && constexpr.ALL_LE_EPI64(b, ABS_MASK_USF_CVT_EPI64_PD_LIMIT, elements)))))
                 {
-                    v256 quotient = mm256_cvttpd_epi64(Avx.mm256_div_pd(mm256_usfcvtepi64_pd(a), mm256_usfcvtepi64_pd(b)), elements: elements);
+                    quotient = mm256_cvttpd_epi64(Avx.mm256_div_pd(mm256_usfcvtepi64_pd(a), mm256_usfcvtepi64_pd(b)), elements: elements);
                     rem = Avx2.mm256_sub_epi64(a, mm256_mullo_epi64(quotient, b, elements, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
-
-                    return quotient;
+                }
+                else
+                {
+                    v256 unsignedQuotient = mm256_divrem_epu64(aNonNegative ? a : (aIsDbl ? mm256_abs_pd(a, elements) : mm256_abs_epi64(a, elements)), bNonNegative ? b : (bIsDbl ? mm256_abs_pd(b, elements) : mm256_abs_epi64(b, elements)), out v256 unsigendRemainder, nonDivBy1, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl, elements);
+                    quotient = SIGNED_FROM_UNSIGNED_DIV_EPI64(out rem, a, b, unsignedQuotient, unsigendRemainder, elements: elements, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
                 }
 
-                v256 unsignedQuotient = mm256_divrem_epu64(aNonNegative ? a : (aIsDbl ? mm256_abs_pd(a, elements) : mm256_abs_epi64(a, elements)), bNonNegative ? b : (bIsDbl ? mm256_abs_pd(b, elements) : mm256_abs_epi64(b, elements)), out v256 unsigendRemainder, nonDivBy1, aUSFcvt, bUSFcvt, aLEu32max, bLEu32max, aIsDbl, bIsDbl, elements);
+                if (aIsDbl)
+                {
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(quotient.SLong0 == (long)a.Double0 / (long)b.Double0);
+                        constexpr.ASSUME(quotient.SLong1 == (long)a.Double1 / (long)b.Double1);
+                        constexpr.ASSUME(quotient.SLong2 == (long)a.Double2 / (long)b.Double2);
 
-                return SIGNED_FROM_UNSIGNED_DIV_EPI64(out rem, a, b, unsignedQuotient, unsigendRemainder, elements: elements, dividendPositive: aNonNegative, divisorPositive: bNonNegative, aIsDbl : aIsDbl, bIsDbl : bIsDbl);
+                        constexpr.ASSUME(rem.SLong0 == (long)a.Double0 % (long)b.Double0);
+                        constexpr.ASSUME(rem.SLong1 == (long)a.Double1 % (long)b.Double1);
+                        constexpr.ASSUME(rem.SLong2 == (long)a.Double2 % (long)b.Double2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(quotient.SLong3 == (long)a.Double3 / (long)b.Double3);
+
+                            constexpr.ASSUME(rem.SLong3 == (long)a.Double3 % (long)b.Double3);
+                        }
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(quotient.SLong0 == (long)a.Double0 / b.SLong0);
+                        constexpr.ASSUME(quotient.SLong1 == (long)a.Double1 / b.SLong1);
+                        constexpr.ASSUME(quotient.SLong2 == (long)a.Double2 / b.SLong2);
+
+                        constexpr.ASSUME(rem.SLong0 == (long)a.Double0 % b.SLong0);
+                        constexpr.ASSUME(rem.SLong1 == (long)a.Double1 % b.SLong1);
+                        constexpr.ASSUME(rem.SLong2 == (long)a.Double2 % b.SLong2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(quotient.SLong3 == (long)a.Double3 / b.SLong3);
+
+                            constexpr.ASSUME(rem.SLong3 == (long)a.Double3 % b.SLong3);
+                        }
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(quotient.SLong0 == a.SLong0 / (long)b.Double0);
+                    constexpr.ASSUME(quotient.SLong1 == a.SLong1 / (long)b.Double1);
+                    constexpr.ASSUME(quotient.SLong2 == a.SLong2 / (long)b.Double2);
+
+                    constexpr.ASSUME(rem.SLong0 == a.SLong0 % (long)b.Double0);
+                    constexpr.ASSUME(rem.SLong1 == a.SLong1 % (long)b.Double1);
+                    constexpr.ASSUME(rem.SLong2 == a.SLong2 % (long)b.Double2);
+                    if (elements > 3)
+                    {
+                        constexpr.ASSUME(quotient.SLong3 == a.SLong3 / (long)b.Double3);
+
+                        constexpr.ASSUME(rem.SLong3 == a.SLong3 % (long)b.Double3);
+                    }
+                }
+                else
+                {
+                    constexpr.ASSUME_DIVISION_EPI64(quotient, a, b, elements);
+                    constexpr.ASSUME_REMAINDER_EPI64(rem, a, b, elements);
+                }
+
+                return quotient;
             }
             else throw new IllegalInstructionException();
         }
@@ -435,46 +716,47 @@ if (bIsDbl)
     // Caller is responsible
     VectorAssert.AreNotEqual<ulong2, ulong>(bInt64, 0, 2);
 }
-                v128 q;
+                v128 quotient;
+
                 if (!aIsDbl && !bIsDbl)
                 {
                     if ((aUSFcvt || aLEu32max)
                      && (bUSFcvt || bLEu32max))
                     {
-                        q = cvttpd_epu64(div_pd(usfcvtepu64_pd(a), usfcvtepu64_pd(b)));
-                        rem = sub_epi64(a, mullo_epi64(q, b, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
+                        quotient = cvttpd_epu64(div_pd(usfcvtepu64_pd(a), usfcvtepu64_pd(b)));
+                        rem = sub_epi64(a, mullo_epi64(quotient, b, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
 
-                        return q;
+                        goto RET;
                     }
                 }
-                if ((!useFPU && !bIsDbl)
+                else if ((!useFPU && !bIsDbl)
                  || (constexpr.IS_CONST(a) && constexpr.IS_CONST(b)))
                 {
                     if (aIsDbl)
                     {
                         if (bIsDbl)
                         {
-                            q = new v128(aInt64.ULong0 / bInt64.ULong0, aInt64.ULong1 / bInt64.ULong1);
+                            quotient = new v128(aInt64.ULong0 / bInt64.ULong0, aInt64.ULong1 / bInt64.ULong1);
                             rem = new v128(aInt64.ULong0 % bInt64.ULong0, aInt64.ULong1 % bInt64.ULong1);
                         }
                         else
                         {
-                            q = new v128(aInt64.ULong0 / b.ULong0, aInt64.ULong1 / b.ULong1);
+                            quotient = new v128(aInt64.ULong0 / b.ULong0, aInt64.ULong1 / b.ULong1);
                             rem = new v128(aInt64.ULong0 % b.ULong0, aInt64.ULong1 % b.ULong1);
                         }
                     }
                     else if (bIsDbl)
                     {
-                        q = new v128(a.ULong0 / bInt64.ULong0, a.ULong1 / bInt64.ULong1);
+                        quotient = new v128(a.ULong0 / bInt64.ULong0, a.ULong1 / bInt64.ULong1);
                         rem = new v128(a.ULong0 % bInt64.ULong0, a.ULong1 % bInt64.ULong1);
                     }
                     else
                     {
-                        q = new v128(a.ULong0 / b.ULong0, a.ULong1 / b.ULong1);
+                        quotient = new v128(a.ULong0 / b.ULong0, a.ULong1 / b.ULong1);
                         rem = new v128(a.ULong0 % b.ULong0, a.ULong1 % b.ULong1);
                     }
 
-                    return q;
+                    goto RET;
                 }
 
                 v128 rcpB = div_pd(set1_pd(1d), bIsDbl ? b : ((bUSFcvt || bLEu32max) ? usfcvtepu64_pd(b) : cvtepu64_pd(b)));
@@ -532,7 +814,7 @@ if (bIsDbl)
                       rem = unpacklo_epi64(cvtsi64x_si128(loR3), cvtsi64x_si128(hiR3));
                       rem = blendv_si128(rem, aInt64, aLTb);
 
-                      q = unpacklo_epi64(cvtsi64x_si128(loQ), cvtsi64x_si128(hiQ));
+                      quotient = unpacklo_epi64(cvtsi64x_si128(loQ), cvtsi64x_si128(hiQ));
                 //}
 
                 constexpr.ASSUME_LT_EPU64(rem, bInt64);
@@ -553,10 +835,45 @@ if (bIsDbl)
                 }
                 if (!(nonDivBy1 && bUSFcvt))
                 {
-                    q = blendv_si128(q, specialResult, blendMSK);
+                    quotient = blendv_si128(quotient, specialResult, blendMSK);
                 }
 
-                return q;
+            RET:
+
+                if (aIsDbl)
+                {
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(quotient.ULong0 == (ulong)a.Double0 / (ulong)b.Double0);
+                        constexpr.ASSUME(quotient.ULong1 == (ulong)a.Double1 / (ulong)b.Double1);
+
+                        constexpr.ASSUME(rem.ULong0 == (ulong)a.Double0 % (ulong)b.Double0);
+                        constexpr.ASSUME(rem.ULong1 == (ulong)a.Double1 % (ulong)b.Double1);
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(quotient.ULong0 == (ulong)a.Double0 / b.ULong0);
+                        constexpr.ASSUME(quotient.ULong1 == (ulong)a.Double1 / b.ULong1);
+
+                        constexpr.ASSUME(rem.ULong0 == (ulong)a.Double0 % b.ULong0);
+                        constexpr.ASSUME(rem.ULong1 == (ulong)a.Double1 % b.ULong1);
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(quotient.ULong0 == a.ULong0 / (ulong)b.Double0);
+                    constexpr.ASSUME(quotient.ULong1 == a.ULong1 / (ulong)b.Double1);
+
+                    constexpr.ASSUME(rem.ULong0 == a.ULong0 % (ulong)b.Double0);
+                    constexpr.ASSUME(rem.ULong1 == a.ULong1 % (ulong)b.Double1);
+                }
+                else
+                {
+                    constexpr.ASSUME_DIVISION_EPU64(quotient, a, b);
+                    constexpr.ASSUME_REMAINDER_EPU64(rem, a, b);
+                }
+
+                return quotient;
             }
             else throw new IllegalInstructionException();
         }
@@ -583,45 +900,46 @@ if (bIsDbl)
     // Caller is responsible
     VectorAssert.AreNotEqual<ulong4, ulong>(bInt64, 0, elements);
 }
-                v256 q;
+                v256 quotient;
+
                 if (!aIsDbl && !bIsDbl)
                 {
                     if ((aUSFcvt || aLEu32max)
                      && (bUSFcvt || bLEu32max))
                     {
-                        q = mm256_cvttpd_epu64(Avx.mm256_div_pd(mm256_usfcvtepu64_pd(a), mm256_usfcvtepu64_pd(b)), elements: elements);
-                        rem = Avx2.mm256_sub_epi64(a, mm256_mullo_epi64(q, b, elements, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
+                        quotient = mm256_cvttpd_epu64(Avx.mm256_div_pd(mm256_usfcvtepu64_pd(a), mm256_usfcvtepu64_pd(b)), elements: elements);
+                        rem = Avx2.mm256_sub_epi64(a, mm256_mullo_epi64(quotient, b, elements, unsigned_A_lessequalU32Max: aLEu32max, unsigned_B_lessequalU32Max: bLEu32max));
 
-                        return q;
+                        goto RET;
                     }
                 }
-                if (constexpr.IS_CONST(a) && constexpr.IS_CONST(b))
+                else if (constexpr.IS_CONST(a) && constexpr.IS_CONST(b))
                 {
                     if (aIsDbl)
                     {
                         if (bIsDbl)
                         {
-                            q = new v256(aInt64.ULong0 / bInt64.ULong0, aInt64.ULong1 / bInt64.ULong1, aInt64.ULong2 / bInt64.ULong2, elements == 3 ? 0 : aInt64.ULong3 / bInt64.ULong3);
+                            quotient = new v256(aInt64.ULong0 / bInt64.ULong0, aInt64.ULong1 / bInt64.ULong1, aInt64.ULong2 / bInt64.ULong2, elements == 3 ? 0 : aInt64.ULong3 / bInt64.ULong3);
                             rem = new v256(aInt64.ULong0 % bInt64.ULong0, aInt64.ULong1 % bInt64.ULong1, aInt64.ULong2 % bInt64.ULong2, elements == 3 ? 0 : aInt64.ULong3 % bInt64.ULong3);
                         }
                         else
                         {
-                            q = new v256(aInt64.ULong0 / b.ULong0, aInt64.ULong1 / b.ULong1, aInt64.ULong2 / b.ULong2, elements == 3 ? 0 : aInt64.ULong3 / b.ULong3);
+                            quotient = new v256(aInt64.ULong0 / b.ULong0, aInt64.ULong1 / b.ULong1, aInt64.ULong2 / b.ULong2, elements == 3 ? 0 : aInt64.ULong3 / b.ULong3);
                             rem = new v256(aInt64.ULong0 % b.ULong0, aInt64.ULong1 % b.ULong1, aInt64.ULong2 % b.ULong2, elements == 3 ? 0 : aInt64.ULong3 % b.ULong3);
                         }
                     }
                     else if (bIsDbl)
                     {
-                        q = new v256(a.ULong0 / bInt64.ULong0, a.ULong1 / bInt64.ULong1, a.ULong2 / bInt64.ULong2, elements == 3 ? 0 : a.ULong3 / bInt64.ULong3);
+                        quotient = new v256(a.ULong0 / bInt64.ULong0, a.ULong1 / bInt64.ULong1, a.ULong2 / bInt64.ULong2, elements == 3 ? 0 : a.ULong3 / bInt64.ULong3);
                         rem = new v256(a.ULong0 % bInt64.ULong0, a.ULong1 % bInt64.ULong1, a.ULong2 % bInt64.ULong2, elements == 3 ? 0 : a.ULong3 % bInt64.ULong3);
                     }
                     else
                     {
-                        q = new v256(a.ULong0 / b.ULong0, a.ULong1 / b.ULong1, a.ULong2 / b.ULong2, elements == 3 ? 0 : a.ULong3 / b.ULong3);
+                        quotient = new v256(a.ULong0 / b.ULong0, a.ULong1 / b.ULong1, a.ULong2 / b.ULong2, elements == 3 ? 0 : a.ULong3 / b.ULong3);
                         rem = new v256(a.ULong0 % b.ULong0, a.ULong1 % b.ULong1, a.ULong2 % b.ULong2, elements == 3 ? 0 : a.ULong3 % b.ULong3);
                     }
-
-                    return q;
+                    
+                    goto RET;
                 }
 
                 v256 rcpB = Avx.mm256_div_pd(mm256_set1_pd(1d), bIsDbl ? b : ((bUSFcvt || bLEu32max) ? mm256_usfcvtepu64_pd(b) : mm256_cvtepu64_pd(b, elements)));
@@ -655,7 +973,7 @@ if (bIsDbl)
                 rem = Avx2.mm256_sub_epi64(r1, mm256_mullo_epi64(bInt64, q3, elements, unsigned_A_lessequalU32Max: bLEu32max));
                 v256 q2 = Avx2.mm256_add_epi64(q1, q3);
                 v256 remSign = Avx2.mm256_srli_epi64(rem, 63);
-                q = Avx2.mm256_sub_epi64(q2, remSign);
+                quotient = Avx2.mm256_sub_epi64(q2, remSign);
                 rem = Avx2.mm256_add_epi64(rem, Avx2.mm256_and_si256(bInt64, mm256_neg_epi64(remSign)));
                 rem = mm256_blendv_si256(rem, aInt64, aLTb);
 
@@ -677,10 +995,69 @@ if (bIsDbl)
                 }
                 if (!(nonDivBy1 && bUSFcvt))
                 {
-                    q = mm256_blendv_si256(q, specialResult, blendMSK);
+                    quotient = mm256_blendv_si256(quotient, specialResult, blendMSK);
                 }
 
-                return q;
+            RET:
+
+                if (aIsDbl)
+                {
+                    if (bIsDbl)
+                    {
+                        constexpr.ASSUME(quotient.ULong0 == (ulong)a.Double0 / (ulong)b.Double0);
+                        constexpr.ASSUME(quotient.ULong1 == (ulong)a.Double1 / (ulong)b.Double1);
+                        constexpr.ASSUME(quotient.ULong2 == (ulong)a.Double2 / (ulong)b.Double2);
+                
+                        constexpr.ASSUME(rem.ULong0 == (ulong)a.Double0 % (ulong)b.Double0);
+                        constexpr.ASSUME(rem.ULong1 == (ulong)a.Double1 % (ulong)b.Double1);
+                        constexpr.ASSUME(rem.ULong2 == (ulong)a.Double2 % (ulong)b.Double2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(quotient.ULong3 == (ulong)a.Double3 / (ulong)b.Double3);
+                
+                            constexpr.ASSUME(rem.ULong3 == (ulong)a.Double3 % (ulong)b.Double3);
+                        }
+                    }
+                    else
+                    {
+                        constexpr.ASSUME(quotient.ULong0 == (ulong)a.Double0 / b.ULong0);
+                        constexpr.ASSUME(quotient.ULong1 == (ulong)a.Double1 / b.ULong1);
+                        constexpr.ASSUME(quotient.ULong2 == (ulong)a.Double2 / b.ULong2);
+                
+                        constexpr.ASSUME(rem.ULong0 == (ulong)a.Double0 % b.ULong0);
+                        constexpr.ASSUME(rem.ULong1 == (ulong)a.Double1 % b.ULong1);
+                        constexpr.ASSUME(rem.ULong2 == (ulong)a.Double2 % b.ULong2);
+                        if (elements > 3)
+                        {
+                            constexpr.ASSUME(quotient.ULong3 == (ulong)a.Double3 / b.ULong3);
+                
+                            constexpr.ASSUME(rem.ULong3 == (ulong)a.Double3 % b.ULong3);
+                        }
+                    }
+                }
+                else if (bIsDbl)
+                {
+                    constexpr.ASSUME(quotient.ULong0 == a.ULong0 / (ulong)b.Double0);
+                    constexpr.ASSUME(quotient.ULong1 == a.ULong1 / (ulong)b.Double1);
+                    constexpr.ASSUME(quotient.ULong2 == a.ULong2 / (ulong)b.Double2);
+                
+                    constexpr.ASSUME(rem.ULong0 == a.ULong0 % (ulong)b.Double0);
+                    constexpr.ASSUME(rem.ULong1 == a.ULong1 % (ulong)b.Double1);
+                    constexpr.ASSUME(rem.ULong2 == a.ULong2 % (ulong)b.Double2);
+                    if (elements > 3)
+                    {
+                        constexpr.ASSUME(quotient.ULong3 == a.ULong3 / (ulong)b.Double3);
+                
+                        constexpr.ASSUME(rem.ULong3 == a.ULong3 % (ulong)b.Double3);
+                    }
+                }
+                else
+                {
+                    constexpr.ASSUME_DIVISION_EPU64(quotient, a, b, elements);
+                    constexpr.ASSUME_REMAINDER_EPU64(rem, a, b, elements);
+                }
+
+                return quotient;
             }
             else throw new IllegalInstructionException();
         }

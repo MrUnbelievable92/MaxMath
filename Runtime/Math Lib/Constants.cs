@@ -51,7 +51,7 @@ namespace MaxMath
         /// As a consequence, NAN_DBL == NAN_DBL is false but NAN_DBL != NAN_DBL is <see langword="true"/>.
         ///
         /// Additionally, there are multiple bit representations for Not a Number, so if you must test if your value
-        /// is NAN_DBL, use <see cref="math.isnan()"/>.
+        /// is NAN_DBL, use <see cref="math.isnan(double)"/>.
         /// </summary>
         public const double NAN_DBL = double.NaN;
 
@@ -117,7 +117,7 @@ namespace MaxMath
         /// As a consequence, NAN == NAN is false but NAN != NAN is <see langword="true"/>.
         ///
         /// Additionally, there are multiple bit representations for Not a Number, so if you must test if your value
-        /// is NAN, use <see cref="math.isnan()"/>.
+        /// is NAN, use <see cref="math.isnan(float)"/>.
         /// </summary>
         public const float NAN = float.NaN;
 
@@ -146,7 +146,7 @@ namespace MaxMath
 
         /// <summary>          The smallest positive normal number representable in a quadruple. This is a f128/quadruple precision constant.         </summary>
         public static quadruple QUAD_MIN_NORMAL => new quadruple(0ul, 1ul << MaxMath.quadruple.MANTISSA_BITS_HI64);
-
+        
         /// <summary>          The mathematical constant e also known as Euler's number. Approximately 2.72. This is a f128/quadruple precision constant.         </summary>
         public static quadruple E_QUAD => new quadruple(0x9535_5FB8_AC40_4E7A, 0x4000_5BF0_A8B1_4576);
 
@@ -167,7 +167,7 @@ namespace MaxMath
 
         /// <summary>          The square root 2. Approximately 1.41. Approximately 6.28. This is a f128/quadruple precision constant.         </summary>
         public static quadruple SQRT2_QUAD => new quadruple(0xC908_B2FB_1366_EA95, 0x3FFF_6A09_E667_F3BC);
-
+        
         /// <summary>          The mathematical constant tau. Approximately 6.28. Also known as <see cref="PI2_QUAD"/>. This is a f128/quadruple precision constant.         </summary>
         public static quadruple TAU_QUAD => new quadruple(0x8469_898C_C517_01B8, 0x4001_921F_B544_42D1);
 
@@ -179,13 +179,13 @@ namespace MaxMath
 
         /// <summary>          The mathematical constant phi also known as the golden ratio. Approximately 1.61. This is a f128/quadruple precision constant.         </summary>
         public static quadruple PHI_QUAD => new quadruple(0x7C15_F39C_C060_5CEE, 0x3FFF_9E37_79B9_7F4A);
-
+        
         /// <summary>          The square root 3. Approximately 1.73. This is a f128/quadruple precision constant.       </summary>
         public static quadruple SQRT3_QUAD => new quadruple(0xA73B_2574_2D70_78B8, 0x3FFF_BB67_AE85_84CA);
 
         /// <summary>          The square root 5. Approximately 2.23. This is a f128/quadruple precision constant.       </summary>
         public static quadruple SQRT5_QUAD => new quadruple(0x7C15_F39C_C060_5CEE, 0x4000_1E37_79B9_7F4A);
-
+        
         /// <summary>          The cube root of 2. Approximately 1.26. This is a f128/quadruple precision constant.         </summary>
         public static quadruple CBRT2_QUAD => new quadruple(0xAE22_3DDA_B715_BE25, 0x3FFF_428A_2F98_D728);
 
@@ -196,22 +196,23 @@ namespace MaxMath
         public static quadruple CBRT4_QUAD => new quadruple(0xC82B_0599_9AB4_3DC5, 0x3FFF_965F_EA53_D6E3);
 
         /// <summary>          The inverse cube root of 2. Approximately 0.79. This is a f128/quadruple precision constant.         </summary>
-        public static quadruple RCBRT2_QUAD => new quadruple(0xC82B_0599_9AB4_3DC4, 0x3FFE_965F_EA53_D6E3);
+        public static quadruple RCBRT2_QUAD => new quadruple(0xC82B_0599_9AB4_3DC5, 0x3FFE_965F_EA53_D6E3);
 
         /// <summary>          The inverse cube root of 4. Approximately 0.62. This is a f128/quadruple precision constant.         </summary>
-        public static quadruple RCBRT4_QUAD => new quadruple(0xAE22_3DDA_B715_BE26, 0x3FFE_428A_2F98_D728);
+        public static quadruple RCBRT4_QUAD => new quadruple(0xAE22_3DDA_B715_BE25, 0x3FFE_428A_2F98_D728);
+        
 
         /// <summary>   
         /// The conversion constant used to convert radians to degrees. Multiply the radian value by this constant to get degrees.
         /// <remarks>   Multiplying by this constant is equivalent to using <see cref="math.degrees(quadruple)"/>.   </remarks>
-        ///    </summary>
-        public static quadruple TODEGREES_QUAD => new quadruple(0x7B86_152E_A6FE_81A4, 0x4004_CA5D_C1A6_3C1F);
+        /// </summary>
+        public static quadruple TODEGREES_QUAD => new quadruple(0x7B86_152E_A6FE_81A5, 0x4004_CA5D_C1A6_3C1F);
 
         /// <summary>   
         /// The conversion constant used to convert degrees to radians. Multiply the degree value by this constant to get radians.
         /// <remarks>Multiplying by this constant is equivalent to using <see cref="math.radians(quadruple)"/>.</remarks>
-        ///    </summary>
-        public static quadruple TORADIANS_QUAD => new quadruple(0x915C_1D8B_ECDD_290A, 0x3FF9_1DF4_6A25_29D3);
+        /// </summary>
+        public static quadruple TORADIANS_QUAD => new quadruple(0x915C_1D8B_ECDD_290C, 0x3FF9_1DF4_6A25_29D3);
 
 
         /// <summary>          The mathematical constant phi also known as the golden ratio. Approximately 1.61. This is a f64/double precision constant.         </summary>

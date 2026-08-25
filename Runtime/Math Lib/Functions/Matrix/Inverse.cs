@@ -4,21 +4,21 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>		Returns the <see cref="MaxMath.float2x2"/> full inverse of a <see cref="MaxMath.float2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="float2x2"/> full inverse of a <see cref="float2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2x2 inverse(float2x2 v)
         {
             return Unity.Mathematics.math.inverse(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float3x3"/> full inverse of a <see cref="MaxMath.float3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="float3x3"/> full inverse of a <see cref="float3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3x3 inverse(float3x3 v)
         {
             return Unity.Mathematics.math.inverse(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float4x4"/> full inverse of a <see cref="MaxMath.float4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="float4x4"/> full inverse of a <see cref="float4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4x4 inverse(float4x4 v)
         {
@@ -26,21 +26,21 @@ namespace MaxMath
         }
 
         
-        /// <summary>		Returns the <see cref="MaxMath.double2x2"/> full inverse of a <see cref="MaxMath.double2x2"/>.		</summary>
+        /// <summary>		Returns the <see cref="double2x2"/> full inverse of a <see cref="double2x2"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2x2 inverse(double2x2 v)
         {
             return Unity.Mathematics.math.inverse(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double3x3"/> full inverse of a <see cref="MaxMath.double3x3"/>.		</summary>
+        /// <summary>		Returns the <see cref="double3x3"/> full inverse of a <see cref="double3x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3x3 inverse(double3x3 v)
         {
             return Unity.Mathematics.math.inverse(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double4x4"/> full inverse of a <see cref="MaxMath.double4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="double4x4"/> full inverse of a <see cref="double4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4x4 inverse(double4x4 v)
         {
@@ -48,35 +48,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>		Returns the float<see cref="MaxMath.float3x4"/> fast inverse for rigid transforms (orthonormal basis and translation) of a <see cref="MaxMath.float4x3"/>.		</summary>
+        /// <summary>		Returns the float<see cref="float3x4"/> fast inverse for rigid transforms (orthonormal basis and translation) of a <see cref="float4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3x4 fastinverse(float3x4 v)
         {
             return Unity.Mathematics.math.fastinverse(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.float4x4"/> fast inverse for rigid transforms (orthonormal basis and translation) of a <see cref="MaxMath.float4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="float4x4"/> fast inverse for rigid transforms (orthonormal basis and translation) of a <see cref="float4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4x4 fastinverse(float4x4 v)
         {
             return Unity.Mathematics.math.fastinverse(v);
         }
 
-        /// <summary>		Returns the double<see cref="MaxMath.double3x4"/> fast inverse for rigid transforms (orthonormal basis and translation) of a <see cref="MaxMath.double4x3"/>.		</summary>
+        /// <summary>		Returns the double<see cref="double3x4"/> fast inverse for rigid transforms (orthonormal basis and translation) of a <see cref="double4x3"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3x4 fastinverse(double3x4 v)
         {
             return Unity.Mathematics.math.fastinverse(v);
         }
 
-        /// <summary>		Returns the <see cref="MaxMath.double4x4"/> fast inverse for rigid transforms (orthonormal basis and translation) of a <see cref="MaxMath.double4x4"/>.		</summary>
+        /// <summary>		Returns the <see cref="double4x4"/> fast inverse for rigid transforms (orthonormal basis and translation) of a <see cref="double4x4"/>.		</summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4x4 fastinverse(double4x4 v)
         {
             return Unity.Mathematics.math.fastinverse(v);
         }
 
-        /// <summary>   Computes the pseudoinverse of a <see cref="MaxMath.float3x3"/> matrix.     </summary>
+        /// <summary>   Computes the pseudoinverse of a <see cref="float3x3"/> matrix.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3x3 pseudoinverse(float3x3 m) => Unity.Mathematics.math.pseudoinverse(m);
         
@@ -103,7 +103,7 @@ namespace MaxMath
             return c;
         }
 
-        /// <summary>   Computes the pseudoinverse of a <see cref="MaxMath.double3x3"/> matrix.     </summary>
+        /// <summary>   Computes the pseudoinverse of a <see cref="double3x3"/> matrix.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3x3 pseudoinverse(double3x3 m)
         {

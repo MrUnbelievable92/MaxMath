@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -364,7 +365,7 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.byte2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="byte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(byte2 a, byte2 b, [NoAlias] out byte2 min, [NoAlias] out byte2 max)
         {
@@ -384,7 +385,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.byte3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="byte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(byte3 a, byte3 b, [NoAlias] out byte3 min, [NoAlias] out byte3 max)
         {
@@ -405,7 +406,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.byte4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="byte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(byte4 a, byte4 b, [NoAlias] out byte4 min, [NoAlias] out byte4 max)
         {
@@ -427,7 +428,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.byte8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="byte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(byte8 a, byte8 b, [NoAlias] out byte8 min, [NoAlias] out byte8 max)
         {
@@ -453,7 +454,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.byte16"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="byte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(byte16 a, byte16 b, [NoAlias] out byte16 min, [NoAlias] out byte16 max)
         {
@@ -487,7 +488,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.byte32"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="byte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(byte32 a, byte32 b, [NoAlias] out byte32 min, [NoAlias] out byte32 max)
         {
@@ -518,7 +519,7 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.sbyte2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="sbyte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(sbyte2 a, sbyte2 b, [NoAlias] out sbyte2 min, [NoAlias] out sbyte2 max)
         {
@@ -538,7 +539,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.sbyte3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="sbyte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(sbyte3 a, sbyte3 b, [NoAlias] out sbyte3 min, [NoAlias] out sbyte3 max)
         {
@@ -559,7 +560,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.sbyte4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="sbyte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(sbyte4 a, sbyte4 b, [NoAlias] out sbyte4 min, [NoAlias] out sbyte4 max)
         {
@@ -581,7 +582,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.sbyte8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="sbyte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(sbyte8 a, sbyte8 b, [NoAlias] out sbyte8 min, [NoAlias] out sbyte8 max)
         {
@@ -607,7 +608,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.sbyte16"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="sbyte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(sbyte16 a, sbyte16 b, [NoAlias] out sbyte16 min, [NoAlias] out sbyte16 max)
         {
@@ -641,7 +642,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.sbyte32"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="sbyte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(sbyte32 a, sbyte32 b, [NoAlias] out sbyte32 min, [NoAlias] out sbyte32 max)
         {
@@ -672,7 +673,7 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.ushort2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="ushort2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(ushort2 a, ushort2 b, [NoAlias] out ushort2 min, [NoAlias] out ushort2 max)
         {
@@ -692,7 +693,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.ushort3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="ushort3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(ushort3 a, ushort3 b, [NoAlias] out ushort3 min, [NoAlias] out ushort3 max)
         {
@@ -713,7 +714,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.ushort4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="ushort4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(ushort4 a, ushort4 b, [NoAlias] out ushort4 min, [NoAlias] out ushort4 max)
         {
@@ -735,7 +736,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.ushort8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="ushort8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(ushort8 a, ushort8 b, [NoAlias] out ushort8 min, [NoAlias] out ushort8 max)
         {
@@ -761,7 +762,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.ushort16"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="ushort16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(ushort16 a, ushort16 b, [NoAlias] out ushort16 min, [NoAlias] out ushort16 max)
         {
@@ -792,7 +793,7 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.short2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="short2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(short2 a, short2 b, [NoAlias] out short2 min, [NoAlias] out short2 max)
         {
@@ -812,7 +813,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.short3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="short3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(short3 a, short3 b, [NoAlias] out short3 min, [NoAlias] out short3 max)
         {
@@ -833,7 +834,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.short4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="short4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(short4 a, short4 b, [NoAlias] out short4 min, [NoAlias] out short4 max)
         {
@@ -855,7 +856,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.short8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="short8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(short8 a, short8 b, [NoAlias] out short8 min, [NoAlias] out short8 max)
         {
@@ -881,7 +882,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.short16"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="short16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(short16 a, short16 b, [NoAlias] out short16 min, [NoAlias] out short16 max)
         {
@@ -912,7 +913,7 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.int2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="int2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(int2 a, int2 b, [NoAlias] out int2 min, [NoAlias] out int2 max)
         {
@@ -932,7 +933,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.int3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="int3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(int3 a, int3 b, [NoAlias] out int3 min, [NoAlias] out int3 max)
         {
@@ -953,7 +954,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.int4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="int4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(int4 a, int4 b, [NoAlias] out int4 min, [NoAlias] out int4 max)
         {
@@ -975,7 +976,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.int8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="int8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(int8 a, int8 b, [NoAlias] out int8 min, [NoAlias] out int8 max)
         {
@@ -1006,7 +1007,7 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.uint2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="uint2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(uint2 a, uint2 b, [NoAlias] out uint2 min, [NoAlias] out uint2 max)
         {
@@ -1026,7 +1027,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.uint3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="uint3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(uint3 a, uint3 b, [NoAlias] out uint3 min, [NoAlias] out uint3 max)
         {
@@ -1047,7 +1048,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.uint4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="uint4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(uint4 a, uint4 b, [NoAlias] out uint4 min, [NoAlias] out uint4 max)
         {
@@ -1069,7 +1070,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.uint8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="uint8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(uint8 a, uint8 b, [NoAlias] out uint8 min, [NoAlias] out uint8 max)
         {
@@ -1100,7 +1101,7 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.ulong2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="ulong2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(ulong2 a, ulong2 b, [NoAlias] out ulong2 min, [NoAlias] out ulong2 max)
         {
@@ -1120,7 +1121,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.ulong3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="ulong3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(ulong3 a, ulong3 b, [NoAlias] out ulong3 min, [NoAlias] out ulong3 max)
         {
@@ -1139,7 +1140,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.ulong4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="ulong4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(ulong4 a, ulong4 b, [NoAlias] out ulong4 min, [NoAlias] out ulong4 max)
         {
@@ -1169,7 +1170,7 @@ namespace MaxMath
             max = aLTb ? b : a;
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.long2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="long2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(long2 a, long2 b, [NoAlias] out long2 min, [NoAlias] out long2 max)
         {
@@ -1189,7 +1190,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.long3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="long3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(long3 a, long3 b, [NoAlias] out long3 min, [NoAlias] out long3 max)
         {
@@ -1208,7 +1209,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.long4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="long4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void minmax(long4 a, long4 b, [NoAlias] out long4 min, [NoAlias] out long4 max)
         {
@@ -1240,7 +1241,7 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float2"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="float2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -1252,7 +1253,7 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float3"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="float3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -1264,7 +1265,7 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float4"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="float4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -1276,7 +1277,7 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.float8"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="float8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -1301,7 +1302,7 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double2"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -1313,7 +1314,7 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double3"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -1325,7 +1326,7 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.double4"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="double4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -1338,10 +1339,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter"/>s.
+        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quarter"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1351,10 +1352,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter2"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quarter2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1364,10 +1365,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter3"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quarter3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1377,10 +1378,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter4"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quarter4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1390,10 +1391,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter8"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quarter8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1403,10 +1404,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter16"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quarter16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1416,10 +1417,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.quarter32"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quarter32"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1430,10 +1431,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half"/>s.
+        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1443,10 +1444,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half2"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1456,10 +1457,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half3"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1469,10 +1470,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half4"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1482,10 +1483,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half8"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1495,10 +1496,10 @@ namespace MaxMath
             max = math.max(a, b, promises);
         }
 
-        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="MaxMath.half16"/>s.
+        /// <summary>       Returns the componentwise minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="half16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1506,6 +1507,26 @@ namespace MaxMath
         {
             min = math.min(a, b, promises);
             max = math.max(a, b, promises);
+        }
+
+
+        /// <summary>       Returns the minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of two <see cref="quadruple"/>s.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void minmax(quadruple a, quadruple b, [NoAlias] out quadruple min, [NoAlias] out quadruple max)
+        {
+            bool aLTb = a < b;
+
+            min = select(b, a, aLTb);
+            max = select(a, b, aLTb);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static void minmax(quadruple.ConstChecked a, quadruple.ConstChecked b, [NoAlias] out quadruple.ConstChecked min, [NoAlias] out quadruple.ConstChecked max)
+        {
+            bool aLTb = a < b;
+
+            min = aLTb ? a : b;
+            max = aLTb ? b : a;
         }
     }
 }
