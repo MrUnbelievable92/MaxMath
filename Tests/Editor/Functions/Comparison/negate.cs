@@ -15,7 +15,7 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 Int128 __int = x.NextInt128();
 
-                Assert.AreEqual(math.negate(__int, b), b ? -__int : __int);
+                Assert.AreEqual(math.negateif(__int, b), b ? -__int : __int);
             }
         }
 
@@ -30,7 +30,7 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 sbyte __int = x.NextSByte();
 
-                Assert.AreEqual(math.negate(__int, b), (sbyte)(b ? -__int : __int));
+                Assert.AreEqual(math.negateif(__int, b), (sbyte)(b ? -__int : __int));
             }
         }
 
@@ -44,7 +44,7 @@ namespace MaxMath.Tests
                 bool2 b = x.NextBool2();
                 sbyte2 __int = x.NextSByte2();
 
-                sbyte2 test = math.negate(__int, b);
+                sbyte2 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -63,7 +63,7 @@ namespace MaxMath.Tests
                 bool3 b = x.NextBool3();
                 sbyte3 __int = x.NextSByte3();
 
-                sbyte3 test = math.negate(__int, b);
+                sbyte3 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -82,7 +82,7 @@ namespace MaxMath.Tests
                 bool4 b = x.NextBool4();
                 sbyte4 __int = x.NextSByte4();
 
-                sbyte4 test = math.negate(__int, b);
+                sbyte4 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -101,7 +101,7 @@ namespace MaxMath.Tests
                 bool8 b = x.NextBool8();
                 sbyte8 __int = x.NextSByte8();
 
-                sbyte8 test = math.negate(__int, b);
+                sbyte8 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -120,7 +120,7 @@ namespace MaxMath.Tests
                 bool16 b = x.NextBool16();
                 sbyte16 __int = x.NextSByte16();
 
-                sbyte16 test = math.negate(__int, b);
+                sbyte16 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -139,7 +139,7 @@ namespace MaxMath.Tests
                 bool32 b = x.NextBool32();
                 sbyte32 __int = x.NextSByte32();
 
-                sbyte32 test = math.negate(__int, b);
+                sbyte32 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 32; j++)
                 {
@@ -159,7 +159,7 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 short __int = x.NextShort();
 
-                Assert.AreEqual(math.negate(__int, b), (short)(b ? -__int : __int));
+                Assert.AreEqual(math.negateif(__int, b), (short)(b ? -__int : __int));
             }
         }
 
@@ -173,7 +173,7 @@ namespace MaxMath.Tests
                 bool2 b = x.NextBool2();
                 short2 __int = x.NextShort2();
 
-                short2 test = math.negate(__int, b);
+                short2 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -192,7 +192,7 @@ namespace MaxMath.Tests
                 bool3 b = x.NextBool3();
                 short3 __int = x.NextShort3();
 
-                short3 test = math.negate(__int, b);
+                short3 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -211,7 +211,7 @@ namespace MaxMath.Tests
                 bool4 b = x.NextBool4();
                 short4 __int = x.NextShort4();
 
-                short4 test = math.negate(__int, b);
+                short4 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -230,7 +230,7 @@ namespace MaxMath.Tests
                 bool8 b = x.NextBool8();
                 short8 __int = x.NextShort8();
 
-                short8 test = math.negate(__int, b);
+                short8 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -249,7 +249,7 @@ namespace MaxMath.Tests
                 bool16 b = x.NextBool16();
                 short16 __int = x.NextShort16();
 
-                short16 test = math.negate(__int, b);
+                short16 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 16; j++)
                 {
@@ -269,7 +269,7 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 int __int = x.NextInt();
 
-                Assert.AreEqual(math.negate(__int, b), (int)(b ? -__int : __int));
+                Assert.AreEqual(math.negateif(__int, b), (int)(b ? -__int : __int));
             }
         }
 
@@ -283,7 +283,7 @@ namespace MaxMath.Tests
                 bool2 b = x.NextBool2();
                 int2 __int = x.NextInt2();
 
-                int2 test = math.negate(__int, b);
+                int2 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -302,7 +302,7 @@ namespace MaxMath.Tests
                 bool3 b = x.NextBool3();
                 int3 __int = x.NextInt3();
 
-                int3 test = math.negate(__int, b);
+                int3 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -321,7 +321,7 @@ namespace MaxMath.Tests
                 bool4 b = x.NextBool4();
                 int4 __int = x.NextInt4();
 
-                int4 test = math.negate(__int, b);
+                int4 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -340,7 +340,7 @@ namespace MaxMath.Tests
                 bool8 b = x.NextBool8();
                 int8 __int = x.NextInt8();
 
-                int8 test = math.negate(__int, b);
+                int8 test = math.negateif(__int, b);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -360,7 +360,7 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 long __long = x.NextLong();
 
-                Assert.AreEqual(math.negate(__long, b), (long)(b ? -__long : __long));
+                Assert.AreEqual(math.negateif(__long, b), (long)(b ? -__long : __long));
             }
         }
 
@@ -374,7 +374,7 @@ namespace MaxMath.Tests
                 bool2 b = x.NextBool2();
                 long2 __long = x.NextLong2();
 
-                long2 test = math.negate(__long, b);
+                long2 test = math.negateif(__long, b);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -393,7 +393,7 @@ namespace MaxMath.Tests
                 bool3 b = x.NextBool3();
                 long3 __long = x.NextLong3();
 
-                long3 test = math.negate(__long, b);
+                long3 test = math.negateif(__long, b);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -412,7 +412,7 @@ namespace MaxMath.Tests
                 bool4 b = x.NextBool4();
                 long4 __long = x.NextLong4();
 
-                long4 test = math.negate(__long, b);
+                long4 test = math.negateif(__long, b);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -432,9 +432,9 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 quarter __float = math.asquarter(x.NextSByte());
 
-                if (!math.isnan(math.negate(__float, b)))
+                if (!math.isnan(math.negateif(__float, b)))
                 {
-                    Assert.AreEqual(math.negate(__float, b), (quarter)(b ? -__float : __float));
+                    Assert.AreEqual(math.negateif(__float, b), (quarter)(b ? -__float : __float));
                 }
             }
         }
@@ -449,7 +449,7 @@ namespace MaxMath.Tests
                 bool2 b = x.NextBool2();
                 quarter2 __float = math.asquarter(x.NextSByte2());
 
-                quarter2 test = math.negate(__float, b);
+                quarter2 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -471,7 +471,7 @@ namespace MaxMath.Tests
                 bool3 b = x.NextBool3();
                 quarter3 __float = math.asquarter(x.NextSByte3());
 
-                quarter3 test = math.negate(__float, b);
+                quarter3 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -493,7 +493,7 @@ namespace MaxMath.Tests
                 bool4 b = x.NextBool4();
                 quarter4 __float = math.asquarter(x.NextSByte4());
 
-                quarter4 test = math.negate(__float, b);
+                quarter4 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -515,7 +515,7 @@ namespace MaxMath.Tests
                 bool8 b = x.NextBool8();
                 quarter8 __float = math.asquarter(x.NextSByte8());
 
-                quarter8 test = math.negate(__float, b);
+                quarter8 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -538,9 +538,9 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 half __float = math.ashalf(x.NextShort());
 
-                if (!math.isnan(math.negate(__float, b)))
+                if (!math.isnan(math.negateif(__float, b)))
                 {
-                    Assert.AreEqual(math.negate(__float, b), (half)(b ? -__float : __float));
+                    Assert.AreEqual(math.negateif(__float, b), (half)(b ? -__float : __float));
                 }
             }
         }
@@ -555,7 +555,7 @@ namespace MaxMath.Tests
                 bool2 b = x.NextBool2();
                 half2 __float = math.ashalf(x.NextShort2());
 
-                half2 test = math.negate(__float, b);
+                half2 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -577,7 +577,7 @@ namespace MaxMath.Tests
                 bool3 b = x.NextBool3();
                 half3 __float = math.ashalf(x.NextShort3());
 
-                half3 test = math.negate(__float, b);
+                half3 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -599,7 +599,7 @@ namespace MaxMath.Tests
                 bool4 b = x.NextBool4();
                 half4 __float = math.ashalf(x.NextShort4());
 
-                half4 test = math.negate(__float, b);
+                half4 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -621,7 +621,7 @@ namespace MaxMath.Tests
                 bool8 b = x.NextBool8();
                 half8 __float = math.ashalf(x.NextShort8());
 
-                half8 test = math.negate(__float, b);
+                half8 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -644,7 +644,7 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 float __float = x.NextFloat();
 
-                Assert.AreEqual(math.negate(__float, b), (float)(b ? -__float : __float));
+                Assert.AreEqual(math.negateif(__float, b), (float)(b ? -__float : __float));
             }
         }
 
@@ -658,7 +658,7 @@ namespace MaxMath.Tests
                 bool2 b = x.NextBool2();
                 float2 __float = x.NextFloat2();
 
-                float2 test = math.negate(__float, b);
+                float2 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -677,7 +677,7 @@ namespace MaxMath.Tests
                 bool3 b = x.NextBool3();
                 float3 __float = x.NextFloat3();
 
-                float3 test = math.negate(__float, b);
+                float3 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -696,7 +696,7 @@ namespace MaxMath.Tests
                 bool4 b = x.NextBool4();
                 float4 __float = x.NextFloat4();
 
-                float4 test = math.negate(__float, b);
+                float4 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 4; j++)
                 {
@@ -715,7 +715,7 @@ namespace MaxMath.Tests
                 bool8 b = x.NextBool8();
                 float8 __float = x.NextFloat8();
 
-                float8 test = math.negate(__float, b);
+                float8 test = math.negateif(__float, b);
 
                 for (int j = 0; j < 8; j++)
                 {
@@ -735,7 +735,7 @@ namespace MaxMath.Tests
                 bool b = x.NextBool();
                 double __double= x.NextDouble();
 
-                Assert.AreEqual(math.negate(__double, b), (double)(b ? -__double: __double));
+                Assert.AreEqual(math.negateif(__double, b), (double)(b ? -__double: __double));
             }
         }
 
@@ -749,7 +749,7 @@ namespace MaxMath.Tests
                 bool2 b = x.NextBool2();
                 double2 __double= x.NextDouble2();
 
-                double2 test = math.negate(__double, b);
+                double2 test = math.negateif(__double, b);
 
                 for (int j = 0; j < 2; j++)
                 {
@@ -768,7 +768,7 @@ namespace MaxMath.Tests
                 bool3 b = x.NextBool3();
                 double3 __double= x.NextDouble3();
 
-                double3 test = math.negate(__double, b);
+                double3 test = math.negateif(__double, b);
 
                 for (int j = 0; j < 3; j++)
                 {
@@ -787,7 +787,7 @@ namespace MaxMath.Tests
                 bool4 b = x.NextBool4();
                 double4 __double= x.NextDouble4();
 
-                double4 test = math.negate(__double, b);
+                double4 test = math.negateif(__double, b);
 
                 for (int j = 0; j < 4; j++)
                 {

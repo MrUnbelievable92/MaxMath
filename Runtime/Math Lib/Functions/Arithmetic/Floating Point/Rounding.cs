@@ -3,6 +3,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -29,7 +30,7 @@ namespace MaxMath
                     v128 ONE = set1_epi8(1);
 
                     v128 rawExponent = and_si128(a, SIGN_MASK);
-                    v128 unbiasedExponent = srli_epi8(rawExponent, MaxMath.quarter.MANTISSA_BITS);
+                    v128 unbiasedExponent = srli_epi8(rawExponent, MaxMath.quarter.MANTISSA_BITS, elements: elements);
 
                     v128 fractionBits = sub_epi8(add_epi8(MANTISSA_BITS, EXPONENT_BIAS), unbiasedExponent);
                     v128 validRange = cmprange_epu8(fractionBits, ONE, MANTISSA_BITS);
@@ -98,7 +99,7 @@ namespace MaxMath
                         #endif
                     }
 
-			    	v128 shifts = sub_epi8(SHIFT_BASE, srli_epi8(__abs, MaxMath.quarter.MANTISSA_BITS));
+			    	v128 shifts = sub_epi8(SHIFT_BASE, srli_epi8(__abs, MaxMath.quarter.MANTISSA_BITS, elements: elements));
 			    	v128 masks = bitmask_epi8(shifts, elements: elements, promiseLT8: true);
                     v128 resultsNonSignaling;
                     #if EVEN_ON_TIE
@@ -157,7 +158,7 @@ namespace MaxMath
                         resultsLessThanOne = ternarylogic_si128(a, ABS_MASK, and_si128(ONES_AS_QUARTERS, cmpge_epu8(a, set1_epi8(0b1000_0001))), TernaryOperation.OxBA);
                     }
 
-			    	v128 shifts = sub_epi8(SHIFT_BASE, srli_epi8(__abs, MaxMath.quarter.MANTISSA_BITS));
+			    	v128 shifts = sub_epi8(SHIFT_BASE, srli_epi8(__abs, MaxMath.quarter.MANTISSA_BITS, elements: elements));
 			    	v128 masks = bitmask_epi8(shifts, elements: elements, promiseLT8: true);
 
                     v128 resultsNonSignaling;
@@ -223,7 +224,7 @@ namespace MaxMath
                         }
                     }
 
-			    	v128 shifts = sub_epi8(SHIFT_BASE, srli_epi8(__abs, MaxMath.quarter.MANTISSA_BITS));
+			    	v128 shifts = sub_epi8(SHIFT_BASE, srli_epi8(__abs, MaxMath.quarter.MANTISSA_BITS, elements: elements));
 			    	v128 masks = bitmask_epi8(shifts, elements: elements, promiseLT8: true);
 
                     v128 resultsNonSignaling;
@@ -1456,7 +1457,7 @@ namespace MaxMath
         internal static int F64_ROUND_SHIFT_BASE => F64_MANTISSA_BITS + abs(F64_EXPONENT_BIAS);
 
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.quarter"/> to an integral <see cref="MaxMath.quarter"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="quarter"/> to an integral <see cref="quarter"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -1494,7 +1495,7 @@ namespace MaxMath
             return asquarter((byte)result);
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.quarter2"/> to an integral <see cref="MaxMath.quarter2"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="quarter2"/> to an integral <see cref="quarter2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -1513,7 +1514,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.quarter3"/> to an integral <see cref="MaxMath.quarter3"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="quarter3"/> to an integral <see cref="quarter3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -1532,7 +1533,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.quarter4"/> to an integral <see cref="MaxMath.quarter4"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="quarter4"/> to an integral <see cref="quarter4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -1571,7 +1572,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.quarter16"/> to an integral <see cref="MaxMath.quarter16"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="quarter16"/> to an integral <see cref="quarter16"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -1605,7 +1606,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.quarter32"/> to an integral <see cref="MaxMath.quarter32"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="quarter32"/> to an integral <see cref="quarter32"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -1625,7 +1626,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rounding a <see cref="MaxMath.quarter"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding a <see cref="quarter"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1696,7 +1697,7 @@ namespace MaxMath
 			return asquarter((byte)result);
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter2"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter2"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1716,7 +1717,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter3"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter3"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1736,7 +1737,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter4"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter4"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1756,7 +1757,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter8"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter8"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1783,7 +1784,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter16"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter16"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1818,7 +1819,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter32"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter32"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1839,7 +1840,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rounding a <see cref="MaxMath.quarter"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding a <see cref="quarter"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1904,7 +1905,7 @@ namespace MaxMath
 			return asquarter((byte)result);
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter2"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter2"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1924,7 +1925,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter3"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter3"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1944,7 +1945,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter4"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter4"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1964,7 +1965,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter8"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter8"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -1991,7 +1992,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter16"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter16"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2026,7 +2027,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter32"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter32"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2047,7 +2048,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rounding a <see cref="MaxMath.quarter"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding a <see cref="quarter"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
@@ -2119,7 +2120,7 @@ namespace MaxMath
 			return asquarter((byte)result);
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter2"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter2"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
@@ -2140,7 +2141,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter3"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter3"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
@@ -2161,7 +2162,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter4"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter4"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
@@ -2182,7 +2183,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter8"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter8"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2209,7 +2210,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter16"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter16"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2244,7 +2245,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.quarter32"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="quarter32"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2265,7 +2266,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.half"/> to an integral <see cref="MaxMath.half"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="half"/> to an integral <see cref="half"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -2305,7 +2306,7 @@ namespace MaxMath
             return ashalf((ushort)result);
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.half2"/> to an integral <see cref="MaxMath.half2"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="half2"/> to an integral <see cref="half2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -2324,7 +2325,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.half3"/> to an integral <see cref="MaxMath.half3"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="half3"/> to an integral <see cref="half3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -2343,7 +2344,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.half4"/> to an integral <see cref="MaxMath.half4"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="half4"/> to an integral <see cref="half4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -2362,7 +2363,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.half8"/> to an integral <see cref="MaxMath.half8"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="half8"/> to an integral <see cref="half8"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -2388,7 +2389,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.half16"/> to an integral <see cref="MaxMath.half16"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="half16"/> to an integral <see cref="half16"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
@@ -2408,7 +2409,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rounding a <see cref="MaxMath.half"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding a <see cref="half"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2470,7 +2471,7 @@ namespace MaxMath
 			return ashalf((ushort)result);
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half2"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half2"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2489,7 +2490,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half3"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half3"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2508,7 +2509,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half4"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half4"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2527,7 +2528,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half8"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half8"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2553,7 +2554,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half16"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half16"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2573,7 +2574,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rounding a <see cref="MaxMath.half"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding a <see cref="half"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2629,7 +2630,7 @@ namespace MaxMath
 			return ashalf((ushort)result);
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half2"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half2"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2648,7 +2649,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half3"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half3"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2667,7 +2668,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half4"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half4"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2686,7 +2687,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half8"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half8"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2712,7 +2713,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half16"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half16"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -2732,7 +2733,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of rounding a <see cref="MaxMath.half"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding a <see cref="half"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2795,7 +2796,7 @@ namespace MaxMath
 			return ashalf((ushort)result);
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half2"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half2"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2815,7 +2816,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half3"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half3"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2835,7 +2836,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half4"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half4"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2855,7 +2856,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half8"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half8"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2882,7 +2883,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.half16"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="half16"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2951,7 +2952,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.float2"/> to an integral <see cref="MaxMath.float2"/>
+        /// <summary>       Returns the result of a truncation of a <see cref="float2"/> to an integral <see cref="float2"/>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2971,7 +2972,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.float3"/> to an integral <see cref="MaxMath.float3"/>.     </summary>
+        /// <summary>       Returns the result of a truncation of a <see cref="float3"/> to an integral <see cref="float3"/>.     </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -2991,7 +2992,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.float4"/> to an integral <see cref="MaxMath.float4"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="float4"/> to an integral <see cref="float4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3011,7 +3012,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.float8"/> to an integral <see cref="MaxMath.float8"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="float8"/> to an integral <see cref="float8"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3101,7 +3102,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float2"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float2"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3120,7 +3121,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float3"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float3"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3139,7 +3140,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float4"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float4"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3158,7 +3159,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float8"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float8"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3241,7 +3242,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float2"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float2"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3260,7 +3261,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float3"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float3"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3279,7 +3280,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float4"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float4"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3298,7 +3299,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float8"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float8"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3388,7 +3389,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float2"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float2"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3408,7 +3409,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float3"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float3"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3428,7 +3429,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float4"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float4"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3448,7 +3449,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.float8"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="float8"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3517,7 +3518,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.double2"/> to an integral <see cref="MaxMath.double2"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="double2"/> to an integral <see cref="double2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3537,7 +3538,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.double3"/> to an integral <see cref="MaxMath.double3"/>.     </summary>
+        /// <summary>       Returns the result of a truncation of a <see cref="double3"/> to an integral <see cref="double3"/>.     </summary>
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3557,7 +3558,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a truncation of a <see cref="MaxMath.double4"/> to an integral <see cref="MaxMath.double4"/>.
+        /// <summary>       Returns the result of a truncation of a <see cref="double4"/> to an integral <see cref="double4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if any <paramref name="x"/> is infinite or NaN.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3647,7 +3648,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double2"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double2"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3666,7 +3667,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double3"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double3"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3685,7 +3686,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double4"/> to the nearest numerical value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double4"/> to the nearest numerical value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3768,7 +3769,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double2"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double2"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3787,7 +3788,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double3"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double3"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3806,7 +3807,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double4"/> down to the nearest integral value less than or equal to to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double4"/> down to the nearest integral value less than or equal to to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
@@ -3896,7 +3897,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double2"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double2"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3916,7 +3917,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double3"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double3"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3936,7 +3937,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the result of rounding each component of a <see cref="MaxMath.double4"/> up to the nearest value greater than or equal to the original value.
+        /// <summary>       Returns the result of rounding each component of a <see cref="double4"/> up to the nearest value greater than or equal to the original value.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.NonZero"/> flag set returns incorrect results for any <paramref name="x"/> that are equal to 0.       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
@@ -3954,6 +3955,225 @@ namespace MaxMath
             {
                 return new double4(ceil(x.xy, promises), ceil(x.zw, promises));
             }
+        }
+
+        
+        /// <summary>       Returns the result of a truncation of a <see cref="quadruple"/> to an integral <see cref="quadruple"/>.       </summary>
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrect values if <paramref name="x"/> is infinite or NaN.       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns postive 0 if truncating a negative <paramref name="x"/> would result in negative 0 when adhering to the IEEE 754 standard.       </para>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple trunc(quadruple x, Promise promises = Promise.Nothing)
+        {
+            UInt128 SIGN_MASK = bitmask128(127ul);
+
+
+            UInt128 rawExponent = x.value & SIGN_MASK;
+
+            if (!(promises.Promises(Promise.Unsafe0) || constexpr.IS_TRUE((x.value & SIGN_MASK) < quadruple.SIGNALING_EXPONENT)))
+            {
+                if (Hint.Unlikely(rawExponent >= quadruple.SIGNALING_EXPONENT))
+                {
+                    return x;
+                }
+            }
+
+            int unbiasedExponent = (int)(rawExponent >> quadruple.MANTISSA_BITS);
+            int fractionBits = (quadruple.MANTISSA_BITS + abs(quadruple.EXPONENT_BIAS)) - unbiasedExponent;
+
+            UInt128 mask = ((UInt128)1 << fractionBits) - 1u;
+            UInt128 validRangeMask = (UInt128)(-tolong(unbiasedExponent - abs(quadruple.EXPONENT_BIAS) < quadruple.MANTISSA_BITS));
+
+            UInt128 result = x.value & (UInt128)(-tolong(fractionBits <= quadruple.MANTISSA_BITS));
+            result = andnot(result, mask & validRangeMask);
+
+            // only here to preserve negative 0
+            if (!(promises.Promises(Promise.Positive) || constexpr.IS_TRUE(x.value < ~SIGN_MASK)))
+            {
+                result |= andnot(x.value, SIGN_MASK);
+            }
+
+            return asquadruple(result);
+        }
+        
+        /// <summary>       Returns the result of a rounding a <see cref="quadruple"/> to the nearest integral value.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple round(quadruple x, Promise promises = Promise.Nothing)
+        {
+            UInt128 SIGN_MASK = bitmask128(127ul);
+
+			UInt128 result = x.value;
+			UInt128 __abs = result;
+            if (!promises.Promises(Promise.Positive))
+            {
+                __abs &= SIGN_MASK;
+            }
+
+			if (Hint.Unlikely(__abs < ONE_AS_QUADRUPLE))
+			{
+                if (promises.Promises(Promise.Positive))
+                {
+                    #if EVEN_ON_TIE
+                        result = ONE_AS_QUADRUPLE & UInt128.blendmask(__abs >= (bits_resetlowest(ONE_AS_QUADRUPLE) | 1));
+                    #else
+                        result = ONE_AS_QUADRUPLE & UInt128.blendmask(__abs >= bits_resetlowest(ONE_AS_QUADRUPLE));
+                    #endif
+                }
+                else if (promises.Promises(Promise.Negative))
+                {
+                    #if EVEN_ON_TIE
+                        result = __abs >= (bits_resetlowest(ONE_AS_QUADRUPLE) | 1) ? (~SIGN_MASK | ONE_AS_QUADRUPLE) : ~SIGN_MASK;
+                    #else
+                        result = __abs >= bits_resetlowest(ONE_AS_QUADRUPLE) ? (~SIGN_MASK | ONE_AS_QUADRUPLE) : ~SIGN_MASK;
+                    #endif
+                }
+                else
+                {
+				    result &= ~SIGN_MASK;
+
+                    #if EVEN_ON_TIE
+                        result |= ONE_AS_QUADRUPLE & UInt128.blendmask(__abs >= (bits_resetlowest(ONE_AS_QUADRUPLE) | 1));
+                    #else
+                        result |= ONE_AS_QUADRUPLE & UInt128.blendmask(__abs >= bits_resetlowest(ONE_AS_QUADRUPLE)));
+                    #endif
+                }
+			}
+			else if (__abs < LUT.CVT_INT_FP.LIMIT_PRECISE_U128_F128)
+			{
+				int shift = F128_ROUND_SHIFT_BASE - (int)(__abs >> quadruple.MANTISSA_BITS);
+				UInt128 mask = bitmask128((ulong)(uint)shift);
+
+                #if EVEN_ON_TIE
+                    result += ((UInt128)1 << (shift - 1)) - andnot(1, result >> shift);
+                #else
+                    result += (UInt128)1 << (shift - 1);
+                #endif
+
+				result = andnot(result, mask);
+			}
+
+			return asquadruple(result);
+        }
+        
+        /// <summary>       Returns the result of rounding a <see cref="quadruple"/> down to the nearest integral value less than or equal to to the original value.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple floor(quadruple x, Promise promises = Promise.Nothing)
+        {
+            UInt128 SIGN_MASK = bitmask128(127ul);
+
+			UInt128 result = x.value;
+			UInt128 __abs = result;
+            if (!promises.Promises(Promise.Positive))
+            {
+                __abs &= SIGN_MASK;
+            }
+
+			if (Hint.Unlikely(__abs < ONE_AS_QUADRUPLE))
+			{
+                if (promises.Promises(Promise.Positive))
+                {
+                    result = 0;
+                }
+                else if (promises.Promises(Promise.Negative))
+                {
+                    result = (~SIGN_MASK | ONE_AS_QUADRUPLE);
+                }
+                else
+                {
+				    result &= ~SIGN_MASK;
+                    result |= ONE_AS_QUADRUPLE & UInt128.blendmask(x.value > ~SIGN_MASK);
+                }
+			}
+			else if (__abs < LUT.CVT_INT_FP.LIMIT_PRECISE_U128_F128)
+			{
+				int shift = F128_ROUND_SHIFT_BASE - (int)(__abs.hi64 >> quadruple.MANTISSA_BITS_HI64);
+				UInt128 mask = bitmask128((ulong)(uint)shift);
+
+                if (promises.Promises(Promise.Positive))
+                {
+                    ;
+                }
+                else if (promises.Promises(Promise.Negative))
+                {
+                    result += mask;
+                }
+                else
+                {
+				    result += mask & (UInt128)((long)x.value.hi64 >> 63);
+                }
+
+				result = andnot(result, mask);
+			}
+
+			return asquadruple(result);
+        }
+        
+        /// <summary>       Returns the result of rounding a <see cref="quadruple"/> up to the nearest value greater than or equal to the original value.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Positive"/> flag set returns incorrect results for any <paramref name="x"/> that are negative or 0.       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Negative"/> flag set returns incorrect results for any <paramref name="x"/> that are positive or 0.       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple ceil(quadruple x, Promise promises = Promise.Nothing)
+        {
+            UInt128 SIGN_MASK = bitmask128(127ul);
+
+			UInt128 result = x.value;
+			UInt128 __abs = result;
+            if (!promises.Promises(Promise.Positive))
+            {
+                __abs &= SIGN_MASK;
+            }
+
+			if (Hint.Unlikely(__abs < ONE_AS_QUADRUPLE))
+			{
+                if (promises.Promises(Promise.Positive))
+                {
+                    result = ONE_AS_QUADRUPLE;
+                }
+                else
+                {
+                    result &= ~SIGN_MASK;
+
+                    if (!promises.Promises(Promise.Negative))
+                    {
+                        result |= andnot(ONE_AS_QUADRUPLE, (UInt128)((long)x.value.hi64 >> 63));
+                    }
+                }
+			}
+			else if (__abs < asuint128(LUT.CVT_INT_FP.LIMIT_PRECISE_U128_F128))
+			{
+				int shift = F128_ROUND_SHIFT_BASE - (int)(__abs.hi64 >> quadruple.MANTISSA_BITS_HI64);
+				UInt128 mask = bitmask128((ulong)(uint)shift);
+
+                if (promises.Promises(Promise.Positive))
+                {
+                    result += mask;
+                }
+                else if (promises.Promises(Promise.Negative))
+                {
+                    ;
+                }
+                else
+                {
+				    result += andnot(mask, (UInt128)((long)x.value.hi64 >> 63));
+                }
+
+				result = andnot(result, mask);
+			}
+			return asquadruple(result);
         }
     }
 }

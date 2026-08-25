@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -7,7 +8,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Converts a <see cref="byte"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="byte"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -18,7 +19,7 @@ namespace MaxMath
             return MaxMath.quarter.GetInteger(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="byte2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -36,7 +37,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="byte3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -54,7 +55,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="byte4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -72,7 +73,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="byte8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -90,7 +91,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte16"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="byte16"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -108,7 +109,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.byte32"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="byte32"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -127,7 +128,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="ushort"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="ushort"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -138,7 +139,7 @@ namespace MaxMath
             return MaxMath.quarter.GetInteger(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="ushort2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -156,7 +157,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="ushort3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -174,7 +175,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="ushort4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -192,7 +193,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="ushort8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -210,7 +211,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ushort16"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="ushort16"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -229,7 +230,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="uint"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="uint"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -240,7 +241,7 @@ namespace MaxMath
             return MaxMath.quarter.GetInteger(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.uint2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="uint2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -258,7 +259,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.uint3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="uint3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -276,7 +277,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.uint4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="uint4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -294,7 +295,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.uint8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="uint8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -313,7 +314,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="ulong"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="ulong"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -324,7 +325,7 @@ namespace MaxMath
             return MaxMath.quarter.GetInteger(x, MaxMath.quarter.PositiveInfinity, promiseInRange: promise.Promises(Promise.NoOverflow));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="ulong2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -342,7 +343,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="ulong3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -360,7 +361,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="ulong4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -379,7 +380,7 @@ namespace MaxMath
         }
         
 
-        /// <summary>       Converts a <see cref="UInt128"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="UInt128"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [0, 15].       </para>
         /// </remarks>
@@ -391,7 +392,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts an <see cref="sbyte"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts an <see cref="sbyte"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -410,7 +411,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="sbyte2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -429,7 +430,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="sbyte3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -448,7 +449,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="sbyte4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -467,7 +468,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="sbyte8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -486,7 +487,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte16"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="sbyte16"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -505,7 +506,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.sbyte32"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="sbyte32"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -525,7 +526,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="short"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="short"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -544,7 +545,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="short2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -563,7 +564,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="short3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -582,7 +583,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="short4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -601,7 +602,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="short8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -620,7 +621,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.short16"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="short16"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -640,7 +641,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts an <see cref="int"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts an <see cref="int"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -659,7 +660,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.int2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="int2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -678,7 +679,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.int3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="int3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -697,7 +698,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.int4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="int4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -716,7 +717,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.int8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="int8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -736,7 +737,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="long"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="long"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -755,7 +756,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.long2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="long2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -774,7 +775,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.long3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="long3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -793,7 +794,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in an <see cref="MaxMath.long4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in an <see cref="long4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -813,7 +814,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts an <see cref="Int128"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts an <see cref="Int128"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set may cause a memory access violation for input values outside the interval [-15, 15].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set may cause a memory access violation for negative input values.       </para>
@@ -833,7 +834,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="MaxMath.half"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="half"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -846,7 +847,7 @@ namespace MaxMath
             return MaxMath.quarter.FromHalf(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="half2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -866,7 +867,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="half3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -886,7 +887,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="half4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -906,7 +907,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="half8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -926,7 +927,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.half8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="half8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -947,7 +948,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="float"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="float"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -960,7 +961,7 @@ namespace MaxMath
             return MaxMath.quarter.FromFloat(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.float2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="float2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -980,7 +981,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.float3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="float3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1000,7 +1001,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.float4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="float4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1020,7 +1021,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.float8"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="float8"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1041,7 +1042,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts a <see cref="double"/> to its <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts a <see cref="double"/> to its <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1054,7 +1055,7 @@ namespace MaxMath
             return MaxMath.quarter.FromDouble(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.double2"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1074,7 +1075,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.double3"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="double3"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1094,7 +1095,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.double4"/> to its respective <see cref="MaxMath.quarter"/> representation.
+        /// <summary>       Converts each value in a <see cref="double4"/> to its respective <see cref="quarter"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
@@ -1112,6 +1113,20 @@ namespace MaxMath
             {
                 return new quarter4(toquarterunsafe(x.xy, promise), toquarterunsafe(x.zw, promise));
             }
+        }
+
+
+        /// <summary>       Converts a <see cref="quadruple"/> to its <see cref="quarter"/> representation.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for input values outside the interval [-15.5, 15.5].       </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values, including negative 0.        </para>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values that would result in a subnormal <see cref="quarter"/> value, which applies to input values with an absolute value that lies in the interval (0.0078125, 0.234375].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quarter toquarterunsafe(quadruple x, Promise promise = Promise.NoOverflow)
+        {
+            return quadruple.ToQuarter(x, promiseInRange: promise.Promises(Promise.NoOverflow), promiseAbs: promise.Promises(Promise.ZeroOrGreater), promiseNotSubnormal: promise.Promises(Promise.Unsafe0));
         }
     }
 }

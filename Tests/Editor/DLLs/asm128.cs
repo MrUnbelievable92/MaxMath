@@ -6,9 +6,49 @@ namespace MaxMath.Tests
 {
     unsafe public static class dll_asm128
     {
-        private static Func<UInt128, UInt128, bool> UNSAFE_UDIV_IS_ALLOWED => (l, r) => r.hi64 == 0 && l / r.lo64 <= ulong.MaxValue;
-        private static Func<Int128, Int128, bool> UNSAFE_IDIV_IS_ALLOWED => (l, r) => (r.hi64 == 0 || r.hi64 == ulong.MaxValue) && (l / r <= long.MaxValue && l / r >= long.MinValue);
+        private static Func<UInt128, UInt128, bool> UNSAFE_UDIV128_IS_ALLOWED => (l, r) => r.hi64 == 0 && l / r.lo64 <= ulong.MaxValue;
+        private static Func<Int128, Int128, bool> UNSAFE_IDIV128_IS_ALLOWED => (l, r) => asm128.usf__sdivrem128x64_fits64(l, (long)r.lo64);
+        private static Func<__UInt256__, __UInt256__, bool> UNSAFE_UDIV256_IS_ALLOWED => (l, r) => r.hi128 == 0 && l / r.lo128 <= UInt128.MaxValue;
 
+        
+        private static void UTest(Func<__UInt256__, __UInt256__, __UInt256__> standardOp, Func<__UInt256__, __UInt256__, __UInt256__> testOp, Func<__UInt256__, __UInt256__, bool> testif = null)
+        {
+            static void TestWithBounds(ref Random128 rng, __UInt256__ minL, __UInt256__ maxL, __UInt256__ minR, __UInt256__ maxR, Func<__UInt256__, __UInt256__, __UInt256__> standardOp, Func<__UInt256__, __UInt256__, __UInt256__> testOp, Func<__UInt256__, __UInt256__, bool> testif)
+            {
+                __UInt256__ next;
+                next = new __UInt256__(rng.NextUInt128(), rng.NextUInt128());
+                __UInt256__ l = __UInt256__.Next__UInt256__(next, minL, maxL);
+                next = new __UInt256__(rng.NextUInt128(), rng.NextUInt128());
+                __UInt256__ r = __UInt256__.Next__UInt256__(next, minR, maxR);
+        
+                if (testif == null || testif(l, r))
+                {
+                    Assert.AreEqual(standardOp(l, r), testOp(l, r));
+                }
+            }
+        
+            Random128 rng = Random128.New;
+        
+            for (int i = 0; i < 128; i++)
+            {
+                TestWithBounds(ref rng, ulong.MaxValue, __UInt256__.MaxValue, ulong.MaxValue, __UInt256__.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, ulong.MaxValue, __UInt256__.MaxValue, 1,              100,              standardOp, testOp, testif);
+                TestWithBounds(ref rng, ulong.MaxValue, __UInt256__.MaxValue, 1,              ulong.MaxValue,   standardOp, testOp, testif);
+                TestWithBounds(ref rng, ulong.MaxValue, __UInt256__.MaxValue, 1,              __UInt256__.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              __UInt256__.MaxValue, ulong.MaxValue, __UInt256__.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              __UInt256__.MaxValue, 1,              100,              standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              __UInt256__.MaxValue, 1,              ulong.MaxValue,   standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              __UInt256__.MaxValue, 1,              __UInt256__.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              ulong.MaxValue,   ulong.MaxValue, __UInt256__.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              ulong.MaxValue,   1,              100,              standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              ulong.MaxValue,   1,              ulong.MaxValue,   standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              ulong.MaxValue,   1,              __UInt256__.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              100,              ulong.MaxValue, __UInt256__.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              100,              1,              100,              standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              100,              1,              ulong.MaxValue,   standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              100,              1,              __UInt256__.MaxValue, standardOp, testOp, testif);
+            }
+        }
 
         private static void UTest(Func<UInt128, UInt128, UInt128> standardOp, Func<UInt128, UInt128, UInt128> testOp, Func<UInt128, UInt128, bool> testif = null)
         {
@@ -45,7 +85,69 @@ namespace MaxMath.Tests
                 TestWithBounds(ref rng, 0,              100,              1,              UInt128.MaxValue, standardOp, testOp, testif);
             }
         }
-
+        
+        private static void ITest(Func<Int128, Int128, Int128> standardOp, Func<Int128, Int128, Int128> testOp, Func<Int128, Int128, bool> testif = null)
+        {
+            static void TestWithBounds(ref Random128 rng, Int128 minL, Int128 maxL, Int128 minR, Int128 maxR, Func<Int128, Int128, Int128> standardOp, Func<Int128, Int128, Int128> testOp, Func<Int128, Int128, bool> testif)
+            {
+                Int128 l = rng.NextInt128(minL, maxL);
+                Int128 r = rng.NextInt128(minR, maxR);
+        
+                if (testif == null || testif(l, r))
+                {
+                    Assert.AreEqual(standardOp(l, r), testOp(l, r));
+                }
+            }
+        
+            Random128 rng = Random128.New;
+        
+            for (int i = 0; i < 128; i++)
+            {
+                TestWithBounds(ref rng,  ulong.MaxValue, Int128.MaxValue,  ulong.MaxValue, Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng,  ulong.MaxValue, Int128.MaxValue,  1,              100,             standardOp, testOp, testif);
+                TestWithBounds(ref rng,  ulong.MaxValue, Int128.MaxValue,  1,              ulong.MaxValue,  standardOp, testOp, testif);
+                TestWithBounds(ref rng,  ulong.MaxValue, Int128.MaxValue,  1,              Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              Int128.MaxValue,  ulong.MaxValue, Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              Int128.MaxValue,  1,              100,             standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              Int128.MaxValue,  1,              ulong.MaxValue,  standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              Int128.MaxValue,  1,              Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              ulong.MaxValue,   ulong.MaxValue, Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              ulong.MaxValue,   1,              100,             standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              ulong.MaxValue,   1,              ulong.MaxValue,  standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              ulong.MaxValue,   1,              Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              100,              ulong.MaxValue, Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              100,              1,              100,             standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              100,              1,              ulong.MaxValue,  standardOp, testOp, testif);
+                TestWithBounds(ref rng,  0,              100,              1,              Int128.MaxValue, standardOp, testOp, testif);
+        
+                TestWithBounds(ref rng, Int128.MinValue,  long.MinValue,  ulong.MaxValue, Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, Int128.MinValue,  long.MinValue,  1,              100,             standardOp, testOp, testif);
+                TestWithBounds(ref rng, Int128.MinValue,  long.MinValue,  1,              ulong.MaxValue,  standardOp, testOp, testif);
+                TestWithBounds(ref rng, Int128.MinValue,  -1,             1,              Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, long.MinValue, 0,                 ulong.MaxValue, Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, long.MinValue, 0,                 1,              100,             standardOp, testOp, testif);
+                TestWithBounds(ref rng, long.MinValue, 0,                 1,              ulong.MaxValue,  standardOp, testOp, testif);
+                TestWithBounds(ref rng, long.MinValue, 0,                 1,              Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, -100,            0,               ulong.MaxValue, Int128.MaxValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, -100,            0,               1,              100,             standardOp, testOp, testif);
+                TestWithBounds(ref rng, -100,            0,               1,              ulong.MaxValue,  standardOp, testOp, testif);
+                TestWithBounds(ref rng, -100,            0,               1,              Int128.MaxValue, standardOp, testOp, testif);
+        
+                TestWithBounds(ref rng, ulong.MaxValue, Int128.MaxValue, Int128.MinValue, long.MinValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, ulong.MaxValue, Int128.MaxValue, -100,            -1,            standardOp, testOp, testif);
+                TestWithBounds(ref rng, ulong.MaxValue, Int128.MaxValue, long.MinValue,   -1,            standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              Int128.MaxValue, Int128.MinValue, -1,            standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              ulong.MaxValue,  Int128.MinValue, long.MinValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, 0,              100,             Int128.MinValue, -1,            standardOp, testOp, testif);
+        
+                TestWithBounds(ref rng, Int128.MinValue, long.MinValue, Int128.MinValue, long.MinValue, standardOp, testOp, testif);
+                TestWithBounds(ref rng, Int128.MinValue, long.MinValue, -100,            -1,            standardOp, testOp, testif);
+                TestWithBounds(ref rng, Int128.MinValue, -1,            long.MinValue,   -1,            standardOp, testOp, testif);
+                TestWithBounds(ref rng, long.MinValue,   0,             Int128.MinValue, -1,            standardOp, testOp, testif);
+                TestWithBounds(ref rng, long.MinValue,   0,             long.MinValue,   -1,            standardOp, testOp, testif);
+                TestWithBounds(ref rng, -100,            0,             -100,            -1,            standardOp, testOp, testif);
+            }
+        }
 
         [Test]
         public static void Div128()
@@ -238,99 +340,45 @@ namespace MaxMath.Tests
         [Test]
         public static void UsfUDivRem128()
         {
-            UTest((l, r) => (UInt128)((BigInteger)l / r.lo64), (l, r) => asm128.__usf__udivrem128x64(l, r.lo64, out _),                          UNSAFE_UDIV_IS_ALLOWED);
-            UTest((l, r) => (UInt128)((BigInteger)l % r.lo64), (l, r) => { asm128.__usf__udivrem128x64(l, r.lo64, out ulong rem); return rem; }, UNSAFE_UDIV_IS_ALLOWED);
+            UTest((l, r) => (UInt128)((BigInteger)l / r.lo64), (l, r) => asm128.__usf__udivrem128x64(l, r.lo64, out _),                          UNSAFE_UDIV128_IS_ALLOWED);
+            UTest((l, r) => (UInt128)((BigInteger)l % r.lo64), (l, r) => { asm128.__usf__udivrem128x64(l, r.lo64, out ulong rem); return rem; }, UNSAFE_UDIV128_IS_ALLOWED);
         }
 
         [Test]
         public static void UsfUDiv128()
         {
-            UTest((l, r) => (UInt128)((BigInteger)l / r.lo64), (l, r) => asm128.__usf__udiv128x64(l, r.lo64), UNSAFE_UDIV_IS_ALLOWED);
+            UTest((l, r) => (UInt128)((BigInteger)l / r.lo64), (l, r) => asm128.__usf__udiv128x64(l, r.lo64), UNSAFE_UDIV128_IS_ALLOWED);
         }
 
         [Test]
         public static void UsfURem128()
         {
-            UTest((l, r) => (UInt128)((BigInteger)l % r.lo64), (l, r) => asm128.__usf__urem128x64(l, r.lo64), UNSAFE_UDIV_IS_ALLOWED);
+            UTest((l, r) => (UInt128)((BigInteger)l % r.lo64), (l, r) => asm128.__usf__urem128x64(l, r.lo64), UNSAFE_UDIV128_IS_ALLOWED);
         }
 
         [Test]
         public static void UsfIDivRem128()
         {
-            Random128 r128 = Random128.New;
-            Random64 r64 = Random64.New;
-
-            for (int i = 0; i < 100; i++)
-            {
-                Int128 l = r128.NextInt128();
-                long r = r64.NextLong();
-
-                Int128 quo = math.divrem(l, r, out Int128 rem);
-
-                if (quo >= long.MinValue && quo <= long.MaxValue)
-                {
-                    long quo64 = asm128.__usf__idivrem128x64(l, r, out long rem64);
-
-                    Assert.AreEqual(quo, (Int128)quo64);
-                    Assert.AreEqual(rem, (Int128)rem64);
-                }
-                else
-                {
-                    i--;
-                }
-            }
+            ITest((l, r) => (Int128)((BigInteger)l / (long)r.lo64), (l, r) => asm128.__usf__idivrem128x64(l, (long)r.lo64, out _),                         UNSAFE_IDIV128_IS_ALLOWED);
+            ITest((l, r) => (Int128)((BigInteger)l % (long)r.lo64), (l, r) => { asm128.__usf__idivrem128x64(l, (long)r.lo64, out long rem); return rem; }, UNSAFE_IDIV128_IS_ALLOWED);
         }
 
         [Test]
         public static void UsfIDiv128()
         {
-            Random128 r128 = Random128.New;
-            Random64 r64 = Random64.New;
-
-            for (int i = 0; i < 100; i++)
-            {
-                Int128 l = r128.NextInt128();
-                long r = r64.NextLong();
-
-                Int128 quo = math.divrem(l, r, out _);
-
-                if (quo >= long.MinValue && quo <= long.MaxValue)
-                {
-                    long quo64 = asm128.__usf__idiv128x64(l, r);
-
-                    Assert.AreEqual(quo, (Int128)quo64);
-                }
-                else
-                {
-                    i--;
-                }
-            }
+            ITest((l, r) => (Int128)((BigInteger)l / (long)r.lo64), (l, r) => asm128.__usf__idiv128x64(l, (long)r.lo64), UNSAFE_IDIV128_IS_ALLOWED);
         }
 
         [Test]
         public static void UsfIRem128()
         {
-            Random128 r128 = Random128.New;
-            Random64 r64 = Random64.New;
+            ITest((l, r) => (Int128)((BigInteger)l % (long)r.lo64), (l, r) => asm128.__usf__irem128x64(l, (long)r.lo64), UNSAFE_IDIV128_IS_ALLOWED);
+        }
 
-            for (int i = 0; i < 100; i++)
-            {
-                Int128 l = r128.NextInt128();
-                long r = r64.NextLong();
-
-                Int128 quo = math.divrem(l, r, out Int128 rem);
-
-                if (quo >= long.MinValue && quo <= long.MaxValue)
-                {
-                    long rem64 = asm128.__usf__irem128x64(l, r);
-
-                    Assert.AreEqual(rem, (Int128)rem64);
-                }
-                else
-                {
-                    i--;
-                }
-            }
+        [Test]
+        public static void UDiv256x128()
+        {
+            UTest((l, r) => (__UInt256__)((BigInteger)l / r.lo128), (l, r) => asm128.__usf__udiv256x128(l, r.lo128), UNSAFE_UDIV256_IS_ALLOWED);
         }
     }
 }

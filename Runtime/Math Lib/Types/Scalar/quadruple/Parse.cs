@@ -22,6 +22,27 @@ namespace MaxMath
 
         public static quadruple Parse(string s)
         {
+            static UInt128 RoundRightShift(BigInteger value, int shift)
+            {
+                if (shift <= 0)
+                {
+                    return (UInt128)(value << -shift);
+                }
+            
+                BigInteger shifted = value >> shift;
+                BigInteger guardMask = BigInteger.One << (shift - 1);
+                bool guard = (value & guardMask) != 0;
+                bool sticky = (value & (guardMask - 1)) != 0;
+                bool lsb = (shifted & 1) != 0;
+            
+                if (guard & (sticky | lsb))
+                {
+                    shifted += 1;
+                }
+            
+                return (UInt128)shifted;
+            }
+
             static quadruple FromComponents(UInt128 sig, int exp, bool sign)
             {
                 UInt128 SIGNIFICAND_MASK = bitmask128((ulong)MANTISSA_BITS);
@@ -30,7 +51,7 @@ namespace MaxMath
 
                 UInt128 r = new UInt128(sig.lo64, (sig.hi64 & ~EXPONENT_MASK.hi64) | toulong(sign) << 63);
 
-                if (exp == EXPONENT_BIAS + 1)
+                if (exp == MIN_UNBIASED_EXPONENT)
                 {
                     ;
                 }
@@ -46,6 +67,12 @@ namespace MaxMath
                 return asquadruple(r);
             }
 
+            s = s.Trim();
+            if (s.StartsWith('+'))
+            {
+                s = s.Substring(1);
+            }
+
             switch (s)
             {
                 case "NaN": return NaN;
@@ -53,7 +80,7 @@ namespace MaxMath
                 case "-Infinity": return NegativeInfinity;
             }
 
-            Match match = Regex.Match(s, @"(\-)?(\d+)(?:\.(\d+))?(?:[E|e]([+|-]?\d+))?");
+            Match match = Regex.Match(s, @"^(-)?(\d+)(?:\.(\d+))?(?:[Ee]([+-]?\d+))?$");
             if (!match.Success)
             {
                 return NaN;
@@ -61,30 +88,38 @@ namespace MaxMath
 
             if (match.Groups[4].Success)
             {
-                int qExponent = int.Parse(match.Groups[4].Value);
-                string allDigits = $"{match.Groups[2].Value}{match.Groups[3].Value}";
-
+                int exponent = int.Parse(match.Groups[4].Value);
+            
+                string integer = match.Groups[2].Value;
+                string fraction = match.Groups[3].Success ? match.Groups[3].Value : string.Empty;
+                string digits = integer + fraction;
+            
+                int decimalPos = integer.Length + exponent;
+            
                 StringBuilder builder = new StringBuilder(53);
-                if (qExponent > 0)
-                {
-                    if (qExponent > allDigits.Length)
-                    {
-                        builder.Append(allDigits);
-                        builder.Append(new string('0', qExponent - allDigits.Length + 1));
-                    }
-                    else
-                    {
-                        builder.Append(allDigits);
-                        builder.Insert(allDigits.Length - qExponent, '.');
-                    }
-                }
-                else if (qExponent < 0)
+            
+                if (decimalPos <= 0)
                 {
                     builder.Append("0.");
-                    builder.Append(new string('0', -qExponent - 1));
-                    builder.Append(allDigits);
+                    builder.Append('0', -decimalPos);
+                    builder.Append(digits);
                 }
-
+                else if (decimalPos >= digits.Length)
+                {
+                    builder.Append(digits);
+                    builder.Append('0', decimalPos - digits.Length);
+                }
+                else
+                {
+                    builder.Append(digits);
+                    builder.Insert(decimalPos, '.');
+                }
+            
+                if (match.Groups[1].Success)
+                {
+                    builder.Insert(0, '-');
+                }
+            
                 return Parse(builder.ToString());
             }
 
@@ -112,18 +147,17 @@ namespace MaxMath
             }
 
             bool resultSign = match.Groups[1].Value.StartsWith('-');
-            UInt128 resultSignificand = (UInt128)wholePart;
+            BigInteger resultSignificand = wholePart;
             if (fracPart == 0)
             {
-                return FromComponents(resultSignificand >> 3, resultExponent, resultSign);
+                return FromComponents((UInt128)(resultSignificand >> 3), resultExponent, resultSign);
             }
             else
             {
                 int log10Value = (int)floor(BigInteger.Log10(fracPart)) + 1;
-                bool isSubNormal = zExponent > 4390;
                 if (wholePart == 0)
                 {
-                    resultExponent = -(int)floor(BigInteger.Log(BigInteger.Pow(10, zExponent), 2)) + 1;
+                    resultExponent = (int)floor(-BigInteger.Log(BigInteger.Pow(10, zExponent + 1), 2));
                 }
 
                 BigInteger pow10 = BigInteger.Pow(10, log10Value + zExponent);
@@ -133,42 +167,67 @@ namespace MaxMath
                     fracPart <<= 1;
                     if (fracPart / pow10 == 1)
                     {
-                        resultSignificand |= (UInt128)1 << binIndex;
+                        resultSignificand |= BigInteger.One << binIndex;
                     }
                     fracPart %= pow10;
                     --binIndex;
                 }
-
-                // set sticky bit
+                
                 resultSignificand |= (UInt128)BigInteger.Min(fracPart, 1);
-
-                if ((((resultSignificand & 1) |
-                     ((resultSignificand >> 2) & 1)) &
-                     ((resultSignificand >> 1) & 1)) == 1)
+                    
+                short normDist = (short)(lzcnt((UInt128)(resultSignificand >> 3)) - 15);
+                if (normDist > 0)
                 {
-                    resultSignificand++;
+                    resultSignificand <<= normDist;
                 }
-
-                if (isSubNormal)
+                else if (normDist < 0)
                 {
-                    int expnDiff = EXPONENT_BIAS + 1 - resultExponent + 3;
-                    return FromComponents(resultSignificand >> expnDiff, EXPONENT_BIAS + 1, resultSign);
+                    int shiftAmt = -normDist;
+                    BigInteger shiftedOutMask = (BigInteger.One << shiftAmt) - 1;
+                    bool lostBitsNonzero = (resultSignificand & shiftedOutMask) != 0;
+                    resultSignificand >>= shiftAmt;
+                    if (lostBitsNonzero)
+                    {
+                        resultSignificand |= 1;
+                    }
+                }
+                resultExponent -= normDist;
+                if (resultExponent < MIN_UNBIASED_EXPONENT)
+                {
+                    int expnDiff = MIN_UNBIASED_EXPONENT - resultExponent + 3;
+                    UInt128 rounded = RoundRightShift(resultSignificand, expnDiff);
+                
+                    if (rounded == (UInt128)1 << MANTISSA_BITS)
+                    {
+                        return asquadruple(rounded | ((UInt128)toulong(resultSign) << 127));
+                    }
+                    return FromComponents(rounded, MIN_UNBIASED_EXPONENT, resultSign);
                 }
                 else
                 {
-                    short normDist = (short)(lzcnt(resultSignificand >> 3) - 15);
-                    if (normDist > 0)
+                    UInt128 lsb    = ((UInt128)resultSignificand >> 3) & 1;
+                    UInt128 guard  = ((UInt128)resultSignificand >> 2) & 1;
+                    UInt128 round_ = ((UInt128)resultSignificand >> 1) & 1;
+                    UInt128 sticky = (UInt128)resultSignificand & 1;
+                
+                    if ((guard & (round_ | sticky | lsb)) == 1)
                     {
-                        resultSignificand <<= normDist;
-                    }
-                    else if (normDist < 0)
-                    {
-                        resultSignificand >>= -normDist;
+                        resultSignificand += 8;
+                        if ((resultSignificand >> 116) != 0)
+                        {
+                            resultSignificand >>= 1;
+                            resultExponent += 1;
+                        }
                     }
 
-                    resultExponent -= normDist;
-
-                    return FromComponents(resultSignificand >> 3, resultExponent, resultSign);
+                    if (resultExponent == MIN_UNBIASED_EXPONENT)
+                    {
+                        return asquadruple(((UInt128)(resultSignificand >> 3)) | ((UInt128)toulong(resultSign) << 127));
+                    }
+                    else
+                    {
+                        return FromComponents((UInt128)(resultSignificand >> 3), resultExponent, resultSign);
+                    }
                 }
             }
         }

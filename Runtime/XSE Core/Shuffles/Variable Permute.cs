@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static Unity.Burst.Intrinsics.Arm.Neon;
@@ -99,11 +100,24 @@ namespace MaxMath.Intrinsics
         {
             if (BurstArchitecture.IsTableLookupSupported)
             {
-                b = adds_epu16(b, b);
-                b = shuffle_epi8(b, new v128(0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14));
-                b = adds_epu8(b, new v128(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1));
+                v128 __b = b;
 
-                return shuffle_epi8(a, b);
+                __b = adds_epu16(__b, __b);
+                __b = shuffle_epi8(__b, new v128(0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14));
+                __b = adds_epu8(__b, new v128(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1));
+
+                v128 result = shuffle_epi8(a, __b);
+
+                constexpr.ASSUME(result.UShort0 == (b.SShort0 < 0 ? 0 : extract_epi16(a, (byte)(7 & b.UShort0))));
+                constexpr.ASSUME(result.UShort1 == (b.SShort1 < 0 ? 0 : extract_epi16(a, (byte)(7 & b.UShort1))));
+                constexpr.ASSUME(result.UShort2 == (b.SShort2 < 0 ? 0 : extract_epi16(a, (byte)(7 & b.UShort2))));
+                constexpr.ASSUME(result.UShort3 == (b.SShort3 < 0 ? 0 : extract_epi16(a, (byte)(7 & b.UShort3))));
+                constexpr.ASSUME(result.UShort4 == (b.SShort4 < 0 ? 0 : extract_epi16(a, (byte)(7 & b.UShort4))));
+                constexpr.ASSUME(result.UShort5 == (b.SShort5 < 0 ? 0 : extract_epi16(a, (byte)(7 & b.UShort5))));
+                constexpr.ASSUME(result.UShort6 == (b.SShort6 < 0 ? 0 : extract_epi16(a, (byte)(7 & b.UShort6))));
+                constexpr.ASSUME(result.UShort7 == (b.SShort7 < 0 ? 0 : extract_epi16(a, (byte)(7 & b.UShort7))));
+
+                return result;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
@@ -155,11 +169,32 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                b = Avx2.mm256_adds_epu16(b, b);
-                b = Avx2.mm256_shuffle_epi8(b, new v256(0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14, 0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14));
-                b = Avx2.mm256_adds_epu8(b, new v256(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1));
+                v256 __b = b;
 
-                return Avx2.mm256_shuffle_epi8(a, b);
+                __b = Avx2.mm256_adds_epu16(__b, __b);
+                __b = Avx2.mm256_shuffle_epi8(__b, new v256(0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14, 0, 0, 2, 2, 4, 4, 6, 6, 8, 8, 10, 10, 12, 12, 14, 14));
+                __b = Avx2.mm256_adds_epu8(__b, new v256(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1));
+
+                v256 result = Avx2.mm256_shuffle_epi8(a, __b);
+
+                constexpr.ASSUME(result.UShort0  == (b.SShort0  < 0 ? 0 : mm256_extract_epi16(a, (byte)(7 & b.UShort0))));
+                constexpr.ASSUME(result.UShort1  == (b.SShort1  < 0 ? 0 : mm256_extract_epi16(a, (byte)(7 & b.UShort1))));
+                constexpr.ASSUME(result.UShort2  == (b.SShort2  < 0 ? 0 : mm256_extract_epi16(a, (byte)(7 & b.UShort2))));
+                constexpr.ASSUME(result.UShort3  == (b.SShort3  < 0 ? 0 : mm256_extract_epi16(a, (byte)(7 & b.UShort3))));
+                constexpr.ASSUME(result.UShort4  == (b.SShort4  < 0 ? 0 : mm256_extract_epi16(a, (byte)(7 & b.UShort4))));
+                constexpr.ASSUME(result.UShort5  == (b.SShort5  < 0 ? 0 : mm256_extract_epi16(a, (byte)(7 & b.UShort5))));
+                constexpr.ASSUME(result.UShort6  == (b.SShort6  < 0 ? 0 : mm256_extract_epi16(a, (byte)(7 & b.UShort6))));
+                constexpr.ASSUME(result.UShort7  == (b.SShort7  < 0 ? 0 : mm256_extract_epi16(a, (byte)(7 & b.UShort7))));
+                constexpr.ASSUME(result.UShort8  == (b.SShort8  < 0 ? 0 : mm256_extract_epi16(a, (byte)(8 + (7 & b.UShort8)))));
+                constexpr.ASSUME(result.UShort9  == (b.SShort9  < 0 ? 0 : mm256_extract_epi16(a, (byte)(8 + (7 & b.UShort9)))));
+                constexpr.ASSUME(result.UShort10 == (b.SShort10 < 0 ? 0 : mm256_extract_epi16(a, (byte)(8 + (7 & b.UShort10)))));
+                constexpr.ASSUME(result.UShort11 == (b.SShort11 < 0 ? 0 : mm256_extract_epi16(a, (byte)(8 + (7 & b.UShort11)))));
+                constexpr.ASSUME(result.UShort12 == (b.SShort12 < 0 ? 0 : mm256_extract_epi16(a, (byte)(8 + (7 & b.UShort12)))));
+                constexpr.ASSUME(result.UShort13 == (b.SShort13 < 0 ? 0 : mm256_extract_epi16(a, (byte)(8 + (7 & b.UShort13)))));
+                constexpr.ASSUME(result.UShort14 == (b.SShort14 < 0 ? 0 : mm256_extract_epi16(a, (byte)(8 + (7 & b.UShort14)))));
+                constexpr.ASSUME(result.UShort15 == (b.SShort15 < 0 ? 0 : mm256_extract_epi16(a, (byte)(8 + (7 & b.UShort15)))));
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -175,11 +210,46 @@ namespace MaxMath.Intrinsics
                 v256 ahihi = Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(3, 2, 3, 2));
 
                 v256 wantsHi = Avx2.mm256_cmpgt_epi8(b, MAX_IDX);
-                b = Avx2.mm256_sub_epi8(Avx2.mm256_add_epi8(b, wantsHi), Avx2.mm256_and_si256(MAX_IDX, wantsHi));
-                v256 shufflelo = Avx2.mm256_shuffle_epi8(alolo, b);
-                v256 shufflehi = Avx2.mm256_shuffle_epi8(ahihi, b);
+                v256 __b = Avx2.mm256_sub_epi8(Avx2.mm256_add_epi8(b, wantsHi), Avx2.mm256_and_si256(MAX_IDX, wantsHi));
+                v256 shufflelo = Avx2.mm256_shuffle_epi8(alolo, __b);
+                v256 shufflehi = Avx2.mm256_shuffle_epi8(ahihi, __b);
 
-                return mm256_blendv_si256(shufflelo, shufflehi, wantsHi);
+                v256 result = mm256_blendv_si256(shufflelo, shufflehi, wantsHi);
+
+                if (constexpr.IS_TRUE(b.Byte0  <= 31)) { constexpr.ASSUME(result.Byte0  == mm256_extract_epi8(a, (byte)(b.Byte0  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte1  <= 31)) { constexpr.ASSUME(result.Byte1  == mm256_extract_epi8(a, (byte)(b.Byte1  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte2  <= 31)) { constexpr.ASSUME(result.Byte2  == mm256_extract_epi8(a, (byte)(b.Byte2  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte3  <= 31)) { constexpr.ASSUME(result.Byte3  == mm256_extract_epi8(a, (byte)(b.Byte3  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte4  <= 31)) { constexpr.ASSUME(result.Byte4  == mm256_extract_epi8(a, (byte)(b.Byte4  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte5  <= 31)) { constexpr.ASSUME(result.Byte5  == mm256_extract_epi8(a, (byte)(b.Byte5  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte6  <= 31)) { constexpr.ASSUME(result.Byte6  == mm256_extract_epi8(a, (byte)(b.Byte6  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte7  <= 31)) { constexpr.ASSUME(result.Byte7  == mm256_extract_epi8(a, (byte)(b.Byte7  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte8  <= 31)) { constexpr.ASSUME(result.Byte8  == mm256_extract_epi8(a, (byte)(b.Byte8  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte9  <= 31)) { constexpr.ASSUME(result.Byte9  == mm256_extract_epi8(a, (byte)(b.Byte9  & 31))); }
+                if (constexpr.IS_TRUE(b.Byte10 <= 31)) { constexpr.ASSUME(result.Byte10 == mm256_extract_epi8(a, (byte)(b.Byte10 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte11 <= 31)) { constexpr.ASSUME(result.Byte11 == mm256_extract_epi8(a, (byte)(b.Byte11 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte12 <= 31)) { constexpr.ASSUME(result.Byte12 == mm256_extract_epi8(a, (byte)(b.Byte12 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte13 <= 31)) { constexpr.ASSUME(result.Byte13 == mm256_extract_epi8(a, (byte)(b.Byte13 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte14 <= 31)) { constexpr.ASSUME(result.Byte14 == mm256_extract_epi8(a, (byte)(b.Byte14 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte15 <= 31)) { constexpr.ASSUME(result.Byte15 == mm256_extract_epi8(a, (byte)(b.Byte15 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte16 <= 31)) { constexpr.ASSUME(result.Byte16 == mm256_extract_epi8(a, (byte)(b.Byte16 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte17 <= 31)) { constexpr.ASSUME(result.Byte17 == mm256_extract_epi8(a, (byte)(b.Byte17 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte18 <= 31)) { constexpr.ASSUME(result.Byte18 == mm256_extract_epi8(a, (byte)(b.Byte18 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte19 <= 31)) { constexpr.ASSUME(result.Byte19 == mm256_extract_epi8(a, (byte)(b.Byte19 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte20 <= 31)) { constexpr.ASSUME(result.Byte20 == mm256_extract_epi8(a, (byte)(b.Byte20 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte21 <= 31)) { constexpr.ASSUME(result.Byte21 == mm256_extract_epi8(a, (byte)(b.Byte21 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte22 <= 31)) { constexpr.ASSUME(result.Byte22 == mm256_extract_epi8(a, (byte)(b.Byte22 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte23 <= 31)) { constexpr.ASSUME(result.Byte23 == mm256_extract_epi8(a, (byte)(b.Byte23 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte24 <= 31)) { constexpr.ASSUME(result.Byte24 == mm256_extract_epi8(a, (byte)(b.Byte24 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte25 <= 31)) { constexpr.ASSUME(result.Byte25 == mm256_extract_epi8(a, (byte)(b.Byte25 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte26 <= 31)) { constexpr.ASSUME(result.Byte26 == mm256_extract_epi8(a, (byte)(b.Byte26 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte27 <= 31)) { constexpr.ASSUME(result.Byte27 == mm256_extract_epi8(a, (byte)(b.Byte27 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte28 <= 31)) { constexpr.ASSUME(result.Byte28 == mm256_extract_epi8(a, (byte)(b.Byte28 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte29 <= 31)) { constexpr.ASSUME(result.Byte29 == mm256_extract_epi8(a, (byte)(b.Byte29 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte30 <= 31)) { constexpr.ASSUME(result.Byte30 == mm256_extract_epi8(a, (byte)(b.Byte30 & 31))); }
+                if (constexpr.IS_TRUE(b.Byte31 <= 31)) { constexpr.ASSUME(result.Byte31 == mm256_extract_epi8(a, (byte)(b.Byte31 & 31))); }
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -195,11 +265,30 @@ namespace MaxMath.Intrinsics
                 v256 ahihi = Avx2.mm256_permute4x64_epi64(a, Sse.SHUFFLE(3, 2, 3, 2));
 
                 v256 wantsHi = Avx2.mm256_cmpgt_epi16(b, MAX_IDX);
-                b = Avx2.mm256_sub_epi16(Avx2.mm256_add_epi16(b, wantsHi), Avx2.mm256_and_si256(MAX_IDX, wantsHi));
-                v256 shufflelo = mm256_shuffle_epi16(alolo, b);
-                v256 shufflehi = mm256_shuffle_epi16(ahihi, b);
+                v256 __b = Avx2.mm256_sub_epi16(Avx2.mm256_add_epi16(b, wantsHi), Avx2.mm256_and_si256(MAX_IDX, wantsHi));
+                v256 shufflelo = mm256_shuffle_epi16(alolo, __b);
+                v256 shufflehi = mm256_shuffle_epi16(ahihi, __b);
 
-                return mm256_blendv_si256(shufflelo, shufflehi, wantsHi);
+                v256 result = mm256_blendv_si256(shufflelo, shufflehi, wantsHi);
+
+                if (constexpr.IS_TRUE(b.UShort0  <= 15)) { constexpr.ASSUME(result.UShort0  == mm256_extract_epi16(a, (byte)(b.UShort0  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort1  <= 15)) { constexpr.ASSUME(result.UShort1  == mm256_extract_epi16(a, (byte)(b.UShort1  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort2  <= 15)) { constexpr.ASSUME(result.UShort2  == mm256_extract_epi16(a, (byte)(b.UShort2  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort3  <= 15)) { constexpr.ASSUME(result.UShort3  == mm256_extract_epi16(a, (byte)(b.UShort3  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort4  <= 15)) { constexpr.ASSUME(result.UShort4  == mm256_extract_epi16(a, (byte)(b.UShort4  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort5  <= 15)) { constexpr.ASSUME(result.UShort5  == mm256_extract_epi16(a, (byte)(b.UShort5  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort6  <= 15)) { constexpr.ASSUME(result.UShort6  == mm256_extract_epi16(a, (byte)(b.UShort6  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort7  <= 15)) { constexpr.ASSUME(result.UShort7  == mm256_extract_epi16(a, (byte)(b.UShort7  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort8  <= 15)) { constexpr.ASSUME(result.UShort8  == mm256_extract_epi16(a, (byte)(b.UShort8  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort9  <= 15)) { constexpr.ASSUME(result.UShort9  == mm256_extract_epi16(a, (byte)(b.UShort9  & 15))); }
+                if (constexpr.IS_TRUE(b.UShort10 <= 15)) { constexpr.ASSUME(result.UShort10 == mm256_extract_epi16(a, (byte)(b.UShort10 & 15))); }
+                if (constexpr.IS_TRUE(b.UShort11 <= 15)) { constexpr.ASSUME(result.UShort11 == mm256_extract_epi16(a, (byte)(b.UShort11 & 15))); }
+                if (constexpr.IS_TRUE(b.UShort12 <= 15)) { constexpr.ASSUME(result.UShort12 == mm256_extract_epi16(a, (byte)(b.UShort12 & 15))); }
+                if (constexpr.IS_TRUE(b.UShort13 <= 15)) { constexpr.ASSUME(result.UShort13 == mm256_extract_epi16(a, (byte)(b.UShort13 & 15))); }
+                if (constexpr.IS_TRUE(b.UShort14 <= 15)) { constexpr.ASSUME(result.UShort14 == mm256_extract_epi16(a, (byte)(b.UShort14 & 15))); }
+                if (constexpr.IS_TRUE(b.UShort15 <= 15)) { constexpr.ASSUME(result.UShort15 == mm256_extract_epi16(a, (byte)(b.UShort15 & 15))); }
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -213,11 +302,20 @@ namespace MaxMath.Intrinsics
             }
             else if (BurstArchitecture.IsTableLookupSupported)
             {
-                b = slli_epi32(b, 2);
-                b = shuffle_epi8(b, new v128(0, 0, 0, 0, 4, 4, 4, 4, 8, 8, 8, 8, 12, 12, 12, 12));
-                b = adds_epu8(b, new v128(0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3));
+                v128 __b = b;
 
-                return shuffle_epi8(a, b);
+                __b = slli_epi32(__b, 2);
+                __b = shuffle_epi8(__b, new v128(0, 0, 0, 0, 4, 4, 4, 4, 8, 8, 8, 8, 12, 12, 12, 12));
+                __b = adds_epu8(__b, new v128(0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3));
+
+                v128 result = shuffle_epi8(a, __b);
+                
+                constexpr.ASSUME(result.UInt0 == (b.SInt0 < 0 ? 0 : extract_epi32(a, (byte)(3 & b.UInt0))));
+                constexpr.ASSUME(result.UInt1 == (b.SInt1 < 0 ? 0 : extract_epi32(a, (byte)(3 & b.UInt1))));
+                constexpr.ASSUME(result.UInt2 == (b.SInt2 < 0 ? 0 : extract_epi32(a, (byte)(3 & b.UInt2))));
+                constexpr.ASSUME(result.UInt3 == (b.SInt3 < 0 ? 0 : extract_epi32(a, (byte)(3 & b.UInt3))));
+
+                return result;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
@@ -256,11 +354,18 @@ namespace MaxMath.Intrinsics
             }
             else if (BurstArchitecture.IsTableLookupSupported)
             {
-                b = slli_epi64(b, 3);
-                b = shuffle_epi8(b, new v128(0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8));
-                b = adds_epu8(b, new v128(0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7));
+                v128 __b = b;
 
-                return shuffle_epi8(a, b);
+                __b = slli_epi64(__b, 3);
+                __b = shuffle_epi8(__b, new v128(0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8));
+                __b = adds_epu8(__b, new v128(0, 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3, 4, 5, 6, 7));
+
+                v128 result = shuffle_epi8(a, __b);
+
+                constexpr.ASSUME(result.ULong0 == (b.SLong0 < 0 ? 0 : extract_epi64(a, (byte)(1 & b.ULong0))));
+                constexpr.ASSUME(result.ULong1 == (b.SLong1 < 0 ? 0 : extract_epi64(a, (byte)(1 & b.ULong1))));
+
+                return result;
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
@@ -277,11 +382,20 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                b = Avx2.mm256_add_epi32(b, b);
-                b = Avx2.mm256_shuffle_epi32(b, Sse.SHUFFLE(2, 2, 0, 0));
-                b = Avx2.mm256_add_epi32(b, new v256(0, 1, 0, 1, 0, 1, 0, 1));
+                v256 __b = b;
 
-                return Avx2.mm256_permutevar8x32_epi32(a, b);
+                __b = Avx2.mm256_add_epi32(__b, __b);
+                __b = Avx2.mm256_shuffle_epi32(__b, Sse.SHUFFLE(2, 2, 0, 0));
+                __b = Avx2.mm256_add_epi32(__b, new v256(0, 1, 0, 1, 0, 1, 0, 1));
+
+                v256 result = Avx2.mm256_permutevar8x32_epi32(a, __b);
+                
+                constexpr.ASSUME(result.ULong0 == (b.SLong0 < 0 ? 0 : mm256_extract_epi64(a, (byte)(3 & b.ULong0))));
+                constexpr.ASSUME(result.ULong1 == (b.SLong1 < 0 ? 0 : mm256_extract_epi64(a, (byte)(3 & b.ULong1))));
+                constexpr.ASSUME(result.ULong2 == (b.SLong2 < 0 ? 0 : mm256_extract_epi64(a, (byte)(3 & b.ULong2))));
+                constexpr.ASSUME(result.ULong3 == (b.SLong3 < 0 ? 0 : mm256_extract_epi64(a, (byte)(3 & b.ULong3))));
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }

@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -29,11 +30,63 @@ namespace MaxMath
                     v128 cb5 = set1_epi16(5 * 5 * 5 - 1);
                     v128 cb6 = set1_epi16(6 * 6 * 6 - 1);
 
-                    v128 result = sub_epi16(    neg_epi16(cmpgt_epi16(a, cb1)),cmpgt_epi16(a, cb2));
+                    v128 result = sub_epi16(        neg_epi16(cmpgt_epi16(a, cb1)),cmpgt_epi16(a, cb2));
                     result      = sub_epi16(result, add_epi16(cmpgt_epi16(a, cb3), cmpgt_epi16(a, cb4)));
                     result      = sub_epi16(result, add_epi16(cmpgt_epi16(a, cb5), cmpgt_epi16(a, cb6)));
 
                     constexpr.ASSUME_LE_EPU16(result, 6);
+
+                    constexpr.ASSUME_LE_EPU16(result, a);
+                    if (constexpr.ALL_GT_EPU16(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU16(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UShort0 * result.UShort0 * result.UShort0 <= a.UShort0);
+                    constexpr.ASSUME(result.UShort1 * result.UShort1 * result.UShort1 <= a.UShort1);
+                    constexpr.ASSUME(result.UShort2 * result.UShort2 * result.UShort2 <= a.UShort2);
+                    constexpr.ASSUME(result.UShort3 * result.UShort3 * result.UShort3 <= a.UShort3);
+                    constexpr.ASSUME(result.UShort4 * result.UShort4 * result.UShort4 <= a.UShort4);
+                    constexpr.ASSUME(result.UShort5 * result.UShort5 * result.UShort5 <= a.UShort5);
+                    constexpr.ASSUME(result.UShort6 * result.UShort6 * result.UShort6 <= a.UShort6);
+                    constexpr.ASSUME(result.UShort7 * result.UShort7 * result.UShort7 <= a.UShort7);
+
+                    constexpr.ASSUME((result.UShort0 + 1) * (result.UShort0 + 1) * (result.UShort0 + 1) > a.UShort0);
+                    constexpr.ASSUME((result.UShort1 + 1) * (result.UShort1 + 1) * (result.UShort1 + 1) > a.UShort1);
+                    constexpr.ASSUME((result.UShort2 + 1) * (result.UShort2 + 1) * (result.UShort2 + 1) > a.UShort2);
+                    constexpr.ASSUME((result.UShort3 + 1) * (result.UShort3 + 1) * (result.UShort3 + 1) > a.UShort3);
+                    constexpr.ASSUME((result.UShort4 + 1) * (result.UShort4 + 1) * (result.UShort4 + 1) > a.UShort4);
+                    constexpr.ASSUME((result.UShort5 + 1) * (result.UShort5 + 1) * (result.UShort5 + 1) > a.UShort5);
+                    constexpr.ASSUME((result.UShort6 + 1) * (result.UShort6 + 1) * (result.UShort6 + 1) > a.UShort6);
+                    constexpr.ASSUME((result.UShort7 + 1) * (result.UShort7 + 1) * (result.UShort7 + 1) > a.UShort7);
+
+                    constexpr.ASSUME((a.UShort0 <= 1) == (result.UShort0 == a.UShort0));
+                    constexpr.ASSUME((a.UShort1 <= 1) == (result.UShort1 == a.UShort1));
+                    constexpr.ASSUME((a.UShort2 <= 1) == (result.UShort2 == a.UShort2));
+                    constexpr.ASSUME((a.UShort3 <= 1) == (result.UShort3 == a.UShort3));
+                    constexpr.ASSUME((a.UShort4 <= 1) == (result.UShort4 == a.UShort4));
+                    constexpr.ASSUME((a.UShort5 <= 1) == (result.UShort5 == a.UShort5));
+                    constexpr.ASSUME((a.UShort6 <= 1) == (result.UShort6 == a.UShort6));
+                    constexpr.ASSUME((a.UShort7 <= 1) == (result.UShort7 == a.UShort7));
+
+                    constexpr.ASSUME((a.UShort0 != 0) == (result.UShort0 > 0));
+                    constexpr.ASSUME((a.UShort1 != 0) == (result.UShort1 > 0));
+                    constexpr.ASSUME((a.UShort2 != 0) == (result.UShort2 > 0));
+                    constexpr.ASSUME((a.UShort3 != 0) == (result.UShort3 > 0));
+                    constexpr.ASSUME((a.UShort4 != 0) == (result.UShort4 > 0));
+                    constexpr.ASSUME((a.UShort5 != 0) == (result.UShort5 > 0));
+                    constexpr.ASSUME((a.UShort6 != 0) == (result.UShort6 > 0));
+                    constexpr.ASSUME((a.UShort7 != 0) == (result.UShort7 > 0));
+
+                    //constexpr.ASSUME((math.ispow2(a.UShort0) && (math.intlog2(a.UShort0) % 3u == 0)) ? math.ispow2(result.UShort0) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort1) && (math.intlog2(a.UShort1) % 3u == 0)) ? math.ispow2(result.UShort1) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort2) && (math.intlog2(a.UShort2) % 3u == 0)) ? math.ispow2(result.UShort2) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort3) && (math.intlog2(a.UShort3) % 3u == 0)) ? math.ispow2(result.UShort3) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort4) && (math.intlog2(a.UShort4) % 3u == 0)) ? math.ispow2(result.UShort4) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort5) && (math.intlog2(a.UShort5) % 3u == 0)) ? math.ispow2(result.UShort5) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort6) && (math.intlog2(a.UShort6) % 3u == 0)) ? math.ispow2(result.UShort6) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort7) && (math.intlog2(a.UShort7) % 3u == 0)) ? math.ispow2(result.UShort7) : true);
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -56,11 +109,103 @@ namespace MaxMath
                     v256 cb5 = mm256_set1_epi16(5 * 5 * 5 - 1);
                     v256 cb6 = mm256_set1_epi16(6 * 6 * 6 - 1);
 
-                    v256 result = Avx2.mm256_sub_epi16(    mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(a, cb1)),Avx2.mm256_cmpgt_epi16(a, cb2));
+                    v256 result = Avx2.mm256_sub_epi16(        mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(a, cb1)),Avx2.mm256_cmpgt_epi16(a, cb2));
                     result = Avx2.mm256_sub_epi16(result, Avx2.mm256_add_epi16(Avx2.mm256_cmpgt_epi16(a, cb3), Avx2.mm256_cmpgt_epi16(a, cb4)));
                     result = Avx2.mm256_sub_epi16(result, Avx2.mm256_add_epi16(Avx2.mm256_cmpgt_epi16(a, cb5), Avx2.mm256_cmpgt_epi16(a, cb6)));
 
                     constexpr.ASSUME_LE_EPU16(result, 6);
+
+                    constexpr.ASSUME_LE_EPU16(result, a);
+                    if (constexpr.ALL_GT_EPU16(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU16(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UShort0  * result.UShort0  * result.UShort0  <= a.UShort0);
+                    constexpr.ASSUME(result.UShort1  * result.UShort1  * result.UShort1  <= a.UShort1);
+                    constexpr.ASSUME(result.UShort2  * result.UShort2  * result.UShort2  <= a.UShort2);
+                    constexpr.ASSUME(result.UShort3  * result.UShort3  * result.UShort3  <= a.UShort3);
+                    constexpr.ASSUME(result.UShort4  * result.UShort4  * result.UShort4  <= a.UShort4);
+                    constexpr.ASSUME(result.UShort5  * result.UShort5  * result.UShort5  <= a.UShort5);
+                    constexpr.ASSUME(result.UShort6  * result.UShort6  * result.UShort6  <= a.UShort6);
+                    constexpr.ASSUME(result.UShort7  * result.UShort7  * result.UShort7  <= a.UShort7);
+                    constexpr.ASSUME(result.UShort8  * result.UShort8  * result.UShort8  <= a.UShort8);
+                    constexpr.ASSUME(result.UShort9  * result.UShort9  * result.UShort9  <= a.UShort9);
+                    constexpr.ASSUME(result.UShort10 * result.UShort10 * result.UShort10 <= a.UShort10);
+                    constexpr.ASSUME(result.UShort11 * result.UShort11 * result.UShort11 <= a.UShort11);
+                    constexpr.ASSUME(result.UShort12 * result.UShort12 * result.UShort12 <= a.UShort12);
+                    constexpr.ASSUME(result.UShort13 * result.UShort13 * result.UShort13 <= a.UShort13);
+                    constexpr.ASSUME(result.UShort14 * result.UShort14 * result.UShort14 <= a.UShort14);
+                    constexpr.ASSUME(result.UShort15 * result.UShort15 * result.UShort15 <= a.UShort15);
+
+                    constexpr.ASSUME((result.UShort0  + 1) * (result.UShort0  + 1) * (result.UShort0  + 1) > a.UShort0);
+                    constexpr.ASSUME((result.UShort1  + 1) * (result.UShort1  + 1) * (result.UShort1  + 1) > a.UShort1);
+                    constexpr.ASSUME((result.UShort2  + 1) * (result.UShort2  + 1) * (result.UShort2  + 1) > a.UShort2);
+                    constexpr.ASSUME((result.UShort3  + 1) * (result.UShort3  + 1) * (result.UShort3  + 1) > a.UShort3);
+                    constexpr.ASSUME((result.UShort4  + 1) * (result.UShort4  + 1) * (result.UShort4  + 1) > a.UShort4);
+                    constexpr.ASSUME((result.UShort5  + 1) * (result.UShort5  + 1) * (result.UShort5  + 1) > a.UShort5);
+                    constexpr.ASSUME((result.UShort6  + 1) * (result.UShort6  + 1) * (result.UShort6  + 1) > a.UShort6);
+                    constexpr.ASSUME((result.UShort7  + 1) * (result.UShort7  + 1) * (result.UShort7  + 1) > a.UShort7);
+                    constexpr.ASSUME((result.UShort8  + 1) * (result.UShort8  + 1) * (result.UShort8  + 1) > a.UShort8);
+                    constexpr.ASSUME((result.UShort9  + 1) * (result.UShort9  + 1) * (result.UShort9  + 1) > a.UShort9);
+                    constexpr.ASSUME((result.UShort10 + 1) * (result.UShort10 + 1) * (result.UShort10 + 1) > a.UShort10);
+                    constexpr.ASSUME((result.UShort11 + 1) * (result.UShort11 + 1) * (result.UShort11 + 1) > a.UShort11);
+                    constexpr.ASSUME((result.UShort12 + 1) * (result.UShort12 + 1) * (result.UShort12 + 1) > a.UShort12);
+                    constexpr.ASSUME((result.UShort13 + 1) * (result.UShort13 + 1) * (result.UShort13 + 1) > a.UShort13);
+                    constexpr.ASSUME((result.UShort14 + 1) * (result.UShort14 + 1) * (result.UShort14 + 1) > a.UShort14);
+                    constexpr.ASSUME((result.UShort15 + 1) * (result.UShort15 + 1) * (result.UShort15 + 1) > a.UShort15);
+
+                    constexpr.ASSUME((a.UShort0  <= 1) == (result.UShort0  == a.UShort0));
+                    constexpr.ASSUME((a.UShort1  <= 1) == (result.UShort1  == a.UShort1));
+                    constexpr.ASSUME((a.UShort2  <= 1) == (result.UShort2  == a.UShort2));
+                    constexpr.ASSUME((a.UShort3  <= 1) == (result.UShort3  == a.UShort3));
+                    constexpr.ASSUME((a.UShort4  <= 1) == (result.UShort4  == a.UShort4));
+                    constexpr.ASSUME((a.UShort5  <= 1) == (result.UShort5  == a.UShort5));
+                    constexpr.ASSUME((a.UShort6  <= 1) == (result.UShort6  == a.UShort6));
+                    constexpr.ASSUME((a.UShort7  <= 1) == (result.UShort7  == a.UShort7));
+                    constexpr.ASSUME((a.UShort8  <= 1) == (result.UShort8  == a.UShort8));
+                    constexpr.ASSUME((a.UShort9  <= 1) == (result.UShort9  == a.UShort9));
+                    constexpr.ASSUME((a.UShort10 <= 1) == (result.UShort10 == a.UShort10));
+                    constexpr.ASSUME((a.UShort11 <= 1) == (result.UShort11 == a.UShort11));
+                    constexpr.ASSUME((a.UShort12 <= 1) == (result.UShort12 == a.UShort12));
+                    constexpr.ASSUME((a.UShort13 <= 1) == (result.UShort13 == a.UShort13));
+                    constexpr.ASSUME((a.UShort14 <= 1) == (result.UShort14 == a.UShort14));
+                    constexpr.ASSUME((a.UShort15 <= 1) == (result.UShort15 == a.UShort15));
+
+                    constexpr.ASSUME((a.UShort0  != 0) == (result.UShort0 > 0));
+                    constexpr.ASSUME((a.UShort1  != 0) == (result.UShort1 > 0));
+                    constexpr.ASSUME((a.UShort2  != 0) == (result.UShort2 > 0));
+                    constexpr.ASSUME((a.UShort3  != 0) == (result.UShort3 > 0));
+                    constexpr.ASSUME((a.UShort4  != 0) == (result.UShort4 > 0));
+                    constexpr.ASSUME((a.UShort5  != 0) == (result.UShort5 > 0));
+                    constexpr.ASSUME((a.UShort6  != 0) == (result.UShort6 > 0));
+                    constexpr.ASSUME((a.UShort7  != 0) == (result.UShort7 > 0));
+                    constexpr.ASSUME((a.UShort8  != 0) == (result.UShort8 > 0));
+                    constexpr.ASSUME((a.UShort9  != 0) == (result.UShort9 > 0));
+                    constexpr.ASSUME((a.UShort10 != 0) == (result.UShort10> 0));
+                    constexpr.ASSUME((a.UShort11 != 0) == (result.UShort11> 0));
+                    constexpr.ASSUME((a.UShort12 != 0) == (result.UShort12> 0));
+                    constexpr.ASSUME((a.UShort13 != 0) == (result.UShort13> 0));
+                    constexpr.ASSUME((a.UShort14 != 0) == (result.UShort14> 0));
+                    constexpr.ASSUME((a.UShort15 != 0) == (result.UShort15> 0));
+
+                    //constexpr.ASSUME((math.ispow2(a.UShort0)  && (math.intlog2(a.UShort0)  % 3u == 0)) ? math.ispow2(result.UShort0)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort1)  && (math.intlog2(a.UShort1)  % 3u == 0)) ? math.ispow2(result.UShort1)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort2)  && (math.intlog2(a.UShort2)  % 3u == 0)) ? math.ispow2(result.UShort2)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort3)  && (math.intlog2(a.UShort3)  % 3u == 0)) ? math.ispow2(result.UShort3)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort4)  && (math.intlog2(a.UShort4)  % 3u == 0)) ? math.ispow2(result.UShort4)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort5)  && (math.intlog2(a.UShort5)  % 3u == 0)) ? math.ispow2(result.UShort5)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort6)  && (math.intlog2(a.UShort6)  % 3u == 0)) ? math.ispow2(result.UShort6)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort7)  && (math.intlog2(a.UShort7)  % 3u == 0)) ? math.ispow2(result.UShort7)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort8)  && (math.intlog2(a.UShort8)  % 3u == 0)) ? math.ispow2(result.UShort8)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort9)  && (math.intlog2(a.UShort9)  % 3u == 0)) ? math.ispow2(result.UShort9)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort10) && (math.intlog2(a.UShort10) % 3u == 0)) ? math.ispow2(result.UShort10) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort11) && (math.intlog2(a.UShort11) % 3u == 0)) ? math.ispow2(result.UShort11) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort12) && (math.intlog2(a.UShort12) % 3u == 0)) ? math.ispow2(result.UShort12) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort13) && (math.intlog2(a.UShort13) % 3u == 0)) ? math.ispow2(result.UShort13) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort14) && (math.intlog2(a.UShort14) % 3u == 0)) ? math.ispow2(result.UShort14) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort15) && (math.intlog2(a.UShort15) % 3u == 0)) ? math.ispow2(result.UShort15) : true);
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -77,11 +222,63 @@ namespace MaxMath
                     v128 cb4 = set1_epi16(4 * 4 * 4 - 1);
                     v128 cb5 = set1_epi16(5 * 5 * 5 - 1);
 
-                    v128 result = sub_epi16(    neg_epi16(cmpgt_epi16(a, cb1)),cmpgt_epi16(a, cb2));
+                    v128 result = sub_epi16(        neg_epi16(cmpgt_epi16(a, cb1)),cmpgt_epi16(a, cb2));
                     result      = sub_epi16(result, add_epi16(cmpgt_epi16(a, cb3), cmpgt_epi16(a, cb4)));
                     result      = sub_epi16(result, cmpgt_epi16(a, cb5));
 
                     constexpr.ASSUME_LE_EPU16(result, 5);
+
+                    constexpr.ASSUME_LE_EPU16(result, a);
+                    if (constexpr.ALL_GT_EPU16(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU16(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UShort0 * result.UShort0 * result.UShort0 <= a.UShort0);
+                    constexpr.ASSUME(result.UShort1 * result.UShort1 * result.UShort1 <= a.UShort1);
+                    constexpr.ASSUME(result.UShort2 * result.UShort2 * result.UShort2 <= a.UShort2);
+                    constexpr.ASSUME(result.UShort3 * result.UShort3 * result.UShort3 <= a.UShort3);
+                    constexpr.ASSUME(result.UShort4 * result.UShort4 * result.UShort4 <= a.UShort4);
+                    constexpr.ASSUME(result.UShort5 * result.UShort5 * result.UShort5 <= a.UShort5);
+                    constexpr.ASSUME(result.UShort6 * result.UShort6 * result.UShort6 <= a.UShort6);
+                    constexpr.ASSUME(result.UShort7 * result.UShort7 * result.UShort7 <= a.UShort7);
+
+                    constexpr.ASSUME((result.UShort0 + 1) * (result.UShort0 + 1) * (result.UShort0 + 1) > a.UShort0);
+                    constexpr.ASSUME((result.UShort1 + 1) * (result.UShort1 + 1) * (result.UShort1 + 1) > a.UShort1);
+                    constexpr.ASSUME((result.UShort2 + 1) * (result.UShort2 + 1) * (result.UShort2 + 1) > a.UShort2);
+                    constexpr.ASSUME((result.UShort3 + 1) * (result.UShort3 + 1) * (result.UShort3 + 1) > a.UShort3);
+                    constexpr.ASSUME((result.UShort4 + 1) * (result.UShort4 + 1) * (result.UShort4 + 1) > a.UShort4);
+                    constexpr.ASSUME((result.UShort5 + 1) * (result.UShort5 + 1) * (result.UShort5 + 1) > a.UShort5);
+                    constexpr.ASSUME((result.UShort6 + 1) * (result.UShort6 + 1) * (result.UShort6 + 1) > a.UShort6);
+                    constexpr.ASSUME((result.UShort7 + 1) * (result.UShort7 + 1) * (result.UShort7 + 1) > a.UShort7);
+
+                    constexpr.ASSUME((a.UShort0 <= 1) == (result.UShort0 == a.UShort0));
+                    constexpr.ASSUME((a.UShort1 <= 1) == (result.UShort1 == a.UShort1));
+                    constexpr.ASSUME((a.UShort2 <= 1) == (result.UShort2 == a.UShort2));
+                    constexpr.ASSUME((a.UShort3 <= 1) == (result.UShort3 == a.UShort3));
+                    constexpr.ASSUME((a.UShort4 <= 1) == (result.UShort4 == a.UShort4));
+                    constexpr.ASSUME((a.UShort5 <= 1) == (result.UShort5 == a.UShort5));
+                    constexpr.ASSUME((a.UShort6 <= 1) == (result.UShort6 == a.UShort6));
+                    constexpr.ASSUME((a.UShort7 <= 1) == (result.UShort7 == a.UShort7));
+
+                    constexpr.ASSUME((a.UShort0 != 0) == (result.UShort0 > 0));
+                    constexpr.ASSUME((a.UShort1 != 0) == (result.UShort1 > 0));
+                    constexpr.ASSUME((a.UShort2 != 0) == (result.UShort2 > 0));
+                    constexpr.ASSUME((a.UShort3 != 0) == (result.UShort3 > 0));
+                    constexpr.ASSUME((a.UShort4 != 0) == (result.UShort4 > 0));
+                    constexpr.ASSUME((a.UShort5 != 0) == (result.UShort5 > 0));
+                    constexpr.ASSUME((a.UShort6 != 0) == (result.UShort6 > 0));
+                    constexpr.ASSUME((a.UShort7 != 0) == (result.UShort7 > 0));
+
+                    //constexpr.ASSUME((math.ispow2(a.UShort0) && (math.intlog2(a.UShort0) % 3u == 0)) ? math.ispow2(result.UShort0) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort1) && (math.intlog2(a.UShort1) % 3u == 0)) ? math.ispow2(result.UShort1) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort2) && (math.intlog2(a.UShort2) % 3u == 0)) ? math.ispow2(result.UShort2) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort3) && (math.intlog2(a.UShort3) % 3u == 0)) ? math.ispow2(result.UShort3) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort4) && (math.intlog2(a.UShort4) % 3u == 0)) ? math.ispow2(result.UShort4) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort5) && (math.intlog2(a.UShort5) % 3u == 0)) ? math.ispow2(result.UShort5) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort6) && (math.intlog2(a.UShort6) % 3u == 0)) ? math.ispow2(result.UShort6) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort7) && (math.intlog2(a.UShort7) % 3u == 0)) ? math.ispow2(result.UShort7) : true);
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -98,11 +295,103 @@ namespace MaxMath
                     v256 cb4 = mm256_set1_epi16(4 * 4 * 4 - 1);
                     v256 cb5 = mm256_set1_epi16(5 * 5 * 5 - 1);
 
-                    v256 result = Avx2.mm256_sub_epi16(    mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(a, cb1)),Avx2.mm256_cmpgt_epi16(a, cb2));
+                    v256 result = Avx2.mm256_sub_epi16(        mm256_neg_epi16(Avx2.mm256_cmpgt_epi16(a, cb1)),Avx2.mm256_cmpgt_epi16(a, cb2));
                     result = Avx2.mm256_sub_epi16(result, Avx2.mm256_add_epi16(Avx2.mm256_cmpgt_epi16(a, cb3), Avx2.mm256_cmpgt_epi16(a, cb4)));
                     result = Avx2.mm256_sub_epi16(result, Avx2.mm256_cmpgt_epi16(a, cb5));
 
                     constexpr.ASSUME_LE_EPU16(result, 5);
+
+                    constexpr.ASSUME_LE_EPU16(result, a);
+                    if (constexpr.ALL_GT_EPU16(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU16(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UShort0  * result.UShort0  * result.UShort0  <= a.UShort0);
+                    constexpr.ASSUME(result.UShort1  * result.UShort1  * result.UShort1  <= a.UShort1);
+                    constexpr.ASSUME(result.UShort2  * result.UShort2  * result.UShort2  <= a.UShort2);
+                    constexpr.ASSUME(result.UShort3  * result.UShort3  * result.UShort3  <= a.UShort3);
+                    constexpr.ASSUME(result.UShort4  * result.UShort4  * result.UShort4  <= a.UShort4);
+                    constexpr.ASSUME(result.UShort5  * result.UShort5  * result.UShort5  <= a.UShort5);
+                    constexpr.ASSUME(result.UShort6  * result.UShort6  * result.UShort6  <= a.UShort6);
+                    constexpr.ASSUME(result.UShort7  * result.UShort7  * result.UShort7  <= a.UShort7);
+                    constexpr.ASSUME(result.UShort8  * result.UShort8  * result.UShort8  <= a.UShort8);
+                    constexpr.ASSUME(result.UShort9  * result.UShort9  * result.UShort9  <= a.UShort9);
+                    constexpr.ASSUME(result.UShort10 * result.UShort10 * result.UShort10 <= a.UShort10);
+                    constexpr.ASSUME(result.UShort11 * result.UShort11 * result.UShort11 <= a.UShort11);
+                    constexpr.ASSUME(result.UShort12 * result.UShort12 * result.UShort12 <= a.UShort12);
+                    constexpr.ASSUME(result.UShort13 * result.UShort13 * result.UShort13 <= a.UShort13);
+                    constexpr.ASSUME(result.UShort14 * result.UShort14 * result.UShort14 <= a.UShort14);
+                    constexpr.ASSUME(result.UShort15 * result.UShort15 * result.UShort15 <= a.UShort15);
+
+                    constexpr.ASSUME((result.UShort0  + 1) * (result.UShort0  + 1) * (result.UShort0  + 1) > a.UShort0);
+                    constexpr.ASSUME((result.UShort1  + 1) * (result.UShort1  + 1) * (result.UShort1  + 1) > a.UShort1);
+                    constexpr.ASSUME((result.UShort2  + 1) * (result.UShort2  + 1) * (result.UShort2  + 1) > a.UShort2);
+                    constexpr.ASSUME((result.UShort3  + 1) * (result.UShort3  + 1) * (result.UShort3  + 1) > a.UShort3);
+                    constexpr.ASSUME((result.UShort4  + 1) * (result.UShort4  + 1) * (result.UShort4  + 1) > a.UShort4);
+                    constexpr.ASSUME((result.UShort5  + 1) * (result.UShort5  + 1) * (result.UShort5  + 1) > a.UShort5);
+                    constexpr.ASSUME((result.UShort6  + 1) * (result.UShort6  + 1) * (result.UShort6  + 1) > a.UShort6);
+                    constexpr.ASSUME((result.UShort7  + 1) * (result.UShort7  + 1) * (result.UShort7  + 1) > a.UShort7);
+                    constexpr.ASSUME((result.UShort8  + 1) * (result.UShort8  + 1) * (result.UShort8  + 1) > a.UShort8);
+                    constexpr.ASSUME((result.UShort9  + 1) * (result.UShort9  + 1) * (result.UShort9  + 1) > a.UShort9);
+                    constexpr.ASSUME((result.UShort10 + 1) * (result.UShort10 + 1) * (result.UShort10 + 1) > a.UShort10);
+                    constexpr.ASSUME((result.UShort11 + 1) * (result.UShort11 + 1) * (result.UShort11 + 1) > a.UShort11);
+                    constexpr.ASSUME((result.UShort12 + 1) * (result.UShort12 + 1) * (result.UShort12 + 1) > a.UShort12);
+                    constexpr.ASSUME((result.UShort13 + 1) * (result.UShort13 + 1) * (result.UShort13 + 1) > a.UShort13);
+                    constexpr.ASSUME((result.UShort14 + 1) * (result.UShort14 + 1) * (result.UShort14 + 1) > a.UShort14);
+                    constexpr.ASSUME((result.UShort15 + 1) * (result.UShort15 + 1) * (result.UShort15 + 1) > a.UShort15);
+
+                    constexpr.ASSUME((a.UShort0  <= 1) == (result.UShort0  == a.UShort0));
+                    constexpr.ASSUME((a.UShort1  <= 1) == (result.UShort1  == a.UShort1));
+                    constexpr.ASSUME((a.UShort2  <= 1) == (result.UShort2  == a.UShort2));
+                    constexpr.ASSUME((a.UShort3  <= 1) == (result.UShort3  == a.UShort3));
+                    constexpr.ASSUME((a.UShort4  <= 1) == (result.UShort4  == a.UShort4));
+                    constexpr.ASSUME((a.UShort5  <= 1) == (result.UShort5  == a.UShort5));
+                    constexpr.ASSUME((a.UShort6  <= 1) == (result.UShort6  == a.UShort6));
+                    constexpr.ASSUME((a.UShort7  <= 1) == (result.UShort7  == a.UShort7));
+                    constexpr.ASSUME((a.UShort8  <= 1) == (result.UShort8  == a.UShort8));
+                    constexpr.ASSUME((a.UShort9  <= 1) == (result.UShort9  == a.UShort9));
+                    constexpr.ASSUME((a.UShort10 <= 1) == (result.UShort10 == a.UShort10));
+                    constexpr.ASSUME((a.UShort11 <= 1) == (result.UShort11 == a.UShort11));
+                    constexpr.ASSUME((a.UShort12 <= 1) == (result.UShort12 == a.UShort12));
+                    constexpr.ASSUME((a.UShort13 <= 1) == (result.UShort13 == a.UShort13));
+                    constexpr.ASSUME((a.UShort14 <= 1) == (result.UShort14 == a.UShort14));
+                    constexpr.ASSUME((a.UShort15 <= 1) == (result.UShort15 == a.UShort15));
+
+                    constexpr.ASSUME((a.UShort0  != 0) == (result.UShort0 > 0));
+                    constexpr.ASSUME((a.UShort1  != 0) == (result.UShort1 > 0));
+                    constexpr.ASSUME((a.UShort2  != 0) == (result.UShort2 > 0));
+                    constexpr.ASSUME((a.UShort3  != 0) == (result.UShort3 > 0));
+                    constexpr.ASSUME((a.UShort4  != 0) == (result.UShort4 > 0));
+                    constexpr.ASSUME((a.UShort5  != 0) == (result.UShort5 > 0));
+                    constexpr.ASSUME((a.UShort6  != 0) == (result.UShort6 > 0));
+                    constexpr.ASSUME((a.UShort7  != 0) == (result.UShort7 > 0));
+                    constexpr.ASSUME((a.UShort8  != 0) == (result.UShort8 > 0));
+                    constexpr.ASSUME((a.UShort9  != 0) == (result.UShort9 > 0));
+                    constexpr.ASSUME((a.UShort10 != 0) == (result.UShort10> 0));
+                    constexpr.ASSUME((a.UShort11 != 0) == (result.UShort11> 0));
+                    constexpr.ASSUME((a.UShort12 != 0) == (result.UShort12> 0));
+                    constexpr.ASSUME((a.UShort13 != 0) == (result.UShort13> 0));
+                    constexpr.ASSUME((a.UShort14 != 0) == (result.UShort14> 0));
+                    constexpr.ASSUME((a.UShort15 != 0) == (result.UShort15> 0));
+
+                    //constexpr.ASSUME((math.ispow2(a.UShort0)  && (math.intlog2(a.UShort0)  % 3u == 0)) ? math.ispow2(result.UShort0)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort1)  && (math.intlog2(a.UShort1)  % 3u == 0)) ? math.ispow2(result.UShort1)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort2)  && (math.intlog2(a.UShort2)  % 3u == 0)) ? math.ispow2(result.UShort2)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort3)  && (math.intlog2(a.UShort3)  % 3u == 0)) ? math.ispow2(result.UShort3)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort4)  && (math.intlog2(a.UShort4)  % 3u == 0)) ? math.ispow2(result.UShort4)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort5)  && (math.intlog2(a.UShort5)  % 3u == 0)) ? math.ispow2(result.UShort5)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort6)  && (math.intlog2(a.UShort6)  % 3u == 0)) ? math.ispow2(result.UShort6)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort7)  && (math.intlog2(a.UShort7)  % 3u == 0)) ? math.ispow2(result.UShort7)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort8)  && (math.intlog2(a.UShort8)  % 3u == 0)) ? math.ispow2(result.UShort8)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort9)  && (math.intlog2(a.UShort9)  % 3u == 0)) ? math.ispow2(result.UShort9)  : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort10) && (math.intlog2(a.UShort10) % 3u == 0)) ? math.ispow2(result.UShort10) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort11) && (math.intlog2(a.UShort11) % 3u == 0)) ? math.ispow2(result.UShort11) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort12) && (math.intlog2(a.UShort12) % 3u == 0)) ? math.ispow2(result.UShort12) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort13) && (math.intlog2(a.UShort13) % 3u == 0)) ? math.ispow2(result.UShort13) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort14) && (math.intlog2(a.UShort14) % 3u == 0)) ? math.ispow2(result.UShort14) : true);
+                    //constexpr.ASSUME((math.ispow2(a.UShort15) && (math.intlog2(a.UShort15) % 3u == 0)) ? math.ispow2(result.UShort15) : true);
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -130,7 +419,7 @@ namespace MaxMath
                         v128 cb5 = set1_epi8(5 * 5 * 5);
                         v128 cb6 = set1_epi8(6 * 6 * 6);
 
-                        result = sub_epi8(    neg_epi8(cmpge_epu8(a, cb1)),cmpge_epu8(a, cb2));
+                        result = sub_epi8(        neg_epi8(cmpge_epu8(a, cb1)),cmpge_epu8(a, cb2));
                         result = sub_epi8(result, add_epi8(cmpge_epu8(a, cb3), cmpge_epu8(a, cb4)));
                         result = sub_epi8(result, add_epi8(cmpge_epu8(a, cb5), cmpge_epu8(a, cb6)));
                     }
@@ -141,6 +430,88 @@ namespace MaxMath
                     }
 
                     constexpr.ASSUME_LE_EPU8(result, 6);
+
+                    constexpr.ASSUME_LE_EPU8(result, a, elements);
+                    if (constexpr.ALL_GT_EPU8(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a, elements);
+                    }
+                    
+                    constexpr.ASSUME(result.Byte0  * result.Byte0  * result.Byte0  <= a.Byte0 );
+                    constexpr.ASSUME(result.Byte1  * result.Byte1  * result.Byte1  <= a.Byte1 );
+                    constexpr.ASSUME(result.Byte2  * result.Byte2  * result.Byte2  <= a.Byte2 );
+                    constexpr.ASSUME(result.Byte3  * result.Byte3  * result.Byte3  <= a.Byte3 );
+                    constexpr.ASSUME(result.Byte4  * result.Byte4  * result.Byte4  <= a.Byte4 );
+                    constexpr.ASSUME(result.Byte5  * result.Byte5  * result.Byte5  <= a.Byte5 );
+                    constexpr.ASSUME(result.Byte6  * result.Byte6  * result.Byte6  <= a.Byte6 );
+                    constexpr.ASSUME(result.Byte7  * result.Byte7  * result.Byte7  <= a.Byte7 );
+                    
+                    constexpr.ASSUME((result.Byte0  + 1) * (result.Byte0  + 1) * (result.Byte0  + 1) > a.Byte0 );
+                    constexpr.ASSUME((result.Byte1  + 1) * (result.Byte1  + 1) * (result.Byte1  + 1) > a.Byte1 );
+                    constexpr.ASSUME((result.Byte2  + 1) * (result.Byte2  + 1) * (result.Byte2  + 1) > a.Byte2 );
+                    constexpr.ASSUME((result.Byte3  + 1) * (result.Byte3  + 1) * (result.Byte3  + 1) > a.Byte3 );
+                    constexpr.ASSUME((result.Byte4  + 1) * (result.Byte4  + 1) * (result.Byte4  + 1) > a.Byte4 );
+                    constexpr.ASSUME((result.Byte5  + 1) * (result.Byte5  + 1) * (result.Byte5  + 1) > a.Byte5 );
+                    constexpr.ASSUME((result.Byte6  + 1) * (result.Byte6  + 1) * (result.Byte6  + 1) > a.Byte6 );
+                    constexpr.ASSUME((result.Byte7  + 1) * (result.Byte7  + 1) * (result.Byte7  + 1) > a.Byte7 );
+                    
+                    constexpr.ASSUME((a.Byte0  <= 1) == (result.Byte0  == a.Byte0 ));
+                    constexpr.ASSUME((a.Byte1  <= 1) == (result.Byte1  == a.Byte1 ));
+                    constexpr.ASSUME((a.Byte2  <= 1) == (result.Byte2  == a.Byte2 ));
+                    constexpr.ASSUME((a.Byte3  <= 1) == (result.Byte3  == a.Byte3 ));
+                    constexpr.ASSUME((a.Byte4  <= 1) == (result.Byte4  == a.Byte4 ));
+                    constexpr.ASSUME((a.Byte5  <= 1) == (result.Byte5  == a.Byte5 ));
+                    constexpr.ASSUME((a.Byte6  <= 1) == (result.Byte6  == a.Byte6 ));
+                    constexpr.ASSUME((a.Byte7  <= 1) == (result.Byte7  == a.Byte7 ));
+                    
+                    constexpr.ASSUME((a.Byte0  != 0) == (result.Byte0  > 0));
+                    constexpr.ASSUME((a.Byte1  != 0) == (result.Byte1  > 0));
+                    constexpr.ASSUME((a.Byte2  != 0) == (result.Byte2  > 0));
+                    constexpr.ASSUME((a.Byte3  != 0) == (result.Byte3  > 0));
+                    constexpr.ASSUME((a.Byte4  != 0) == (result.Byte4  > 0));
+                    constexpr.ASSUME((a.Byte5  != 0) == (result.Byte5  > 0));
+                    constexpr.ASSUME((a.Byte6  != 0) == (result.Byte6  > 0));
+                    constexpr.ASSUME((a.Byte7  != 0) == (result.Byte7  > 0));
+                    
+                    if (elements > 8)
+                    {
+                        constexpr.ASSUME(result.Byte8  * result.Byte8  * result.Byte8  <= a.Byte8 );
+                        constexpr.ASSUME(result.Byte9  * result.Byte9  * result.Byte9  <= a.Byte9 );
+                        constexpr.ASSUME(result.Byte10 * result.Byte10 * result.Byte10 <= a.Byte10);
+                        constexpr.ASSUME(result.Byte11 * result.Byte11 * result.Byte11 <= a.Byte11);
+                        constexpr.ASSUME(result.Byte12 * result.Byte12 * result.Byte12 <= a.Byte12);
+                        constexpr.ASSUME(result.Byte13 * result.Byte13 * result.Byte13 <= a.Byte13);
+                        constexpr.ASSUME(result.Byte14 * result.Byte14 * result.Byte14 <= a.Byte14);
+                        constexpr.ASSUME(result.Byte15 * result.Byte15 * result.Byte15 <= a.Byte15);
+                        
+                        constexpr.ASSUME((result.Byte8  + 1) * (result.Byte8  + 1) * (result.Byte8  + 1) > a.Byte8 );
+                        constexpr.ASSUME((result.Byte9  + 1) * (result.Byte9  + 1) * (result.Byte9  + 1) > a.Byte9 );
+                        constexpr.ASSUME((result.Byte10 + 1) * (result.Byte10 + 1) * (result.Byte10 + 1) > a.Byte10);
+                        constexpr.ASSUME((result.Byte11 + 1) * (result.Byte11 + 1) * (result.Byte11 + 1) > a.Byte11);
+                        constexpr.ASSUME((result.Byte12 + 1) * (result.Byte12 + 1) * (result.Byte12 + 1) > a.Byte12);
+                        constexpr.ASSUME((result.Byte13 + 1) * (result.Byte13 + 1) * (result.Byte13 + 1) > a.Byte13);
+                        constexpr.ASSUME((result.Byte14 + 1) * (result.Byte14 + 1) * (result.Byte14 + 1) > a.Byte14);
+                        constexpr.ASSUME((result.Byte15 + 1) * (result.Byte15 + 1) * (result.Byte15 + 1) > a.Byte15);
+                        
+                        constexpr.ASSUME((a.Byte8  <= 1) == (result.Byte8  == a.Byte8 ));
+                        constexpr.ASSUME((a.Byte9  <= 1) == (result.Byte9  == a.Byte9 ));
+                        constexpr.ASSUME((a.Byte10 <= 1) == (result.Byte10 == a.Byte10));
+                        constexpr.ASSUME((a.Byte11 <= 1) == (result.Byte11 == a.Byte11));
+                        constexpr.ASSUME((a.Byte12 <= 1) == (result.Byte12 == a.Byte12));
+                        constexpr.ASSUME((a.Byte13 <= 1) == (result.Byte13 == a.Byte13));
+                        constexpr.ASSUME((a.Byte14 <= 1) == (result.Byte14 == a.Byte14));
+                        constexpr.ASSUME((a.Byte15 <= 1) == (result.Byte15 == a.Byte15));
+                        
+                        constexpr.ASSUME((a.Byte8  != 0) == (result.Byte8  > 0));
+                        constexpr.ASSUME((a.Byte9  != 0) == (result.Byte9  > 0));
+                        constexpr.ASSUME((a.Byte10 != 0) == (result.Byte10 > 0));
+                        constexpr.ASSUME((a.Byte11 != 0) == (result.Byte11 > 0));
+                        constexpr.ASSUME((a.Byte12 != 0) == (result.Byte12 > 0));
+                        constexpr.ASSUME((a.Byte13 != 0) == (result.Byte13 > 0));
+                        constexpr.ASSUME((a.Byte14 != 0) == (result.Byte14 > 0));
+                        constexpr.ASSUME((a.Byte15 != 0) == (result.Byte15 > 0));
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -163,11 +534,150 @@ namespace MaxMath
                     v256 cb5 = mm256_set1_epi8(5 * 5 * 5);
                     v256 cb6 = mm256_set1_epi8(6 * 6 * 6);
 
-                    v256 result = Avx2.mm256_sub_epi8(    mm256_neg_epi8(mm256_cmpge_epu8(a, cb1)),mm256_cmpge_epu8(a, cb2));
+                    v256 result = Avx2.mm256_sub_epi8(        mm256_neg_epi8(mm256_cmpge_epu8(a, cb1)),mm256_cmpge_epu8(a, cb2));
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_add_epi8(mm256_cmpge_epu8(a, cb3), mm256_cmpge_epu8(a, cb4)));
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_add_epi8(mm256_cmpge_epu8(a, cb5), mm256_cmpge_epu8(a, cb6)));
 
                     constexpr.ASSUME_LE_EPU8(result, 6);
+
+                    constexpr.ASSUME_LE_EPU8(result, a);
+                    if (constexpr.ALL_GT_EPU8(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a);
+                    }
+
+                    constexpr.ASSUME(result.Byte0  * result.Byte0  * result.Byte0  <= a.Byte0 );
+                    constexpr.ASSUME(result.Byte1  * result.Byte1  * result.Byte1  <= a.Byte1 );
+                    constexpr.ASSUME(result.Byte2  * result.Byte2  * result.Byte2  <= a.Byte2 );
+                    constexpr.ASSUME(result.Byte3  * result.Byte3  * result.Byte3  <= a.Byte3 );
+                    constexpr.ASSUME(result.Byte4  * result.Byte4  * result.Byte4  <= a.Byte4 );
+                    constexpr.ASSUME(result.Byte5  * result.Byte5  * result.Byte5  <= a.Byte5 );
+                    constexpr.ASSUME(result.Byte6  * result.Byte6  * result.Byte6  <= a.Byte6 );
+                    constexpr.ASSUME(result.Byte7  * result.Byte7  * result.Byte7  <= a.Byte7 );
+                    constexpr.ASSUME(result.Byte8  * result.Byte8  * result.Byte8  <= a.Byte8 );
+                    constexpr.ASSUME(result.Byte9  * result.Byte9  * result.Byte9  <= a.Byte9 );
+                    constexpr.ASSUME(result.Byte10 * result.Byte10 * result.Byte10 <= a.Byte10);
+                    constexpr.ASSUME(result.Byte11 * result.Byte11 * result.Byte11 <= a.Byte11);
+                    constexpr.ASSUME(result.Byte12 * result.Byte12 * result.Byte12 <= a.Byte12);
+                    constexpr.ASSUME(result.Byte13 * result.Byte13 * result.Byte13 <= a.Byte13);
+                    constexpr.ASSUME(result.Byte14 * result.Byte14 * result.Byte14 <= a.Byte14);
+                    constexpr.ASSUME(result.Byte15 * result.Byte15 * result.Byte15 <= a.Byte15);
+                    constexpr.ASSUME(result.Byte16 * result.Byte16 * result.Byte16 <= a.Byte16);
+                    constexpr.ASSUME(result.Byte17 * result.Byte17 * result.Byte17 <= a.Byte17);
+                    constexpr.ASSUME(result.Byte18 * result.Byte18 * result.Byte18 <= a.Byte18);
+                    constexpr.ASSUME(result.Byte19 * result.Byte19 * result.Byte19 <= a.Byte19);
+                    constexpr.ASSUME(result.Byte20 * result.Byte20 * result.Byte20 <= a.Byte20);
+                    constexpr.ASSUME(result.Byte21 * result.Byte21 * result.Byte21 <= a.Byte21);
+                    constexpr.ASSUME(result.Byte22 * result.Byte22 * result.Byte22 <= a.Byte22);
+                    constexpr.ASSUME(result.Byte23 * result.Byte23 * result.Byte23 <= a.Byte23);
+                    constexpr.ASSUME(result.Byte24 * result.Byte24 * result.Byte24 <= a.Byte24);
+                    constexpr.ASSUME(result.Byte25 * result.Byte25 * result.Byte25 <= a.Byte25);
+                    constexpr.ASSUME(result.Byte26 * result.Byte26 * result.Byte26 <= a.Byte26);
+                    constexpr.ASSUME(result.Byte27 * result.Byte27 * result.Byte27 <= a.Byte27);
+                    constexpr.ASSUME(result.Byte28 * result.Byte28 * result.Byte28 <= a.Byte28);
+                    constexpr.ASSUME(result.Byte29 * result.Byte29 * result.Byte29 <= a.Byte29);
+                    constexpr.ASSUME(result.Byte30 * result.Byte30 * result.Byte30 <= a.Byte30);
+                    constexpr.ASSUME(result.Byte31 * result.Byte31 * result.Byte31 <= a.Byte31);
+                    
+                    constexpr.ASSUME((result.Byte0  + 1) * (result.Byte0  + 1) * (result.Byte0  + 1) > a.Byte0 );
+                    constexpr.ASSUME((result.Byte1  + 1) * (result.Byte1  + 1) * (result.Byte1  + 1) > a.Byte1 );
+                    constexpr.ASSUME((result.Byte2  + 1) * (result.Byte2  + 1) * (result.Byte2  + 1) > a.Byte2 );
+                    constexpr.ASSUME((result.Byte3  + 1) * (result.Byte3  + 1) * (result.Byte3  + 1) > a.Byte3 );
+                    constexpr.ASSUME((result.Byte4  + 1) * (result.Byte4  + 1) * (result.Byte4  + 1) > a.Byte4 );
+                    constexpr.ASSUME((result.Byte5  + 1) * (result.Byte5  + 1) * (result.Byte5  + 1) > a.Byte5 );
+                    constexpr.ASSUME((result.Byte6  + 1) * (result.Byte6  + 1) * (result.Byte6  + 1) > a.Byte6 );
+                    constexpr.ASSUME((result.Byte7  + 1) * (result.Byte7  + 1) * (result.Byte7  + 1) > a.Byte7 );
+                    constexpr.ASSUME((result.Byte8  + 1) * (result.Byte8  + 1) * (result.Byte8  + 1) > a.Byte8 );
+                    constexpr.ASSUME((result.Byte9  + 1) * (result.Byte9  + 1) * (result.Byte9  + 1) > a.Byte9 );
+                    constexpr.ASSUME((result.Byte10 + 1) * (result.Byte10 + 1) * (result.Byte10 + 1) > a.Byte10);
+                    constexpr.ASSUME((result.Byte11 + 1) * (result.Byte11 + 1) * (result.Byte11 + 1) > a.Byte11);
+                    constexpr.ASSUME((result.Byte12 + 1) * (result.Byte12 + 1) * (result.Byte12 + 1) > a.Byte12);
+                    constexpr.ASSUME((result.Byte13 + 1) * (result.Byte13 + 1) * (result.Byte13 + 1) > a.Byte13);
+                    constexpr.ASSUME((result.Byte14 + 1) * (result.Byte14 + 1) * (result.Byte14 + 1) > a.Byte14);
+                    constexpr.ASSUME((result.Byte15 + 1) * (result.Byte15 + 1) * (result.Byte15 + 1) > a.Byte15);
+                    constexpr.ASSUME((result.Byte16 + 1) * (result.Byte16 + 1) * (result.Byte16 + 1) > a.Byte16);
+                    constexpr.ASSUME((result.Byte17 + 1) * (result.Byte17 + 1) * (result.Byte17 + 1) > a.Byte17);
+                    constexpr.ASSUME((result.Byte18 + 1) * (result.Byte18 + 1) * (result.Byte18 + 1) > a.Byte18);
+                    constexpr.ASSUME((result.Byte19 + 1) * (result.Byte19 + 1) * (result.Byte19 + 1) > a.Byte19);
+                    constexpr.ASSUME((result.Byte20 + 1) * (result.Byte20 + 1) * (result.Byte20 + 1) > a.Byte20);
+                    constexpr.ASSUME((result.Byte21 + 1) * (result.Byte21 + 1) * (result.Byte21 + 1) > a.Byte21);
+                    constexpr.ASSUME((result.Byte22 + 1) * (result.Byte22 + 1) * (result.Byte22 + 1) > a.Byte22);
+                    constexpr.ASSUME((result.Byte23 + 1) * (result.Byte23 + 1) * (result.Byte23 + 1) > a.Byte23);
+                    constexpr.ASSUME((result.Byte24 + 1) * (result.Byte24 + 1) * (result.Byte24 + 1) > a.Byte24);
+                    constexpr.ASSUME((result.Byte25 + 1) * (result.Byte25 + 1) * (result.Byte25 + 1) > a.Byte25);
+                    constexpr.ASSUME((result.Byte26 + 1) * (result.Byte26 + 1) * (result.Byte26 + 1) > a.Byte26);
+                    constexpr.ASSUME((result.Byte27 + 1) * (result.Byte27 + 1) * (result.Byte27 + 1) > a.Byte27);
+                    constexpr.ASSUME((result.Byte28 + 1) * (result.Byte28 + 1) * (result.Byte28 + 1) > a.Byte28);
+                    constexpr.ASSUME((result.Byte29 + 1) * (result.Byte29 + 1) * (result.Byte29 + 1) > a.Byte29);
+                    constexpr.ASSUME((result.Byte30 + 1) * (result.Byte30 + 1) * (result.Byte30 + 1) > a.Byte30);
+                    constexpr.ASSUME((result.Byte31 + 1) * (result.Byte31 + 1) * (result.Byte31 + 1) > a.Byte31);
+                    
+                    constexpr.ASSUME((a.Byte0  <= 1) == (result.Byte0  == a.Byte0 ));
+                    constexpr.ASSUME((a.Byte1  <= 1) == (result.Byte1  == a.Byte1 ));
+                    constexpr.ASSUME((a.Byte2  <= 1) == (result.Byte2  == a.Byte2 ));
+                    constexpr.ASSUME((a.Byte3  <= 1) == (result.Byte3  == a.Byte3 ));
+                    constexpr.ASSUME((a.Byte4  <= 1) == (result.Byte4  == a.Byte4 ));
+                    constexpr.ASSUME((a.Byte5  <= 1) == (result.Byte5  == a.Byte5 ));
+                    constexpr.ASSUME((a.Byte6  <= 1) == (result.Byte6  == a.Byte6 ));
+                    constexpr.ASSUME((a.Byte7  <= 1) == (result.Byte7  == a.Byte7 ));
+                    constexpr.ASSUME((a.Byte8  <= 1) == (result.Byte8  == a.Byte8 ));
+                    constexpr.ASSUME((a.Byte9  <= 1) == (result.Byte9  == a.Byte9 ));
+                    constexpr.ASSUME((a.Byte10 <= 1) == (result.Byte10 == a.Byte10));
+                    constexpr.ASSUME((a.Byte11 <= 1) == (result.Byte11 == a.Byte11));
+                    constexpr.ASSUME((a.Byte12 <= 1) == (result.Byte12 == a.Byte12));
+                    constexpr.ASSUME((a.Byte13 <= 1) == (result.Byte13 == a.Byte13));
+                    constexpr.ASSUME((a.Byte14 <= 1) == (result.Byte14 == a.Byte14));
+                    constexpr.ASSUME((a.Byte15 <= 1) == (result.Byte15 == a.Byte15));
+                    constexpr.ASSUME((a.Byte16 <= 1) == (result.Byte16 == a.Byte16));
+                    constexpr.ASSUME((a.Byte17 <= 1) == (result.Byte17 == a.Byte17));
+                    constexpr.ASSUME((a.Byte18 <= 1) == (result.Byte18 == a.Byte18));
+                    constexpr.ASSUME((a.Byte19 <= 1) == (result.Byte19 == a.Byte19));
+                    constexpr.ASSUME((a.Byte20 <= 1) == (result.Byte20 == a.Byte20));
+                    constexpr.ASSUME((a.Byte21 <= 1) == (result.Byte21 == a.Byte21));
+                    constexpr.ASSUME((a.Byte22 <= 1) == (result.Byte22 == a.Byte22));
+                    constexpr.ASSUME((a.Byte23 <= 1) == (result.Byte23 == a.Byte23));
+                    constexpr.ASSUME((a.Byte24 <= 1) == (result.Byte24 == a.Byte24));
+                    constexpr.ASSUME((a.Byte25 <= 1) == (result.Byte25 == a.Byte25));
+                    constexpr.ASSUME((a.Byte26 <= 1) == (result.Byte26 == a.Byte26));
+                    constexpr.ASSUME((a.Byte27 <= 1) == (result.Byte27 == a.Byte27));
+                    constexpr.ASSUME((a.Byte28 <= 1) == (result.Byte28 == a.Byte28));
+                    constexpr.ASSUME((a.Byte29 <= 1) == (result.Byte29 == a.Byte29));
+                    constexpr.ASSUME((a.Byte30 <= 1) == (result.Byte30 == a.Byte30));
+                    constexpr.ASSUME((a.Byte31 <= 1) == (result.Byte31 == a.Byte31));
+                    
+                    constexpr.ASSUME((a.Byte0  != 0) == (result.Byte0  > 0));
+                    constexpr.ASSUME((a.Byte1  != 0) == (result.Byte1  > 0));
+                    constexpr.ASSUME((a.Byte2  != 0) == (result.Byte2  > 0));
+                    constexpr.ASSUME((a.Byte3  != 0) == (result.Byte3  > 0));
+                    constexpr.ASSUME((a.Byte4  != 0) == (result.Byte4  > 0));
+                    constexpr.ASSUME((a.Byte5  != 0) == (result.Byte5  > 0));
+                    constexpr.ASSUME((a.Byte6  != 0) == (result.Byte6  > 0));
+                    constexpr.ASSUME((a.Byte7  != 0) == (result.Byte7  > 0));
+                    constexpr.ASSUME((a.Byte8  != 0) == (result.Byte8  > 0));
+                    constexpr.ASSUME((a.Byte9  != 0) == (result.Byte9  > 0));
+                    constexpr.ASSUME((a.Byte10 != 0) == (result.Byte10 > 0));
+                    constexpr.ASSUME((a.Byte11 != 0) == (result.Byte11 > 0));
+                    constexpr.ASSUME((a.Byte12 != 0) == (result.Byte12 > 0));
+                    constexpr.ASSUME((a.Byte13 != 0) == (result.Byte13 > 0));
+                    constexpr.ASSUME((a.Byte14 != 0) == (result.Byte14 > 0));
+                    constexpr.ASSUME((a.Byte15 != 0) == (result.Byte15 > 0));
+                    constexpr.ASSUME((a.Byte16 != 0) == (result.Byte16 > 0));
+                    constexpr.ASSUME((a.Byte17 != 0) == (result.Byte17 > 0));
+                    constexpr.ASSUME((a.Byte18 != 0) == (result.Byte18 > 0));
+                    constexpr.ASSUME((a.Byte19 != 0) == (result.Byte19 > 0));
+                    constexpr.ASSUME((a.Byte20 != 0) == (result.Byte20 > 0));
+                    constexpr.ASSUME((a.Byte21 != 0) == (result.Byte21 > 0));
+                    constexpr.ASSUME((a.Byte22 != 0) == (result.Byte22 > 0));
+                    constexpr.ASSUME((a.Byte23 != 0) == (result.Byte23 > 0));
+                    constexpr.ASSUME((a.Byte24 != 0) == (result.Byte24 > 0));
+                    constexpr.ASSUME((a.Byte25 != 0) == (result.Byte25 > 0));
+                    constexpr.ASSUME((a.Byte26 != 0) == (result.Byte26 > 0));
+                    constexpr.ASSUME((a.Byte27 != 0) == (result.Byte27 > 0));
+                    constexpr.ASSUME((a.Byte28 != 0) == (result.Byte28 > 0));
+                    constexpr.ASSUME((a.Byte29 != 0) == (result.Byte29 > 0));
+                    constexpr.ASSUME((a.Byte30 != 0) == (result.Byte30 > 0));
+                    constexpr.ASSUME((a.Byte31 != 0) == (result.Byte31 > 0));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -192,7 +702,7 @@ namespace MaxMath
                     v128 cb4 = set1_epi8(4 * 4 * 4 - 1);
                     v128 cb5 = set1_epi8(5 * 5 * 5 - 1);
 
-                    v128 result = sub_epi8(    neg_epi8(cmpgt_epi8(a, cb1)),cmpgt_epi8(a, cb2));
+                    v128 result = sub_epi8(        neg_epi8(cmpgt_epi8(a, cb1)),cmpgt_epi8(a, cb2));
                     result      = sub_epi8(result, add_epi8(cmpgt_epi8(a, cb3), cmpgt_epi8(a, cb4)));
                     result      = sub_epi8(result, cmpgt_epi8(a, cb5));
 
@@ -235,7 +745,7 @@ namespace MaxMath
                     v256 cb4 = mm256_set1_epi8(4 * 4 * 4 - 1);
                     v256 cb5 = mm256_set1_epi8(5 * 5 * 5 - 1);
 
-                    v256 result = Avx2.mm256_sub_epi8(    mm256_neg_epi8(Avx2.mm256_cmpgt_epi8(a, cb1)),Avx2.mm256_cmpgt_epi8(a, cb2));
+                    v256 result = Avx2.mm256_sub_epi8(        mm256_neg_epi8(Avx2.mm256_cmpgt_epi8(a, cb1)),Avx2.mm256_cmpgt_epi8(a, cb2));
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_add_epi8(Avx2.mm256_cmpgt_epi8(a, cb3), Avx2.mm256_cmpgt_epi8(a, cb4)));
                     result = Avx2.mm256_sub_epi8(result, Avx2.mm256_cmpgt_epi8(a, cb5));
 
@@ -256,85 +766,129 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+                    v128 result;
                     if (promiseByteRange || constexpr.ALL_LE_EPU16(a, byte.MaxValue, elements))
                     {
-                        return cbrt_epu8_takingAndReturning_epu16(a, elements);
+                        result = cbrt_epu8_takingAndReturning_epu16(a, elements);
                     }
                     else
                     {
-                        v128 y;
+                        v128 __a = a;
                         v128 b;
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            y = setzero_si128();
+                            result = setzero_si128();
 
                             for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
-                                y = add_epi16(y, y);
-                                v128 y3 = add_epi16(y, slli_epi16(y, 1));
-                                b = inc_epi16(mullo_epi16(y3, inc_epi16(y)));
+                                result = add_epi16(result, result);
+                                v128 y3 = add_epi16(result, slli_epi16(result, 1));
+                                b = inc_epi16(mullo_epi16(y3, inc_epi16(result)));
 
-                                v128 greaterEqualMask = cmpgt_epi16(b, srli_epi16(a, c, inRange: true));
+                                v128 greaterEqualMask = cmpgt_epi16(b, srli_epi16(__a, c, inRange: true));
                                 v128 subFromX = andnot_si128(greaterEqualMask, slli_epi16(b, c, inRange: true));
                                 v128 addToY = inc_epi16(greaterEqualMask);
-                                a = sub_epi16(a, subFromX);
-                                y = add_epi16(y, addToY);
+                                __a = sub_epi16(__a, subFromX);
+                                result = add_epi16(result, addToY);
                             }
                         }
                         else
                         {
-                            v128 greaterEqualMask = srai_epi16(a, 15);
-                            y = srli_epi16(a, 15);
-                            a = and_si128(a, set1_epi16(0x7FFF));
-                            v128 y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(y, y4);
+                            v128 greaterEqualMask = srai_epi16(__a, 15);
+                            result = srli_epi16(__a, 15);
+                            __a = and_si128(__a, set1_epi16(0x7FFF));
+                            v128 y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(result, y4);
                             b = add_epi16(inc_epi16(b), and_si128(greaterEqualMask, slli_epi16(b, 1)));
 
-                            greaterEqualMask = cmpgt_epi16(b, srli_epi16(a, 12));
+                            greaterEqualMask = cmpgt_epi16(b, srli_epi16(__a, 12));
                             v128 subFromX = andnot_si128(greaterEqualMask, slli_epi16(b, 12));
                             v128 addToY = inc_epi16(greaterEqualMask);
-                            a = sub_epi16(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = inc_epi16(mullo_epi16(add_epi16(y, y4), inc_epi16(y)));
+                            __a = sub_epi16(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = inc_epi16(mullo_epi16(add_epi16(result, y4), inc_epi16(result)));
 
-                            greaterEqualMask = cmpgt_epi16(b, srli_epi16(a, 9));
+                            greaterEqualMask = cmpgt_epi16(b, srli_epi16(__a, 9));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi16(b, 9));
                             addToY = inc_epi16(greaterEqualMask);
-                            a = sub_epi16(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = inc_epi16(mullo_epi16(add_epi16(y, y4), inc_epi16(y)));
+                            __a = sub_epi16(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = inc_epi16(mullo_epi16(add_epi16(result, y4), inc_epi16(result)));
 
-                            greaterEqualMask = cmpgt_epi16(b, srli_epi16(a, 6));
+                            greaterEqualMask = cmpgt_epi16(b, srli_epi16(__a, 6));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi16(b, 6));
                             addToY = inc_epi16(greaterEqualMask);
-                            a = sub_epi16(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = inc_epi16(mullo_epi16(add_epi16(y, y4), inc_epi16(y)));
+                            __a = sub_epi16(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = inc_epi16(mullo_epi16(add_epi16(result, y4), inc_epi16(result)));
 
-                            greaterEqualMask = cmpgt_epi16(b, srli_epi16(a, 3));
+                            greaterEqualMask = cmpgt_epi16(b, srli_epi16(__a, 3));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi16(b, 3));
                             addToY = inc_epi16(greaterEqualMask);
-                            a = sub_epi16(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = inc_epi16(mullo_epi16(add_epi16(y, y4), inc_epi16(y)));
+                            __a = sub_epi16(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = inc_epi16(mullo_epi16(add_epi16(result, y4), inc_epi16(result)));
 
-                            greaterEqualMask = cmpgt_epi16(b, a);
+                            greaterEqualMask = cmpgt_epi16(b, __a);
                             addToY = inc_epi16(greaterEqualMask);
-                            y = add_epi16(y, addToY);
+                            result = add_epi16(result, addToY);
                         }
-
-                        constexpr.ASSUME_LE_EPU16(y, 40);
-                        return y;
                     }
+                    
+                    constexpr.ASSUME_LE_EPU16(result, 40);
+
+                    constexpr.ASSUME_LE_EPU16(result, a, elements);
+                    if (constexpr.ALL_GT_EPU16(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU16(result, a, elements);
+                    }
+
+                    constexpr.ASSUME(result.UShort0 * result.UShort0 * result.UShort0 <= a.UShort0);
+                    constexpr.ASSUME(result.UShort1 * result.UShort1 * result.UShort1 <= a.UShort1);
+                    constexpr.ASSUME(result.UShort2 * result.UShort2 * result.UShort2 <= a.UShort2);
+                    constexpr.ASSUME(result.UShort3 * result.UShort3 * result.UShort3 <= a.UShort3);
+                    constexpr.ASSUME(result.UShort4 * result.UShort4 * result.UShort4 <= a.UShort4);
+                    constexpr.ASSUME(result.UShort5 * result.UShort5 * result.UShort5 <= a.UShort5);
+                    constexpr.ASSUME(result.UShort6 * result.UShort6 * result.UShort6 <= a.UShort6);
+                    constexpr.ASSUME(result.UShort7 * result.UShort7 * result.UShort7 <= a.UShort7);
+                    
+                    constexpr.ASSUME((result.UShort0 + 1) * (result.UShort0 + 1) * (result.UShort0 + 1) > a.UShort0);
+                    constexpr.ASSUME((result.UShort1 + 1) * (result.UShort1 + 1) * (result.UShort1 + 1) > a.UShort1);
+                    constexpr.ASSUME((result.UShort2 + 1) * (result.UShort2 + 1) * (result.UShort2 + 1) > a.UShort2);
+                    constexpr.ASSUME((result.UShort3 + 1) * (result.UShort3 + 1) * (result.UShort3 + 1) > a.UShort3);
+                    constexpr.ASSUME((result.UShort4 + 1) * (result.UShort4 + 1) * (result.UShort4 + 1) > a.UShort4);
+                    constexpr.ASSUME((result.UShort5 + 1) * (result.UShort5 + 1) * (result.UShort5 + 1) > a.UShort5);
+                    constexpr.ASSUME((result.UShort6 + 1) * (result.UShort6 + 1) * (result.UShort6 + 1) > a.UShort6);
+                    constexpr.ASSUME((result.UShort7 + 1) * (result.UShort7 + 1) * (result.UShort7 + 1) > a.UShort7);
+                    
+                    constexpr.ASSUME((a.UShort0 <= 1) == (result.UShort0 == a.UShort0));
+                    constexpr.ASSUME((a.UShort1 <= 1) == (result.UShort1 == a.UShort1));
+                    constexpr.ASSUME((a.UShort2 <= 1) == (result.UShort2 == a.UShort2));
+                    constexpr.ASSUME((a.UShort3 <= 1) == (result.UShort3 == a.UShort3));
+                    constexpr.ASSUME((a.UShort4 <= 1) == (result.UShort4 == a.UShort4));
+                    constexpr.ASSUME((a.UShort5 <= 1) == (result.UShort5 == a.UShort5));
+                    constexpr.ASSUME((a.UShort6 <= 1) == (result.UShort6 == a.UShort6));
+                    constexpr.ASSUME((a.UShort7 <= 1) == (result.UShort7 == a.UShort7));
+                    
+                    constexpr.ASSUME((a.UShort0 != 0) == (result.UShort0 > 0));
+                    constexpr.ASSUME((a.UShort1 != 0) == (result.UShort1 > 0));
+                    constexpr.ASSUME((a.UShort2 != 0) == (result.UShort2 > 0));
+                    constexpr.ASSUME((a.UShort3 != 0) == (result.UShort3 > 0));
+                    constexpr.ASSUME((a.UShort4 != 0) == (result.UShort4 > 0));
+                    constexpr.ASSUME((a.UShort5 != 0) == (result.UShort5 > 0));
+                    constexpr.ASSUME((a.UShort6 != 0) == (result.UShort6 > 0));
+                    constexpr.ASSUME((a.UShort7 != 0) == (result.UShort7 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -344,85 +898,162 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    v256 result;
+
                     if (promiseByteRange || constexpr.ALL_LE_EPU16(a, byte.MaxValue))
                     {
-                        return cbrt_epu8_takingAndReturning_epu16(a);
+                        result = cbrt_epu8_takingAndReturning_epu16(a);
                     }
                     else
                     {
-                        v256 y;
+                        v256 __a = a;
                         v256 b;
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            y = Avx.mm256_setzero_si256();
+                            result = Avx.mm256_setzero_si256();
 
                             for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
-                                y = Avx2.mm256_add_epi16(y, y);
-                                v256 y3 = Avx2.mm256_add_epi16(y, mm256_slli_epi16(y, 1));
-                                b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(y3, mm256_inc_epi16(y)));
+                                result = Avx2.mm256_add_epi16(result, result);
+                                v256 y3 = Avx2.mm256_add_epi16(result, mm256_slli_epi16(result, 1));
+                                b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(y3, mm256_inc_epi16(result)));
 
-                                v256 greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, mm256_srli_epi16(a, c));
+                                v256 greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, mm256_srli_epi16(__a, c));
                                 v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, mm256_slli_epi16(b, c));
                                 v256 addToY = mm256_inc_epi16(greaterEqualMask);
-                                a = Avx2.mm256_sub_epi16(a, subFromX);
-                                y = Avx2.mm256_add_epi16(y, addToY);
+                                __a = Avx2.mm256_sub_epi16(__a, subFromX);
+                                result = Avx2.mm256_add_epi16(result, addToY);
                             }
                         }
                         else
                         {
-                            v256 greaterEqualMask = Avx2.mm256_srai_epi16(a, 15);
-                            y = Avx2.mm256_srli_epi16(a, 15);
-                            a = Avx2.mm256_and_si256(a, mm256_set1_epi16(0x7FFF));
-                            v256 y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(y, y4);
+                            v256 greaterEqualMask = Avx2.mm256_srai_epi16(__a, 15);
+                            result = Avx2.mm256_srli_epi16(__a, 15);
+                            __a = Avx2.mm256_and_si256(__a, mm256_set1_epi16(0x7FFF));
+                            v256 y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(result, y4);
                             b = Avx2.mm256_add_epi16(mm256_inc_epi16(b), Avx2.mm256_and_si256(greaterEqualMask, Avx2.mm256_slli_epi16(b, 1)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, Avx2.mm256_srli_epi16(a, 12));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, Avx2.mm256_srli_epi16(__a, 12));
                             v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi16(b, 12));
                             v256 addToY = mm256_inc_epi16(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi16(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), mm256_inc_epi16(y)));
+                            __a = Avx2.mm256_sub_epi16(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), mm256_inc_epi16(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, Avx2.mm256_srli_epi16(a, 9));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, Avx2.mm256_srli_epi16(__a, 9));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi16(b, 9));
                             addToY = mm256_inc_epi16(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi16(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), mm256_inc_epi16(y)));
+                            __a = Avx2.mm256_sub_epi16(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), mm256_inc_epi16(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, Avx2.mm256_srli_epi16(a, 6));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, Avx2.mm256_srli_epi16(__a, 6));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi16(b, 6));
                             addToY = mm256_inc_epi16(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi16(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), mm256_inc_epi16(y)));
+                            __a = Avx2.mm256_sub_epi16(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), mm256_inc_epi16(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, Avx2.mm256_srli_epi16(a, 3));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, Avx2.mm256_srli_epi16(__a, 3));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi16(b, 3));
                             addToY = mm256_inc_epi16(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi16(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), mm256_inc_epi16(y)));
+                            __a = Avx2.mm256_sub_epi16(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = mm256_inc_epi16(Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), mm256_inc_epi16(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, a);
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi16(b, __a);
                             addToY = mm256_inc_epi16(greaterEqualMask);
-                            y = Avx2.mm256_add_epi16(y, addToY);
+                            result = Avx2.mm256_add_epi16(result, addToY);
                         }
-
-                        constexpr.ASSUME_LE_EPU16(y, 40);
-                        return y;
                     }
+
+                    constexpr.ASSUME_LE_EPU16(result, 40);
+
+                    constexpr.ASSUME_LE_EPU16(result, a);
+                    if (constexpr.ALL_GT_EPU16(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU16(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UShort0  * result.UShort0  * result.UShort0  <= a.UShort0 );
+                    constexpr.ASSUME(result.UShort1  * result.UShort1  * result.UShort1  <= a.UShort1 );
+                    constexpr.ASSUME(result.UShort2  * result.UShort2  * result.UShort2  <= a.UShort2 );
+                    constexpr.ASSUME(result.UShort3  * result.UShort3  * result.UShort3  <= a.UShort3 );
+                    constexpr.ASSUME(result.UShort4  * result.UShort4  * result.UShort4  <= a.UShort4 );
+                    constexpr.ASSUME(result.UShort5  * result.UShort5  * result.UShort5  <= a.UShort5 );
+                    constexpr.ASSUME(result.UShort6  * result.UShort6  * result.UShort6  <= a.UShort6 );
+                    constexpr.ASSUME(result.UShort7  * result.UShort7  * result.UShort7  <= a.UShort7 );
+                    constexpr.ASSUME(result.UShort8  * result.UShort8  * result.UShort8  <= a.UShort8 );
+                    constexpr.ASSUME(result.UShort9  * result.UShort9  * result.UShort9  <= a.UShort9 );
+                    constexpr.ASSUME(result.UShort10 * result.UShort10 * result.UShort10 <= a.UShort10);
+                    constexpr.ASSUME(result.UShort11 * result.UShort11 * result.UShort11 <= a.UShort11);
+                    constexpr.ASSUME(result.UShort12 * result.UShort12 * result.UShort12 <= a.UShort12);
+                    constexpr.ASSUME(result.UShort13 * result.UShort13 * result.UShort13 <= a.UShort13);
+                    constexpr.ASSUME(result.UShort14 * result.UShort14 * result.UShort14 <= a.UShort14);
+                    constexpr.ASSUME(result.UShort15 * result.UShort15 * result.UShort15 <= a.UShort15);
+                    
+                    constexpr.ASSUME((result.UShort0  + 1) * (result.UShort0  + 1) * (result.UShort0  + 1) > a.UShort0 );
+                    constexpr.ASSUME((result.UShort1  + 1) * (result.UShort1  + 1) * (result.UShort1  + 1) > a.UShort1 );
+                    constexpr.ASSUME((result.UShort2  + 1) * (result.UShort2  + 1) * (result.UShort2  + 1) > a.UShort2 );
+                    constexpr.ASSUME((result.UShort3  + 1) * (result.UShort3  + 1) * (result.UShort3  + 1) > a.UShort3 );
+                    constexpr.ASSUME((result.UShort4  + 1) * (result.UShort4  + 1) * (result.UShort4  + 1) > a.UShort4 );
+                    constexpr.ASSUME((result.UShort5  + 1) * (result.UShort5  + 1) * (result.UShort5  + 1) > a.UShort5 );
+                    constexpr.ASSUME((result.UShort6  + 1) * (result.UShort6  + 1) * (result.UShort6  + 1) > a.UShort6 );
+                    constexpr.ASSUME((result.UShort7  + 1) * (result.UShort7  + 1) * (result.UShort7  + 1) > a.UShort7 );
+                    constexpr.ASSUME((result.UShort8  + 1) * (result.UShort8  + 1) * (result.UShort8  + 1) > a.UShort8 );
+                    constexpr.ASSUME((result.UShort9  + 1) * (result.UShort9  + 1) * (result.UShort9  + 1) > a.UShort9 );
+                    constexpr.ASSUME((result.UShort10 + 1) * (result.UShort10 + 1) * (result.UShort10 + 1) > a.UShort10);
+                    constexpr.ASSUME((result.UShort11 + 1) * (result.UShort11 + 1) * (result.UShort11 + 1) > a.UShort11);
+                    constexpr.ASSUME((result.UShort12 + 1) * (result.UShort12 + 1) * (result.UShort12 + 1) > a.UShort12);
+                    constexpr.ASSUME((result.UShort13 + 1) * (result.UShort13 + 1) * (result.UShort13 + 1) > a.UShort13);
+                    constexpr.ASSUME((result.UShort14 + 1) * (result.UShort14 + 1) * (result.UShort14 + 1) > a.UShort14);
+                    constexpr.ASSUME((result.UShort15 + 1) * (result.UShort15 + 1) * (result.UShort15 + 1) > a.UShort15);
+                    
+                    constexpr.ASSUME((a.UShort0  <= 1) == (result.UShort0  == a.UShort0 ));
+                    constexpr.ASSUME((a.UShort1  <= 1) == (result.UShort1  == a.UShort1 ));
+                    constexpr.ASSUME((a.UShort2  <= 1) == (result.UShort2  == a.UShort2 ));
+                    constexpr.ASSUME((a.UShort3  <= 1) == (result.UShort3  == a.UShort3 ));
+                    constexpr.ASSUME((a.UShort4  <= 1) == (result.UShort4  == a.UShort4 ));
+                    constexpr.ASSUME((a.UShort5  <= 1) == (result.UShort5  == a.UShort5 ));
+                    constexpr.ASSUME((a.UShort6  <= 1) == (result.UShort6  == a.UShort6 ));
+                    constexpr.ASSUME((a.UShort7  <= 1) == (result.UShort7  == a.UShort7 ));
+                    constexpr.ASSUME((a.UShort8  <= 1) == (result.UShort8  == a.UShort8 ));
+                    constexpr.ASSUME((a.UShort9  <= 1) == (result.UShort9  == a.UShort9 ));
+                    constexpr.ASSUME((a.UShort10 <= 1) == (result.UShort10 == a.UShort10));
+                    constexpr.ASSUME((a.UShort11 <= 1) == (result.UShort11 == a.UShort11));
+                    constexpr.ASSUME((a.UShort12 <= 1) == (result.UShort12 == a.UShort12));
+                    constexpr.ASSUME((a.UShort13 <= 1) == (result.UShort13 == a.UShort13));
+                    constexpr.ASSUME((a.UShort14 <= 1) == (result.UShort14 == a.UShort14));
+                    constexpr.ASSUME((a.UShort15 <= 1) == (result.UShort15 == a.UShort15));
+                    
+                    constexpr.ASSUME((a.UShort0  != 0) == (result.UShort0  > 0));
+                    constexpr.ASSUME((a.UShort1  != 0) == (result.UShort1  > 0));
+                    constexpr.ASSUME((a.UShort2  != 0) == (result.UShort2  > 0));
+                    constexpr.ASSUME((a.UShort3  != 0) == (result.UShort3  > 0));
+                    constexpr.ASSUME((a.UShort4  != 0) == (result.UShort4  > 0));
+                    constexpr.ASSUME((a.UShort5  != 0) == (result.UShort5  > 0));
+                    constexpr.ASSUME((a.UShort6  != 0) == (result.UShort6  > 0));
+                    constexpr.ASSUME((a.UShort7  != 0) == (result.UShort7  > 0));
+                    constexpr.ASSUME((a.UShort8  != 0) == (result.UShort8  > 0));
+                    constexpr.ASSUME((a.UShort9  != 0) == (result.UShort9  > 0));
+                    constexpr.ASSUME((a.UShort10 != 0) == (result.UShort10 > 0));
+                    constexpr.ASSUME((a.UShort11 != 0) == (result.UShort11 > 0));
+                    constexpr.ASSUME((a.UShort12 != 0) == (result.UShort12 > 0));
+                    constexpr.ASSUME((a.UShort13 != 0) == (result.UShort13 > 0));
+                    constexpr.ASSUME((a.UShort14 != 0) == (result.UShort14 > 0));
+                    constexpr.ASSUME((a.UShort15 != 0) == (result.UShort15 > 0));
+                    
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -493,214 +1124,243 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+                    v128 result;
+
                     if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements))
                     {
                         if (rangePromiseLevel > 1 || constexpr.ALL_LE_EPU32(a, byte.MaxValue, elements))
                         {
-                            return cbrt_epu8_takingAndReturning_epu16(a);
+                            result = cbrt_epu8_takingAndReturning_epu16(a);
+                            constexpr.ASSUME_LE_EPU32(result, 6);
                         }
                         else
                         {
-                            v128 y;
+                            v128 __a = a;
                             v128 b;
                             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                             {
-                                y = setzero_si128();
+                                result = setzero_si128();
 
                                 for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                                 {
-                                    y = add_epi32(y, y);
-                                    v128 y3 = add_epi32(y, slli_epi32(y, 1));
-                                    b = inc_epi32(mullo_epi32(y3, inc_epi32(y)));
+                                    result = add_epi32(result, result);
+                                    v128 y3 = add_epi32(result, slli_epi32(result, 1));
+                                    b = inc_epi32(mullo_epi32(y3, inc_epi32(result)));
 
-                                    v128 greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, c, inRange: true));
+                                    v128 greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, c, inRange: true));
                                     v128 subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, c, inRange: true));
                                     v128 addToY = inc_epi32(greaterEqualMask);
-                                    a = sub_epi32(a, subFromX);
-                                    y = add_epi32(y, addToY);
+                                    __a = sub_epi32(__a, subFromX);
+                                    result = add_epi32(result, addToY);
                                 }
                             }
                             else
                             {
                                 v128 ONE = set1_epi32(1);
 
-                                v128 greaterEqualMask = srai_epi32(slli_epi32(a, 16), 31);
+                                v128 greaterEqualMask = srai_epi32(slli_epi32(__a, 16), 31);
                                 v128 subFromX = and_si128(greaterEqualMask, slli_epi32(ONE, 15));
-                                y = srli_epi32(a, 15);
-                                a = sub_epi32(a, subFromX);
-                                v128 y4 = slli_epi32(y, 2);
-                                y = add_epi32(y, y);
-                                b = add_epi32(y, y4);
+                                result = srli_epi32(__a, 15);
+                                __a = sub_epi32(__a, subFromX);
+                                v128 y4 = slli_epi32(result, 2);
+                                result = add_epi32(result, result);
+                                b = add_epi32(result, y4);
                                 b = add_epi32(inc_epi32(b), and_si128(greaterEqualMask, slli_epi32(b, 1)));
 
-                                greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 12));
+                                greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 12));
                                 subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 12));
                                 v128 addToY = inc_epi32(greaterEqualMask);
-                                a = sub_epi32(a, subFromX);
-                                y = add_epi16(y, addToY);
-                                y4 = slli_epi16(y, 2);
-                                y = add_epi16(y, y);
-                                b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                                __a = sub_epi32(__a, subFromX);
+                                result = add_epi16(result, addToY);
+                                y4 = slli_epi16(result, 2);
+                                result = add_epi16(result, result);
+                                b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                                greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 9));
+                                greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 9));
                                 subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 9));
                                 addToY = inc_epi32(greaterEqualMask);
-                                a = sub_epi32(a, subFromX);
-                                y = add_epi16(y, addToY);
-                                y4 = slli_epi16(y, 2);
-                                y = add_epi16(y, y);
-                                b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                                __a = sub_epi32(__a, subFromX);
+                                result = add_epi16(result, addToY);
+                                y4 = slli_epi16(result, 2);
+                                result = add_epi16(result, result);
+                                b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                                greaterEqualMask = cmpgt_epi32(b,srli_epi32(a, 6));
+                                greaterEqualMask = cmpgt_epi32(b,srli_epi32(__a, 6));
                                 subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 6));
                                 addToY = inc_epi32(greaterEqualMask);
-                                a = sub_epi32(a, subFromX);
-                                y = add_epi16(y, addToY);
-                                y4 = slli_epi16(y, 2);
-                                y = add_epi16(y, y);
-                                b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                                __a = sub_epi32(__a, subFromX);
+                                result = add_epi16(result, addToY);
+                                y4 = slli_epi16(result, 2);
+                                result = add_epi16(result, result);
+                                b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                                greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 3));
+                                greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 3));
                                 subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 3));
                                 addToY = inc_epi32(greaterEqualMask);
-                                a = sub_epi32(a, subFromX);
-                                y = add_epi16(y, addToY);
-                                y4 = slli_epi16(y, 2);
-                                y = add_epi16(y, y);
-                                b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                                __a = sub_epi32(__a, subFromX);
+                                result = add_epi16(result, addToY);
+                                y4 = slli_epi16(result, 2);
+                                result = add_epi16(result, result);
+                                b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                                greaterEqualMask = cmpgt_epi32(b, a);
+                                greaterEqualMask = cmpgt_epi32(b, __a);
                                 addToY = inc_epi32(greaterEqualMask);
-                                y = add_epi32(y, addToY);
+                                result = add_epi32(result, addToY);
                             }
 
-                            constexpr.ASSUME_LE_EPU32(y, 40);
-                            return y;
+                            constexpr.ASSUME_LE_EPU32(result, 40);
                         }
                     }
                     else
                     {
-                        v128 y;
+                        v128 __a = a;
                         v128 b;
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            y = setzero_si128();
+                            result = setzero_si128();
 
                             for (int c = sizeof(uint) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
-                                y = add_epi32(y, y);
-                                v128 y3 = add_epi32(y, slli_epi32(y, 1));
-                                b = inc_epi32(mullo_epi32(y3, inc_epi32(y)));
+                                result = add_epi32(result, result);
+                                v128 y3 = add_epi32(result, slli_epi32(result, 1));
+                                b = inc_epi32(mullo_epi32(y3, inc_epi32(result)));
 
-                                v128 greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, c, inRange: true));
+                                v128 greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, c, inRange: true));
                                 v128 subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, c, inRange: true));
                                 v128 addToY = inc_epi32(greaterEqualMask);
-                                a = sub_epi32(a, subFromX);
-                                y = add_epi32(y, addToY);
+                                __a = sub_epi32(__a, subFromX);
+                                result = add_epi32(result, addToY);
                             }
                         }
                         else
                         {
                             v128 ONE = set1_epi32(1);
 
-                            v128 greaterEqualMask = cmpgt_epi32(ONE, srli_epi32(a, 30));
+                            v128 greaterEqualMask = cmpgt_epi32(ONE, srli_epi32(__a, 30));
                             v128 subFromX = andnot_si128(greaterEqualMask, slli_epi32(ONE, 30));
-                            y = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            v128 y4 = slli_epi32(y, 2);
-                            y = add_epi32(y, y);
-                            b = add_epi32(y, y4);
+                            result = inc_epi32(greaterEqualMask);
+                            __a = sub_epi32(__a, subFromX);
+                            v128 y4 = slli_epi32(result, 2);
+                            result = add_epi32(result, result);
+                            b = add_epi32(result, y4);
                             b = add_epi32(inc_epi32(b), andnot_si128(greaterEqualMask, slli_epi32(b, 1)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 27));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 27));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 27));
                             v128 addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 24));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 24));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 24));
                             addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 21));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 21));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 21));
                             addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 18));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 18));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 18));
                             addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 15));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 15));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 15));
                             addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y))); // max(y) = 126    =>     3y * (y + 1)    ^=     last safe 16 bit multiplication
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result))); // max(y) = 126    =>     3y * (y + 1)    ^=     last safe 16 bit multiplication
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 12));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 12));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 12));
                             addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi32(y, addToY);
-                            y4 = slli_epi32(y, 2);
-                            y = add_epi32(y, y);
-                            b = inc_epi32(mullo_epi32(add_epi32(y, y4), inc_epi32(y), elements));
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi32(result, addToY);
+                            y4 = slli_epi32(result, 2);
+                            result = add_epi32(result, result);
+                            b = inc_epi32(mullo_epi32(add_epi32(result, y4), inc_epi32(result), elements));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 9));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 9));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 9));
                             addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi32(y, addToY);
-                            y4 = slli_epi32(y, 2);
-                            y = add_epi32(y, y);
-                            b = inc_epi32(mullo_epi32(add_epi32(y, y4), inc_epi32(y), elements));
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi32(result, addToY);
+                            y4 = slli_epi32(result, 2);
+                            result = add_epi32(result, result);
+                            b = inc_epi32(mullo_epi32(add_epi32(result, y4), inc_epi32(result), elements));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 6));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 6));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 6));
                             addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi32(y, addToY);
-                            y4 = slli_epi32(y, 2);
-                            y = add_epi32(y, y);
-                            b = inc_epi32(mullo_epi32(add_epi32(y, y4), inc_epi32(y), elements));
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi32(result, addToY);
+                            y4 = slli_epi32(result, 2);
+                            result = add_epi32(result, result);
+                            b = inc_epi32(mullo_epi32(add_epi32(result, y4), inc_epi32(result), elements));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(a, 3));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi32(__a, 3));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi32(b, 3));
                             addToY = inc_epi32(greaterEqualMask);
-                            a = sub_epi32(a, subFromX);
-                            y = add_epi32(y, addToY);
-                            y4 = slli_epi32(y, 2);
-                            y = add_epi32(y, y);
-                            b = inc_epi32(mullo_epi32(add_epi32(y, y4), inc_epi32(y), elements));
+                            __a = sub_epi32(__a, subFromX);
+                            result = add_epi32(result, addToY);
+                            y4 = slli_epi32(result, 2);
+                            result = add_epi32(result, result);
+                            b = inc_epi32(mullo_epi32(add_epi32(result, y4), inc_epi32(result), elements));
 
-                            greaterEqualMask = cmpgt_epi32(b, a);
+                            greaterEqualMask = cmpgt_epi32(b, __a);
                             addToY = inc_epi32(greaterEqualMask);
-                            y = add_epi32(y, addToY);
+                            result = add_epi32(result, addToY);
                         }
 
-                        constexpr.ASSUME_LE_EPU32(y, 1_625);
-                        return y;
+                        constexpr.ASSUME_LE_EPU32(result, 1_625);
                     }
+
+                    constexpr.ASSUME_LE_EPU32(result, a, elements);
+                    if (constexpr.ALL_GT_EPU32(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU32(result, a, elements);
+                    }
+
+                    constexpr.ASSUME(result.UInt0 * result.UInt0 * result.UInt0 <= a.UInt0);
+                    constexpr.ASSUME(result.UInt1 * result.UInt1 * result.UInt1 <= a.UInt1);
+                    constexpr.ASSUME(result.UInt2 * result.UInt2 * result.UInt2 <= a.UInt2);
+                    constexpr.ASSUME(result.UInt3 * result.UInt3 * result.UInt3 <= a.UInt3);
+                    
+                    constexpr.ASSUME((ulong)(result.UInt0 + 1) * (result.UInt0 + 1) * (result.UInt0 + 1) > a.UInt0);
+                    constexpr.ASSUME((ulong)(result.UInt1 + 1) * (result.UInt1 + 1) * (result.UInt1 + 1) > a.UInt1);
+                    constexpr.ASSUME((ulong)(result.UInt2 + 1) * (result.UInt2 + 1) * (result.UInt2 + 1) > a.UInt2);
+                    constexpr.ASSUME((ulong)(result.UInt3 + 1) * (result.UInt3 + 1) * (result.UInt3 + 1) > a.UInt3);
+                    
+                    constexpr.ASSUME((a.UInt0 <= 1) == (result.UInt0 == a.UInt0));
+                    constexpr.ASSUME((a.UInt1 <= 1) == (result.UInt1 == a.UInt1));
+                    constexpr.ASSUME((a.UInt2 <= 1) == (result.UInt2 == a.UInt2));
+                    constexpr.ASSUME((a.UInt3 <= 1) == (result.UInt3 == a.UInt3));
+                    
+                    constexpr.ASSUME((a.UInt0 != 0) == (result.UInt0 > 0));
+                    constexpr.ASSUME((a.UInt1 != 0) == (result.UInt1 > 0));
+                    constexpr.ASSUME((a.UInt2 != 0) == (result.UInt2 > 0));
+                    constexpr.ASSUME((a.UInt3 != 0) == (result.UInt3 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -710,214 +1370,259 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    v256 result;
+
                     if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU32(a, ushort.MaxValue))
                     {
                         if (rangePromiseLevel > 1 || constexpr.ALL_LE_EPU32(a, byte.MaxValue))
                         {
-                            return cbrt_epu8_takingAndReturning_epu16(a);
+                            result = cbrt_epu8_takingAndReturning_epu16(a);
+                            constexpr.ASSUME_LE_EPU32(result, 6);
                         }
                         else
                         {
-                            v256 y;
+                            v256 __a = a;
                             v256 b;
                             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                             {
-                                y = Avx.mm256_setzero_si256();
+                                result = Avx.mm256_setzero_si256();
 
                                 for (int c = sizeof(ushort) * 8 / 3 * 3; c >= 0; c -= 3)
                                 {
-                                    y = Avx2.mm256_add_epi32(y, y);
-                                    v256 y3 = Avx2.mm256_add_epi32(y, mm256_slli_epi32(y, 1));
-                                    b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(y3, mm256_inc_epi32(y)));
+                                    result = Avx2.mm256_add_epi32(result, result);
+                                    v256 y3 = Avx2.mm256_add_epi32(result, mm256_slli_epi32(result, 1));
+                                    b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(y3, mm256_inc_epi32(result)));
 
-                                    v256 greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, mm256_srli_epi32(a, c));
+                                    v256 greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, mm256_srli_epi32(__a, c));
                                     v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, mm256_slli_epi32(b, c));
                                     v256 addToY = mm256_inc_epi32(greaterEqualMask);
-                                    a = Avx2.mm256_sub_epi32(a, subFromX);
-                                    y = Avx2.mm256_add_epi32(y, addToY);
+                                    __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                                    result = Avx2.mm256_add_epi32(result, addToY);
                                 }
                             }
                             else
                             {
                                 v256 ONE = mm256_set1_epi32(1);
 
-                                v256 greaterEqualMask = Avx2.mm256_srai_epi32(Avx2.mm256_slli_epi32(a, 16), 31);
+                                v256 greaterEqualMask = Avx2.mm256_srai_epi32(Avx2.mm256_slli_epi32(__a, 16), 31);
                                 v256 subFromX = Avx2.mm256_and_si256(greaterEqualMask, Avx2.mm256_slli_epi16(ONE, 15));
-                                y = Avx2.mm256_srli_epi32(a, 15);
-                                a = Avx2.mm256_sub_epi32(a, subFromX);
-                                v256 y4 = Avx2.mm256_slli_epi32(y, 2);
-                                y = Avx2.mm256_add_epi32(y, y);
-                                b = Avx2.mm256_add_epi32(y, y4);
+                                result = Avx2.mm256_srli_epi32(__a, 15);
+                                __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                                v256 y4 = Avx2.mm256_slli_epi32(result, 2);
+                                result = Avx2.mm256_add_epi32(result, result);
+                                b = Avx2.mm256_add_epi32(result, y4);
                                 b = Avx2.mm256_add_epi32(mm256_inc_epi32(b), Avx2.mm256_and_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 1)));
 
-                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 12));
+                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 12));
                                 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 12));
                                 v256 addToY = mm256_inc_epi32(greaterEqualMask);
-                                a = Avx2.mm256_sub_epi32(a, subFromX);
-                                y = Avx2.mm256_add_epi16(y, addToY);
-                                y4 = Avx2.mm256_slli_epi16(y, 2);
-                                y = Avx2.mm256_add_epi16(y, y);
-                                b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                                __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                                result = Avx2.mm256_add_epi16(result, addToY);
+                                y4 = Avx2.mm256_slli_epi16(result, 2);
+                                result = Avx2.mm256_add_epi16(result, result);
+                                b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 9));
+                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 9));
                                 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 9));
                                 addToY = mm256_inc_epi32(greaterEqualMask);
-                                a = Avx2.mm256_sub_epi32(a, subFromX);
-                                y = Avx2.mm256_add_epi16(y, addToY);
-                                y4 = Avx2.mm256_slli_epi16(y, 2);
-                                y = Avx2.mm256_add_epi16(y, y);
-                                b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                                __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                                result = Avx2.mm256_add_epi16(result, addToY);
+                                y4 = Avx2.mm256_slli_epi16(result, 2);
+                                result = Avx2.mm256_add_epi16(result, result);
+                                b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 6));
+                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 6));
                                 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 6));
                                 addToY = mm256_inc_epi32(greaterEqualMask);
-                                a = Avx2.mm256_sub_epi32(a, subFromX);
-                                y = Avx2.mm256_add_epi16(y, addToY);
-                                y4 = Avx2.mm256_slli_epi16(y, 2);
-                                y = Avx2.mm256_add_epi16(y, y);
-                                b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                                __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                                result = Avx2.mm256_add_epi16(result, addToY);
+                                y4 = Avx2.mm256_slli_epi16(result, 2);
+                                result = Avx2.mm256_add_epi16(result, result);
+                                b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 3));
+                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 3));
                                 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 3));
                                 addToY = mm256_inc_epi32(greaterEqualMask);
-                                a = Avx2.mm256_sub_epi32(a, subFromX);
-                                y = Avx2.mm256_add_epi16(y, addToY);
-                                y4 = Avx2.mm256_slli_epi16(y, 2);
-                                y = Avx2.mm256_add_epi16(y, y);
-                                b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                                __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                                result = Avx2.mm256_add_epi16(result, addToY);
+                                y4 = Avx2.mm256_slli_epi16(result, 2);
+                                result = Avx2.mm256_add_epi16(result, result);
+                                b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, a);
+                                greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, __a);
                                 addToY = mm256_inc_epi32(greaterEqualMask);
-                                y = Avx2.mm256_add_epi32(y, addToY);
+                                result = Avx2.mm256_add_epi32(result, addToY);
                             }
 
-                            constexpr.ASSUME_LE_EPU32(y, 40);
-                            return y;
+                            constexpr.ASSUME_LE_EPU32(result, 40);
                         }
                     }
                     else
                     {
-                        v256 y;
+                        v256 __a = a;
                         v256 b;
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            y = Avx.mm256_setzero_si256();
+                            result = Avx.mm256_setzero_si256();
 
                             for (int c = sizeof(uint) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
-                                y = Avx2.mm256_add_epi32(y, y);
-                                v256 y3 = Avx2.mm256_add_epi32(y, mm256_slli_epi32(y, 1));
-                                b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(y3, mm256_inc_epi32(y)));
+                                result = Avx2.mm256_add_epi32(result, result);
+                                v256 y3 = Avx2.mm256_add_epi32(result, mm256_slli_epi32(result, 1));
+                                b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(y3, mm256_inc_epi32(result)));
 
-                                v256 greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, mm256_srli_epi32(a, c));
+                                v256 greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, mm256_srli_epi32(__a, c));
                                 v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, mm256_slli_epi32(b, c));
                                 v256 addToY = mm256_inc_epi32(greaterEqualMask);
-                                a = Avx2.mm256_sub_epi32(a, subFromX);
-                                y = Avx2.mm256_add_epi32(y, addToY);
+                                __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                                result = Avx2.mm256_add_epi32(result, addToY);
                             }
                         }
                         else
                         {
                             v256 ONE = mm256_set1_epi32(1);
 
-                            v256 greaterEqualMask = Avx2.mm256_cmpgt_epi32(ONE, Avx2.mm256_srli_epi32(a, 30));
+                            v256 greaterEqualMask = Avx2.mm256_cmpgt_epi32(ONE, Avx2.mm256_srli_epi32(__a, 30));
                             v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(ONE, 30));
-                            y = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            v256 y4 = Avx2.mm256_slli_epi32(y, 2);
-                            y = Avx2.mm256_add_epi32(y, y);
-                            b = Avx2.mm256_add_epi32(y, y4);
+                            result = mm256_inc_epi32(greaterEqualMask);
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            v256 y4 = Avx2.mm256_slli_epi32(result, 2);
+                            result = Avx2.mm256_add_epi32(result, result);
+                            b = Avx2.mm256_add_epi32(result, y4);
                             b = Avx2.mm256_add_epi32(mm256_inc_epi32(b), Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 1)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 27));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 27));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 27));
                             v256 addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 24));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 24));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 24));
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 21));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 21));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 21));
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 18));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 18));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 18));
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 15));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 15));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 15));
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y))); // max(y) = 126    =>     3y * (y + 1)    ^=     last safe 16 bit multiplication
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result))); // max(y) = 126    =>     3y * (y + 1)    ^=     last safe 16 bit multiplication
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 12));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 12));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 12));
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi32(y, addToY);
-                            y4 = Avx2.mm256_slli_epi32(y, 2);
-                            y = Avx2.mm256_add_epi32(y, y);
-                            b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_add_epi32(y, y4), mm256_inc_epi32(y)));
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi32(result, addToY);
+                            y4 = Avx2.mm256_slli_epi32(result, 2);
+                            result = Avx2.mm256_add_epi32(result, result);
+                            b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_add_epi32(result, y4), mm256_inc_epi32(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 9));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 9));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 9));
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi32(y, addToY);
-                            y4 = Avx2.mm256_slli_epi32(y, 2);
-                            y = Avx2.mm256_add_epi32(y, y);
-                            b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_add_epi32(y, y4), mm256_inc_epi32(y)));
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi32(result, addToY);
+                            y4 = Avx2.mm256_slli_epi32(result, 2);
+                            result = Avx2.mm256_add_epi32(result, result);
+                            b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_add_epi32(result, y4), mm256_inc_epi32(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 6));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 6));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 6));
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi32(y, addToY);
-                            y4 = Avx2.mm256_slli_epi32(y, 2);
-                            y = Avx2.mm256_add_epi32(y, y);
-                            b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_add_epi32(y, y4), mm256_inc_epi32(y)));
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi32(result, addToY);
+                            y4 = Avx2.mm256_slli_epi32(result, 2);
+                            result = Avx2.mm256_add_epi32(result, result);
+                            b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_add_epi32(result, y4), mm256_inc_epi32(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(a, 3));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi32(__a, 3));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi32(b, 3));
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            a = Avx2.mm256_sub_epi32(a, subFromX);
-                            y = Avx2.mm256_add_epi32(y, addToY);
-                            y4 = Avx2.mm256_slli_epi32(y, 2);
-                            y = Avx2.mm256_add_epi32(y, y);
-                            b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_add_epi32(y, y4), mm256_inc_epi32(y)));
+                            __a = Avx2.mm256_sub_epi32(__a, subFromX);
+                            result = Avx2.mm256_add_epi32(result, addToY);
+                            y4 = Avx2.mm256_slli_epi32(result, 2);
+                            result = Avx2.mm256_add_epi32(result, result);
+                            b = mm256_inc_epi32(Avx2.mm256_mullo_epi32(Avx2.mm256_add_epi32(result, y4), mm256_inc_epi32(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, a);
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, __a);
                             addToY = mm256_inc_epi32(greaterEqualMask);
-                            y = Avx2.mm256_add_epi32(y, addToY);
+                            result = Avx2.mm256_add_epi32(result, addToY);
                         }
 
-                        constexpr.ASSUME_LE_EPU32(y, 1_625);
-                        return y;
+                        constexpr.ASSUME_LE_EPU32(result, 1_625);
                     }
+
+                    constexpr.ASSUME_LE_EPU32(result, a);
+                    if (constexpr.ALL_GT_EPU32(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU32(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UInt0 * result.UInt0 * result.UInt0 <= a.UInt0);
+                    constexpr.ASSUME(result.UInt1 * result.UInt1 * result.UInt1 <= a.UInt1);
+                    constexpr.ASSUME(result.UInt2 * result.UInt2 * result.UInt2 <= a.UInt2);
+                    constexpr.ASSUME(result.UInt3 * result.UInt3 * result.UInt3 <= a.UInt3);
+                    constexpr.ASSUME(result.UInt4 * result.UInt4 * result.UInt4 <= a.UInt4);
+                    constexpr.ASSUME(result.UInt5 * result.UInt5 * result.UInt5 <= a.UInt5);
+                    constexpr.ASSUME(result.UInt6 * result.UInt6 * result.UInt6 <= a.UInt6);
+                    constexpr.ASSUME(result.UInt7 * result.UInt7 * result.UInt7 <= a.UInt7);
+                    
+                    constexpr.ASSUME((ulong)(result.UInt0 + 1) * (result.UInt0 + 1) * (result.UInt0 + 1) > a.UInt0);
+                    constexpr.ASSUME((ulong)(result.UInt1 + 1) * (result.UInt1 + 1) * (result.UInt1 + 1) > a.UInt1);
+                    constexpr.ASSUME((ulong)(result.UInt2 + 1) * (result.UInt2 + 1) * (result.UInt2 + 1) > a.UInt2);
+                    constexpr.ASSUME((ulong)(result.UInt3 + 1) * (result.UInt3 + 1) * (result.UInt3 + 1) > a.UInt3);
+                    constexpr.ASSUME((ulong)(result.UInt4 + 1) * (result.UInt4 + 1) * (result.UInt4 + 1) > a.UInt4);
+                    constexpr.ASSUME((ulong)(result.UInt5 + 1) * (result.UInt5 + 1) * (result.UInt5 + 1) > a.UInt5);
+                    constexpr.ASSUME((ulong)(result.UInt6 + 1) * (result.UInt6 + 1) * (result.UInt6 + 1) > a.UInt6);
+                    constexpr.ASSUME((ulong)(result.UInt7 + 1) * (result.UInt7 + 1) * (result.UInt7 + 1) > a.UInt7);
+                    
+                    constexpr.ASSUME((a.UInt0 <= 1) == (result.UInt0 == a.UInt0));
+                    constexpr.ASSUME((a.UInt1 <= 1) == (result.UInt1 == a.UInt1));
+                    constexpr.ASSUME((a.UInt2 <= 1) == (result.UInt2 == a.UInt2));
+                    constexpr.ASSUME((a.UInt3 <= 1) == (result.UInt3 == a.UInt3));
+                    constexpr.ASSUME((a.UInt4 <= 1) == (result.UInt4 == a.UInt4));
+                    constexpr.ASSUME((a.UInt5 <= 1) == (result.UInt5 == a.UInt5));
+                    constexpr.ASSUME((a.UInt6 <= 1) == (result.UInt6 == a.UInt6));
+                    constexpr.ASSUME((a.UInt7 <= 1) == (result.UInt7 == a.UInt7));
+                    
+                    constexpr.ASSUME((a.UInt0 != 0) == (result.UInt0 > 0));
+                    constexpr.ASSUME((a.UInt1 != 0) == (result.UInt1 > 0));
+                    constexpr.ASSUME((a.UInt2 != 0) == (result.UInt2 > 0));
+                    constexpr.ASSUME((a.UInt3 != 0) == (result.UInt3 > 0));
+                    constexpr.ASSUME((a.UInt4 != 0) == (result.UInt4 > 0));
+                    constexpr.ASSUME((a.UInt5 != 0) == (result.UInt5 > 0));
+                    constexpr.ASSUME((a.UInt6 != 0) == (result.UInt6 > 0));
+                    constexpr.ASSUME((a.UInt7 != 0) == (result.UInt7 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -988,6 +1693,8 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+                    v128 result;
+
                     if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU64(a, 1ul << 48))
                     {
                         if (rangePromiseLevel > 1 || constexpr.ALL_LE_EPU64(a, uint.MaxValue))
@@ -996,248 +1703,269 @@ namespace MaxMath
                             {
                                 if (rangePromiseLevel > 3 || constexpr.ALL_LE_EPU64(a, byte.MaxValue))
                                 {
-                                    return cbrt_epu8_takingAndReturning_epu16(a, 8);
+                                    result = cbrt_epu8_takingAndReturning_epu16(a, 8);
+                                    constexpr.ASSUME_LE_EPU64(result, 6);
                                 }
                                 else
                                 {
-                                    return cbrt_epu16(a);
+                                    result = cbrt_epu16(a);
+                                    constexpr.ASSUME_LE_EPU64(result, 40);
                                 }
                             }
                             else
                             {
-                                return cbrt_epu32(a, 0, 4);
+                                result = cbrt_epu32(a, 0, 4);
+                                constexpr.ASSUME_LE_EPU64(result, 1_625);
                             }
                         }
                         else
                         {
                             // results within [0, 1ul << 48] have been proven to be correct empirically both with and without FMA instructions
-                            v128 result = cvttpd_epu64(cbrt_pd(usfcvtepu64_pd(a), promisePositive: true, promiseNormalized: true));
+                            result = cvttpd_epu64(cbrt_pd(usfcvtepu64_pd(a), promisePositive: true, promiseNormalized: true));
 
                             constexpr.ASSUME_LE_EPU64(result, 65536 /*maxintcbrt(1ul << 48)*/);
-                            return result;
                         }
                     }
                     else
                     {
-                        v128 y;
+                        v128 __a = a;
                         v128 b;
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            y = setzero_si128();
+                            result = setzero_si128();
 
                             for (int c = sizeof(ulong) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
-                                y = add_epi64(y, y);
-                                v128 y3 = add_epi64(y, slli_epi64(y, 1));
-                                b = inc_epi64(mul_epu32(y3, inc_epi64(y)));
+                                result = add_epi64(result, result);
+                                v128 y3 = add_epi64(result, slli_epi64(result, 1));
+                                b = inc_epi64(mul_epu32(y3, inc_epi64(result)));
 
-                                v128 greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, c, inRange: true));
+                                v128 greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, c, inRange: true));
                                 v128 subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, c, inRange: true));
                                 v128 addToY = inc_epi64(greaterEqualMask);
-                                a = sub_epi64(a, subFromX);
-                                y = add_epi64(y, addToY);
+                                __a = sub_epi64(__a, subFromX);
+                                result = add_epi64(result, addToY);
                             }
                         }
                         else
                         {
                             v128 ONE = set1_epi64x(1);
 
-                            y = srli_epi64(a, 63);
-                            v128 greaterEqualMask = neg_epi64(y);
-                            a = and_si128(a, set1_epi64x(0x7FFF_FFFF_FFFF_FFFF));
-                            v128 y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = add_epi64(y, y4);
+                            result = srli_epi64(__a, 63);
+                            v128 greaterEqualMask = neg_epi64(result);
+                            __a = and_si128(__a, set1_epi64x(0x7FFF_FFFF_FFFF_FFFF));
+                            v128 y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = add_epi64(result, y4);
                             b = add_epi64(inc_epi64(b), and_si128(greaterEqualMask, slli_epi64(b, 1)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 60));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 60));
                             v128 subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 60));
                             v128 addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 57));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 57));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 57));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 54));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 54));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 54));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 51));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 51));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 51));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 48));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 48));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 48));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi16(y, addToY);
-                            y4 = slli_epi16(y, 2);
-                            y = add_epi16(y, y);
-                            b = add_epi16(ONE, mullo_epi16(add_epi16(y, y4), add_epi16(ONE, y))); // max(y) = 126    =>     3y * (y + 1)    ^=     last safe 16 bit multiplication
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi16(result, addToY);
+                            y4 = slli_epi16(result, 2);
+                            result = add_epi16(result, result);
+                            b = add_epi16(ONE, mullo_epi16(add_epi16(result, y4), add_epi16(ONE, result))); // max(y) = 126    =>     3y * (y + 1)    ^=     last safe 16 bit multiplication
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 45));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 45));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 45));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 42));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 42));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 42));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 39));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 39));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 39));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 36));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 36));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 36));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(a, 33));
+                            greaterEqualMask = cmpgt_epi32(b, srli_epi64(__a, 33));
                             subFromX = andnot_si128(shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), slli_epi64(b, 33));
                             addToY   = andnot_si128(greaterEqualMask, ONE);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 30));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 30));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 30));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 27));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 27));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 27));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 24));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 24));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 24));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 21));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 21));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 21));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 18));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 18));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 18));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 15));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 15));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 15));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 12));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 12));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 12));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 9));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 9));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 9));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 6));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 6));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 6));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(a, 3));
+                            greaterEqualMask = cmpgt_epi64(b, srli_epi64(__a, 3));
                             subFromX = andnot_si128(greaterEqualMask, slli_epi64(b, 3));
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            a = sub_epi64(a, subFromX);
-                            y = add_epi64(y, addToY);
-                            y4 = slli_epi64(y, 2);
-                            y = add_epi64(y, y);
-                            b = inc_epi64(mul_epu32(add_epi64(y, y4), inc_epi64(y)));
+                            __a = sub_epi64(__a, subFromX);
+                            result = add_epi64(result, addToY);
+                            y4 = slli_epi64(result, 2);
+                            result = add_epi64(result, result);
+                            b = inc_epi64(mul_epu32(add_epi64(result, y4), inc_epi64(result)));
 
-                            greaterEqualMask = cmpgt_epi64(b, a);
+                            greaterEqualMask = cmpgt_epi64(b, __a);
                             addToY   = add_epi64(ONE, greaterEqualMask);
-                            y = add_epi64(y, addToY);
+                            result = add_epi64(result, addToY);
                         }
 
-                        constexpr.ASSUME_LE_EPU64(y, 2_642_245);
-                        return y;
+                        constexpr.ASSUME_LE_EPU64(result, 2_642_245);
                     }
+
+                    constexpr.ASSUME_LE_EPU64(result, a);
+                    if (constexpr.ALL_GT_EPU64(a, 1))
+                    {
+                        constexpr.ASSUME_LE_EPU64(result, a);
+                    }
+
+                    constexpr.ASSUME(result.ULong0 * result.ULong0 * result.ULong0 <= a.ULong0);
+                    constexpr.ASSUME(result.ULong1 * result.ULong1 * result.ULong1 <= a.ULong1);
+                    
+                    constexpr.ASSUME((UInt128)(result.ULong0 + 1) * (result.ULong0 + 1) * (result.ULong0 + 1) > a.ULong0);
+                    constexpr.ASSUME((UInt128)(result.ULong1 + 1) * (result.ULong1 + 1) * (result.ULong1 + 1) > a.ULong1);
+                    
+                    constexpr.ASSUME((a.ULong0 <= 1) == (result.ULong0 == a.ULong0));
+                    constexpr.ASSUME((a.ULong1 <= 1) == (result.ULong1 == a.ULong1));
+                    
+                    constexpr.ASSUME((a.ULong0 != 0) == (result.ULong0 > 0));
+                    constexpr.ASSUME((a.ULong1 != 0) == (result.ULong1 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1247,6 +1975,8 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    v256 result;
+
                     if (rangePromiseLevel > 0 || constexpr.ALL_LE_EPU64(a, 1ul << 48, elements))
                     {
                         if (rangePromiseLevel > 1 || constexpr.ALL_LE_EPU64(a, uint.MaxValue, elements))
@@ -1255,248 +1985,277 @@ namespace MaxMath
                             {
                                 if (rangePromiseLevel > 3 || constexpr.ALL_LE_EPU64(a, byte.MaxValue, elements))
                                 {
-                                    return cbrt_epu8_takingAndReturning_epu16(a);
+                                    result = cbrt_epu8_takingAndReturning_epu16(a);
+                                    constexpr.ASSUME_LE_EPU64(result, 6);
                                 }
                                 else
                                 {
-                                    return mm256_cbrt_epu16(a);
+                                    result = mm256_cbrt_epu16(a);
+                                    constexpr.ASSUME_LE_EPU64(result, 40);
                                 }
                             }
                             else
                             {
-                                return mm256_cbrt_epu32(a);
+                                result = mm256_cbrt_epu32(a);
+                                constexpr.ASSUME_LE_EPU64(result, 1_625);
                             }
                         }
                         else
                         {
                             // results within [0, 1ul << 48] have been proven to be correct empirically both with and without FMA instructions
-                            v256 result = mm256_cvttpd_epu64(mm256_cbrt_pd(mm256_usfcvtepu64_pd(a), promisePositive: true, promiseNormalized: true), elements);
+                            result = mm256_cvttpd_epu64(mm256_cbrt_pd(mm256_usfcvtepu64_pd(a), promisePositive: true, promiseNormalized: true), elements);
 
                             constexpr.ASSUME_LE_EPU64(result, 65536 /*maxintcbrt(1ul << 48)*/, elements);
-                            return result;
                         }
                     }
                     else
                     {
-                        v256 y;
+                        v256 __a = a;
                         v256 b;
                         if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            y = Avx.mm256_setzero_si256();
+                            result = Avx.mm256_setzero_si256();
 
                             for (int c = sizeof(ulong) * 8 / 3 * 3; c >= 0; c -= 3)
                             {
-                                y = Avx2.mm256_add_epi64(y, y);
-                                v256 y3 = Avx2.mm256_add_epi64(y, mm256_slli_epi64(y, 1));
-                                b = mm256_inc_epi64(Avx2.mm256_mul_epu32(y3, mm256_inc_epi64(y)));
+                                result = Avx2.mm256_add_epi64(result, result);
+                                v256 y3 = Avx2.mm256_add_epi64(result, mm256_slli_epi64(result, 1));
+                                b = mm256_inc_epi64(Avx2.mm256_mul_epu32(y3, mm256_inc_epi64(result)));
 
-                                v256 greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, mm256_srli_epi64(a, c));
+                                v256 greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, mm256_srli_epi64(__a, c));
                                 v256 subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, mm256_slli_epi64(b, c));
                                 v256 addToY = mm256_inc_epi64(greaterEqualMask);
-                                a = Avx2.mm256_sub_epi64(a, subFromX);
-                                y = Avx2.mm256_add_epi64(y, addToY);
+                                __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                                result = Avx2.mm256_add_epi64(result, addToY);
                             }
                         }
                         else
                         {
                             v256 ONE = mm256_set1_epi64x(1);
 
-                            y = Avx2.mm256_srli_epi64(a, 63);
-                            v256 greaterEqualMask = mm256_neg_epi64(y);
-                            a = Avx2.mm256_and_si256(a, mm256_set1_epi64x(0x7FFF_FFFF_FFFF_FFFF));
-                            v256 y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = Avx2.mm256_add_epi64(y, y4);
+                            result = Avx2.mm256_srli_epi64(__a, 63);
+                            v256 greaterEqualMask = mm256_neg_epi64(result);
+                            __a = Avx2.mm256_and_si256(__a, mm256_set1_epi64x(0x7FFF_FFFF_FFFF_FFFF));
+                            v256 y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = Avx2.mm256_add_epi64(result, y4);
                             b = Avx2.mm256_add_epi64(mm256_inc_epi64(b), Avx2.mm256_and_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 1)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 60));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 60));
                             v256 subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 60));
                             v256 addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 57));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 57));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 57));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 54));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 54));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 54));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 51));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 51));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 51));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 48));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 48));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 48));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi16(y, addToY);
-                            y4 = Avx2.mm256_slli_epi16(y, 2);
-                            y = Avx2.mm256_add_epi16(y, y);
-                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(y, y4), Avx2.mm256_add_epi16(ONE, y))); // max(y) = 126    =>     3y * (y + 1)    ^=     last safe 16 bit multiplication
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi16(result, addToY);
+                            y4 = Avx2.mm256_slli_epi16(result, 2);
+                            result = Avx2.mm256_add_epi16(result, result);
+                            b = Avx2.mm256_add_epi16(ONE, Avx2.mm256_mullo_epi16(Avx2.mm256_add_epi16(result, y4), Avx2.mm256_add_epi16(ONE, result))); // max(y) = 126    =>     3y * (y + 1)    ^=     last safe 16 bit multiplication
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 45));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 45));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 45));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 42));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 42));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 42));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 39));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 39));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 39));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 36));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 36));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 36));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(a, 33));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi32(b, Avx2.mm256_srli_epi64(__a, 33));
                             subFromX = Avx2.mm256_andnot_si256(Avx2.mm256_shuffle_epi32(greaterEqualMask, Sse.SHUFFLE(2, 2, 0, 0)), Avx2.mm256_slli_epi64(b, 33));
                             addToY   = Avx2.mm256_andnot_si256(greaterEqualMask, ONE);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 30));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 30));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 30));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 27));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 27));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 27));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 24));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 24));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 24));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 21));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 21));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 21));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 18));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 18));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 18));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 15));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 15));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 15));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 12));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 12));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 12));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 9));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 9));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 9));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 6));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 6));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 6));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(a, 3));
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, Avx2.mm256_srli_epi64(__a, 3));
                             subFromX = Avx2.mm256_andnot_si256(greaterEqualMask, Avx2.mm256_slli_epi64(b, 3));
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            a = Avx2.mm256_sub_epi64(a, subFromX);
-                            y = Avx2.mm256_add_epi64(y, addToY);
-                            y4 = Avx2.mm256_slli_epi64(y, 2);
-                            y = Avx2.mm256_add_epi64(y, y);
-                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(y, y4), mm256_inc_epi64(y)));
+                            __a = Avx2.mm256_sub_epi64(__a, subFromX);
+                            result = Avx2.mm256_add_epi64(result, addToY);
+                            y4 = Avx2.mm256_slli_epi64(result, 2);
+                            result = Avx2.mm256_add_epi64(result, result);
+                            b = mm256_inc_epi64(Avx2.mm256_mul_epu32(Avx2.mm256_add_epi64(result, y4), mm256_inc_epi64(result)));
 
-                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, a);
+                            greaterEqualMask = Avx2.mm256_cmpgt_epi64(b, __a);
                             addToY   = Avx2.mm256_add_epi64(ONE, greaterEqualMask);
-                            y = Avx2.mm256_add_epi64(y, addToY);
+                            result = Avx2.mm256_add_epi64(result, addToY);
                         }
 
-                        constexpr.ASSUME_LE_EPU64(y, 2_642_245);
-                        return y;
+                        constexpr.ASSUME_LE_EPU64(result, 2_642_245);
                     }
+
+                    constexpr.ASSUME_LE_EPU64(result, a, elements);
+                    if (constexpr.ALL_GT_EPU64(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LE_EPU64(result, a, elements);
+                    }
+
+                    constexpr.ASSUME(result.ULong0 * result.ULong0 * result.ULong0 <= a.ULong0);
+                    constexpr.ASSUME(result.ULong1 * result.ULong1 * result.ULong1 <= a.ULong1);
+                    constexpr.ASSUME(result.ULong2 * result.ULong2 * result.ULong2 <= a.ULong2);
+                    constexpr.ASSUME(result.ULong3 * result.ULong3 * result.ULong3 <= a.ULong3);
+                    
+                    constexpr.ASSUME((UInt128)(result.ULong0 + 1) * (result.ULong0 + 1) * (result.ULong0 + 1) > a.ULong0);
+                    constexpr.ASSUME((UInt128)(result.ULong1 + 1) * (result.ULong1 + 1) * (result.ULong1 + 1) > a.ULong1);
+                    constexpr.ASSUME((UInt128)(result.ULong2 + 1) * (result.ULong2 + 1) * (result.ULong2 + 1) > a.ULong2);
+                    constexpr.ASSUME((UInt128)(result.ULong3 + 1) * (result.ULong3 + 1) * (result.ULong3 + 1) > a.ULong3);
+                    
+                    constexpr.ASSUME((a.ULong0 <= 1) == (result.ULong0 == a.ULong0));
+                    constexpr.ASSUME((a.ULong1 <= 1) == (result.ULong1 == a.ULong1));
+                    constexpr.ASSUME((a.ULong2 <= 1) == (result.ULong2 == a.ULong2));
+                    constexpr.ASSUME((a.ULong3 <= 1) == (result.ULong3 == a.ULong3));
+                    
+                    constexpr.ASSUME((a.ULong0 != 0) == (result.ULong0 > 0));
+                    constexpr.ASSUME((a.ULong1 != 0) == (result.ULong1 > 0));
+                    constexpr.ASSUME((a.ULong2 != 0) == (result.ULong2 > 0));
+                    constexpr.ASSUME((a.ULong3 != 0) == (result.ULong3 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1562,7 +2321,7 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Computes the integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="UInt128"/>
+        /// <summary>       Computes the integer cube root ⌊∛<paramref name="__x"/>⌋ of a <see cref="UInt128"/>
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ulong.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>].        </para>
@@ -1581,6 +2340,7 @@ namespace MaxMath
                 return intcbrt(x.lo64, promises);
             }
 
+            UInt128 __x = x;
             ulong y = 0;
             UInt128 b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
@@ -1589,9 +2349,9 @@ namespace MaxMath
                 {
                     y += y;
                     b = ((UInt128)(3 * y) * (y + 1)) + 1;
-                    if (x >> c >= b)
+                    if (__x >> c >= b)
                     {
-                        x -= b << c;
+                        __x -= b << c;
                         y++;
                     }
                 }
@@ -1600,385 +2360,399 @@ namespace MaxMath
             {
                 b = (UInt128)1 << 126;
 
-                if ((x.hi64 >> (126 - 64)) != 0)
+                if ((__x.hi64 >> (126 - 64)) != 0)
                 {
-                    x -= b;
+                    __x -= b;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (123 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (123 - 64)) >= b.lo64)
                 {
-                    x -= b << 123;
+                    __x -= b << 123;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (120 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (120 - 64)) >= b.lo64)
                 {
-                    x -= b << 120;
+                    __x -= b << 120;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (117 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (117 - 64)) >= b.lo64)
                 {
-                    x -= b << 117;
+                    __x -= b << 117;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (114 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (114 - 64)) >= b.lo64)
                 {
-                    x -= b << 114;
+                    __x -= b << 114;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (111 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (111 - 64)) >= b.lo64)
                 {
-                    x -= b << 111;
+                    __x -= b << 111;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (108 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (108 - 64)) >= b.lo64)
                 {
-                    x -= b << 108;
+                    __x -= b << 108;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (105 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (105 - 64)) >= b.lo64)
                 {
-                    x -= b << 105;
+                    __x -= b << 105;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (102 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (102 - 64)) >= b.lo64)
                 {
-                    x -= b << 102;
+                    __x -= b << 102;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (99 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (99 - 64)) >= b.lo64)
                 {
-                    x -= b << 99;
+                    __x -= b << 99;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (96 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (96 - 64)) >= b.lo64)
                 {
-                    x -= b << 96;
+                    __x -= b << 96;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (93 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (93 - 64)) >= b.lo64)
                 {
-                    x -= b << 93;
+                    __x -= b << 93;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (90 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (90 - 64)) >= b.lo64)
                 {
-                    x -= b << 90;
+                    __x -= b << 90;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (87 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (87 - 64)) >= b.lo64)
                 {
-                    x -= b << 87;
+                    __x -= b << 87;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (84 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (84 - 64)) >= b.lo64)
                 {
-                    x -= b << 84;
+                    __x -= b << 84;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (81 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (81 - 64)) >= b.lo64)
                 {
-                    x -= b << 81;
+                    __x -= b << 81;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (78 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (78 - 64)) >= b.lo64)
                 {
-                    x -= b << 78;
+                    __x -= b << 78;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (75 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (75 - 64)) >= b.lo64)
                 {
-                    x -= b << 75;
+                    __x -= b << 75;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (72 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (72 - 64)) >= b.lo64)
                 {
-                    x -= b << 72;
+                    __x -= b << 72;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (69 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (69 - 64)) >= b.lo64)
                 {
-                    x -= b << 69;
+                    __x -= b << 69;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x.hi64 >> (66 - 64)) >= b.lo64)
+                if ((__x.hi64 >> (66 - 64)) >= b.lo64)
                 {
-                    x -= b << 66;
+                    __x -= b << 66;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 63) >= b.lo64)
+                if ((__x >> 63) >= b.lo64)
                 {
-                    x -= b << 63;
+                    __x -= b << 63;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 60) >= b.lo64)
+                if ((__x >> 60) >= b.lo64)
                 {
-                    x -= b << 60;
+                    __x -= b << 60;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 57) >= b.lo64)
+                if ((__x >> 57) >= b.lo64)
                 {
-                    x -= b << 57;
+                    __x -= b << 57;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 54) >= b.lo64)
+                if ((__x >> 54) >= b.lo64)
                 {
-                    x -= b << 54;
+                    __x -= b << 54;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 51) >= b.lo64)
+                if ((__x >> 51) >= b.lo64)
                 {
-                    x -= b << 51;
+                    __x -= b << 51;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 48) >= b.lo64)
+                if ((__x >> 48) >= b.lo64)
                 {
-                    x -= b << 48;
+                    __x -= b << 48;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 45) >= b.lo64)
+                if ((__x >> 45) >= b.lo64)
                 {
-                    x -= b << 45;
+                    __x -= b << 45;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 42) >= b.lo64)
+                if ((__x >> 42) >= b.lo64)
                 {
-                    x -= b << 42;
+                    __x -= b << 42;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 39) >= b.lo64)
+                if ((__x >> 39) >= b.lo64)
                 {
-                    x -= b << 39;
+                    __x -= b << 39;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;    // ((1704458887ul * 3) * (1704458887ul + 1)) + 1 at max; last safe ulong
 
-                if ((x >> 36) >= b.lo64)
+                if ((__x >> 36) >= b.lo64)
                 {
-                    x -= b << 36;
+                    __x -= b << 36;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 33) >= b)
+                if ((__x >> 33) >= b)
                 {
-                    x -= b << 33;
+                    __x -= b << 33;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 30) >= b)
+                if ((__x >> 30) >= b)
                 {
-                    x -= b << 30;
+                    __x -= b << 30;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 27) >= b)
+                if ((__x >> 27) >= b)
                 {
-                    x -= b << 27;
+                    __x -= b << 27;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 24) >= b)
+                if ((__x >> 24) >= b)
                 {
-                    x -= b << 24;
+                    __x -= b << 24;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 21) >= b)
+                if ((__x >> 21) >= b)
                 {
-                    x -= b << 21;
+                    __x -= b << 21;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 18) >= b)
+                if ((__x >> 18) >= b)
                 {
-                    x -= b << 18;
+                    __x -= b << 18;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 15) >= b)
+                if ((__x >> 15) >= b)
                 {
-                    x -= b << 15;
+                    __x -= b << 15;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 12) >= b)
+                if ((__x >> 12) >= b)
                 {
-                    x -= b << 12;
+                    __x -= b << 12;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 9) >= b)
+                if ((__x >> 9) >= b)
                 {
-                    x -= b << 9;
+                    __x -= b << 9;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 6) >= b)
+                if ((__x >> 6) >= b)
                 {
-                    x -= b << 6;
+                    __x -= b << 6;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                if ((x >> 3) >= b)
+                if ((__x >> 3) >= b)
                 {
-                    x -= b << 3;
+                    __x -= b << 3;
                     y++;
                 }
 
                 y += y;
-                b = 1 + MaxMath.UInt128.umul128(3 * y, y + 1);
+                b = 1 + UInt128.umul128(3 * y, y + 1);
 
-                y += tobyte(x >= b);
+                y += tobyte(__x >= b);
+            }
+            
+            //constexpr.ASSUME(y * y * y <= x);
+            //constexpr.ASSUME((y + 1) * (y + 1) * (y + 1) > x);
+            constexpr.ASSUME(y <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(y < x);
+            }
+            constexpr.ASSUME((x <= 1) == (x == y));
+            constexpr.ASSUME((x != 0) == (y > 0));
+            if (constexpr.IS_TRUE(ispow2(x) && ((uint)intlog2(x) % 3u == 0)))
+            {
+                constexpr.ASSUME(ispow2(y));
             }
 
             return y;
@@ -2020,7 +2794,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte intcbrt(byte x)
         {
-            uint _x = x;
+            uint __x = x;
             uint y = 0;
             uint b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
@@ -2029,9 +2803,9 @@ namespace MaxMath
                 {
                     y += y;
                     b = ((3 * y) * (y + 1)) + 1;
-                    if (_x >> c >= b)
+                    if (__x >> c >= b)
                     {
-                        _x -= b << c;
+                        __x -= b << c;
                         y++;
                     }
                 }
@@ -2040,30 +2814,44 @@ namespace MaxMath
             {
                 b = 1;
 
-                if ((_x >> 6) != 0)
+                if ((__x >> 6) != 0)
                 {
-                    _x -= b << 6;
+                    __x -= b << 6;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((_x >> 3) >= b)
+                if ((__x >> 3) >= b)
                 {
-                    _x -= b << 3;
+                    __x -= b << 3;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
-                y += tobyte(_x >= b);
+                y += tobyte(__x >= b);
+            }
+
+            constexpr.ASSUME(y * y * y <= x);
+            constexpr.ASSUME((y + 1) * (y + 1) * (y + 1) > x);
+            constexpr.ASSUME(y <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(y < x);
+            }
+            constexpr.ASSUME((x <= 1) == (x == y));
+            constexpr.ASSUME((x != 0) == (y > 0));
+            if (constexpr.IS_TRUE(ispow2(x) && ((uint)intlog2(x) % 3u == 0)))
+            {
+                constexpr.ASSUME(ispow2(y));
             }
 
             return (byte)y;
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte2"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="byte2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2081,7 +2869,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte3"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="byte3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2099,7 +2887,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte4"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="byte4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2117,7 +2905,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte8"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="byte8"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2142,7 +2930,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte16"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="byte16"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2175,7 +2963,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.byte32"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="byte32"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="absSByteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="sbyte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2216,7 +3004,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte2"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="sbyte2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
@@ -2234,7 +3022,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte3"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="sbyte3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
@@ -2252,7 +3040,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte4"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="sbyte4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
@@ -2270,7 +3058,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte8"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="sbyte8"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
@@ -2295,7 +3083,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte16"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="sbyte16"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
@@ -2328,7 +3116,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.sbyte32"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="sbyte32"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="nonNegative"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// </remarks>
@@ -2361,7 +3149,7 @@ namespace MaxMath
                 return intcbrt((byte)x);
             }
 
-            uint _x = x;
+            uint __x = x;
             uint y;
             uint b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
@@ -2372,63 +3160,77 @@ namespace MaxMath
                 {
                     y += y;
                     b = ((3 * y) * (y + 1)) + 1;
-                    if (_x >> c >= b)
+                    if (__x >> c >= b)
                     {
-                        _x -= b << c;
+                        __x -= b << c;
                         y++;
                     }
                 }
             }
             else
             {
-                y = _x >> 15;
-                _x &= 0x7FFF;
+                y = __x >> 15;
+                __x &= 0x7FFF;
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((_x >> 12) >= b)
+                if ((__x >> 12) >= b)
                 {
-                    _x -= b << 12;
+                    __x -= b << 12;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((_x >> 9) >= b)
+                if ((__x >> 9) >= b)
                 {
-                    _x -= b << 9;
+                    __x -= b << 9;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((_x >> 6) >= b)
+                if ((__x >> 6) >= b)
                 {
-                    _x -= b << 6;
+                    __x -= b << 6;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((_x >> 3) >= b)
+                if ((__x >> 3) >= b)
                 {
-                    _x -= b << 3;
+                    __x -= b << 3;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
-                y += tobyte(_x >= b);
+                y += tobyte(__x >= b);
+            }
+
+            constexpr.ASSUME(y * y * y <= x);
+            constexpr.ASSUME((y + 1) * (y + 1) * (y + 1) > x);
+            constexpr.ASSUME(y <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(y < x);
+            }
+            constexpr.ASSUME((x <= 1) == (x == y));
+            constexpr.ASSUME((x != 0) == (y > 0));
+            if (constexpr.IS_TRUE(ispow2(x) && ((uint)intlog2(x) % 3u == 0)))
+            {
+                constexpr.ASSUME(ispow2(y));
             }
 
             return (ushort)y;
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort2"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ushort2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2446,7 +3248,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort3"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ushort3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2464,7 +3266,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort4"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ushort4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2482,7 +3284,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort8"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ushort8"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2507,7 +3309,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort16"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ushort16"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="byteRange"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
         /// </remarks>
@@ -2549,7 +3351,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.short2"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="short2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="byte.MaxValue"/>, <see cref="byte.MaxValue"/>] otherwise.        </para>
@@ -2568,7 +3370,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.short3"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="short3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="byte.MaxValue"/>, <see cref="byte.MaxValue"/>] otherwise.        </para>
@@ -2587,7 +3389,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.short4"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="short4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="byte.MaxValue"/>, <see cref="byte.MaxValue"/>] otherwise.        </para>
@@ -2606,7 +3408,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.short8"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="short8"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="byte.MaxValue"/>, <see cref="byte.MaxValue"/>] otherwise.        </para>
@@ -2632,7 +3434,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.short16"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="short16"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="byte.MaxValue"/>, <see cref="byte.MaxValue"/>] otherwise.        </para>
@@ -2652,7 +3454,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Computes the integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="uint"/>.
+        /// <summary>       Computes the integer cube root ⌊∛<paramref name="__x"/>⌋ of a <see cref="uint"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
@@ -2669,6 +3471,7 @@ namespace MaxMath
                 return intcbrt((ushort)x, promises);
             }
 
+            uint __x = x;
             uint y = 0;
             uint b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
@@ -2677,9 +3480,9 @@ namespace MaxMath
                 {
                     y += y;
                     b = ((3 * y) * (y + 1)) + 1;
-                    if (x >> c >= b)
+                    if (__x >> c >= b)
                     {
-                        x -= b << c;
+                        __x -= b << c;
                         y++;
                     }
                 }
@@ -2688,102 +3491,116 @@ namespace MaxMath
             {
                 b = 1;
 
-                if ((x >> 30) != 0)
+                if ((__x >> 30) != 0)
                 {
-                    x -= b << 30;
+                    __x -= b << 30;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 27) >= b)
+                if ((__x >> 27) >= b)
                 {
-                    x -= b << 27;
+                    __x -= b << 27;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 24) >= b)
+                if ((__x >> 24) >= b)
                 {
-                    x -= b << 24;
+                    __x -= b << 24;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 21) >= b)
+                if ((__x >> 21) >= b)
                 {
-                    x -= b << 21;
+                    __x -= b << 21;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 18) >= b)
+                if ((__x >> 18) >= b)
                 {
-                    x -= b << 18;
+                    __x -= b << 18;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 15) >= b)
+                if ((__x >> 15) >= b)
                 {
-                    x -= b << 15;
+                    __x -= b << 15;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 12) >= b)
+                if ((__x >> 12) >= b)
                 {
-                    x -= b << 12;
+                    __x -= b << 12;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 9) >= b)
+                if ((__x >> 9) >= b)
                 {
-                    x -= b << 9;
+                    __x -= b << 9;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 6) >= b)
+                if ((__x >> 6) >= b)
                 {
-                    x -= b << 6;
+                    __x -= b << 6;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 3) >= b)
+                if ((__x >> 3) >= b)
                 {
-                    x -= b << 3;
+                    __x -= b << 3;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
-                y += tobyte(x >= b);
+                y += tobyte(__x >= b);
+            }
+            
+            constexpr.ASSUME(y * y * y <= x);
+            constexpr.ASSUME((ulong)(y + 1) * (y + 1) * (y + 1) > x);
+            constexpr.ASSUME(y <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(y < x);
+            }
+            constexpr.ASSUME((x <= 1) == (x == y));
+            constexpr.ASSUME((x != 0) == (y > 0));
+            if (constexpr.IS_TRUE(ispow2(x) && ((uint)intlog2(x) % 3u == 0)))
+            {
+                constexpr.ASSUME(ispow2(y));
             }
 
             return y;
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.uint2"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="uint2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
@@ -2802,7 +3619,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.uint3"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="uint3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
@@ -2821,7 +3638,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.uint4"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="uint4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
@@ -2840,7 +3657,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.uint8"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="uint8"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="byte.MaxValue"/>].        </para>
@@ -2884,7 +3701,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.int2"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="int2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="ushort.MaxValue"/>, <see cref="ushort.MaxValue"/>] otherwise.        </para>
@@ -2904,7 +3721,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.int3"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="int3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="ushort.MaxValue"/>, <see cref="ushort.MaxValue"/>] otherwise.        </para>
@@ -2924,7 +3741,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.int4"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="int4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="ushort.MaxValue"/>, <see cref="ushort.MaxValue"/>] otherwise.        </para>
@@ -2944,7 +3761,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="MaxMath.int8"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of an <see cref="int8"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-<see cref="ushort.MaxValue"/>, <see cref="ushort.MaxValue"/>] otherwise.        </para>
@@ -2965,7 +3782,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Computes the integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ulong"/>.
+        /// <summary>       Computes the integer cube root ⌊∛<paramref name="__x"/>⌋ of a <see cref="ulong"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="ushort.MaxValue"/>].        </para>
@@ -2983,6 +3800,7 @@ namespace MaxMath
                 return intcbrt((uint)x, promises);
             }
 
+            ulong __x = x;
             ulong y;
             ulong b;
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
@@ -2992,207 +3810,221 @@ namespace MaxMath
                 {
                     y += y;
                     b = ((3 * y) * (y + 1)) + 1;
-                    if (x >> c >= b)
+                    if (__x >> c >= b)
                     {
-                        x -= b << c;
+                        __x -= b << c;
                         y++;
                     }
                 }
             }
             else
             {
-                y = x >> 63;
-                x &= 0x7FFF_FFFF_FFFF_FFFF;
+                y = __x >> 63;
+                __x &= 0x7FFF_FFFF_FFFF_FFFF;
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 60) >= b)
+                if ((__x >> 60) >= b)
                 {
-                    x -= b << 60;
+                    __x -= b << 60;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 57) >= b)
+                if ((__x >> 57) >= b)
                 {
-                    x -= b << 57;
+                    __x -= b << 57;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 54) >= b)
+                if ((__x >> 54) >= b)
                 {
-                    x -= b << 54;
+                    __x -= b << 54;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 51) >= b)
+                if ((__x >> 51) >= b)
                 {
-                    x -= b << 51;
+                    __x -= b << 51;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 48) >= b)
+                if ((__x >> 48) >= b)
                 {
-                    x -= b << 48;
+                    __x -= b << 48;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 45) >= b)
+                if ((__x >> 45) >= b)
                 {
-                    x -= b << 45;
+                    __x -= b << 45;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 42) >= b)
+                if ((__x >> 42) >= b)
                 {
-                    x -= b << 42;
+                    __x -= b << 42;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 39) >= b)
+                if ((__x >> 39) >= b)
                 {
-                    x -= b << 39;
+                    __x -= b << 39;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 36) >= b)
+                if ((__x >> 36) >= b)
                 {
-                    x -= b << 36;
+                    __x -= b << 36;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 33) >= b)
+                if ((__x >> 33) >= b)
                 {
-                    x -= b << 33;
+                    __x -= b << 33;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 30) >= b)
+                if ((__x >> 30) >= b)
                 {
-                    x -= b << 30;
+                    __x -= b << 30;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 27) >= b)
+                if ((__x >> 27) >= b)
                 {
-                    x -= b << 27;
+                    __x -= b << 27;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 24) >= b)
+                if ((__x >> 24) >= b)
                 {
-                    x -= b << 24;
+                    __x -= b << 24;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 21) >= b)
+                if ((__x >> 21) >= b)
                 {
-                    x -= b << 21;
+                    __x -= b << 21;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 18) >= b)
+                if ((__x >> 18) >= b)
                 {
-                    x -= b << 18;
+                    __x -= b << 18;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 15) >= b)
+                if ((__x >> 15) >= b)
                 {
-                    x -= b << 15;
+                    __x -= b << 15;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 12) >= b)
+                if ((__x >> 12) >= b)
                 {
-                    x -= b << 12;
+                    __x -= b << 12;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 9) >= b)
+                if ((__x >> 9) >= b)
                 {
-                    x -= b << 9;
+                    __x -= b << 9;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 6) >= b)
+                if ((__x >> 6) >= b)
                 {
-                    x -= b << 6;
+                    __x -= b << 6;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
 
-                if ((x >> 3) >= b)
+                if ((__x >> 3) >= b)
                 {
-                    x -= b << 3;
+                    __x -= b << 3;
                     y++;
                 }
 
                 y += y;
                 b = ((3 * y) * (y + 1)) + 1;
-                y += tobyte(x >= b);
+                y += tobyte(__x >= b);
+            }
+            
+            constexpr.ASSUME(y * y * y <= x);
+            constexpr.ASSUME((UInt128)(y + 1) * (y + 1) * (y + 1) > x);
+            constexpr.ASSUME(y <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(y < x);
+            }
+            constexpr.ASSUME((x <= 1) == (x == y));
+            constexpr.ASSUME((x != 0) == (y > 0));
+            if (constexpr.IS_TRUE(ispow2(x) && ((uint)intlog2(x) % 3u == 0)))
+            {
+                constexpr.ASSUME(ispow2(y));
             }
 
             return y;
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong2"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ulong2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 48].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>].        </para>
@@ -3215,7 +4047,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong3"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ulong3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 48].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>].        </para>
@@ -3242,7 +4074,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong4"/>.
+        /// <summary>       Computes the componentwise integer cube root ⌊∛<paramref name="x"/>⌋ of a <see cref="ulong4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 48].        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, <see cref="uint.MaxValue"/>].        </para>
@@ -3289,7 +4121,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.long2"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="long2"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 48] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 48), 1ul &lt;&lt; 48] otherwise.        </para>
@@ -3314,7 +4146,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.long3"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="long3"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 47] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 48), 1ul &lt;&lt; 48] otherwise.        </para>
@@ -3343,7 +4175,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="MaxMath.long4"/>.
+        /// <summary>       Computes the componentwise integer cube root sgn(<paramref name="x"/>) * ⌊|∛<paramref name="x"/>|⌋ of a <see cref="long4"/>.
         /// <remarks>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.ZeroOrGreater"/> flag set returns undefined results for negative input values.        </para>
         /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 1ul &lt;&lt; 47] if the <see cref="Promise.ZeroOrGreater"/> flag is also set, [-(1ul &lt;&lt; 48), 1ul &lt;&lt; 48] otherwise.        </para>

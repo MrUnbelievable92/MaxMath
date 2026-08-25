@@ -3,8 +3,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 

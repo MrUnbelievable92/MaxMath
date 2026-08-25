@@ -18,7 +18,7 @@ M_FULL_DIVREM macro d, r
 		shld		r11, r8, cl
 		mov			r10, rax
 		mov			r12, rdx
-		xor			rbx, rbx
+		xor			ebx, ebx
 		sub			rdx, r11
 		cmovb		rdx, r12
 		sbb			rbx, -1
@@ -38,7 +38,7 @@ else
 		mov			rax, rbx
 endif
 if r
-		xor			rbx, rbx
+		xor			ebx, ebx
 endif
 		sub			r12, r11
 if r
@@ -87,7 +87,7 @@ a proc public
 		mov			r11, [rsp + 40]
 		mov			[r11 + 8], rax
 		mov			[r11 + 16], rdx
-		xor			rax, rax
+		xor			eax, eax
 		mov			[r11], rax
 
 		ret
@@ -135,7 +135,7 @@ c proc public
 		mov			r11, [rsp + 40]
 		mov			[r11 + 8], rax
 		mov			[r11 + 16], rdx
-		xor			rax, rax
+		xor			eax, eax
 
 		ret
 	
@@ -162,7 +162,7 @@ e proc public
 					
 		M_JMP_IF_NOT_GREATER L_CONTINUE_udiv128x128
 
-		xor 		rax, rax		
+		xor 		eax, eax		
 		mov			r11, [rsp + 40]	
 		mov			[r11], rax	
 
@@ -177,7 +177,7 @@ f proc public
 
 L_CONTINUE_udiv128x128::
 		mov			r11, [rsp + 40]	
-		xor 		r10, r10		
+		xor 		r10d, r10d		
 		mov			[r11], r10	
 
 		bsr			rcx, r9
@@ -208,7 +208,7 @@ g proc public
 					
 		M_JMP_IF_NOT_GREATER L_CONTINUE_udiv128x128_rGTu64max
 
-		xor			rax, rax
+		xor			eax, eax
 
 		ret
 	

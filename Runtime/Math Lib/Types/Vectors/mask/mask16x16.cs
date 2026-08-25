@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.Intrinsics.Xse;
@@ -253,6 +254,124 @@ namespace MaxMath
 			{
 				this = new bool16((bool8)x01234567, (bool8)x8_9_10_11_12_13_14_15);
 			}
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(bool8 x01234567, bool8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(bool8 x01234567, mask16x8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask16x8 x01234567, bool8 x8_9_10_11_12_13_14_15)
+			: this(x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask32x8 x01234567, mask32x8 x8_9_10_11_12_13_14_15)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+				v256 lo = Avx2.mm256_permute2x128_si256(x01234567, x8_9_10_11_12_13_14_15, Sse.SHUFFLE(2, 2, 0, 0));
+				v256 hi = Avx2.mm256_permute2x128_si256(x01234567, x8_9_10_11_12_13_14_15, Sse.SHUFFLE(3, 3, 1, 1));
+
+				this = Avx2.mm256_packs_epi32(lo, hi);
+			}
+			else if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = new mask16x16((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15);
+			}
+			else
+			{
+				this = new bool16((bool8)x01234567, (bool8)x8_9_10_11_12_13_14_15);
+			}
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask32x8 x01234567, mask16x8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask16x8 x01234567, mask32x8 x8_9_10_11_12_13_14_15)
+			: this(x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask32x8 x01234567, mask8x8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask8x8 x01234567, mask32x8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask32x8 x01234567, bool8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(bool8 x01234567, mask32x8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask8x8 x01234567, mask8x8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask8x8 x01234567, mask16x8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask16x8 x01234567, mask8x8 x8_9_10_11_12_13_14_15)
+			: this(x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(bool8 x01234567, mask8x8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask16x16(mask8x8 x01234567, bool8 x8_9_10_11_12_13_14_15)
+			: this((mask16x8)x01234567, (mask16x8)x8_9_10_11_12_13_14_15)
+		{
+
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

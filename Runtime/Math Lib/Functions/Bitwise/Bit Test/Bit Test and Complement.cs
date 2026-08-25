@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -17,7 +18,7 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_EQ_EPI8(b, 7, elements))
                     {
-                        v128 ret = result == MaskType.One ? srli_epi8(a, 7) : srai_epi8(a, 7);
+                        v128 ret = result == MaskType.One ? srli_epi8(a, 7, elements: elements) : srai_epi8(a, 7, elements: elements);
                         a = xor_si128(a, set1_epi8(1 << 7));
 
                         return ret;

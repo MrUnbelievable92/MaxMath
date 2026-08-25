@@ -2,13 +2,16 @@
 #define WINDOWS
 #endif
 
+//#define TESTING
+
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static MaxMath.math;
 
@@ -50,6 +53,11 @@ namespace MaxMath
         [DllImport("asm128", CallingConvention = CallingConvention.Cdecl/*, EntryPoint = "#29"*/)] extern private static long  G(ulong dividendLo64, ulong dividendHi64, long divisor);
         [DllImport("asm128", CallingConvention = CallingConvention.Cdecl/*, EntryPoint = "#30"*/)] extern private static ulong H(ulong dividendLo64, ulong dividendHi64, ulong divisor);
         [DllImport("asm128", CallingConvention = CallingConvention.Cdecl/*, EntryPoint = "#31"*/)] extern private static long  I(ulong dividendLo64, ulong dividendHi64, long divisor);
+
+        [DllImport("asm128", CallingConvention = CallingConvention.Cdecl/*, EntryPoint = "#32"*/)] extern private static ulong J(ulong dividend0, ulong dividend64, ulong dividend128, ulong dividend192, ulong divisorlo, ulong divisorhi, ulong* quotient);
+        [DllImport("asm128", CallingConvention = CallingConvention.Cdecl/*, EntryPoint = "#33"*/)] extern private static ulong K(ulong dividend0, ulong dividend64, ulong divisorlo, ulong divisorhi, ulong* quoPtr);
+        [DllImport("asm128", CallingConvention = CallingConvention.Cdecl/*, EntryPoint = "#33"*/)] extern private static ulong L(ulong dividend0, ulong dividend64, ulong divisorlo, ulong divisorhi, long count, ulong* remHiPtr);
+        [DllImport("asm128", CallingConvention = CallingConvention.Cdecl/*, EntryPoint = "#34"*/)] extern private static ulong M(ulong divisorlo, ulong divisorhi, ulong* quoPtr);
      #endif
 
 
@@ -60,6 +68,32 @@ namespace MaxMath
 if (divisor.IsZero) throw new DivideByZeroException();
 #endif
         }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void CHECK_DIVISOR(__UInt256__ divisor)
+        {
+#if DEBUG
+if (divisor.IsZero) throw new DivideByZeroException();
+#endif
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static bool usf__sdivrem128x64_fits64(Int128 dividend, long divisor)
+        {
+            if (divisor > 0)
+            {
+                long h = divisor >> 1;
+                return ((long)dividend.hi64 >= -h) & ((long)dividend.hi64 < h);
+            }
+            else
+            {
+                ulong u  = (ulong)(-divisor);
+                ulong h  = u >> 1;
+                ulong hc = (u + 1) >> 1;
+                return ((long)dividend.hi64 > -(long)hc) & ((long)dividend.hi64 < (long)h);
+            }
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static UInt128 fallback__udivrem128x128(UInt128 dividend, UInt128 divisor, out UInt128 remainder)
@@ -119,7 +153,7 @@ if (divisor.IsZero) throw new DivideByZeroException();
             dividend = new UInt128(dividend.lo64, dividend.hi64 < scaledHi ? dividend.hi64 : dividend.hi64 - scaledHi);
             ulong scaledLo = (new UInt128(fallback__usf__udivrem128x64(dividend, scaledHi, out _), roundBit) << shift).hi64;
             scaledHi = scaledLo * divisor.hi64;
-            dividend = MaxMath.UInt128.umul128(divisor.lo64, scaledLo);
+            dividend = UInt128.umul128(divisor.lo64, scaledLo);
 
             remainder -= dividend;
             ulong quotient = scaledLo - tobyte(remainder.hi64 < scaledHi);
@@ -208,6 +242,175 @@ Assert.IsSmaller(dividend.hi64, divisor);
             UInt128 dividend = new UInt128(ulong.MaxValue, dividendHi);
 
             return 1 + new UInt128(fallback__usf__udivrem128x64(dividend, divisor, out _), quotientHi);
+        }
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static __UInt256__ fallback__udivrem256x128_rLEhi(__UInt256__ dividend, UInt128 divisor, out UInt128 remainder)
+        {
+            UInt128 quotientHi = __udivrem128x128(dividend.hi128, divisor, out UInt128 dividendHi);
+            dividend = new __UInt256__(dividend.lo128, dividendHi);
+
+            return new __UInt256__(__usf__udivrem256x128(dividend, divisor, out remainder), quotientHi);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static UInt128 /*fallback*/__usf__udivrem256x128(__UInt256__ dividend, UInt128 divisor, out UInt128 remainder, bool preShift = false, int shift = -1, bool alignedDivisorHiLessThanAlignedDividendHi128Hi64 = false)
+        {
+Assert.IsSmaller(dividend.hi128, divisor);
+
+            if (!preShift)
+            {
+                shift = lzcnt(divisor);
+                dividend <<= shift;
+                divisor <<= shift;
+            }
+
+            UInt128 qHi = alignedDivisorHiLessThanAlignedDividendHi128Hi64 ? __usf__udivrem128x64(dividend.hi128, divisor.hi64, out ulong remdiv)
+                                                                           : __udivrem128x64(dividend.hi128, divisor.hi64, out remdiv);
+            UInt128 remdiv128 = new UInt128(dividend.lo128.hi64, remdiv);
+            remainder = remdiv128 - (qHi * divisor.lo64);
+            bool b1 = remainder > remdiv128;
+            bool b2 = b1 & ((UInt128)(-(Int128)remainder) > divisor);
+            qHi -= tobyte(b2);
+            qHi -= tobyte(b1);
+            remainder += b1 ? divisor : 0;
+            remainder += b2 ? divisor : 0;
+
+            UInt128 qLo = __udivrem128x64(remainder, divisor.hi64, out remdiv);
+            remdiv128 = new UInt128(dividend.lo128.lo64, remdiv);
+            remainder = remdiv128 - (qLo * divisor.lo64);
+            b1 = remainder > remdiv128;
+            b2 = b1 & ((UInt128)(-(Int128)remainder) > divisor);
+            qLo -= tobyte(b2);
+            qLo -= tobyte(b1);
+            remainder += b1 ? divisor : 0;
+            remainder += b2 ? divisor : 0;
+
+            remainder >>= shift;
+            return new UInt128(qLo.lo64, qHi.lo64);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static UInt128 /*fallback*/__udivrem256x256_rGTu128max_rLEl(__UInt256__ dividend, __UInt256__ divisor, out __UInt256__ remainder)
+        {
+            remainder = dividend;
+
+            int shift = lzcnt(divisor.hi128);
+
+            UInt128 scaledHi = (divisor << shift).hi128;
+            UInt128 roundBit = tobyte(dividend.hi128 >= scaledHi);
+            dividend = new __UInt256__(dividend.lo128, dividend.hi128 < scaledHi ? dividend.hi128 : dividend.hi128 - scaledHi);
+            UInt128 scaledLo = (new __UInt256__(__usf__udivrem256x128(dividend, scaledHi, out _), roundBit) << shift).hi128;
+            scaledHi = scaledLo * divisor.hi128;
+            dividend = __UInt256__.umul256(divisor.lo128, scaledLo);
+
+            remainder -= dividend;
+            UInt128 quotient = scaledLo - tobyte(remainder.hi128 < scaledHi);
+            divisor = remainder.hi128 < scaledHi ? divisor : 0;
+            remainder = new __UInt256__(remainder.lo128, remainder.hi128 - scaledHi);
+            remainder += divisor;
+
+            return quotient;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static UInt128 fallback__usf__udiv256x128(__UInt256__ dividend, UInt128 divisor, bool preShift = false, int shift = -1)
+        {
+            CHECK_DIVISOR(divisor);
+
+            return __usf__udivrem256x128(dividend, divisor, out _, preShift: preShift, shift: shift);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static UInt128 /*fallback*/__usf__urem256x128(__UInt256__ dividend, UInt128 divisor)
+        {
+            CHECK_DIVISOR(divisor);
+
+            __usf__udivrem256x128(dividend, divisor, out UInt128 rem);
+
+            return rem;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static __UInt256__ /*fallback*/__udivrem256x128(__UInt256__ dividend, UInt128 divisor, out UInt128 remainder)
+        {
+            CHECK_DIVISOR(divisor);
+            
+            if (dividend.hi128 >= divisor)
+            {
+                return fallback__udivrem256x128_rLEhi(dividend, divisor, out remainder);
+            }
+            else
+            {
+                return __usf__udivrem256x128(dividend, divisor, out remainder);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static __UInt256__ /*fallback*/__udivrem256x256(__UInt256__ dividend, __UInt256__ divisor, out __UInt256__ remainder)
+        {
+            CHECK_DIVISOR(divisor);
+
+            if (divisor > dividend)
+            {
+                remainder = dividend;
+
+                return 0;
+            }
+	        else
+            {
+                return udivrem256x256_rLEl(dividend, divisor, out remainder);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static __UInt256__ udivrem256x256_rLEl(__UInt256__ dividend, __UInt256__ divisor, out __UInt256__ remainder)
+        {
+            CHECK_DIVISOR(divisor);
+
+            if (divisor.hi128.IsZero)
+            {
+                __UInt256__ quotient = __udivrem256x128(dividend, divisor.lo128, out UInt128 remainder128);
+
+                remainder = remainder128;
+                return quotient;
+            }
+            else
+            {
+                return __udivrem256x256_rGTu128max_rLEl(dividend, divisor, out remainder);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static UInt128 __udivrem256x256_rGTu128max(__UInt256__ dividend, __UInt256__ divisor, out __UInt256__ remainder)
+        {
+            CHECK_DIVISOR(divisor);
+
+            if (divisor > dividend)
+            {
+                remainder = dividend;
+
+                return 0;
+            }
+	        else
+            {
+                return __udivrem256x256_rGTu128max_rLEl(dividend, divisor, out remainder);
+            }
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static __UInt256__ fallback__udiv256x128(__UInt256__ dividend, UInt128 divisor)
+        {
+            if (divisor > dividend)
+            {
+                return __UInt256__.MinValue;
+            }
+	        else
+            {
+                return fallback__udivrem256x128_rLEhi(dividend, divisor, out UInt128 _);
+            }
         }
 
 
@@ -1203,7 +1406,7 @@ Assert.IsSmaller(dividend.hi64, divisor);
                 }
             }
 
-            if (BurstArchitecture.IsX86Win64Supported)
+            if (!BurstArchitecture.IsX86Win64Supported)
             {
                 ulong rem;
                 ulong q = D(dividend.lo64, dividend.hi64, divisor, &rem);
@@ -1347,6 +1550,224 @@ Assert.IsSmaller(dividend.hi64, divisor);
             fallback__usf__idivrem128x64(dividend, divisor, out long remainder);
 
             return remainder;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static __UInt256__ __udivrem256x128_rLEhi(__UInt256__ dividend, UInt128 divisor, out UInt128 remainder)
+        {
+            return fallback__udivrem256x128_rLEhi(dividend, divisor, out remainder);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static UInt128 __usf__udiv256x128(__UInt256__ dividend, UInt128 divisor)
+        {
+            CHECK_DIVISOR(divisor);
+
+        #if WINDOWS
+            if (constexpr.IS_CONST(dividend) && constexpr.IS_CONST(divisor))
+            {
+                UInt128 constQuotient = fallback__usf__udiv256x128(dividend, divisor);
+
+                if (constexpr.IS_CONST(constQuotient))
+                {
+                    return constQuotient;
+                }
+            }
+
+            if (BurstArchitecture.IsX86Win64Supported)
+            {
+                ulong* hi = stackalloc ulong[1];
+                ulong lo = J(dividend.lo128.lo64, dividend.lo128.hi64, dividend.hi128.lo64, dividend.hi128.hi64, divisor.lo64, divisor.hi64, hi);
+
+                return new UInt128(lo, *hi);
+            }
+        #endif
+
+
+            return fallback__usf__udiv256x128(dividend, divisor);
+        }
+        
+        [SkipLocalsInit]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static ulong __usf__div128to256x128shl127x15(UInt128 dividend, UInt128 divisor, out UInt128 quotient)
+        {
+            __UInt256__ dividend256;
+            UInt128 remainder;
+
+        #if WINDOWS
+            if (constexpr.IS_CONST(dividend) && constexpr.IS_CONST(divisor))
+            {
+                dividend256 = dividend;
+                dividend256 <<= 112 + 15;
+
+                quotient = __usf__udivrem256x128(dividend256, divisor << 15, out remainder, preShift: true, shift: 15);
+
+                if (constexpr.IS_CONST(quotient))
+                {
+                    remainder <<= 1;
+                    return remainder > divisor ? (1ul << 63) | 1ul
+                         : remainder == divisor ? (1ul << 63)
+                         : 0ul; 
+                }
+            }
+
+            if (BurstArchitecture.IsX86Win64Supported)
+            {
+                ulong* quoPtr = stackalloc ulong[2];
+
+                ulong sigZExtra = K(dividend.lo64, dividend.hi64, divisor.lo64, divisor.hi64, quoPtr);
+
+                quotient = new UInt128(quoPtr[0], quoPtr[1]);
+
+            #if TESTING
+                dividend256 = dividend;
+                dividend256 <<= 112 + 15;
+                
+                UInt128 quotient2 = __usf__udivrem256x128(dividend256, divisor << 15, out remainder, preShift: true, shift: 15);
+                remainder <<= 1;
+                ulong sigZExtra2 = remainder > divisor ? (1ul << 63) | 1ul
+                                 : remainder == divisor ? (1ul << 63)
+                                 : 0ul; 
+
+                Assert.AreEqual(quotient, quotient2);
+                Assert.AreEqual(sigZExtra, sigZExtra2);
+            #endif
+
+                return sigZExtra;
+            }
+        #endif
+            
+            dividend256 = dividend;
+            dividend256 <<= 112 + 15;
+            
+            quotient = __usf__udivrem256x128(dividend256, divisor << 15, out remainder, preShift: true, shift: 15);
+            remainder <<= 1;
+            return remainder > divisor ? (1ul << 63) | 1ul
+                 : remainder == divisor ? (1ul << 63)
+                 : 0ul; 
+        }
+
+        [SkipLocalsInit]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static UInt128 __usf__loop_rem128to256x128shl127x15(UInt128 dividend, UInt128 divisor, long count)
+        {
+			const int CHUNK = 112;
+			const int SHIFT = 15;
+            UInt128 shiftedDivisor;
+            __UInt256__ finalNumerator;
+
+        #if WINDOWS
+            if (BurstArchitecture.IsX86Win64Supported)
+            {
+                ulong* remHi = stackalloc ulong[1];
+                ulong remLo = L(dividend.lo64, dividend.hi64, divisor.lo64, divisor.hi64, count, remHi);
+
+                UInt128 rem = new UInt128(remLo, *remHi);
+
+            #if TESTING
+			    shiftedDivisor = divisor << SHIFT;
+			    
+			    while (count > CHUNK)
+			    {
+			        __UInt256__ numerator = (__UInt256__)dividend << (CHUNK + SHIFT);
+			        __usf__udivrem256x128(numerator, shiftedDivisor, out dividend, preShift: true, shift: SHIFT);
+			        count -= CHUNK;
+			    }
+			    
+			    finalNumerator = (__UInt256__)dividend << ((int)count + SHIFT);
+			    __usf__udivrem256x128(finalNumerator, shiftedDivisor, out dividend, preShift: true, shift: SHIFT);
+
+                Assert.AreEqual(dividend, rem);
+            #endif
+
+                return rem;
+            }
+        #endif
+
+			shiftedDivisor = divisor << SHIFT;
+			
+			while (count > CHUNK)
+			{
+			    __UInt256__ numerator = (__UInt256__)dividend << (CHUNK + SHIFT);
+			    __usf__udivrem256x128(numerator, shiftedDivisor, out dividend, preShift: true, shift: SHIFT);
+			    count -= CHUNK;
+			}
+			
+			finalNumerator = (__UInt256__)dividend << ((int)count + SHIFT);
+			__usf__udivrem256x128(finalNumerator, shiftedDivisor, out dividend, preShift: true, shift: SHIFT);
+
+            return dividend;
+        }
+
+        [SkipLocalsInit]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static ulong __rcpdivf128(UInt128 divisor, out UInt128 quotient)
+        {
+            __UInt256__ dividend256;
+            UInt128 remainder;
+            UInt128 sigA;
+            UInt128 rem;
+
+        #if WINDOWS
+            if (constexpr.IS_CONST(divisor))
+            {
+                sigA = new UInt128(0, 1ul << quadruple.MANTISSA_BITS_HI64);
+                rem = divisor != 0 ? sigA << 1 : sigA;
+
+                dividend256 = rem;
+                dividend256 <<= 112 + 15;
+
+                quotient = __usf__udivrem256x128(dividend256, divisor << 15, out remainder, preShift: true, shift: 15);
+
+                if (constexpr.IS_CONST(quotient))
+                {
+                    remainder <<= 1;
+                    return remainder > divisor ? (1ul << 63) | 1ul
+                         : remainder == divisor ? (1ul << 63)
+                         : 0ul; 
+                }
+            }
+
+            if (BurstArchitecture.IsX86Win64Supported)
+            {
+                ulong* quo = stackalloc ulong[2];
+                ulong sigZExtra = M(divisor.lo64, divisor.hi64, quo);
+
+                quotient = new UInt128(quo[0], quo[1]);
+
+            #if TESTING
+                sigA = new UInt128(0, 1ul << quadruple.MANTISSA_BITS_HI64);
+                rem = divisor != 0 ? sigA << 1 : sigA;
+
+                dividend256 = rem;
+                dividend256 <<= 112 + 15;
+                
+                UInt128 quotient2 = __usf__udivrem256x128(dividend256, divisor << 15, out remainder, preShift: true, shift: 15);
+                
+                remainder <<= 1;
+                ulong sigZExtra2 = remainder > divisor ? (1ul << 63) | 1ul
+                                             : remainder == divisor ? (1ul << 63)
+                                             : 0ul; 
+
+                Assert.AreEqual(quotient, quotient2);
+                Assert.AreEqual(sigZExtra, sigZExtra2);
+            #endif
+                return sigZExtra;
+            }
+        #endif
+            
+            sigA = new UInt128(0, 1ul << quadruple.MANTISSA_BITS_HI64);
+            rem = divisor != 0 ? sigA << 1 : sigA;
+
+            dividend256 = rem;
+            dividend256 <<= 112 + 15;
+            
+            quotient = __usf__udivrem256x128(dividend256, divisor << 15, out remainder, preShift: true, shift: 15);
+            
+            remainder <<= 1;
+            return remainder > divisor ? (1ul << 63) | 1ul
+                 : remainder == divisor ? (1ul << 63)
+                 : 0ul; 
         }
     }
 }

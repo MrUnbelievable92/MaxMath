@@ -2,7 +2,7 @@ using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
-using MaxMath.Intrinsics;
+using MaxMath.CompilerServices;
 using DevTools;
 
 using static MaxMath.math;
@@ -11,16 +11,16 @@ namespace MaxMath
 {
     internal readonly struct __UInt256__ : IEquatable<__UInt256__>
     {
-        private readonly ulong _63;
-        private readonly ulong _127;
-        private readonly ulong _191;
-        private readonly ulong _255;
+        internal readonly ulong _63;
+        internal readonly ulong _127;
+        internal readonly ulong _191;
+        internal readonly ulong _255;
 
         public UInt128 lo128 => new UInt128(_63, _127);
         public UInt128 hi128 => new UInt128(_191, _255);
 
         public static __UInt256__ MinValue => new __UInt256__(0, 0);
-        public static __UInt256__ MaxValue => new __UInt256__(MaxMath.UInt128.MaxValue, MaxMath.UInt128.MaxValue);
+        public static __UInt256__ MaxValue => new __UInt256__(UInt128.MaxValue, UInt128.MaxValue);
 
         internal bool IsZero => ((_63 | _127) | (_191 | _255)) == 0;
         internal bool IsNotZero => ((_63 | _127) | (_191 | _255)) != 0;
@@ -84,85 +84,127 @@ namespace MaxMath
             return (BigInteger)input.lo128 | ((BigInteger)input.hi128 << 128);
         }
 
+        public static explicit operator __UInt256__(BigInteger value)
+        {
+            bool isNegative = value.Sign == -1;
+
+            if (isNegative)
+            {
+                value = -value;
+            }
+
+            __UInt256__ result = new __UInt256__((UInt128)(value & UInt128.MaxValue), (UInt128)((value >> 128) & UInt128.MaxValue));
+
+            if (isNegative)
+            {
+                result = 0 - result;
+            }
+
+            return result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static __UInt256__ operator ~ (__UInt256__ value)
+        {
+            return new __UInt256__(~value.lo128, ~value.hi128);
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static __UInt256__ shl(__UInt256__ value, int n)
+        {
+            int n2 = n & 127;
+            bool upper = n >= 128;
+
+            UInt128 loShifted = value.lo128 << n2;
+
+            UInt128 carry      = (value.lo128 >> 1) >> (127 - n2);
+            UInt128 hiCombined = (value.hi128 << n2) | carry;
+
+            UInt128 outLo = upper ? 0          : loShifted;
+            UInt128 outHi = upper ? loShifted  : hiCombined;
+
+            return new __UInt256__(outLo, outHi);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static __UInt256__ operator << (__UInt256__ value, int n)
         {
+            __UInt256__ result;
+
             n &= 255;
             
-            if (Hint.Unlikely(n == 0))
+            if (constexpr.IS_TRUE(n == 0))
             {
                 return value;
             }
             else
             {
-                if (n < 128)
-                {
-                    if (constexpr.IS_TRUE(n == 64))
-                    {
-                        return new __UInt256__(0, value.lo128.lo64, value.lo128.hi64, value.hi128.lo64);
-                    }
-
-                    constexpr.ASSUME(n > 0 && n < 128);
-
-                    return new __UInt256__(value.lo128 << n, (value.hi128 << n) | (value.lo128 >> (128 - n)));
-                }
-                else
-                {
-                    if (constexpr.IS_TRUE(n == 128))
-                    {
-                        return new __UInt256__(0, value.lo128);
-                    }
-                    if (constexpr.IS_TRUE(n == 192))
-                    {
-                        return new __UInt256__(0, 0, 0, value.lo128.lo64);
-                    }
-
-                    constexpr.ASSUME(n > 127 && n < 256);
-
-                    return new __UInt256__(0, value.lo128 << (n - 128));
-                }
+                result = shl(value, n);
             }
+
+            //constexpr.ASSUME(result == umul256(value, shl(1, n)));
+            if (constexpr.IS_TRUE(value.IsZero))
+            {
+                constexpr.ASSUME(result.IsZero);
+            }
+            constexpr.ASSUME((result & (shl(1, n) - 1)).IsZero);
+            constexpr.ASSUME(tzcnt(result) >= tzcnt(value));
+            constexpr.ASSUME(tzcnt(result) == min(256, tzcnt(value) + n));
+            constexpr.ASSUME(countbits(result) <= countbits(value));
+            if (constexpr.IS_TRUE(ispow2(value)))
+            {
+                constexpr.ASSUME(ispow2(result) || result.IsZero);
+            }
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static __UInt256__ operator >> (__UInt256__ value, int n)
         {
+            __UInt256__ result;
+
             n &= 255;
 
-            if (Hint.Unlikely(n == 0))
+            if (constexpr.IS_TRUE(n == 0))
             {
-                return value;
+                result = value;
             }
             else
             {
-                if (n < 128)
-                {
-                    if (constexpr.IS_TRUE(n == 64))
-                    {
-                        return new __UInt256__(value.lo128.hi64, value.hi128.lo64, value.hi128.hi64, 0);
-                    }
+                int n2 = n & 127;
+                bool upper = n >= 128;
 
-                    constexpr.ASSUME(n > 0 && n < 128);
+                UInt128 hiShifted = value.hi128 >> n2;
 
-                    return new __UInt256__((value.lo128 >> n) | (value.hi128 << (128 - n)), value.hi128 >> n);
-                }
-                else
-                {
-                    if (constexpr.IS_TRUE(n == 128))
-                    {
-                        return new __UInt256__(value.hi128, 0);
-                    }
-                    if (constexpr.IS_TRUE(n == 192))
-                    {
-                        return new __UInt256__(value.hi128.hi64, 0, 0, 0);
-                    }
+                UInt128 carry      = (value.hi128 << 1) << (127 - n2);
+                UInt128 loCombined = (value.lo128 >> n2) | carry;
 
-                    constexpr.ASSUME(n > 127 && n < 256);
+                UInt128 outHi = upper ? 0           : hiShifted;
+                UInt128 outLo = upper ? hiShifted   : loCombined;
 
-                    return new __UInt256__(value.hi128 >> (n - 128), 0);
-                }
+                result = new __UInt256__(outLo, outHi);
             }
+
+            //constexpr.ASSUME(result == value / ((__UInt256__)1 << n)));
+            if (constexpr.IS_TRUE(value.IsZero))
+            {
+                constexpr.ASSUME(result.IsZero);
+            }
+            if (constexpr.IS_TRUE(n != 0))
+            {
+                constexpr.ASSUME((result & ~(((__UInt256__)1 << (256 - n)) - 1)).IsZero);
+            }
+            constexpr.ASSUME(lzcnt(result) >= lzcnt(value));
+            constexpr.ASSUME(countbits(result) <= countbits(value));
+            if (constexpr.IS_TRUE(ispow2(value)))
+            {
+                constexpr.ASSUME(ispow2(result) || result.IsZero);
+            }
+            constexpr.ASSUME((result << n) <= value);
+            constexpr.ASSUME(value == (result << n) + (value & (((__UInt256__)1 << n) - 1)));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -211,22 +253,94 @@ namespace MaxMath
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static __UInt256__ operator / (__UInt256__ a, UInt128 b)
+        public static __UInt256__ operator / (__UInt256__ left, UInt128 right)
         {
-            if (b > a)
+            __UInt256__ result = asm128.fallback__udiv256x128(left, right);
+            
+            if (constexpr.IS_TRUE(left.IsZero))
             {
-                return MinValue;
+                constexpr.ASSUME(result.IsZero);
             }
-	        else
+            if (constexpr.IS_TRUE(right == 1))
             {
-                return __udivrem256x128_rLEhi(a, b, out UInt128 _);
+                constexpr.ASSUME(result == left);
             }
+            if (constexpr.IS_TRUE(left < right))
+            {
+                constexpr.ASSUME(result.IsZero);
+            }
+            if (constexpr.IS_TRUE(left == right))
+            {
+                constexpr.ASSUME(result == 1);
+            }
+            if (constexpr.IS_TRUE(result.hi128 == 0))
+            {
+                constexpr.ASSUME(left.hi128 < right);
+            }
+            if (constexpr.IS_TRUE(left.hi128 < right))
+            {
+                constexpr.ASSUME(result.hi128 == 0);
+            }
+            if (constexpr.IS_TRUE(left.hi128 == 0))
+            {
+                constexpr.ASSUME(result.hi128 == 0);
+                constexpr.ASSUME(result.lo128 == left.lo128 / right);
+                if (constexpr.IS_TRUE(left.lo128 < right))
+                {
+                    constexpr.ASSUME(result.IsZero);
+                }
+            }
+            if (constexpr.IS_TRUE(ispow2(right)))
+            {
+                constexpr.ASSUME(result == (left >> tzcnt(right)));
+            }
+            constexpr.ASSUME(result <= left);
+            //constexpr.ASSUME(result * right <= left);
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static __UInt256__ operator / (__UInt256__ a, __UInt256__ b)
+        public static __UInt256__ operator / (__UInt256__ left, __UInt256__ right)
         {
-            return __udivrem256x256(a, b, out _);
+            __UInt256__ result = asm128.__udivrem256x256(left, right, out _);
+            
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                constexpr.ASSUME(result.IsZero);
+            }
+            if (constexpr.IS_TRUE(right == 1))
+            {
+                constexpr.ASSUME(result == left);
+            }
+            if (constexpr.IS_TRUE(left < right))
+            {
+                constexpr.ASSUME(result.IsZero);
+            }
+            if (constexpr.IS_TRUE(left == right))
+            {
+                constexpr.ASSUME(result == 1);
+            }
+            if (constexpr.IS_TRUE(left < right))
+            {
+                constexpr.ASSUME(result.IsZero);
+            }
+            if (constexpr.IS_TRUE(right.hi128 != 0))
+            {
+                constexpr.ASSUME(result.hi128 == 0);
+            }
+            if (constexpr.IS_TRUE(ispow2(right)))
+            {
+                constexpr.ASSUME(result == (left >> tzcnt(right)));
+            }
+            if (constexpr.IS_TRUE((right.hi128 & ((UInt128)1ul << 127)) == 0 && left >= right && left < right + right))
+            {
+                constexpr.ASSUME(result == 1);
+            }
+            constexpr.ASSUME(result <= left);
+            //constexpr.ASSUME(result * right <= left);
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -238,7 +352,7 @@ namespace MaxMath
             }
 	        else
             {
-                __udivrem256x128_rLEhi(a, b, out UInt128 result);
+                asm128.__udivrem256x128_rLEhi(a, b, out UInt128 result);
 
                 return result;
             }
@@ -247,8 +361,14 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static __UInt256__ operator % (__UInt256__ a, __UInt256__ b)
         {
-            __udivrem256x256(a, b, out __UInt256__ result);
+            asm128.__udivrem256x256(a, b, out __UInt256__ result);
             return result;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static __UInt256__ operator * (__UInt256__ left, __UInt256__ right)
+        {
+            return umul(left, right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -322,7 +442,7 @@ namespace MaxMath
                 {
                     ;
                 }
-                else if (left.hi128 == MaxMath.UInt128.MaxValue)
+                else if (left.hi128 == UInt128.MaxValue)
                 {
                     hi -= right;
                 }
@@ -336,7 +456,34 @@ namespace MaxMath
                 hi += left.hi128 * right;
             }
 
-            return new __UInt256__(product.lo128, hi);
+            __UInt256__ result = new __UInt256__(product.lo128, hi);
+            
+            if (constexpr.IS_TRUE(left.IsZero || right.IsZero))
+            {
+                constexpr.ASSUME(result.IsZero);
+            }
+            if (constexpr.IS_TRUE(left == 1))
+            {
+                //constexpr.ASSUME(result == right);
+            }
+            if (constexpr.IS_TRUE(right == 1))
+            {
+                //constexpr.ASSUME(result == left);
+            }
+            
+            constexpr.ASSUME((result.lo128 & 1ul) == ((left.lo128 & right.lo64) & 1ul));
+            constexpr.ASSUME(((result.lo128 & 1ul) == 0) ==  (((left.lo128 & 1ul) == 0) || ((right.lo64 & 1ul) == 0)));
+            
+            if (constexpr.IS_TRUE(ispow2(left)))
+            {
+                //constexpr.ASSUME(result == right << tzcnt(left));
+            }
+            if (constexpr.IS_TRUE(ispow2(right)))
+            {
+                //constexpr.ASSUME(result == left << tzcnt(right));
+            }
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -410,72 +557,66 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator < (__UInt256__ left, __UInt256__ right)
         {
-            if (constexpr.IS_TRUE(right.hi128 == 0))
-            {
-                return left < right.lo128;
-            }
-            else if (constexpr.IS_TRUE(left.hi128 == 0))
-            {
-                return right > left.lo128;
-            }
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & (0u - right)).IsZero;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !cmpeq(left, right));
+            constexpr.ASSUME(!result || cmpneq(left, right));
+            constexpr.ASSUME(result == !cmpge(left, right));
+            constexpr.ASSUME(result == (cmpge(right, left) && cmpneq(left, right)));
 
-            return (left.hi128 < right.hi128) | (left.hi128 == right.hi128 & (left.lo128 < right.lo128));
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator < (__UInt256__ left, UInt128 right)
         {
-            if (constexpr.IS_TRUE(left.hi128 == 0))
-            {
-                return right > left.lo128;
-            }
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & ((__UInt256__)0u - right)).IsZero;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !cmpeq(left, right));
+            constexpr.ASSUME(!result || cmpneq(left, right));
+            constexpr.ASSUME(result == !cmpge(left, right));
+            constexpr.ASSUME(result == (cmpge(right, left) && cmpneq(left, right)));
 
-            return left.hi128.IsZero & left.lo128 < right;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator < (UInt128 left, __UInt256__ right)
         {
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & (0u - right).lo128) == 0;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !cmpeq(left, right));
+            constexpr.ASSUME(!result || cmpneq(left, right));
+            constexpr.ASSUME(result == !cmpge(left, right));
+            constexpr.ASSUME(result == (cmpge(right, left) && cmpneq(left, right)));
 
-            return right.hi128.IsNotZero | left < right.lo128;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator < (__UInt256__ left, ulong right)
         {
-            if (constexpr.IS_TRUE(left.hi128 == 0 & left._191 == 0))
-            {
-                return right > left._63;
-            }
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & ((__UInt256__)0u - right)).IsZero;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !cmpeq(left, right));
+            constexpr.ASSUME(!result || cmpneq(left, right));
+            constexpr.ASSUME(result == !cmpge(left, right));
+            constexpr.ASSUME(result == (cmpge(right, left) && cmpneq(left, right)));
 
-            return left.hi128.IsZero & left.lo128 < right;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator < (ulong left, __UInt256__ right)
         {
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & (0u - right)._63) == 0;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !cmpeq(left, right));
+            constexpr.ASSUME(!result || cmpneq(left, right));
+            constexpr.ASSUME(result == !cmpge(left, right));
+            constexpr.ASSUME(result == (cmpge(right, left) && cmpneq(left, right)));
 
-            return right.hi128.IsNotZero | left < right.lo128;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -496,178 +637,128 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >= (__UInt256__ left, __UInt256__ right)
         {
-            if (constexpr.IS_TRUE(right.hi128 == 0))
-            {
-                return left >= right.lo128;
-            }
-            else if (constexpr.IS_TRUE(left.hi128 == 0))
-            {
-                return left.lo128 >= right;
-            }
+            bool result = cmpge(left, right);
 
-            return (right.hi128 < left.hi128) | (right.hi128 == left.hi128 & (right.lo128 < left.lo128));
+            constexpr.ASSUME(result == (cmplt(right, left) || cmpeq(left, right)));
+            constexpr.ASSUME(result == !cmplt(left, right));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >= (__UInt256__ left, UInt128 right)
         {
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & ((__UInt256__)0u - right)).IsNotZero;
-            }
+            bool result = cmpge(left, right);
 
-            return left.hi128.IsNotZero | left.lo128 >= right;
+            constexpr.ASSUME(result == (cmplt(right, left) || cmpeq(left, right)));
+            constexpr.ASSUME(result == !cmplt(left, right));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >= (UInt128 left, __UInt256__ right)
         {
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & (0u - right).lo128) != 0;
-            }
+            bool result = cmpge(left, right);
 
-            return right.hi128.IsZero & left >= right.lo128;
+            constexpr.ASSUME(result == (cmplt(right, left) || cmpeq(left, right)));
+            constexpr.ASSUME(result == !cmplt(left, right));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >= (__UInt256__ left, ulong right)
         {
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & ((__UInt256__)0u - right)).IsNotZero;
-            }
+            bool result = cmpge(left, right);
 
-            return left.hi128.IsNotZero | left.lo128 >= right;
+            constexpr.ASSUME(result == (cmplt(right, left) || cmpeq(left, right)));
+            constexpr.ASSUME(result == !cmplt(left, right));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >= (ulong left, __UInt256__ right)
         {
-            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
-            {
-                return (left & (0u - right)._63) != 0;
-            }
+            bool result = cmpge(left, right);
 
-            return right.hi128.IsZero & left >= right.lo128;
+            constexpr.ASSUME(result == (cmplt(right, left) || cmpeq(left, right)));
+            constexpr.ASSUME(result == !cmplt(left, right));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (__UInt256__ left, __UInt256__ right)
         {
-            if (constexpr.IS_CONST(right))
-            {
-                if (right.IsZero)
-                {
-                    return left.IsZero;
-                }
-                if (right.IsMaxValue)
-                {
-                    return left.IsMaxValue;
-                }
-            }
-            else if (constexpr.IS_CONST(left))
-            {
-                if (left.IsZero)
-                {
-                    return right.IsZero;
-                }
-                if (left.IsMaxValue)
-                {
-                    return right.IsMaxValue;
-                }
-            }
+            bool result = cmpeq(left, right);
+            
+            constexpr.ASSUME(result == !cmpneq(left, right));
+            constexpr.ASSUME(result == (!cmplt(left, right) && !cmplt(right, left)));
+            constexpr.ASSUME(result == (cmpge(left, right) && cmpge(right, left)));
 
-            return ((left.lo128 ^ right.lo128) | (left.hi128 ^ right.hi128)).IsZero;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (__UInt256__ left, UInt128 right)
         {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right.IsZero;
-            }
-            if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left.IsZero;
-            }
+            bool result = cmpeq(left, right);
+            
+            constexpr.ASSUME(result == !cmpneq(left, right));
+            constexpr.ASSUME(result == (!cmplt(left, right) && !cmplt(right, left)));
+            constexpr.ASSUME(result == (cmpge(left, right) && cmpge(right, left)));
 
-            return ((left.lo128 ^ right) | left.hi128).IsZero;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator == (UInt128 left, __UInt256__ right)
         {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right.IsZero;
-            }
-            if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left.IsZero;
-            }
+            bool result = cmpeq(left, right);
+            
+            constexpr.ASSUME(result == !cmpneq(left, right));
+            constexpr.ASSUME(result == (!cmplt(left, right) && !cmplt(right, left)));
+            constexpr.ASSUME(result == (cmpge(left, right) && cmpge(right, left)));
 
-            return ((left ^ right.lo128) | right.hi128).IsZero;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (__UInt256__ left, __UInt256__ right)
         {
-            if (constexpr.IS_CONST(right))
-            {
-                if (right.IsZero)
-                {
-                    return left.IsNotZero;
-                }
-                if (right.IsMaxValue)
-                {
-                    return left.IsNotMaxValue;
-                }
-            }
-            else if (constexpr.IS_CONST(left))
-            {
-                if (left.IsZero)
-                {
-                    return right.IsNotZero;
-                }
-                if (left.IsMaxValue)
-                {
-                    return right.IsNotMaxValue;
-                }
-            }
+            bool result = cmpneq(left, right);
 
-            return ((left.lo128 ^ right.lo128) | (left.hi128 ^ right.hi128)).IsNotZero;
+            constexpr.ASSUME(result == !cmpeq(left, right));
+            constexpr.ASSUME(result == (cmplt(left, right) || cmplt(right, left)));
+            constexpr.ASSUME(result == (!cmpge(left, right) || !cmpge(right, left)));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (__UInt256__ left, UInt128 right)
         {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right.IsNotZero;
-            }
-            if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left.IsNotZero;
-            }
+            bool result = cmpneq(left, right);
 
-            return ((left.lo128 ^ right) | left.hi128).IsNotZero;
+            constexpr.ASSUME(result == !cmpeq(left, right));
+            constexpr.ASSUME(result == (cmplt(left, right) || cmplt(right, left)));
+            constexpr.ASSUME(result == (!cmpge(left, right) || !cmpge(right, left)));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator != (UInt128 left, __UInt256__ right)
         {
-            if (constexpr.IS_TRUE(left.IsZero))
-            {
-                return right.IsNotZero;
-            }
-            if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return left.IsNotZero;
-            }
+            bool result = cmpneq(left, right);
 
-            return ((left ^ right.lo128) | right.hi128).IsNotZero;
+            constexpr.ASSUME(result == !cmpeq(left, right));
+            constexpr.ASSUME(result == (cmplt(left, right) || cmplt(right, left)));
+            constexpr.ASSUME(result == (!cmpge(left, right) || !cmpge(right, left)));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -831,6 +922,90 @@ Assert.IsBetween(numBits, 0u, 256ul - index);
 
             return result.lo128;
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static __UInt256__ umul(__UInt256__ left, __UInt256__ right)
+        {
+            if (constexpr.IS_TRUE(left == right))
+            {
+                return square(left);
+            }
+
+            __UInt256__ product = __UInt256__.umul256(left.lo128, right.lo128);
+            UInt128 hi = product.hi128;
+
+            if (constexpr.IS_CONST(left.hi128))
+            {
+                if (constexpr.IS_CONST(right.hi128))
+                {
+                    if (left.hi128 == 0)
+                    {
+                        if (right.hi128 == 0)
+                        {
+                            ;
+                        }
+                        else if (right.hi128 == ulong.MaxValue)
+                        {
+                            hi -= left.lo128;
+                        }
+                        else
+                        {
+                            hi += left.lo128 * right.hi128;
+                        } 
+                    }
+                    else if (left.hi128 == ulong.MaxValue)
+                    {
+                        if (right.hi128 == 0)
+                        {
+                            hi -= right.lo128;
+                        }
+                        else if (right.hi128 == ulong.MaxValue)
+                        {
+                            hi -= right.lo128 + left.lo128;
+                        }
+                        else
+                        {
+                            hi = (hi - right.lo128) + (left.lo128 * right.hi128);
+                        } 
+                    }
+                    else
+                    {
+                        if (right.hi128 == 0)
+                        {
+                            hi += left.hi128 * right.lo128;
+                        }
+                        else if (right.hi128 == ulong.MaxValue)
+                        {
+                            hi =  (hi - left.lo128) + (left.hi128 * right.lo128);
+                        }
+                        else
+                        {
+                            hi += (left.hi128 * right.lo128) + (left.lo128 * right.hi128);
+                        } 
+                    }
+                }
+                else
+                {
+                    if (left.hi128 == 0)
+                    {
+                        hi += left.lo128 * right.hi128;
+                    }
+                    else if (left.hi128 == ulong.MaxValue)
+                    {
+                        hi =  (hi - right.lo128) + (left.lo128 * right.hi128);
+                    }
+                    else
+                    {
+                        hi += (left.hi128 * right.lo128) + (left.lo128 * right.hi128);
+                    } 
+                }
+            }
+            else
+            {
+                hi += (left.hi128 * right.lo128) + (left.lo128 * right.hi128);
+            }
+
+            return new __UInt256__(product.lo128, hi);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static __UInt256__ umul256(UInt128 x, UInt128 y)
@@ -840,10 +1015,10 @@ Assert.IsBetween(numBits, 0u, 256ul - index);
                 return usqr256(x);
             }
 
-            UInt128 lo = MaxMath.UInt128.umul128(x.lo64, y.lo64);
-            UInt128 m1 = MaxMath.UInt128.umul128(x.hi64, y.lo64);
-            UInt128 m2 = MaxMath.UInt128.umul128(x.lo64, y.hi64);
-            UInt128 hi = MaxMath.UInt128.umul128(x.hi64, y.hi64);
+            UInt128 lo = UInt128.umul128(x.lo64, y.lo64);
+            UInt128 m1 = UInt128.umul128(x.hi64, y.lo64);
+            UInt128 m2 = UInt128.umul128(x.lo64, y.hi64);
+            UInt128 hi = UInt128.umul128(x.hi64, y.hi64);
 
             UInt128 high = (hi + m1.hi64) + ((m2 + m1.lo64) + lo.hi64).hi64;
 
@@ -853,9 +1028,9 @@ Assert.IsBetween(numBits, 0u, 256ul - index);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static __UInt256__ usqr256(UInt128 x)
         {
-            UInt128 lo = MaxMath.UInt128.umul128(x.lo64, x.lo64);
-            UInt128 m  = MaxMath.UInt128.umul128(x.hi64, x.lo64);
-            UInt128 hi = MaxMath.UInt128.umul128(x.hi64, x.hi64);
+            UInt128 lo = UInt128.umul128(x.lo64, x.lo64);
+            UInt128 m  = UInt128.umul128(x.hi64, x.lo64);
+            UInt128 hi = UInt128.umul128(x.hi64, x.hi64);
 
             UInt128 high = (hi + m.hi64) + ((m + m.lo64) + lo.hi64).hi64;
 
@@ -897,7 +1072,7 @@ Assert.IsBetween(numBits, 0u, 256ul - index);
             UInt128 hi = lo.hi128;
 
             if (constexpr.IS_TRUE(x >= 0)
-            || (long)x.hi64 >= 0)
+             || (long)x.hi64 >= 0)
             {
                 ;
             }
@@ -911,173 +1086,306 @@ Assert.IsBetween(numBits, 0u, 256ul - index);
             return new __UInt256__(lo.lo128, hi);
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void CHECK_DIVISOR(__UInt256__ divisor)
+        internal static void umul512(__UInt256__ x, __UInt256__ y, out __UInt256__ lo, out __UInt256__ hi)
         {
-#if DEBUG
-if (divisor.IsZero) throw new DivideByZeroException();
-#endif
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static __UInt256__ __udivrem256x128_rLEhi(__UInt256__ dividend, UInt128 divisor, out UInt128 remainder)
-        {
-            // TODO asm version
-
-            UInt128 quotientHi = asm128.__udivrem128x128(dividend.hi128, divisor, out UInt128 dividendHi);
-            dividend = new __UInt256__(dividend.lo128, dividendHi);
-
-            return new __UInt256__(__usf__udivrem256x128(dividend, divisor, out remainder), quotientHi);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static UInt128 __usf__udivrem256x128(__UInt256__ dividend, UInt128 divisor, out UInt128 remainder, bool preShift = false, bool alignedDivisorHiLessThanAlignedDividendHi128Hi64 = false)
-        {
-Assert.IsSmaller(dividend.hi128, divisor);
-
-            // TODO asm version when more than 1 usage
-
-            int shift = math.lzcnt(divisor);
-            if (!preShift)
+            if (constexpr.IS_TRUE(x == y))
             {
-                dividend <<= shift;
-                divisor <<= shift;
+                usqr512(x, out lo, out hi);
+
+                return;
             }
 
-            UInt128 qHi = alignedDivisorHiLessThanAlignedDividendHi128Hi64 ? asm128.__usf__udivrem128x64(dividend.hi128, divisor.hi64, out ulong remdiv)
-                                                                           : asm128.__udivrem128x64(dividend.hi128, divisor.hi64, out remdiv);
-            UInt128 remdiv128 = new UInt128(dividend.lo128.hi64, remdiv);
-            remainder = remdiv128 - (qHi * divisor.lo64);
-            bool b1 = remainder > remdiv128;
-            bool b2 = b1 & ((UInt128)(-(Int128)remainder) > divisor);
-            qHi -= tobyte(b2);
-            qHi -= tobyte(b1);
-            remainder += b1 ? divisor : 0;
-            remainder += b2 ? divisor : 0;
+                        lo = umul256(x.lo128, y.lo128);
+            __UInt256__ m1 = umul256(x.hi128, y.lo128);
+            __UInt256__ m2 = umul256(x.lo128, y.hi128);
+                        hi = umul256(x.hi128, y.hi128);
 
-            UInt128 qLo = asm128.__udivrem128x64(remainder, divisor.hi64, out remdiv);
-            remdiv128 = new UInt128(dividend.lo128.lo64, remdiv);
-            remainder = remdiv128 - (qLo * divisor.lo64);
-            b1 = remainder > remdiv128;
-            b2 = b1 & ((UInt128)(-(Int128)remainder) > divisor);
-            qLo -= tobyte(b2);
-            qLo -= tobyte(b1);
-            remainder += b1 ? divisor : 0;
-            remainder += b2 ? divisor : 0;
+            hi = (hi + m1.hi128) + ((m2 + m1.lo128) + lo.hi128).hi128;
 
-            remainder >>= shift;
-            return new UInt128(qLo.lo64, qHi.lo64);
+            lo = x * y;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static UInt128 __udivrem256x256_rGTu128max_rLEl(__UInt256__ dividend, __UInt256__ divisor, out __UInt256__ remainder)
+        internal static void usqr512(__UInt256__ x, out __UInt256__ lo, out __UInt256__ hi)
         {
-            remainder = dividend;
+                        lo = umul256(x.lo128, x.lo128);
+            __UInt256__ m  = umul256(x.hi128, x.lo128);
+                        hi = umul256(x.hi128, x.hi128);
 
-            int shift = lzcnt(divisor.hi128);
-
-            UInt128 scaledHi = (divisor << shift).hi128;
-            UInt128 roundBit = tobyte(dividend.hi128 >= scaledHi);
-            dividend = new __UInt256__(dividend.lo128, dividend.hi128 < scaledHi ? dividend.hi128 : dividend.hi128 - scaledHi);
-            UInt128 scaledLo = (new __UInt256__(__usf__udivrem256x128(dividend, scaledHi, out _), roundBit) << shift).hi128;
-            scaledHi = scaledLo * divisor.hi128;
-            dividend = umul256(divisor.lo128, scaledLo);
-
-            remainder -= dividend;
-            UInt128 quotient = scaledLo - tobyte(remainder.hi128 < scaledHi);
-            divisor = remainder.hi128 < scaledHi ? divisor : 0;
-            remainder = new __UInt256__(remainder.lo128, remainder.hi128 - scaledHi);
-            remainder += divisor;
-
-            return quotient;
+            hi = (hi + m.hi128) + ((m + m.lo128) + lo.hi128).hi128;
+            lo = square(x);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static UInt128 __usf__udiv256x128(__UInt256__ dividend, UInt128 divisor, bool preShift = false)
+        public static bool cmpeq(__UInt256__ left, __UInt256__ right)
         {
-            CHECK_DIVISOR(divisor);
-
-            return __usf__udivrem256x128(dividend, divisor, out _, preShift);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static UInt128 __usf__urem256x128(__UInt256__ dividend, UInt128 divisor)
-        {
-            CHECK_DIVISOR(divisor);
-
-            __usf__udivrem256x128(dividend, divisor, out UInt128 rem);
-
-            return rem;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static __UInt256__ __udivrem256x256(__UInt256__ dividend, __UInt256__ divisor, out __UInt256__ remainder)
-        {
-            CHECK_DIVISOR(divisor);
-
-            if (divisor > dividend)
+            if (constexpr.IS_CONST(right))
             {
-                remainder = dividend;
-
-                return 0;
+                if (right.IsZero)
+                {
+                    return left.IsZero;
+                }
+                if (right.IsMaxValue)
+                {
+                    return left.IsMaxValue;
+                }
             }
-	        else
+            else if (constexpr.IS_CONST(left))
             {
-                return udivrem256x256_rLEl(dividend, divisor, out remainder);
+                if (left.IsZero)
+                {
+                    return right.IsZero;
+                }
+                if (left.IsMaxValue)
+                {
+                    return right.IsMaxValue;
+                }
             }
+
+            return ((left.lo128 ^ right.lo128) | (left.hi128 ^ right.hi128)).IsZero;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static __UInt256__ udivrem256x256_rLEl(__UInt256__ dividend, __UInt256__ divisor, out __UInt256__ remainder)
+        public static bool cmpeq(__UInt256__ left, UInt128 right)
         {
-            CHECK_DIVISOR(divisor);
-
-            if (divisor.hi128.IsZero)
+            if (constexpr.IS_TRUE(left.IsZero))
             {
-                __UInt256__ quotient = __udivrem256x128(dividend, divisor.lo128, out UInt128 remainder128);
+                return right.IsZero;
+            }
+            if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left.IsZero;
+            }
 
-                remainder = remainder128;
-                return quotient;
+            return ((left.lo128 ^ right) | left.hi128).IsZero;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmpeq(UInt128 left, __UInt256__ right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right.IsZero;
+            }
+            if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left.IsZero;
+            }
+
+            return ((left ^ right.lo128) | right.hi128).IsZero;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmpneq(__UInt256__ left, __UInt256__ right)
+        {
+            if (constexpr.IS_CONST(right))
+            {
+                if (right.IsZero)
+                {
+                    return left.IsNotZero;
+                }
+                if (right.IsMaxValue)
+                {
+                    return left.IsNotMaxValue;
+                }
+            }
+            else if (constexpr.IS_CONST(left))
+            {
+                if (left.IsZero)
+                {
+                    return right.IsNotZero;
+                }
+                if (left.IsMaxValue)
+                {
+                    return right.IsNotMaxValue;
+                }
+            }
+
+            return ((left.lo128 ^ right.lo128) | (left.hi128 ^ right.hi128)).IsNotZero;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmpneq(__UInt256__ left, UInt128 right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right.IsNotZero;
+            }
+            if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left.IsNotZero;
+            }
+
+            return ((left.lo128 ^ right) | left.hi128).IsNotZero;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmpneq(UInt128 left, __UInt256__ right)
+        {
+            if (constexpr.IS_TRUE(left.IsZero))
+            {
+                return right.IsNotZero;
+            }
+            if (constexpr.IS_TRUE(right.IsZero))
+            {
+                return left.IsNotZero;
+            }
+
+            return ((left ^ right.lo128) | right.hi128).IsNotZero;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmplt(__UInt256__ left, __UInt256__ right)
+        {
+            if (constexpr.IS_TRUE(right.hi128 == 0))
+            {
+                return cmplt(left, right.lo128);
+            }
+            else if (constexpr.IS_TRUE(left.hi128 == 0))
+            {
+                return cmplt(left.lo128, right);
+            }
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(right.IsNotZero & (right & (right - 1)).IsZero))
+            {
+                return (left & (0u - right)).IsZero;
+            }
+
+            return (left.hi128 < right.hi128) | (left.hi128 == right.hi128 & (left.lo128 < right.lo128));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmplt(__UInt256__ left, UInt128 right)
+        {
+            if (constexpr.IS_TRUE(left.hi128 == 0))
+            {
+                return left.lo128 < right;
+            }
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
+            {
+                return (left & ((__UInt256__)0u - right)).IsZero;
+            }
+
+            return left.hi128.IsZero & left.lo128 < right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmplt(UInt128 left, __UInt256__ right)
+        {
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(right.IsNotZero & (right & (right - 1)).IsZero))
+            {
+                return (left & (0u - right).lo128) == 0;
+            }
+
+            return right.hi128.IsNotZero | left < right.lo128;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmplt(__UInt256__ left, ulong right)
+        {
+            if (constexpr.IS_TRUE(left.hi128 == 0 & left._191 == 0))
+            {
+                return right > left._63;
+            }
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
+            {
+                return (left & ((__UInt256__)0u - right)).IsZero;
+            }
+
+            return left.hi128.IsZero & left.lo128 < right;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmplt(ulong left, __UInt256__ right)
+        {
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(right.IsNotZero & (right & (right - 1)).IsZero))
+            {
+                return (left & (0u - right)._63) == 0;
+            }
+
+            return right.hi128.IsNotZero | left < right.lo128;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmpge(__UInt256__ left, __UInt256__ right)
+        {
+            if (constexpr.IS_TRUE(right.hi128 == 0))
+            {
+                return cmpge(left, right.lo128);
+            }
+            else if (constexpr.IS_TRUE(left.hi128 == 0))
+            {
+                return left.lo128 >= right;
             }
             else
             {
-                return __udivrem256x256_rGTu128max_rLEl(dividend, divisor, out remainder);
+                return (right.hi128 < left.hi128) | (right.hi128 == left.hi128 & (right.lo128 <= left.lo128));
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static UInt128 __udivrem256x256_rGTu128max(__UInt256__ dividend, __UInt256__ divisor, out __UInt256__ remainder)
+        public static bool cmpge(__UInt256__ left, UInt128 right)
         {
-            CHECK_DIVISOR(divisor);
-
-            if (divisor > dividend)
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(right.IsNotZero & (right & (right - 1)).IsZero))
             {
-                remainder = dividend;
-
-                return 0;
-            }
-	        else
-            {
-                return __udivrem256x256_rGTu128max_rLEl(dividend, divisor, out remainder);
-            }
-        }
-
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static __UInt256__ __udivrem256x128(__UInt256__ dividend, UInt128 divisor, out UInt128 remainder)
-        {
-            CHECK_DIVISOR(divisor);
-
-            if (dividend.hi128 >= divisor)
-            {
-                return __udivrem256x128_rLEhi(dividend, divisor, out remainder);
+                return (left & ((__UInt256__)0u - right)).IsNotZero;
             }
             else
             {
-                return __usf__udivrem256x128(dividend, divisor, out remainder);
+                return left.hi128.IsNotZero | left.lo128 >= right;
             }
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmpge(UInt128 left, __UInt256__ right)
+        {
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(right.IsNotZero & (right & (right - 1)).IsZero))
+            {
+                return (left & (0u - right).lo128) != 0;
+            }
+            else
+            {
+                return right.hi128.IsZero & left >= right.lo128;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmpge(__UInt256__ left, ulong right)
+        {
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(ispow2(right)))
+            {
+                return (left & ((__UInt256__)0u - right)).IsNotZero;
+            }
+            else
+            {
+                return left.hi128.IsNotZero | left.lo128 >= right;
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool cmpge(ulong left, __UInt256__ right)
+        {
+            if (constexpr.IS_CONST(right) && constexpr.IS_TRUE(right.IsNotZero & (right & (right - 1)).IsZero))
+            {
+                return (left & (0u - right)._63) != 0;
+            }
+            else
+            {
+                return right.hi128.IsZero & left >= right.lo128;
+            }
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static __UInt256__ Next__UInt256__(__UInt256__ random, __UInt256__ min, __UInt256__ max)
+        {
+Assert.IsFalse(max < min);
+
+            umul512(random, max - min, out _, out __UInt256__ producthi);
+
+            return min + producthi;
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()

@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.LUT.FLOATING_POINT;
@@ -311,6 +312,42 @@ namespace MaxMath
             }
 
             return exp2((long4)x, Promise.NoOverflow);
+        }
+
+
+        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [-2047, 2048].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple exp2(Int128 x, Promise noOverflow = Promise.Nothing)
+        {
+            long hi = (long)x.lo64;
+            if (!noOverflow.Promises(Promise.NoOverflow))
+            {
+                hi = clamp(hi, nabs((long)quadruple.EXPONENT_BIAS), abs((long)quadruple.EXPONENT_BIAS) + 1);
+            }
+
+            hi = (abs((long)quadruple.EXPONENT_BIAS) << quadruple.MANTISSA_BITS_HI64) + (hi << quadruple.MANTISSA_BITS_HI64);
+
+            return new quadruple(0, (ulong)hi);
+        }
+
+        /// <summary>       Returns the base-2 exponential of <paramref name="x"/>.
+        /// <remarks>
+        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any x outside the interval [0, 128].       </para>
+        /// </remarks>
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple exp2(UInt128 x, Promise noOverflow = Promise.Nothing)
+        {
+            if (!noOverflow.Promises(Promise.NoOverflow))
+            {
+                x = new UInt128(x.lo64, min(x.hi64, (ulong)abs((long)quadruple.EXPONENT_BIAS) + 1));
+            }
+
+            return exp2((Int128)x, Promise.NoOverflow);
         }
     }
 }

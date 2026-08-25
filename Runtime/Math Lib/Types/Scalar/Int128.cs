@@ -3,29 +3,30 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Numerics;
 using System.Diagnostics;
-using Unity.Burst.CompilerServices;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.math;
 
 namespace MaxMath
 {
-    [Serializable]
-    [DebuggerTypeProxy(typeof(Int128.DebuggerProxy))]
-    unsafe public readonly struct Int128 : IComparable, IComparable<Int128>, IConvertible, IEquatable<Int128>, IEquatable<ulong>, IEquatable<long>, IFormattable
+#if DEBUG
+    internal sealed class Int128DebuggerProxy
     {
-        internal sealed class DebuggerProxy
+        public BigInteger value;
+
+        public Int128DebuggerProxy(Int128 v)
         {
-            public BigInteger value;
-
-            public DebuggerProxy(Int128 v)
-            {
-                value = v;
-            }
+            value = v;
         }
+    }
 
-
+    [DebuggerTypeProxy(typeof(UInt128DebuggerProxy))]
+#endif
+    [Serializable]
+    unsafe public readonly partial struct Int128 : IComparable, IComparable<Int128>, IConvertible, IEquatable<Int128>, IEquatable<ulong>, IEquatable<long>, IFormattable
+    {
         internal readonly UInt128 value;
 
         public readonly ulong lo64 => value.lo64;
@@ -36,7 +37,9 @@ namespace MaxMath
         internal readonly bool IsMaxValue => this == MaxValue;
         internal readonly bool IsNotMaxValue => this != MaxValue;
 
+        /// <summary>       -170.141.183.460.469.231.731.687.303.715.884.105.728     </summary>
         public static Int128 MinValue => new Int128(0, 1ul << 63);
+        /// <summary>       170.141.183.460.469.231.731.687.303.715.884.105.727     </summary>
         public static Int128 MaxValue => new Int128(ulong.MaxValue, long.MaxValue);
 
 
@@ -234,7 +237,7 @@ namespace MaxMath
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static explicit operator Int128(decimal value)
         {
-            return negate((Int128)(UInt128)value, value < 0);
+            return negateif((Int128)(UInt128)value, value < 0);
         }
 
 
@@ -518,14 +521,14 @@ namespace MaxMath
         {
             if (constexpr.IS_CONST(left))
             {
-                return (Int128)MaxMath.UInt128.__const.imul(right, left);
+                return (Int128)UInt128.__const.imul(right, left);
             }
             else if (constexpr.IS_CONST(right))
             {
-                return (Int128)MaxMath.UInt128.__const.imul(left, right);
+                return (Int128)UInt128.__const.imul(left, right);
             }
 
-            return MaxMath.UInt128.imul(left, right);
+            return UInt128.imul(left, right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -533,14 +536,14 @@ namespace MaxMath
         {
             if (constexpr.IS_CONST(left))
             {
-                return (Int128)MaxMath.UInt128.__const.imul(right, left);
+                return (Int128)UInt128.__const.imul(right, left);
             }
             else if (constexpr.IS_CONST(right))
             {
-                return (Int128)MaxMath.UInt128.__const.imul(left, right);
+                return (Int128)UInt128.__const.imul(left, right);
             }
 
-            return MaxMath.UInt128.imul(left, right);
+            return UInt128.imul(left, right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -557,14 +560,14 @@ namespace MaxMath
         {
             if (constexpr.IS_CONST(left))
             {
-                return (Int128)MaxMath.UInt128.__const.umul((UInt128)right, (UInt128)left);
+                return (Int128)UInt128.__const.umul((UInt128)right, (UInt128)left);
             }
             else if (constexpr.IS_CONST(right))
             {
-                return (Int128)MaxMath.UInt128.__const.umul((UInt128)left, (UInt128)right);
+                return (Int128)UInt128.__const.umul((UInt128)left, (UInt128)right);
             }
 
-            return MaxMath.UInt128.imul(left, right);
+            return UInt128.imul(left, right);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -584,7 +587,7 @@ Assert.AreNotEqual(right, (Int128)0);
 
             if (constexpr.IS_CONST(right))
             {
-                return MaxMath.UInt128.__const.idiv(left, right);
+                return UInt128.__const.idiv(left, right);
             }
             else
             {
@@ -599,7 +602,7 @@ Assert.AreNotEqual(right, 0);
 
             if (constexpr.IS_CONST(right))
             {
-                return MaxMath.UInt128.__const.idiv(left, right);
+                return UInt128.__const.idiv(left, right);
             }
             else
             {
@@ -614,7 +617,7 @@ Assert.AreNotEqual(right, 0u);
 
             if (constexpr.IS_CONST(right))
             {
-                return MaxMath.UInt128.__const.idiv(left, right);
+                return UInt128.__const.idiv(left, right);
             }
             else
             {
@@ -630,7 +633,7 @@ Assert.AreNotEqual(right, 0);
 
             if (constexpr.IS_CONST(right))
             {
-                return MaxMath.UInt128.__const.irem(left, right);
+                return UInt128.__const.irem(left, right);
             }
             else
             {
@@ -647,7 +650,7 @@ Assert.AreNotEqual(right, 0);
 
             if (constexpr.IS_CONST(right))
             {
-                return MaxMath.UInt128.__const.irem(left, right);
+                return UInt128.__const.irem(left, right);
             }
             else
             {
@@ -664,7 +667,7 @@ Assert.AreNotEqual(right, 0u);
 
             if (constexpr.IS_CONST(right))
             {
-                return MaxMath.UInt128.__const.irem(left, right);
+                return UInt128.__const.irem(left, right);
             }
             else
             {
@@ -935,33 +938,51 @@ Assert.AreNotEqual(right, 0u);
 		public static Int128 operator << (Int128 left, int n) => (Int128)(left.value << n);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Int128 operator >> (Int128 left, int n)
+		public static Int128 operator >> (Int128 value, int n)
         {
+            Int128 result;
+
             n &= 127;
 
             if (constexpr.IS_CONST(n))
             {
-                return MaxMath.UInt128.__const.sarint128(left, n);
+                result = UInt128.__const.sarint128(value, n);
+            }
+            if (constexpr.IS_TRUE(value >= 0))
+            {
+                result = (Int128)((UInt128)value >> n);
             }
             else
             {
-                if (Hint.Unlikely(n == 0))
-                {
-                    return left;
-                }
-                else if (n < 64)
-                {
-                    constexpr.ASSUME(n > 0 && n < 64);
+                int n2 = n & 63;
+                bool upper = n >= 64;
 
-                    return new Int128(left.lo64 >> n | (left.hi64 << (64 - n)), (ulong)((long)left.hi64 >> n));
-                }
-                else
-                {
-                    constexpr.ASSUME(n > 63 && n < 128);
+                long carry      = ((long)value.hi64 << 1) << (63 - n2);
+                long loCombined = (long)((ulong)value.lo64 >> n2) | carry;
 
-                    return new Int128(((long)left.hi64 >> (n - 64)), (long)left.hi64 >> 63);
-                }
+                long hiShiftedArith  = (long)value.hi64 >> n2;
+                long signExt         = (long)value.hi64 >> 63;
+
+                long outHi = upper ? signExt        : hiShiftedArith;
+                long outLo = upper ? hiShiftedArith : loCombined;
+
+                result =  new Int128(outLo, outHi);
             }
+            
+            if (constexpr.IS_TRUE(value.IsZero))
+            {
+                constexpr.ASSUME(result.IsZero);
+            }
+            constexpr.ASSUME(value < 0 == result < 0);
+            constexpr.ASSUME(value >= 0 == result >= 0);
+            if (constexpr.IS_TRUE(value >= 0))
+            {
+                constexpr.ASSUME(result == (Int128)((UInt128)value >> n));
+            }
+            constexpr.ASSUME(l1cnt(result) >= l1cnt(value));
+            constexpr.ASSUME(value >= 0 ? result <= value : result >= value);
+
+            return result;
         }
 
 
@@ -1132,38 +1153,40 @@ Assert.AreNotEqual(right, 0u);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator < (Int128 left, Int128 right)
         {
-            if (constexpr.IS_TRUE(right.IsZero))
-            {
-                return (long)left.hi64 < 0;
-            }
+            bool result = cmplt(left, right);
 
-            return ((long)left.hi64 < (long)right.hi64) | ((left.hi64 == right.hi64) & (left.lo64 < right.lo64));
+            constexpr.ASSUME(!result || !(left == right));
+            constexpr.ASSUME(!result || (left != right));
+            constexpr.ASSUME(result == !(left >= right));
+            constexpr.ASSUME(result == (left <= right && left != right));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator < (Int128 left, long right)
         {
-            if (constexpr.IS_TRUE(right == 0))
-            {
-                return (long)left.hi64 < 0;
-            }
-            else if (constexpr.IS_TRUE(isinrange(left, long.MinValue, long.MaxValue)))
-            {
-                return (long)left.lo64 < (long)right;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !(left == right));
+            constexpr.ASSUME(!result || (left != right));
+            constexpr.ASSUME(result == !(left >= right));
+            constexpr.ASSUME(result == (left <= right && left != right));
 
-            return left < (Int128)right;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator < (long left, Int128 right)
         {
-            if (constexpr.IS_TRUE(isinrange(right, long.MinValue, long.MaxValue)))
-            {
-                return (long)right.lo64 > left;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !(left == right));
+            constexpr.ASSUME(!result || (left != right));
+            constexpr.ASSUME(result == !(left >= right));
+            constexpr.ASSUME(result == (left <= right && left != right));
 
-            return (Int128)left < right;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1175,23 +1198,27 @@ Assert.AreNotEqual(right, 0u);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator < (Int128 left, ulong right)
         {
-            if (constexpr.IS_TRUE(left.hi64 == 0))
-            {
-                return left.lo64 < right;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !(left == right));
+            constexpr.ASSUME(!result || (left != right));
+            constexpr.ASSUME(result == !(left >= right));
+            constexpr.ASSUME(result == (left <= right && left != right));
 
-            return left < (Int128)right;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator < (ulong left, Int128 right)
         {
-            if (constexpr.IS_TRUE(right.hi64 == 0))
-            {
-                return right.lo64 > left;
-            }
+            bool result = cmplt(left, right);
+            
+            constexpr.ASSUME(!result || !(left == right));
+            constexpr.ASSUME(!result || (left != right));
+            constexpr.ASSUME(result == !(left >= right));
+            constexpr.ASSUME(result == (left <= right && left != right));
 
-            return (Int128)left < right;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1232,18 +1259,43 @@ Assert.AreNotEqual(right, 0u);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator <= (Int128 left, Int128 right)
         {
-            return ((long)left.hi64 < (long)right.hi64) | ((left.hi64 == right.hi64) & (left.lo64 <= right.lo64));
+            bool result = ((long)left.hi64 < (long)right.hi64) | ((left.hi64 == right.hi64) & (left.lo64 <= right.lo64));
+
+            constexpr.ASSUME(result == (cmplt(left, right) || left == right));
+            constexpr.ASSUME(result == !cmplt(right, left));
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator <= (Int128 left, long right)
         {
+            if (constexpr.IS_TRUE(right == 0))
+            {
+                return ((long)left.hi64 < 0) | (left.hi64 == 0 & left.lo64 == 0);
+            }
+            else if ((left.hi64 == 0 && left.lo64 < (1ul << 63)) ||
+                     (left.hi64 == ulong.MaxValue && left.lo64 >= (1ul << 63)))
+            {
+                return (long)left.lo64 <= right;
+            }
+
             return left <= (Int128)right;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator <= (long left, Int128 right)
         {
+            if (constexpr.IS_TRUE(left == 0))
+            {
+                return (long)right.hi64 >= 0;
+            }
+            else if ((right.hi64 == 0 && right.lo64 < (1ul << 63)) ||
+                     (right.hi64 == ulong.MaxValue && right.lo64 >= (1ul << 63)))
+            {
+                return left <= (long)right.lo64;
+            }
+
             return (Int128)left <= right;
         }
 
@@ -1256,23 +1308,41 @@ Assert.AreNotEqual(right, 0u);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator <= (Int128 left, ulong right)
         {
+            bool result;
+
             if (constexpr.IS_TRUE(left.hi64 == 0))
             {
-                return left.lo64 <= right;
+                result = left.lo64 <= right;
             }
+            else
+            {
+                result = left <= (Int128)right;
+            }
+            
+            constexpr.ASSUME(result == (cmplt(left, right) || left == right));
+            constexpr.ASSUME(result == !cmplt(right, left));
 
-            return left <= (Int128)right;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool operator <= (ulong left, Int128 right)
         {
+            bool result;
+
             if (constexpr.IS_TRUE(right.hi64 == 0))
             {
-                return left <= right.lo64;
+                result = left <= right.lo64;
             }
+            else
+            {
+                result = (Int128)left <= right;
+            }
+            
+            constexpr.ASSUME(result == (cmplt(left, right) || left == right));
+            constexpr.ASSUME(result == !cmplt(right, left));
 
-            return (Int128)left <= right;
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1675,7 +1745,7 @@ Assert.AreNotEqual(right, 0u);
 
             while (cpy >= 10u)
             {
-                cpy = MaxMath.UInt128.__const.divrem10(cpy, out ulong rem);
+                cpy = UInt128.__const.divrem10(cpy, out ulong rem);
 
                 *currentDigit-- = DECIMAL_DIGITS[rem];
             }

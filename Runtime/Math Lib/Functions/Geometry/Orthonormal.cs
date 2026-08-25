@@ -20,11 +20,11 @@ namespace MaxMath
             basis2 = __basis2;
         }
 
-        /// <summary>   Returns an orthonormalized version of a <see cref="MaxMath.float3x3"/> matrix.     </summary>
+        /// <summary>   Returns an orthonormalized version of a <see cref="float3x3"/> matrix.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3x3 orthonormalize(float3x3 i) => Unity.Mathematics.math.orthonormalize(i);
 
-        /// <summary>   Returns an orthonormalized version of a <see cref="MaxMath.double3x3"/> matrix.     </summary>
+        /// <summary>   Returns an orthonormalized version of a <see cref="double3x3"/> matrix.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3x3 orthonormalize(double3x3 i)
         {

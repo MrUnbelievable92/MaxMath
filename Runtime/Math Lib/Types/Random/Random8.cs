@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -156,7 +157,7 @@ Assert.AreNotEqual(State, 0);
             return (sbyte)NextState() < 0;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool2"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -167,7 +168,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool3"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -178,7 +179,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool4"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -189,7 +190,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool8"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool8"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8 NextBool8()
         {
@@ -200,7 +201,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool16"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool16"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
@@ -211,7 +212,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool32"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool32"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
@@ -230,42 +231,42 @@ Assert.AreNotEqual(State, 0);
             return (sbyte)(sbyte.MinValue ^ NextState());
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte2"/> with all components in the interval [-127, 127].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte2"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte2 NextSByte2()
         {
             return sbyte.MinValue ^ (sbyte2)NextState2();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte3"/> with all components in the interval [-127, 127].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte3"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte3 NextSByte3()
         {
             return sbyte.MinValue ^ (sbyte3)NextState3();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte4"/> with all components in the interval [-127, 127].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte4"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4 NextSByte4()
         {
             return sbyte.MinValue ^ (sbyte4)NextState4();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte8"/> with all components in the interval [-127, 127].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte8"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte8 NextSByte8()
         {
             return sbyte.MinValue ^ (sbyte8)NextState8();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte16"/> with all components in the interval [-127, 127].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte16"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte16 NextSByte16()
         {
             return sbyte.MinValue ^ (sbyte16)NextState16();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte32"/> with all components in the interval [-127, 127].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte32"/> with all components in the interval [-127, 127].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte32 NextSByte32()
         {
@@ -282,7 +283,7 @@ Assert.IsNotSmaller(max, min);
             return (sbyte)(min + (((uint)NextState() * (max - min)) >> 8));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte2 NextSByte2(sbyte2 min, sbyte2 max)
         {
@@ -298,7 +299,7 @@ VectorAssert.IsNotSmaller<sbyte2, sbyte>(max, min, 2);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte3 NextSByte3(sbyte3 min, sbyte3 max)
         {
@@ -314,7 +315,7 @@ VectorAssert.IsNotSmaller<sbyte3, sbyte>(max, min, 3);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte4 NextSByte4(sbyte4 min, sbyte4 max)
         {
@@ -330,7 +331,7 @@ VectorAssert.IsNotSmaller<sbyte4, sbyte>(max, min, 4);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte8 NextSByte8(sbyte8 min, sbyte8 max)
         {
@@ -346,7 +347,7 @@ VectorAssert.IsNotSmaller<sbyte8, sbyte>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte16"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte16"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte16 NextSByte16(sbyte16 min, sbyte16 max)
         {
@@ -362,7 +363,7 @@ VectorAssert.IsNotSmaller<sbyte16, sbyte>(max, min, 16);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.sbyte32"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="sbyte32"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public sbyte32 NextSByte32(sbyte32 min, sbyte32 max)
         {
@@ -386,42 +387,42 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
             return (byte)(NextState() - 1);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte2"/> with all components in the interval [0, 254].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte2"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte2()
         {
             return byte.MaxValue + NextState2();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte3"/> with all components in the interval [0, 254].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte3"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3()
         {
             return byte.MaxValue + NextState3();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte4"/> with all components in the interval [0, 254].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte4"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4()
         {
             return byte.MaxValue + NextState4();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte8"/> with all components in the interval [0, 254].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte8"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8()
         {
             return byte.MaxValue + NextState8();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte16"/> with all components in the interval [0, 254].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte16"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16()
         {
             return byte.MaxValue + NextState16();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte32"/> with all components in the interval [0, 254].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte32"/> with all components in the interval [0, 254].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32()
         {
@@ -436,7 +437,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
             return (byte)(((uint)NextState() * max) >> 8);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte2"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte2"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte(byte2 max)
         {
@@ -450,7 +451,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte3"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte3"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 max)
         {
@@ -464,7 +465,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte4"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte4"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 max)
         {
@@ -478,7 +479,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte8"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte8"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 max)
         {
@@ -492,7 +493,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte16"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte16"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16(byte16 max)
         {
@@ -506,7 +507,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(max, min, 32);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte32"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte32"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32(byte32 max)
         {
@@ -530,7 +531,7 @@ Assert.IsNotSmaller(max, min);
             return (byte)(min + (((uint)NextState() * (max - min)) >> 8));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte2 NextByte2(byte2 min, byte2 max)
         {
@@ -546,7 +547,7 @@ VectorAssert.IsNotSmaller<byte2, byte>(max, min, 2);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte3 NextByte3(byte3 min, byte3 max)
         {
@@ -562,7 +563,7 @@ VectorAssert.IsNotSmaller<byte3, byte>(max, min, 3);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte4 NextByte4(byte4 min, byte4 max)
         {
@@ -578,7 +579,7 @@ VectorAssert.IsNotSmaller<byte4, byte>(max, min, 4);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte8 NextByte8(byte8 min, byte8 max)
         {
@@ -594,7 +595,7 @@ VectorAssert.IsNotSmaller<byte8, byte>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte16"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte16"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte16 NextByte16(byte16 min, byte16 max)
         {
@@ -610,7 +611,7 @@ VectorAssert.IsNotSmaller<byte16, byte>(max, min, 16);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.byte32"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="byte32"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public byte32 NextByte32(byte32 min, byte32 max)
         {

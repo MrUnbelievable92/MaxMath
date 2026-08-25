@@ -14,11 +14,9 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("d3cc711d-084c-435c-8c84-7d624992dc10")]
-
-[assembly: AssemblyVersion("3.0")]
-[assembly: AssemblyFileVersion("3.0")]
-[assembly: AssemblyInformationalVersion("3.0 Release")]
+[assembly: AssemblyVersion("3.1")]
+[assembly: AssemblyFileVersion("3.1")]
+[assembly: AssemblyInformationalVersion("3.1 Release")]
 
 // Style
 [assembly: SuppressMessage("Style", "IDE1006: Naming Styles", Justification = "Unity.Mathematics API consistency")]

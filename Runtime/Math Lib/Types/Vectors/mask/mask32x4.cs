@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.Intrinsics.Xse;
@@ -72,7 +73,6 @@ namespace MaxMath
 			}
 		}
 
-
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask32x4(bool x, bool y, mask32x2 zw)
 		{
@@ -85,7 +85,6 @@ namespace MaxMath
 				this = (v128)new byte4(tobyte(x), tobyte(y), tobyte(zw));
 			}
 		}
-
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask32x4(bool x, mask32x2 yz, bool w)
@@ -100,7 +99,6 @@ namespace MaxMath
 			}
 		}
 
-
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask32x4(bool x, mask32x3 yzw)
 		{
@@ -113,7 +111,6 @@ namespace MaxMath
 				this = (v128)new byte4(tobyte(x), tobyte(yzw));
 			}
 		}
-
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask32x4(mask32x2 xy, bool z, bool w)
@@ -128,9 +125,18 @@ namespace MaxMath
 			}
 		}
 
-
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask32x4(mask32x2 xy, mask32x2 zw) => this = (v128)new uint4((uint2)(v128)xy, (uint2)(v128)zw);
+		public mask32x4(mask32x2 xy, mask32x2 zw)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new uint4((uint2)(v128)xy, (uint2)(v128)zw);
+			}
+			else
+			{
+				this = (v128)new byte4(tobyte(xy), tobyte(zw));
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask32x4(mask32x3 xyz, bool w)

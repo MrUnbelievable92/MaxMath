@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -20,12 +21,19 @@ namespace MaxMath
             }
             else
             {
+                bool result;
+
                 if (constexpr.IS_TRUE(divisor >= 1 << 7))
                 {
-                    return (x == 0) | (x == divisor);
+                    result = (x == 0) | (x == divisor);
+                }
+                else
+                {
+                    result = (ushort)(x * mul) <= (ushort)(mul - 1);
                 }
 
-                return (ushort)(x * mul) <= (ushort)(mul - 1);
+                constexpr.ASSUME(result == (x % divisor == 0));
+                return result;
             }
         }
 
@@ -38,12 +46,19 @@ namespace MaxMath
             }
             else
             {
+                bool result;
+
                 if (constexpr.IS_TRUE(divisor >= 1 << 15))
                 {
-                    return (x == 0) | (x == divisor);
+                    result = (x == 0) | (x == divisor);
                 }
-
-                return x * mul <= mul - 1;
+                else
+                {
+                    result = x * mul <= mul - 1;
+                }
+                
+                constexpr.ASSUME(result == (x % divisor == 0));
+                return result;
             }
         }
 
@@ -56,12 +71,19 @@ namespace MaxMath
             }
             else
             {
+                bool result;
+
                 if (constexpr.IS_TRUE(divisor >= 1u << 31))
                 {
-                    return (x == 0) | (x == divisor);
+                    result =(x == 0) | (x == divisor);
+                }
+                else
+                {
+                    result = x * mul <= mul - 1;
                 }
 
-                return x * mul <= mul - 1;
+                constexpr.ASSUME(result == (x % divisor == 0));
+                return result;
             }
         }
 
@@ -74,12 +96,19 @@ namespace MaxMath
             }
             else
             {
+                bool result;
+
                 if (constexpr.IS_TRUE(divisor >= 1ul << 63))
                 {
-                    return (x == 0) | (x == divisor);
+                    result = (x == 0) | (x == divisor);
+                }
+                else
+                {
+                    result = x * mul <= mul - 1;
                 }
 
-                return x * mul <= mul - 1;
+                constexpr.ASSUME(result == (x % divisor == 0));
+                return result;
             }
         }
 
@@ -92,12 +121,19 @@ namespace MaxMath
             }
             else
             {
+                bool result;
+
                 if (constexpr.IS_TRUE(divisor >= (UInt128)1u << 127))
                 {
-                    return (x.IsZero) | (x == divisor);
+                    result = (x.IsZero) | (x == divisor);
+                }
+                else
+                {
+                    result = x * mul <= mul - 1u;
                 }
 
-                return x * mul <= mul - 1u;
+                //constexpr.ASSUME(result == (x % divisor == 0));
+                return result;
             }
         }
 
@@ -106,15 +142,43 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 result;
+
                 if (initconstcheck_epu8(a, divisor, out v128 constVersion, promises, elements))
                 {
-                    return constVersion;
+                    result = constVersion;
+                }
+                else
+                {
+                    v128 cast = Xse.cvtepu8_epi16(a);
+                    v128 cmp = Xse.cmple_epu16(Xse.mullo_epi16(mul, cast), Xse.dec_epi16(mul), elements);
+
+                    result = Xse.packs_epi16(cmp, cmp);
                 }
 
-                v128 cast = Xse.cvtepu8_epi16(a);
-                v128 cmp = Xse.cmple_epu16(Xse.mullo_epi16(mul, cast), Xse.dec_epi16(mul), elements);
+                constexpr.ASSUME(result.Byte0 == (a.Byte0 % divisor.Byte0 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte1 == (a.Byte1 % divisor.Byte1 == 0 ? byte.MaxValue : 0));
+                if (elements > 2)
+                {
+                    constexpr.ASSUME(result.Byte2 == (a.Byte2 % divisor.Byte2 == 0 ? byte.MaxValue : 0));
 
-                return Xse.packs_epi16(cmp, cmp);
+                    if (elements > 3)
+                    {
+                        constexpr.ASSUME(result.Byte3 == (a.Byte3 % divisor.Byte3 == 0 ? byte.MaxValue : 0));
+
+                        if (elements > 4)
+                        {
+                            constexpr.ASSUME(result.Byte4 == (a.Byte4 % divisor.Byte4 == 0 ? byte.MaxValue : 0));
+                            constexpr.ASSUME(result.Byte5 == (a.Byte5 % divisor.Byte5 == 0 ? byte.MaxValue : 0));
+                            constexpr.ASSUME(result.Byte6 == (a.Byte6 % divisor.Byte6 == 0 ? byte.MaxValue : 0));
+                            constexpr.ASSUME(result.Byte7 == (a.Byte7 % divisor.Byte7 == 0 ? byte.MaxValue : 0));
+                        }
+                    }
+                }
+
+                constexpr.ASSUME_IS_MASK_EPI8(result);
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -124,17 +188,42 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 result;
+
                 if (initconstcheck_epu8(a, divisor, out v128 constVersion, promises, 16))
                 {
-                    return constVersion;
+                    result = constVersion;
+                }
+                else
+                {
+                    v128 lo = Xse.cvt2x2epu8_epi16(a, out v128 hi);
+
+                    v128 cmpLo = Xse.cmple_epu16(Xse.mullo_epi16(mulLo, lo), Xse.dec_epi16(mulLo));
+                    v128 cmpHi = Xse.cmple_epu16(Xse.mullo_epi16(mulHi, hi), Xse.dec_epi16(mulHi));
+
+                    result = Xse.packs_epi16(cmpLo, cmpHi);
                 }
 
-                v128 lo = Xse.cvt2x2epu8_epi16(a, out v128 hi);
+                constexpr.ASSUME(result.Byte0  == (a.Byte0  % divisor.Byte0  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte1  == (a.Byte1  % divisor.Byte1  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte2  == (a.Byte2  % divisor.Byte2  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte3  == (a.Byte3  % divisor.Byte3  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte4  == (a.Byte4  % divisor.Byte4  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte5  == (a.Byte5  % divisor.Byte5  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte6  == (a.Byte6  % divisor.Byte6  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte7  == (a.Byte7  % divisor.Byte7  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte8  == (a.Byte8  % divisor.Byte8  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte9  == (a.Byte9  % divisor.Byte9  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte10 == (a.Byte10 % divisor.Byte10 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte11 == (a.Byte11 % divisor.Byte11 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte12 == (a.Byte12 % divisor.Byte12 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte13 == (a.Byte13 % divisor.Byte13 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte14 == (a.Byte14 % divisor.Byte14 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte15 == (a.Byte15 % divisor.Byte15 == 0 ? byte.MaxValue : 0));
 
-                v128 cmpLo = Xse.cmple_epu16(Xse.mullo_epi16(mulLo, lo), Xse.dec_epi16(mulLo));
-                v128 cmpHi = Xse.cmple_epu16(Xse.mullo_epi16(mulHi, hi), Xse.dec_epi16(mulHi));
+                constexpr.ASSUME_IS_MASK_EPI8(result);
 
-                return Xse.packs_epi16(cmpLo, cmpHi);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -144,17 +233,58 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
+                v256 result;
+
                 if (mm256_initconstcheck_epu8(a, divisor, out v256 constVersion, promises))
                 {
-                    return constVersion;
+                    result = constVersion;
+                }
+                else
+                {
+                    v256 lo = Xse.mm256_cvt2x2epu8_epi16(a, out v256 hi);
+
+                    v256 cmpLo = Xse.mm256_cmple_epu16(Avx2.mm256_mullo_epi16(new v256(mulLo.Lo128, mulHi.Lo128), lo), Xse.mm256_dec_epi16(new v256(mulLo.Lo128, mulHi.Lo128)));
+                    v256 cmpHi = Xse.mm256_cmple_epu16(Avx2.mm256_mullo_epi16(new v256(mulLo.Hi128, mulHi.Hi128), hi), Xse.mm256_dec_epi16(new v256(mulLo.Hi128, mulHi.Hi128)));
+
+                    result = Avx2.mm256_packs_epi16(cmpLo, cmpHi);
                 }
 
-                v256 lo = Xse.mm256_cvt2x2epu8_epi16(a, out v256 hi);
+                constexpr.ASSUME(result.Byte0  == (a.Byte0  % divisor.Byte0  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte1  == (a.Byte1  % divisor.Byte1  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte2  == (a.Byte2  % divisor.Byte2  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte3  == (a.Byte3  % divisor.Byte3  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte4  == (a.Byte4  % divisor.Byte4  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte5  == (a.Byte5  % divisor.Byte5  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte6  == (a.Byte6  % divisor.Byte6  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte7  == (a.Byte7  % divisor.Byte7  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte8  == (a.Byte8  % divisor.Byte8  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte9  == (a.Byte9  % divisor.Byte9  == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte10 == (a.Byte10 % divisor.Byte10 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte11 == (a.Byte11 % divisor.Byte11 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte12 == (a.Byte12 % divisor.Byte12 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte13 == (a.Byte13 % divisor.Byte13 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte14 == (a.Byte14 % divisor.Byte14 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte15 == (a.Byte15 % divisor.Byte15 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte16 == (a.Byte16 % divisor.Byte16 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte17 == (a.Byte17 % divisor.Byte17 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte18 == (a.Byte18 % divisor.Byte18 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte19 == (a.Byte19 % divisor.Byte19 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte20 == (a.Byte20 % divisor.Byte20 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte21 == (a.Byte21 % divisor.Byte21 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte22 == (a.Byte22 % divisor.Byte22 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte23 == (a.Byte23 % divisor.Byte23 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte24 == (a.Byte24 % divisor.Byte24 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte25 == (a.Byte25 % divisor.Byte25 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte26 == (a.Byte26 % divisor.Byte26 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte27 == (a.Byte27 % divisor.Byte27 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte28 == (a.Byte28 % divisor.Byte28 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte29 == (a.Byte29 % divisor.Byte29 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte30 == (a.Byte30 % divisor.Byte30 == 0 ? byte.MaxValue : 0));
+                constexpr.ASSUME(result.Byte31 == (a.Byte31 % divisor.Byte31 == 0 ? byte.MaxValue : 0));
 
-                v256 cmpLo = Xse.mm256_cmple_epu16(Avx2.mm256_mullo_epi16(new v256(mulLo.Lo128, mulHi.Lo128), lo), Xse.mm256_dec_epi16(new v256(mulLo.Lo128, mulHi.Lo128)));
-                v256 cmpHi = Xse.mm256_cmple_epu16(Avx2.mm256_mullo_epi16(new v256(mulLo.Hi128, mulHi.Hi128), hi), Xse.mm256_dec_epi16(new v256(mulLo.Hi128, mulHi.Hi128)));
+                constexpr.ASSUME_IS_MASK_EPI8(result);
 
-                return Avx2.mm256_packs_epi16(cmpLo, cmpHi);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -165,15 +295,35 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 result;
+
                 if (initconstcheck_epu16(a, divisor, out v128 constVersion, promises, elements))
                 {
-                    return constVersion;
+                    result = constVersion;
+                }
+                else
+                {
+                    v128 cast = Xse.cvtepu16_epi32(a);
+                    v128 cmp = Xse.cmple_epu32(Xse.mullo_epi32(mul, cast, elements), Xse.dec_epi32(mul), elements);
+
+                    result = Xse.packs_epi32(cmp, cmp);
                 }
 
-                v128 cast = Xse.cvtepu16_epi32(a);
-                v128 cmp = Xse.cmple_epu32(Xse.mullo_epi32(mul, cast, elements), Xse.dec_epi32(mul), elements);
+                constexpr.ASSUME(result.UShort0 == (a.UShort0 % divisor.UShort0 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort1 == (a.UShort1 % divisor.UShort1 == 0 ? ushort.MaxValue : 0));
+                if (elements > 2)
+                {
+                    constexpr.ASSUME(result.UShort2 == (a.UShort2 % divisor.UShort2 == 0 ? ushort.MaxValue : 0));
 
-                return Xse.packs_epi32(cmp, cmp);
+                    if (elements > 3)
+                    {
+                        constexpr.ASSUME(result.UShort3 == (a.UShort3 % divisor.UShort3 == 0 ? ushort.MaxValue : 0));
+                    }
+                }
+
+                constexpr.ASSUME_IS_MASK_EPI16(result);
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -183,17 +333,34 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 result;
+
                 if (initconstcheck_epu16(a, divisor, out v128 constVersion, promises))
                 {
-                    return constVersion;
+                    result = constVersion;
+                }
+                else
+                {
+                    v128 lo = Xse.cvt2x2epu16_epi32(a, out v128 hi);
+
+                    v128 cmpLo = Xse.cmple_epu32(Xse.mullo_epi32(mulLo, lo), Xse.dec_epi32(mulLo));
+                    v128 cmpHi = Xse.cmple_epu32(Xse.mullo_epi32(mulHi, hi), Xse.dec_epi32(mulHi));
+
+                    result = Xse.packs_epi32(cmpLo, cmpHi);
                 }
 
-                v128 lo = Xse.cvt2x2epu16_epi32(a, out v128 hi);
+                constexpr.ASSUME(result.UShort0 == (a.UShort0 % divisor.UShort0 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort1 == (a.UShort1 % divisor.UShort1 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort2 == (a.UShort2 % divisor.UShort2 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort3 == (a.UShort3 % divisor.UShort3 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort4 == (a.UShort4 % divisor.UShort4 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort5 == (a.UShort5 % divisor.UShort5 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort6 == (a.UShort6 % divisor.UShort6 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort7 == (a.UShort7 % divisor.UShort7 == 0 ? ushort.MaxValue : 0));
 
-                v128 cmpLo = Xse.cmple_epu32(Xse.mullo_epi32(mulLo, lo), Xse.dec_epi32(mulLo));
-                v128 cmpHi = Xse.cmple_epu32(Xse.mullo_epi32(mulHi, hi), Xse.dec_epi32(mulHi));
+                constexpr.ASSUME_IS_MASK_EPI16(result);
 
-                return Xse.packs_epi32(cmpLo, cmpHi);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -203,17 +370,42 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
+                v256 result;
+
                 if (mm256_initconstcheck_epu16(a, divisor, out v256 constVersion, promises))
                 {
-                    return constVersion;
+                    result = constVersion;
+                }
+                else
+                {
+                    v256 lo = Xse.mm256_cvt2x2epu16_epi32(a, out v256 hi);
+
+                    v256 cmpLo = Xse.mm256_cmple_epu32(Avx2.mm256_mullo_epi32(new v256(mulLo.Lo128, mulHi.Lo128), lo), Xse.mm256_dec_epi32(new v256(mulLo.Lo128, mulHi.Lo128)));
+                    v256 cmpHi = Xse.mm256_cmple_epu32(Avx2.mm256_mullo_epi32(new v256(mulLo.Hi128, mulHi.Hi128), hi), Xse.mm256_dec_epi32(new v256(mulLo.Hi128, mulHi.Hi128)));
+
+                    result = Avx2.mm256_packs_epi32(cmpLo, cmpHi);
                 }
 
-                v256 lo = Xse.mm256_cvt2x2epu16_epi32(a, out v256 hi);
+                constexpr.ASSUME(result.UShort0  == (a.UShort0  % divisor.UShort0  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort1  == (a.UShort1  % divisor.UShort1  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort2  == (a.UShort2  % divisor.UShort2  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort3  == (a.UShort3  % divisor.UShort3  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort4  == (a.UShort4  % divisor.UShort4  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort5  == (a.UShort5  % divisor.UShort5  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort6  == (a.UShort6  % divisor.UShort6  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort7  == (a.UShort7  % divisor.UShort7  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort8  == (a.UShort8  % divisor.UShort8  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort9  == (a.UShort9  % divisor.UShort9  == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort10 == (a.UShort10 % divisor.UShort10 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort11 == (a.UShort11 % divisor.UShort11 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort12 == (a.UShort12 % divisor.UShort12 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort13 == (a.UShort13 % divisor.UShort13 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort14 == (a.UShort14 % divisor.UShort14 == 0 ? ushort.MaxValue : 0));
+                constexpr.ASSUME(result.UShort15 == (a.UShort15 % divisor.UShort15 == 0 ? ushort.MaxValue : 0));
 
-                v256 cmpLo = Xse.mm256_cmple_epu32(Avx2.mm256_mullo_epi32(new v256(mulLo.Lo128, mulHi.Lo128), lo), Xse.mm256_dec_epi32(new v256(mulLo.Lo128, mulHi.Lo128)));
-                v256 cmpHi = Xse.mm256_cmple_epu32(Avx2.mm256_mullo_epi32(new v256(mulLo.Hi128, mulHi.Hi128), hi), Xse.mm256_dec_epi32(new v256(mulLo.Hi128, mulHi.Hi128)));
+                constexpr.ASSUME_IS_MASK_EPI16(result);
 
-                return Avx2.mm256_packs_epi32(cmpLo, cmpHi);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -224,15 +416,26 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 result;
+
                 if (initconstcheck_epu32(a, divisor, out v128 constVersion, promises, 2))
                 {
-                    return Xse.not_si128(constVersion);
+                    result = Xse.not_si128(constVersion);
+                }
+                else
+                {
+                    v128 cast = Xse.cvtepu32_epi64(a);
+                    v128 cmp = Xse.cmpgt_epu64(Xse.mullo_epi64(mul, cast, unsigned_B_lessequalU32Max: true), Xse.dec_epi64(mul));
+
+                    result = Xse.cvtepi64_epi32(cmp);
                 }
 
-                v128 cast = Xse.cvtepu32_epi64(a);
-                v128 cmp = Xse.cmpgt_epu64(Xse.mullo_epi64(mul, cast, unsigned_B_lessequalU32Max: true), Xse.dec_epi64(mul));
+                constexpr.ASSUME(result.UInt0 == (a.UInt0 % divisor.UInt0 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt1 == (a.UInt1 % divisor.UInt1 != 0 ? uint.MaxValue : 0));
 
-                return Xse.cvtepi64_epi32(cmp);
+                constexpr.ASSUME_IS_MASK_EPI32(result);
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -242,17 +445,37 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 result;
+
                 if (initconstcheck_epu32(a, divisor, out v128 constVersion, promises, elements))
                 {
-                    return Xse.not_si128(constVersion);
+                    result = Xse.not_si128(constVersion);
+                }
+                else
+                {
+                    v128 lo = Xse.cvt2x2epu32_epi64(a, out v128 hi);
+                    
+                    v128 cmpLo = Xse.cmpgt_epu64(Xse.mullo_epi64(mulLo, lo, unsigned_B_lessequalU32Max: true), Xse.dec_epi64(mulLo));
+                    v128 cmpHi = Xse.cmpgt_epu64(Xse.mullo_epi64(mulHi, hi, unsigned_B_lessequalU32Max: true), Xse.dec_epi64(mulHi));
+                    
+                    result = Xse.cvt2x2epi64_epi32(cmpLo, cmpHi);
                 }
 
-                v128 lo = Xse.cvt2x2epu32_epi64(a, out v128 hi);
+                constexpr.ASSUME(result.UInt0 == (a.UInt0 % divisor.UInt0 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt1 == (a.UInt1 % divisor.UInt1 != 0 ? uint.MaxValue : 0));
+                if (elements > 2)
+                {
+                    constexpr.ASSUME(result.UInt2 == (a.UInt2 % divisor.UInt2 != 0 ? uint.MaxValue : 0));
 
-                v128 cmpLo = Xse.cmpgt_epu64(Xse.mullo_epi64(mulLo, lo, unsigned_B_lessequalU32Max: true), Xse.dec_epi64(mulLo));
-                v128 cmpHi = Xse.cmpgt_epu64(Xse.mullo_epi64(mulHi, hi, unsigned_B_lessequalU32Max: true), Xse.dec_epi64(mulHi));
+                    if (elements > 3)
+                    {
+                        constexpr.ASSUME(result.UInt3 == (a.UInt3 % divisor.UInt3 != 0 ? uint.MaxValue : 0));
+                    }
+                }
 
-                return Xse.cvt2x2epi64_epi32(cmpLo, cmpHi);
+                constexpr.ASSUME_IS_MASK_EPI32(result);
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -262,17 +485,34 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
+                v256 result;
+
                 if (mm256_initconstcheck_epu32(a, divisor, out v256 constVersion, promises))
                 {
-                    return Xse.mm256_not_si256(constVersion);
+                    result = Xse.mm256_not_si256(constVersion);
+                }
+                else
+                {
+                    v256 lo = Xse.mm256_cvt2x2epu32_epi64(a, out v256 hi);
+
+                    v256 cmpLo = Xse.mm256_cmpgt_epu64(Xse.mm256_mullo_epi64(new v256(mulLo.Lo128, mulHi.Lo128), lo, unsigned_B_lessequalU32Max: true), Xse.mm256_dec_epi64(new v256(mulLo.Lo128, mulHi.Lo128)));
+                    v256 cmpHi = Xse.mm256_cmpgt_epu64(Xse.mm256_mullo_epi64(new v256(mulLo.Hi128, mulHi.Hi128), hi, unsigned_B_lessequalU32Max: true), Xse.mm256_dec_epi64(new v256(mulLo.Hi128, mulHi.Hi128)));
+
+                    result = Xse.mm256_cvt2x2epi64_epi32(cmpLo, cmpHi);
                 }
 
-                v256 lo = Xse.mm256_cvt2x2epu32_epi64(a, out v256 hi);
+                constexpr.ASSUME(result.UInt0 == (a.UInt0 % divisor.UInt0 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt1 == (a.UInt1 % divisor.UInt1 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt2 == (a.UInt2 % divisor.UInt2 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt3 == (a.UInt3 % divisor.UInt3 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt4 == (a.UInt4 % divisor.UInt4 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt5 == (a.UInt5 % divisor.UInt5 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt6 == (a.UInt6 % divisor.UInt6 != 0 ? uint.MaxValue : 0));
+                constexpr.ASSUME(result.UInt7 == (a.UInt7 % divisor.UInt7 != 0 ? uint.MaxValue : 0));
 
-                v256 cmpLo = Xse.mm256_cmpgt_epu64(Xse.mm256_mullo_epi64(new v256(mulLo.Lo128, mulHi.Lo128), lo, unsigned_B_lessequalU32Max: true), Xse.mm256_dec_epi64(new v256(mulLo.Lo128, mulHi.Lo128)));
-                v256 cmpHi = Xse.mm256_cmpgt_epu64(Xse.mm256_mullo_epi64(new v256(mulLo.Hi128, mulHi.Hi128), hi, unsigned_B_lessequalU32Max: true), Xse.mm256_dec_epi64(new v256(mulLo.Hi128, mulHi.Hi128)));
+                constexpr.ASSUME_IS_MASK_EPI32(result);
 
-                return Xse.mm256_cvt2x2epi64_epi32(cmpLo, cmpHi);
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -283,18 +523,29 @@ namespace MaxMath
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
+                v128 result;
+
                 if (initconstcheck_epu64(a, divisor, out v128 constVersion, promises))
                 {
-                    return constVersion;
+                    result = constVersion;
+                }
+                else
+                {
+                    ulong lo = Xse.extract_epi64(a, 0);
+                    ulong hi = Xse.extract_epi64(a, 1);
+
+                    long cmpLo = tobyte(lo * mulLo <= mulLo - 1);
+                    long cmpHi = tobyte(hi * mulHi <= mulHi - 1);
+
+                    result = Xse.neg_epi64(Xse.unpacklo_epi64(Xse.cvtsi64x_si128(cmpLo), Xse.cvtsi64x_si128(cmpHi)));
                 }
 
-                ulong lo = Xse.extract_epi64(a, 0);
-                ulong hi = Xse.extract_epi64(a, 1);
+                constexpr.ASSUME(result.ULong0 == (a.ULong0 % divisor.ULong0 == 0 ? ulong.MaxValue : 0));
+                constexpr.ASSUME(result.ULong1 == (a.ULong1 % divisor.ULong1 == 0 ? ulong.MaxValue : 0));
 
-                long cmpLo = tobyte(lo * mulLo <= mulLo - 1);
-                long cmpHi = tobyte(hi * mulHi <= mulHi - 1);
+                constexpr.ASSUME_IS_MASK_EPI64(result);
 
-                return Xse.neg_epi64(Xse.unpacklo_epi64(Xse.cvtsi64x_si128(cmpLo), Xse.cvtsi64x_si128(cmpHi)));
+                return result;
             }
             else throw new IllegalInstructionException();
         }
@@ -305,15 +556,31 @@ namespace MaxMath
         {
             if (Avx2.IsAvx2Supported)
             {
+                v256 result;
+
                 if (mm256_initconstcheck_epu64(a, divisor, out v256 constVersion, promises, elements))
                 {
-                    return Xse.mm256_not_si256(constVersion);
+                    result = Xse.mm256_not_si256(constVersion);
+                }
+                else
+                {
+                    Xse.mm256_mulloepu128_epu64(mulLo, mulHi, a, out v256 u128Lo64, out v256 u128Hi64, elements);
+                    Xse.mm256_dec_epu128(mulLo, mulHi, out mulLo, out mulHi);
+
+                    result = Xse.mm256_cmpgt_epu128(u128Lo64, u128Hi64, mulLo, mulHi, elements);
                 }
 
-                Xse.mm256_mulloepu128_epu64(mulLo, mulHi, a, out v256 u128Lo64, out v256 u128Hi64, elements);
-                Xse.mm256_dec_epu128(mulLo, mulHi, out mulLo, out mulHi);
+                constexpr.ASSUME(result.ULong0 == (a.ULong0 % divisor.ULong0 != 0 ? ulong.MaxValue : 0));
+                constexpr.ASSUME(result.ULong1 == (a.ULong1 % divisor.ULong1 != 0 ? ulong.MaxValue : 0));
+                constexpr.ASSUME(result.ULong2 == (a.ULong2 % divisor.ULong2 != 0 ? ulong.MaxValue : 0));
+                if (elements > 3)
+                {
+                    constexpr.ASSUME(result.ULong3 == (a.ULong3 % divisor.ULong3 != 0 ? ulong.MaxValue : 0));
+                }
 
-                return Xse.mm256_cmpgt_epu128(u128Lo64, u128Hi64, mulLo, mulHi, elements);
+                constexpr.ASSUME_IS_MASK_EPI64(result);
+
+                return result;
             }
             else throw new IllegalInstructionException();
         }

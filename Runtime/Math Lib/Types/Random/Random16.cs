@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -157,7 +158,7 @@ Assert.AreNotEqual(State, 0);
             return (short)NextState() < 0;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool2"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -166,7 +167,7 @@ Assert.AreNotEqual(State, 0);
             return *(bool2*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool3"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -177,7 +178,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool4"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -188,7 +189,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool8"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool8"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8 NextBool8()
         {
@@ -199,7 +200,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool16"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool16"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
@@ -210,7 +211,7 @@ Assert.AreNotEqual(State, 0);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool32"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool32"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
@@ -229,35 +230,35 @@ Assert.AreNotEqual(State, 0);
             return (short)(short.MinValue ^ NextState());
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short2"/> with all components in the interval [-32.767, 32.767].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short2"/> with all components in the interval [-32.767, 32.767].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short2 NextShort2()
         {
             return short.MinValue ^ (short2)NextState2();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short3"/> with all components in the interval [-32.767, 32.767].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short3"/> with all components in the interval [-32.767, 32.767].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short3 NextShort3()
         {
             return short.MinValue ^ (short3)NextState3();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short4"/> with all components in the interval [-32.767, 32.767].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short4"/> with all components in the interval [-32.767, 32.767].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4 NextShort4()
         {
             return short.MinValue ^ (short4)NextState4();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short8"/> with all components in the interval [-32.767, 32.767].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short8"/> with all components in the interval [-32.767, 32.767].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short8 NextShort8()
         {
             return short.MinValue ^ (short8)NextState8();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short16"/> with all components in the interval [-32.767, 32.767].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short16"/> with all components in the interval [-32.767, 32.767].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short16 NextShort16()
         {
@@ -274,7 +275,7 @@ Assert.IsNotSmaller(max, min);
             return (short)(min + (((uint)NextState() * (max - min)) >> 16));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short2 NextShort2(short2 min, short2 max)
         {
@@ -290,7 +291,7 @@ VectorAssert.IsNotSmaller<short2, short>(max, min, 2);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short3 NextShort3(short3 min, short3 max)
         {
@@ -306,7 +307,7 @@ VectorAssert.IsNotSmaller<short3, short>(max, min, 3);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short4 NextShort4(short4 min, short4 max)
         {
@@ -322,7 +323,7 @@ VectorAssert.IsNotSmaller<short4, short>(max, min, 4);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short8 NextShort8(short8 min, short8 max)
         {
@@ -338,7 +339,7 @@ VectorAssert.IsNotSmaller<short8, short>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.short16"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="short16"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short16 NextShort16(short16 min, short16 max)
         {
@@ -362,35 +363,35 @@ VectorAssert.IsNotSmaller<short16, short>(max, min, 16);
             return (ushort)(NextState() - 1);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort2"/> with all components in the interval [0, 65.534].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort2"/> with all components in the interval [0, 65.534].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort2 NextUShort2()
         {
             return ushort.MaxValue + NextState2();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort3"/> with all components in the interval [0, 65.534].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort3"/> with all components in the interval [0, 65.534].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort3 NextUShort3()
         {
             return ushort.MaxValue + NextState3();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort4"/> with all components in the interval [0, 65.534].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort4"/> with all components in the interval [0, 65.534].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4 NextUShort4()
         {
             return ushort.MaxValue + NextState4();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort8"/> with all components in the interval [0, 65.534].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort8"/> with all components in the interval [0, 65.534].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8 NextUShort8()
         {
             return ushort.MaxValue + NextState8();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort16"/> with all components in the interval [0, 65.534].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort16"/> with all components in the interval [0, 65.534].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16 NextUShort16()
         {
@@ -405,7 +406,7 @@ VectorAssert.IsNotSmaller<short16, short>(max, min, 16);
             return (ushort)(((uint)NextState() * max) >> 16);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort2"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort2"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort2 NextUShort2(ushort2 max)
         {
@@ -421,7 +422,7 @@ VectorAssert.IsGreater<ushort2, ushort>(max, 0, 2);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort3"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort3"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort3 NextUShort3(ushort3 max)
         {
@@ -437,7 +438,7 @@ VectorAssert.IsGreater<ushort3, ushort>(max, 0, 3);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort4"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort4"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4 NextUShort4(ushort4 max)
         {
@@ -453,7 +454,7 @@ VectorAssert.IsGreater<ushort4, ushort>(max, 0, 4);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort8"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort8"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8 NextUShort8(ushort8 max)
         {
@@ -469,7 +470,7 @@ VectorAssert.IsGreater<ushort8, ushort>(max, 0, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort16"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort16"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16 NextUShort16(ushort16 max)
         {
@@ -495,7 +496,7 @@ Assert.IsNotSmaller(max, min);
             return (ushort)(min + (((uint)NextState() * (max - min)) >> 16));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort2 NextUShort2(ushort2 min, ushort2 max)
         {
@@ -511,7 +512,7 @@ VectorAssert.IsNotSmaller<ushort2, ushort>(max, min, 2);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort3 NextUShort3(ushort3 min, ushort3 max)
         {
@@ -527,7 +528,7 @@ VectorAssert.IsNotSmaller<ushort3, ushort>(max, min, 3);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort4 NextUShort4(ushort4 min, ushort4 max)
         {
@@ -543,7 +544,7 @@ VectorAssert.IsNotSmaller<ushort4, ushort>(max, min, 4);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort8 NextUShort8(ushort8 min, ushort8 max)
         {
@@ -559,7 +560,7 @@ VectorAssert.IsNotSmaller<ushort8, ushort>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.ushort16"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="ushort16"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ushort16 NextUShort16(ushort16 min, ushort16 max)
         {

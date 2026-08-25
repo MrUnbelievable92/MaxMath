@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -1886,6 +1887,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         internal static byte pow2_rem_u8(byte x, byte divisor)
         {
             byte result = (byte)(x & (divisor - 1));
+            constexpr.ASSUME(result == x % divisor);
             constexpr.ASSUME(result < divisor);
             return result;
         }
@@ -1894,6 +1896,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         internal static ushort pow2_rem_u16(ushort x, ushort divisor)
         {
             ushort result = (ushort)(x & (divisor - 1));
+            constexpr.ASSUME(result == x % divisor);
             constexpr.ASSUME(result < divisor);
             return result;
         }
@@ -1902,6 +1905,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         internal static uint pow2_rem_u32(uint x, uint divisor)
         {
             uint result = x & (divisor - 1);
+            constexpr.ASSUME(result == x % divisor);
             constexpr.ASSUME(result < divisor);
             return result;
         }
@@ -1910,6 +1914,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         internal static ulong pow2_rem_u64(ulong x, ulong divisor)
         {
             ulong result = x & (divisor - 1);
+            //constexpr.ASSUME(result == x % divisor);
             constexpr.ASSUME(result < divisor);
             return result;
         }
@@ -1918,6 +1923,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         internal static UInt128 pow2_rem_u128(UInt128 x, UInt128 divisor)
         {
             UInt128 result = x & (divisor - 1);
+            //constexpr.ASSUME(result == x % divisor);
             constexpr.ASSUME(result < divisor);
             return result;
         }
@@ -1928,7 +1934,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = Xse.and_si128(x, Xse.dec_epi8(divisor));
-                constexpr.ASSUME_LT_EPU8(result, divisor, elements);
+                constexpr.ASSUME_REMAINDER_EPU8(result, x, divisor, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -1940,7 +1946,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = Xse.and_si128(x, Xse.dec_epi16(divisor));
-                constexpr.ASSUME_LT_EPU16(result, divisor, elements);
+                constexpr.ASSUME_REMAINDER_EPU16(result, x, divisor, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -1952,7 +1958,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = Xse.and_si128(x, Xse.dec_epi32(divisor));
-                constexpr.ASSUME_LT_EPU32(result, divisor, elements);
+                constexpr.ASSUME_REMAINDER_EPU32(result, x, divisor, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -1964,7 +1970,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = Xse.and_si128(x, Xse.dec_epi64(divisor));
-                constexpr.ASSUME_LT_EPU64(result, divisor);
+                constexpr.ASSUME_REMAINDER_EPU64(result, x, divisor);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -1976,7 +1982,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = Avx2.mm256_and_si256(x, Xse.mm256_dec_epi8(divisor));
-                constexpr.ASSUME_LT_EPU8(result, divisor);
+                constexpr.ASSUME_REMAINDER_EPU8(result, x, divisor);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -1988,7 +1994,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = Avx2.mm256_and_si256(x, Xse.mm256_dec_epi16(divisor));
-                constexpr.ASSUME_LT_EPU16(result, divisor);
+                constexpr.ASSUME_REMAINDER_EPU16(result, x, divisor);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2000,7 +2006,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = Avx2.mm256_and_si256(x, Xse.mm256_dec_epi32(divisor));
-                constexpr.ASSUME_LT_EPU32(result, divisor);
+                constexpr.ASSUME_REMAINDER_EPU32(result, x, divisor);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2012,7 +2018,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = Avx2.mm256_and_si256(x, Xse.mm256_dec_epi64(divisor));
-                constexpr.ASSUME_LT_EPU64(result, divisor, elements);
+                constexpr.ASSUME_REMAINDER_EPU64(result, x, divisor, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2023,6 +2029,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         internal static byte bmrem_u8(byte x, byte original, ushort mul)
         {
             byte result = (byte)(((ushort)((uint)mul * (uint)x) * (uint)original) >> 16);
+            constexpr.ASSUME(result == (byte)(x % original));
             constexpr.ASSUME(result < original);
             return result;
         }
@@ -2031,6 +2038,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         internal static ushort bmrem_u16(ushort x, ushort original, uint mul)
         {
             ushort result = (ushort)(((mul * x) * (ulong)original) >> 32);
+            constexpr.ASSUME(result == (ushort)(x % original));
             constexpr.ASSUME(result < original);
             return result;
         }
@@ -2038,7 +2046,8 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static uint bmrem_u32(uint x, uint original, ulong mul)
         {
-            uint result = (uint)MaxMath.UInt128.umul128(mul * x, original).hi64;
+            uint result = (uint)UInt128.umul128(mul * x, original).hi64;
+            constexpr.ASSUME(result == x % original);
             constexpr.ASSUME(result < original);
             return result;
         }
@@ -2048,10 +2057,11 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         {
             mul *= x;
 
-            UInt128 lo = MaxMath.UInt128.umul128(mul.lo64, original);
-            UInt128 hi = MaxMath.UInt128.umul128(mul.hi64, original);
+            UInt128 lo = UInt128.umul128(mul.lo64, original);
+            UInt128 hi = UInt128.umul128(mul.hi64, original);
 
             ulong result = (lo.hi64 + hi).hi64;
+            constexpr.ASSUME(result == x % original);
             constexpr.ASSUME(result < original);
             return result;
         }
@@ -2060,6 +2070,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         internal static UInt128 msrem_u128(UInt128 dividend, UInt128 original, UInt128 mul, UInt128 shift, DividerPromise promises)
         {
             UInt128 result = dividend - (msdiv_u128(dividend, original, mul, shift, promises) * original);
+            //constexpr.ASSUME(result == dividend % original);
             constexpr.ASSUME(result < original);
             return result;
         }
@@ -2076,7 +2087,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 v128 q = Xse.mulhi_epu16(Xse.mullo_epi16(mul, d16), o16);
 
                 v128 result = Xse.packus_epi16(q, q);
-                constexpr.ASSUME_LT_EPU8(result, original, elements);
+                constexpr.ASSUME_REMAINDER_EPU8(result, d, original, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2101,7 +2112,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 {
                     result = Xse.cvtepi32_epi16(q, elements);
                 }
-                constexpr.ASSUME_LT_EPU16(result, original, elements);
+                constexpr.ASSUME_REMAINDER_EPU16(result, d, original, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2113,7 +2124,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = Xse.sub_epi32(a, Xse.mullo_epi32(msdiv_epu32(a, original, mul, shift, promises, elements), original, elements));
-                //constexpr.ASSUME_LT_EPU32(result, original, elements);
+                constexpr.ASSUME_REMAINDER_EPU32(result, a, original, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2125,7 +2136,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (Avx2.IsAvx2Supported)
             {
                 v128 result = Xse.sub_epi64(a, Xse.mullo_epi64(msdiv_epu64(a, original, mul, shift, promises), original));
-                constexpr.ASSUME_LT_EPU64(result, original);
+                constexpr.ASSUME_REMAINDER_EPU64(result, a, original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2144,7 +2155,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 v128 hi = Xse.mulhi_epu16(Xse.mullo_epi16(mulHi, d16Hi), o16Hi);
 
                 v128 result = Xse.packus_epi16(lo, hi);
-                constexpr.ASSUME_LT_EPU8(result, original);
+                constexpr.ASSUME_REMAINDER_EPU8(result, d, original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2170,7 +2181,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 {
                     result = Xse.cvt2x2epi32_epi16(lo, hi);
                 }
-                constexpr.ASSUME_LT_EPU16(result, original);
+                constexpr.ASSUME_REMAINDER_EPU16(result, d, original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2188,7 +2199,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 v256 hi = Avx2.mm256_mulhi_epu16(Avx2.mm256_mullo_epi16(new v256(mulLo.Hi128, mulHi.Hi128), d16Hi), o16Hi);
 
                 v256 result = Avx2.mm256_packus_epi16(lo, hi);
-                constexpr.ASSUME_LT_EPU8(result, original);
+                constexpr.ASSUME_REMAINDER_EPU8(result, d, original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2206,7 +2217,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 v256 hi = Xse.mm256_mulhi_epu32(Avx2.mm256_mullo_epi32(new v256(mulLo.Hi128, mulHi.Hi128), d16Hi), o16Hi);
 
                 v256 result = Avx2.mm256_packus_epi32(lo, hi);
-                constexpr.ASSUME_LT_EPU16(result, original);
+                constexpr.ASSUME_REMAINDER_EPU16(result, d, original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2218,7 +2229,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = Avx2.mm256_sub_epi32(a, Avx2.mm256_mullo_epi32(mm256_msdiv_epu32(a, original, mul, shift, promises), original));
-                constexpr.ASSUME_LT_EPU32(result, original);
+                constexpr.ASSUME_REMAINDER_EPU32(result, a, original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2229,8 +2240,8 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
         {
             if (Avx2.IsAvx2Supported)
             {
-                v256 result = Avx2.mm256_sub_epi64(a, Xse.mm256_mullo_epi64(mm256_msdiv_epu64(a, original, mul, shift, promises), original, elements));
-                constexpr.ASSUME_LT_EPU64(result, original, elements);
+                v256 result = Avx2.mm256_sub_epi64(a, Xse.mm256_mullo_epi64(mm256_msdiv_epu64(a, original, mul, shift, promises, elements), original, elements));
+                constexpr.ASSUME_REMAINDER_EPU64(result, a, original, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2251,7 +2262,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 {
                     result = bmrem_epu8(d, Xse.set1_epi8(original), Xse.set1_epi16(mul), Xse.set1_epi16(mul));
                 }
-                constexpr.ASSUME_LT_EPU8(result, original, elements);
+                constexpr.ASSUME_REMAINDER_EPU8(result, d, (byte16)original, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2271,7 +2282,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 {
                     result = bmrem_epu16(d, Xse.set1_epi16(original), Xse.set1_epi32(mul), Xse.set1_epi32(mul));
                 }
-                constexpr.ASSUME_LT_EPU16(result, original, elements);
+                constexpr.ASSUME_REMAINDER_EPU16(result, d, (ushort8)original, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2283,7 +2294,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = Xse.sub_epi32(d, Xse.mullo_epi32(msdiv_epu32_su32(d, original, mul, shift, promises, elements), Xse.set1_epi32(original), elements));
-                constexpr.ASSUME_LT_EPU32(result, original, elements);
+                constexpr.ASSUME_REMAINDER_EPU32(result, d, (uint4)original, elements);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2295,7 +2306,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (BurstArchitecture.IsSIMDSupported)
             {
                 v128 result = Xse.sub_epi64(d, Xse.mullo_epi64(msdiv_epu64_su64(d, original, mul, shift, promises), Xse.set1_epi64x(original)));
-                constexpr.ASSUME_LT_EPU64(result, original);
+                constexpr.ASSUME_REMAINDER_EPU64(result, d, (ulong2)original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2314,7 +2325,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 v256 hi = Avx2.mm256_mulhi_epu16(Avx2.mm256_mullo_epi16(Xse.mm256_set1_epi16(mul), d16Hi), o);
 
                 v256 result = Avx2.mm256_packus_epi16(lo, hi);
-                constexpr.ASSUME_LT_EPU8(result, original);
+                constexpr.ASSUME_REMAINDER_EPU8(result, d, (byte32)original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2332,7 +2343,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
                 v256 hi = Xse.mm256_mulhi_epu32(Avx2.mm256_mullo_epi32(Xse.mm256_set1_epi32(mul), d16Hi), o);
 
                 v256 result = Avx2.mm256_packus_epi32(lo, hi);
-                constexpr.ASSUME_LT_EPU16(result, original);
+                constexpr.ASSUME_REMAINDER_EPU16(result, d, (ushort16)original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2344,7 +2355,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = Avx2.mm256_sub_epi32(d, Avx2.mm256_mullo_epi32(mm256_msdiv_epu32_su32(d, original, mul, shift, promises), Xse.mm256_set1_epi32(original)));
-                constexpr.ASSUME_LT_EPU32(result, original);
+                constexpr.ASSUME_REMAINDER_EPU32(result, d, (uint8)original);
                 return result;
             }
             else throw new IllegalInstructionException();
@@ -2356,7 +2367,7 @@ d.AssertOperationMatchesInitialization(sizeof(UInt128), 1, columnCount: 1, Signe
             if (Avx2.IsAvx2Supported)
             {
                 v256 result = Avx2.mm256_sub_epi64(d, Xse.mm256_mullo_epi64(mm256_msdiv_epu64_su64(d, original, mul, shift, promises, elements), Xse.mm256_set1_epi64x(original), elements));
-                constexpr.ASSUME_LT_EPU64(result, original, elements);
+                constexpr.ASSUME_REMAINDER_EPU64(result, d, (ulong4)original, elements);
                 return result;
             }
             else throw new IllegalInstructionException();

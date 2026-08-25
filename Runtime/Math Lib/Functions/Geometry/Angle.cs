@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -98,7 +99,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.float2"/> (origin) vectors in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="float2"/> (origin) vectors in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float angle(float2 a, float2 b)
         {
@@ -130,7 +131,7 @@ namespace MaxMath
             return acos(dot(a, b) * rsqrt(PRE_angle(a, b)));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.float2"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="float2"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 angle(float2x2 a, float2x2 b)
         {
@@ -143,7 +144,7 @@ namespace MaxMath
             return acos(dot2(a, b) * rsqrt(a4.xy));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.float2"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="float2"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 angle(float2x3 a, float2x3 b)
         {
@@ -151,7 +152,7 @@ namespace MaxMath
                               angle(a.c2, b.c2));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.float2"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="float2"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 angle(float2x4 a, float2x4 b)
         {
@@ -173,21 +174,21 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.float3"/> (origin) vectors in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="float3"/> (origin) vectors in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float angle(float3 a, float3 b)
         {
             return acos(dot(a, b) * rsqrt(lengthsq(b) * lengthsq(a)));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.float3"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="float3"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 angle(float3x2 a, float3x2 b)
         {
             return new float2(angle(a.c0, b.c0), angle(a.c1, b.c1));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.float3"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="float3"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 angle(float3x3 a, float3x3 b)
         {
@@ -195,7 +196,7 @@ namespace MaxMath
                               angle(a.c2, b.c2));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.float3"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="float3"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 angle(float3x4 a, float3x4 b)
         {
@@ -204,7 +205,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.double2"/> (origin) vectors in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="double2"/> (origin) vectors in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double angle(double2 a, double2 b)
         {
@@ -216,7 +217,7 @@ namespace MaxMath
             return acos(dot(a, b) / sqrt(temp.x));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.double2"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="double2"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 angle(double2x2 a, double2x2 b)
         {
@@ -229,7 +230,7 @@ namespace MaxMath
             return acos(dot2(a, b) * rsqrt(a4.xy));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.double2"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="double2"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 angle(double2x3 a, double2x3 b)
         {
@@ -237,7 +238,7 @@ namespace MaxMath
                                angle(a.c2, b.c2));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.double2"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="double2"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 angle(double2x4 a, double2x4 b)
         {
@@ -245,7 +246,7 @@ namespace MaxMath
                                angle(new double2x2(a.c2, a.c3), new double2x2(b.c2, b.c3)));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.double3"/> (origin) vectors in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="double3"/> (origin) vectors in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double angle(double3 a, double3 b)
         {
@@ -277,14 +278,14 @@ namespace MaxMath
             return acos(dot(a, b) / sqrt(lengthsq(b) * lengthsq(a)));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.double3"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="double3"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 angle(double3x2 a, double3x2 b)
         {
             return new double2(angle(a.c0, b.c0), angle(a.c1, b.c1));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.double3"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="double3"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 angle(double3x3 a, double3x3 b)
         {
@@ -292,7 +293,7 @@ namespace MaxMath
                                angle(a.c2, b.c2));
         }
 
-        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="MaxMath.double3"/> (origin) vector pairs in radians.        </summary>
+        /// <summary>       Returns the unsigned angle between two non-normalized <see cref="double3"/> (origin) vector pairs in radians.        </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 angle(double3x4 a, double3x4 b)
         {

@@ -13,11 +13,9 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("C88243F0-3231-429C-B8DB-1E5752AEAA0E")]
-
 // Style
 [assembly: SuppressMessage("Style", "IDE1006: Naming Styles", Justification = "MaxMath naming standards")]
 
-[assembly: AssemblyVersion("3.0")]
-[assembly: AssemblyFileVersion("3.0")]
-[assembly: AssemblyInformationalVersion("3.0 Release")]
+[assembly: AssemblyVersion("3.1")]
+[assembly: AssemblyFileVersion("3.1")]
+[assembly: AssemblyInformationalVersion("3.1 Release")]

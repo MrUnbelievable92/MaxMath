@@ -1,5 +1,6 @@
 using Unity.Burst.Intrinsics;
 using NUnit.Framework;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.math;

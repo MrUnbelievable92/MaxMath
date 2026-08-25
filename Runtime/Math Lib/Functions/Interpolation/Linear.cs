@@ -4,119 +4,127 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Returns the result of linearly interpolating from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of linearly interpolating from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float lerp(float x, float y, float s)
+        public static float lerp(float start, float end, float t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the corresponding components of the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the corresponding components of the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float2 lerp(float2 x, float2 y, float2 s)
+        public static float2 lerp(float2 start, float2 end, float2 t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the corresponding components of the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the corresponding components of the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float3 lerp(float3 x, float3 y, float3 s)
+        public static float3 lerp(float3 start, float3 end, float3 t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the corresponding components of the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the corresponding components of the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float4 lerp(float4 x, float4 y, float4 s)
+        public static float4 lerp(float4 start, float4 end, float4 t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the corresponding components of the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the corresponding components of the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 lerp(float8 x, float8 y, float8 s)
+        public static float8 lerp(float8 start, float8 end, float8 t)
         {
-            return mad(s, y - x, x);
-        }
-        
-
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float2 lerp(float2 x, float2 y, float s)
-        {
-            return Unity.Mathematics.math.lerp(x, y, s);
-        }
-        
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float3 lerp(float3 x, float3 y, float s)
-        {
-            return Unity.Mathematics.math.lerp(x, y, s);
-        }
-        
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float4 lerp(float4 x, float4 y, float s)
-        {
-            return Unity.Mathematics.math.lerp(x, y, s);
-        }
-        
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float8 lerp(float8 x, float8 y, float s)
-        {
-            return mad(s, y - x, x);
+            return mad(t, end - start, start);
         }
         
 
-        /// <summary>       Returns the result of linearly interpolating from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double lerp(double x, double y, double s)
+        public static float2 lerp(float2 start, float2 end, float t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the corresponding components of the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double2 lerp(double2 x, double2 y, double2 s)
+        public static float3 lerp(float3 start, float3 end, float t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the corresponding components of the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double3 lerp(double3 x, double3 y, double3 s)
+        public static float4 lerp(float4 start, float4 end, float t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the corresponding components of the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double4 lerp(double4 x, double4 y, double4 s)
+        public static float8 lerp(float8 start, float8 end, float t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return mad(t, end - start, start);
         }
         
 
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of linearly interpolating from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double2 lerp(double2 x, double2 y, double s)
+        public static double lerp(double start, double end, double t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the corresponding components of the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double3 lerp(double3 x, double3 y, double s)
+        public static double2 lerp(double2 start, double2 end, double2 t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
         }
         
-        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="x"/> to <paramref name="y"/> using the interpolation parameter <paramref name="s"/>.    </summary>
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the corresponding components of the interpolation parameter <paramref name="t"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double4 lerp(double4 x, double4 y, double s)
+        public static double3 lerp(double3 start, double3 end, double3 t)
         {
-            return Unity.Mathematics.math.lerp(x, y, s);
+            return Unity.Mathematics.math.lerp(start, end, t);
+        }
+        
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the corresponding components of the interpolation parameter <paramref name="t"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 lerp(double4 start, double4 end, double4 t)
+        {
+            return Unity.Mathematics.math.lerp(start, end, t);
+        }
+        
+
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double2 lerp(double2 start, double2 end, double t)
+        {
+            return Unity.Mathematics.math.lerp(start, end, t);
+        }
+        
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double3 lerp(double3 start, double3 end, double t)
+        {
+            return Unity.Mathematics.math.lerp(start, end, t);
+        }
+        
+        /// <summary>       Returns the result of a componentwise linear interpolation from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double4 lerp(double4 start, double4 end, double t)
+        {
+            return Unity.Mathematics.math.lerp(start, end, t);
+        }
+
+
+        /// <summary>       Returns the result of linearly interpolating from <paramref name="start"/> to <paramref name="end"/> using the interpolation parameter <paramref name="t"/>.   </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple lerp(quadruple start, quadruple end, quadruple t)
+        {
+            return mad(t, end - start, start);
         }
         
 
@@ -185,6 +193,13 @@ namespace MaxMath
         }
 
 
+        /// <summary>       Returns the result of normalizing a floating point value <paramref name="x"/> to a range [<paramref name="start"/>, <paramref name="end"/>]. The opposite of lerp. Equivalent to (<paramref name="x"/> - <paramref name="start"/>) / (<paramref name="end"/> - <paramref name="start"/>).</summary>
+        public static quadruple unlerp(quadruple start, quadruple end, quadruple x)
+        {
+            return (x - start) / (end - start);
+        }
+
+
         ///<summary>        Returns the result of a non-clamping linear remapping of a value <paramref name="x"/> from [<paramref name="a"/>, <paramref name="b"/>] to [<paramref name="c"/>, <paramref name="d"/>].    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float remap(float a, float b, float c, float d, float x)
@@ -247,6 +262,13 @@ namespace MaxMath
         public static double4 remap(double4 a, double4 b, double4 c, double4 d, double4 x)
         {
             return Unity.Mathematics.math.remap(a, b, c, d, x);
+        }
+
+
+        /// <summary>       Returns the result of a non-clamping linear remapping of a value <paramref name="x"/> from source range [<paramref name="srcStart"/>, <paramref name="srcEnd"/>] to the destination range [<paramref name="dstStart"/>, <paramref name="dstEnd"/>].</summary>
+        public static quadruple remap(quadruple srcStart, quadruple srcEnd, quadruple dstStart, quadruple dstEnd, float x)
+        {
+            return lerp(dstStart, dstEnd, unlerp(srcStart, srcEnd, x));
         }
     }
 }

@@ -4,7 +4,8 @@
     "references": [
         "Unity.Mathematics",
         "Unity.Burst",
-        "CSharpDevTools"
+        "CSharpDevTools",
+        "MaxMath.CompilerServices"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

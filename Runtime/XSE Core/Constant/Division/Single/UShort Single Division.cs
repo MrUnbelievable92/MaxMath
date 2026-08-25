@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -14,13 +15,16 @@ namespace MaxMath.Intrinsics
 			{
 				__unsafe |= constexpr.ALL_LT_EPU16(vector, 1 << 15, elements);
 
+				v128 result;
+
 				switch (divisor)
 				{
 					case 3:
 					{
 						if (__unsafe)
 						{
-							return mulhi_epu16(vector, set1_epi16(21846));
+							result = mulhi_epu16(vector, set1_epi16(21846));
+							break;
 						}
 						else goto default;
 					}
@@ -28,7 +32,8 @@ namespace MaxMath.Intrinsics
 					{
 						if (__unsafe)
 						{
-							return mulhi_epu16(vector, set1_epi16(10923));
+							result = mulhi_epu16(vector, set1_epi16(10923));
+							break;
 						}
 						else goto default;
 					}
@@ -44,6 +49,9 @@ namespace MaxMath.Intrinsics
 						}
 					}
 				}
+
+				constexpr.ASSUME_DIVISION_EPU16(result, vector, set1_epi16(divisor), elements);
+				return result;
 			}
 			else throw new IllegalInstructionException();
 		}
@@ -55,13 +63,16 @@ namespace MaxMath.Intrinsics
 			{
 				__unsafe |= constexpr.ALL_LT_EPU16(vector, 1 << 15);
 
+				v256 result;
+
 				switch (divisor)
 				{
 					case 3:
 					{
 						if (__unsafe)
 						{
-							return Avx2.mm256_mulhi_epu16(vector, mm256_set1_epi16(21846));
+							result = Avx2.mm256_mulhi_epu16(vector, mm256_set1_epi16(21846));
+							break;
 						}
 						else goto default;
 					}
@@ -69,7 +80,8 @@ namespace MaxMath.Intrinsics
 					{
 						if (__unsafe)
 						{
-							return Avx2.mm256_mulhi_epu16(vector, mm256_set1_epi16(10923));
+							result = Avx2.mm256_mulhi_epu16(vector, mm256_set1_epi16(10923));
+							break;
 						}
 						else goto default;
 					}
@@ -79,6 +91,9 @@ namespace MaxMath.Intrinsics
 						return (ushort16)vector / new Divider<ushort>(divisor);
 					}
 				}
+
+				constexpr.ASSUME_DIVISION_EPU16(result, vector, mm256_set1_epi16(divisor));
+				return result;
 			}
 			else throw new IllegalInstructionException();
 		}

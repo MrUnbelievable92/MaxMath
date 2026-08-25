@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using System.Collections.Generic;
 
 
 #pragma warning disable CS1718 // comparison to same variable is a test case

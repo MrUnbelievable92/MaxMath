@@ -137,6 +137,7 @@ An example for XML documentation used in MaxMath:
 <li><code>rcp(a)</code></li>
 <li><code>fastrcp(a)</code> - fast-approximate rcp(a)</li>
 <li><code>fmod(a, b)</code> - a % b</li>
+<li><code>isint(a)</code> - true if a has no fractional part</li>
 <li><code>round(a)</code></li>
 <li><code>trunc(a)</code></li>
 <li><code>floor(a)</code></li>
@@ -165,6 +166,8 @@ An example for XML documentation used in MaxMath:
 <li><code>floorlog2(a)</code> - intlog2(floorpow2(a))</li>
 <li><code>ceillog2(a)</code> - intlog2(ceilpow2(a))</li>
 <li><code>factorial(a)</code></li>
+<li><code>ceildiv(a, b)</code> - ceil(a / b)</li>
+<li><code>floordiv(a, b)</code> - floor(a / b)</li>
 <li><code>gcd(a, b)</code> - greatest common divisor</li>
 <li><code>lcm(a, b)</code> - least common multiple</li>
 <li><code>comb(a, b)</code> - binomial coefficient</li>
@@ -318,7 +321,8 @@ An example for XML documentation used in MaxMath:
 <li><code>approx([floating point type] a, [floating point type] b)</code> - test for approximate equality</li>
 <li><code>compareto(a, b)</code> - a == b => 0; a < b => -1, a > b => 1 (IComparable.CompareTo)</li>
 <li><code>step(a, b)</code> - a >= b ? 1 : 0</li>
-<li><code>ispow2(a)</code></li>
+<li><code>ispow2(a)</code> - both integer and floating point</li>
+<li><code>ispow2mag(a) - ispow2(abs(a))</code></li>
 <li><code>isnan(a)</code></li>
 <li><code>isinf(a)</code></li>
 <li><code>isfinite(a)</code></li>
@@ -353,6 +357,10 @@ An example for XML documentation used in MaxMath:
 <li><code>all([boolean type] a)</code> - test whether all values are true</li>
 <li><code>any([numeric type] a)</code> - test whether any value is non-zero</li>
 <li><code>any([boolean type] a)</code> - test whether any value is true</li>
+<li><code>none([numeric type] a)</code> - test whether no value is non-zero</li>
+<li><code>none([boolean type] a)</code> - test whether no value is true</li>
+<li><code>notall([numeric type] a)</code> - test whether not all values are non-zero</li>
+<li><code>notall([boolean type] a)</code> - test whether not all values are true</li>
 <li><code>all_dif(a, b)</code> - test whether a and b do not share any components with each other</li>
 <li><code>all_dif(a)</code> - test whether all values in a are unique</li>
 <li><code>all_eq(a)</code> - test whether all values are the same within a vector</li>
@@ -524,6 +532,7 @@ An example for XML documentation used in MaxMath:
 <summary>Special Functions</summary><blockquote>
 <ul>
 <li><code>gamma(a)</code></li>
+<li><code>lngamma(a, out sign)</code> - natural logarithm of gamma(a) without overflow of gamma(a)</li>
 <li><code>erf(a)</code> - error function</li>
 <li><code>erfc(a)</code> - complementary error function</li>
 </ul>

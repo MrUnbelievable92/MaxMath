@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -13,7 +14,7 @@ namespace MaxMath
         unsafe public static partial class Xse
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 lzcnt_epi8(v128 a)
+            public static v128 lzcnt_epi8(v128 a, byte elements = 16)
             {
                 if (Arm.Neon.IsNeonSupported)
                 {
@@ -34,28 +35,47 @@ namespace MaxMath
                     else
                     {
                         v128 ZERO = setzero_si128();
-
+                        
+                        v128 __a = a;
                         v128 y;
                         v128 n = set1_epi8(8);
                         v128 mask;
 
-                        y = srli_epi8(a, 4);
+                        y = srli_epi8(__a, 4, elements: elements);
                         mask = cmpeq_epi8(y, ZERO);
                         n = sub_epi8(n, andnot_si128(mask, set1_epi8(4)));
-                        a = blendv_si128(y, a, mask);
+                        __a = blendv_si128(y, __a, mask);
 
-                        y = srli_epi8(a, 2);
+                        y = srli_epi8(__a, 2, elements: elements);
                         mask = cmpeq_epi8(y, ZERO);
                         n = sub_epi8(n, andnot_si128(mask, set1_epi8(2)));
-                        a = blendv_si128(y, a, mask);
+                        __a = blendv_si128(y, __a, mask);
 
-                        y = srli_epi8(a, 1);
+                        y = srli_epi8(__a, 1, elements: elements);
                         mask = cmpeq_epi8(y, ZERO);
 
-                        result = sub_epi8(n, blendv_si128(set1_epi8(2), a, mask));
+                        result = sub_epi8(n, blendv_si128(set1_epi8(2), __a, mask));
                     }
 
                     constexpr.ASSUME_LE_EPU8(result, 8);
+
+                    constexpr.ASSUME(result.Byte0  == math.lzcnt(a.Byte0));
+                    constexpr.ASSUME(result.Byte1  == math.lzcnt(a.Byte1));
+                    constexpr.ASSUME(result.Byte2  == math.lzcnt(a.Byte2));
+                    constexpr.ASSUME(result.Byte3  == math.lzcnt(a.Byte3));
+                    constexpr.ASSUME(result.Byte4  == math.lzcnt(a.Byte4));
+                    constexpr.ASSUME(result.Byte5  == math.lzcnt(a.Byte5));
+                    constexpr.ASSUME(result.Byte6  == math.lzcnt(a.Byte6));
+                    constexpr.ASSUME(result.Byte7  == math.lzcnt(a.Byte7));
+                    constexpr.ASSUME(result.Byte8  == math.lzcnt(a.Byte8));
+                    constexpr.ASSUME(result.Byte9  == math.lzcnt(a.Byte9));
+                    constexpr.ASSUME(result.Byte10 == math.lzcnt(a.Byte10));
+                    constexpr.ASSUME(result.Byte11 == math.lzcnt(a.Byte11));
+                    constexpr.ASSUME(result.Byte12 == math.lzcnt(a.Byte12));
+                    constexpr.ASSUME(result.Byte13 == math.lzcnt(a.Byte13));
+                    constexpr.ASSUME(result.Byte14 == math.lzcnt(a.Byte14));
+                    constexpr.ASSUME(result.Byte15 == math.lzcnt(a.Byte15));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -75,6 +95,40 @@ namespace MaxMath
                                                       Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_HI, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, Avx2.mm256_srli_epi16(a, 4))));
 
                     constexpr.ASSUME_LE_EPU8(result, 8);
+
+                    constexpr.ASSUME(result.Byte0  == math.lzcnt(a.Byte0));
+                    constexpr.ASSUME(result.Byte1  == math.lzcnt(a.Byte1));
+                    constexpr.ASSUME(result.Byte2  == math.lzcnt(a.Byte2));
+                    constexpr.ASSUME(result.Byte3  == math.lzcnt(a.Byte3));
+                    constexpr.ASSUME(result.Byte4  == math.lzcnt(a.Byte4));
+                    constexpr.ASSUME(result.Byte5  == math.lzcnt(a.Byte5));
+                    constexpr.ASSUME(result.Byte6  == math.lzcnt(a.Byte6));
+                    constexpr.ASSUME(result.Byte7  == math.lzcnt(a.Byte7));
+                    constexpr.ASSUME(result.Byte8  == math.lzcnt(a.Byte8));
+                    constexpr.ASSUME(result.Byte9  == math.lzcnt(a.Byte9));
+                    constexpr.ASSUME(result.Byte10 == math.lzcnt(a.Byte10));
+                    constexpr.ASSUME(result.Byte11 == math.lzcnt(a.Byte11));
+                    constexpr.ASSUME(result.Byte12 == math.lzcnt(a.Byte12));
+                    constexpr.ASSUME(result.Byte13 == math.lzcnt(a.Byte13));
+                    constexpr.ASSUME(result.Byte14 == math.lzcnt(a.Byte14));
+                    constexpr.ASSUME(result.Byte15 == math.lzcnt(a.Byte15));
+                    constexpr.ASSUME(result.Byte16 == math.lzcnt(a.Byte16));
+                    constexpr.ASSUME(result.Byte17 == math.lzcnt(a.Byte17));
+                    constexpr.ASSUME(result.Byte18 == math.lzcnt(a.Byte18));
+                    constexpr.ASSUME(result.Byte19 == math.lzcnt(a.Byte19));
+                    constexpr.ASSUME(result.Byte20 == math.lzcnt(a.Byte20));
+                    constexpr.ASSUME(result.Byte21 == math.lzcnt(a.Byte21));
+                    constexpr.ASSUME(result.Byte22 == math.lzcnt(a.Byte22));
+                    constexpr.ASSUME(result.Byte23 == math.lzcnt(a.Byte23));
+                    constexpr.ASSUME(result.Byte24 == math.lzcnt(a.Byte24));
+                    constexpr.ASSUME(result.Byte25 == math.lzcnt(a.Byte25));
+                    constexpr.ASSUME(result.Byte26 == math.lzcnt(a.Byte26));
+                    constexpr.ASSUME(result.Byte27 == math.lzcnt(a.Byte27));
+                    constexpr.ASSUME(result.Byte28 == math.lzcnt(a.Byte28));
+                    constexpr.ASSUME(result.Byte29 == math.lzcnt(a.Byte29));
+                    constexpr.ASSUME(result.Byte30 == math.lzcnt(a.Byte30));
+                    constexpr.ASSUME(result.Byte31 == math.lzcnt(a.Byte31));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -107,32 +161,43 @@ namespace MaxMath
                     {
                         v128 ZERO = setzero_si128();
 
+                        v128 __a = a;
                         v128 y;
                         v128 n = set1_epi16(16);
                         v128 mask;
 
-                        y = srli_epi16(a, 8);
+                        y = srli_epi16(__a, 8);
                         mask = cmpeq_epi16(y, ZERO);
                         n = sub_epi16(n, andnot_si128(mask, set1_epi16(8)));
-                        a = blendv_si128(y, a, mask);
+                        __a = blendv_si128(y, __a, mask);
 
-                        y = srli_epi16(a, 4);
+                        y = srli_epi16(__a, 4);
                         mask = cmpeq_epi16(y, ZERO);
                         n = sub_epi16(n, andnot_si128(mask, set1_epi16(4)));
-                        a = blendv_si128(y, a, mask);
+                        __a = blendv_si128(y, __a, mask);
 
-                        y = srli_epi16(a, 2);
+                        y = srli_epi16(__a, 2);
                         mask = cmpeq_epi16(y, ZERO);
                         n = sub_epi16(n, andnot_si128(mask, set1_epi16(2)));
-                        a = blendv_si128(y, a, mask);
+                        __a = blendv_si128(y, __a, mask);
 
-                        y = srli_epi16(a, 1);
+                        y = srli_epi16(__a, 1);
                         mask = cmpeq_epi16(y, ZERO);
 
-                        result = sub_epi16(n, blendv_si128(set1_epi16(2), a, mask));
+                        result = sub_epi16(n, blendv_si128(set1_epi16(2), __a, mask));
                     }
 
                     constexpr.ASSUME_LE_EPU16(result, 16);
+
+                    constexpr.ASSUME(result.UShort0  == math.lzcnt(a.UShort0));
+                    constexpr.ASSUME(result.UShort1  == math.lzcnt(a.UShort1));
+                    constexpr.ASSUME(result.UShort2  == math.lzcnt(a.UShort2));
+                    constexpr.ASSUME(result.UShort3  == math.lzcnt(a.UShort3));
+                    constexpr.ASSUME(result.UShort4  == math.lzcnt(a.UShort4));
+                    constexpr.ASSUME(result.UShort5  == math.lzcnt(a.UShort5));
+                    constexpr.ASSUME(result.UShort6  == math.lzcnt(a.UShort6));
+                    constexpr.ASSUME(result.UShort7  == math.lzcnt(a.UShort7));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -155,6 +220,24 @@ namespace MaxMath
                                                       Avx2.mm256_srli_epi16(lzcnt_bytes, 8));
 
                     constexpr.ASSUME_LE_EPU16(result, 16);
+
+                    constexpr.ASSUME(result.UShort0  == math.lzcnt(a.UShort0));
+                    constexpr.ASSUME(result.UShort1  == math.lzcnt(a.UShort1));
+                    constexpr.ASSUME(result.UShort2  == math.lzcnt(a.UShort2));
+                    constexpr.ASSUME(result.UShort3  == math.lzcnt(a.UShort3));
+                    constexpr.ASSUME(result.UShort4  == math.lzcnt(a.UShort4));
+                    constexpr.ASSUME(result.UShort5  == math.lzcnt(a.UShort5));
+                    constexpr.ASSUME(result.UShort6  == math.lzcnt(a.UShort6));
+                    constexpr.ASSUME(result.UShort7  == math.lzcnt(a.UShort7));
+                    constexpr.ASSUME(result.UShort8  == math.lzcnt(a.UShort8));
+                    constexpr.ASSUME(result.UShort9  == math.lzcnt(a.UShort9));
+                    constexpr.ASSUME(result.UShort10 == math.lzcnt(a.UShort10));
+                    constexpr.ASSUME(result.UShort11 == math.lzcnt(a.UShort11));
+                    constexpr.ASSUME(result.UShort12 == math.lzcnt(a.UShort12));
+                    constexpr.ASSUME(result.UShort13 == math.lzcnt(a.UShort13));
+                    constexpr.ASSUME(result.UShort14 == math.lzcnt(a.UShort14));
+                    constexpr.ASSUME(result.UShort15 == math.lzcnt(a.UShort15));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -187,6 +270,15 @@ namespace MaxMath
                     result = min_epu16(result, set1_epi32(32));
 
                     constexpr.ASSUME_LE_EPU32(result, 32);
+
+                    constexpr.ASSUME(result.UInt0  == math.lzcnt(a.UInt0));
+                    constexpr.ASSUME(result.UInt1  == math.lzcnt(a.UInt1));
+                    if (elements > 2)
+                    {
+                        constexpr.ASSUME(result.UInt2  == math.lzcnt(a.UInt2));
+                        constexpr.ASSUME(result.UInt3  == math.lzcnt(a.UInt3));
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -205,6 +297,16 @@ namespace MaxMath
                     result = Avx2.mm256_min_epu16(result, mm256_set1_epi32(32));
 
                     constexpr.ASSUME_LE_EPU32(result, 32);
+
+                    constexpr.ASSUME(result.UInt0  == math.lzcnt(a.UInt0));
+                    constexpr.ASSUME(result.UInt1  == math.lzcnt(a.UInt1));
+                    constexpr.ASSUME(result.UInt2  == math.lzcnt(a.UInt2));
+                    constexpr.ASSUME(result.UInt3  == math.lzcnt(a.UInt3));
+                    constexpr.ASSUME(result.UInt4  == math.lzcnt(a.UInt4));
+                    constexpr.ASSUME(result.UInt5  == math.lzcnt(a.UInt5));
+                    constexpr.ASSUME(result.UInt6  == math.lzcnt(a.UInt6));
+                    constexpr.ASSUME(result.UInt7  == math.lzcnt(a.UInt7));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -225,7 +327,12 @@ namespace MaxMath
                     v128 baseAdd = blendv_si128(hi, lo, hi0);
                     v128 add = and_si128(set1_epi32(32), hi0);
 
-                    return add_epi8(baseAdd, add);
+                    v128 result = add_epi8(baseAdd, add);
+
+                    constexpr.ASSUME(result.ULong0  == math.lzcnt(a.ULong0));
+                    constexpr.ASSUME(result.ULong1  == math.lzcnt(a.ULong1));
+
+                    return result;
                 }
                 else if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -254,32 +361,14 @@ namespace MaxMath
                     bits = Avx2.mm256_sub_epi64(offset, Avx2.mm256_srli_epi64(bits, F64_MANTISSA_BITS));
 
                     v256 result = Avx2.mm256_min_epu16(bits, mm256_set1_epi64x(64));
+
                     constexpr.ASSUME_LE_EPU64(result, 64);
-                    return result;
-                }
-                else throw new IllegalInstructionException();
-            }
 
-            /// <summary>   As if they were 64bit integers  </summary>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_lzcnt_pd(v256 a, byte elements = 4)
-            {
-                if (Avx2.IsAvx2Supported)
-                {
-VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elements);
+                    constexpr.ASSUME(result.ULong0  == math.lzcnt(a.ULong0));
+                    constexpr.ASSUME(result.ULong1  == math.lzcnt(a.ULong1));
+                    constexpr.ASSUME(result.ULong2  == math.lzcnt(a.ULong2));
+                    constexpr.ASSUME(result.ULong3  == math.lzcnt(a.ULong3));
 
-                    v256 EXP32 = mm256_set1_epi64x(32L << F64_MANTISSA_BITS);
-                    v256 GREATER_THRESHOLD = mm256_set1_epi64x((31L - F64_EXPONENT_BIAS) << F64_MANTISSA_BITS);
-
-                    v256 hi0 = Avx2.mm256_cmpgt_epi32(a, GREATER_THRESHOLD);
-
-                    v256 bits = Avx.mm256_blendv_pd(Avx2.mm256_sub_epi64(a, EXP32), a, hi0);
-                    v256 offset = Avx.mm256_blendv_pd(mm256_set1_epi64x(0x041E), mm256_set1_epi64x(0x043E), hi0);
-
-                    bits = Avx2.mm256_sub_epi64(offset, Avx2.mm256_srli_epi64(bits, F64_MANTISSA_BITS));
-
-                    v256 result = Avx2.mm256_min_epu16(bits, mm256_set1_epi64x(64));
-                    constexpr.ASSUME_LE_EPU64(result, 64);
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -320,13 +409,13 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             return max((byte)(lzcnt((uint)x) - 24), (byte)0);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="byte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 lzcnt(byte2 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.lzcnt_epi8(x);
+                return Xse.lzcnt_epi8(x, 2);
             }
             else
             {
@@ -334,13 +423,13 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="byte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 lzcnt(byte3 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.lzcnt_epi8(x);
+                return Xse.lzcnt_epi8(x, 3);
             }
             else
             {
@@ -348,13 +437,13 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="byte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 lzcnt(byte4 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.lzcnt_epi8(x);
+                return Xse.lzcnt_epi8(x, 4);
             }
             else
             {
@@ -362,13 +451,13 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="byte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 lzcnt(byte8 x)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.lzcnt_epi8(x);
+                return Xse.lzcnt_epi8(x, 8);
             }
             else
             {
@@ -376,7 +465,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="byte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 lzcnt(byte16 x)
         {
@@ -390,7 +479,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.byte32"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="byte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 lzcnt(byte32 x)
         {
@@ -413,42 +502,42 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             return lzcnt((byte)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 lzcnt(sbyte2 x)
         {
             return (sbyte2)lzcnt((byte2)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 lzcnt(sbyte3 x)
         {
             return (sbyte3)lzcnt((byte3)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 lzcnt(sbyte4 x)
         {
             return (sbyte4)lzcnt((byte4)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 lzcnt(sbyte8 x)
         {
             return (sbyte8)lzcnt((byte8)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 lzcnt(sbyte16 x)
         {
             return (sbyte16)lzcnt((byte16)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.sbyte32"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 lzcnt(sbyte32 x)
         {
@@ -464,7 +553,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             return max((byte)(lzcnt((uint)x) - 16), (byte)0);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="ushort2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 lzcnt(ushort2 x)
         {
@@ -478,7 +567,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="ushort3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 lzcnt(ushort3 x)
         {
@@ -492,7 +581,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="ushort4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 lzcnt(ushort4 x)
         {
@@ -506,7 +595,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="ushort8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 lzcnt(ushort8 x)
         {
@@ -520,7 +609,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ushort16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="ushort16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 lzcnt(ushort16 x)
         {
@@ -543,35 +632,35 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             return lzcnt((ushort)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 lzcnt(short2 x)
         {
             return (short2)lzcnt((ushort2)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 lzcnt(short3 x)
         {
             return (short3)lzcnt((ushort3)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 lzcnt(short4 x)
         {
             return (short4)lzcnt((ushort4)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 lzcnt(short8 x)
         {
             return (short8)lzcnt((ushort8)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.short16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 lzcnt(short16 x)
         {
@@ -587,7 +676,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             return (byte)Unity.Mathematics.math.lzcnt(x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="uint2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 lzcnt(uint2 x)
         {
@@ -601,7 +690,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
         
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="uint3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 lzcnt(uint3 x)
         {
@@ -615,7 +704,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
         
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="uint4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 lzcnt(uint4 x)
         {
@@ -629,7 +718,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.uint8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="uint8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 lzcnt(uint8 x)
         {
@@ -652,7 +741,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             return (byte)Unity.Mathematics.math.lzcnt(x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 lzcnt(int2 x)
         {
@@ -666,7 +755,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
         
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 lzcnt(int3 x)
         {
@@ -680,7 +769,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
         
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 lzcnt(int4 x)
         {
@@ -694,7 +783,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="MaxMath.int8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of an <see cref="int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 lzcnt(int8 x)
         {
@@ -710,7 +799,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             return (byte)Unity.Mathematics.math.lzcnt(x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ulong2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="ulong2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 lzcnt(ulong2 x)
         {
@@ -724,7 +813,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ulong3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="ulong3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 lzcnt(ulong3 x)
         {
@@ -738,7 +827,7 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             }
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.ulong4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="ulong4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 lzcnt(ulong4 x)
         {
@@ -761,21 +850,21 @@ VectorAssert.IsBetween<double4, double>(a, long.MinValue, ulong.MaxValue, elemen
             return (byte)Unity.Mathematics.math.lzcnt(x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.long2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 lzcnt(long2 x)
         {
             return (long2)lzcnt((ulong2)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.long3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 lzcnt(long3 x)
         {
             return (long3)lzcnt((ulong3)x);
         }
 
-        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="MaxMath.long4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of leading zeros in the binary representations of a <see cref="long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 lzcnt(long4 x)
         {

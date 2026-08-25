@@ -11,28 +11,28 @@ namespace MaxMath
             return Unity.Mathematics.math.distance(x, y);
         }
         
-        /// <summary>       Returns the distance between two <see cref="MaxMath.float2"/>s.       </summary>
+        /// <summary>       Returns the distance between two <see cref="float2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distance(float2 x, float2 y)
         {
             return Unity.Mathematics.math.distance(x, y);
         }
         
-        /// <summary>       Returns the distance between two <see cref="MaxMath.float3"/>s.       </summary>
+        /// <summary>       Returns the distance between two <see cref="float3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distance(float3 x, float3 y)
         {
             return Unity.Mathematics.math.distance(x, y);
         }
         
-        /// <summary>       Returns the distance between two <see cref="MaxMath.float4"/>s.       </summary>
+        /// <summary>       Returns the distance between two <see cref="float4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distance(float4 x, float4 y)
         {
             return Unity.Mathematics.math.distance(x, y);
         }
 
-        /// <summary>       Returns the distance between two <see cref="MaxMath.float8"/>s.       </summary>
+        /// <summary>       Returns the distance between two <see cref="float8"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distance(float8 x, float8 y)
         {
@@ -47,25 +47,33 @@ namespace MaxMath
             return Unity.Mathematics.math.distance(x, y);
         }
         
-        /// <summary>       Returns the distance between two <see cref="MaxMath.double2"/>s.       </summary>
+        /// <summary>       Returns the distance between two <see cref="double2"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double distance(double2 x, double2 y)
         {
             return Unity.Mathematics.math.distance(x, y);
         }
         
-        /// <summary>       Returns the distance between two <see cref="MaxMath.double3"/>s.       </summary>
+        /// <summary>       Returns the distance between two <see cref="double3"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double distance(double3 x, double3 y)
         {
             return Unity.Mathematics.math.distance(x, y);
         }
         
-        /// <summary>       Returns the distance between two <see cref="MaxMath.double4"/>s.       </summary>
+        /// <summary>       Returns the distance between two <see cref="double4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double distance(double4 x, double4 y)
         {
             return Unity.Mathematics.math.distance(x, y);
+        }
+
+
+        /// <summary>       Returns the distance between two <see cref="quadruple"/> values.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple distance(quadruple x, quadruple y)
+        {
+            return abs(y - x);
         }
 
 
@@ -76,28 +84,28 @@ namespace MaxMath
             return Unity.Mathematics.math.distancesq(x, y);
         }
 
-        /// <summary>       Returns the distance between two <see cref="MaxMath.float2"/>s.      </summary>
+        /// <summary>       Returns the distance between two <see cref="float2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distancesq(float2 x, float2 y)
         {
             return Unity.Mathematics.math.distancesq(x, y);
         }
 
-        /// <summary>       Returns the distance between two <see cref="MaxMath.float3"/>s.      </summary>
+        /// <summary>       Returns the distance between two <see cref="float3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distancesq(float3 x, float3 y)
         {
             return Unity.Mathematics.math.distancesq(x, y);
         }
 
-        /// <summary>       Returns the distance between two <see cref="MaxMath.float4"/>s.      </summary>
+        /// <summary>       Returns the distance between two <see cref="float4"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distancesq(float4 x, float4 y)
         {
             return Unity.Mathematics.math.distancesq(x, y);
         }
 
-        /// <summary>       Returns the distance between two <see cref="MaxMath.float8"/>s.      </summary>
+        /// <summary>       Returns the distance between two <see cref="float8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float distancesq(float8 x, float8 y)
         {
@@ -112,25 +120,33 @@ namespace MaxMath
             return Unity.Mathematics.math.distancesq(x, y);
         }
 
-        /// <summary>       Returns the distance between two <see cref="MaxMath.double2"/>s.      </summary>
+        /// <summary>       Returns the distance between two <see cref="double2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double distancesq(double2 x, double2 y)
         {
             return Unity.Mathematics.math.distancesq(x, y);
         }
 
-        /// <summary>       Returns the distance between two <see cref="MaxMath.double3"/>s.      </summary>
+        /// <summary>       Returns the distance between two <see cref="double3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double distancesq(double3 x, double3 y)
         {
             return Unity.Mathematics.math.distancesq(x, y);
         }
 
-        /// <summary>       Returns the distance between two <see cref="MaxMath.double4"/>s.      </summary>
+        /// <summary>       Returns the distance between two <see cref="double4"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double distancesq(double4 x, double4 y)
         {
             return Unity.Mathematics.math.distancesq(x, y);
+        }
+
+
+        /// <summary>       Returns the squared distance between two <see cref="quadruple"/> values.        </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple distancesq(quadruple x, quadruple y)
+        {
+            return square(y - x);
         }
     }
 }

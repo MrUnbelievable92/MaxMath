@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.CVT_INT_FP;
@@ -1086,6 +1087,48 @@ namespace MaxMath.Intrinsics
             else throw new IllegalInstructionException();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_cvt2x2pd_epi32(v256 lo, v256 hi, bool positive = false, bool nonZero = false, bool adjustSign = true)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 result = mm256_cvt2x2epi64_epi32(mm256_cvtpd_epi64(lo, elements: 4, positive: positive, nonZero: nonZero, adjustSign: adjustSign), mm256_cvtpd_epi64(hi, elements: 4, positive: positive, nonZero: nonZero, adjustSign: adjustSign));
+
+                constexpr.ASSUME(result.SInt0 == (int)(adjustSign ? lo.Double0 : math.abs(lo.Double0)));
+                constexpr.ASSUME(result.SInt1 == (int)(adjustSign ? lo.Double1 : math.abs(lo.Double1)));
+                constexpr.ASSUME(result.SInt2 == (int)(adjustSign ? hi.Double0 : math.abs(hi.Double0)));
+                constexpr.ASSUME(result.SInt3 == (int)(adjustSign ? hi.Double1 : math.abs(hi.Double1)));
+                constexpr.ASSUME(result.SInt4 == (int)(adjustSign ? lo.Double2 : math.abs(lo.Double2)));
+                constexpr.ASSUME(result.SInt5 == (int)(adjustSign ? lo.Double3 : math.abs(lo.Double3)));
+                constexpr.ASSUME(result.SInt6 == (int)(adjustSign ? hi.Double2 : math.abs(hi.Double2)));
+                constexpr.ASSUME(result.SInt7 == (int)(adjustSign ? hi.Double3 : math.abs(hi.Double3)));
+
+                return result;
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_usfcvt2x2pd_epi32(v256 lo, v256 hi, bool positive = false, bool nonZero = false, bool adjustSign = true)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                v256 result = mm256_cvt2x2epi64_epi32(mm256_usfcvtpd_epi64(lo), mm256_usfcvtpd_epi64(hi));
+
+                constexpr.ASSUME(result.SInt0 == (int)(adjustSign ? lo.Double0 : math.abs(lo.Double0)));
+                constexpr.ASSUME(result.SInt1 == (int)(adjustSign ? lo.Double1 : math.abs(lo.Double1)));
+                constexpr.ASSUME(result.SInt2 == (int)(adjustSign ? hi.Double0 : math.abs(hi.Double0)));
+                constexpr.ASSUME(result.SInt3 == (int)(adjustSign ? hi.Double1 : math.abs(hi.Double1)));
+                constexpr.ASSUME(result.SInt4 == (int)(adjustSign ? lo.Double2 : math.abs(lo.Double2)));
+                constexpr.ASSUME(result.SInt5 == (int)(adjustSign ? lo.Double3 : math.abs(lo.Double3)));
+                constexpr.ASSUME(result.SInt6 == (int)(adjustSign ? hi.Double2 : math.abs(hi.Double2)));
+                constexpr.ASSUME(result.SInt7 == (int)(adjustSign ? hi.Double3 : math.abs(hi.Double3)));
+
+                return result;
+            }
+            else throw new IllegalInstructionException();
+        }
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static v128 cvt2x2epu8_epi32(v128 a, out v128 hi)
@@ -1210,6 +1253,159 @@ namespace MaxMath.Intrinsics
                 constexpr.ASSUME_LE_EPU32(r1, byte.MaxValue);
                 constexpr.ASSUME_LE_EPU32(r2, byte.MaxValue);
                 constexpr.ASSUME_LE_EPU32(r3, byte.MaxValue);
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v128 cvt4x4epi32_epi8(v128 a0, v128 a1, v128 a2, v128 a3, bool signed, bool noOverflowU16 = false, bool noOverflowU8 = false)
+        {
+            if (BurstArchitecture.IsSIMDSupported)
+            {
+                noOverflowU16 |= constexpr.ALL_LE_EPU32(a0, ushort.MaxValue)
+                              && constexpr.ALL_LE_EPU32(a1, ushort.MaxValue)
+                              && constexpr.ALL_LE_EPU32(a2, ushort.MaxValue)
+                              && constexpr.ALL_LE_EPU32(a3, ushort.MaxValue);
+                noOverflowU8 |= constexpr.ALL_LE_EPU32(a0, byte.MaxValue)
+                             && constexpr.ALL_LE_EPU32(a1, byte.MaxValue)
+                             && constexpr.ALL_LE_EPU32(a2, byte.MaxValue)
+                             && constexpr.ALL_LE_EPU32(a3, byte.MaxValue);
+                noOverflowU16 |= noOverflowU8;
+                
+                v128 lo;
+                v128 hi;
+                if (noOverflowU8)
+                {
+                    lo = packs_epi32(a0, a1);
+                    hi = packs_epi32(a2, a3);
+                }
+                else if (noOverflowU16)
+                {
+                    if (Sse4_1.IsSse41Supported)
+                    {
+                        lo = and_si128(packus_epi32(a0, a1), set1_epi16(byte.MaxValue));
+                        hi = and_si128(packus_epi32(a2, a3), set1_epi16(byte.MaxValue));
+                    }
+                    else
+                    {
+                        a0 = and_si128(a0, set1_epi32(byte.MaxValue));
+                        a1 = and_si128(a1, set1_epi32(byte.MaxValue));
+                        a2 = and_si128(a2, set1_epi32(byte.MaxValue));
+                        a3 = and_si128(a3, set1_epi32(byte.MaxValue));
+
+                        lo = packs_epi32(a0, a1);
+                        hi = packs_epi32(a2, a3);
+                    }
+                }
+                else
+                {
+                    a0 = and_si128(a0, set1_epi32(byte.MaxValue));
+                    a1 = and_si128(a1, set1_epi32(byte.MaxValue));
+                    a2 = and_si128(a2, set1_epi32(byte.MaxValue));
+                    a3 = and_si128(a3, set1_epi32(byte.MaxValue));
+
+                    lo = packs_epi32(a0, a1);
+                    hi = packs_epi32(a2, a3);
+                }
+
+                v128 r = signed ? packs_epi16(lo, hi) : packus_epi16(lo, hi);
+
+                constexpr.ASSUME((0xFF & a0.UInt0) == r.Byte0);
+                constexpr.ASSUME((0xFF & a0.UInt1) == r.Byte1);
+                constexpr.ASSUME((0xFF & a0.UInt2) == r.Byte2);
+                constexpr.ASSUME((0xFF & a0.UInt3) == r.Byte3);
+                constexpr.ASSUME((0xFF & a1.UInt0) == r.Byte4);
+                constexpr.ASSUME((0xFF & a1.UInt1) == r.Byte5);
+                constexpr.ASSUME((0xFF & a1.UInt2) == r.Byte6);
+                constexpr.ASSUME((0xFF & a1.UInt3) == r.Byte7);
+                constexpr.ASSUME((0xFF & a2.UInt0) == r.Byte8);
+                constexpr.ASSUME((0xFF & a2.UInt1) == r.Byte9);
+                constexpr.ASSUME((0xFF & a2.UInt2) == r.Byte10);
+                constexpr.ASSUME((0xFF & a2.UInt3) == r.Byte11);
+                constexpr.ASSUME((0xFF & a3.UInt0) == r.Byte12);
+                constexpr.ASSUME((0xFF & a3.UInt1) == r.Byte13);
+                constexpr.ASSUME((0xFF & a3.UInt2) == r.Byte14);
+                constexpr.ASSUME((0xFF & a3.UInt3) == r.Byte15);
+
+                return r;
+            }
+            else throw new IllegalInstructionException();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static v256 mm256_cvt4x4epi32_epi8(v256 a0, v256 a1, v256 a2, v256 a3, bool signed, bool noOverflowU16 = false, bool noOverflowU8 = false)
+        {
+            if (Avx2.IsAvx2Supported)
+            {
+                noOverflowU16 |= constexpr.ALL_LE_EPU32(a0, ushort.MaxValue)
+                              && constexpr.ALL_LE_EPU32(a1, ushort.MaxValue)
+                              && constexpr.ALL_LE_EPU32(a2, ushort.MaxValue)
+                              && constexpr.ALL_LE_EPU32(a3, ushort.MaxValue);
+                noOverflowU8 |= constexpr.ALL_LE_EPU32(a0, byte.MaxValue)
+                             && constexpr.ALL_LE_EPU32(a1, byte.MaxValue)
+                             && constexpr.ALL_LE_EPU32(a2, byte.MaxValue)
+                             && constexpr.ALL_LE_EPU32(a3, byte.MaxValue);
+                noOverflowU16 |= noOverflowU8;
+                
+                v256 lo;
+                v256 hi;
+                if (noOverflowU8)
+                {
+                    lo = Avx2.mm256_packs_epi32(a0, a1);
+                    hi = Avx2.mm256_packs_epi32(a2, a3);
+                }
+                else if (noOverflowU16)
+                {
+                    lo = Avx2.mm256_and_si256(Avx2.mm256_packus_epi32(a0, a1), mm256_set1_epi16(byte.MaxValue));
+                    hi = Avx2.mm256_and_si256(Avx2.mm256_packus_epi32(a2, a3), mm256_set1_epi16(byte.MaxValue));
+                }
+                else
+                {
+                    a0 = Avx2.mm256_and_si256(a0, mm256_set1_epi32(byte.MaxValue));
+                    a1 = Avx2.mm256_and_si256(a1, mm256_set1_epi32(byte.MaxValue));
+                    a2 = Avx2.mm256_and_si256(a2, mm256_set1_epi32(byte.MaxValue));
+                    a3 = Avx2.mm256_and_si256(a3, mm256_set1_epi32(byte.MaxValue));
+
+                    lo = Avx2.mm256_packs_epi32(a0, a1);
+                    hi = Avx2.mm256_packs_epi32(a2, a3);
+                }
+
+                v256 r = signed ? Avx2.mm256_packs_epi16(lo, hi) : Avx2.mm256_packus_epi16(lo, hi);
+
+                constexpr.ASSUME((0xFF & a0.UInt0) == r.Byte0);
+                constexpr.ASSUME((0xFF & a0.UInt1) == r.Byte1);
+                constexpr.ASSUME((0xFF & a0.UInt2) == r.Byte2);
+                constexpr.ASSUME((0xFF & a0.UInt3) == r.Byte3);
+                constexpr.ASSUME((0xFF & a1.UInt0) == r.Byte4);
+                constexpr.ASSUME((0xFF & a1.UInt1) == r.Byte5);
+                constexpr.ASSUME((0xFF & a1.UInt2) == r.Byte6);
+                constexpr.ASSUME((0xFF & a1.UInt3) == r.Byte7);
+                constexpr.ASSUME((0xFF & a2.UInt0) == r.Byte8);
+                constexpr.ASSUME((0xFF & a2.UInt1) == r.Byte9);
+                constexpr.ASSUME((0xFF & a2.UInt2) == r.Byte10);
+                constexpr.ASSUME((0xFF & a2.UInt3) == r.Byte11);
+                constexpr.ASSUME((0xFF & a3.UInt0) == r.Byte12);
+                constexpr.ASSUME((0xFF & a3.UInt1) == r.Byte13);
+                constexpr.ASSUME((0xFF & a3.UInt2) == r.Byte14);
+                constexpr.ASSUME((0xFF & a3.UInt3) == r.Byte15);
+                constexpr.ASSUME((0xFF & a0.UInt4) == r.Byte16);
+                constexpr.ASSUME((0xFF & a0.UInt5) == r.Byte17);
+                constexpr.ASSUME((0xFF & a0.UInt6) == r.Byte18);
+                constexpr.ASSUME((0xFF & a0.UInt7) == r.Byte19);
+                constexpr.ASSUME((0xFF & a1.UInt4) == r.Byte20);
+                constexpr.ASSUME((0xFF & a1.UInt5) == r.Byte21);
+                constexpr.ASSUME((0xFF & a1.UInt6) == r.Byte22);
+                constexpr.ASSUME((0xFF & a1.UInt7) == r.Byte23);
+                constexpr.ASSUME((0xFF & a2.UInt4) == r.Byte24);
+                constexpr.ASSUME((0xFF & a2.UInt5) == r.Byte25);
+                constexpr.ASSUME((0xFF & a2.UInt6) == r.Byte26);
+                constexpr.ASSUME((0xFF & a2.UInt7) == r.Byte27);
+                constexpr.ASSUME((0xFF & a3.UInt4) == r.Byte28);
+                constexpr.ASSUME((0xFF & a3.UInt5) == r.Byte29);
+                constexpr.ASSUME((0xFF & a3.UInt6) == r.Byte30);
+                constexpr.ASSUME((0xFF & a3.UInt7) == r.Byte31);
+
+                return r;
             }
             else throw new IllegalInstructionException();
         }

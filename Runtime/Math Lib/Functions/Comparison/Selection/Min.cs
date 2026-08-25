@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -306,7 +307,7 @@ namespace MaxMath
             return a < b ? a : b;
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="byte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 min(byte2 a, byte2 b)
         {
@@ -320,7 +321,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="byte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 min(byte3 a, byte3 b)
         {
@@ -334,7 +335,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="byte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 min(byte4 a, byte4 b)
         {
@@ -348,7 +349,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="byte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 min(byte8 a, byte8 b)
         {
@@ -362,7 +363,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte16"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="byte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 min(byte16 a, byte16 b)
         {
@@ -376,7 +377,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.byte32"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="byte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 min(byte32 a, byte32 b)
         {
@@ -398,7 +399,7 @@ namespace MaxMath
             return a < b ? a : b;
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="sbyte2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 min(sbyte2 a, sbyte2 b)
         {
@@ -412,7 +413,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="sbyte3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 min(sbyte3 a, sbyte3 b)
         {
@@ -426,7 +427,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="sbyte4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 min(sbyte4 a, sbyte4 b)
         {
@@ -440,7 +441,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="sbyte8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 min(sbyte8 a, sbyte8 b)
         {
@@ -454,7 +455,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte16"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="sbyte16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 min(sbyte16 a, sbyte16 b)
         {
@@ -468,7 +469,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.sbyte32"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="sbyte32"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 min(sbyte32 a, sbyte32 b)
         {
@@ -490,7 +491,7 @@ namespace MaxMath
             return a < b ? a : b;
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="ushort2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 min(ushort2 a, ushort2 b)
         {
@@ -504,7 +505,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="ushort3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 min(ushort3 a, ushort3 b)
         {
@@ -518,7 +519,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="ushort4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 min(ushort4 a, ushort4 b)
         {
@@ -532,7 +533,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="ushort8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 min(ushort8 a, ushort8 b)
         {
@@ -546,7 +547,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ushort16"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="ushort16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 min(ushort16 a, ushort16 b)
         {
@@ -568,7 +569,7 @@ namespace MaxMath
             return a < b ? a : b;
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="short2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 min(short2 a, short2 b)
         {
@@ -582,7 +583,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="short3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 min(short3 a, short3 b)
         {
@@ -596,7 +597,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="short4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 min(short4 a, short4 b)
         {
@@ -610,7 +611,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="short8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 min(short8 a, short8 b)
         {
@@ -624,7 +625,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.short16"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="short16"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 min(short16 a, short16 b)
         {
@@ -646,28 +647,28 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="int2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 min(int2 a, int2 b)
         {
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="int3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 min(int3 a, int3 b)
         {
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="int4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 min(int4 a, int4 b)
         {
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.int8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="int8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 min(int8 a, int8 b)
         {
@@ -689,28 +690,28 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
         
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.uint2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="uint2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 min(uint2 a, uint2 b)
         {
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.uint3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="uint3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 min(uint3 a, uint3 b)
         {
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.uint4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="uint4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 min(uint4 a, uint4 b)
         {
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.uint8"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="uint8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 min(uint8 a, uint8 b)
         {
@@ -732,7 +733,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ulong2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="ulong2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 min(ulong2 a, ulong2 b)
         {
@@ -746,7 +747,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ulong3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="ulong3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 min(ulong3 a, ulong3 b)
         {
@@ -760,7 +761,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.ulong4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="ulong4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 min(ulong4 a, ulong4 b)
         {
@@ -782,7 +783,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long2"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="long2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 min(long2 a, long2 b)
         {
@@ -796,7 +797,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long3"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="long3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 min(long3 a, long3 b)
         {
@@ -810,7 +811,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.long4"/>s.    </summary>
+        /// <summary>       Returns the componentwise minimum of two <see cref="long4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 min(long4 a, long4 b)
         {
@@ -825,10 +826,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum of two <see cref="MaxMath.quarter"/>s.
+        /// <summary>       Returns the minimum of two <see cref="quarter"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -857,10 +858,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.quarter2"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="quarter2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -884,10 +885,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.quarter3"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="quarter3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -911,10 +912,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.quarter4"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="quarter4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -938,10 +939,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.quarter8"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="quarter8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -972,10 +973,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.quarter16"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="quarter16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1014,10 +1015,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.quarter32"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="quarter32"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1042,10 +1043,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the minimum of two <see cref="MaxMath.half"/>s.
+        /// <summary>       Returns the minimum of two <see cref="half"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1074,10 +1075,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.half2"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="half2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1101,10 +1102,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.half3"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="half3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1128,10 +1129,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.half4"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="half4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1155,10 +1156,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.half8"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="half8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1189,10 +1190,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.half16"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="half16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="a"/> or <paramref name="b"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1234,7 +1235,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.float2"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="float2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -1254,7 +1255,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.float3"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="float3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -1274,7 +1275,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.float4"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="float4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -1294,7 +1295,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.float8"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="float8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="float.NaN"/>.       </para>
         /// </remarks>
@@ -1338,7 +1339,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.double2"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="double2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -1358,7 +1359,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.double3"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="double3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -1382,7 +1383,7 @@ namespace MaxMath
             return Unity.Mathematics.math.min(a, b);
         }
 
-        /// <summary>       Returns the componentwise minimum of two <see cref="MaxMath.double4"/>s.
+        /// <summary>       Returns the componentwise minimum of two <see cref="double4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="double.NaN"/>.       </para>
         /// </remarks>
@@ -1404,6 +1405,36 @@ namespace MaxMath
             }
 
             return Unity.Mathematics.math.min(a, b);
+        }
+
+
+        /// <summary>       Returns the minimum of two <see cref="quadruple"/>s.    </summary>
+        /// <remarks>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is 0.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if either <paramref name="a"/> or <paramref name="b"/> is <see cref="quadruple.NaN"/>.       </para>
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple min(quadruple a, quadruple b, Promise promises = Promise.Nothing)
+        {
+            if (promises.Promises(Promise.Unsafe0))
+            {
+                if (constexpr.IS_TRUE(quadruple.IsZero(a)))
+                {
+                    return asquadruple(b.value & new UInt128((long)b.value.hi64 >> 63, (long)b.value.hi64 >> 63));
+                }
+                if (constexpr.IS_TRUE(quadruple.IsZero(b)))
+                {
+                    return asquadruple(a.value & new UInt128((long)a.value.hi64 >> 63, (long)a.value.hi64 >> 63));
+                }
+            }
+
+            Promise basePromise = (promises.Promises(Promise.NonZero) ? FloatingPointPromise<quadruple>.NON_ZERO : Promise.Nothing) | (promises.Promises(Promise.Unsafe0) ? FloatingPointPromise<quadruple>.NOT_NAN : Promise.Nothing);
+            quadruple.ConstChecked promisedA = a;
+            quadruple.ConstChecked promisedB = b;
+            promisedA.Promise |= basePromise;
+            promisedB.Promise |= basePromise;
+
+            return quadruple.LessThan(promisedA, promisedB) ? promisedA : promisedB;
         }
     }
 }

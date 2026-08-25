@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -79,7 +80,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="byte2"/>s.     </summary>
         [return: AssumeRange(0ul, 2ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte2 a, byte2 b)
@@ -94,7 +95,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="byte3"/>s.     </summary>
         [return: AssumeRange(0ul, 3ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte3 a, byte3 b)
@@ -109,7 +110,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="byte4"/>s.     </summary>
         [return: AssumeRange(0ul, 4ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte4 a, byte4 b)
@@ -124,7 +125,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte8"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="byte8"/>s.     </summary>
         [return: AssumeRange(0ul, 8ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte8 a, byte8 b)
@@ -139,7 +140,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte16"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="byte16"/>s.     </summary>
         [return: AssumeRange(0ul, 16ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte16 a, byte16 b)
@@ -154,7 +155,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte32"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="byte32"/>s.     </summary>
         [return: AssumeRange(0ul, 32ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(byte32 a, byte32 b)
@@ -170,7 +171,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="sbyte2"/>s.     </summary>
         [return: AssumeRange(0ul, 2ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte2 a, sbyte2 b)
@@ -185,7 +186,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="sbyte3"/>s.     </summary>
         [return: AssumeRange(0ul, 3ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte3 a, sbyte3 b)
@@ -200,7 +201,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="sbyte4"/>s.     </summary>
         [return: AssumeRange(0ul, 4ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte4 a, sbyte4 b)
@@ -215,7 +216,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte8"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="sbyte8"/>s.     </summary>
         [return: AssumeRange(0ul, 8ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte8 a, sbyte8 b)
@@ -230,7 +231,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte16"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="sbyte16"/>s.     </summary>
         [return: AssumeRange(0ul, 16ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte16 a, sbyte16 b)
@@ -245,7 +246,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.sbyte32"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="sbyte32"/>s.     </summary>
         [return: AssumeRange(0ul, 32ul * 255ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(sbyte32 a, sbyte32 b)
@@ -261,7 +262,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="ushort2"/>s.     </summary>
         [return: AssumeRange(0ul, 2ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort2 a, ushort2 b)
@@ -269,7 +270,7 @@ namespace MaxMath
             return csum((uint2)abs((int2)a - (int2)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="ushort3"/>s.     </summary>
         [return: AssumeRange(0ul, 3ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort3 a, ushort3 b)
@@ -277,7 +278,7 @@ namespace MaxMath
             return csum((uint3)abs((int3)a - (int3)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="ushort4"/>s.     </summary>
         [return: AssumeRange(0ul, 4ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort4 a, ushort4 b)
@@ -285,7 +286,7 @@ namespace MaxMath
             return csum((uint4)abs((int4)a - (int4)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort8"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="ushort8"/>s.     </summary>
         [return: AssumeRange(0ul, 8ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort8 a, ushort8 b)
@@ -310,7 +311,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ushort16"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="ushort16"/>s.     </summary>
         [return: AssumeRange(0ul, 16ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(ushort16 a, ushort16 b)
@@ -332,7 +333,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="short2"/>s.     </summary>
         [return: AssumeRange(0ul, 2ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short2 a, short2 b)
@@ -340,7 +341,7 @@ namespace MaxMath
             return csum((uint2)abs((int2)a - (int2)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="short3"/>s.     </summary>
         [return: AssumeRange(0ul, 3ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short3 a, short3 b)
@@ -348,7 +349,7 @@ namespace MaxMath
             return csum((uint3)abs((int3)a - (int3)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="short4"/>s.     </summary>
         [return: AssumeRange(0ul, 4ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short4 a, short4 b)
@@ -356,7 +357,7 @@ namespace MaxMath
             return csum((uint4)abs((int4)a - (int4)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short8"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="short8"/>s.     </summary>
         [return: AssumeRange(0ul, 8ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short8 a, short8 b)
@@ -381,7 +382,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.short16"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="short16"/>s.     </summary>
         [return: AssumeRange(0ul, 16ul * 65535ul)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint sad(short16 a, short16 b)
@@ -403,14 +404,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.uint2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="uint2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint2 a, uint2 b)
         {
             return csum((ulong2)abs((long2)a - (long2)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.uint3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="uint3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint3 a, uint3 b)
         {
@@ -433,7 +434,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.uint4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="uint4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint4 a, uint4 b)
         {
@@ -453,7 +454,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.uint8"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="uint8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(uint8 a, uint8 b)
         {
@@ -474,14 +475,14 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.byte2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="byte2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int2 a, int2 b)
         {
             return csum((ulong2)abs((long2)a - (long2)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.int3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="int3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int3 a, int3 b)
         {
@@ -504,7 +505,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.int4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="int4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int4 a, int4 b)
         {
@@ -524,7 +525,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.int8"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="int8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(int8 a, int8 b)
         {
@@ -545,21 +546,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ulong2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="ulong2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(ulong2 a, ulong2 b)
         {
             return csum((ulong2)abs((long2)a - (long2)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ulong3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="ulong3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(ulong3 a, ulong3 b)
         {
             return csum((ulong3)abs((long3)a - (long3)b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.ulong4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="ulong4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(ulong4 a, ulong4 b)
         {
@@ -567,7 +568,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.long2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="long2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(long2 a, long2 b)
         {
@@ -577,7 +578,7 @@ namespace MaxMath
             return csum((ulong2)abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.long3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="long3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(long3 a, long3 b)
         {
@@ -587,7 +588,7 @@ namespace MaxMath
             return csum((ulong3)abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.long4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="long4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong sad(long4 a, long4 b)
         {
@@ -598,28 +599,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.float2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="float2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sad(float2 a, float2 b)
         {
             return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.float3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="float3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sad(float3 a, float3 b)
         {
             return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.float4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="float4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sad(float4 a, float4 b)
         {
             return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.float8"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="float8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float sad(float8 a, float8 b)
         {
@@ -627,21 +628,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.double2"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="double2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double sad(double2 a, double2 b)
         {
             return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.double3"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="double3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double sad(double3 a, double3 b)
         {
             return csum(abs(a - b));
         }
 
-        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="MaxMath.double4"/>s.     </summary>
+        /// <summary>       Returns the sum of componentwise absolute differences of two <see cref="double4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double sad(double4 a, double4 b)
         {

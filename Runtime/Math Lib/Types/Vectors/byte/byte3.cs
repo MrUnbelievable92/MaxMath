@@ -3,8 +3,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.math;
@@ -3460,7 +3461,7 @@ Assert.IsWithinArrayBounds(index, 3);
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.srli_epi8(x, n, inRange: true);
+                return Xse.srli_epi8(x, n, inRange: true, elements: 3);
             }
             else
             {

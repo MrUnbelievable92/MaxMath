@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using MaxMath.CompilerServices;
 
 namespace MaxMath
 {
@@ -54,8 +55,8 @@ namespace MaxMath
 #if DEBUG
         internal TypeInfo _typeInfo;
 #endif
-        public readonly T Divisor => _divisor;
 
+        public readonly T Divisor => _divisor;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal Divider(T divisor, Promise promises, Signedness sign, byte elementSize)
@@ -65,6 +66,12 @@ namespace MaxMath
             _promises = promises | new DividerPromise(divisor, sign, elementSize);
         }
         
+        /// <summary>
+        /// <para>  Performs fast integer division- and modulo operations as well as divisibility checks. </para>
+        /// <para>  A <see cref="Divider{T}"/> initialized with a scalar value can perform operations on scalar values of the same exact type or a vector of integers of any size, provided it is a vector of integers of the same exact type. </para>
+        /// <para>  A <see cref="Divider{T}"/> initialized with a vector can perform operations on scalar values of the same exact integer type or a vector of integers of the same size and same exact integer type. </para>
+        /// <para>  For valid <see cref="Promise"/> arguments, please refer to: <see cref="PROMISE_NOT_MIN_VALUE"/>, <see cref="PROMISE_NOT_ONE"/>, <see cref="PROMISE_POW2"/>, <see cref="PROMISE_NOT_POW2"/>, <see cref="PROMISE_POSITIVE"/>, <see cref="PROMISE_NEGATIVE"/>, <see cref="PROMISE_SAME_VALUE"/>, <see cref="PROMISE_LZCNT_NOT_0"/></para>
+        /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Divider(T divisor, Promise promises = Promise.Nothing)
         {

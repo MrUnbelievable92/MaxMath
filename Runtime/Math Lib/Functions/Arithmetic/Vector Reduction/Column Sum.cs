@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -20,18 +21,6 @@ namespace MaxMath
                     {
                         switch (elements)
                         {
-                            case 16:
-                            {
-                                v = add_epi8(v, bsrli_si128(v, 8 * sizeof(byte)));
-
-                                goto case 8;
-                            }
-                            case 8:
-                            {
-                                v = add_epi8(v, bsrli_si128(v, 4 * sizeof(byte)));
-
-                                goto case 4;
-                            }
                             case 4:
                             {
                                 v = add_epi8(v, bsrli_si128(v, 2 * sizeof(byte)));
@@ -56,23 +45,27 @@ namespace MaxMath
                             default: return v;
                         }
                     }
-                    else
+
+                    v128 result;
+                    if (elements >= 8)
                     {
-                        v128 result;
+                        v128 NORMALIZE = set1_epi8(-128);
+                        v128 sum = sad_epu8(xor_si128(v, NORMALIZE), setzero_si128());
+
                         if (elements == 16)
                         {
-                            v128 v16Lo = cvt2x2epi8_epi16(v, out v128 v16Hi);
-                        
-                            result = vsum_epi16(add_epi16(v16Lo, v16Hi), true, 8);
+                            sum = add_epi64(sum, bsrli_si128(sum, 8 * sizeof(sbyte)));
                         }
-                        else
-                        {
-                            result = vsum_epi16(cvtepi8_epi16(v), true, elements);
-                        }
-                        
-                        constexpr.ASSUME_RANGE_EPI16(result, elements * sbyte.MinValue, elements * sbyte.MaxValue, 1);
-                        return result;
+
+                        result = add_epi64(sum, set1_epi64x(elements * -128));
                     }
+                    else
+                    {
+                        result = vsum_epi16(cvtepi8_epi16(v), true, elements);
+                    }
+                    
+                    constexpr.ASSUME_RANGE_EPI16(result, elements * sbyte.MinValue, elements * sbyte.MaxValue, 1);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -326,34 +319,25 @@ namespace MaxMath
                     v = Avx2.mm256_sad_epu8(v, Avx.mm256_setzero_si256());
                     v = Avx2.mm256_add_epi16(v, Avx2.mm256_bsrli_epi128(v, 4 * sizeof(ushort)));
 
-                    constexpr.ASSUME_LE_EPU16(v, 32 * byte.MaxValue);
+                    constexpr.ASSUME_LE_EPU16(v, 16 * byte.MaxValue);
                     return v;
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_vsum_epi8(v256 v, bool promise = false)
+            public static v256 mm256_vsum_epi8(v256 v)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (promise)
-                    {
-                        v = Avx2.mm256_add_epi8(v, Avx2.mm256_bsrli_epi128(v, 8 * sizeof(sbyte)));
-                        v = Avx2.mm256_add_epi8(v, Avx2.mm256_bsrli_epi128(v, 4 * sizeof(sbyte)));
-                        v = Avx2.mm256_add_epi8(v, Avx2.mm256_bsrli_epi128(v, 2 * sizeof(sbyte)));
-                        v = Avx2.mm256_add_epi8(v, Avx2.mm256_bsrli_epi128(v, 1 * sizeof(sbyte)));
-
-                        return v;
-                    }
-                    else
-                    {
-                        v256 v16Lo = mm256_cvt2x2epi8_epi16(v, out v256 v16Hi);
-
-                        v256 result = mm256_vsum_epi16(Avx2.mm256_add_epi16(v16Lo, v16Hi), true);
-                        constexpr.ASSUME_RANGE_EPI16(result, 32 * sbyte.MinValue, 32 * sbyte.MaxValue, 1);
-                        return result;
-                    }
+                    v256 NORMALIZE = mm256_set1_epi8(-128);
+                    v256 sum = Avx2.mm256_sad_epu8(Avx2.mm256_xor_si256(v, NORMALIZE), Avx.mm256_setzero_si256());
+                    sum = Avx2.mm256_add_epi64(sum, Avx2.mm256_bsrli_epi128(sum, 8 * sizeof(sbyte)));
+                    
+                    v256 result = Avx2.mm256_add_epi64(sum, mm256_set1_epi64x(16 * -128));
+                    
+                    constexpr.ASSUME_RANGE_EPI16(result, 16 * sbyte.MinValue, 16 * sbyte.MaxValue, 1);
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -377,7 +361,7 @@ namespace MaxMath
                         v256 v16Lo = mm256_cvt2x2epi16_epi32(v, out v256 v16Hi);
 
                         v256 result = mm256_vsum_epi32(Avx2.mm256_add_epi32(v16Lo, v16Hi), true);
-                        constexpr.ASSUME_RANGE_EPI32(result, 16 * short.MinValue, 16 * short.MaxValue, 1);
+                        constexpr.ASSUME_RANGE_EPI32(result, 8 * short.MinValue, 8 * short.MaxValue, 1);
                         return result;
                     }
                 }
@@ -398,7 +382,7 @@ namespace MaxMath
                         v256 v16Lo = mm256_cvt2x2epu16_epi32(v, out v256 v16Hi);
 
                         v256 result = mm256_vsum_epi32(Avx2.mm256_add_epi32(v16Lo, v16Hi), true);
-                        constexpr.ASSUME_LE_EPU32(result, 16 * ushort.MaxValue);
+                        constexpr.ASSUME_LE_EPU32(result, 8 * ushort.MaxValue);
                         return result;
                     }
                 }
@@ -423,7 +407,7 @@ namespace MaxMath
                         v256 v16Lo = mm256_cvt2x2epi32_epi64(v, out v256 v16Hi);
 
                         v256 result = mm256_vsum_epi64(Avx2.mm256_add_epi64(v16Lo, v16Hi));
-                        constexpr.ASSUME_RANGE_EPI64(result, 8 * (long)int.MinValue, 8 * (long)int.MaxValue, 1);
+                        constexpr.ASSUME_RANGE_EPI64(result, 4 * (long)int.MinValue, 4 * (long)int.MaxValue, 1);
                         return result;
                     }
                 }
@@ -447,7 +431,7 @@ namespace MaxMath
                         v256 v16Lo = mm256_cvt2x2epu32_epi64(v, out v256 v16Hi);
 
                         v256 result = mm256_vsum_epi64(Avx2.mm256_add_epi64(v16Lo, v16Hi));
-                        constexpr.ASSUME_LE_EPU64(result, 8 * (ulong)uint.MaxValue);
+                        constexpr.ASSUME_LE_EPU64(result, 4 * (ulong)uint.MaxValue);
                         return result;
                     }
                 }
@@ -470,7 +454,7 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.float8"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="float8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float csum(float8 c)
         {
@@ -490,7 +474,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte2"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="byte2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>
         /// </remarks>
@@ -516,7 +500,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte3"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="byte3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -542,7 +526,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte4"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="byte4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -568,7 +552,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte8"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="byte8"/>.       </summary>
         [return: AssumeRange(0ul, 8ul * byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte8 c)
@@ -583,7 +567,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte16"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="byte16"/>.       </summary>
         [return: AssumeRange(0ul, 16ul * byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte16 c)
@@ -598,7 +582,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.byte32"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="byte32"/>.       </summary>
         [return: AssumeRange(0ul, 32ul * byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(byte32 c)
@@ -616,7 +600,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte2"/>.
+        /// <summary>       Returns the horizontal sum of components of an <see cref="sbyte2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>
         /// </remarks>
@@ -642,7 +626,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte3"/>.
+        /// <summary>       Returns the horizontal sum of components of an <see cref="sbyte3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -668,7 +652,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte4"/>.
+        /// <summary>       Returns the horizontal sum of components of an <see cref="sbyte4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -694,90 +678,79 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte8"/>.
-        /// <remarks>
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
-        /// </remarks>
-        /// </summary>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="sbyte8"/>.        </summary>
         [return: AssumeRange(8 * sbyte.MinValue, 8 * sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte8 c, Promise noOverflow = Promise.Nothing)
         {
+            int naive = ((c.x0 + c.x1) + (c.x2 + c.x3)) + ((c.x4 + c.x5) + (c.x6 + c.x7));
+
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (noOverflow.Promises(Promise.NoOverflow))
-                {
-                    return Xse.vsum_epi8(c, true, 8).SByte0;
-                }
-                else
-                {
-                    return Xse.vsum_epi8(c, false, 8).SShort0;
-                }
+                v128 NORMALIZE = Xse.set1_epi8(-128);
+                v128 sum = Xse.sad_epu8(Xse.xor_si128(c, NORMALIZE), Xse.setzero_si128());
+
+                long result = sum.SLong0 + (8 * -128);
+
+                constexpr.ASSUME(result == naive);
+
+                return (int)result;
             }
             else
             {
-                return ((c.x0 + c.x1) + (c.x2 + c.x3)) + ((c.x4 + c.x5) + (c.x6 + c.x7));
+                return naive;
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte16"/>.
-        /// <remarks>
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
-        /// </remarks>
-        /// </summary>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="sbyte16"/>.       </summary>
         [return: AssumeRange(16 * sbyte.MinValue, 16 * sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int csum(sbyte16 c, Promise noOverflow = Promise.Nothing)
+        public static int csum(sbyte16 c)
         {
+            int naive = (((c.x0 + c.x1) + (c.x2 + c.x3)) + ((c.x4 + c.x5) + (c.x6 + c.x7))) + (((c.x8 + c.x9) + (c.x10 + c.x11)) + ((c.x12 + c.x13) + (c.x14 + c.x15)));
+
             if (BurstArchitecture.IsSIMDSupported)
             {
-                if (noOverflow.Promises(Promise.NoOverflow))
-                {
-                    return Xse.vsum_epi8(c, true, 16).SByte0;
-                }
-                else
-                {
-                    return Xse.vsum_epi8(c, false, 16).SShort0;
-                }
+                v128 NORMALIZE = Xse.set1_epi8(-128);
+                v128 sum = Xse.sad_epu8(Xse.xor_si128(c, NORMALIZE), Xse.setzero_si128());
+
+                long result = sum.SLong0 + sum.SLong1 + (16 * -128);
+
+                constexpr.ASSUME(result == naive);
+
+                return (int)result;
             }
             else
             {
-                return (((c.x0 + c.x1) + (c.x2 + c.x3)) + ((c.x4 + c.x5) + (c.x6 + c.x7))) + (((c.x8 + c.x9) + (c.x10 + c.x11)) + ((c.x12 + c.x13) + (c.x14 + c.x15)));
+                return naive;
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.sbyte32"/>.
-        /// <remarks>
-        ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
-        /// </remarks>
-        /// </summary>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="sbyte32"/>.       </summary>
         [return: AssumeRange(32 * sbyte.MinValue, 32 * sbyte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(sbyte32 c, Promise noOverflow = Promise.Nothing)
         {
+            int naive = csum(c.v16_0) + csum(c.v16_16);
             if (Avx2.IsAvx2Supported)
             {
-                if (noOverflow.Promises(Promise.NoOverflow))
-                {
-                    v256 half = Xse.mm256_vsum_epi8(c, true);
+                v256 NORMALIZE = Xse.mm256_set1_epi8(-128);
+                v256 sum = Avx2.mm256_sad_epu8(Avx2.mm256_xor_si256(c, NORMALIZE), Avx.mm256_setzero_si256());
 
-                    return Xse.add_epi8(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SByte0;
-                }
-                else
-                {
-                    v256 half = Xse.mm256_vsum_epi8(c, false);
+                long result = (sum.SLong0 + sum.SLong1) + (sum.SLong2 + sum.SLong3) + (32 * -128);
 
-                    return Xse.add_epi16(Avx.mm256_castsi256_si128(half), Avx2.mm256_extracti128_si256(half, 1)).SShort0;
-                }
+                constexpr.ASSUME(result == naive);
+
+                return (int)result;
             }
             else
             {
-                return csum(c.v16_0) + csum(c.v16_16);
+                return naive;
             }
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short2"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="short2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>
         /// </remarks>
@@ -803,7 +776,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short3"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="short3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -829,7 +802,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short4"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="short4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -855,7 +828,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short8"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="short8"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -881,7 +854,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.short16"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="short16"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -912,7 +885,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort2"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="ushort2"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows.       </para>
         /// </remarks>
@@ -938,7 +911,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort3"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="ushort3"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -964,7 +937,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort4"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="ushort4"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -990,7 +963,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort8"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="ushort8"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -1016,7 +989,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ushort16"/>.
+        /// <summary>       Returns the horizontal sum of components of a <see cref="ushort16"/>.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="noOverflow"/>' withs its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any column sum of <paramref name="c"/> that overflows. It is only recommended to use this overload if each possible summation order of elements in <paramref name="c"/> is guaranteed not to overflow.       </para>
         /// </remarks>
@@ -1047,28 +1020,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.int2"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="int2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(int2 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.int3"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="int3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(int3 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.int4"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="int4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(int4 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of an <see cref="MaxMath.int8"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of an <see cref="int8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int csum(int8 c)
         {
@@ -1085,28 +1058,28 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.uint2"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="uint2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(uint2 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.uint3"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="uint3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(uint3 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.uint4"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="uint4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(uint4 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.uint8"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="uint8"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint csum(uint8 c)
         {
@@ -1114,7 +1087,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.long2"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="long2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long csum(long2 c)
         {
@@ -1128,7 +1101,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.long3"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="long3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long csum(long3 c)
         {
@@ -1148,7 +1121,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.long4"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="long4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long csum(long4 c)
         {
@@ -1165,21 +1138,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ulong2"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="ulong2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong csum(ulong2 c)
         {
             return (ulong)csum((long2)c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ulong3"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="ulong3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong csum(ulong3 c)
         {
             return (ulong)csum((long3)c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.ulong4"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="ulong4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong csum(ulong4 c)
         {
@@ -1187,21 +1160,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.float2"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="float2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float csum(float2 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.float3"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="float3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float csum(float3 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.float4"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="float4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float csum(float4 c)
         {
@@ -1209,21 +1182,21 @@ namespace MaxMath
         }
 
         
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.double2"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="double2"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double csum(double2 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.double3"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="double3"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double csum(double3 c)
         {
             return Unity.Mathematics.math.csum(c);
         }
 
-        /// <summary>       Returns the horizontal sum of components of a <see cref="MaxMath.double4"/>.       </summary>
+        /// <summary>       Returns the horizontal sum of components of a <see cref="double4"/>.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double csum(double4 c)
         {

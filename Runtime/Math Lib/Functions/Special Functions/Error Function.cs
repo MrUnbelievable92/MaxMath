@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -1535,6 +1536,59 @@ namespace MaxMath
 			}
 		}
 
+		
+		/// <summary>       Returns the value of the error function for <paramref name="x"/>.
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static quadruple erf(quadruple x)
+        {
+            quadruple.ConstChecked a, y, z;
+
+            long ix = (long)abs(x).value.hi64;
+            if (isnan(x))
+            {
+                return x;
+            }
+            if (isinf(x))
+            {
+                return copysign(1, x);
+            }
+        
+            if (ix >= 0x3FFF_0000_0000_0000)
+            {
+                if ((ix >= 0x4003_0000_0000_0000)
+                  & ((long)x.value.hi64 > 0))
+                {
+                    return 1;
+                }
+        	    
+                return 1 - erfc(x);
+            }
+
+            a = abs(x);
+            z = square(x);
+            if (ix < 0x3FFE_C000_0000_0000)
+            {
+                if (ix < 0x3FC6_0000_0000_0000) 
+        	    {
+        	        if (ix < 0x0008_0000_0000_0000)
+        	        {
+        	            return 0.0625 * quadruple.fmadd(x, 16 * LUT.QUADRUPLE.erf_efx, 16 * x);
+        	        }
+
+        	        return quadruple.fmadd(x, LUT.QUADRUPLE.erf_efx, x);
+        	    }
+
+                y = quadruple.fmadd(a, erf_neval(z, LUT.QUADRUPLE.erf_TN1, LUT.QUADRUPLE.erf_NTN1) / erf_deval(z, LUT.QUADRUPLE.erf_TD1, LUT.QUADRUPLE.erf_NTD1), a);
+            }
+            else
+            {
+                a--;
+                y = LUT.QUADRUPLE.erf_const + erf_neval(a, LUT.QUADRUPLE.erf_TN2, LUT.QUADRUPLE.erf_NTN2) / erf_deval(a, LUT.QUADRUPLE.erf_TD2, LUT.QUADRUPLE.erf_NTD2);
+            }
+        
+            return copysign(y, x);
+        }
+
 
 		/// <summary>       Returns the value of the complementary error function for <paramref name="x"/>.
         /// <remarks>
@@ -1820,5 +1874,182 @@ namespace MaxMath
 				return new double4(erfc(x.xy, promises), erfc(x.zw, promises));
 			}
 		}
+
+		
+		/// <summary>       Returns the value of the complementary error function for <paramref name="x"/>.
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static quadruple erfc(quadruple x)
+        {
+            quadruple.ConstChecked y, z, p, r;
+            
+            long sign = (long)x.value.hi64;
+            int ix = (int)(x.value.hi64 >> 32) & 0x7FFF_FFFF;
+
+            if (isnan(x))
+            {
+                return x;
+            }
+            if (isinf(x))
+            {
+                return (long)x.value.hi64 < 0 ? -2 : 0;
+            }
+            
+            if (ix < 0x3FFD_0000)
+            {
+                if (ix < 0x3F8D_0000)
+                {
+                    return 1 - x;
+                }
+                else
+                {
+                    return 1 - erf(x);
+                }
+            }
+            
+            x = abs(x);
+            if (ix < 0x3FFF_4000)
+            {
+                switch ((int)(8 * x))
+                {
+                    case 2:
+                    {
+                        z = x - 0.25;
+                        y = quadruple.fmadd(z, erf_neval(z, LUT.QUADRUPLE.erf_RNr13, LUT.QUADRUPLE.erf_NRNr13) / erf_deval(z, LUT.QUADRUPLE.erf_RDr13, LUT.QUADRUPLE.erf_NRDr13), LUT.QUADRUPLE.erf_C13b);
+                        y += LUT.QUADRUPLE.erf_C13a;
+                        break;
+                    }
+                    case 3:
+                    {
+                        z = x - 0.375;
+                        y = quadruple.fmadd(z, erf_neval(z, LUT.QUADRUPLE.erf_RNr14, LUT.QUADRUPLE.erf_NRNr14) / erf_deval(z, LUT.QUADRUPLE.erf_RDr14, LUT.QUADRUPLE.erf_NRDr14), LUT.QUADRUPLE.erf_C14b);
+                        y += LUT.QUADRUPLE.erf_C14a;
+                        break;
+                    }
+                    case 4:
+                    {
+                        z = x - 0.5;
+                        y = quadruple.fmadd(z, erf_neval(z, LUT.QUADRUPLE.erf_RNr15, LUT.QUADRUPLE.erf_NRNr15) / erf_deval(z, LUT.QUADRUPLE.erf_RDr15, LUT.QUADRUPLE.erf_NRDr15), LUT.QUADRUPLE.erf_C15b);
+                        y += LUT.QUADRUPLE.erf_C15a;
+                        break;
+                    }
+                    case 5:
+                    {
+                        z = x - 0.625;
+                        y = quadruple.fmadd(z, erf_neval(z, LUT.QUADRUPLE.erf_RNr16, LUT.QUADRUPLE.erf_NRNr16) / erf_deval(z, LUT.QUADRUPLE.erf_RDr16, LUT.QUADRUPLE.erf_NRDr16), LUT.QUADRUPLE.erf_C16b);
+                        y += LUT.QUADRUPLE.erf_C16a;
+                        break;
+                    }
+                    case 6:
+                    {
+                        z = x - 0.75;
+                        y = quadruple.fmadd(z, erf_neval(z, LUT.QUADRUPLE.erf_RNr17, LUT.QUADRUPLE.erf_NRNr17) / erf_deval(z, LUT.QUADRUPLE.erf_RDr17, LUT.QUADRUPLE.erf_NRDr17), LUT.QUADRUPLE.erf_C17b);
+                        y += LUT.QUADRUPLE.erf_C17a;
+                        break;
+                    }
+                    case 7:
+                    {
+                        z = x - 0.875;
+                        y = quadruple.fmadd(z, erf_neval(z, LUT.QUADRUPLE.erf_RNr18, LUT.QUADRUPLE.erf_NRNr18) / erf_deval(z, LUT.QUADRUPLE.erf_RDr18, LUT.QUADRUPLE.erf_NRDr18), LUT.QUADRUPLE.erf_C18b);
+                        y += LUT.QUADRUPLE.erf_C18a;
+                        break;
+                    }
+                    case 8:
+                    {
+                        z = x - 1;
+                        y = quadruple.fmadd(z, erf_neval(z, LUT.QUADRUPLE.erf_RNr19, LUT.QUADRUPLE.erf_NRNr19) / erf_deval(z, LUT.QUADRUPLE.erf_RDr19, LUT.QUADRUPLE.erf_NRDr19), LUT.QUADRUPLE.erf_C19b);
+                        y += LUT.QUADRUPLE.erf_C19a;
+                        break;
+                    }
+                    default:
+                    {
+                        z = x - 1.125;
+                        y = quadruple.fmadd(z, erf_neval(z, LUT.QUADRUPLE.erf_RNr20, LUT.QUADRUPLE.erf_NRNr20) / erf_deval(z, LUT.QUADRUPLE.erf_RDr20, LUT.QUADRUPLE.erf_NRDr20), LUT.QUADRUPLE.erf_C20b);
+                        y += LUT.QUADRUPLE.erf_C20a;
+                        break;
+                    }
+                }
+
+                if (sign < 0)
+                {
+                    y = 2 - y;
+                }
+            
+                return y;
+            }
+            if (ix < 0x4005_AC00)
+            {
+                if ((ix >= 0x4002_2000) & (sign < 0))
+                {
+                    return 2 - LUT.QUADRUPLE.erf_tiny;
+                }
+                
+                z = rcp(square(x));
+                switch ((int)(8 / x))
+                {   
+                    default:
+                    case 0: p = erf_neval(z, LUT.QUADRUPLE.erf_RNr1, LUT.QUADRUPLE.erf_NRNr1) / erf_deval(z, LUT.QUADRUPLE.erf_RDr1, LUT.QUADRUPLE.erf_NRDr1); break;
+                    case 1: p = erf_neval(z, LUT.QUADRUPLE.erf_RNr2, LUT.QUADRUPLE.erf_NRNr2) / erf_deval(z, LUT.QUADRUPLE.erf_RDr2, LUT.QUADRUPLE.erf_NRDr2); break;
+                    case 2: p = erf_neval(z, LUT.QUADRUPLE.erf_RNr3, LUT.QUADRUPLE.erf_NRNr3) / erf_deval(z, LUT.QUADRUPLE.erf_RDr3, LUT.QUADRUPLE.erf_NRDr3); break;
+                    case 3: p = erf_neval(z, LUT.QUADRUPLE.erf_RNr4, LUT.QUADRUPLE.erf_NRNr4) / erf_deval(z, LUT.QUADRUPLE.erf_RDr4, LUT.QUADRUPLE.erf_NRDr4); break;
+                    case 4: p = erf_neval(z, LUT.QUADRUPLE.erf_RNr5, LUT.QUADRUPLE.erf_NRNr5) / erf_deval(z, LUT.QUADRUPLE.erf_RDr5, LUT.QUADRUPLE.erf_NRDr5); break;
+                    case 5: p = erf_neval(z, LUT.QUADRUPLE.erf_RNr6, LUT.QUADRUPLE.erf_NRNr6) / erf_deval(z, LUT.QUADRUPLE.erf_RDr6, LUT.QUADRUPLE.erf_NRDr6); break;
+                    case 6: p = erf_neval(z, LUT.QUADRUPLE.erf_RNr7, LUT.QUADRUPLE.erf_NRNr7) / erf_deval(z, LUT.QUADRUPLE.erf_RDr7, LUT.QUADRUPLE.erf_NRDr7); break;
+                    case 7: p = erf_neval(z, LUT.QUADRUPLE.erf_RNr8, LUT.QUADRUPLE.erf_NRNr8) / erf_deval(z, LUT.QUADRUPLE.erf_RDr8, LUT.QUADRUPLE.erf_NRDr8); break;
+                }
+                z.Value = new quadruple(x.value.lo64 & 0xFE00_0000_0000_0000, x.value.hi64);
+                r = exp(quadruple.fnmsub(z, z, 0.5625)) * exp(quadruple.fmadd(z - x, z + x, + p));
+                r /= x;
+                if (sign < 0)
+                {
+                    return 2 - r;
+                }
+                else
+                {
+                    return r;
+                }
+            }
+            else
+            {
+                if (sign < 0)
+                {
+                    return 2 - LUT.QUADRUPLE.erf_tiny;
+                }
+                else
+                {
+                    return LUT.QUADRUPLE.erf_tiny * LUT.QUADRUPLE.erf_tiny;
+                }
+            }
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static quadruple erf_neval(quadruple x, int p, int n)
+        {
+            quadruple y;
+        
+            int idx = n;
+            y = LUT.QUADRUPLE.erf_NEVAL(p + idx--);
+            do
+            {
+                y = quadruple.fmadd(y, x, LUT.QUADRUPLE.erf_NEVAL(p + idx--));
+            }
+            while (--n > 0);
+            return y;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static quadruple erf_deval(quadruple x, int p, int n)
+{
+            quadruple y;
+        
+            int idx = n;
+            y = x + LUT.QUADRUPLE.erf_DEVAL(p + idx--);
+            do
+            {
+                y = quadruple.fmadd(y, x, LUT.QUADRUPLE.erf_DEVAL(p + idx--));
+            }
+            while (--n > 0);
+            return y;
+        }
 	}
 }

@@ -57,7 +57,7 @@ namespace MaxMath
         public static implicit operator quaternion(Unity.Mathematics.float4 v) => new quaternion { value = v };
         
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space left direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space left direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         public readonly float3 Left
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -69,7 +69,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space right direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space right direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         public readonly float3 Right
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -82,7 +82,7 @@ namespace MaxMath
             
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space up direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space up direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         public readonly float3 Up
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -94,7 +94,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space down direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space down direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         public readonly float3 Down
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -106,7 +106,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space forward direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space forward direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         public readonly float3 Forward
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -118,7 +118,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.float3"/> representing the world space backward direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
+        /// <summary>       Returns a <see cref="float3"/> representing the world space backward direction relative to a world space <see cref="quaternion"/> rotation.    </summary>
         public readonly float3 Backward
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

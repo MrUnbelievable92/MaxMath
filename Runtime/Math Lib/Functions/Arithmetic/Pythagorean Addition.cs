@@ -1,10 +1,12 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
-using Unity.Burst.CompilerServices;
+using static MaxMath.LUT.FLOATING_POINT;
 
 namespace MaxMath.Intrinsics
 {
@@ -88,12 +90,23 @@ namespace MaxMath.Intrinsics
 				{
 					return naivehypot_ps(a, b);
 				}
+				
+				const int DROP_BITS     = 3;
+				const int TARGET_EXP    = -2;
+
+				const uint EXP_FIELD_MASK = ((1u << F32_EXPONENT_BITS) - 1) << F32_MANTISSA_BITS;
+				const uint DROP_MASK = EXP_FIELD_MASK & ~((1u << (F32_MANTISSA_BITS + DROP_BITS)) - 1);
+
+				const uint C1_FIELD      = 2u * -F32_EXPONENT_BIAS - -TARGET_EXP;
+				const uint C2_FIELD      = (uint)(-TARGET_EXP);
+				const uint C1_POSITIONED = C1_FIELD << F32_MANTISSA_BITS;
+				const uint C2_POSITIONED = C2_FIELD << F32_MANTISSA_BITS;
 
 				minmax_ps(abs_ps(a, elements), abs_ps(b, elements), out v128 min, out v128 max);
 
-				v128 e = and_ps(max, set1_epi32(0x7C00_0000));
-				v128 scalePre = sub_epi32(set1_epi32(0x7E00_0000), e);
-				v128 scalePost = add_epi32(set1_epi32(0x0100_0000), e);
+				v128 e = and_ps(max, set1_epi32(DROP_MASK));
+				v128 scalePre = sub_epi32(set1_epi32(C1_POSITIONED), e);
+				v128 scalePost = add_epi32(set1_epi32(C2_POSITIONED), e);
 
 				min = mul_ps(min, scalePre);
 				max = mul_ps(max, scalePre);
@@ -123,12 +136,23 @@ namespace MaxMath.Intrinsics
 				{
 					return naivehypot_pd(a, b);
 				}
+				
+				const int DROP_BITS     = 3;
+				const int TARGET_EXP    = -2;
+
+				const ulong EXP_FIELD_MASK = ((1ul << F64_EXPONENT_BITS) - 1) << F64_MANTISSA_BITS;
+				const ulong DROP_MASK = EXP_FIELD_MASK & ~((1ul << (F64_MANTISSA_BITS + DROP_BITS)) - 1);
+
+				const ulong C1_FIELD      = 2u * -F64_EXPONENT_BIAS - -TARGET_EXP;
+				const ulong C2_FIELD      = (uint)(-TARGET_EXP);
+				const ulong C1_POSITIONED = C1_FIELD << F64_MANTISSA_BITS;
+				const ulong C2_POSITIONED = C2_FIELD << F64_MANTISSA_BITS;
 
 				minmax_pd(abs_pd(a), abs_pd(b), out v128 min, out v128 max);
 
-				v128 e = and_pd(max, set1_epi64x(0x7F80_0000_0000_0000ul));
-				v128 scalePre = sub_epi64(set1_epi64x(0x7FC0_0000_0000_0000ul), e);
-				v128 scalePost = add_epi64(set1_epi64x(0x0020_0000_0000_0000ul), e);
+				v128 e = and_pd(max, set1_epi64x(DROP_MASK));
+				v128 scalePre = sub_epi64(set1_epi64x(C1_POSITIONED), e);
+				v128 scalePost = add_epi64(set1_epi64x(C2_POSITIONED), e);
 
 				min = mul_pd(min, scalePre);
 				max = mul_pd(max, scalePre);
@@ -158,24 +182,35 @@ namespace MaxMath.Intrinsics
 				{
 					return mm256_naivehypot_ps(a, b);
 				}
+				
+				const int DROP_BITS     = 3;
+				const int TARGET_EXP    = -2;
+
+				const uint EXP_FIELD_MASK = ((1u << F32_EXPONENT_BITS) - 1) << F32_MANTISSA_BITS;
+				const uint DROP_MASK = EXP_FIELD_MASK & ~((1u << (F32_MANTISSA_BITS + DROP_BITS)) - 1);
+
+				const uint C1_FIELD      = 2u * -F32_EXPONENT_BIAS - -TARGET_EXP;
+				const uint C2_FIELD      = (uint)(-TARGET_EXP);
+				const uint C1_POSITIONED = C1_FIELD << F32_MANTISSA_BITS;
+				const uint C2_POSITIONED = C2_FIELD << F32_MANTISSA_BITS;
 
 				mm256_minmax_ps(mm256_abs_ps(a), mm256_abs_ps(b), out v256 min, out v256 max);
 
-				v256 e = Avx.mm256_and_ps(max, mm256_set1_epi32(0x7C00_0000));
+				v256 e = Avx.mm256_and_ps(max, mm256_set1_epi32(DROP_MASK));
 				v256 scalePre;
 				v256 scalePost;
 				if (Avx2.IsAvx2Supported)
 				{
-					scalePre = Avx2.mm256_sub_epi32(mm256_set1_epi32(0x7E00_0000), e);
-					scalePost = Avx2.mm256_add_epi32(mm256_set1_epi32(0x0100_0000), e);
+					scalePre = Avx2.mm256_sub_epi32(mm256_set1_epi32(C1_POSITIONED), e);
+					scalePost = Avx2.mm256_add_epi32(mm256_set1_epi32(C2_POSITIONED), e);
 				}
 				else
 				{
 					v128 loE = Avx.mm256_castsi256_si128(e);
 					v128 hiE = Avx.mm256_extractf128_si256(e, 0);
 
-					scalePre = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(sub_epi32(set1_epi32(0x7E00_0000), loE)), sub_epi32(set1_epi32(0x7E00_0000), hiE), 1);
-					scalePost = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(add_epi32(set1_epi32(0x0100_0000), loE)), add_epi32(set1_epi32(0x0100_0000), hiE), 1);
+					scalePre = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(sub_epi32(set1_epi32(C1_POSITIONED), loE)), sub_epi32(set1_epi32(C1_POSITIONED), hiE), 1);
+					scalePost = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(add_epi32(set1_epi32(C2_POSITIONED), loE)), add_epi32(set1_epi32(C2_POSITIONED), hiE), 1);
 				}
 
 				min = Avx.mm256_mul_ps(min, scalePre);
@@ -206,24 +241,35 @@ namespace MaxMath.Intrinsics
 				{
 					return mm256_naivehypot_pd(a, b);
 				}
+				
+				const int DROP_BITS     = 3;
+				const int TARGET_EXP    = -2;
+
+				const ulong EXP_FIELD_MASK = ((1ul << F64_EXPONENT_BITS) - 1) << F64_MANTISSA_BITS;
+				const ulong DROP_MASK = EXP_FIELD_MASK & ~((1ul << (F64_MANTISSA_BITS + DROP_BITS)) - 1);
+
+				const ulong C1_FIELD      = 2u * -F64_EXPONENT_BIAS - -TARGET_EXP;
+				const ulong C2_FIELD      = (uint)(-TARGET_EXP);
+				const ulong C1_POSITIONED = C1_FIELD << F64_MANTISSA_BITS;
+				const ulong C2_POSITIONED = C2_FIELD << F64_MANTISSA_BITS;
 
 				mm256_minmax_pd(mm256_abs_pd(a), mm256_abs_pd(b), out v256 min, out v256 max);
 
-				v256 e = Avx.mm256_and_pd(max, mm256_set1_epi64x(0x7F80_0000_0000_0000ul));
+				v256 e = Avx.mm256_and_pd(max, mm256_set1_epi64x(DROP_MASK));
 				v256 scalePre;
 				v256 scalePost;
 				if (Avx2.IsAvx2Supported)
 				{
-					scalePre = Avx2.mm256_sub_epi64(mm256_set1_epi64x(0x7FC0_0000_0000_0000ul), e);
-					scalePost = Avx2.mm256_add_epi64(mm256_set1_epi64x(0x0020_0000_0000_0000ul), e);
+					scalePre = Avx2.mm256_sub_epi64(mm256_set1_epi64x(C1_POSITIONED), e);
+					scalePost = Avx2.mm256_add_epi64(mm256_set1_epi64x(C2_POSITIONED), e);
 				}
 				else
 				{
 					v128 loE = Avx.mm256_castsi256_si128(e);
 					v128 hiE = Avx.mm256_extractf128_si256(e, 0);
 
-					scalePre = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(sub_epi64(set1_epi64x(0x7FC0_0000_0000_0000ul), loE)), sub_epi64(set1_epi64x(0x7FC0_0000_0000_0000ul), hiE), 1);
-					scalePost = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(add_epi64(set1_epi64x(0x0020_0000_0000_0000ul), loE)), add_epi64(set1_epi64x(0x0020_0000_0000_0000ul), hiE), 1);
+					scalePre = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(sub_epi64(set1_epi64x(C1_POSITIONED), loE)), sub_epi64(set1_epi64x(C1_POSITIONED), hiE), 1);
+					scalePost = Avx.mm256_insertf128_si256(Avx.mm256_castsi128_si256(add_epi64(set1_epi64x(C2_POSITIONED), loE)), add_epi64(set1_epi64x(C2_POSITIONED), hiE), 1);
 				}
 
 				min = Avx.mm256_mul_pd(min, scalePre);
@@ -237,7 +283,7 @@ namespace MaxMath.Intrinsics
 				}
 				if (!COMPILATION_OPTIONS.FLOAT_NO_INF)
 				{
-					scalePost = mm256_blendv_si256(scalePost, mm256_set1_pd(float.PositiveInfinity), mm256_cmpeq_pd(max, mm256_set1_pd(float.PositiveInfinity)));
+					scalePost = mm256_blendv_si256(scalePost, mm256_set1_pd(double.PositiveInfinity), mm256_cmpeq_pd(max, mm256_set1_pd(double.PositiveInfinity)));
 				}
 
 				return Avx.mm256_mul_pd(r, scalePost);
@@ -930,10 +976,10 @@ namespace MaxMath.Intrinsics
 				}
 				else
 				{
-					Int128 a0sq = MaxMath.UInt128.imul128(a.SLong0, a.SLong0);
-					Int128 a1sq = MaxMath.UInt128.imul128(a.SLong1, a.SLong1);
-					Int128 b0sq = MaxMath.UInt128.imul128(b.SLong0, b.SLong0);
-					Int128 b1sq = MaxMath.UInt128.imul128(b.SLong1, b.SLong1);
+					Int128 a0sq = UInt128.imul128(a.SLong0, a.SLong0);
+					Int128 a1sq = UInt128.imul128(a.SLong1, a.SLong1);
+					Int128 b0sq = UInt128.imul128(b.SLong0, b.SLong0);
+					Int128 b1sq = UInt128.imul128(b.SLong1, b.SLong1);
 
 					Int128 sum0 = a0sq + b0sq;
 					Int128 sum1 = a1sq + b1sq;
@@ -967,12 +1013,12 @@ namespace MaxMath.Intrinsics
 				}
 				else
 				{
-					Int128 a0_0sq = MaxMath.UInt128.imul128(a0.SLong0, a0.SLong0);
-					Int128 a0_1sq = MaxMath.UInt128.imul128(a0.SLong1, a0.SLong1);
-					Int128 b0_0sq = MaxMath.UInt128.imul128(b0.SLong0, b0.SLong0);
-					Int128 b0_1sq = MaxMath.UInt128.imul128(b0.SLong1, b0.SLong1);
-					Int128 a1_0sq = MaxMath.UInt128.imul128(a1.SLong0, a1.SLong0);
-					Int128 b1_0sq = MaxMath.UInt128.imul128(b1.SLong0, b1.SLong0);
+					Int128 a0_0sq = UInt128.imul128(a0.SLong0, a0.SLong0);
+					Int128 a0_1sq = UInt128.imul128(a0.SLong1, a0.SLong1);
+					Int128 b0_0sq = UInt128.imul128(b0.SLong0, b0.SLong0);
+					Int128 b0_1sq = UInt128.imul128(b0.SLong1, b0.SLong1);
+					Int128 a1_0sq = UInt128.imul128(a1.SLong0, a1.SLong0);
+					Int128 b1_0sq = UInt128.imul128(b1.SLong0, b1.SLong0);
 
 					Int128 sum0 = a0_0sq + b0_0sq;
 					Int128 sum1 = a0_1sq + b0_1sq;
@@ -985,8 +1031,8 @@ namespace MaxMath.Intrinsics
 
 					if (elements == 4)
 					{
-						Int128 a1_1sq = MaxMath.UInt128.imul128(a1.SLong1, a1.SLong1);
-						Int128 b1_1sq = MaxMath.UInt128.imul128(b1.SLong1, b1.SLong1);
+						Int128 a1_1sq = UInt128.imul128(a1.SLong1, a1.SLong1);
+						Int128 b1_1sq = UInt128.imul128(b1.SLong1, b1.SLong1);
 						Int128 sum3 = a1_1sq + b1_1sq;
 						lo1 = unpacklo_epi64(lo1, cvtsi64x_si128(sum3.lo64));
 						hi1 = unpacklo_epi64(hi1, cvtsi64x_si128(sum3.hi64));
@@ -1050,10 +1096,10 @@ namespace MaxMath.Intrinsics
 				}
 				else
 				{
-					UInt128 a0sq = MaxMath.UInt128.umul128(a.ULong0, a.ULong0);
-					UInt128 a1sq = MaxMath.UInt128.umul128(a.ULong1, a.ULong1);
-					UInt128 b0sq = MaxMath.UInt128.umul128(b.ULong0, b.ULong0);
-					UInt128 b1sq = MaxMath.UInt128.umul128(b.ULong1, b.ULong1);
+					UInt128 a0sq = UInt128.umul128(a.ULong0, a.ULong0);
+					UInt128 a1sq = UInt128.umul128(a.ULong1, a.ULong1);
+					UInt128 b0sq = UInt128.umul128(b.ULong0, b.ULong0);
+					UInt128 b1sq = UInt128.umul128(b.ULong1, b.ULong1);
 
 					UInt128 sum0 = a0sq + b0sq;
 					UInt128 sum1 = a1sq + b1sq;
@@ -1079,12 +1125,12 @@ namespace MaxMath.Intrinsics
 				}
 				else
 				{
-					UInt128 a0_0sq = MaxMath.UInt128.umul128(a0.ULong0, a0.ULong0);
-					UInt128 a0_1sq = MaxMath.UInt128.umul128(a0.ULong1, a0.ULong1);
-					UInt128 b0_0sq = MaxMath.UInt128.umul128(b0.ULong0, b0.ULong0);
-					UInt128 b0_1sq = MaxMath.UInt128.umul128(b0.ULong1, b0.ULong1);
-					UInt128 a1_0sq = MaxMath.UInt128.umul128(a1.ULong0, a1.ULong0);
-					UInt128 b1_0sq = MaxMath.UInt128.umul128(b1.ULong0, b1.ULong0);
+					UInt128 a0_0sq = UInt128.umul128(a0.ULong0, a0.ULong0);
+					UInt128 a0_1sq = UInt128.umul128(a0.ULong1, a0.ULong1);
+					UInt128 b0_0sq = UInt128.umul128(b0.ULong0, b0.ULong0);
+					UInt128 b0_1sq = UInt128.umul128(b0.ULong1, b0.ULong1);
+					UInt128 a1_0sq = UInt128.umul128(a1.ULong0, a1.ULong0);
+					UInt128 b1_0sq = UInt128.umul128(b1.ULong0, b1.ULong0);
 
 					UInt128 sum0 = a0_0sq + b0_0sq;
 					UInt128 sum1 = a0_1sq + b0_1sq;
@@ -1097,8 +1143,8 @@ namespace MaxMath.Intrinsics
 
 					if (elements == 4)
 					{
-						UInt128 a1_1sq = MaxMath.UInt128.umul128(a1.ULong1, a1.ULong1);
-						UInt128 b1_1sq = MaxMath.UInt128.umul128(b1.ULong1, b1.ULong1);
+						UInt128 a1_1sq = UInt128.umul128(a1.ULong1, a1.ULong1);
+						UInt128 b1_1sq = UInt128.umul128(b1.ULong1, b1.ULong1);
 						UInt128 sum3 = a1_1sq + b1_1sq;
 						lo1 = unpacklo_epi64(lo1, cvtsi64x_si128(sum3.lo64));
 						hi1 = unpacklo_epi64(hi1, cvtsi64x_si128(sum3.hi64));
@@ -1142,7 +1188,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float hypot(byte x, byte y)
 		{
@@ -1161,7 +1207,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float hypot(ushort x, ushort y)
 		{
@@ -1175,7 +1221,7 @@ namespace MaxMath
 			return sqrt((uint)x * x + (uint)y * y);
 		}
 
-		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float hypot(sbyte x, sbyte y)
 		{
@@ -1194,7 +1240,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float hypot(short x, short y)
 		{
@@ -1213,9 +1259,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1239,13 +1285,24 @@ namespace MaxMath
 			}
 			else
 			{
-				float absX = abs(x);
-				float abxY = abs(y);
-				minmax(absX, abxY, out float min, out float max);
+				const int DROP_BITS     = 3;
+				const int TARGET_EXP    = -2;
 
-				uint e = asuint(max) & 0x7C00_0000;
-				float scalePre = asfloat(0x7E00_0000 - e);
-				float scalePost = asfloat(0x0100_0000 + e);
+				const uint EXP_FIELD_MASK = ((1u << F32_EXPONENT_BITS) - 1) << F32_MANTISSA_BITS;
+				const uint DROP_MASK = EXP_FIELD_MASK & ~((1u << (F32_MANTISSA_BITS + DROP_BITS)) - 1);
+
+				const uint C1_FIELD      = 2u * -F32_EXPONENT_BIAS - -TARGET_EXP;
+				const uint C2_FIELD      = (uint)(-TARGET_EXP);
+				const uint C1_POSITIONED = C1_FIELD << F32_MANTISSA_BITS;
+				const uint C2_POSITIONED = C2_FIELD << F32_MANTISSA_BITS;
+
+				float absX = abs(x);
+				float absY = abs(y);
+				minmax(absX, absY, out float min, out float max);
+
+				uint e = asuint(max) & DROP_MASK;
+				float scalePre  = asfloat(C1_POSITIONED - e);
+				float scalePost = asfloat(C2_POSITIONED + e);
 
 				min *= scalePre;
 				max *= scalePre;
@@ -1259,9 +1316,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="double.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="double.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="double"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="double.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="double.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="double"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1285,13 +1342,24 @@ namespace MaxMath
 			}
 			else
 			{
+				const int DROP_BITS     = 3;
+				const int TARGET_EXP    = -2;
+
+				const ulong EXP_FIELD_MASK = ((1ul << F64_EXPONENT_BITS) - 1) << F64_MANTISSA_BITS;
+				const ulong DROP_MASK = EXP_FIELD_MASK & ~((1ul << (F64_MANTISSA_BITS + DROP_BITS)) - 1);
+
+				const ulong C1_FIELD      = 2u * -F64_EXPONENT_BIAS - -TARGET_EXP;
+				const ulong C2_FIELD      = (uint)(-TARGET_EXP);
+				const ulong C1_POSITIONED = C1_FIELD << F64_MANTISSA_BITS;
+				const ulong C2_POSITIONED = C2_FIELD << F64_MANTISSA_BITS;
+
 				double absX = abs(x);
 				double abxY = abs(y);
 				minmax(absX, abxY, out double min, out double max);
 
-				ulong e = asulong(max) & 0x7F80_0000_0000_0000ul;
-				double scalePre = asdouble(0x7FC0_0000_0000_0000ul - e);
-				double scalePost = asdouble(0x0020_0000_0000_0000ul + e);
+				ulong e = asulong(max) & DROP_MASK;
+				double scalePre  = asdouble(C1_POSITIONED - e);
+				double scalePost = asdouble(C2_POSITIONED + e);
 
 				min *= scalePre;
 				max *= scalePre;
@@ -1305,8 +1373,68 @@ namespace MaxMath
 			}
 		}
 
+		/// <summary>		Returns the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
+		/// <remarks>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="quadruple.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="quadruple.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="quadruple"/>.     </para>
+        /// </remarks>
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static quadruple hypot(quadruple x, quadruple y, Promise noOverflow = Promise.Nothing)
+		{
+			if (noOverflow.Promises(Promise.NoOverflow))
+			{
+				if (constexpr.IS_CONST(x))
+				{
+					return sqrt(mad(y, y, x * x));
+				}
+				else
+				{
+					return sqrt(mad(x, x, y * y));
+				}
+			}
+			
+			const int DROP_BITS  = 3;
+			const int TARGET_EXP = -2;
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+			const ulong EXP_FIELD_MASK_HI = ((1UL << quadruple.EXPONENT_BITS) - 1) << quadruple.MANTISSA_BITS_HI64;
+			const ulong DROP_MASK_HI      = EXP_FIELD_MASK_HI & ~((1UL << (quadruple.MANTISSA_BITS_HI64 + DROP_BITS)) - 1);
+
+			const long  C1_FIELD      = 2L * -quadruple.EXPONENT_BIAS + TARGET_EXP;
+			const long  C2_FIELD      = -TARGET_EXP;
+			const ulong C1_POSITIONED = (ulong)C1_FIELD << quadruple.MANTISSA_BITS_HI64;
+			const ulong C2_POSITIONED = (ulong)C2_FIELD << quadruple.MANTISSA_BITS_HI64;
+			
+			quadruple.ConstChecked __x = x;
+			quadruple.ConstChecked __y = y;
+			if (isinf(x) | isinf(y)) return quadruple.PositiveInfinity;
+			if (isnan(x) | isnan(y)) return quadruple.NaN;
+			__x.Promise.MakeFiniteNotNaN();
+			__y.Promise.MakeFiniteNotNaN();
+
+			quadruple.ConstChecked absX = abs(__x);
+			quadruple.ConstChecked absY = abs(__y);
+
+			minmax(absX, absY, out quadruple.ConstChecked min, out quadruple.ConstChecked max);
+
+			ulong maxHi = asuint128(max).hi64;
+			ulong e = maxHi & DROP_MASK_HI;
+
+			ulong scalePreHi  = C1_POSITIONED - e;
+			ulong scalePostHi = C2_POSITIONED + e;
+
+			quadruple scalePre  = asquadruple(new UInt128(0, scalePreHi));
+			quadruple scalePost = asquadruple(new UInt128(0, scalePostHi));
+
+			min = quadruple.MultiplyByPowerOfTwo(min, pow2: scalePre);
+			max = quadruple.MultiplyByPowerOfTwo(max, pow2: scalePre);
+			
+			quadruple.ConstChecked r = sqrt(quadruple.fmadd(max, max, min * min));
+
+			return quadruple.MultiplyByPowerOfTwo(r, pow2: scalePost);
+		}
+
+
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float2 hypot(byte2 x, byte2 y)
 		{
@@ -1320,7 +1448,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float3 hypot(byte3 x, byte3 y)
 		{
@@ -1334,7 +1462,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float4 hypot(byte4 x, byte4 y)
 		{
@@ -1348,7 +1476,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float8 hypot(byte8 x, byte8 y)
 		{
@@ -1369,7 +1497,7 @@ namespace MaxMath
 		}
 
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float2 hypot(ushort2 x, ushort2 y)
 		{
@@ -1383,7 +1511,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float3 hypot(ushort3 x, ushort3 y)
 		{
@@ -1397,7 +1525,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float4 hypot(ushort4 x, ushort4 y)
 		{
@@ -1411,7 +1539,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float8 hypot(ushort8 x, ushort8 y)
 		{
@@ -1432,7 +1560,7 @@ namespace MaxMath
 		}
 
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float2 hypot(sbyte2 x, sbyte2 y)
 		{
@@ -1446,7 +1574,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float3 hypot(sbyte3 x, sbyte3 y)
 		{
@@ -1460,7 +1588,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float4 hypot(sbyte4 x, sbyte4 y)
 		{
@@ -1474,7 +1602,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float8 hypot(sbyte8 x, sbyte8 y)
 		{
@@ -1494,7 +1622,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float2 hypot(short2 x, short2 y)
 		{
@@ -1508,7 +1636,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float3 hypot(short3 x, short3 y)
 		{
@@ -1522,7 +1650,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float4 hypot(short4 x, short4 y)
 		{
@@ -1536,7 +1664,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)			</summary>
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²)			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float8 hypot(short8 x, short8 y)
 		{
@@ -1557,9 +1685,9 @@ namespace MaxMath
 		}
 
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1576,9 +1704,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1595,9 +1723,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1614,9 +1742,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="float.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="float.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="float"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1641,9 +1769,9 @@ namespace MaxMath
 		}
 
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="double.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="double.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="double"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="double.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="double.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="double"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1660,9 +1788,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="double.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="double.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="double"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="double.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="double.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="double"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1686,9 +1814,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  √(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>).
+		/// <summary>		Returns the componentwise Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to √(<paramref name="x"/>² + <paramref name="y"/>²).
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="double.PositiveInfinity"/> for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows to <see cref="double.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="double"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns <see cref="double.PositiveInfinity"/> for any <paramref name="x"/>² + <paramref name="y"/>² that overflows to <see cref="double.PositiveInfinity"/>, even if the square root of that expression would be representable by a <see cref="double"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1713,7 +1841,7 @@ namespace MaxMath
 		}
 
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[return: AssumeRange(0ul, 360ul)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint inthypot(byte x, byte y)
@@ -1721,7 +1849,7 @@ namespace MaxMath
 			return intsqrt((uint)x * x + (uint)y * y);
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[return: AssumeRange(0ul, 92_680)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint inthypot(ushort x, ushort y)
@@ -1729,7 +1857,7 @@ namespace MaxMath
 			return intsqrt((uint)x * x + (uint)y * y);
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint inthypot(uint x, uint y)
 		{
@@ -1741,9 +1869,9 @@ namespace MaxMath
 			return (uint)intsqrt((ulong)x * x + (ulong)y * y);
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="ulong"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="ulong"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1760,13 +1888,13 @@ namespace MaxMath
 			}
 			else
 			{
-				return intsqrt(MaxMath.UInt128.umul128(x, x) + MaxMath.UInt128.umul128(y, y));
+				return intsqrt(UInt128.umul128(x, x) + UInt128.umul128(y, y));
 			}
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="UInt128"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="UInt128"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1787,7 +1915,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[return: AssumeRange(0ul, 181ul)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint inthypot(sbyte x, sbyte y)
@@ -1795,7 +1923,7 @@ namespace MaxMath
 			return intsqrt((uint)(x * x + y * y));
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[return: AssumeRange(0ul, 46_340ul)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint inthypot(short x, short y)
@@ -1803,7 +1931,7 @@ namespace MaxMath
 			return intsqrt((uint)(x * x + y * y));
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[return: AssumeRange(0ul, 3_037_000ul)]
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint inthypot(int x, int y)
@@ -1816,9 +1944,9 @@ namespace MaxMath
 			return (uint)intsqrt((ulong)((long)x * x + (long)y * y));
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="long"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="long"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[return: AssumeRange(0ul, 13_043_817_825_332_782_212ul)]
@@ -1836,13 +1964,13 @@ namespace MaxMath
 			}
 			else
 			{
-				return intsqrt((UInt128)(MaxMath.UInt128.imul128(x, x) + MaxMath.UInt128.imul128(y, y)));
+				return intsqrt((UInt128)(UInt128.imul128(x, x) + UInt128.imul128(y, y)));
 			}
 		}
 
-		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the floor of the Euclidean distance (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by an <see cref="Int128"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by an <see cref="Int128"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1864,7 +1992,7 @@ namespace MaxMath
 		}
 
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte2 inthypot(byte2 x, byte2 y)
 		{
@@ -1878,7 +2006,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte3 inthypot(byte3 x, byte3 y)
 		{
@@ -1892,7 +2020,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte4 inthypot(byte4 x, byte4 y)
 		{
@@ -1906,7 +2034,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte8 inthypot(byte8 x, byte8 y)
 		{
@@ -1920,7 +2048,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte16 inthypot(byte16 x, byte16 y)
 		{
@@ -1934,7 +2062,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte32 inthypot(byte32 x, byte32 y)
 		{
@@ -1948,7 +2076,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort2 inthypot(ushort2 x, ushort2 y)
 		{
@@ -1962,7 +2090,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort3 inthypot(ushort3 x, ushort3 y)
 		{
@@ -1976,7 +2104,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort4 inthypot(ushort4 x, ushort4 y)
 		{
@@ -1990,7 +2118,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort8 inthypot(ushort8 x, ushort8 y)
 		{
@@ -2004,7 +2132,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort16 inthypot(ushort16 x, ushort16 y)
 		{
@@ -2018,9 +2146,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="uint"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="uint"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2036,9 +2164,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="uint"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="uint"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2047,9 +2175,9 @@ namespace MaxMath
 			return new uint3(inthypot(x.xy, y.xy, noOverflow), inthypot(x.z, y.z));
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="uint"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="uint"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2065,9 +2193,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="uint"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="uint"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2089,9 +2217,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="ulong"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="ulong"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2107,9 +2235,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="ulong"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="ulong"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2125,9 +2253,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="ulong"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="ulong"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2150,7 +2278,7 @@ namespace MaxMath
 		}
 
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte2 inthypot(sbyte2 x, sbyte2 y)
 		{
@@ -2164,7 +2292,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte3 inthypot(sbyte3 x, sbyte3 y)
 		{
@@ -2178,7 +2306,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte4 inthypot(sbyte4 x, sbyte4 y)
 		{
@@ -2192,7 +2320,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte8 inthypot(sbyte8 x, sbyte8 y)
 		{
@@ -2206,7 +2334,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte16 inthypot(sbyte16 x, sbyte16 y)
 		{
@@ -2220,7 +2348,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte32 inthypot(sbyte32 x, sbyte32 y)
 		{
@@ -2234,7 +2362,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort2 inthypot(short2 x, short2 y)
 		{
@@ -2248,7 +2376,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort3 inthypot(short3 x, short3 y)
 		{
@@ -2262,7 +2390,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort4 inthypot(short4 x, short4 y)
 		{
@@ -2276,7 +2404,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort8 inthypot(short8 x, short8 y)
 		{
@@ -2290,7 +2418,7 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋			</summary>
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋			</summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ushort16 inthypot(short16 x, short16 y)
 		{
@@ -2304,9 +2432,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by an <see cref="int"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by an <see cref="int"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2322,9 +2450,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by an <see cref="int"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by an <see cref="int"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2333,9 +2461,9 @@ namespace MaxMath
 			return new uint3(inthypot(x.xy, y.xy, noOverflow), inthypot(x.z, y.z));
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by an <see cref="int"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by an <see cref="int"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2351,9 +2479,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by an <see cref="int"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by an <see cref="int"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2375,9 +2503,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="long"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="long"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2393,9 +2521,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="long"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="long"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2411,9 +2539,9 @@ namespace MaxMath
 			}
 		}
 
-		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>). Equivalent to  ⌊√(<paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/>)⌋
+		/// <summary>		Returns the componentwise floor of the Euclidean distances (hypotenuse) between two points with coordinates (<paramref name="x"/>, 0) and (0, <paramref name="y"/>) without overflow. Equivalent to  ⌊√(<paramref name="x"/>² + <paramref name="y"/>²)⌋
 		/// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/> * <paramref name="x"/> + <paramref name="y"/> * <paramref name="y"/> that overflows, even if the square root of that expression would be representable by a <see cref="long"/>.     </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="noOverflow"/>' with its <see cref="Promise.NoOverflow"/> flag set returns undefined results for any <paramref name="x"/>² + <paramref name="y"/>² that overflows, even if the square root of that expression would be representable by a <see cref="long"/>.     </para>
         /// </remarks>
 		/// </summary>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

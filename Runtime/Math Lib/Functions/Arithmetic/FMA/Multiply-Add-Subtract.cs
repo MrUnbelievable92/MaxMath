@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -193,7 +194,7 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="float2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 madsub(float2 a, float2 b, float2 c)
         {
@@ -207,7 +208,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="float3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 madsub(float3 a, float3 b, float3 c)
         {
@@ -221,7 +222,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="float4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 madsub(float4 a, float4 b, float4 c)
         {
@@ -235,7 +236,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="float8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 madsub(float8 a, float8 b, float8 c)
         {
@@ -250,7 +251,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="double2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 madsub(double2 a, double2 b, double2 c)
         {
@@ -264,7 +265,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="double3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 madsub(double3 a, double3 b, double3 c)
         {
@@ -278,7 +279,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/ <paramref name="c"/>) on 3 <see cref="MaxMath.double4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/ <paramref name="c"/>) on 3 <see cref="double4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 madsub(double4 a, double4 b, double4 c)
         {
@@ -293,7 +294,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.byte2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="byte2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 madsub(byte2 a, byte2 b, byte2 c)
         {
@@ -307,7 +308,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="MaxMath.byte3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="byte3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 madsub(byte3 a, byte3 b, byte3 c)
         {
@@ -321,7 +322,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.byte4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="byte4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 madsub(byte4 a, byte4 b, byte4 c)
         {
@@ -335,7 +336,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.byte8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="byte8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 madsub(byte8 a, byte8 b, byte8 c)
         {
@@ -349,7 +350,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.byte16"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="byte16"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 madsub(byte16 a, byte16 b, byte16 c)
         {
@@ -363,7 +364,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.byte32"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="byte32"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 madsub(byte32 a, byte32 b, byte32 c)
         {
@@ -378,42 +379,42 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.sbyte2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="sbyte2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 madsub(sbyte2 a, sbyte2 b, sbyte2 c)
         {
             return (sbyte2)madsub((byte2)a, (byte2)b, (byte2)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="MaxMath.sbyte3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="sbyte3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 madsub(sbyte3 a, sbyte3 b, sbyte3 c)
         {
             return (sbyte3)madsub((byte3)a, (byte3)b, (byte3)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.sbyte4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="sbyte4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 madsub(sbyte4 a, sbyte4 b, sbyte4 c)
         {
             return (sbyte4)madsub((byte4)a, (byte4)b, (byte4)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.sbyte8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="sbyte8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 madsub(sbyte8 a, sbyte8 b, sbyte8 c)
         {
             return (sbyte8)madsub((byte8)a, (byte8)b, (byte8)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.sbyte16"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="sbyte16"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 madsub(sbyte16 a, sbyte16 b, sbyte16 c)
         {
             return (sbyte16)madsub((byte16)a, (byte16)b, (byte16)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.sbyte32"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="sbyte32"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 madsub(sbyte32 a, sbyte32 b, sbyte32 c)
         {
@@ -421,7 +422,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.ushort2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="ushort2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 madsub(ushort2 a, ushort2 b, ushort2 c)
         {
@@ -435,7 +436,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="MaxMath.ushort3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="ushort3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 madsub(ushort3 a, ushort3 b, ushort3 c)
         {
@@ -449,7 +450,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.ushort4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="ushort4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 madsub(ushort4 a, ushort4 b, ushort4 c)
         {
@@ -463,7 +464,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.ushort8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="ushort8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 madsub(ushort8 a, ushort8 b, ushort8 c)
         {
@@ -477,7 +478,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.ushort16"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="ushort16"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 madsub(ushort16 a, ushort16 b, ushort16 c)
         {
@@ -492,35 +493,35 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.short2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="short2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 madsub(short2 a, short2 b, short2 c)
         {
             return (short2)madsub((ushort2)a, (ushort2)b, (ushort2)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="MaxMath.short3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="short3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 madsub(short3 a, short3 b, short3 c)
         {
             return (short3)madsub((ushort3)a, (ushort3)b, (ushort3)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.short4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="short4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 madsub(short4 a, short4 b, short4 c)
         {
             return (short4)madsub((ushort4)a, (ushort4)b, (ushort4)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.short8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="short8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 madsub(short8 a, short8 b, short8 c)
         {
             return (short8)madsub((ushort8)a, (ushort8)b, (ushort8)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.short16"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="short16"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 madsub(short16 a, short16 b, short16 c)
         {
@@ -528,7 +529,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.uint2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="uint2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 madsub(uint2 a, uint2 b, uint2 c)
         {
@@ -542,7 +543,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="MaxMath.uint3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="uint3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 madsub(uint3 a, uint3 b, uint3 c)
         {
@@ -556,7 +557,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.uint4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="uint4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 madsub(uint4 a, uint4 b, uint4 c)
         {
@@ -570,7 +571,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.uint8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="uint8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 madsub(uint8 a, uint8 b, uint8 c)
         {
@@ -585,28 +586,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.int2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="int2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 madsub(int2 a, int2 b, int2 c)
         {
             return (int2)madsub((uint2)a, (uint2)b, (uint2)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="MaxMath.int3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="int3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 madsub(int3 a, int3 b, int3 c)
         {
             return (int3)madsub((uint3)a, (uint3)b, (uint3)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.int4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="int4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 madsub(int4 a, int4 b, int4 c)
         {
             return (int4)madsub((uint4)a, (uint4)b, (uint4)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.int8"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="int8"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 madsub(int8 a, int8 b, int8 c)
         {
@@ -614,7 +615,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.ulong2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="ulong2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 madsub(ulong2 a, ulong2 b, ulong2 c)
         {
@@ -628,7 +629,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="MaxMath.ulong3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="ulong3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 madsub(ulong3 a, ulong3 b, ulong3 c)
         {
@@ -642,7 +643,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.ulong4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="ulong4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 madsub(ulong4 a, ulong4 b, ulong4 c)
         {
@@ -657,21 +658,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.long2"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="long2"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 madsub(long2 a, long2 b, long2 c)
         {
             return (long2)madsub((ulong2)a, (ulong2)b, (ulong2)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="MaxMath.long3"/>s.      </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on two <see cref="long3"/>s.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 madsub(long3 a, long3 b, long3 c)
         {
             return (long3)madsub((ulong3)a, (ulong3)b, (ulong3)c);
         }
 
-        /// <summary>       Returns the result of a componentwise multiply-add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="MaxMath.long4"/>s.       </summary>
+        /// <summary>       Returns the result of a componentwise multiply-alternating add/subtract operation (<paramref name="a"/> <see langword="*"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on two <see cref="long4"/>s.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 madsub(long4 a, long4 b, long4 c)
         {

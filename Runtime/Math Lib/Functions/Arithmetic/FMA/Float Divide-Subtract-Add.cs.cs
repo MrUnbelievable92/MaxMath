@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -8,7 +9,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-alternating subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="float2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float2 dsubadd(float2 a, float2 b, float2 c, bool fast = false)
         {
@@ -24,7 +25,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-alternating subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="float3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float3 dsubadd(float3 a, float3 b, float3 c, bool fast = false)
         {
@@ -40,7 +41,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-alternating subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="float4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float4 dsubadd(float4 a, float4 b, float4 c, bool fast = false)
         {
@@ -56,7 +57,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.float8"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-alternating subtract/add operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="float8"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float8 dsubadd(float8 a, float8 b, float8 c, bool fast = false)
         {
@@ -71,7 +72,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double2"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-alternating add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="double2"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double2 dsubadd(double2 a, double2 b, double2 c, bool fast = false)
         {
@@ -87,7 +88,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double3"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-alternating add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/> <paramref name="c"/>) on 3 <see cref="double3"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double3 dsubadd(double3 a, double3 b, double3 c, bool fast = false)
         {
@@ -112,7 +113,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the result of a componentwise divide-add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="MaxMath.double4"/>s.    </summary>
+        /// <summary>       Returns the result of a componentwise divide-alternating add/subtract operation (<paramref name="a"/> <see langword="/"/> <paramref name="b"/> <see langword="+"/>/<see langword="-"/>/<see langword="+"/>/<see langword="-"/> <paramref name="c"/>) on 3 <see cref="double4"/>s.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double4 dsubadd(double4 a, double4 b, double4 c, bool fast = false)
         {

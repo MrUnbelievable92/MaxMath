@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.LUT.FLOATING_POINT;
@@ -467,18 +468,21 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (elements <= 4)
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi32_epi8(cvttps_epi32(cvtph_ps(a)), elements);
-                        }
-                        else
-                        {
-                            v128 lo = cvttps_epi32(cvtph_ps(a));
-                            v128 hi = cvttps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
+                            if (elements <= 4)
+                            {
+                                return cvtepi32_epi8(cvttps_epi32(cvtph_ps(a)), elements);
+                            }
+                            else
+                            {
+                                v128 lo = cvttps_epi32(cvtph_ps(a));
+                                v128 hi = cvttps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
 
-                            return cvt2x2epi32_epi8(lo, hi);
+                                return cvt2x2epi32_epi8(lo, hi);
+                            }
                         }
                     }
                 }
@@ -523,18 +527,21 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (elements <= 4)
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi32_epi8(cvtps_epi32(cvtph_ps(a)), elements);
-                        }
-                        else
-                        {
-                            v128 lo = cvtps_epi32(cvtph_ps(a));
-                            v128 hi = cvtps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
+                            if (elements <= 4)
+                            {
+                                return cvtepi32_epi8(cvtps_epi32(cvtph_ps(a)), elements);
+                            }
+                            else
+                            {
+                                v128 lo = cvtps_epi32(cvtph_ps(a));
+                                v128 hi = cvtps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
 
-                            return cvt2x2epi32_epi8(lo, hi);
+                                return cvt2x2epi32_epi8(lo, hi);
+                            }
                         }
                     }
                 }
@@ -579,18 +586,21 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (elements <= 4)
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi32_epi8(cvttps_epi32(cvtph_ps(a)), elements);
-                        }
-                        else
-                        {
-                            v128 lo = cvttps_epi32(cvtph_ps(a));
-                            v128 hi = cvttps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
+                            if (elements <= 4)
+                            {
+                                return cvtepi32_epi8(cvttps_epi32(cvtph_ps(a)), elements);
+                            }
+                            else
+                            {
+                                v128 lo = cvttps_epi32(cvtph_ps(a));
+                                v128 hi = cvttps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
 
-                            return cvt2x2epi32_epi8(lo, hi);
+                                return cvt2x2epi32_epi8(lo, hi);
+                            }
                         }
                     }
                 }
@@ -635,18 +645,21 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (elements <= 4)
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi32_epi8(cvtps_epi32(cvtph_ps(a)), elements);
-                        }
-                        else
-                        {
-                            v128 lo = cvtps_epi32(cvtph_ps(a));
-                            v128 hi = cvtps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
+                            if (elements <= 4)
+                            {
+                                return cvtepi32_epi8(cvtps_epi32(cvtph_ps(a)), elements);
+                            }
+                            else
+                            {
+                                v128 lo = cvtps_epi32(cvtph_ps(a));
+                                v128 hi = cvtps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
 
-                            return cvt2x2epi32_epi8(lo, hi);
+                                return cvt2x2epi32_epi8(lo, hi);
+                            }
                         }
                     }
                 }
@@ -689,12 +702,15 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                    v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-                
-                    return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                        v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                    
+                        return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
+                    }
                 }
 
                 return mm256_cvtepi16_epi8(mm256_cvttph_epi16(a, positive: positive, nonZero: nonZero));
@@ -707,12 +723,15 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                    v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-                
-                    return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                        v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                    
+                        return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
+                    }
                 }
 
                 return mm256_cvtepi16_epi8(mm256_cvtph_epi16(a, positive: positive, nonZero: nonZero));
@@ -725,12 +744,15 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                    v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-                
-                    return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                        v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                    
+                        return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
+                    }
                 }
                 
                 return mm256_cvtepi16_epi8(mm256_cvttph_epu16(a, nonZero: nonZero));
@@ -743,12 +765,15 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                    v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-                
-                    return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                        v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                    
+                        return unpacklo_epi64(mm256_cvtepi32_epi8(lo), mm256_cvtepi32_epi8(hi));
+                    }
                 }
 
                 return mm256_cvtepi16_epi8(mm256_cvtph_epu16(a, nonZero: nonZero));
@@ -764,24 +789,27 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (elements <= 4)
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi32_epi16(cvttps_epi32(cvtph_ps(a)), elements);
-                        }
-                        else
-                        {
-                            v128 lo = cvttps_epi32(cvtph_ps(a));
-                            v128 hi = cvttps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
-
-                            if (positive)
+                            if (elements <= 4)
                             {
-                                return packus_epi32(lo, hi);
+                                return cvtepi32_epi16(cvttps_epi32(cvtph_ps(a)), elements);
                             }
                             else
                             {
-                                return cvt2x2epi32_epi16(lo, hi);
+                                v128 lo = cvttps_epi32(cvtph_ps(a));
+                                v128 hi = cvttps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
+
+                                if (positive)
+                                {
+                                    return packus_epi32(lo, hi);
+                                }
+                                else
+                                {
+                                    return cvt2x2epi32_epi16(lo, hi);
+                                }
                             }
                         }
                     }
@@ -799,24 +827,27 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (elements <= 4)
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi32_epi16(cvtps_epi32(cvtph_ps(a)), elements);
-                        }
-                        else
-                        {
-                            v128 lo = cvtps_epi32(cvtph_ps(a));
-                            v128 hi = cvtps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
-
-                            if (positive)
+                            if (elements <= 4)
                             {
-                                return packus_epi32(lo, hi);
+                                return cvtepi32_epi16(cvtps_epi32(cvtph_ps(a)), elements);
                             }
                             else
                             {
-                                return cvt2x2epi32_epi16(lo, hi);
+                                v128 lo = cvtps_epi32(cvtph_ps(a));
+                                v128 hi = cvtps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
+
+                                if (positive)
+                                {
+                                    return packus_epi32(lo, hi);
+                                }
+                                else
+                                {
+                                    return cvt2x2epi32_epi16(lo, hi);
+                                }
                             }
                         }
                     }
@@ -834,18 +865,21 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (elements <= 4)
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi32_epi16(cvttps_epi32(cvtph_ps(a)), elements);
-                        }
-                        else
-                        {
-                            v128 lo = cvttps_epi32(cvtph_ps(a));
-                            v128 hi = cvttps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
+                            if (elements <= 4)
+                            {
+                                return cvtepi32_epi16(cvttps_epi32(cvtph_ps(a)), elements);
+                            }
+                            else
+                            {
+                                v128 lo = cvttps_epi32(cvtph_ps(a));
+                                v128 hi = cvttps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
 
-                            return cvt2x2epi32_epi16(lo, hi);
+                                return cvt2x2epi32_epi16(lo, hi);
+                            }
                         }
                     }
                 }
@@ -862,18 +896,21 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (elements <= 4)
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                         {
-                            return cvtepi32_epi16(cvtps_epi32(cvtph_ps(a)), elements);
-                        }
-                        else
-                        {
-                            v128 lo = cvtps_epi32(cvtph_ps(a));
-                            v128 hi = cvtps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
+                            if (elements <= 4)
+                            {
+                                return cvtepi32_epi16(cvtps_epi32(cvtph_ps(a)), elements);
+                            }
+                            else
+                            {
+                                v128 lo = cvtps_epi32(cvtph_ps(a));
+                                v128 hi = cvtps_epi32(cvtph_ps(bsrli_si128(a, 4 * sizeof(half))));
 
-                            return cvt2x2epi32_epi16(lo, hi);
+                                return cvt2x2epi32_epi16(lo, hi);
+                            }
                         }
                     }
                 }
@@ -888,12 +925,15 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                    v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-                
-                    return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                        v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                    
+                        return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi16(a, signed: true, trunc: true, nonZero: nonZero, positive: positive);
@@ -906,12 +946,15 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                    v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-                
-                    return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                        v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                    
+                        return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi16(a, signed: true, trunc: false, nonZero: nonZero, positive: positive);
@@ -924,12 +967,15 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                    v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-                
-                    return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v256 lo = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                        v256 hi = Avx.mm256_cvttps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                    
+                        return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi16(a, signed: false, trunc: true, nonZero: nonZero);
@@ -942,12 +988,15 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
-                    v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
-                
-                    return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        v256 lo = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_castps256_ps128(a)));
+                        v256 hi = Avx.mm256_cvtps_epi32(mm256_cvtph_ps(Avx.mm256_extractf128_ps(a, 1)));
+                    
+                        return Avx.mm256_insertf128_ps(Avx.mm256_castps128_ps256(mm256_cvtepi32_epi16(lo)), mm256_cvtepi32_epi16(hi), 1);
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi16(a, signed: false, trunc: false, nonZero: nonZero);
@@ -963,9 +1012,12 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        return cvttps_epi32(cvtph_ps(a));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvttps_epi32(cvtph_ps(a));
+                        }
                     }
                 }
 
@@ -981,9 +1033,12 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        return cvtps_epi32(cvtph_ps(a));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvtps_epi32(cvtph_ps(a));
+                        }
                     }
                 }
 
@@ -999,9 +1054,12 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        return cvttps_epi32(cvtph_ps(a));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvttps_epi32(cvtph_ps(a));
+                        }
                     }
                 }
 
@@ -1017,9 +1075,12 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        return cvtps_epi32(cvtph_ps(a));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvtps_epi32(cvtph_ps(a));
+                        }
                     }
                 }
 
@@ -1033,9 +1094,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    return Avx.mm256_cvttps_epi32(mm256_cvtph_ps(a));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx.mm256_cvttps_epi32(mm256_cvtph_ps(a));
+                    }
                 }
                 
                 return BASE__mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: true);
@@ -1048,9 +1112,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    return Avx.mm256_cvtps_epi32(mm256_cvtph_ps(a));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx.mm256_cvtps_epi32(mm256_cvtph_ps(a));
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi32(a, signed: true, positive: positive, nonZero: nonZero, trunc: false);
@@ -1063,9 +1130,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    return Avx.mm256_cvttps_epi32(mm256_cvtph_ps(a));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx.mm256_cvttps_epi32(mm256_cvtph_ps(a));
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: true);
@@ -1078,9 +1148,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    return Avx.mm256_cvtps_epi32(mm256_cvtph_ps(a));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx.mm256_cvtps_epi32(mm256_cvtph_ps(a));
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi32(a, signed: false, nonZero: nonZero, trunc: false);
@@ -1096,9 +1169,12 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        return cvtepi32_epi64(cvttps_epi32(cvtph_ps(a)));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvtepi32_epi64(cvttps_epi32(cvtph_ps(a)));
+                        }
                     }
                 }
 
@@ -1114,9 +1190,12 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        return cvtepi32_epi64(cvtps_epi32(cvtph_ps(a)));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvtepi32_epi64(cvtps_epi32(cvtph_ps(a)));
+                        }
                     }
                 }
 
@@ -1132,9 +1211,12 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        return cvtepu32_epi64(cvttps_epi32(cvtph_ps(a)));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvtepu32_epi64(cvttps_epi32(cvtph_ps(a)));
+                        }
                     }
                 }
 
@@ -1150,9 +1232,12 @@ namespace MaxMath.Intrinsics
             {
                 if (BurstArchitecture.IsF16Supported)
                 {
-                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        return cvtepu32_epi64(cvtps_epi32(cvtph_ps(a)));
+                        if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                        {
+                            return cvtepu32_epi64(cvtps_epi32(cvtph_ps(a)));
+                        }
                     }
                 }
 
@@ -1166,9 +1251,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    return Avx2.mm256_cvtepi32_epi64(cvttps_epi32(cvtph_ps(a)));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx2.mm256_cvtepi32_epi64(cvttps_epi32(cvtph_ps(a)));
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: true, elements: elements);
@@ -1181,9 +1269,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    return Avx2.mm256_cvtepi32_epi64(cvtps_epi32(cvtph_ps(a)));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx2.mm256_cvtepi32_epi64(cvtps_epi32(cvtph_ps(a)));
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi64(a, signed: true, positive: positive, nonZero: nonZero, trunc: false, elements: elements);
@@ -1196,9 +1287,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    return Avx2.mm256_cvtepu32_epi64(cvttps_epi32(cvtph_ps(a)));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx2.mm256_cvtepu32_epi64(cvttps_epi32(cvtph_ps(a)));
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi64(a, signed: false, nonZero: nonZero, trunc: true, elements: elements);
@@ -1211,9 +1305,12 @@ namespace MaxMath.Intrinsics
         {
             if (Avx2.IsAvx2Supported)
             {
-                if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                if (!constexpr.IS_CONST(a))
                 {
-                    return Avx2.mm256_cvtepu32_epi64(cvtps_epi32(cvtph_ps(a)));
+                    if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
+                    {
+                        return Avx2.mm256_cvtepu32_epi64(cvtps_epi32(cvtph_ps(a)));
+                    }
                 }
 
                 return BASE__mm256_cvtph_epi64(a, signed: false, nonZero: nonZero, trunc: false, elements: elements);
@@ -1797,7 +1894,7 @@ namespace MaxMath.Intrinsics
             {
                 positive |= (constexpr.ALL_GT_EPU8(a, 0, elements) && constexpr.ALL_LT_EPU8(a, 1 << 7, elements));
 
-                v128 exp = srli_epi8(a, MaxMath.quarter.MANTISSA_BITS);
+                v128 exp = srli_epi8(a, MaxMath.quarter.MANTISSA_BITS, elements: elements);
                 v128 mantissa = and_si128(a, set1_epi8(math.bitmask8(MaxMath.quarter.MANTISSA_BITS)));
 
                 v128 lo;
@@ -1842,10 +1939,10 @@ namespace MaxMath.Intrinsics
                     hi = andnot_si128(expGT6, hi);
 
                     v128 shr0 = mantissa;
-                    v128 shr1 = srli_epi8(mantissa, 1, maskBefore: false);
-                    v128 shr2 = srli_epi8(mantissa, 2, maskBefore: true);
-                    v128 shr3 = srli_epi8(mantissa, 3, maskBefore: false);
-                    v128 shr4 = srli_epi8(mantissa, 4, maskBefore: true);
+                    v128 shr1 = srli_epi8(mantissa, 1, maskBefore: false, elements: elements);
+                    v128 shr2 = srli_epi8(mantissa, 2, maskBefore: true,  elements: elements);
+                    v128 shr3 = srli_epi8(mantissa, 3, maskBefore: false, elements: elements);
+                    v128 shr4 = srli_epi8(mantissa, 4, maskBefore: true,  elements: elements);
 
                     lo = blendv_si128(shr4, blendv_si128(shr3, blendv_si128(shr2, blendv_si128(shr1, shr0, expGT6), expGT5), expGT4), expGT3);
                     if (signed && !positive)
@@ -3010,11 +3107,14 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
-                if (!trunc)
+                if (!constexpr.IS_CONST(a))
                 {
-                    if (constexpr.ALL_GE_PS(a, 0f, elements) && constexpr.ALL_LE_PS(a, int.MaxValue, elements))
+                    if (!trunc)
                     {
-                        return cvtps_epi32(a);
+                        if (constexpr.ALL_GE_PS(a, 0f, elements) && constexpr.ALL_LE_PS(a, int.MaxValue, elements))
+                        {
+                            return cvtps_epi32(a);
+                        }
                     }
                 }
 
@@ -3165,15 +3265,18 @@ namespace MaxMath.Intrinsics
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    if (signed)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (trunc)
+                        if (signed)
                         {
-                            return unpacklo_epi64(cvtsi64x_si128(cvttss_si64(a)), cvtsi64x_si128(cvttss_si64(bsrli_si128(a, sizeof(float)))));
-                        }
-                        else
-                        {
-                            return unpacklo_epi64(cvtsi64x_si128(cvttss_si64(a)), cvtsi64x_si128(cvttss_si64(bsrli_si128(a, sizeof(float)))));
+                            if (trunc)
+                            {
+                                return unpacklo_epi64(cvtsi64x_si128(cvttss_si64(a)), cvtsi64x_si128(cvttss_si64(bsrli_si128(a, sizeof(float)))));
+                            }
+                            else
+                            {
+                                return unpacklo_epi64(cvtsi64x_si128(cvttss_si64(a)), cvtsi64x_si128(cvttss_si64(bsrli_si128(a, sizeof(float)))));
+                            }
                         }
                     }
                 }
@@ -3324,15 +3427,18 @@ namespace MaxMath.Intrinsics
                 }
                 else if (Sse2.IsSse2Supported)
                 {
-                    if (signed)
+                    if (!constexpr.IS_CONST(a))
                     {
-                        if (trunc)
+                        if (signed)
                         {
-                            return unpacklo_epi64(cvtsi64x_si128(cvttsd_si64x(a)), cvtsi64x_si128(cvttsd_si64x(bsrli_si128(a, sizeof(double)))));
-                        }
-                        else
-                        {
-                            return unpacklo_epi64(cvtsi64x_si128(cvtsd_si64x(a)), cvtsi64x_si128(cvtsd_si64x(bsrli_si128(a, sizeof(double)))));
+                            if (trunc)
+                            {
+                                return unpacklo_epi64(cvtsi64x_si128(cvttsd_si64x(a)), cvtsi64x_si128(cvttsd_si64x(bsrli_si128(a, sizeof(double)))));
+                            }
+                            else
+                            {
+                                return unpacklo_epi64(cvtsi64x_si128(cvtsd_si64x(a)), cvtsi64x_si128(cvtsd_si64x(bsrli_si128(a, sizeof(double)))));
+                            }
                         }
                     }
                 }

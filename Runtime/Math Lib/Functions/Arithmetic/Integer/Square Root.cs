@@ -5,6 +5,7 @@ using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -17,34 +18,103 @@ namespace MaxMath
         unsafe public static partial class Xse
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_binsearch_epi8(v128 a, byte elements = 16)
+            public static v128 sqrt_sqrthi4correction_epi8(v128 a, byte elements = 16)
             {
                 if (BurstArchitecture.IsTableLookupSupported)
                 {
-                    v128 CMP_VALUES0 = new v128(4 * 4 - 1, 0, 3 * 3 - 1, 0, 6 * 6 - 1, 0, 7 * 7 - 1, 0, 127, 0, 11 * 11 - 1, 0, 127, 0, 127, 0);
-                    v128 CMP_VALUES1 = new v128(2 * 2 - 1, 0, 0, 0, 0, 0, 0, 0, 10 * 10 - 1, 0, 0, 0, 0, 0, 0, 0);
-                    v128 CMP_VALUES2 = new v128(1 * 1 - 1, 0, 0, 0, 5 * 5 - 1, 0, 0, 0, 9 * 9 - 1, 0, 0, 0, 127, 0, 0, 0);
+VectorAssert.IsNotSmaller<sbyte16, sbyte>(a, 0, elements);
+constexpr.ASSUME_GE_EPI8(a, 0, elements);
                     
-                    v128 cmp0 = cmpgt_epi8(a, set1_epi8(8 * 8 - 1, elements));
-
-                    v128 result = and_si128(set1_epi8(8, elements), cmp0);
+                    v128 hi4 = srli_epi8(a, 4);
                     
-                    v128 cmp1 = shuffle_epi8(CMP_VALUES0, result);
-                    cmp1 = cmpgt_epi8(a, cmp1);
-                    result = add_epi8(result, and_si128(set1_epi8(4, elements), cmp1));
+                    v128 r0 = shuffle_epi8(new v128(  0,    4,   4,   4,    8,   8,   8,   8,   8,   12,  12,  12,  12,  12,  12,  12), hi4);
+                    v128 T1 = shuffle_epi8(new v128(0x80,0x98,0x98,0x98, 0xD0,0xD0,0xD0,0xD0,0xD0, 0x28,0x28,0x28,0x28,0x28,0x28,0x28), hi4);
+                    v128 T2 = shuffle_epi8(new v128(0x83,0xA3,0xA3,0xA3, 0xE3,0xE3,0xE3,0xE3,0xE3, 0x43,0x43,0x43,0x43,0x43,0x43,0x43), hi4);
+                    v128 T3 = shuffle_epi8(new v128(0x88,0xB0,0xB0,0xB0, 0xF8,0xF8,0xF8,0xF8,0xF8, 0x60,0x60,0x60,0x60,0x60,0x60,0x60), hi4);
                     
-                    v128 cmp2 = blendv_si128(CMP_VALUES1, CMP_VALUES0, cmp1);
-                    cmp2 = shuffle_epi8(cmp2, result);
-                    cmp2 = cmpgt_epi8(a, cmp2);
-                    result = sub_epi8(result, cmp2);
-                    result = sub_epi8(result, cmp2);
-
-                    v128 cmp3 = blendv_si128(CMP_VALUES2, CMP_VALUES0, cmp2);
-                    cmp3 = shuffle_epi8(cmp3, result);
-                    cmp3 = cmpgt_epi8(a, cmp3);
-                    result = sub_epi8(result, cmp3);
+                    v128 ucmpa = xor_si128(a, set1_epi8(1 << 7));
+                    v128 cmp1 = cmpgt_epi8(ucmpa, T1);
+                    v128 cmp2 = cmpgt_epi8(ucmpa, T2);
+                    v128 cmp3 = cmpgt_epi8(ucmpa, T3);
+                    
+                    v128 result = sub_epi8(sub_epi8(r0, cmp3), 
+                                           add_epi8(cmp1, cmp2));
 
                     constexpr.ASSUME_LE_EPU8(result, 11);
+
+                    constexpr.ASSUME_LE_EPU8(result, a);
+                    if (constexpr.ALL_GT_EPU8(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a, elements);
+                    }
+
+                    constexpr.ASSUME(result.Byte0  * result.Byte0  <= a.Byte0 );
+                    constexpr.ASSUME(result.Byte1  * result.Byte1  <= a.Byte1 );
+                    constexpr.ASSUME(result.Byte2  * result.Byte2  <= a.Byte2 );
+                    constexpr.ASSUME(result.Byte3  * result.Byte3  <= a.Byte3 );
+                    constexpr.ASSUME(result.Byte4  * result.Byte4  <= a.Byte4 );
+                    constexpr.ASSUME(result.Byte5  * result.Byte5  <= a.Byte5 );
+                    constexpr.ASSUME(result.Byte6  * result.Byte6  <= a.Byte6 );
+                    constexpr.ASSUME(result.Byte7  * result.Byte7  <= a.Byte7 );
+                    constexpr.ASSUME(result.Byte8  * result.Byte8  <= a.Byte8 );
+                    constexpr.ASSUME(result.Byte9  * result.Byte9  <= a.Byte9 );
+                    constexpr.ASSUME(result.Byte10 * result.Byte10 <= a.Byte10);
+                    constexpr.ASSUME(result.Byte11 * result.Byte11 <= a.Byte11);
+                    constexpr.ASSUME(result.Byte12 * result.Byte12 <= a.Byte12);
+                    constexpr.ASSUME(result.Byte13 * result.Byte13 <= a.Byte13);
+                    constexpr.ASSUME(result.Byte14 * result.Byte14 <= a.Byte14);
+                    constexpr.ASSUME(result.Byte15 * result.Byte15 <= a.Byte15);
+                    
+                    constexpr.ASSUME((result.Byte0  + 1) * (result.Byte0  + 1) > a.Byte0 );
+                    constexpr.ASSUME((result.Byte1  + 1) * (result.Byte1  + 1) > a.Byte1 );
+                    constexpr.ASSUME((result.Byte2  + 1) * (result.Byte2  + 1) > a.Byte2 );
+                    constexpr.ASSUME((result.Byte3  + 1) * (result.Byte3  + 1) > a.Byte3 );
+                    constexpr.ASSUME((result.Byte4  + 1) * (result.Byte4  + 1) > a.Byte4 );
+                    constexpr.ASSUME((result.Byte5  + 1) * (result.Byte5  + 1) > a.Byte5 );
+                    constexpr.ASSUME((result.Byte6  + 1) * (result.Byte6  + 1) > a.Byte6 );
+                    constexpr.ASSUME((result.Byte7  + 1) * (result.Byte7  + 1) > a.Byte7 );
+                    constexpr.ASSUME((result.Byte8  + 1) * (result.Byte8  + 1) > a.Byte8 );
+                    constexpr.ASSUME((result.Byte9  + 1) * (result.Byte9  + 1) > a.Byte9 );
+                    constexpr.ASSUME((result.Byte10 + 1) * (result.Byte10 + 1) > a.Byte10);
+                    constexpr.ASSUME((result.Byte11 + 1) * (result.Byte11 + 1) > a.Byte11);
+                    constexpr.ASSUME((result.Byte12 + 1) * (result.Byte12 + 1) > a.Byte12);
+                    constexpr.ASSUME((result.Byte13 + 1) * (result.Byte13 + 1) > a.Byte13);
+                    constexpr.ASSUME((result.Byte14 + 1) * (result.Byte14 + 1) > a.Byte14);
+                    constexpr.ASSUME((result.Byte15 + 1) * (result.Byte15 + 1) > a.Byte15);
+                    
+                    constexpr.ASSUME((a.Byte0  <= 1) == (result.Byte0  == a.Byte0 ));
+                    constexpr.ASSUME((a.Byte1  <= 1) == (result.Byte1  == a.Byte1 ));
+                    constexpr.ASSUME((a.Byte2  <= 1) == (result.Byte2  == a.Byte2 ));
+                    constexpr.ASSUME((a.Byte3  <= 1) == (result.Byte3  == a.Byte3 ));
+                    constexpr.ASSUME((a.Byte4  <= 1) == (result.Byte4  == a.Byte4 ));
+                    constexpr.ASSUME((a.Byte5  <= 1) == (result.Byte5  == a.Byte5 ));
+                    constexpr.ASSUME((a.Byte6  <= 1) == (result.Byte6  == a.Byte6 ));
+                    constexpr.ASSUME((a.Byte7  <= 1) == (result.Byte7  == a.Byte7 ));
+                    constexpr.ASSUME((a.Byte8  <= 1) == (result.Byte8  == a.Byte8 ));
+                    constexpr.ASSUME((a.Byte9  <= 1) == (result.Byte9  == a.Byte9 ));
+                    constexpr.ASSUME((a.Byte10 <= 1) == (result.Byte10 == a.Byte10));
+                    constexpr.ASSUME((a.Byte11 <= 1) == (result.Byte11 == a.Byte11));
+                    constexpr.ASSUME((a.Byte12 <= 1) == (result.Byte12 == a.Byte12));
+                    constexpr.ASSUME((a.Byte13 <= 1) == (result.Byte13 == a.Byte13));
+                    constexpr.ASSUME((a.Byte14 <= 1) == (result.Byte14 == a.Byte14));
+                    constexpr.ASSUME((a.Byte15 <= 1) == (result.Byte15 == a.Byte15));
+                    
+                    constexpr.ASSUME((a.Byte0  != 0) == (result.Byte0  > 0));
+                    constexpr.ASSUME((a.Byte1  != 0) == (result.Byte1  > 0));
+                    constexpr.ASSUME((a.Byte2  != 0) == (result.Byte2  > 0));
+                    constexpr.ASSUME((a.Byte3  != 0) == (result.Byte3  > 0));
+                    constexpr.ASSUME((a.Byte4  != 0) == (result.Byte4  > 0));
+                    constexpr.ASSUME((a.Byte5  != 0) == (result.Byte5  > 0));
+                    constexpr.ASSUME((a.Byte6  != 0) == (result.Byte6  > 0));
+                    constexpr.ASSUME((a.Byte7  != 0) == (result.Byte7  > 0));
+                    constexpr.ASSUME((a.Byte8  != 0) == (result.Byte8  > 0));
+                    constexpr.ASSUME((a.Byte9  != 0) == (result.Byte9  > 0));
+                    constexpr.ASSUME((a.Byte10 != 0) == (result.Byte10 > 0));
+                    constexpr.ASSUME((a.Byte11 != 0) == (result.Byte11 > 0));
+                    constexpr.ASSUME((a.Byte12 != 0) == (result.Byte12 > 0));
+                    constexpr.ASSUME((a.Byte13 != 0) == (result.Byte13 > 0));
+                    constexpr.ASSUME((a.Byte14 != 0) == (result.Byte14 > 0));
+                    constexpr.ASSUME((a.Byte15 != 0) == (result.Byte15 > 0));
 
                     return result;
                 }
@@ -56,13 +126,18 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
+VectorAssert.IsNotSmaller<sbyte16, sbyte>(a, 0, elements);
+constexpr.ASSUME_GE_EPI8(a, 0, elements);
+
+                    v128 result;
+
                     if (elements <= 4)
                     {
                         v128 toFloat = cvtepu8_ps(a);
                         v128 sqrt = rcp_ps(rsqrt_ps(toFloat));
                         v128 toInt = cvttps_epi32(sqrt);
 
-                        a = cvtepi32_epi8(toInt, elements);
+                        result = cvtepi32_epi8(toInt, elements);
                     }
                     else if (elements <= 8)
                     {
@@ -73,7 +148,7 @@ namespace MaxMath
 
                         v128 shorts = packs_epi32(cvttps_epi32(sqrt_lo), cvttps_epi32(sqrt_hi));
 
-                        a = packus_epi16(shorts, shorts);
+                        result = packus_epi16(shorts, shorts);
                     }
                     else
                     {
@@ -89,45 +164,185 @@ namespace MaxMath
                         shortsLo = packs_epi32(cvttps_epi32(sqrt_0), cvttps_epi32(sqrt_1));
                         shortsHi = packs_epi32(cvttps_epi32(sqrt_2), cvttps_epi32(sqrt_3));
 
-                        a = packus_epi16(shortsLo, shortsHi);
+                        result = packus_epi16(shortsLo, shortsHi);
                     }
 
                     constexpr.ASSUME_LE_EPU8(a, 11);
 
-                    return a;
+                    constexpr.ASSUME_LE_EPU8(result, a);
+                    if (constexpr.ALL_GT_EPU8(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a, elements);
+                    }
+
+                    constexpr.ASSUME(result.Byte0  * result.Byte0  <= a.Byte0 );
+                    constexpr.ASSUME(result.Byte1  * result.Byte1  <= a.Byte1 );
+                    constexpr.ASSUME(result.Byte2  * result.Byte2  <= a.Byte2 );
+                    constexpr.ASSUME(result.Byte3  * result.Byte3  <= a.Byte3 );
+                    constexpr.ASSUME(result.Byte4  * result.Byte4  <= a.Byte4 );
+                    constexpr.ASSUME(result.Byte5  * result.Byte5  <= a.Byte5 );
+                    constexpr.ASSUME(result.Byte6  * result.Byte6  <= a.Byte6 );
+                    constexpr.ASSUME(result.Byte7  * result.Byte7  <= a.Byte7 );
+                    constexpr.ASSUME(result.Byte8  * result.Byte8  <= a.Byte8 );
+                    constexpr.ASSUME(result.Byte9  * result.Byte9  <= a.Byte9 );
+                    constexpr.ASSUME(result.Byte10 * result.Byte10 <= a.Byte10);
+                    constexpr.ASSUME(result.Byte11 * result.Byte11 <= a.Byte11);
+                    constexpr.ASSUME(result.Byte12 * result.Byte12 <= a.Byte12);
+                    constexpr.ASSUME(result.Byte13 * result.Byte13 <= a.Byte13);
+                    constexpr.ASSUME(result.Byte14 * result.Byte14 <= a.Byte14);
+                    constexpr.ASSUME(result.Byte15 * result.Byte15 <= a.Byte15);
+                    
+                    constexpr.ASSUME((result.Byte0  + 1) * (result.Byte0  + 1) > a.Byte0 );
+                    constexpr.ASSUME((result.Byte1  + 1) * (result.Byte1  + 1) > a.Byte1 );
+                    constexpr.ASSUME((result.Byte2  + 1) * (result.Byte2  + 1) > a.Byte2 );
+                    constexpr.ASSUME((result.Byte3  + 1) * (result.Byte3  + 1) > a.Byte3 );
+                    constexpr.ASSUME((result.Byte4  + 1) * (result.Byte4  + 1) > a.Byte4 );
+                    constexpr.ASSUME((result.Byte5  + 1) * (result.Byte5  + 1) > a.Byte5 );
+                    constexpr.ASSUME((result.Byte6  + 1) * (result.Byte6  + 1) > a.Byte6 );
+                    constexpr.ASSUME((result.Byte7  + 1) * (result.Byte7  + 1) > a.Byte7 );
+                    constexpr.ASSUME((result.Byte8  + 1) * (result.Byte8  + 1) > a.Byte8 );
+                    constexpr.ASSUME((result.Byte9  + 1) * (result.Byte9  + 1) > a.Byte9 );
+                    constexpr.ASSUME((result.Byte10 + 1) * (result.Byte10 + 1) > a.Byte10);
+                    constexpr.ASSUME((result.Byte11 + 1) * (result.Byte11 + 1) > a.Byte11);
+                    constexpr.ASSUME((result.Byte12 + 1) * (result.Byte12 + 1) > a.Byte12);
+                    constexpr.ASSUME((result.Byte13 + 1) * (result.Byte13 + 1) > a.Byte13);
+                    constexpr.ASSUME((result.Byte14 + 1) * (result.Byte14 + 1) > a.Byte14);
+                    constexpr.ASSUME((result.Byte15 + 1) * (result.Byte15 + 1) > a.Byte15);
+                    
+                    constexpr.ASSUME((a.Byte0  <= 1) == (result.Byte0  == a.Byte0 ));
+                    constexpr.ASSUME((a.Byte1  <= 1) == (result.Byte1  == a.Byte1 ));
+                    constexpr.ASSUME((a.Byte2  <= 1) == (result.Byte2  == a.Byte2 ));
+                    constexpr.ASSUME((a.Byte3  <= 1) == (result.Byte3  == a.Byte3 ));
+                    constexpr.ASSUME((a.Byte4  <= 1) == (result.Byte4  == a.Byte4 ));
+                    constexpr.ASSUME((a.Byte5  <= 1) == (result.Byte5  == a.Byte5 ));
+                    constexpr.ASSUME((a.Byte6  <= 1) == (result.Byte6  == a.Byte6 ));
+                    constexpr.ASSUME((a.Byte7  <= 1) == (result.Byte7  == a.Byte7 ));
+                    constexpr.ASSUME((a.Byte8  <= 1) == (result.Byte8  == a.Byte8 ));
+                    constexpr.ASSUME((a.Byte9  <= 1) == (result.Byte9  == a.Byte9 ));
+                    constexpr.ASSUME((a.Byte10 <= 1) == (result.Byte10 == a.Byte10));
+                    constexpr.ASSUME((a.Byte11 <= 1) == (result.Byte11 == a.Byte11));
+                    constexpr.ASSUME((a.Byte12 <= 1) == (result.Byte12 == a.Byte12));
+                    constexpr.ASSUME((a.Byte13 <= 1) == (result.Byte13 == a.Byte13));
+                    constexpr.ASSUME((a.Byte14 <= 1) == (result.Byte14 == a.Byte14));
+                    constexpr.ASSUME((a.Byte15 <= 1) == (result.Byte15 == a.Byte15));
+                    
+                    constexpr.ASSUME((a.Byte0  != 0) == (result.Byte0  > 0));
+                    constexpr.ASSUME((a.Byte1  != 0) == (result.Byte1  > 0));
+                    constexpr.ASSUME((a.Byte2  != 0) == (result.Byte2  > 0));
+                    constexpr.ASSUME((a.Byte3  != 0) == (result.Byte3  > 0));
+                    constexpr.ASSUME((a.Byte4  != 0) == (result.Byte4  > 0));
+                    constexpr.ASSUME((a.Byte5  != 0) == (result.Byte5  > 0));
+                    constexpr.ASSUME((a.Byte6  != 0) == (result.Byte6  > 0));
+                    constexpr.ASSUME((a.Byte7  != 0) == (result.Byte7  > 0));
+                    constexpr.ASSUME((a.Byte8  != 0) == (result.Byte8  > 0));
+                    constexpr.ASSUME((a.Byte9  != 0) == (result.Byte9  > 0));
+                    constexpr.ASSUME((a.Byte10 != 0) == (result.Byte10 > 0));
+                    constexpr.ASSUME((a.Byte11 != 0) == (result.Byte11 > 0));
+                    constexpr.ASSUME((a.Byte12 != 0) == (result.Byte12 > 0));
+                    constexpr.ASSUME((a.Byte13 != 0) == (result.Byte13 > 0));
+                    constexpr.ASSUME((a.Byte14 != 0) == (result.Byte14 > 0));
+                    constexpr.ASSUME((a.Byte15 != 0) == (result.Byte15 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_binsearch_epu8(v128 a, byte elements = 16)
+            public static v128 sqrt_sqrthi4correction_epu8(v128 a, byte elements = 16)
             {
                 if (BurstArchitecture.IsTableLookupSupported)
                 {
-                    v128 CMP_VALUES0 = new v128(4 * 4, 0, 3 * 3, 0, 6 * 6, 0, 7 * 7, 0, 12 * 12, 0, 11 * 11, 0, 14 * 14, 0, 15 * 15, 0);
-                    v128 CMP_VALUES1 = new v128(2 * 2, 0, 0, 0, 0, 0, 0, 0, 10 * 10, 0, 0, 0, 0, 0, 0, 0);
-                    v128 CMP_VALUES2 = new v128(1 * 1, 0, 0, 0, 5 * 5, 0, 0, 0, 9 * 9, 0, 0, 0, 13 * 13, 0, 0, 0);
+                    v128 hi4 = srli_epi8(a, 4);
                     
-                    v128 cmp0 = cmpge_epu8(a, set1_epi8(8 * 8, elements), elements);
-
-                    v128 result = and_si128(set1_epi8(8, elements), cmp0);
+                    v128 r0 = shuffle_epi8(new v128(  0,    4,   4,   4,    8,   8,   8,   8,   8,   12,  12,  12,  12,  12,  12,  12), hi4);
+                    v128 T1 = shuffle_epi8(new v128(0x80,0x98,0x98,0x98, 0xD0,0xD0,0xD0,0xD0,0xD0, 0x28,0x28,0x28,0x28,0x28,0x28,0x28), hi4);
+                    v128 T2 = shuffle_epi8(new v128(0x83,0xA3,0xA3,0xA3, 0xE3,0xE3,0xE3,0xE3,0xE3, 0x43,0x43,0x43,0x43,0x43,0x43,0x43), hi4);
+                    v128 T3 = shuffle_epi8(new v128(0x88,0xB0,0xB0,0xB0, 0xF8,0xF8,0xF8,0xF8,0xF8, 0x60,0x60,0x60,0x60,0x60,0x60,0x60), hi4);
                     
-                    v128 cmp1 = shuffle_epi8(CMP_VALUES0, result);
-                    cmp1 = cmpge_epu8(a, cmp1, elements);
-                    result = add_epi8(result, and_si128(set1_epi8(4, elements), cmp1));
+                    v128 ucmpa = xor_si128(a, set1_epi8(1 << 7));
+                    v128 cmp1 = cmpgt_epi8(ucmpa, T1);
+                    v128 cmp2 = cmpgt_epi8(ucmpa, T2);
+                    v128 cmp3 = cmpgt_epi8(ucmpa, T3);
                     
-                    v128 cmp2 = blendv_si128(CMP_VALUES1, CMP_VALUES0, cmp1);
-                    cmp2 = shuffle_epi8(cmp2, result);
-                    cmp2 = cmpge_epu8(a, cmp2, elements);
-                    result = sub_epi8(result, cmp2);
-                    result = sub_epi8(result, cmp2);
-
-                    v128 cmp3 = blendv_si128(CMP_VALUES2, CMP_VALUES0, cmp2);
-                    cmp3 = shuffle_epi8(cmp3, result);
-                    cmp3 = cmpge_epu8(a, cmp3, elements);
-                    result = sub_epi8(result, cmp3);
+                    v128 result = sub_epi8(sub_epi8(r0, cmp3), 
+                                           add_epi8(cmp1, cmp2));
 
                     constexpr.ASSUME_LE_EPU8(result, 15);
+
+                    constexpr.ASSUME_LE_EPU8(result, a);
+                    if (constexpr.ALL_GT_EPU8(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a, elements);
+                    }
+
+                    constexpr.ASSUME(result.Byte0  * result.Byte0  <= a.Byte0 );
+                    constexpr.ASSUME(result.Byte1  * result.Byte1  <= a.Byte1 );
+                    constexpr.ASSUME(result.Byte2  * result.Byte2  <= a.Byte2 );
+                    constexpr.ASSUME(result.Byte3  * result.Byte3  <= a.Byte3 );
+                    constexpr.ASSUME(result.Byte4  * result.Byte4  <= a.Byte4 );
+                    constexpr.ASSUME(result.Byte5  * result.Byte5  <= a.Byte5 );
+                    constexpr.ASSUME(result.Byte6  * result.Byte6  <= a.Byte6 );
+                    constexpr.ASSUME(result.Byte7  * result.Byte7  <= a.Byte7 );
+                    constexpr.ASSUME(result.Byte8  * result.Byte8  <= a.Byte8 );
+                    constexpr.ASSUME(result.Byte9  * result.Byte9  <= a.Byte9 );
+                    constexpr.ASSUME(result.Byte10 * result.Byte10 <= a.Byte10);
+                    constexpr.ASSUME(result.Byte11 * result.Byte11 <= a.Byte11);
+                    constexpr.ASSUME(result.Byte12 * result.Byte12 <= a.Byte12);
+                    constexpr.ASSUME(result.Byte13 * result.Byte13 <= a.Byte13);
+                    constexpr.ASSUME(result.Byte14 * result.Byte14 <= a.Byte14);
+                    constexpr.ASSUME(result.Byte15 * result.Byte15 <= a.Byte15);
+                    
+                    constexpr.ASSUME((result.Byte0  + 1) * (result.Byte0  + 1) > a.Byte0 );
+                    constexpr.ASSUME((result.Byte1  + 1) * (result.Byte1  + 1) > a.Byte1 );
+                    constexpr.ASSUME((result.Byte2  + 1) * (result.Byte2  + 1) > a.Byte2 );
+                    constexpr.ASSUME((result.Byte3  + 1) * (result.Byte3  + 1) > a.Byte3 );
+                    constexpr.ASSUME((result.Byte4  + 1) * (result.Byte4  + 1) > a.Byte4 );
+                    constexpr.ASSUME((result.Byte5  + 1) * (result.Byte5  + 1) > a.Byte5 );
+                    constexpr.ASSUME((result.Byte6  + 1) * (result.Byte6  + 1) > a.Byte6 );
+                    constexpr.ASSUME((result.Byte7  + 1) * (result.Byte7  + 1) > a.Byte7 );
+                    constexpr.ASSUME((result.Byte8  + 1) * (result.Byte8  + 1) > a.Byte8 );
+                    constexpr.ASSUME((result.Byte9  + 1) * (result.Byte9  + 1) > a.Byte9 );
+                    constexpr.ASSUME((result.Byte10 + 1) * (result.Byte10 + 1) > a.Byte10);
+                    constexpr.ASSUME((result.Byte11 + 1) * (result.Byte11 + 1) > a.Byte11);
+                    constexpr.ASSUME((result.Byte12 + 1) * (result.Byte12 + 1) > a.Byte12);
+                    constexpr.ASSUME((result.Byte13 + 1) * (result.Byte13 + 1) > a.Byte13);
+                    constexpr.ASSUME((result.Byte14 + 1) * (result.Byte14 + 1) > a.Byte14);
+                    constexpr.ASSUME((result.Byte15 + 1) * (result.Byte15 + 1) > a.Byte15);
+                    
+                    constexpr.ASSUME((a.Byte0  <= 1) == (result.Byte0  == a.Byte0 ));
+                    constexpr.ASSUME((a.Byte1  <= 1) == (result.Byte1  == a.Byte1 ));
+                    constexpr.ASSUME((a.Byte2  <= 1) == (result.Byte2  == a.Byte2 ));
+                    constexpr.ASSUME((a.Byte3  <= 1) == (result.Byte3  == a.Byte3 ));
+                    constexpr.ASSUME((a.Byte4  <= 1) == (result.Byte4  == a.Byte4 ));
+                    constexpr.ASSUME((a.Byte5  <= 1) == (result.Byte5  == a.Byte5 ));
+                    constexpr.ASSUME((a.Byte6  <= 1) == (result.Byte6  == a.Byte6 ));
+                    constexpr.ASSUME((a.Byte7  <= 1) == (result.Byte7  == a.Byte7 ));
+                    constexpr.ASSUME((a.Byte8  <= 1) == (result.Byte8  == a.Byte8 ));
+                    constexpr.ASSUME((a.Byte9  <= 1) == (result.Byte9  == a.Byte9 ));
+                    constexpr.ASSUME((a.Byte10 <= 1) == (result.Byte10 == a.Byte10));
+                    constexpr.ASSUME((a.Byte11 <= 1) == (result.Byte11 == a.Byte11));
+                    constexpr.ASSUME((a.Byte12 <= 1) == (result.Byte12 == a.Byte12));
+                    constexpr.ASSUME((a.Byte13 <= 1) == (result.Byte13 == a.Byte13));
+                    constexpr.ASSUME((a.Byte14 <= 1) == (result.Byte14 == a.Byte14));
+                    constexpr.ASSUME((a.Byte15 <= 1) == (result.Byte15 == a.Byte15));
+                    
+                    constexpr.ASSUME((a.Byte0  != 0) == (result.Byte0  > 0));
+                    constexpr.ASSUME((a.Byte1  != 0) == (result.Byte1  > 0));
+                    constexpr.ASSUME((a.Byte2  != 0) == (result.Byte2  > 0));
+                    constexpr.ASSUME((a.Byte3  != 0) == (result.Byte3  > 0));
+                    constexpr.ASSUME((a.Byte4  != 0) == (result.Byte4  > 0));
+                    constexpr.ASSUME((a.Byte5  != 0) == (result.Byte5  > 0));
+                    constexpr.ASSUME((a.Byte6  != 0) == (result.Byte6  > 0));
+                    constexpr.ASSUME((a.Byte7  != 0) == (result.Byte7  > 0));
+                    constexpr.ASSUME((a.Byte8  != 0) == (result.Byte8  > 0));
+                    constexpr.ASSUME((a.Byte9  != 0) == (result.Byte9  > 0));
+                    constexpr.ASSUME((a.Byte10 != 0) == (result.Byte10 > 0));
+                    constexpr.ASSUME((a.Byte11 != 0) == (result.Byte11 > 0));
+                    constexpr.ASSUME((a.Byte12 != 0) == (result.Byte12 > 0));
+                    constexpr.ASSUME((a.Byte13 != 0) == (result.Byte13 > 0));
+                    constexpr.ASSUME((a.Byte14 != 0) == (result.Byte14 > 0));
+                    constexpr.ASSUME((a.Byte15 != 0) == (result.Byte15 > 0));
 
                     return result;
                 }
@@ -139,16 +354,90 @@ namespace MaxMath
             {
                 if (Sse2.IsSse2Supported)
                 {
-                    v128 sqrt = sqrt_epi8(a, elements);
+                    v128 result = sqrt_epi8(a, elements);
 
                     if (!(constexpr.ALL_NEQ_EPU8(a, 225, elements) || constexpr.ALL_LT_EPU8(a, 225, elements) || constexpr.ALL_GT_EPU8(a, 225, elements)))
                     {
-                        sqrt = sub_epi8(sqrt, cmpeq_epi8(a, set1_epi8(225)));
+                        result = sub_epi8(result, cmpeq_epi8(a, set1_epi8(225)));
                     }
 
-                    constexpr.ASSUME_LE_EPU8(sqrt, 15);
+                    constexpr.ASSUME_LE_EPU8(result, 15);
 
-                    return sqrt;
+                    constexpr.ASSUME_LE_EPU8(result, a);
+                    if (constexpr.ALL_GT_EPU8(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a, elements);
+                    }
+
+                    constexpr.ASSUME(result.Byte0  * result.Byte0  <= a.Byte0 );
+                    constexpr.ASSUME(result.Byte1  * result.Byte1  <= a.Byte1 );
+                    constexpr.ASSUME(result.Byte2  * result.Byte2  <= a.Byte2 );
+                    constexpr.ASSUME(result.Byte3  * result.Byte3  <= a.Byte3 );
+                    constexpr.ASSUME(result.Byte4  * result.Byte4  <= a.Byte4 );
+                    constexpr.ASSUME(result.Byte5  * result.Byte5  <= a.Byte5 );
+                    constexpr.ASSUME(result.Byte6  * result.Byte6  <= a.Byte6 );
+                    constexpr.ASSUME(result.Byte7  * result.Byte7  <= a.Byte7 );
+                    constexpr.ASSUME(result.Byte8  * result.Byte8  <= a.Byte8 );
+                    constexpr.ASSUME(result.Byte9  * result.Byte9  <= a.Byte9 );
+                    constexpr.ASSUME(result.Byte10 * result.Byte10 <= a.Byte10);
+                    constexpr.ASSUME(result.Byte11 * result.Byte11 <= a.Byte11);
+                    constexpr.ASSUME(result.Byte12 * result.Byte12 <= a.Byte12);
+                    constexpr.ASSUME(result.Byte13 * result.Byte13 <= a.Byte13);
+                    constexpr.ASSUME(result.Byte14 * result.Byte14 <= a.Byte14);
+                    constexpr.ASSUME(result.Byte15 * result.Byte15 <= a.Byte15);
+                    
+                    constexpr.ASSUME((result.Byte0  + 1) * (result.Byte0  + 1) > a.Byte0 );
+                    constexpr.ASSUME((result.Byte1  + 1) * (result.Byte1  + 1) > a.Byte1 );
+                    constexpr.ASSUME((result.Byte2  + 1) * (result.Byte2  + 1) > a.Byte2 );
+                    constexpr.ASSUME((result.Byte3  + 1) * (result.Byte3  + 1) > a.Byte3 );
+                    constexpr.ASSUME((result.Byte4  + 1) * (result.Byte4  + 1) > a.Byte4 );
+                    constexpr.ASSUME((result.Byte5  + 1) * (result.Byte5  + 1) > a.Byte5 );
+                    constexpr.ASSUME((result.Byte6  + 1) * (result.Byte6  + 1) > a.Byte6 );
+                    constexpr.ASSUME((result.Byte7  + 1) * (result.Byte7  + 1) > a.Byte7 );
+                    constexpr.ASSUME((result.Byte8  + 1) * (result.Byte8  + 1) > a.Byte8 );
+                    constexpr.ASSUME((result.Byte9  + 1) * (result.Byte9  + 1) > a.Byte9 );
+                    constexpr.ASSUME((result.Byte10 + 1) * (result.Byte10 + 1) > a.Byte10);
+                    constexpr.ASSUME((result.Byte11 + 1) * (result.Byte11 + 1) > a.Byte11);
+                    constexpr.ASSUME((result.Byte12 + 1) * (result.Byte12 + 1) > a.Byte12);
+                    constexpr.ASSUME((result.Byte13 + 1) * (result.Byte13 + 1) > a.Byte13);
+                    constexpr.ASSUME((result.Byte14 + 1) * (result.Byte14 + 1) > a.Byte14);
+                    constexpr.ASSUME((result.Byte15 + 1) * (result.Byte15 + 1) > a.Byte15);
+                    
+                    constexpr.ASSUME((a.Byte0  <= 1) == (result.Byte0  == a.Byte0 ));
+                    constexpr.ASSUME((a.Byte1  <= 1) == (result.Byte1  == a.Byte1 ));
+                    constexpr.ASSUME((a.Byte2  <= 1) == (result.Byte2  == a.Byte2 ));
+                    constexpr.ASSUME((a.Byte3  <= 1) == (result.Byte3  == a.Byte3 ));
+                    constexpr.ASSUME((a.Byte4  <= 1) == (result.Byte4  == a.Byte4 ));
+                    constexpr.ASSUME((a.Byte5  <= 1) == (result.Byte5  == a.Byte5 ));
+                    constexpr.ASSUME((a.Byte6  <= 1) == (result.Byte6  == a.Byte6 ));
+                    constexpr.ASSUME((a.Byte7  <= 1) == (result.Byte7  == a.Byte7 ));
+                    constexpr.ASSUME((a.Byte8  <= 1) == (result.Byte8  == a.Byte8 ));
+                    constexpr.ASSUME((a.Byte9  <= 1) == (result.Byte9  == a.Byte9 ));
+                    constexpr.ASSUME((a.Byte10 <= 1) == (result.Byte10 == a.Byte10));
+                    constexpr.ASSUME((a.Byte11 <= 1) == (result.Byte11 == a.Byte11));
+                    constexpr.ASSUME((a.Byte12 <= 1) == (result.Byte12 == a.Byte12));
+                    constexpr.ASSUME((a.Byte13 <= 1) == (result.Byte13 == a.Byte13));
+                    constexpr.ASSUME((a.Byte14 <= 1) == (result.Byte14 == a.Byte14));
+                    constexpr.ASSUME((a.Byte15 <= 1) == (result.Byte15 == a.Byte15));
+                    
+                    constexpr.ASSUME((a.Byte0  != 0) == (result.Byte0  > 0));
+                    constexpr.ASSUME((a.Byte1  != 0) == (result.Byte1  > 0));
+                    constexpr.ASSUME((a.Byte2  != 0) == (result.Byte2  > 0));
+                    constexpr.ASSUME((a.Byte3  != 0) == (result.Byte3  > 0));
+                    constexpr.ASSUME((a.Byte4  != 0) == (result.Byte4  > 0));
+                    constexpr.ASSUME((a.Byte5  != 0) == (result.Byte5  > 0));
+                    constexpr.ASSUME((a.Byte6  != 0) == (result.Byte6  > 0));
+                    constexpr.ASSUME((a.Byte7  != 0) == (result.Byte7  > 0));
+                    constexpr.ASSUME((a.Byte8  != 0) == (result.Byte8  > 0));
+                    constexpr.ASSUME((a.Byte9  != 0) == (result.Byte9  > 0));
+                    constexpr.ASSUME((a.Byte10 != 0) == (result.Byte10 > 0));
+                    constexpr.ASSUME((a.Byte11 != 0) == (result.Byte11 > 0));
+                    constexpr.ASSUME((a.Byte12 != 0) == (result.Byte12 > 0));
+                    constexpr.ASSUME((a.Byte13 != 0) == (result.Byte13 > 0));
+                    constexpr.ASSUME((a.Byte14 != 0) == (result.Byte14 > 0));
+                    constexpr.ASSUME((a.Byte15 != 0) == (result.Byte15 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -156,13 +445,16 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v128 sqrt_epi8(v128 a, byte elements = 16)
             {
+VectorAssert.IsNotSmaller<sbyte16, sbyte>(a, 0, elements);
+constexpr.ASSUME_GE_EPI8(a, 0, elements);
+
                 if (BurstArchitecture.IsTableLookupSupported)
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Size)
                     {
                         if (Arm.Neon.IsNeonSupported)
                         {
-                            return sqrt_binsearch_epi8(a, elements);
+                            return sqrt_sqrthi4correction_epi8(a, elements);
                         }
                         else
                         {
@@ -173,7 +465,7 @@ namespace MaxMath
                         }
                     }
 
-                    return sqrt_binsearch_epi8(a, elements);
+                    return sqrt_sqrthi4correction_epi8(a, elements);
                 }
                 else if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -185,35 +477,169 @@ namespace MaxMath
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static v256 mm256_sqrt_epi8(v256 a)
             {
+VectorAssert.IsNotSmaller<sbyte32, sbyte>(a, 0, 32);
+constexpr.ASSUME_GE_EPI8(a, 0, 32);
+
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 CMP_VALUES0 = new v256(4 * 4 - 1, 0, 3 * 3 - 1, 0, 6 * 6 - 1, 0, 7 * 7 - 1, 0, 127, 0, 11 * 11 - 1, 0, 127, 0, 127, 0,
-                                                4 * 4 - 1, 0, 3 * 3 - 1, 0, 6 * 6 - 1, 0, 7 * 7 - 1, 0, 127, 0, 11 * 11 - 1, 0, 127, 0, 127, 0);
-                    v256 CMP_VALUES1 = new v256(2 * 2 - 1, 0, 0, 0, 0, 0, 0, 0, 10 * 10 - 1, 0, 0, 0, 0, 0, 0, 0,
-                                                2 * 2 - 1, 0, 0, 0, 0, 0, 0, 0, 10 * 10 - 1, 0, 0, 0, 0, 0, 0, 0);
-                    v256 CMP_VALUES2 = new v256(1 * 1 - 1, 0, 0, 0, 5 * 5 - 1, 0, 0, 0, 9 * 9 - 1, 0, 0, 0, 127, 0, 0, 0,
-                                                1 * 1 - 1, 0, 0, 0, 5 * 5 - 1, 0, 0, 0, 9 * 9 - 1, 0, 0, 0, 127, 0, 0, 0);
+                    v256 hi4 = mm256_srli_epi8(a, 4);
                     
-                    v256 cmp0 = Avx2.mm256_cmpgt_epi8(a, mm256_set1_epi8(8 * 8 - 1));
-
-                    v256 result = Avx2.mm256_and_si256(mm256_set1_epi8(8), cmp0);
+                    v256 r0 = Avx2.mm256_shuffle_epi8(new v256(  0,    4,   4,   4,    8,   8,   8,   8,   8,   12,  12,  12,  12,  12,  12,  12,
+                                                                 0,    4,   4,   4,    8,   8,   8,   8,   8,   12,  12,  12,  12,  12,  12,  12), hi4);
+                    v256 T1 = Avx2.mm256_shuffle_epi8(new v256(0x80,0x98,0x98,0x98, 0xD0,0xD0,0xD0,0xD0,0xD0, 0x28,0x28,0x28,0x28,0x28,0x28,0x28,
+                                                               0x80,0x98,0x98,0x98, 0xD0,0xD0,0xD0,0xD0,0xD0, 0x28,0x28,0x28,0x28,0x28,0x28,0x28), hi4);
+                    v256 T2 = Avx2.mm256_shuffle_epi8(new v256(0x83,0xA3,0xA3,0xA3, 0xE3,0xE3,0xE3,0xE3,0xE3, 0x43,0x43,0x43,0x43,0x43,0x43,0x43,
+                                                               0x83,0xA3,0xA3,0xA3, 0xE3,0xE3,0xE3,0xE3,0xE3, 0x43,0x43,0x43,0x43,0x43,0x43,0x43), hi4);
+                    v256 T3 = Avx2.mm256_shuffle_epi8(new v256(0x88,0xB0,0xB0,0xB0, 0xF8,0xF8,0xF8,0xF8,0xF8, 0x60,0x60,0x60,0x60,0x60,0x60,0x60,
+                                                               0x88,0xB0,0xB0,0xB0, 0xF8,0xF8,0xF8,0xF8,0xF8, 0x60,0x60,0x60,0x60,0x60,0x60,0x60), hi4);
                     
-                    v256 cmp1 = Avx2.mm256_shuffle_epi8(CMP_VALUES0, result);
-                    cmp1 = Avx2.mm256_cmpgt_epi8(a, cmp1);
-                    result = Avx2.mm256_add_epi8(result, Avx2.mm256_and_si256(mm256_set1_epi8(4), cmp1));
+                    v256 ucmpa = Avx2.mm256_xor_si256(a, mm256_set1_epi8(1 << 7));
+                    v256 cmp1 = Avx2.mm256_cmpgt_epi8(ucmpa, T1);
+                    v256 cmp2 = Avx2.mm256_cmpgt_epi8(ucmpa, T2);
+                    v256 cmp3 = Avx2.mm256_cmpgt_epi8(ucmpa, T3);
                     
-                    v256 cmp2 = mm256_blendv_si256(CMP_VALUES1, CMP_VALUES0, cmp1);
-                    cmp2 = Avx2.mm256_shuffle_epi8(cmp2, result);
-                    cmp2 = Avx2.mm256_cmpgt_epi8(a, cmp2);
-                    result = Avx2.mm256_sub_epi8(result, cmp2);
-                    result = Avx2.mm256_sub_epi8(result, cmp2);
-
-                    v256 cmp3 = mm256_blendv_si256(CMP_VALUES2, CMP_VALUES0, cmp2);
-                    cmp3 = Avx2.mm256_shuffle_epi8(cmp3, result);
-                    cmp3 = Avx2.mm256_cmpgt_epi8(a, cmp3);
-                    result = Avx2.mm256_sub_epi8(result, cmp3);
+                    v256 result = Avx2.mm256_sub_epi8(Avx2.mm256_sub_epi8(r0, cmp3), 
+                                                      Avx2.mm256_add_epi8(cmp1, cmp2));
 
                     constexpr.ASSUME_LE_EPU8(result, 11);
+
+                    constexpr.ASSUME_LE_EPU8(result, a);
+                    if (constexpr.ALL_GT_EPU8(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a);
+                    }
+
+                    constexpr.ASSUME(result.Byte0  * result.Byte0  <= a.Byte0 );
+                    constexpr.ASSUME(result.Byte1  * result.Byte1  <= a.Byte1 );
+                    constexpr.ASSUME(result.Byte2  * result.Byte2  <= a.Byte2 );
+                    constexpr.ASSUME(result.Byte3  * result.Byte3  <= a.Byte3 );
+                    constexpr.ASSUME(result.Byte4  * result.Byte4  <= a.Byte4 );
+                    constexpr.ASSUME(result.Byte5  * result.Byte5  <= a.Byte5 );
+                    constexpr.ASSUME(result.Byte6  * result.Byte6  <= a.Byte6 );
+                    constexpr.ASSUME(result.Byte7  * result.Byte7  <= a.Byte7 );
+                    constexpr.ASSUME(result.Byte8  * result.Byte8  <= a.Byte8 );
+                    constexpr.ASSUME(result.Byte9  * result.Byte9  <= a.Byte9 );
+                    constexpr.ASSUME(result.Byte10 * result.Byte10 <= a.Byte10);
+                    constexpr.ASSUME(result.Byte11 * result.Byte11 <= a.Byte11);
+                    constexpr.ASSUME(result.Byte12 * result.Byte12 <= a.Byte12);
+                    constexpr.ASSUME(result.Byte13 * result.Byte13 <= a.Byte13);
+                    constexpr.ASSUME(result.Byte14 * result.Byte14 <= a.Byte14);
+                    constexpr.ASSUME(result.Byte15 * result.Byte15 <= a.Byte15);
+                    constexpr.ASSUME(result.Byte16 * result.Byte16 <= a.Byte16);
+                    constexpr.ASSUME(result.Byte17 * result.Byte17 <= a.Byte17);
+                    constexpr.ASSUME(result.Byte18 * result.Byte18 <= a.Byte18);
+                    constexpr.ASSUME(result.Byte19 * result.Byte19 <= a.Byte19);
+                    constexpr.ASSUME(result.Byte20 * result.Byte20 <= a.Byte20);
+                    constexpr.ASSUME(result.Byte21 * result.Byte21 <= a.Byte21);
+                    constexpr.ASSUME(result.Byte22 * result.Byte22 <= a.Byte22);
+                    constexpr.ASSUME(result.Byte23 * result.Byte23 <= a.Byte23);
+                    constexpr.ASSUME(result.Byte24 * result.Byte24 <= a.Byte24);
+                    constexpr.ASSUME(result.Byte25 * result.Byte25 <= a.Byte25);
+                    constexpr.ASSUME(result.Byte26 * result.Byte26 <= a.Byte26);
+                    constexpr.ASSUME(result.Byte27 * result.Byte27 <= a.Byte27);
+                    constexpr.ASSUME(result.Byte28 * result.Byte28 <= a.Byte28);
+                    constexpr.ASSUME(result.Byte29 * result.Byte29 <= a.Byte29);
+                    constexpr.ASSUME(result.Byte30 * result.Byte30 <= a.Byte30);
+                    constexpr.ASSUME(result.Byte31 * result.Byte31 <= a.Byte31);
+                    
+                    constexpr.ASSUME((result.Byte0  + 1) * (result.Byte0  + 1) > a.Byte0 );
+                    constexpr.ASSUME((result.Byte1  + 1) * (result.Byte1  + 1) > a.Byte1 );
+                    constexpr.ASSUME((result.Byte2  + 1) * (result.Byte2  + 1) > a.Byte2 );
+                    constexpr.ASSUME((result.Byte3  + 1) * (result.Byte3  + 1) > a.Byte3 );
+                    constexpr.ASSUME((result.Byte4  + 1) * (result.Byte4  + 1) > a.Byte4 );
+                    constexpr.ASSUME((result.Byte5  + 1) * (result.Byte5  + 1) > a.Byte5 );
+                    constexpr.ASSUME((result.Byte6  + 1) * (result.Byte6  + 1) > a.Byte6 );
+                    constexpr.ASSUME((result.Byte7  + 1) * (result.Byte7  + 1) > a.Byte7 );
+                    constexpr.ASSUME((result.Byte8  + 1) * (result.Byte8  + 1) > a.Byte8 );
+                    constexpr.ASSUME((result.Byte9  + 1) * (result.Byte9  + 1) > a.Byte9 );
+                    constexpr.ASSUME((result.Byte10 + 1) * (result.Byte10 + 1) > a.Byte10);
+                    constexpr.ASSUME((result.Byte11 + 1) * (result.Byte11 + 1) > a.Byte11);
+                    constexpr.ASSUME((result.Byte12 + 1) * (result.Byte12 + 1) > a.Byte12);
+                    constexpr.ASSUME((result.Byte13 + 1) * (result.Byte13 + 1) > a.Byte13);
+                    constexpr.ASSUME((result.Byte14 + 1) * (result.Byte14 + 1) > a.Byte14);
+                    constexpr.ASSUME((result.Byte15 + 1) * (result.Byte15 + 1) > a.Byte15);
+                    constexpr.ASSUME((result.Byte16 + 1) * (result.Byte16 + 1) > a.Byte16);
+                    constexpr.ASSUME((result.Byte17 + 1) * (result.Byte17 + 1) > a.Byte17);
+                    constexpr.ASSUME((result.Byte18 + 1) * (result.Byte18 + 1) > a.Byte18);
+                    constexpr.ASSUME((result.Byte19 + 1) * (result.Byte19 + 1) > a.Byte19);
+                    constexpr.ASSUME((result.Byte20 + 1) * (result.Byte20 + 1) > a.Byte20);
+                    constexpr.ASSUME((result.Byte21 + 1) * (result.Byte21 + 1) > a.Byte21);
+                    constexpr.ASSUME((result.Byte22 + 1) * (result.Byte22 + 1) > a.Byte22);
+                    constexpr.ASSUME((result.Byte23 + 1) * (result.Byte23 + 1) > a.Byte23);
+                    constexpr.ASSUME((result.Byte24 + 1) * (result.Byte24 + 1) > a.Byte24);
+                    constexpr.ASSUME((result.Byte25 + 1) * (result.Byte25 + 1) > a.Byte25);
+                    constexpr.ASSUME((result.Byte26 + 1) * (result.Byte26 + 1) > a.Byte26);
+                    constexpr.ASSUME((result.Byte27 + 1) * (result.Byte27 + 1) > a.Byte27);
+                    constexpr.ASSUME((result.Byte28 + 1) * (result.Byte28 + 1) > a.Byte28);
+                    constexpr.ASSUME((result.Byte29 + 1) * (result.Byte29 + 1) > a.Byte29);
+                    constexpr.ASSUME((result.Byte30 + 1) * (result.Byte30 + 1) > a.Byte30);
+                    constexpr.ASSUME((result.Byte31 + 1) * (result.Byte31 + 1) > a.Byte31);
+                    
+                    constexpr.ASSUME((a.Byte0  <= 1) == (result.Byte0  == a.Byte0 ));
+                    constexpr.ASSUME((a.Byte1  <= 1) == (result.Byte1  == a.Byte1 ));
+                    constexpr.ASSUME((a.Byte2  <= 1) == (result.Byte2  == a.Byte2 ));
+                    constexpr.ASSUME((a.Byte3  <= 1) == (result.Byte3  == a.Byte3 ));
+                    constexpr.ASSUME((a.Byte4  <= 1) == (result.Byte4  == a.Byte4 ));
+                    constexpr.ASSUME((a.Byte5  <= 1) == (result.Byte5  == a.Byte5 ));
+                    constexpr.ASSUME((a.Byte6  <= 1) == (result.Byte6  == a.Byte6 ));
+                    constexpr.ASSUME((a.Byte7  <= 1) == (result.Byte7  == a.Byte7 ));
+                    constexpr.ASSUME((a.Byte8  <= 1) == (result.Byte8  == a.Byte8 ));
+                    constexpr.ASSUME((a.Byte9  <= 1) == (result.Byte9  == a.Byte9 ));
+                    constexpr.ASSUME((a.Byte10 <= 1) == (result.Byte10 == a.Byte10));
+                    constexpr.ASSUME((a.Byte11 <= 1) == (result.Byte11 == a.Byte11));
+                    constexpr.ASSUME((a.Byte12 <= 1) == (result.Byte12 == a.Byte12));
+                    constexpr.ASSUME((a.Byte13 <= 1) == (result.Byte13 == a.Byte13));
+                    constexpr.ASSUME((a.Byte14 <= 1) == (result.Byte14 == a.Byte14));
+                    constexpr.ASSUME((a.Byte15 <= 1) == (result.Byte15 == a.Byte15));
+                    constexpr.ASSUME((a.Byte16 <= 1) == (result.Byte16 == a.Byte16));
+                    constexpr.ASSUME((a.Byte17 <= 1) == (result.Byte17 == a.Byte17));
+                    constexpr.ASSUME((a.Byte18 <= 1) == (result.Byte18 == a.Byte18));
+                    constexpr.ASSUME((a.Byte19 <= 1) == (result.Byte19 == a.Byte19));
+                    constexpr.ASSUME((a.Byte20 <= 1) == (result.Byte20 == a.Byte20));
+                    constexpr.ASSUME((a.Byte21 <= 1) == (result.Byte21 == a.Byte21));
+                    constexpr.ASSUME((a.Byte22 <= 1) == (result.Byte22 == a.Byte22));
+                    constexpr.ASSUME((a.Byte23 <= 1) == (result.Byte23 == a.Byte23));
+                    constexpr.ASSUME((a.Byte24 <= 1) == (result.Byte24 == a.Byte24));
+                    constexpr.ASSUME((a.Byte25 <= 1) == (result.Byte25 == a.Byte25));
+                    constexpr.ASSUME((a.Byte26 <= 1) == (result.Byte26 == a.Byte26));
+                    constexpr.ASSUME((a.Byte27 <= 1) == (result.Byte27 == a.Byte27));
+                    constexpr.ASSUME((a.Byte28 <= 1) == (result.Byte28 == a.Byte28));
+                    constexpr.ASSUME((a.Byte29 <= 1) == (result.Byte29 == a.Byte29));
+                    constexpr.ASSUME((a.Byte30 <= 1) == (result.Byte30 == a.Byte30));
+                    constexpr.ASSUME((a.Byte31 <= 1) == (result.Byte31 == a.Byte31));
+                    
+                    constexpr.ASSUME((a.Byte0  != 0) == (result.Byte0  > 0));
+                    constexpr.ASSUME((a.Byte1  != 0) == (result.Byte1  > 0));
+                    constexpr.ASSUME((a.Byte2  != 0) == (result.Byte2  > 0));
+                    constexpr.ASSUME((a.Byte3  != 0) == (result.Byte3  > 0));
+                    constexpr.ASSUME((a.Byte4  != 0) == (result.Byte4  > 0));
+                    constexpr.ASSUME((a.Byte5  != 0) == (result.Byte5  > 0));
+                    constexpr.ASSUME((a.Byte6  != 0) == (result.Byte6  > 0));
+                    constexpr.ASSUME((a.Byte7  != 0) == (result.Byte7  > 0));
+                    constexpr.ASSUME((a.Byte8  != 0) == (result.Byte8  > 0));
+                    constexpr.ASSUME((a.Byte9  != 0) == (result.Byte9  > 0));
+                    constexpr.ASSUME((a.Byte10 != 0) == (result.Byte10 > 0));
+                    constexpr.ASSUME((a.Byte11 != 0) == (result.Byte11 > 0));
+                    constexpr.ASSUME((a.Byte12 != 0) == (result.Byte12 > 0));
+                    constexpr.ASSUME((a.Byte13 != 0) == (result.Byte13 > 0));
+                    constexpr.ASSUME((a.Byte14 != 0) == (result.Byte14 > 0));
+                    constexpr.ASSUME((a.Byte15 != 0) == (result.Byte15 > 0));
+                    constexpr.ASSUME((a.Byte16 != 0) == (result.Byte16 > 0));
+                    constexpr.ASSUME((a.Byte17 != 0) == (result.Byte17 > 0));
+                    constexpr.ASSUME((a.Byte18 != 0) == (result.Byte18 > 0));
+                    constexpr.ASSUME((a.Byte19 != 0) == (result.Byte19 > 0));
+                    constexpr.ASSUME((a.Byte20 != 0) == (result.Byte20 > 0));
+                    constexpr.ASSUME((a.Byte21 != 0) == (result.Byte21 > 0));
+                    constexpr.ASSUME((a.Byte22 != 0) == (result.Byte22 > 0));
+                    constexpr.ASSUME((a.Byte23 != 0) == (result.Byte23 > 0));
+                    constexpr.ASSUME((a.Byte24 != 0) == (result.Byte24 > 0));
+                    constexpr.ASSUME((a.Byte25 != 0) == (result.Byte25 > 0));
+                    constexpr.ASSUME((a.Byte26 != 0) == (result.Byte26 > 0));
+                    constexpr.ASSUME((a.Byte27 != 0) == (result.Byte27 > 0));
+                    constexpr.ASSUME((a.Byte28 != 0) == (result.Byte28 > 0));
+                    constexpr.ASSUME((a.Byte29 != 0) == (result.Byte29 > 0));
+                    constexpr.ASSUME((a.Byte30 != 0) == (result.Byte30 > 0));
+                    constexpr.ASSUME((a.Byte31 != 0) == (result.Byte31 > 0));
 
                     return result;
                 }
@@ -230,7 +656,7 @@ namespace MaxMath
                     {
                         if (Arm.Neon.IsNeonSupported)
                         {
-                            return sqrt_binsearch_epu8(a, elements);
+                            return sqrt_sqrthi4correction_epu8(a, elements);
                         }
                         else
                         {
@@ -241,7 +667,7 @@ namespace MaxMath
                         }
                     }
 
-                    return sqrt_binsearch_epu8(a, elements);
+                    return sqrt_sqrthi4correction_epu8(a, elements);
                 }
                 else if (BurstArchitecture.IsSIMDSupported)
                 {
@@ -255,33 +681,164 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    v256 CMP_VALUES0 = new v256(4 * 4, 0, 3 * 3, 0, 6 * 6, 0, 7 * 7, 0, 12 * 12, 0, 11 * 11, 0, 14 * 14, 0, 15 * 15, 0,
-                                                4 * 4, 0, 3 * 3, 0, 6 * 6, 0, 7 * 7, 0, 12 * 12, 0, 11 * 11, 0, 14 * 14, 0, 15 * 15, 0);
-                    v256 CMP_VALUES1 = new v256(2 * 2, 0, 0, 0, 0, 0, 0, 0, 10 * 10, 0, 0, 0, 0, 0, 0, 0,
-                                                2 * 2, 0, 0, 0, 0, 0, 0, 0, 10 * 10, 0, 0, 0, 0, 0, 0, 0);
-                    v256 CMP_VALUES2 = new v256(1 * 1, 0, 0, 0, 5 * 5, 0, 0, 0, 9 * 9, 0, 0, 0, 13 * 13, 0, 0, 0,
-                                                1 * 1, 0, 0, 0, 5 * 5, 0, 0, 0, 9 * 9, 0, 0, 0, 13 * 13, 0, 0, 0);
+                    v256 hi4 = mm256_srli_epi8(a, 4);
                     
-                    v256 cmp0 = mm256_cmpge_epu8(a, mm256_set1_epi8(8 * 8));
-
-                    v256 result = Avx2.mm256_and_si256(mm256_set1_epi8(8), cmp0);
+                    v256 r0 = Avx2.mm256_shuffle_epi8(new v256(  0,    4,   4,   4,    8,   8,   8,   8,   8,   12,  12,  12,  12,  12,  12,  12,
+                                                                 0,    4,   4,   4,    8,   8,   8,   8,   8,   12,  12,  12,  12,  12,  12,  12), hi4);
+                    v256 T1 = Avx2.mm256_shuffle_epi8(new v256(0x80,0x98,0x98,0x98, 0xD0,0xD0,0xD0,0xD0,0xD0, 0x28,0x28,0x28,0x28,0x28,0x28,0x28,
+                                                               0x80,0x98,0x98,0x98, 0xD0,0xD0,0xD0,0xD0,0xD0, 0x28,0x28,0x28,0x28,0x28,0x28,0x28), hi4);
+                    v256 T2 = Avx2.mm256_shuffle_epi8(new v256(0x83,0xA3,0xA3,0xA3, 0xE3,0xE3,0xE3,0xE3,0xE3, 0x43,0x43,0x43,0x43,0x43,0x43,0x43,
+                                                               0x83,0xA3,0xA3,0xA3, 0xE3,0xE3,0xE3,0xE3,0xE3, 0x43,0x43,0x43,0x43,0x43,0x43,0x43), hi4);
+                    v256 T3 = Avx2.mm256_shuffle_epi8(new v256(0x88,0xB0,0xB0,0xB0, 0xF8,0xF8,0xF8,0xF8,0xF8, 0x60,0x60,0x60,0x60,0x60,0x60,0x60,
+                                                               0x88,0xB0,0xB0,0xB0, 0xF8,0xF8,0xF8,0xF8,0xF8, 0x60,0x60,0x60,0x60,0x60,0x60,0x60), hi4);
                     
-                    v256 cmp1 = Avx2.mm256_shuffle_epi8(CMP_VALUES0, result);
-                    cmp1 = mm256_cmpge_epu8(a, cmp1);
-                    result = Avx2.mm256_add_epi8(result, Avx2.mm256_and_si256(mm256_set1_epi8(4), cmp1));
+                    v256 ucmpa = Avx2.mm256_xor_si256(a, mm256_set1_epi8(1 << 7));
+                    v256 cmp1 = Avx2.mm256_cmpgt_epi8(ucmpa, T1);
+                    v256 cmp2 = Avx2.mm256_cmpgt_epi8(ucmpa, T2);
+                    v256 cmp3 = Avx2.mm256_cmpgt_epi8(ucmpa, T3);
                     
-                    v256 cmp2 = mm256_blendv_si256(CMP_VALUES1, CMP_VALUES0, cmp1);
-                    cmp2 = Avx2.mm256_shuffle_epi8(cmp2, result);
-                    cmp2 = mm256_cmpge_epu8(a, cmp2);
-                    result = Avx2.mm256_sub_epi8(result, cmp2);
-                    result = Avx2.mm256_sub_epi8(result, cmp2);
-
-                    v256 cmp3 = mm256_blendv_si256(CMP_VALUES2, CMP_VALUES0, cmp2);
-                    cmp3 = Avx2.mm256_shuffle_epi8(cmp3, result);
-                    cmp3 = mm256_cmpge_epu8(a, cmp3);
-                    result = Avx2.mm256_sub_epi8(result, cmp3);
+                    v256 result = Avx2.mm256_sub_epi8(Avx2.mm256_sub_epi8(r0, cmp3), 
+                                                      Avx2.mm256_add_epi8(cmp1, cmp2));
 
                     constexpr.ASSUME_LE_EPU8(result, 15);
+
+                    constexpr.ASSUME_LE_EPU8(result, a);
+                    if (constexpr.ALL_GT_EPU8(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU8(result, a);
+                    }
+
+                    constexpr.ASSUME(result.Byte0  * result.Byte0  <= a.Byte0 );
+                    constexpr.ASSUME(result.Byte1  * result.Byte1  <= a.Byte1 );
+                    constexpr.ASSUME(result.Byte2  * result.Byte2  <= a.Byte2 );
+                    constexpr.ASSUME(result.Byte3  * result.Byte3  <= a.Byte3 );
+                    constexpr.ASSUME(result.Byte4  * result.Byte4  <= a.Byte4 );
+                    constexpr.ASSUME(result.Byte5  * result.Byte5  <= a.Byte5 );
+                    constexpr.ASSUME(result.Byte6  * result.Byte6  <= a.Byte6 );
+                    constexpr.ASSUME(result.Byte7  * result.Byte7  <= a.Byte7 );
+                    constexpr.ASSUME(result.Byte8  * result.Byte8  <= a.Byte8 );
+                    constexpr.ASSUME(result.Byte9  * result.Byte9  <= a.Byte9 );
+                    constexpr.ASSUME(result.Byte10 * result.Byte10 <= a.Byte10);
+                    constexpr.ASSUME(result.Byte11 * result.Byte11 <= a.Byte11);
+                    constexpr.ASSUME(result.Byte12 * result.Byte12 <= a.Byte12);
+                    constexpr.ASSUME(result.Byte13 * result.Byte13 <= a.Byte13);
+                    constexpr.ASSUME(result.Byte14 * result.Byte14 <= a.Byte14);
+                    constexpr.ASSUME(result.Byte15 * result.Byte15 <= a.Byte15);
+                    constexpr.ASSUME(result.Byte16 * result.Byte16 <= a.Byte16);
+                    constexpr.ASSUME(result.Byte17 * result.Byte17 <= a.Byte17);
+                    constexpr.ASSUME(result.Byte18 * result.Byte18 <= a.Byte18);
+                    constexpr.ASSUME(result.Byte19 * result.Byte19 <= a.Byte19);
+                    constexpr.ASSUME(result.Byte20 * result.Byte20 <= a.Byte20);
+                    constexpr.ASSUME(result.Byte21 * result.Byte21 <= a.Byte21);
+                    constexpr.ASSUME(result.Byte22 * result.Byte22 <= a.Byte22);
+                    constexpr.ASSUME(result.Byte23 * result.Byte23 <= a.Byte23);
+                    constexpr.ASSUME(result.Byte24 * result.Byte24 <= a.Byte24);
+                    constexpr.ASSUME(result.Byte25 * result.Byte25 <= a.Byte25);
+                    constexpr.ASSUME(result.Byte26 * result.Byte26 <= a.Byte26);
+                    constexpr.ASSUME(result.Byte27 * result.Byte27 <= a.Byte27);
+                    constexpr.ASSUME(result.Byte28 * result.Byte28 <= a.Byte28);
+                    constexpr.ASSUME(result.Byte29 * result.Byte29 <= a.Byte29);
+                    constexpr.ASSUME(result.Byte30 * result.Byte30 <= a.Byte30);
+                    constexpr.ASSUME(result.Byte31 * result.Byte31 <= a.Byte31);
+                    
+                    constexpr.ASSUME((result.Byte0  + 1) * (result.Byte0  + 1) > a.Byte0 );
+                    constexpr.ASSUME((result.Byte1  + 1) * (result.Byte1  + 1) > a.Byte1 );
+                    constexpr.ASSUME((result.Byte2  + 1) * (result.Byte2  + 1) > a.Byte2 );
+                    constexpr.ASSUME((result.Byte3  + 1) * (result.Byte3  + 1) > a.Byte3 );
+                    constexpr.ASSUME((result.Byte4  + 1) * (result.Byte4  + 1) > a.Byte4 );
+                    constexpr.ASSUME((result.Byte5  + 1) * (result.Byte5  + 1) > a.Byte5 );
+                    constexpr.ASSUME((result.Byte6  + 1) * (result.Byte6  + 1) > a.Byte6 );
+                    constexpr.ASSUME((result.Byte7  + 1) * (result.Byte7  + 1) > a.Byte7 );
+                    constexpr.ASSUME((result.Byte8  + 1) * (result.Byte8  + 1) > a.Byte8 );
+                    constexpr.ASSUME((result.Byte9  + 1) * (result.Byte9  + 1) > a.Byte9 );
+                    constexpr.ASSUME((result.Byte10 + 1) * (result.Byte10 + 1) > a.Byte10);
+                    constexpr.ASSUME((result.Byte11 + 1) * (result.Byte11 + 1) > a.Byte11);
+                    constexpr.ASSUME((result.Byte12 + 1) * (result.Byte12 + 1) > a.Byte12);
+                    constexpr.ASSUME((result.Byte13 + 1) * (result.Byte13 + 1) > a.Byte13);
+                    constexpr.ASSUME((result.Byte14 + 1) * (result.Byte14 + 1) > a.Byte14);
+                    constexpr.ASSUME((result.Byte15 + 1) * (result.Byte15 + 1) > a.Byte15);
+                    constexpr.ASSUME((result.Byte16 + 1) * (result.Byte16 + 1) > a.Byte16);
+                    constexpr.ASSUME((result.Byte17 + 1) * (result.Byte17 + 1) > a.Byte17);
+                    constexpr.ASSUME((result.Byte18 + 1) * (result.Byte18 + 1) > a.Byte18);
+                    constexpr.ASSUME((result.Byte19 + 1) * (result.Byte19 + 1) > a.Byte19);
+                    constexpr.ASSUME((result.Byte20 + 1) * (result.Byte20 + 1) > a.Byte20);
+                    constexpr.ASSUME((result.Byte21 + 1) * (result.Byte21 + 1) > a.Byte21);
+                    constexpr.ASSUME((result.Byte22 + 1) * (result.Byte22 + 1) > a.Byte22);
+                    constexpr.ASSUME((result.Byte23 + 1) * (result.Byte23 + 1) > a.Byte23);
+                    constexpr.ASSUME((result.Byte24 + 1) * (result.Byte24 + 1) > a.Byte24);
+                    constexpr.ASSUME((result.Byte25 + 1) * (result.Byte25 + 1) > a.Byte25);
+                    constexpr.ASSUME((result.Byte26 + 1) * (result.Byte26 + 1) > a.Byte26);
+                    constexpr.ASSUME((result.Byte27 + 1) * (result.Byte27 + 1) > a.Byte27);
+                    constexpr.ASSUME((result.Byte28 + 1) * (result.Byte28 + 1) > a.Byte28);
+                    constexpr.ASSUME((result.Byte29 + 1) * (result.Byte29 + 1) > a.Byte29);
+                    constexpr.ASSUME((result.Byte30 + 1) * (result.Byte30 + 1) > a.Byte30);
+                    constexpr.ASSUME((result.Byte31 + 1) * (result.Byte31 + 1) > a.Byte31);
+                    
+                    constexpr.ASSUME((a.Byte0  <= 1) == (result.Byte0  == a.Byte0 ));
+                    constexpr.ASSUME((a.Byte1  <= 1) == (result.Byte1  == a.Byte1 ));
+                    constexpr.ASSUME((a.Byte2  <= 1) == (result.Byte2  == a.Byte2 ));
+                    constexpr.ASSUME((a.Byte3  <= 1) == (result.Byte3  == a.Byte3 ));
+                    constexpr.ASSUME((a.Byte4  <= 1) == (result.Byte4  == a.Byte4 ));
+                    constexpr.ASSUME((a.Byte5  <= 1) == (result.Byte5  == a.Byte5 ));
+                    constexpr.ASSUME((a.Byte6  <= 1) == (result.Byte6  == a.Byte6 ));
+                    constexpr.ASSUME((a.Byte7  <= 1) == (result.Byte7  == a.Byte7 ));
+                    constexpr.ASSUME((a.Byte8  <= 1) == (result.Byte8  == a.Byte8 ));
+                    constexpr.ASSUME((a.Byte9  <= 1) == (result.Byte9  == a.Byte9 ));
+                    constexpr.ASSUME((a.Byte10 <= 1) == (result.Byte10 == a.Byte10));
+                    constexpr.ASSUME((a.Byte11 <= 1) == (result.Byte11 == a.Byte11));
+                    constexpr.ASSUME((a.Byte12 <= 1) == (result.Byte12 == a.Byte12));
+                    constexpr.ASSUME((a.Byte13 <= 1) == (result.Byte13 == a.Byte13));
+                    constexpr.ASSUME((a.Byte14 <= 1) == (result.Byte14 == a.Byte14));
+                    constexpr.ASSUME((a.Byte15 <= 1) == (result.Byte15 == a.Byte15));
+                    constexpr.ASSUME((a.Byte16 <= 1) == (result.Byte16 == a.Byte16));
+                    constexpr.ASSUME((a.Byte17 <= 1) == (result.Byte17 == a.Byte17));
+                    constexpr.ASSUME((a.Byte18 <= 1) == (result.Byte18 == a.Byte18));
+                    constexpr.ASSUME((a.Byte19 <= 1) == (result.Byte19 == a.Byte19));
+                    constexpr.ASSUME((a.Byte20 <= 1) == (result.Byte20 == a.Byte20));
+                    constexpr.ASSUME((a.Byte21 <= 1) == (result.Byte21 == a.Byte21));
+                    constexpr.ASSUME((a.Byte22 <= 1) == (result.Byte22 == a.Byte22));
+                    constexpr.ASSUME((a.Byte23 <= 1) == (result.Byte23 == a.Byte23));
+                    constexpr.ASSUME((a.Byte24 <= 1) == (result.Byte24 == a.Byte24));
+                    constexpr.ASSUME((a.Byte25 <= 1) == (result.Byte25 == a.Byte25));
+                    constexpr.ASSUME((a.Byte26 <= 1) == (result.Byte26 == a.Byte26));
+                    constexpr.ASSUME((a.Byte27 <= 1) == (result.Byte27 == a.Byte27));
+                    constexpr.ASSUME((a.Byte28 <= 1) == (result.Byte28 == a.Byte28));
+                    constexpr.ASSUME((a.Byte29 <= 1) == (result.Byte29 == a.Byte29));
+                    constexpr.ASSUME((a.Byte30 <= 1) == (result.Byte30 == a.Byte30));
+                    constexpr.ASSUME((a.Byte31 <= 1) == (result.Byte31 == a.Byte31));
+                    
+                    constexpr.ASSUME((a.Byte0  != 0) == (result.Byte0  > 0));
+                    constexpr.ASSUME((a.Byte1  != 0) == (result.Byte1  > 0));
+                    constexpr.ASSUME((a.Byte2  != 0) == (result.Byte2  > 0));
+                    constexpr.ASSUME((a.Byte3  != 0) == (result.Byte3  > 0));
+                    constexpr.ASSUME((a.Byte4  != 0) == (result.Byte4  > 0));
+                    constexpr.ASSUME((a.Byte5  != 0) == (result.Byte5  > 0));
+                    constexpr.ASSUME((a.Byte6  != 0) == (result.Byte6  > 0));
+                    constexpr.ASSUME((a.Byte7  != 0) == (result.Byte7  > 0));
+                    constexpr.ASSUME((a.Byte8  != 0) == (result.Byte8  > 0));
+                    constexpr.ASSUME((a.Byte9  != 0) == (result.Byte9  > 0));
+                    constexpr.ASSUME((a.Byte10 != 0) == (result.Byte10 > 0));
+                    constexpr.ASSUME((a.Byte11 != 0) == (result.Byte11 > 0));
+                    constexpr.ASSUME((a.Byte12 != 0) == (result.Byte12 > 0));
+                    constexpr.ASSUME((a.Byte13 != 0) == (result.Byte13 > 0));
+                    constexpr.ASSUME((a.Byte14 != 0) == (result.Byte14 > 0));
+                    constexpr.ASSUME((a.Byte15 != 0) == (result.Byte15 > 0));
+                    constexpr.ASSUME((a.Byte16 != 0) == (result.Byte16 > 0));
+                    constexpr.ASSUME((a.Byte17 != 0) == (result.Byte17 > 0));
+                    constexpr.ASSUME((a.Byte18 != 0) == (result.Byte18 > 0));
+                    constexpr.ASSUME((a.Byte19 != 0) == (result.Byte19 > 0));
+                    constexpr.ASSUME((a.Byte20 != 0) == (result.Byte20 > 0));
+                    constexpr.ASSUME((a.Byte21 != 0) == (result.Byte21 > 0));
+                    constexpr.ASSUME((a.Byte22 != 0) == (result.Byte22 > 0));
+                    constexpr.ASSUME((a.Byte23 != 0) == (result.Byte23 > 0));
+                    constexpr.ASSUME((a.Byte24 != 0) == (result.Byte24 > 0));
+                    constexpr.ASSUME((a.Byte25 != 0) == (result.Byte25 > 0));
+                    constexpr.ASSUME((a.Byte26 != 0) == (result.Byte26 > 0));
+                    constexpr.ASSUME((a.Byte27 != 0) == (result.Byte27 > 0));
+                    constexpr.ASSUME((a.Byte28 != 0) == (result.Byte28 > 0));
+                    constexpr.ASSUME((a.Byte29 != 0) == (result.Byte29 > 0));
+                    constexpr.ASSUME((a.Byte30 != 0) == (result.Byte30 > 0));
+                    constexpr.ASSUME((a.Byte31 != 0) == (result.Byte31 > 0));
 
                     return result;
                 }
@@ -294,6 +851,14 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+if (signed)
+{
+    VectorAssert.IsNotSmaller<short8, short>(a, 0, elements);
+    constexpr.ASSUME_GE_EPI16(a, 0, elements);
+}
+
+                    v128 result;
+
                     if (elements <= 4)
                     {
                         v128 sqrt;
@@ -305,32 +870,29 @@ namespace MaxMath
                             {
                                 sqrt = rcp_ps(rsqrt_ps(cvtepu16_ps(a)));
                                 ints = cvttps_epi32(sqrt);
-                                ints = packs_epi32(ints, ints);
+                                result = packs_epi32(ints, ints);
 
                                 if (!(constexpr.ALL_NEQ_EPU16(a, 225, elements) || constexpr.ALL_LT_EPU16(a, 225, elements) || constexpr.ALL_GT_EPU16(a, 225, elements)))
                                 {
-                                    ints = sub_epi16(ints, cmpeq_epi16(a, set1_epi16(225)));
+                                    result = sub_epi16(result, cmpeq_epi16(a, set1_epi16(225)));
                                 }
 
-                                constexpr.ASSUME_LE_EPU16(ints, 15);
+                                constexpr.ASSUME_LE_EPU16(result, 15);
 
-                                return ints;
+                                goto RET;
                             }
                         }
 
                         sqrt = sqrt_ps(cvtepu16_ps(a));
                         ints = cvttps_epi32(sqrt);
-                        a = packs_epi32(ints, ints);
+                        result = packs_epi32(ints, ints);
 
-                        constexpr.ASSUME_LE_EPU16(a, signed ? (byte)181 : byte.MaxValue);
-
-                        return a;
+                        constexpr.ASSUME_LE_EPU16(result, signed ? (byte)181 : byte.MaxValue);
                     }
                     else
                     {
                         v128 sqrt_lo;
                         v128 sqrt_hi;
-                        v128 shorts;
                         v128 lo = cvt2x2epu16_ps(a, out v128 hi);
 
                         if (Sse2.IsSse2Supported)
@@ -339,27 +901,78 @@ namespace MaxMath
                             {
                                 sqrt_lo = rcp_ps(rsqrt_ps(lo));
                                 sqrt_hi = rcp_ps(rsqrt_ps(hi));
-                                shorts = packs_epi32(cvttps_epi32(sqrt_lo), cvttps_epi32(sqrt_hi));
+                                result = packs_epi32(cvttps_epi32(sqrt_lo), cvttps_epi32(sqrt_hi));
 
                                 if (!(constexpr.ALL_NEQ_EPU16(a, 225, elements) || constexpr.ALL_LT_EPU16(a, 225, elements) || constexpr.ALL_GT_EPU16(a, 225, elements)))
                                 {
-                                    shorts = sub_epi16(shorts, cmpeq_epi16(a, set1_epi16(225)));
+                                    result = sub_epi16(result, cmpeq_epi16(a, set1_epi16(225)));
                                 }
 
-                                constexpr.ASSUME_LE_EPU16(shorts, 15);
+                                constexpr.ASSUME_LE_EPU16(result, 15);
 
-                                return shorts;
+                                goto RET;
                             }
                         }
 
                         sqrt_lo = sqrt_ps(lo);
                         sqrt_hi = sqrt_ps(hi);
-                        shorts = packs_epi32(cvttps_epi32(sqrt_lo), cvttps_epi32(sqrt_hi));
+                        result = packs_epi32(cvttps_epi32(sqrt_lo), cvttps_epi32(sqrt_hi));
 
-                        constexpr.ASSUME_LE_EPU16(shorts, signed ? (byte)181 : byte.MaxValue);
-
-                        return shorts;
+                        constexpr.ASSUME_LE_EPU16(result, signed ? (byte)181 : byte.MaxValue);
                     }
+
+                RET:
+
+                    constexpr.ASSUME_LE_EPU16(result, a, elements);
+                    if (constexpr.ALL_GT_EPU16(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU16(result, a, elements);
+                    }
+
+                    constexpr.ASSUME(result.UShort0 * result.UShort0 <= a.UShort0);
+                    constexpr.ASSUME(result.UShort1 * result.UShort1 <= a.UShort1);
+                    constexpr.ASSUME(result.UShort2 * result.UShort2 <= a.UShort2);
+                    constexpr.ASSUME(result.UShort3 * result.UShort3 <= a.UShort3);
+                    
+                    constexpr.ASSUME((uint)(result.UShort0 + 1) * (uint)(result.UShort0 + 1) > a.UShort0);
+                    constexpr.ASSUME((uint)(result.UShort1 + 1) * (uint)(result.UShort1 + 1) > a.UShort1);
+                    constexpr.ASSUME((uint)(result.UShort2 + 1) * (uint)(result.UShort2 + 1) > a.UShort2);
+                    constexpr.ASSUME((uint)(result.UShort3 + 1) * (uint)(result.UShort3 + 1) > a.UShort3);
+                    
+                    constexpr.ASSUME((a.UShort0 <= 1) == (result.UShort0 == a.UShort0));
+                    constexpr.ASSUME((a.UShort1 <= 1) == (result.UShort1 == a.UShort1));
+                    constexpr.ASSUME((a.UShort2 <= 1) == (result.UShort2 == a.UShort2));
+                    constexpr.ASSUME((a.UShort3 <= 1) == (result.UShort3 == a.UShort3));
+                    
+                    constexpr.ASSUME((a.UShort0 != 0) == (result.UShort0 > 0));
+                    constexpr.ASSUME((a.UShort1 != 0) == (result.UShort1 > 0));
+                    constexpr.ASSUME((a.UShort2 != 0) == (result.UShort2 > 0));
+                    constexpr.ASSUME((a.UShort3 != 0) == (result.UShort3 > 0));
+
+                    if (elements > 4)
+                    {
+                        constexpr.ASSUME(result.UShort4 * result.UShort4 <= a.UShort4);
+                        constexpr.ASSUME(result.UShort5 * result.UShort5 <= a.UShort5);
+                        constexpr.ASSUME(result.UShort6 * result.UShort6 <= a.UShort6);
+                        constexpr.ASSUME(result.UShort7 * result.UShort7 <= a.UShort7);
+                        
+                        constexpr.ASSUME((uint)(result.UShort4 + 1) * (uint)(result.UShort4 + 1) > a.UShort4);
+                        constexpr.ASSUME((uint)(result.UShort5 + 1) * (uint)(result.UShort5 + 1) > a.UShort5);
+                        constexpr.ASSUME((uint)(result.UShort6 + 1) * (uint)(result.UShort6 + 1) > a.UShort6);
+                        constexpr.ASSUME((uint)(result.UShort7 + 1) * (uint)(result.UShort7 + 1) > a.UShort7);
+                        
+                        constexpr.ASSUME((a.UShort4 <= 1) == (result.UShort4 == a.UShort4));
+                        constexpr.ASSUME((a.UShort5 <= 1) == (result.UShort5 == a.UShort5));
+                        constexpr.ASSUME((a.UShort6 <= 1) == (result.UShort6 == a.UShort6));
+                        constexpr.ASSUME((a.UShort7 <= 1) == (result.UShort7 == a.UShort7));
+                        
+                        constexpr.ASSUME((a.UShort4 != 0) == (result.UShort4 > 0));
+                        constexpr.ASSUME((a.UShort5 != 0) == (result.UShort5 > 0));
+                        constexpr.ASSUME((a.UShort6 != 0) == (result.UShort6 > 0));
+                        constexpr.ASSUME((a.UShort7 != 0) == (result.UShort7 > 0));
+                    }
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -369,33 +982,112 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+if (signed)
+{
+    VectorAssert.IsNotSmaller<short16, short>(a, 0, 16);
+    constexpr.ASSUME_GE_EPI16(a, 0, 16);
+}
+
                     v256 intsLo = mm256_cvt2x2epu16_ps(a, out v256 intsHi);
+                    v256 result;
 
                     if (constexpr.ALL_LE_EPU16(a, byte.MaxValue))
                     {
                         v256 sqrtLo = Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(intsLo));
                         v256 sqrtHi = Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(intsHi));
-                        v256 shorts = mm256_cvtt2x2ps_epu16(sqrtLo, sqrtHi);
+                        result = mm256_cvtt2x2ps_epu16(sqrtLo, sqrtHi);
 
                         if (!(constexpr.ALL_NEQ_EPU16(a, 225) || constexpr.ALL_LT_EPU16(a, 225) || constexpr.ALL_GT_EPU16(a, 225)))
                         {
-                            shorts = Avx2.mm256_sub_epi16(shorts, Avx2.mm256_cmpeq_epi16(a, mm256_set1_epi16(225)));
+                            result = Avx2.mm256_sub_epi16(result, Avx2.mm256_cmpeq_epi16(a, mm256_set1_epi16(225)));
                         }
 
-                        constexpr.ASSUME_LE_EPU16(shorts, 15);
-
-                        return shorts;
+                        constexpr.ASSUME_LE_EPU16(result, 15);
                     }
                     else
                     {
                         v256 sqrtLo = Avx.mm256_sqrt_ps(intsLo);
                         v256 sqrtHi = Avx.mm256_sqrt_ps(intsHi);
-                        v256 shorts = Avx2.mm256_packus_epi32(Avx.mm256_cvttps_epi32(sqrtLo), Avx.mm256_cvttps_epi32(sqrtHi));
+                        result = Avx2.mm256_packus_epi32(Avx.mm256_cvttps_epi32(sqrtLo), Avx.mm256_cvttps_epi32(sqrtHi));
 
-                        constexpr.ASSUME_LE_EPU16(shorts, signed ? (byte)181 : byte.MaxValue);
-
-                        return shorts;
+                        constexpr.ASSUME_LE_EPU16(result, signed ? (byte)181 : byte.MaxValue);
                     }
+
+                    constexpr.ASSUME_LE_EPU16(result, a);
+                    if (constexpr.ALL_GT_EPU16(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU16(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UShort0  * result.UShort0  <= a.UShort0 );
+                    constexpr.ASSUME(result.UShort1  * result.UShort1  <= a.UShort1 );
+                    constexpr.ASSUME(result.UShort2  * result.UShort2  <= a.UShort2 );
+                    constexpr.ASSUME(result.UShort3  * result.UShort3  <= a.UShort3 );
+                    constexpr.ASSUME(result.UShort4  * result.UShort4  <= a.UShort4 );
+                    constexpr.ASSUME(result.UShort5  * result.UShort5  <= a.UShort5 );
+                    constexpr.ASSUME(result.UShort6  * result.UShort6  <= a.UShort6 );
+                    constexpr.ASSUME(result.UShort7  * result.UShort7  <= a.UShort7 );
+                    constexpr.ASSUME(result.UShort8  * result.UShort8  <= a.UShort8 );
+                    constexpr.ASSUME(result.UShort9  * result.UShort9  <= a.UShort9 );
+                    constexpr.ASSUME(result.UShort10 * result.UShort10 <= a.UShort10);
+                    constexpr.ASSUME(result.UShort11 * result.UShort11 <= a.UShort11);
+                    constexpr.ASSUME(result.UShort12 * result.UShort12 <= a.UShort12);
+                    constexpr.ASSUME(result.UShort13 * result.UShort13 <= a.UShort13);
+                    constexpr.ASSUME(result.UShort14 * result.UShort14 <= a.UShort14);
+                    constexpr.ASSUME(result.UShort15 * result.UShort15 <= a.UShort15);
+                    
+                    constexpr.ASSUME((uint)(result.UShort0  + 1) * (uint)(result.UShort0  + 1) > a.UShort0 );
+                    constexpr.ASSUME((uint)(result.UShort1  + 1) * (uint)(result.UShort1  + 1) > a.UShort1 );
+                    constexpr.ASSUME((uint)(result.UShort2  + 1) * (uint)(result.UShort2  + 1) > a.UShort2 );
+                    constexpr.ASSUME((uint)(result.UShort3  + 1) * (uint)(result.UShort3  + 1) > a.UShort3 );
+                    constexpr.ASSUME((uint)(result.UShort4  + 1) * (uint)(result.UShort4  + 1) > a.UShort4 );
+                    constexpr.ASSUME((uint)(result.UShort5  + 1) * (uint)(result.UShort5  + 1) > a.UShort5 );
+                    constexpr.ASSUME((uint)(result.UShort6  + 1) * (uint)(result.UShort6  + 1) > a.UShort6 );
+                    constexpr.ASSUME((uint)(result.UShort7  + 1) * (uint)(result.UShort7  + 1) > a.UShort7 );
+                    constexpr.ASSUME((uint)(result.UShort8  + 1) * (uint)(result.UShort8  + 1) > a.UShort8 );
+                    constexpr.ASSUME((uint)(result.UShort9  + 1) * (uint)(result.UShort9  + 1) > a.UShort9 );
+                    constexpr.ASSUME((uint)(result.UShort10 + 1) * (uint)(result.UShort10 + 1) > a.UShort10);
+                    constexpr.ASSUME((uint)(result.UShort11 + 1) * (uint)(result.UShort11 + 1) > a.UShort11);
+                    constexpr.ASSUME((uint)(result.UShort12 + 1) * (uint)(result.UShort12 + 1) > a.UShort12);
+                    constexpr.ASSUME((uint)(result.UShort13 + 1) * (uint)(result.UShort13 + 1) > a.UShort13);
+                    constexpr.ASSUME((uint)(result.UShort14 + 1) * (uint)(result.UShort14 + 1) > a.UShort14);
+                    constexpr.ASSUME((uint)(result.UShort15 + 1) * (uint)(result.UShort15 + 1) > a.UShort15);
+                    
+                    constexpr.ASSUME((a.UShort0  <= 1) == (result.UShort0  == a.UShort0 ));
+                    constexpr.ASSUME((a.UShort1  <= 1) == (result.UShort1  == a.UShort1 ));
+                    constexpr.ASSUME((a.UShort2  <= 1) == (result.UShort2  == a.UShort2 ));
+                    constexpr.ASSUME((a.UShort3  <= 1) == (result.UShort3  == a.UShort3 ));
+                    constexpr.ASSUME((a.UShort4  <= 1) == (result.UShort4  == a.UShort4 ));
+                    constexpr.ASSUME((a.UShort5  <= 1) == (result.UShort5  == a.UShort5 ));
+                    constexpr.ASSUME((a.UShort6  <= 1) == (result.UShort6  == a.UShort6 ));
+                    constexpr.ASSUME((a.UShort7  <= 1) == (result.UShort7  == a.UShort7 ));
+                    constexpr.ASSUME((a.UShort8  <= 1) == (result.UShort8  == a.UShort8 ));
+                    constexpr.ASSUME((a.UShort9  <= 1) == (result.UShort9  == a.UShort9 ));
+                    constexpr.ASSUME((a.UShort10 <= 1) == (result.UShort10 == a.UShort10));
+                    constexpr.ASSUME((a.UShort11 <= 1) == (result.UShort11 == a.UShort11));
+                    constexpr.ASSUME((a.UShort12 <= 1) == (result.UShort12 == a.UShort12));
+                    constexpr.ASSUME((a.UShort13 <= 1) == (result.UShort13 == a.UShort13));
+                    constexpr.ASSUME((a.UShort14 <= 1) == (result.UShort14 == a.UShort14));
+                    constexpr.ASSUME((a.UShort15 <= 1) == (result.UShort15 == a.UShort15));
+                    
+                    constexpr.ASSUME((a.UShort0  != 0) == (result.UShort0  > 0));
+                    constexpr.ASSUME((a.UShort1  != 0) == (result.UShort1  > 0));
+                    constexpr.ASSUME((a.UShort2  != 0) == (result.UShort2  > 0));
+                    constexpr.ASSUME((a.UShort3  != 0) == (result.UShort3  > 0));
+                    constexpr.ASSUME((a.UShort4  != 0) == (result.UShort4  > 0));
+                    constexpr.ASSUME((a.UShort5  != 0) == (result.UShort5  > 0));
+                    constexpr.ASSUME((a.UShort6  != 0) == (result.UShort6  > 0));
+                    constexpr.ASSUME((a.UShort7  != 0) == (result.UShort7  > 0));
+                    constexpr.ASSUME((a.UShort8  != 0) == (result.UShort8  > 0));
+                    constexpr.ASSUME((a.UShort9  != 0) == (result.UShort9  > 0));
+                    constexpr.ASSUME((a.UShort10 != 0) == (result.UShort10 > 0));
+                    constexpr.ASSUME((a.UShort11 != 0) == (result.UShort11 > 0));
+                    constexpr.ASSUME((a.UShort12 != 0) == (result.UShort12 > 0));
+                    constexpr.ASSUME((a.UShort13 != 0) == (result.UShort13 > 0));
+                    constexpr.ASSUME((a.UShort14 != 0) == (result.UShort14 > 0));
+                    constexpr.ASSUME((a.UShort15 != 0) == (result.UShort15 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -427,37 +1119,38 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+VectorAssert.IsNotSmaller<int4, int>(a, 0, elements);
+constexpr.ASSUME_GE_EPI32(a, 0, elements);
+                    
+                    v128 result;
+
                     if (constexpr.ALL_LE_EPU32(a, MAX_ACCURATE_INT_SQRT_F32, elements))
                     {
-                        v128 ints;
-
                         if (Sse2.IsSse2Supported)
                         {
                             if (constexpr.ALL_LE_EPU32(a, byte.MaxValue, elements))
                             {
-                                ints = cvttps_epi32(rcp_ps(rsqrt_ps(cvtepi32_ps(a))));
+                                result = cvttps_epi32(rcp_ps(rsqrt_ps(cvtepi32_ps(a))));
 
                                 if (!(constexpr.ALL_NEQ_EPU32(a, 225, elements) || constexpr.ALL_LT_EPU32(a, 225, elements) || constexpr.ALL_GT_EPU32(a, 225, elements)))
                                 {
-                                    ints = sub_epi32(ints, cmpeq_epi32(a, set1_epi32(225)));
+                                    result = sub_epi32(result, cmpeq_epi32(a, set1_epi32(225)));
                                 }
 
-                                constexpr.ASSUME_LE_EPU32(ints, 15);
-
-                                return ints;
+                                constexpr.ASSUME_LE_EPU32(result, 15);
+                                
+                                goto RET;
                             }
                         }
 
-                        ints = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
-                        constexpr.ASSUME_LE_EPU32(ints, constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-
-                        return ints;
+                        result = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
+                        constexpr.ASSUME_LE_EPU32(result, constexpr.ALL_LE_EPU32(a, ushort.MaxValue, elements) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
                     }
                     else
                     {
                         if (elements == 2)
                         {
-                            a = cvttpd_epi32(sqrt_pd(cvtepi32_pd(a)));
+                            result = cvttpd_epi32(sqrt_pd(cvtepi32_pd(a)));
                         }
                         else
                         {
@@ -465,11 +1158,11 @@ namespace MaxMath
                             {
                                 if (Avx.IsAvxSupported)
                                 {
-                                    a = Avx.mm256_cvttpd_epi32(Avx.mm256_sqrt_pd(Avx.mm256_cvtepi32_pd(a)));
+                                    result = Avx.mm256_cvttpd_epi32(Avx.mm256_sqrt_pd(Avx.mm256_cvtepi32_pd(a)));
 
-                                    constexpr.ASSUME_LE_EPU32(a, 46_340);
+                                    constexpr.ASSUME_LE_EPU32(result, 46_340);
 
-                                    return a;
+                                    goto RET;
                                 }
                             }
 
@@ -478,13 +1171,41 @@ namespace MaxMath
                             sqrtLo = cvttpd_epi32(sqrt_pd(sqrtLo));
                             sqrtHi = cvttpd_epi32(sqrt_pd(sqrtHi));
 
-                            a = unpacklo_epi64(sqrtLo, sqrtHi);
+                            result = unpacklo_epi64(sqrtLo, sqrtHi);
                         }
 
-                        constexpr.ASSUME_LE_EPU32(a, 46_340);
-
-                        return a;
+                        constexpr.ASSUME_LE_EPU32(result, 46_340);
                     }
+
+                RET:
+
+                    constexpr.ASSUME_LE_EPU32(result, a);
+                    if (constexpr.ALL_GT_EPU32(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU32(result, a, elements);
+                    }
+                    
+                    constexpr.ASSUME(result.UInt0 * result.UInt0 <= a.UInt0);
+                    constexpr.ASSUME(result.UInt1 * result.UInt1 <= a.UInt1);
+                    constexpr.ASSUME(result.UInt2 * result.UInt2 <= a.UInt2);
+                    constexpr.ASSUME(result.UInt3 * result.UInt3 <= a.UInt3);
+                    
+                    constexpr.ASSUME(((ulong)result.UInt0 + 1) *((ulong)result.UInt0 + 1) > a.UInt0);
+                    constexpr.ASSUME(((ulong)result.UInt1 + 1) *((ulong)result.UInt1 + 1) > a.UInt1);
+                    constexpr.ASSUME(((ulong)result.UInt2 + 1) *((ulong)result.UInt2 + 1) > a.UInt2);
+                    constexpr.ASSUME(((ulong)result.UInt3 + 1) *((ulong)result.UInt3 + 1) > a.UInt3);
+                    
+                    constexpr.ASSUME((a.UInt0 <= 1) == (result.UInt0 == a.UInt0));
+                    constexpr.ASSUME((a.UInt1 <= 1) == (result.UInt1 == a.UInt1));
+                    constexpr.ASSUME((a.UInt2 <= 1) == (result.UInt2 == a.UInt2));
+                    constexpr.ASSUME((a.UInt3 <= 1) == (result.UInt3 == a.UInt3));
+                    
+                    constexpr.ASSUME((a.UInt0 != 0) == (result.UInt0 > 0));
+                    constexpr.ASSUME((a.UInt1 != 0) == (result.UInt1 > 0));
+                    constexpr.ASSUME((a.UInt2 != 0) == (result.UInt2 > 0));
+                    constexpr.ASSUME((a.UInt3 != 0) == (result.UInt3 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -494,28 +1215,29 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+VectorAssert.IsNotSmaller<int8, int>(a, 0, 8);
+constexpr.ASSUME_GE_EPI32(a, 0, 8);
+
+                    v256 result;
+
                     if (constexpr.ALL_LE_EPU32(a, MAX_ACCURATE_INT_SQRT_F32))
                     {
                         if (constexpr.ALL_LE_EPU32(a, byte.MaxValue))
                         {
-                            v256 ints = Avx.mm256_cvttps_epi32(Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(Avx.mm256_cvtepi32_ps(a))));
+                            result = Avx.mm256_cvttps_epi32(Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(Avx.mm256_cvtepi32_ps(a))));
 
                             if (!(constexpr.ALL_NEQ_EPU32(a, 225) || constexpr.ALL_LT_EPU32(a, 225) || constexpr.ALL_GT_EPU32(a, 225)))
                             {
-                                ints = Avx2.mm256_sub_epi32(ints, Avx2.mm256_cmpeq_epi32(a, mm256_set1_epi32(225)));
+                                result = Avx2.mm256_sub_epi32(result, Avx2.mm256_cmpeq_epi32(a, mm256_set1_epi32(225)));
                             }
 
-                            constexpr.ASSUME_LE_EPU32(ints, 15);
-
-                            return ints;
+                            constexpr.ASSUME_LE_EPU32(result, 15);
                         }
                         else
                         {
-                            v256 ints = Avx.mm256_cvttps_epi32(Avx.mm256_sqrt_ps(Avx.mm256_cvtepi32_ps(a)));
+                            result = Avx.mm256_cvttps_epi32(Avx.mm256_sqrt_ps(Avx.mm256_cvtepi32_ps(a)));
 
-                            constexpr.ASSUME_LE_EPU32(ints, constexpr.ALL_LE_EPU32(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-
-                            return ints;
+                            constexpr.ASSUME_LE_EPU32(result, constexpr.ALL_LE_EPU32(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
                         }
                     }
                     else
@@ -525,12 +1247,54 @@ namespace MaxMath
                         v256 sqrtLo = Avx.mm256_sqrt_pd(doublesLo);
                         v256 sqrtHi = Avx.mm256_sqrt_pd(doublesHi);
 
-                        a = mm256_cvtt2x2pd_epu32(sqrtLo, sqrtHi, positive: true, nonZero: constexpr.ALL_NEQ_EPI32(a, 0));
+                        result = mm256_cvtt2x2pd_epu32(sqrtLo, sqrtHi, positive: true, nonZero: constexpr.ALL_NEQ_EPI32(a, 0));
 
-                        constexpr.ASSUME_LE_EPU32(a, 46_340);
-
-                        return a;
+                        constexpr.ASSUME_LE_EPU32(result, 46_340);
                     }
+
+                    constexpr.ASSUME_LE_EPU32(result, a);
+                    if (constexpr.ALL_GT_EPU32(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU32(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UInt0 * result.UInt0 <= a.UInt0);
+                    constexpr.ASSUME(result.UInt1 * result.UInt1 <= a.UInt1);
+                    constexpr.ASSUME(result.UInt2 * result.UInt2 <= a.UInt2);
+                    constexpr.ASSUME(result.UInt3 * result.UInt3 <= a.UInt3);
+                    constexpr.ASSUME(result.UInt4 * result.UInt4 <= a.UInt4);
+                    constexpr.ASSUME(result.UInt5 * result.UInt5 <= a.UInt5);
+                    constexpr.ASSUME(result.UInt6 * result.UInt6 <= a.UInt6);
+                    constexpr.ASSUME(result.UInt7 * result.UInt7 <= a.UInt7);
+                    
+                    constexpr.ASSUME(((ulong)result.UInt0 + 1) *((ulong)result.UInt0 + 1) > a.UInt0);
+                    constexpr.ASSUME(((ulong)result.UInt1 + 1) *((ulong)result.UInt1 + 1) > a.UInt1);
+                    constexpr.ASSUME(((ulong)result.UInt2 + 1) *((ulong)result.UInt2 + 1) > a.UInt2);
+                    constexpr.ASSUME(((ulong)result.UInt3 + 1) *((ulong)result.UInt3 + 1) > a.UInt3);
+                    constexpr.ASSUME(((ulong)result.UInt4 + 1) *((ulong)result.UInt4 + 1) > a.UInt4);
+                    constexpr.ASSUME(((ulong)result.UInt5 + 1) *((ulong)result.UInt5 + 1) > a.UInt5);
+                    constexpr.ASSUME(((ulong)result.UInt6 + 1) *((ulong)result.UInt6 + 1) > a.UInt6);
+                    constexpr.ASSUME(((ulong)result.UInt7 + 1) *((ulong)result.UInt7 + 1) > a.UInt7);
+                    
+                    constexpr.ASSUME((a.UInt0 <= 1) == (result.UInt0 == a.UInt0));
+                    constexpr.ASSUME((a.UInt1 <= 1) == (result.UInt1 == a.UInt1));
+                    constexpr.ASSUME((a.UInt2 <= 1) == (result.UInt2 == a.UInt2));
+                    constexpr.ASSUME((a.UInt3 <= 1) == (result.UInt3 == a.UInt3));
+                    constexpr.ASSUME((a.UInt4 <= 1) == (result.UInt4 == a.UInt4));
+                    constexpr.ASSUME((a.UInt5 <= 1) == (result.UInt5 == a.UInt5));
+                    constexpr.ASSUME((a.UInt6 <= 1) == (result.UInt6 == a.UInt6));
+                    constexpr.ASSUME((a.UInt7 <= 1) == (result.UInt7 == a.UInt7));
+                    
+                    constexpr.ASSUME((a.UInt0 != 0) == (result.UInt0 > 0));
+                    constexpr.ASSUME((a.UInt1 != 0) == (result.UInt1 > 0));
+                    constexpr.ASSUME((a.UInt2 != 0) == (result.UInt2 > 0));
+                    constexpr.ASSUME((a.UInt3 != 0) == (result.UInt3 > 0));
+                    constexpr.ASSUME((a.UInt4 != 0) == (result.UInt4 > 0));
+                    constexpr.ASSUME((a.UInt5 != 0) == (result.UInt5 > 0));
+                    constexpr.ASSUME((a.UInt6 != 0) == (result.UInt6 > 0));
+                    constexpr.ASSUME((a.UInt7 != 0) == (result.UInt7 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -541,37 +1305,35 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+                    v128 result;
+
                     if (constexpr.ALL_LE_EPU32(a, MAX_ACCURATE_INT_SQRT_F32, elements))
                     {
-                        v128 ints;
-
                         if (Sse2.IsSse2Supported)
                         {
                             if (constexpr.ALL_LE_EPU32(a, byte.MaxValue, elements))
                             {
-                                ints = cvttps_epi32(rcp_ps(rsqrt_ps(cvtepi32_ps(a))));
+                                result = cvttps_epi32(rcp_ps(rsqrt_ps(cvtepi32_ps(a))));
 
                                 if (!(constexpr.ALL_NEQ_EPU32(a, 225, elements) || constexpr.ALL_LT_EPU32(a, 225, elements) || constexpr.ALL_GT_EPU32(a, 225, elements)))
                                 {
-                                    ints = sub_epi32(ints, cmpeq_epi32(a, set1_epi32(225)));
+                                    result = sub_epi32(result, cmpeq_epi32(a, set1_epi32(225)));
                                 }
 
-                                constexpr.ASSUME_LE_EPU32(ints, 15);
+                                constexpr.ASSUME_LE_EPU32(result, 15);
 
-                                return ints;
+                                goto RET;
                             }
                         }
 
-                        ints = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
-                        constexpr.ASSUME_LE_EPU32(ints, constexpr.ALL_LE_EPU32(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-
-                        return ints;
+                        result = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
+                        constexpr.ASSUME_LE_EPU32(result, constexpr.ALL_LE_EPU32(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
                     }
                     else
                     {
                         if (elements == 2)
                         {
-                            a = cvttpd_epi32(sqrt_pd(cvtepu32_pd(a)));
+                            result = cvttpd_epi32(sqrt_pd(cvtepu32_pd(a)));
                         }
                         else
                         {
@@ -579,11 +1341,11 @@ namespace MaxMath
                             {
                                 if (Avx.IsAvxSupported)
                                 {
-                                    a = Avx.mm256_cvttpd_epi32(Avx.mm256_sqrt_pd(mm256_cvtepu32_pd(a)));
+                                    result = Avx.mm256_cvttpd_epi32(Avx.mm256_sqrt_pd(mm256_cvtepu32_pd(a)));
 
-                                    constexpr.ASSUME_LE_EPU32(a, ushort.MaxValue);
+                                    constexpr.ASSUME_LE_EPU32(result, ushort.MaxValue);
 
-                                    return a;
+                                    goto RET;
                                 }
                             }
 
@@ -592,13 +1354,41 @@ namespace MaxMath
                             sqrtLo = cvttpd_epi32(sqrt_pd(sqrtLo));
                             sqrtHi = cvttpd_epi32(sqrt_pd(sqrtHi));
 
-                            a = unpacklo_epi64(sqrtLo, sqrtHi);
+                            result = unpacklo_epi64(sqrtLo, sqrtHi);
                         }
 
-                        constexpr.ASSUME_LE_EPU32(a, ushort.MaxValue);
-
-                        return a;
+                        constexpr.ASSUME_LE_EPU32(result, ushort.MaxValue);
                     }
+
+                RET:
+
+                    constexpr.ASSUME_LE_EPU32(result, a);
+                    if (constexpr.ALL_GT_EPU32(a, 1, elements))
+                    {
+                        constexpr.ASSUME_LT_EPU32(result, a, elements);
+                    }
+                    
+                    constexpr.ASSUME(result.UInt0 * result.UInt0 <= a.UInt0);
+                    constexpr.ASSUME(result.UInt1 * result.UInt1 <= a.UInt1);
+                    constexpr.ASSUME(result.UInt2 * result.UInt2 <= a.UInt2);
+                    constexpr.ASSUME(result.UInt3 * result.UInt3 <= a.UInt3);
+                    
+                    constexpr.ASSUME(((ulong)result.UInt0 + 1) *((ulong)result.UInt0 + 1) > a.UInt0);
+                    constexpr.ASSUME(((ulong)result.UInt1 + 1) *((ulong)result.UInt1 + 1) > a.UInt1);
+                    constexpr.ASSUME(((ulong)result.UInt2 + 1) *((ulong)result.UInt2 + 1) > a.UInt2);
+                    constexpr.ASSUME(((ulong)result.UInt3 + 1) *((ulong)result.UInt3 + 1) > a.UInt3);
+                    
+                    constexpr.ASSUME((a.UInt0 <= 1) == (result.UInt0 == a.UInt0));
+                    constexpr.ASSUME((a.UInt1 <= 1) == (result.UInt1 == a.UInt1));
+                    constexpr.ASSUME((a.UInt2 <= 1) == (result.UInt2 == a.UInt2));
+                    constexpr.ASSUME((a.UInt3 <= 1) == (result.UInt3 == a.UInt3));
+                    
+                    constexpr.ASSUME((a.UInt0 != 0) == (result.UInt0 > 0));
+                    constexpr.ASSUME((a.UInt1 != 0) == (result.UInt1 > 0));
+                    constexpr.ASSUME((a.UInt2 != 0) == (result.UInt2 > 0));
+                    constexpr.ASSUME((a.UInt3 != 0) == (result.UInt3 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
@@ -608,28 +1398,26 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+                    v256 result;
+
                     if (constexpr.ALL_LE_EPU32(a, MAX_ACCURATE_INT_SQRT_F32))
                     {
                         if (constexpr.ALL_LE_EPU32(a, byte.MaxValue))
                         {
-                            v256 ints = Avx.mm256_cvttps_epi32(Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(Avx.mm256_cvtepi32_ps(a))));
+                            result = Avx.mm256_cvttps_epi32(Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(Avx.mm256_cvtepi32_ps(a))));
 
                             if (!(constexpr.ALL_NEQ_EPU32(a, 225) || constexpr.ALL_LT_EPU32(a, 225) || constexpr.ALL_GT_EPU32(a, 225)))
                             {
-                                ints = Avx2.mm256_sub_epi32(ints, Avx2.mm256_cmpeq_epi32(a, mm256_set1_epi32(225)));
+                                result = Avx2.mm256_sub_epi32(result, Avx2.mm256_cmpeq_epi32(a, mm256_set1_epi32(225)));
                             }
 
-                            constexpr.ASSUME_LE_EPU32(ints, 15);
-
-                            return ints;
+                            constexpr.ASSUME_LE_EPU32(result, 15);
                         }
                         else
                         {
-                            v256 ints = Avx.mm256_cvttps_epi32(Avx.mm256_sqrt_ps(Avx.mm256_cvtepi32_ps(a)));
+                            result = Avx.mm256_cvttps_epi32(Avx.mm256_sqrt_ps(Avx.mm256_cvtepi32_ps(a)));
 
-                            constexpr.ASSUME_LE_EPU32(ints, constexpr.ALL_LE_EPU32(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-
-                            return ints;
+                            constexpr.ASSUME_LE_EPU32(result, constexpr.ALL_LE_EPU32(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
                         }
                     }
                     else
@@ -638,67 +1426,117 @@ namespace MaxMath
 
                         v256 sqrtLo = Avx.mm256_sqrt_pd(doublesLo);
                         v256 sqrtHi = Avx.mm256_sqrt_pd(doublesHi);
-                        v256 ints =  mm256_cvtt2x2pd_epu32(sqrtLo, sqrtHi);
+                        result =  mm256_cvtt2x2pd_epu32(sqrtLo, sqrtHi);
 
-                        constexpr.ASSUME_LE_EPU32(ints, ushort.MaxValue);
-
-                        return ints;
+                        constexpr.ASSUME_LE_EPU32(result, ushort.MaxValue);
                     }
+
+                    constexpr.ASSUME_LE_EPU32(result, a);
+                    if (constexpr.ALL_GT_EPU32(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU32(result, a);
+                    }
+
+                    constexpr.ASSUME(result.UInt0 * result.UInt0 <= a.UInt0);
+                    constexpr.ASSUME(result.UInt1 * result.UInt1 <= a.UInt1);
+                    constexpr.ASSUME(result.UInt2 * result.UInt2 <= a.UInt2);
+                    constexpr.ASSUME(result.UInt3 * result.UInt3 <= a.UInt3);
+                    constexpr.ASSUME(result.UInt4 * result.UInt4 <= a.UInt4);
+                    constexpr.ASSUME(result.UInt5 * result.UInt5 <= a.UInt5);
+                    constexpr.ASSUME(result.UInt6 * result.UInt6 <= a.UInt6);
+                    constexpr.ASSUME(result.UInt7 * result.UInt7 <= a.UInt7);
+                    
+                    constexpr.ASSUME(((ulong)result.UInt0 + 1) *((ulong)result.UInt0 + 1) > a.UInt0);
+                    constexpr.ASSUME(((ulong)result.UInt1 + 1) *((ulong)result.UInt1 + 1) > a.UInt1);
+                    constexpr.ASSUME(((ulong)result.UInt2 + 1) *((ulong)result.UInt2 + 1) > a.UInt2);
+                    constexpr.ASSUME(((ulong)result.UInt3 + 1) *((ulong)result.UInt3 + 1) > a.UInt3);
+                    constexpr.ASSUME(((ulong)result.UInt4 + 1) *((ulong)result.UInt4 + 1) > a.UInt4);
+                    constexpr.ASSUME(((ulong)result.UInt5 + 1) *((ulong)result.UInt5 + 1) > a.UInt5);
+                    constexpr.ASSUME(((ulong)result.UInt6 + 1) *((ulong)result.UInt6 + 1) > a.UInt6);
+                    constexpr.ASSUME(((ulong)result.UInt7 + 1) *((ulong)result.UInt7 + 1) > a.UInt7);
+                    
+                    constexpr.ASSUME((a.UInt0 <= 1) == (result.UInt0 == a.UInt0));
+                    constexpr.ASSUME((a.UInt1 <= 1) == (result.UInt1 == a.UInt1));
+                    constexpr.ASSUME((a.UInt2 <= 1) == (result.UInt2 == a.UInt2));
+                    constexpr.ASSUME((a.UInt3 <= 1) == (result.UInt3 == a.UInt3));
+                    constexpr.ASSUME((a.UInt4 <= 1) == (result.UInt4 == a.UInt4));
+                    constexpr.ASSUME((a.UInt5 <= 1) == (result.UInt5 == a.UInt5));
+                    constexpr.ASSUME((a.UInt6 <= 1) == (result.UInt6 == a.UInt6));
+                    constexpr.ASSUME((a.UInt7 <= 1) == (result.UInt7 == a.UInt7));
+                    
+                    constexpr.ASSUME((a.UInt0 != 0) == (result.UInt0 > 0));
+                    constexpr.ASSUME((a.UInt1 != 0) == (result.UInt1 > 0));
+                    constexpr.ASSUME((a.UInt2 != 0) == (result.UInt2 > 0));
+                    constexpr.ASSUME((a.UInt3 != 0) == (result.UInt3 > 0));
+                    constexpr.ASSUME((a.UInt4 != 0) == (result.UInt4 > 0));
+                    constexpr.ASSUME((a.UInt5 != 0) == (result.UInt5 > 0));
+                    constexpr.ASSUME((a.UInt6 != 0) == (result.UInt6 > 0));
+                    constexpr.ASSUME((a.UInt7 != 0) == (result.UInt7 > 0));
+
+                    return result;
                 }
                 else throw new IllegalInstructionException();
             }
 
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_epi64(v128 a)
+            public static v128 sqrt_epi64(v128 a, bool promiseDBLrange = false)
+            {
+                if (BurstArchitecture.IsSIMDSupported)
+                {
+VectorAssert.IsNotSmaller<long2, long>(a, 0, 2);
+constexpr.ASSUME_GE_EPI64(a, 0, 2);
+
+                    if (Avx2.IsAvx2Supported)
+                    {
+                        return sqrt_ep64(a, signed: true, useFPU: true, promiseDBLrange: promiseDBLrange);
+                    }
+                    else
+                    {
+                        return sqrt_ep64(a, signed: true, useFPU: false, promiseDBLrange: promiseDBLrange);
+                    }
+                }
+                else throw new IllegalInstructionException();
+            }
+
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static v128 sqrt_epu64(v128 a, bool promiseDBLrange = false)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
                     if (Avx2.IsAvx2Supported)
                     {
-                        return sqrt_ep64(a, signed: true, useFPU: false);
+                        return sqrt_ep64(a, signed: false, useFPU: true, promiseDBLrange: promiseDBLrange);
                     }
                     else
                     {
-                        return sqrt_ep64(a, signed: true, useFPU: true);
+                        return sqrt_ep64(a, signed: false, useFPU: false, promiseDBLrange: promiseDBLrange);
                     }
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v128 sqrt_epu64(v128 a)
+            public static void sqrt_epi64x2(v128 a0, v128 a1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool promiseDBLrange = false)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    if (Avx2.IsAvx2Supported)
-                    {
-                        return sqrt_ep64(a, signed: false, useFPU: false);
-                    }
-                    else
-                    {
-                        return sqrt_ep64(a, signed: false, useFPU: true);
-                    }
+VectorAssert.IsNotSmaller<long2, long>(a0, 0, 2);
+VectorAssert.IsNotSmaller<long2, long>(a1, 0, 2);
+constexpr.ASSUME_GE_EPI64(a0, 0, 2);
+constexpr.ASSUME_GE_EPI64(a1, 0, 2);
+
+                    sqrt_ep64x2(a0, a1, out r0, out r1, signed: true, promiseDBLrange: promiseDBLrange);
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void sqrt_epi64x2(v128 a0, v128 a1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
+            public static void sqrt_epu64x2(v128 a0, v128 a1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool promiseDBLrange = false)
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    sqrt_ep64x2(a0, a1, out r0, out r1, signed: true);
-                }
-                else throw new IllegalInstructionException();
-            }
-
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static void sqrt_epu64x2(v128 a0, v128 a1, [NoAlias] out v128 r0, [NoAlias] out v128 r1)
-            {
-                if (BurstArchitecture.IsSIMDSupported)
-                {
-                    sqrt_ep64x2(a0, a1, out r0, out r1, signed: false);
+                    sqrt_ep64x2(a0, a1, out r0, out r1, signed: false, promiseDBLrange: promiseDBLrange);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -708,6 +1546,14 @@ namespace MaxMath
             {
                 if (BurstArchitecture.IsSIMDSupported)
                 {
+VectorAssert.IsNotSmaller<long2, long>(a0, 0, 2);
+VectorAssert.IsNotSmaller<long2, long>(a1, 0, 2);
+VectorAssert.IsNotSmaller<long2, long>(a2, 0, 2);
+VectorAssert.IsNotSmaller<long2, long>(a3, 0, 2);
+constexpr.ASSUME_GE_EPI64(a1, 0, 2);
+constexpr.ASSUME_GE_EPI64(a2, 0, 2);
+constexpr.ASSUME_GE_EPI64(a3, 0, 2);
+
                     sqrt_ep64x4(a0, a1, a2, a3, out r0, out r1, out r2, out r3, signed: true);
                 }
                 else throw new IllegalInstructionException();
@@ -724,21 +1570,24 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_sqrt_epi64(v256 a, byte elements = 4)
+            public static v256 mm256_sqrt_epi64(v256 a, byte elements = 4, bool promiseDBLrange = false)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_sqrt_ep64(a, signed: true, elements);
+VectorAssert.IsNotSmaller<long4, long>(a, 0, elements);
+constexpr.ASSUME_GE_EPI64(a, 0, elements);
+
+                    return mm256_sqrt_ep64(a, signed: true, elements, promiseDBLrange: promiseDBLrange);
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static v256 mm256_sqrt_epu64(v256 a, byte elements = 4)
+            public static v256 mm256_sqrt_epu64(v256 a, byte elements = 4, bool promiseDBLrange = false)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    return mm256_sqrt_ep64(a, signed: false, elements);
+                    return mm256_sqrt_ep64(a, signed: false, elements, promiseDBLrange: promiseDBLrange);
                 }
                 else throw new IllegalInstructionException();
             }
@@ -748,6 +1597,11 @@ namespace MaxMath
             {
                 if (Avx2.IsAvx2Supported)
                 {
+VectorAssert.IsNotSmaller<long4, long>(a0, 0, elements);
+constexpr.ASSUME_GE_EPI64(a0, 0, elements);
+VectorAssert.IsNotSmaller<long4, long>(a1, 0, elements);
+constexpr.ASSUME_GE_EPI64(a1, 0, elements);
+
                     mm256_sqrt_ep64x2(a0, a1, out r0, out r1, signed: true, elements);
                 }
                 else throw new IllegalInstructionException();
@@ -858,7 +1712,7 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v128 sqrt_ep64(v128 a, bool signed, bool useFPU = false)
+            private static v128 sqrt_ep64(v128 a, bool signed, bool useFPU = false, bool promiseDBLrange = false)
             {
                 static bool ContinueLoop(v128 doneMask, v128 mask)
                 {
@@ -877,46 +1731,44 @@ namespace MaxMath
                 if (BurstArchitecture.IsSIMDSupported)
                 {
                     signed |= constexpr.ALL_LT_EPU64(a, 1ul << 63);
+                    
+                    v128 result;
 
-                    if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F64))
+                    if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F64)
+                     || promiseDBLrange)
                     {
                         if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F32))
                         {
-                            v128 ints;
-
                             if (Sse2.IsSse2Supported)
                             {
                                 if (constexpr.ALL_LE_EPU64(a, byte.MaxValue))
                                 {
-                                    ints = cvttps_epi32(rcp_ps(rsqrt_ps(cvtepi32_ps(a))));
+                                    result = cvttps_epi32(rcp_ps(rsqrt_ps(cvtepi32_ps(a))));
 
                                     if (!(constexpr.ALL_NEQ_EPU64(a, 225) || constexpr.ALL_LT_EPU64(a, 225) || constexpr.ALL_GT_EPU64(a, 225)))
                                     {
-                                        ints = sub_epi64(ints, cmpeq_epi64(a, set1_epi64x(225)));
+                                        result = sub_epi64(result, cmpeq_epi64(a, set1_epi64x(225)));
                                     }
 
-                                    constexpr.ASSUME_LE_EPU64(ints, 15);
+                                    constexpr.ASSUME_LE_EPU64(result, 15);
 
-                                    return ints;
+                                    goto RET;
                                 }
                             }
 
-                            ints = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
-                            constexpr.ASSUME_LE_EPU64(ints, constexpr.ALL_LE_EPU64(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-
-                            return ints;
+                            result = cvttps_epi32(sqrt_ps(cvtepi32_ps(a)));
+                            constexpr.ASSUME_LE_EPU64(result, constexpr.ALL_LE_EPU64(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
+                            
+                            goto RET;
                         }
                         else
                         {
-                            v128 ints = cvttpd_epu64(sqrt_pd(usfcvtepu64_pd(a)));
-                            constexpr.ASSUME_LE_EPU64(ints, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
-
-                            return ints;
+                            result = cvttpd_epu64(sqrt_pd(usfcvtepu64_pd(a)));
+                            constexpr.ASSUME_LE_EPU64(result, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
+                            
+                            goto RET;
                         }
                     }
-
-
-                    v128 result;
 
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
@@ -935,23 +1787,45 @@ namespace MaxMath
                     }
                     else
                     {
-                        PRELOOP_sqrt_ep64(ref a, out v128 mask, out result, signed);
+                        v128 __a = a;
+                        PRELOOP_sqrt_ep64(ref __a, out v128 mask, out result, signed);
                         v128 doneMask;
 
                         while (ContinueLoop(doneMask = cmpeq_epi64(mask, setzero_si128()), mask))
                         {
-                            LOOP_sqrt_ep64(ref a, ref result, ref mask, doneMask, signed);
+                            LOOP_sqrt_ep64(ref __a, ref result, ref mask, doneMask, signed);
                         }
                     }
 
                     constexpr.ASSUME_LE_EPU64(result, signed ? 3_037_000_499 : uint.MaxValue);
+
+                RET:
+
+                    constexpr.ASSUME_LE_EPU64(result, a);
+                    if (constexpr.ALL_GT_EPU64(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(result, a);
+                    }
+
+                    constexpr.ASSUME(result.ULong0 * result.ULong0 <= a.ULong0);
+                    constexpr.ASSUME(result.ULong1 * result.ULong1 <= a.ULong1);
+                    
+                    constexpr.ASSUME((UInt128)(result.ULong0 + 1) * (UInt128)(result.ULong0 + 1) > a.ULong0);
+                    constexpr.ASSUME((UInt128)(result.ULong1 + 1) * (UInt128)(result.ULong1 + 1) > a.ULong1);
+                    
+                    constexpr.ASSUME((a.ULong0 <= 1) == (result.ULong0 == a.ULong0));
+                    constexpr.ASSUME((a.ULong1 <= 1) == (result.ULong1 == a.ULong1));
+                    
+                    constexpr.ASSUME((a.ULong0 != 0) == (result.ULong0 > 0));
+                    constexpr.ASSUME((a.ULong1 != 0) == (result.ULong1 > 0));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void sqrt_ep64x2(v128 a0, v128 a1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed)
+            private static void sqrt_ep64x2(v128 a0, v128 a1, [NoAlias] out v128 r0, [NoAlias] out v128 r1, bool signed, bool promiseDBLrange = false)
             {
                 static bool ContinueLoop(v128 doneMask0, v128 doneMask1, v128 mask0, v128 mask1)
                 {
@@ -973,7 +1847,8 @@ namespace MaxMath
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    if (constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F64))
+                    if ((constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F64))
+                     || promiseDBLrange)
                     {
                         if (constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F32) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F32))
                         {
@@ -995,8 +1870,8 @@ namespace MaxMath
 
                                     constexpr.ASSUME_LE_EPU64(r0, 15);
                                     constexpr.ASSUME_LE_EPU64(r1, 15);
-
-                                    return;
+                                    
+                                    goto RET;
                                 }
                             }
 
@@ -1004,8 +1879,8 @@ namespace MaxMath
                             r1 = cvttps_epi32(sqrt_ps(cvtepi32_ps(a1)));
                             constexpr.ASSUME_LE_EPU64(r0, constexpr.ALL_LE_EPU64(a0, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
                             constexpr.ASSUME_LE_EPU64(r1, constexpr.ALL_LE_EPU64(a1, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-
-                            return;
+                            
+                            goto RET;
                         }
                         else
                         {
@@ -1014,7 +1889,7 @@ namespace MaxMath
                             constexpr.ASSUME_LE_EPU64(r0, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
                             constexpr.ASSUME_LE_EPU64(r1, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
 
-                            return;
+                            goto RET;
                         }
                     }
 
@@ -1025,15 +1900,17 @@ namespace MaxMath
                     }
                     else
                     {
-                        PRELOOP_sqrt_ep64(ref a0, out v128 mask0, out r0, signed);
-                        PRELOOP_sqrt_ep64(ref a1, out v128 mask1, out r1, signed);
+                        v128 __a0 = a0;
+                        v128 __a1 = a1;
+                        PRELOOP_sqrt_ep64(ref __a0, out v128 mask0, out r0, signed);
+                        PRELOOP_sqrt_ep64(ref __a1, out v128 mask1, out r1, signed);
                         v128 doneMask0 = cmpeq_epi64(mask0, setzero_si128());
                         v128 doneMask1 = cmpeq_epi64(mask1, setzero_si128());
 
                         while (ContinueLoop(doneMask0, doneMask1, mask0, mask1))
                         {
-                            LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, doneMask0, signed);
-                            LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, doneMask1, signed);
+                            LOOP_sqrt_ep64(ref __a0, ref r0, ref mask0, doneMask0, signed);
+                            LOOP_sqrt_ep64(ref __a1, ref r1, ref mask1, doneMask1, signed);
                             doneMask0 = cmpeq_epi64(mask0, setzero_si128());
                             doneMask1 = cmpeq_epi64(mask1, setzero_si128());
                         }
@@ -1041,12 +1918,46 @@ namespace MaxMath
 
                     constexpr.ASSUME_LE_EPU64(r0, signed ? 3_037_000_499 : uint.MaxValue);
                     constexpr.ASSUME_LE_EPU64(r1, signed ? 3_037_000_499 : uint.MaxValue);
+
+                RET:
+
+                    constexpr.ASSUME_LE_EPU64(r0, a0);
+                    if (constexpr.ALL_GT_EPU64(a0, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(r0, a0);
+                    }
+
+                    constexpr.ASSUME_LE_EPU64(r1, a1);
+                    if (constexpr.ALL_GT_EPU64(a1, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(r1, a1);
+                    }
+
+                    constexpr.ASSUME(r0.ULong0 * r0.ULong0 <= a0.ULong0);
+                    constexpr.ASSUME(r0.ULong1 * r0.ULong1 <= a0.ULong1);
+                    constexpr.ASSUME(r1.ULong0 * r1.ULong0 <= a1.ULong0);
+                    constexpr.ASSUME(r1.ULong1 * r1.ULong1 <= a1.ULong1);
+                    
+                    constexpr.ASSUME((UInt128)(r0.ULong0 + 1) * (UInt128)(r0.ULong0 + 1) > a0.ULong0);
+                    constexpr.ASSUME((UInt128)(r0.ULong1 + 1) * (UInt128)(r0.ULong1 + 1) > a0.ULong1);
+                    constexpr.ASSUME((UInt128)(r1.ULong0 + 1) * (UInt128)(r1.ULong0 + 1) > a1.ULong0);
+                    constexpr.ASSUME((UInt128)(r1.ULong1 + 1) * (UInt128)(r1.ULong1 + 1) > a1.ULong1);
+                    
+                    constexpr.ASSUME((a0.ULong0 <= 1) == (r0.ULong0 == a0.ULong0));
+                    constexpr.ASSUME((a0.ULong1 <= 1) == (r0.ULong1 == a0.ULong1));
+                    constexpr.ASSUME((a1.ULong0 <= 1) == (r1.ULong0 == a1.ULong0));
+                    constexpr.ASSUME((a1.ULong1 <= 1) == (r1.ULong1 == a1.ULong1));
+                    
+                    constexpr.ASSUME((a0.ULong0 != 0) == (r0.ULong0 > 0));
+                    constexpr.ASSUME((a0.ULong1 != 0) == (r0.ULong1 > 0));
+                    constexpr.ASSUME((a1.ULong0 != 0) == (r1.ULong0 > 0));
+                    constexpr.ASSUME((a1.ULong1 != 0) == (r1.ULong1 > 0));
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void sqrt_ep64x4(v128 a0, v128 a1, v128 a2, v128 a3, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3, bool signed)
+            private static void sqrt_ep64x4(v128 a0, v128 a1, v128 a2, v128 a3, [NoAlias] out v128 r0, [NoAlias] out v128 r1, [NoAlias] out v128 r2, [NoAlias] out v128 r3, bool signed, bool promiseDBLrange = false)
             {
                 static bool ContinueLoop(v128 doneMask0, v128 doneMask1, v128 doneMask2, v128 doneMask3, v128 mask0, v128 mask1, v128 mask2, v128 mask3)
                 {
@@ -1068,7 +1979,8 @@ namespace MaxMath
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    if (constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a2, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a3, MAX_ACCURATE_INT_SQRT_F64))
+                    if ((constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a2, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a3, MAX_ACCURATE_INT_SQRT_F64))
+                     || promiseDBLrange)
                     {
                         if (constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F32) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F32) && constexpr.ALL_LE_EPU64(a2, MAX_ACCURATE_INT_SQRT_F32) && constexpr.ALL_LE_EPU64(a3, MAX_ACCURATE_INT_SQRT_F32))
                         {
@@ -1102,8 +2014,8 @@ namespace MaxMath
                                     constexpr.ASSUME_LE_EPU64(r1, 15);
                                     constexpr.ASSUME_LE_EPU64(r2, 15);
                                     constexpr.ASSUME_LE_EPU64(r3, 15);
-
-                                    return;
+                                    
+                                    goto RET;
                                 }
                             }
 
@@ -1116,7 +2028,7 @@ namespace MaxMath
                             constexpr.ASSUME_LE_EPU64(r2, constexpr.ALL_LE_EPU64(a2, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
                             constexpr.ASSUME_LE_EPU64(r3, constexpr.ALL_LE_EPU64(a3, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
 
-                            return;
+                            goto RET;
                         }
                         else
                         {
@@ -1128,8 +2040,8 @@ namespace MaxMath
                             constexpr.ASSUME_LE_EPU64(r1, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
                             constexpr.ASSUME_LE_EPU64(r2, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
                             constexpr.ASSUME_LE_EPU64(r3, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
-
-                            return;
+                            
+                            goto RET;
                         }
                     }
 
@@ -1142,10 +2054,14 @@ namespace MaxMath
                     }
                     else
                     {
-                        PRELOOP_sqrt_ep64(ref a0, out v128 mask0, out r0, signed);
-                        PRELOOP_sqrt_ep64(ref a1, out v128 mask1, out r1, signed);
-                        PRELOOP_sqrt_ep64(ref a2, out v128 mask2, out r2, signed);
-                        PRELOOP_sqrt_ep64(ref a3, out v128 mask3, out r3, signed);
+                        v128 __a0 = a0;
+                        v128 __a1 = a1;
+                        v128 __a2 = a2;
+                        v128 __a3 = a3;
+                        PRELOOP_sqrt_ep64(ref __a0, out v128 mask0, out r0, signed);
+                        PRELOOP_sqrt_ep64(ref __a1, out v128 mask1, out r1, signed);
+                        PRELOOP_sqrt_ep64(ref __a2, out v128 mask2, out r2, signed);
+                        PRELOOP_sqrt_ep64(ref __a3, out v128 mask3, out r3, signed);
                         v128 doneMask0 = cmpeq_epi64(mask0, setzero_si128());
                         v128 doneMask1 = cmpeq_epi64(mask1, setzero_si128());
                         v128 doneMask2 = cmpeq_epi64(mask2, setzero_si128());
@@ -1153,10 +2069,10 @@ namespace MaxMath
 
                         while (ContinueLoop(doneMask0, doneMask1, doneMask2, doneMask3, mask0, mask1, mask2, mask3))
                         {
-                            LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, doneMask0, signed);
-                            LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, doneMask1, signed);
-                            LOOP_sqrt_ep64(ref a2, ref r2, ref mask2, doneMask2, signed);
-                            LOOP_sqrt_ep64(ref a3, ref r3, ref mask3, doneMask3, signed);
+                            LOOP_sqrt_ep64(ref __a0, ref r0, ref mask0, doneMask0, signed);
+                            LOOP_sqrt_ep64(ref __a1, ref r1, ref mask1, doneMask1, signed);
+                            LOOP_sqrt_ep64(ref __a2, ref r2, ref mask2, doneMask2, signed);
+                            LOOP_sqrt_ep64(ref __a3, ref r3, ref mask3, doneMask3, signed);
                             doneMask0 = cmpeq_epi64(mask0, setzero_si128());
                             doneMask1 = cmpeq_epi64(mask1, setzero_si128());
                             doneMask2 = cmpeq_epi64(mask2, setzero_si128());
@@ -1168,6 +2084,68 @@ namespace MaxMath
                     constexpr.ASSUME_LE_EPU64(r1, signed ? 3_037_000_499 : uint.MaxValue);
                     constexpr.ASSUME_LE_EPU64(r2, signed ? 3_037_000_499 : uint.MaxValue);
                     constexpr.ASSUME_LE_EPU64(r3, signed ? 3_037_000_499 : uint.MaxValue);
+
+                RET:
+
+                    constexpr.ASSUME_LE_EPU64(r0, a0);
+                    if (constexpr.ALL_GT_EPU64(a0, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(r0, a0);
+                    }
+
+                    constexpr.ASSUME_LE_EPU64(r1, a1);
+                    if (constexpr.ALL_GT_EPU64(a1, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(r1, a1);
+                    }
+
+                    constexpr.ASSUME_LE_EPU64(r2, a2);
+                    if (constexpr.ALL_GT_EPU64(a2, 3))
+                    {
+                        constexpr.ASSUME_LT_EPU64(r2, a2);
+                    }
+
+                    constexpr.ASSUME_LE_EPU64(r3, a3);
+                    if (constexpr.ALL_GT_EPU64(a3, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(r3, a3);
+                    }
+
+                    constexpr.ASSUME(r0.ULong0 * r0.ULong0 <= a0.ULong0);
+                    constexpr.ASSUME(r0.ULong1 * r0.ULong1 <= a0.ULong1);
+                    constexpr.ASSUME(r1.ULong0 * r1.ULong0 <= a1.ULong0);
+                    constexpr.ASSUME(r1.ULong1 * r1.ULong1 <= a1.ULong1);
+                    constexpr.ASSUME(r2.ULong0 * r2.ULong0 <= a2.ULong0);
+                    constexpr.ASSUME(r2.ULong1 * r2.ULong1 <= a2.ULong1);
+                    constexpr.ASSUME(r3.ULong0 * r3.ULong0 <= a3.ULong0);
+                    constexpr.ASSUME(r3.ULong1 * r3.ULong1 <= a3.ULong1);
+                    
+                    constexpr.ASSUME((UInt128)(r0.ULong0 + 1) * (UInt128)(r0.ULong0 + 1) > a0.ULong0);
+                    constexpr.ASSUME((UInt128)(r0.ULong1 + 1) * (UInt128)(r0.ULong1 + 1) > a0.ULong1);
+                    constexpr.ASSUME((UInt128)(r1.ULong0 + 1) * (UInt128)(r1.ULong0 + 1) > a1.ULong0);
+                    constexpr.ASSUME((UInt128)(r1.ULong1 + 1) * (UInt128)(r1.ULong1 + 1) > a1.ULong1);
+                    constexpr.ASSUME((UInt128)(r2.ULong0 + 1) * (UInt128)(r2.ULong0 + 1) > a2.ULong0);
+                    constexpr.ASSUME((UInt128)(r2.ULong1 + 1) * (UInt128)(r2.ULong1 + 1) > a2.ULong1);
+                    constexpr.ASSUME((UInt128)(r3.ULong0 + 1) * (UInt128)(r3.ULong0 + 1) > a3.ULong0);
+                    constexpr.ASSUME((UInt128)(r3.ULong1 + 1) * (UInt128)(r3.ULong1 + 1) > a3.ULong1);
+                    
+                    constexpr.ASSUME((a0.ULong0 <= 1) == (r0.ULong0 == a0.ULong0));
+                    constexpr.ASSUME((a0.ULong1 <= 1) == (r0.ULong1 == a0.ULong1));
+                    constexpr.ASSUME((a1.ULong0 <= 1) == (r1.ULong0 == a1.ULong0));
+                    constexpr.ASSUME((a1.ULong1 <= 1) == (r1.ULong1 == a1.ULong1));
+                    constexpr.ASSUME((a2.ULong0 <= 1) == (r2.ULong0 == a2.ULong0));
+                    constexpr.ASSUME((a2.ULong1 <= 1) == (r2.ULong1 == a2.ULong1));
+                    constexpr.ASSUME((a3.ULong0 <= 1) == (r3.ULong0 == a3.ULong0));
+                    constexpr.ASSUME((a3.ULong1 <= 1) == (r3.ULong1 == a3.ULong1));
+                    
+                    constexpr.ASSUME((a0.ULong0 != 0) == (r0.ULong0 > 0));
+                    constexpr.ASSUME((a0.ULong1 != 0) == (r0.ULong1 > 0));
+                    constexpr.ASSUME((a1.ULong0 != 0) == (r1.ULong0 > 0));
+                    constexpr.ASSUME((a1.ULong1 != 0) == (r1.ULong1 > 0));
+                    constexpr.ASSUME((a2.ULong0 != 0) == (r2.ULong0 > 0));
+                    constexpr.ASSUME((a2.ULong1 != 0) == (r2.ULong1 > 0));
+                    constexpr.ASSUME((a3.ULong0 != 0) == (r3.ULong0 > 0));
+                    constexpr.ASSUME((a3.ULong1 != 0) == (r3.ULong1 > 0));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1247,49 +2225,50 @@ namespace MaxMath
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static v256 mm256_sqrt_ep64(v256 a, bool signed, byte elements = 4)
+            private static v256 mm256_sqrt_ep64(v256 a, bool signed, byte elements = 4, bool promiseDBLrange = false)
             {
                 if (Avx2.IsAvx2Supported)
                 {
                     signed |= constexpr.ALL_LT_EPU64(a, 1ul << 63, elements);
 
-                    if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F64, elements))
+                    v256 result;
+
+                    if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F64, elements)
+                     || promiseDBLrange)
                     {
                         if (constexpr.ALL_LE_EPU64(a, MAX_ACCURATE_INT_SQRT_F32, elements))
                         {
                             if (constexpr.ALL_LE_EPU64(a, byte.MaxValue, elements))
                             {
-                                v256 ints = Avx.mm256_cvttps_epi32(Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(Avx.mm256_cvtepi32_ps(a))));
+                                result = Avx.mm256_cvttps_epi32(Avx.mm256_rcp_ps(Avx.mm256_rsqrt_ps(Avx.mm256_cvtepi32_ps(a))));
 
                                 if (!(constexpr.ALL_NEQ_EPU64(a, 225, elements) || constexpr.ALL_LT_EPU64(a, 225, elements) || constexpr.ALL_GT_EPU64(a, 225, elements)))
                                 {
-                                    ints = Avx2.mm256_sub_epi64(ints, Avx2.mm256_cmpeq_epi64(a, mm256_set1_epi64x(225)));
+                                    result = Avx2.mm256_sub_epi64(result, Avx2.mm256_cmpeq_epi64(a, mm256_set1_epi64x(225)));
                                 }
 
-                                constexpr.ASSUME_LE_EPU64(ints, 15);
+                                constexpr.ASSUME_LE_EPU64(result, 15);
 
-                                return ints;
+                                goto RET;
                             }
                             else
                             {
-                                v256 ints = Avx.mm256_cvttps_epi32(Avx.mm256_sqrt_ps(Avx.mm256_cvtepi32_ps(a)));
+                                result = Avx.mm256_cvttps_epi32(Avx.mm256_sqrt_ps(Avx.mm256_cvtepi32_ps(a)));
 
-                                constexpr.ASSUME_LE_EPU64(ints, constexpr.ALL_LE_EPU64(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
-
-                                return ints;
+                                constexpr.ASSUME_LE_EPU64(result, constexpr.ALL_LE_EPU64(a, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
+                                
+                                goto RET;
                             }
                         }
                         else
                         {
-                            v256 ints = mm256_cvttpd_epu64(Avx.mm256_sqrt_pd(mm256_usfcvtepu64_pd(a)), elements);
+                            result = mm256_cvttpd_epu64(Avx.mm256_sqrt_pd(mm256_usfcvtepu64_pd(a)), elements);
 
-                            constexpr.ASSUME_LE_EPU64(ints, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
-
-                            return ints;
+                            constexpr.ASSUME_LE_EPU64(result, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
+                            
+                            goto RET;
                         }
                     }
-
-                    v256 result;
 
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
@@ -1309,27 +2288,58 @@ namespace MaxMath
                     }
                     else
                     {
-                        PRELOOP_sqrt_ep64(ref a, out v256 mask, out result, signed, elements);
+                        v256 __a = a;
+                        PRELOOP_sqrt_ep64(ref __a, out v256 mask, out result, signed, elements);
                         mask = mm256_zeromissing_epi64(mask, elements);
 
                         while (Hint.Likely(Avx.mm256_testz_si256(mask, mask) == 0))
                         {
-                            LOOP_sqrt_ep64(ref a, ref result, ref mask, signed, elements);
+                            LOOP_sqrt_ep64(ref __a, ref result, ref mask, signed, elements);
                         }
                     }
 
                     constexpr.ASSUME_LE_EPU64(result, signed ? 3_037_000_499 : uint.MaxValue, elements);
+
+                RET:
+
+                    constexpr.ASSUME_LE_EPU64(result, a);
+                    if (constexpr.ALL_GT_EPU64(a, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(result, a);
+                    }
+
+                    constexpr.ASSUME(result.ULong0 * result.ULong0 <= a.ULong0);
+                    constexpr.ASSUME(result.ULong1 * result.ULong1 <= a.ULong1);
+                    constexpr.ASSUME(result.ULong2 * result.ULong2 <= a.ULong2);
+                    constexpr.ASSUME(result.ULong3 * result.ULong3 <= a.ULong3);
+                    
+                    constexpr.ASSUME((UInt128)(result.ULong0 + 1) * (UInt128)(result.ULong0 + 1) > a.ULong0);
+                    constexpr.ASSUME((UInt128)(result.ULong1 + 1) * (UInt128)(result.ULong1 + 1) > a.ULong1);
+                    constexpr.ASSUME((UInt128)(result.ULong2 + 1) * (UInt128)(result.ULong2 + 1) > a.ULong2);
+                    constexpr.ASSUME((UInt128)(result.ULong3 + 1) * (UInt128)(result.ULong3 + 1) > a.ULong3);
+                    
+                    constexpr.ASSUME((a.ULong0 <= 1) == (result.ULong0 == a.ULong0));
+                    constexpr.ASSUME((a.ULong1 <= 1) == (result.ULong1 == a.ULong1));
+                    constexpr.ASSUME((a.ULong2 <= 1) == (result.ULong2 == a.ULong2));
+                    constexpr.ASSUME((a.ULong3 <= 1) == (result.ULong3 == a.ULong3));
+                    
+                    constexpr.ASSUME((a.ULong0 != 0) == (result.ULong0 > 0));
+                    constexpr.ASSUME((a.ULong1 != 0) == (result.ULong1 > 0));
+                    constexpr.ASSUME((a.ULong2 != 0) == (result.ULong2 > 0));
+                    constexpr.ASSUME((a.ULong3 != 0) == (result.ULong3 > 0));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            private static void mm256_sqrt_ep64x2(v256 a0, v256 a1, [NoAlias] out v256 r0, [NoAlias] out v256 r1, bool signed, byte elements = 4)
+            private static void mm256_sqrt_ep64x2(v256 a0, v256 a1, [NoAlias] out v256 r0, [NoAlias] out v256 r1, bool signed, byte elements = 4, bool promiseDBLrange = false)
             {
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F64))
+                    if ((constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F64) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F64))
+                     || promiseDBLrange)
                     {
                         if (constexpr.ALL_LE_EPU64(a0, MAX_ACCURATE_INT_SQRT_F32) && constexpr.ALL_LE_EPU64(a1, MAX_ACCURATE_INT_SQRT_F32))
                         {
@@ -1350,7 +2360,7 @@ namespace MaxMath
                                 constexpr.ASSUME_LE_EPU64(r0, 15);
                                 constexpr.ASSUME_LE_EPU64(r1, 15);
 
-                                return;
+                                goto RET;
                             }
                             else
                             {
@@ -1360,7 +2370,7 @@ namespace MaxMath
                                 constexpr.ASSUME_LE_EPU64(r0, constexpr.ALL_LE_EPU64(a0, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
                                 constexpr.ASSUME_LE_EPU64(r1, constexpr.ALL_LE_EPU64(a1, ushort.MaxValue) ? byte.MaxValue : (uint)math.sqrt(MAX_ACCURATE_INT_SQRT_F32));
 
-                                return;
+                                goto RET;
                             }
                         }
                         else
@@ -1371,7 +2381,7 @@ namespace MaxMath
                             constexpr.ASSUME_LE_EPU64(r0, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
                             constexpr.ASSUME_LE_EPU64(r1, (ulong)math.sqrt((double)MAX_ACCURATE_INT_SQRT_F64));
 
-                            return;
+                            goto RET;
                         }
                     }
 
@@ -1382,19 +2392,22 @@ namespace MaxMath
                     }
                     else
                     {
+                        v256 __a0 = a0;
+                        v256 __a1 = a1;
+
                         bool signed0 = signed | constexpr.ALL_LT_EPU64(a0, 1ul << 63);
                         bool signed1 = signed | constexpr.ALL_LT_EPU64(a1, 1ul << 63);
 
-                        PRELOOP_sqrt_ep64(ref a0, out v256 mask0, out r0, signed0, 4);
-                        PRELOOP_sqrt_ep64(ref a1, out v256 mask1, out r1, signed1, 4);
+                        PRELOOP_sqrt_ep64(ref __a0, out v256 mask0, out r0, signed0, 4);
+                        PRELOOP_sqrt_ep64(ref __a1, out v256 mask1, out r1, signed1, 4);
 
                         mask1 = mm256_zeromissing_epi64(mask1, elements);
                         v256 mask = Avx2.mm256_or_si256(mask0, mask1);
-
+                        
                         while (Hint.Likely(Avx.mm256_testz_si256(mask, mask) == 0))
                         {
-                            LOOP_sqrt_ep64(ref a0, ref r0, ref mask0, signed0, 4);
-                            LOOP_sqrt_ep64(ref a1, ref r1, ref mask1, signed1, 4);
+                            LOOP_sqrt_ep64(ref __a0, ref r0, ref mask0, signed0, 4);
+                            LOOP_sqrt_ep64(ref __a1, ref r1, ref mask1, signed1, 4);
 
                             mask = Avx2.mm256_or_si256(mask0, mask1);
                         }
@@ -1402,6 +2415,56 @@ namespace MaxMath
 
                     constexpr.ASSUME_LE_EPU64(r0, signed ? 3_037_000_499 : uint.MaxValue);
                     constexpr.ASSUME_LE_EPU64(r1, signed ? 3_037_000_499 : uint.MaxValue);
+
+                RET:
+
+                    constexpr.ASSUME_LE_EPU64(r0, a0);
+                    if (constexpr.ALL_GT_EPU64(a0, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(r0, a0);
+                    }
+
+                    constexpr.ASSUME_LE_EPU64(r1, a1);
+                    if (constexpr.ALL_GT_EPU64(a1, 1))
+                    {
+                        constexpr.ASSUME_LT_EPU64(r1, a1);
+                    }
+
+                    constexpr.ASSUME(r0.ULong0 * r0.ULong0 <= a0.ULong0);
+                    constexpr.ASSUME(r0.ULong1 * r0.ULong1 <= a0.ULong1);
+                    constexpr.ASSUME(r0.ULong2 * r0.ULong2 <= a0.ULong2);
+                    constexpr.ASSUME(r0.ULong3 * r0.ULong3 <= a0.ULong3);
+                    constexpr.ASSUME(r1.ULong0 * r1.ULong0 <= a1.ULong0);
+                    constexpr.ASSUME(r1.ULong1 * r1.ULong1 <= a1.ULong1);
+                    constexpr.ASSUME(r1.ULong2 * r1.ULong2 <= a1.ULong2);
+                    constexpr.ASSUME(r1.ULong3 * r1.ULong3 <= a1.ULong3);
+                    
+                    constexpr.ASSUME((UInt128)(r0.ULong0 + 1) * (UInt128)(r0.ULong0 + 1) > a0.ULong0);
+                    constexpr.ASSUME((UInt128)(r0.ULong1 + 1) * (UInt128)(r0.ULong1 + 1) > a0.ULong1);
+                    constexpr.ASSUME((UInt128)(r0.ULong2 + 1) * (UInt128)(r0.ULong2 + 1) > a0.ULong2);
+                    constexpr.ASSUME((UInt128)(r0.ULong3 + 1) * (UInt128)(r0.ULong3 + 1) > a0.ULong3);
+                    constexpr.ASSUME((UInt128)(r1.ULong0 + 1) * (UInt128)(r1.ULong0 + 1) > a1.ULong0);
+                    constexpr.ASSUME((UInt128)(r1.ULong1 + 1) * (UInt128)(r1.ULong1 + 1) > a1.ULong1);
+                    constexpr.ASSUME((UInt128)(r1.ULong2 + 1) * (UInt128)(r1.ULong2 + 1) > a1.ULong2);
+                    constexpr.ASSUME((UInt128)(r1.ULong3 + 1) * (UInt128)(r1.ULong3 + 1) > a1.ULong3);
+                    
+                    constexpr.ASSUME((a0.ULong0 <= 1) == (r0.ULong0 == a0.ULong0));
+                    constexpr.ASSUME((a0.ULong1 <= 1) == (r0.ULong1 == a0.ULong1));
+                    constexpr.ASSUME((a0.ULong2 <= 1) == (r0.ULong2 == a0.ULong2));
+                    constexpr.ASSUME((a0.ULong3 <= 1) == (r0.ULong3 == a0.ULong3));
+                    constexpr.ASSUME((a1.ULong0 <= 1) == (r1.ULong0 == a1.ULong0));
+                    constexpr.ASSUME((a1.ULong1 <= 1) == (r1.ULong1 == a1.ULong1));
+                    constexpr.ASSUME((a1.ULong2 <= 1) == (r1.ULong2 == a1.ULong2));
+                    constexpr.ASSUME((a1.ULong3 <= 1) == (r1.ULong3 == a1.ULong3));
+                    
+                    constexpr.ASSUME((a0.ULong0 != 0) == (r0.ULong0 > 0));
+                    constexpr.ASSUME((a0.ULong1 != 0) == (r0.ULong1 > 0));
+                    constexpr.ASSUME((a0.ULong2 != 0) == (r0.ULong2 > 0));
+                    constexpr.ASSUME((a0.ULong3 != 0) == (r0.ULong3 > 0));
+                    constexpr.ASSUME((a1.ULong0 != 0) == (r1.ULong0 > 0));
+                    constexpr.ASSUME((a1.ULong1 != 0) == (r1.ULong1 > 0));
+                    constexpr.ASSUME((a1.ULong2 != 0) == (r1.ULong2 > 0));
+                    constexpr.ASSUME((a1.ULong3 != 0) == (r1.ULong3 > 0));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1606,10 +2669,12 @@ namespace MaxMath
                         }
                     }
 
+                    v128 __aLo = aLo;
+                    v128 __aHi = aHi;
                     v128 result;
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        v128 sqrtDbl = sqrt_pd(cvtepu128_pd(aLo, aHi));
+                        v128 sqrtDbl = sqrt_pd(cvtepu128_pd(__aLo, __aHi));
                         v128 vLo;
                         v128 vHi;
                         if (signed)
@@ -1626,29 +2691,29 @@ namespace MaxMath
                         v128 qHi;
                         if (useFPU)
                         {
-                            if (!constexpr.ALL_NEQ_EPU64(aHi, 0))
+                            if (!constexpr.ALL_NEQ_EPU64(__aHi, 0))
                             {
                                 sqrtDbl = trunc_pd(sqrtDbl);
                             }
 
                             if (!nonZero)
                             {
-                                v128 isZero = cmpeq_epi64(or_si128(aLo, aHi), setzero_si128());
+                                v128 isZero = cmpeq_epi64(or_si128(__aLo, __aHi), setzero_si128());
                                 sqrtDbl = or_si128(sqrtDbl, isZero);
                             }
 
-                            divremepu128_epu64(aLo, aHi, sqrtDbl, out qLo, out qHi, out _, useFPU: true, bIsDbl: true, clampbDblToMaxValue: !signed);
+                            divremepu128_epu64(__aLo, __aHi, sqrtDbl, out qLo, out qHi, out _, useFPU: true, bIsDbl: true, clampbDblToMaxValue: !signed);
                         }
                         else
                         {
                             v128 cvtt = cvttpd_epu64(sqrtDbl);
                             cvtt = or_si128(cvtt, cmpge_pd(sqrtDbl, set1_pd(ulong.MaxValue)));
-                            UInt128 x = new UInt128(aLo.ULong0, aHi.ULong0);
-                            UInt128 y = new UInt128(aLo.ULong1, aHi.ULong1);
+                            UInt128 x = new UInt128(__aLo.ULong0, __aHi.ULong0);
+                            UInt128 y = new UInt128(__aLo.ULong1, __aHi.ULong1);
 
                             if (!nonZero)
                             {
-                                v128 isZero = cmpeq_epi64(or_si128(aLo, aHi), setzero_si128());
+                                v128 isZero = cmpeq_epi64(or_si128(__aLo, __aHi), setzero_si128());
                                 cvtt = or_si128(cvtt, isZero);
 
                                 x /= cvtt.ULong0;
@@ -1668,7 +2733,7 @@ namespace MaxMath
                         srli_epi128(vLo, vHi, 1, out vLo, out vHi);
 
                         square_epi128(vLo, vHi, out v128 sqTestLo, out v128 sqTestHi);
-                        v128 overshoot = cmpgt_epu128(sqTestLo, sqTestHi, aLo, aHi);
+                        v128 overshoot = cmpgt_epu128(sqTestLo, sqTestHi, __aLo, __aHi);
                         vLo = add_epi64(vLo, overshoot);
 
                         if (signed)
@@ -1683,12 +2748,12 @@ namespace MaxMath
                     }
                     else
                     {
-                        PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v128 maskLo, out v128 maskHi, out v128 resultLo, out v128 resultHi, signed);
+                        PRELOOP_sqrt_ep128(ref __aLo, ref __aHi, out v128 maskLo, out v128 maskHi, out v128 resultLo, out v128 resultHi, signed);
                         v128 doneMask;
 
                         while (ContinueLoop(doneMask = cmpeq_epi128(maskLo, maskHi, setzero_si128(), setzero_si128()), maskLo, maskHi))
                         {
-                            LOOP_sqrt_ep128(ref aLo, ref aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed);
+                            LOOP_sqrt_ep128(ref __aLo, ref __aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed);
                         }
 
                         result = resultLo;
@@ -1698,6 +2763,29 @@ namespace MaxMath
                     {
                         constexpr.ASSUME_LE_EPU64(result, 13_043_817_825_332_782_212ul);
                     }
+
+                    constexpr.ASSUME(result.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    constexpr.ASSUME(result.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    if (constexpr.IS_TRUE(new UInt128(aLo.ULong0, aHi.ULong0) > 1))
+                    {
+                        constexpr.ASSUME(result.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    }
+                    if (constexpr.IS_TRUE(new UInt128(aLo.ULong1, aHi.ULong1) > 1))
+                    {
+                        constexpr.ASSUME(result.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    }
+
+                    constexpr.ASSUME((UInt128)result.ULong0 * result.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    constexpr.ASSUME((UInt128)result.ULong1 * result.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    
+                    //constexpr.ASSUME((__UInt256__)(result.ULong0 + 1) * (__UInt256__)(result.ULong0 + 1) > new UInt128(aLo.ULong0, aHi.ULong0));
+                    //constexpr.ASSUME((__UInt256__)(result.ULong1 + 1) * (__UInt256__)(result.ULong1 + 1) > new UInt128(aLo.ULong1, aHi.ULong1));
+                    
+                    constexpr.ASSUME((new UInt128(aLo.ULong0, aHi.ULong0) <= 1) == (result.ULong0 == new UInt128(aLo.ULong0, aHi.ULong0)));
+                    constexpr.ASSUME((new UInt128(aLo.ULong1, aHi.ULong1) <= 1) == (result.ULong1 == new UInt128(aLo.ULong1, aHi.ULong1)));
+                    
+                    constexpr.ASSUME((new UInt128(aLo.ULong0, aHi.ULong0) != 0) == (result.ULong0 > 0));
+                    constexpr.ASSUME((new UInt128(aLo.ULong1, aHi.ULong1) != 0) == (result.ULong1 > 0));
 
                     return result;
                 }
@@ -1727,9 +2815,13 @@ namespace MaxMath
 
                 if (BurstArchitecture.IsSIMDSupported)
                 {
-                    if (constexpr.ALL_EQ_EPU64(aHi, 0) && constexpr.ALL_EQ_EPU64(bHi, 0))
+                    v128 __aLo = aLo; 
+                    v128 __aHi = aHi; 
+                    v128 __bLo = bLo; 
+                    v128 __bHi = bHi;
+                    if (constexpr.ALL_EQ_EPU64(__aHi, 0) && constexpr.ALL_EQ_EPU64(__bHi, 0))
                     {
-                        sqrt_ep64x2(aLo, bLo, out r0, out r1, signed);
+                        sqrt_ep64x2(__aLo, __bLo, out r0, out r1, signed);
 
                         return;
                     }
@@ -1737,13 +2829,13 @@ namespace MaxMath
 
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        r0 = sqrt_ep128(aLo, aHi, signed, nonZero, useFPU: true);
-                        r1 = sqrt_ep128(bLo, bHi, signed, nonZero, useFPU: false);
+                        r0 = sqrt_ep128(__aLo, __aHi, signed, nonZero, useFPU: true);
+                        r1 = sqrt_ep128(__bLo, __bHi, signed, nonZero, useFPU: false);
                     }
                     else
                     {
-                        PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v128 maskALo, out v128 maskAHi, out r0, out v128 resultAHi, signed);
-                        PRELOOP_sqrt_ep128(ref bLo, ref bHi, out v128 maskBLo, out v128 maskBHi, out r1, out v128 resultBHi, signed);
+                        PRELOOP_sqrt_ep128(ref __aLo, ref __aHi, out v128 maskALo, out v128 maskAHi, out r0, out v128 resultAHi, signed);
+                        PRELOOP_sqrt_ep128(ref __bLo, ref __bHi, out v128 maskBLo, out v128 maskBHi, out r1, out v128 resultBHi, signed);
                         v128 doneMaskA;
                         v128 doneMaskB;
 
@@ -1757,8 +2849,8 @@ namespace MaxMath
                                             maskALo, maskAHi,
                                             maskBLo, maskBHi))
                         {
-                            LOOP_sqrt_ep128(ref aLo, ref aHi, ref r0, ref resultAHi, ref maskALo, ref maskAHi, doneMaskA, signed);
-                            LOOP_sqrt_ep128(ref bLo, ref bHi, ref r1, ref resultBHi, ref maskBLo, ref maskBHi, doneMaskB, signed);
+                            LOOP_sqrt_ep128(ref __aLo, ref __aHi, ref r0, ref resultAHi, ref maskALo, ref maskAHi, doneMaskA, signed);
+                            LOOP_sqrt_ep128(ref __bLo, ref __bHi, ref r1, ref resultBHi, ref maskBLo, ref maskBHi, doneMaskB, signed);
                         }
                     }
 
@@ -1767,6 +2859,48 @@ namespace MaxMath
                         constexpr.ASSUME_LE_EPU64(r0, 13_043_817_825_332_782_212ul);
                         constexpr.ASSUME_LE_EPU64(r1, 13_043_817_825_332_782_212ul, (byte)(elements - 2));
                     }
+
+                    constexpr.ASSUME(r0.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    constexpr.ASSUME(r0.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    if (constexpr.IS_TRUE(new UInt128(aLo.ULong0, aHi.ULong0) > 1))
+                    {
+                        constexpr.ASSUME(r0.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    }
+                    if (constexpr.IS_TRUE(new UInt128(aLo.ULong1, aHi.ULong1) > 1))
+                    {
+                        constexpr.ASSUME(r0.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    }
+
+                    constexpr.ASSUME(r1.ULong0 <= new UInt128(bLo.ULong0, bHi.ULong0));
+                    constexpr.ASSUME(r1.ULong1 <= new UInt128(bLo.ULong1, bHi.ULong1));
+                    if (constexpr.IS_TRUE(new UInt128(bLo.ULong0, bHi.ULong0) > 1))
+                    {
+                        constexpr.ASSUME(r1.ULong0 <= new UInt128(bLo.ULong0, bHi.ULong0));
+                    }
+                    if (constexpr.IS_TRUE(new UInt128(bLo.ULong1, bHi.ULong1) > 1))
+                    {
+                        constexpr.ASSUME(r1.ULong1 <= new UInt128(bLo.ULong1, bHi.ULong1));
+                    }
+
+                    constexpr.ASSUME((UInt128)r0.ULong0 * r0.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    constexpr.ASSUME((UInt128)r0.ULong1 * r0.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    constexpr.ASSUME((UInt128)r1.ULong0 * r1.ULong0 <= new UInt128(bLo.ULong0, bHi.ULong0));
+                    constexpr.ASSUME((UInt128)r1.ULong1 * r1.ULong1 <= new UInt128(bLo.ULong1, bHi.ULong1));
+                    
+                    //constexpr.ASSUME((UInt256)(r0.ULong0 + 1) * (UInt256)(r0.ULong0 + 1) > new UInt128(aLo.ULong0, aHi.ULong0));
+                    //constexpr.ASSUME((UInt256)(r0.ULong1 + 1) * (UInt256)(r0.ULong1 + 1) > new UInt128(aLo.ULong1, aHi.ULong1));
+                    //constexpr.ASSUME((UInt256)(r1.ULong0 + 1) * (UInt256)(r1.ULong0 + 1) > new UInt128(bLo.ULong0, bHi.ULong0));
+                    //constexpr.ASSUME((UInt256)(r1.ULong1 + 1) * (UInt256)(r1.ULong1 + 1) > new UInt128(bLo.ULong1, bHi.ULong1));
+                    
+                    constexpr.ASSUME((new UInt128(aLo.ULong0, aHi.ULong0) <= 1) == (r0.ULong0 == new UInt128(aLo.ULong0, aHi.ULong0)));
+                    constexpr.ASSUME((new UInt128(aLo.ULong1, aHi.ULong1) <= 1) == (r0.ULong1 == new UInt128(aLo.ULong1, aHi.ULong1)));
+                    constexpr.ASSUME((new UInt128(bLo.ULong0, bHi.ULong0) <= 1) == (r1.ULong0 == new UInt128(bLo.ULong0, bHi.ULong0)));
+                    constexpr.ASSUME((new UInt128(bLo.ULong1, bHi.ULong1) <= 1) == (r1.ULong1 == new UInt128(bLo.ULong1, bHi.ULong1)));
+                    
+                    constexpr.ASSUME((new UInt128(aLo.ULong0, aHi.ULong0) != 0) == (r0.ULong0 > 0));
+                    constexpr.ASSUME((new UInt128(aLo.ULong1, aHi.ULong1) != 0) == (r0.ULong1 > 0));
+                    constexpr.ASSUME((new UInt128(bLo.ULong0, bHi.ULong0) != 0) == (r1.ULong0 > 0));
+                    constexpr.ASSUME((new UInt128(bLo.ULong1, bHi.ULong1) != 0) == (r1.ULong1 > 0));
                 }
                 else throw new IllegalInstructionException();
             }
@@ -1871,15 +3005,18 @@ namespace MaxMath
 
                 if (Avx2.IsAvx2Supported)
                 {
-                    if (constexpr.ALL_EQ_EPU64(aHi, 0, elements))
+                    v256 __aLo = aLo;
+                    v256 __aHi = aHi;
+
+                    if (constexpr.ALL_EQ_EPU64(__aHi, 0, elements))
                     {
-                        return mm256_sqrt_ep64(aLo, signed, elements);
+                        return mm256_sqrt_ep64(__aLo, signed, elements);
                     }
 
                     v256 result;
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        v256 sqrtDbl = Avx.mm256_sqrt_pd(mm256_cvtepu128_pd(aLo, aHi, elements));
+                        v256 sqrtDbl = Avx.mm256_sqrt_pd(mm256_cvtepu128_pd(__aLo, __aHi, elements));
                         v256 vLo;
                         v256 vHi;
                         if (signed)
@@ -1892,23 +3029,23 @@ namespace MaxMath
                             mm256_cvttpd_epu128(sqrtDbl, out vLo, out vHi, elements);
                         }
 
-                        if (!constexpr.ALL_NEQ_EPU64(aHi, 0, elements))
+                        if (!constexpr.ALL_NEQ_EPU64(__aHi, 0, elements))
                         {
                             sqrtDbl = mm256_trunc_pd(sqrtDbl);
                         }
 
                         if (!nonZero)
                         {
-                            v256 isZero = Avx2.mm256_cmpeq_epi64(Avx2.mm256_or_si256(aLo, aHi), Avx.mm256_setzero_si256());
+                            v256 isZero = Avx2.mm256_cmpeq_epi64(Avx2.mm256_or_si256(__aLo, __aHi), Avx.mm256_setzero_si256());
                             sqrtDbl = Avx2.mm256_or_si256(sqrtDbl, isZero);
                         }
 
-                        mm256_divremepu128_epu64(aLo, aHi, sqrtDbl, out v256 qLo, out v256 qHi, out _, bIsDbl: true, clampbDblToMaxValue: !signed, elements: elements);
+                        mm256_divremepu128_epu64(__aLo, __aHi, sqrtDbl, out v256 qLo, out v256 qHi, out _, bIsDbl: true, clampbDblToMaxValue: !signed, elements: elements);
                         mm256_add_epi128(vLo, vHi, qLo, qHi, out vLo, out vHi, elements: elements);
                         mm256_srli_epi128(vLo, vHi, 1, out vLo, out vHi, elements: elements);
 
                         mm256_square_epi128(vLo, vHi, out v256 sqTestLo, out v256 sqTestHi, elements: elements);
-                        v256 overshoot = mm256_cmpgt_epu128(sqTestLo, sqTestHi, aLo, aHi, elements: elements);
+                        v256 overshoot = mm256_cmpgt_epu128(sqTestLo, sqTestHi, __aLo, __aHi, elements: elements);
                         vLo = Avx2.mm256_add_epi64(vLo, overshoot);
 
                         if (signed)
@@ -1923,14 +3060,14 @@ namespace MaxMath
                     }
                     else
                     {
-                        PRELOOP_sqrt_ep128(ref aLo, ref aHi, out v256 maskLo, out v256 maskHi, out v256 resultLo, out v256 resultHi, signed, elements);
+                        PRELOOP_sqrt_ep128(ref __aLo, ref __aHi, out v256 maskLo, out v256 maskHi, out v256 resultLo, out v256 resultHi, signed, elements);
                         v256 doneMask;
                         maskHi = mm256_zeromissing_epi64(maskHi, elements);
 
                         while (ContinueLoop(maskLo, maskHi))
                         {
                             doneMask = mm256_cmpeq_epi128(maskLo, maskHi, Avx.mm256_setzero_si256(), Avx.mm256_setzero_si256(), elements);
-                            LOOP_sqrt_ep128(ref aLo, ref aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed, elements);
+                            LOOP_sqrt_ep128(ref __aLo, ref __aHi, ref resultLo, ref resultHi, ref maskLo, ref maskHi, doneMask, signed, elements);
                         }
 
                         result = resultLo;
@@ -1940,6 +3077,47 @@ namespace MaxMath
                     {
                         constexpr.ASSUME_LE_EPU64(result, 13_043_817_825_332_782_212ul, elements);
                     }
+
+                    constexpr.ASSUME(result.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    constexpr.ASSUME(result.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    constexpr.ASSUME(result.ULong2 <= new UInt128(aLo.ULong2, aHi.ULong2));
+                    constexpr.ASSUME(result.ULong3 <= new UInt128(aLo.ULong3, aHi.ULong3));
+                    if (constexpr.IS_TRUE(new UInt128(aLo.ULong0, aHi.ULong0) > 1))
+                    {
+                        constexpr.ASSUME(result.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    }
+                    if (constexpr.IS_TRUE(new UInt128(aLo.ULong1, aHi.ULong1) > 1))
+                    {
+                        constexpr.ASSUME(result.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    }
+                    if (constexpr.IS_TRUE(new UInt128(aLo.ULong2, aHi.ULong2) > 1))
+                    {
+                        constexpr.ASSUME(result.ULong2 <= new UInt128(aLo.ULong2, aHi.ULong2));
+                    }
+                    if (constexpr.IS_TRUE(new UInt128(aLo.ULong3, aHi.ULong3) > 1))
+                    {
+                        constexpr.ASSUME(result.ULong3 <= new UInt128(aLo.ULong3, aHi.ULong3));
+                    }
+
+                    constexpr.ASSUME((UInt128)result.ULong0 * result.ULong0 <= new UInt128(aLo.ULong0, aHi.ULong0));
+                    constexpr.ASSUME((UInt128)result.ULong1 * result.ULong1 <= new UInt128(aLo.ULong1, aHi.ULong1));
+                    constexpr.ASSUME((UInt128)result.ULong2 * result.ULong2 <= new UInt128(aLo.ULong2, aHi.ULong2));
+                    constexpr.ASSUME((UInt128)result.ULong3 * result.ULong3 <= new UInt128(aLo.ULong3, aHi.ULong3));
+                    
+                    //constexpr.ASSUME((UInt256)(result.ULong0 + 1) * (UInt256)(result.ULong0 + 1) > new UInt128(aLo.ULong0, aHi.ULong0));
+                    //constexpr.ASSUME((UInt256)(result.ULong1 + 1) * (UInt256)(result.ULong1 + 1) > new UInt128(aLo.ULong1, aHi.ULong1));
+                    //constexpr.ASSUME((UInt256)(result.ULong2 + 1) * (UInt256)(result.ULong2 + 1) > new UInt128(aLo.ULong2, aHi.ULong2));
+                    //constexpr.ASSUME((UInt256)(result.ULong3 + 1) * (UInt256)(result.ULong3 + 1) > new UInt128(aLo.ULong3, aHi.ULong3));
+                    
+                    constexpr.ASSUME((new UInt128(aLo.ULong0, aHi.ULong0) <= 1) == (result.ULong0 == new UInt128(aLo.ULong0, aHi.ULong0)));
+                    constexpr.ASSUME((new UInt128(aLo.ULong1, aHi.ULong1) <= 1) == (result.ULong1 == new UInt128(aLo.ULong1, aHi.ULong1)));
+                    constexpr.ASSUME((new UInt128(aLo.ULong2, aHi.ULong2) <= 1) == (result.ULong2 == new UInt128(aLo.ULong2, aHi.ULong2)));
+                    constexpr.ASSUME((new UInt128(aLo.ULong3, aHi.ULong3) <= 1) == (result.ULong3 == new UInt128(aLo.ULong3, aHi.ULong3)));
+                    
+                    constexpr.ASSUME((new UInt128(aLo.ULong0, aHi.ULong0) != 0) == (result.ULong0 > 0));
+                    constexpr.ASSUME((new UInt128(aLo.ULong1, aHi.ULong1) != 0) == (result.ULong1 > 0));
+                    constexpr.ASSUME((new UInt128(aLo.ULong2, aHi.ULong2) != 0) == (result.ULong2 > 0));
+                    constexpr.ASSUME((new UInt128(aLo.ULong3, aHi.ULong3) != 0) == (result.ULong3 > 0));
 
                     return result;
                 }
@@ -1963,8 +3141,8 @@ namespace MaxMath
                 {
                     if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
                     {
-                        return unsigned ? Xse.sqrt_binsearch_epu8(mov, 16).Byte0
-                                        : Xse.sqrt_binsearch_epi8(mov, 16).Byte0;
+                        return unsigned ? Xse.sqrt_sqrthi4correction_epu8(mov, 16).Byte0
+                                        : Xse.sqrt_sqrthi4correction_epi8(mov, 16).Byte0;
                     }
                 }
 
@@ -1988,9 +3166,9 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="UInt128"/>.
+        /// <summary>       Computes the integer square root ⌊√<paramref name="__x"/>⌋ of a <see cref="UInt128"/>.
         /// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> will <see langword="throw"/> an Exception for any <paramref name="x"/> equal to 0.        </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> will <see langword="throw"/> an Exception for any <paramref name="__x"/> equal to 0.        </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -2001,15 +3179,18 @@ namespace MaxMath
                 return intsqrt(x.lo64);
             }
 
+            UInt128 __x = x;
+            ulong result;
+            
             if (COMPILATION_OPTIONS.OPTIMIZE_FOR == OptimizeFor.Performance)
             {
                 if (BurstArchitecture.IsX86Win64Supported)
                 {
-                    double sqrtDbl = sqrt((double)x);
+                    double sqrtDbl = sqrt((double)__x);
 
-                    if (!(nonZero.Promises(Promise.NonZero) || x.IsNotZero))
+                    if (!(nonZero.Promises(Promise.NonZero) || __x.IsNotZero))
                     {
-                        if (x.IsZero)
+                        if (__x.IsZero)
                         {
                             return 0;
                         }
@@ -2018,50 +3199,72 @@ namespace MaxMath
                     UInt128 v = (UInt128)sqrtDbl;
                     ulong v64 = select(v.lo64, ulong.MaxValue, sqrtDbl >= ulong.MaxValue);
 
-                    v = (v + (x / v64)) >> 1;
+                    v = (v + (__x / v64)) >> 1;
                     bool overshoot = v.hi64 != 0;
 
-                    return select(v.lo64 - tobyte(square(v) > x), ulong.MaxValue, overshoot);
+                    result = select(v.lo64 - tobyte(square(v) > __x), ulong.MaxValue, overshoot);
+            
+                    constexpr.ASSUME(result <= __x);
+                    if (constexpr.IS_TRUE(__x > 1))
+                    {
+                        constexpr.ASSUME(result < __x);
+                    }
+
+                    return result;
                 }
             }
 
-            UInt128 result = 0;
+            UInt128 result128 = 0;
             UInt128 mask = (UInt128)1 << 126;
-
-            mask >>= lzcnt(x) & (-1 << 1);
-            if (Hint.Likely(mask > x))
+            
+            mask >>= lzcnt(__x) & (-1 << 1);
+            if (Hint.Likely(mask > __x))
             {
                 mask >>= 2;
             }
-
-            if (x >= mask)
+            
+            if (__x >= mask)
             {
-                x -= mask;
-                result = mask;
+                __x -= mask;
+                result128 = mask;
             }
-
+            
             mask >>= 2;
-
+            
             while (mask != 0)
             {
-                UInt128 resultAdded = result | mask;
-                result >>= 1;
-
-                if (x >= resultAdded)
+                UInt128 resultAdded = result128 | mask;
+                result128 >>= 1;
+            
+                if (__x >= resultAdded)
                 {
-                    x -= resultAdded;
-                    result |= mask;
+                    __x -= resultAdded;
+                    result128 |= mask;
                 }
-
+            
                 mask >>= 2;
             }
+            
+            result = result128.lo64;
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME(result * result <= x);
+            //constexpr.ASSUME((result + 1) * (result + 1) > x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
 
-            return result.lo64;
+            return result;
         }
 
-        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="Int128"/>.
+        /// <summary>       Computes the integer square root ⌊√<paramref name="__x"/>⌋ of a non-negative <see cref="Int128"/>.
         /// <remarks>
-        /// <para>          A <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> will <see langword="throw"/> an Exception for any <paramref name="x"/> equal to 0.        </para>
+        /// <para>          A <see cref="Promise"/> '<paramref name="nonZero"/>' with its <see cref="Promise.NonZero"/> will <see langword="throw"/> an Exception for any <paramref name="__x"/> equal to 0.        </para>
         /// </remarks>
         /// </summary>
         [return: AssumeRange(0ul, 13_043_817_825_332_782_212ul)]
@@ -2069,30 +3272,50 @@ namespace MaxMath
         public static ulong intsqrt(Int128 x, Promise nonZero = Promise.Nothing)
         {
 Assert.IsNotSmaller(x, 0);
+constexpr.ASSUME(x >= 0);
 
             if (constexpr.IS_TRUE(x.hi64 == 0))
             {
                 return intsqrt(x.lo64);
             }
 
+            Int128 __x = x;
+            ulong result;
+
             if (BurstArchitecture.IsX86Win64Supported)
             {
-                ulong v = (ulong)sqrt((double)(UInt128)x);
+                ulong v = (ulong)sqrt((double)(UInt128)__x);
 
-                if (!(nonZero.Promises(Promise.NonZero) || x.IsNotZero))
+                if (!(nonZero.Promises(Promise.NonZero) || __x.IsNotZero))
                 {
-                    if (x.IsZero)
+                    if (__x.IsZero)
                     {
                         return 0;
                     }
                 }
 
-                v = ((v + ((UInt128)x / v)) >> 1).lo64;
+                v = ((v + ((UInt128)__x / v)) >> 1).lo64;
 
-                return v - tobyte(square((UInt128)v) > (UInt128)x);
+                result = v - tobyte(square((UInt128)v) > (UInt128)__x);
             }
+            else
+            {
+                result = intsqrt((UInt128)__x);
+            }
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME(result * result <= x);
+            //constexpr.ASSUME((result + 1) * (result + 1) > x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
 
-            return intsqrt((UInt128)x);
+            return result;
         }
 
 
@@ -2101,10 +3324,24 @@ Assert.IsNotSmaller(x, 0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte intsqrt(byte x)
         {
-            return bytesqrt(x, unsigned: true);
+            byte result = bytesqrt(x, unsigned: true);
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME(result * result <= x);
+            constexpr.ASSUME((result + 1) * (result + 1) > x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
+
+            return result;
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.byte2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="byte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 intsqrt(byte2 x)
         {
@@ -2118,7 +3355,7 @@ Assert.IsNotSmaller(x, 0);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.byte3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="byte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 intsqrt(byte3 x)
         {
@@ -2132,7 +3369,7 @@ Assert.IsNotSmaller(x, 0);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.byte4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="byte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 intsqrt(byte4 x)
         {
@@ -2146,7 +3383,7 @@ Assert.IsNotSmaller(x, 0);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.byte8"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="byte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 intsqrt(byte8 x)
         {
@@ -2160,7 +3397,7 @@ Assert.IsNotSmaller(x, 0);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.byte16"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="byte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 intsqrt(byte16 x)
         {
@@ -2174,7 +3411,7 @@ Assert.IsNotSmaller(x, 0);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.byte32"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="byte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 intsqrt(byte32 x)
         {
@@ -2199,11 +3436,26 @@ Assert.IsNotSmaller(x, 0);
         public static sbyte intsqrt(sbyte x)
         {
 Assert.IsNonNegative(x);
+constexpr.ASSUME(x >= 0);
 
-            return (sbyte)bytesqrt((byte)x, unsigned: false);
+            sbyte result = (sbyte)bytesqrt((byte)x, unsigned: false);
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME(result * result <= x);
+            constexpr.ASSUME((result + 1) * (result + 1) > x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
+
+            return result;
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.sbyte2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 intsqrt(sbyte2 x)
         {
@@ -2219,7 +3471,7 @@ VectorAssert.IsNotSmaller<sbyte2, sbyte>(x, 0, 2);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.sbyte3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 intsqrt(sbyte3 x)
         {
@@ -2235,7 +3487,7 @@ VectorAssert.IsNotSmaller<sbyte3, sbyte>(x, 0, 3);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.sbyte4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 intsqrt(sbyte4 x)
         {
@@ -2251,7 +3503,7 @@ VectorAssert.IsNotSmaller<sbyte4, sbyte>(x, 0, 4);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.sbyte8"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 intsqrt(sbyte8 x)
         {
@@ -2267,7 +3519,7 @@ VectorAssert.IsNotSmaller<sbyte8, sbyte>(x, 0, 8);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.sbyte16"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 intsqrt(sbyte16 x)
         {
@@ -2283,7 +3535,7 @@ VectorAssert.IsNotSmaller<sbyte16, sbyte>(x, 0, 16);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.sbyte32"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 intsqrt(sbyte32 x)
         {
@@ -2309,17 +3561,33 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort intsqrt(ushort x)
         {
+            ushort result;
+
             if (constexpr.IS_TRUE(x <= byte.MaxValue))
             {
-                return intsqrt((byte)x);
+                result = intsqrt((byte)x);
             }
             else
             {
-                return (ushort)sqrt(x);
+                result =(ushort)sqrt(x);
             }
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME(result * result <= x);
+            constexpr.ASSUME((uint)(result + 1) * (uint)(result + 1) > x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
+
+            return result;
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ushort2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 intsqrt(ushort2 x)
         {
@@ -2333,7 +3601,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ushort3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 intsqrt(ushort3 x)
         {
@@ -2347,7 +3615,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ushort4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 intsqrt(ushort4 x)
         {
@@ -2361,7 +3629,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort8"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ushort8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 intsqrt(ushort8 x)
         {
@@ -2375,7 +3643,7 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ushort16"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ushort16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 intsqrt(ushort16 x)
         {
@@ -2396,18 +3664,35 @@ VectorAssert.IsNotSmaller<sbyte32, sbyte>(x, 0, 32);
         public static short intsqrt(short x)
         {
 Assert.IsNonNegative(x);
+constexpr.ASSUME(x >= 0);
+
+            short result;
 
             if (constexpr.IS_TRUE(x <= byte.MaxValue))
             {
-                return intsqrt((byte)x);
+                result = intsqrt((byte)x);
             }
             else
             {
-                return (short)intsqrt((ushort)x);
+                result = (short)intsqrt((ushort)x);
             }
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME(result * result <= x);
+            constexpr.ASSUME((uint)(result + 1) * (uint)(result + 1) > x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
+
+            return result;
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.short2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 intsqrt(short2 x)
         {
@@ -2423,7 +3708,7 @@ VectorAssert.IsNotSmaller<short2, short>(x, 0, 2);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.short3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 intsqrt(short3 x)
         {
@@ -2439,7 +3724,7 @@ VectorAssert.IsNotSmaller<short3, short>(x, 0, 3);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.short4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 intsqrt(short4 x)
         {
@@ -2455,7 +3740,7 @@ VectorAssert.IsNotSmaller<short4, short>(x, 0, 4);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.short8"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 intsqrt(short8 x)
         {
@@ -2471,7 +3756,7 @@ VectorAssert.IsNotSmaller<short8, short>(x, 0, 8);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.short16"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 intsqrt(short16 x)
         {
@@ -2493,28 +3778,44 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint intsqrt(uint x)
         {
+            uint result;
+
             if (constexpr.IS_TRUE(x <= ushort.MaxValue))
             {
-                return intsqrt((ushort)x);
+                result = intsqrt((ushort)x);
             }
             else
             {
                 if (constexpr.IS_TRUE(x <= MAX_ACCURATE_INT_SQRT_F32))
                 {
-                    return (uint)sqrt((float)x);
+                    result = (uint)sqrt((float)x);
                 }
                 else if (constexpr.IS_TRUE(x <= int.MaxValue))
                 {
-                    return (uint)sqrt((double)(int)x);
+                    result = (uint)sqrt((double)(int)x);
                 }
                 else
                 {
-                    return (uint)sqrt((double)x);
+                    result = (uint)sqrt((double)x);
                 }
             }
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME(result * result <= x);
+            constexpr.ASSUME(((ulong)result + 1) *((ulong)result + 1) > x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
+
+            return result;
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.uint2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="uint2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint2 intsqrt(uint2 x)
         {
@@ -2528,7 +3829,7 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.uint3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="uint3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint3 intsqrt(uint3 x)
         {
@@ -2542,7 +3843,7 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.uint4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="uint4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint4 intsqrt(uint4 x)
         {
@@ -2556,7 +3857,7 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.uint8"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="uint8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 intsqrt(uint8 x)
         {
@@ -2577,18 +3878,35 @@ VectorAssert.IsNotSmaller<short16, short>(x, 0, 16);
         public static int intsqrt(int x)
         {
 Assert.IsNonNegative(x);
+constexpr.ASSUME(x >= 0);
+
+            int result;
 
             if (constexpr.IS_TRUE(x <= ushort.MaxValue))
             {
-                return intsqrt((ushort)x);
+                result = intsqrt((ushort)x);
             }
             else
             {
-                return (int)intsqrt((uint)x);
+                result = (int)intsqrt((uint)x);
             }
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME((uint)result * (uint)result <= (uint)x);
+            constexpr.ASSUME(((ulong)result + 1) * ((ulong)result + 1) > (uint)x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
+
+            return result;
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.int2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 intsqrt(int2 x)
         {
@@ -2604,7 +3922,7 @@ VectorAssert.IsNotSmaller<int2, int>(x, 0, 2);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.int3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 intsqrt(int3 x)
         {
@@ -2620,7 +3938,7 @@ VectorAssert.IsNotSmaller<int3, int>(x, 0, 3);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.int4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 intsqrt(int4 x)
         {
@@ -2636,7 +3954,7 @@ VectorAssert.IsNotSmaller<int4, int>(x, 0, 4);
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.int8"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 intsqrt(int8 x)
         {
@@ -2653,10 +3971,11 @@ VectorAssert.IsNotSmaller<int8, int>(x, 0, 8);
         }
 
 
-        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ulong"/>.    </summary>
+        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ulong"/>.
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrectly rounded results for any <paramref name="x"/> greater than 4.503.239.301.588.329.       </para>    </summary>
         [return: AssumeRange(0ul, (ulong)uint.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong intsqrt(ulong x)
+        public static ulong intsqrt(ulong x, Promise promises = Promise.Nothing)
         {
             if (constexpr.IS_TRUE(x <= uint.MaxValue))
             {
@@ -2667,76 +3986,95 @@ VectorAssert.IsNotSmaller<int8, int>(x, 0, 8);
             ulong cvtt = (ulong)(long)sqrtDbl;
             // 64bit division by itself is worse than a pipeline flush
             // branch evaluation runs in parallel to cvt + sqrt + cvtt (~28 cycles), minimizing branch misprediction penalty
-            if (x <= MAX_ACCURATE_INT_SQRT_F64)
+            if (x <= MAX_ACCURATE_INT_SQRT_F64 || promises.Promises(Promise.Unsafe0))
             {
                 return cvtt;
             }
             ulong result = (cvtt + (x / cvtt)) >> 1;
 
-            return result - tobyte(square(result) > x);
+            result -= tobyte(square(result) > x);
+            
+            constexpr.ASSUME(result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME(result < x);
+            }
+            constexpr.ASSUME(result * result <= x);
+            constexpr.ASSUME(((UInt128)result + 1) * ((UInt128)result + 1) > x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == result));
+            constexpr.ASSUME((x != 0) == (result > 0));
+
+            return result;
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ulong2"/>.
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrectly rounded results for any <paramref name="x"/> greater than 4.503.239.301.588.329.       </para>    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong2 intsqrt(ulong2 x)
+        public static ulong2 intsqrt(ulong2 x, Promise promises = Promise.Nothing)
         {
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.sqrt_epu64(x);
+                return Xse.sqrt_epu64(x, promiseDBLrange: promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return new ulong2(intsqrt(x.x), intsqrt(x.y));
+                return new ulong2(intsqrt(x.x, promises), intsqrt(x.y, promises));
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ulong3"/>.
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrectly rounded results for any <paramref name="x"/> greater than 4.503.239.301.588.329.       </para>    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong3 intsqrt(ulong3 x)
+        public static ulong3 intsqrt(ulong3 x, Promise promises = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_sqrt_epu64(x, 3);
+                return Xse.mm256_sqrt_epu64(x, 3, promiseDBLrange: promises.Promises(Promise.Unsafe0));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.sqrt_epu64x2(x.xy, x.zz, out v128 lo, out v128 hi);
+                Xse.sqrt_epu64x2(x.xy, x.zz, out v128 lo, out v128 hi, promiseDBLrange: promises.Promises(Promise.Unsafe0));
 
                 return new ulong3(lo, hi.ULong0);
             }
             else
             {
-                return new ulong3(intsqrt(x.xy), intsqrt(x.z));
+                return new ulong3(intsqrt(x.xy, promises), intsqrt(x.z, promises));
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="MaxMath.ulong4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a <see cref="ulong4"/>.
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrectly rounded results for any <paramref name="x"/> greater than 4.503.239.301.588.329.       </para>    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong4 intsqrt(ulong4 x)
+        public static ulong4 intsqrt(ulong4 x, Promise promises = Promise.Nothing)
         {
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_sqrt_epu64(x, 4);
+                return Xse.mm256_sqrt_epu64(x, 4, promiseDBLrange: promises.Promises(Promise.Unsafe0));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.sqrt_epu64x2(x.xy, x.zw, out v128 lo, out v128 hi);
+                Xse.sqrt_epu64x2(x.xy, x.zw, out v128 lo, out v128 hi, promiseDBLrange: promises.Promises(Promise.Unsafe0));
 
                 return new ulong4(lo, hi);
             }
             else
             {
-                return new ulong4(intsqrt(x.xy), intsqrt(x.zw));
+                return new ulong4(intsqrt(x.xy, promises), intsqrt(x.zw, promises));
             }
         }
 
 
-        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="long"/>.    </summary>
+        /// <summary>       Computes the integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="long"/>.
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrectly rounded results for any <paramref name="x"/> greater than 4.503.239.301.588.329.       </para>    </summary>
         [return: AssumeRange(0, 3_037_000_499)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long intsqrt(long x)
+        public static long intsqrt(long x, Promise promises = Promise.Nothing)
         {
 Assert.IsNonNegative(x);
+constexpr.ASSUME(x >= 0);
 
             if (constexpr.IS_TRUE(x <= uint.MaxValue))
             {
@@ -2753,66 +4091,83 @@ Assert.IsNonNegative(x);
             }
             ulong result = (cvtt + ((ulong)x / cvtt)) / 2;
 
-            return (long)result - tobyte(square(result) > (ulong)x);
+            result -= tobyte(square(result) > (ulong)x);
+            
+            constexpr.ASSUME((long)result <= x);
+            if (constexpr.IS_TRUE(x > 1))
+            {
+                constexpr.ASSUME((long)result < x);
+            }
+            constexpr.ASSUME((ulong)result * (ulong)result <= (ulong)x);
+            constexpr.ASSUME(((UInt128)result + 1) * ((UInt128)result + 1) > (ulong)x);
+            
+            constexpr.ASSUME((x == 0) == (result == 0));
+            constexpr.ASSUME((x <= 1) == (x == (long)result));
+            constexpr.ASSUME((x != 0) == (result > 0));
+
+            return (long)result;
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.long2"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="long2"/>.
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrectly rounded results for any <paramref name="x"/> greater than 4.503.239.301.588.329.       </para>    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long2 intsqrt(long2 x)
+        public static long2 intsqrt(long2 x, Promise promises = Promise.Nothing)
         {
 VectorAssert.IsNotSmaller<long2, long>(x, 0, 2);
 
             if (BurstArchitecture.IsSIMDSupported)
             {
-                return Xse.sqrt_epi64(x);
+                return Xse.sqrt_epi64(x, promiseDBLrange: promises.Promises(Promise.Unsafe0));
             }
             else
             {
-                return new long2(intsqrt(x.x), intsqrt(x.y));
+                return new long2(intsqrt(x.x, promises), intsqrt(x.y, promises));
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.long3"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="long3"/>.
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrectly rounded results for any <paramref name="x"/> greater than 4.503.239.301.588.329.       </para>    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long3 intsqrt(long3 x)
+        public static long3 intsqrt(long3 x, Promise promises = Promise.Nothing)
         {
 VectorAssert.IsNotSmaller<long3, long>(x, 0, 3);
 
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_sqrt_epi64(x, 3);
+                return Xse.mm256_sqrt_epi64(x, 3, promiseDBLrange: promises.Promises(Promise.Unsafe0));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.sqrt_epi64x2(x.xy, x.zz, out v128 lo, out v128 hi);
+                Xse.sqrt_epi64x2(x.xy, x.zz, out v128 lo, out v128 hi, promiseDBLrange: promises.Promises(Promise.Unsafe0));
 
                 return new long3(lo, hi.SLong0);
             }
             else
             {
-                return new long3(intsqrt(x.xy), intsqrt(x.z));
+                return new long3(intsqrt(x.xy, promises), intsqrt(x.z, promises));
             }
         }
 
-        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="MaxMath.long4"/>.    </summary>
+        /// <summary>       Computes the componentwise integer square root ⌊√<paramref name="x"/>⌋ of a non-negative <see cref="long4"/>.
+        /// <para>          A <see cref="Promise"/> '<paramref name="promises"/>' with its <see cref="Promise.Unsafe0"/> flag set returns incorrectly rounded results for any <paramref name="x"/> greater than 4.503.239.301.588.329.       </para>    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long4 intsqrt(long4 x)
+        public static long4 intsqrt(long4 x, Promise promises = Promise.Nothing)
         {
 VectorAssert.IsNotSmaller<long4, long>(x, 0, 4);
 
             if (Avx2.IsAvx2Supported)
             {
-                return Xse.mm256_sqrt_epi64(x, 4);
+                return Xse.mm256_sqrt_epi64(x, 4, promiseDBLrange: promises.Promises(Promise.Unsafe0));
             }
             else if (BurstArchitecture.IsSIMDSupported)
             {
-                Xse.sqrt_epi64x2(x.xy, x.zw, out v128 lo, out v128 hi);
+                Xse.sqrt_epi64x2(x.xy, x.zw, out v128 lo, out v128 hi, promiseDBLrange: promises.Promises(Promise.Unsafe0));
 
                 return new long4(lo, hi);
             }
             else
             {
-                return new long4(intsqrt(x.xy), intsqrt(x.zw));
+                return new long4(intsqrt(x.xy, promises), intsqrt(x.zw, promises));
             }
         }
     }

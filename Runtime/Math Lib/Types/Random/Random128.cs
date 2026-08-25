@@ -2,8 +2,9 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.math;
@@ -126,7 +127,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             return (long)NextState().hi64 < 0;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool2"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -135,7 +136,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             return *(bool2*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool3"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -144,7 +145,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             return *(bool3*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool4"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -153,7 +154,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             return *(bool4*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool8"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool8"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8 NextBool8()
         {
@@ -162,7 +163,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             return *(bool8*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool16"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool16"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
@@ -178,7 +179,7 @@ Assert.AreNotEqual(State, (UInt128)0);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool32"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool32"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
@@ -200,7 +201,7 @@ Assert.AreNotEqual(State, (UInt128)0);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Int128 NextInt128()
         {
-            return MaxMath.Int128.MinValue ^ (Int128)NextState();
+            return Int128.MinValue ^ (Int128)NextState();
         }
 
         /// <summary>       Returns a uniformly random <see cref="Int128"/> in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
@@ -215,7 +216,7 @@ Assert.IsNotSmaller(max, min);
         }
 
 
-        /// <summary>       Returns a uniformly random <see cref="UInt128"/> in the interval [0, <see cref="MaxMath.UInt128.MaxValue"/> - 1].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="UInt128"/> in the interval [0, <see cref="UInt128.MaxValue"/> - 1].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt128 NextUInt128()
         {
@@ -247,17 +248,17 @@ Assert.IsNotSmaller(max, min);
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public quadruple NextQuadruple()
         {
-            quadruple.ConstChecked left = asquadruple(math.ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
+            quadruple.ConstChecked left = asquadruple(ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
             left.Promise |= FloatingPointPromise<quadruple>.NOT_INF;
             left.Promise |= FloatingPointPromise<quadruple>.NOT_NAN;
             left.Promise |= FloatingPointPromise<quadruple>.POSITIVE;
 
-            quadruple.ConstChecked result = quadruple.Subtract(left, asquadruple(math.ONE_AS_QUADRUPLE), sameSign: true);
+            quadruple.ConstChecked result = quadruple.Subtract(left, asquadruple(ONE_AS_QUADRUPLE), sameSign: true);
             left.Promise |= FloatingPointPromise<quadruple>.NOT_INF;
             left.Promise |= FloatingPointPromise<quadruple>.NOT_NAN;
             left.Promise |= FloatingPointPromise<quadruple>.POSITIVE;
             left.Promise.MinPossible = 0d;
-            left.Promise.MaxPossible = nextsmaller((quadruple)1d);
+            left.Promise.MaxPossible = 1d;
 
             return result;
         }
@@ -268,16 +269,16 @@ Assert.IsNotSmaller(max, min);
         {
 Assert.IsNotSmaller(max, min);
 
-            quadruple.ConstChecked left = asquadruple(math.ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
+            quadruple.ConstChecked left = asquadruple(ONE_AS_QUADRUPLE | (NextState() >> (quadruple.EXPONENT_BITS + 1)));
             left.Promise |= FloatingPointPromise<quadruple>.NOT_INF;
             left.Promise |= FloatingPointPromise<quadruple>.NOT_NAN;
             left.Promise |= FloatingPointPromise<quadruple>.POSITIVE;
             left.Promise.MinPossible = 1d;
             left.Promise.MaxPossible = nextsmaller((quadruple)2d);
 
-            quadruple.ConstChecked result = quadruple.fmadd(quadruple.Subtract(left, asquadruple(math.ONE_AS_QUADRUPLE), sameSign: true), max - min, min);
+            quadruple.ConstChecked result = quadruple.fmadd(quadruple.Subtract(left, asquadruple(ONE_AS_QUADRUPLE), sameSign: true), max - min, min);
             left.Promise.MinPossible = min;
-            left.Promise.MaxPossible = constexpr.IS_CONST(max) ? nextsmaller(max) : max;
+            left.Promise.MaxPossible = max;
 
             return result;
         }

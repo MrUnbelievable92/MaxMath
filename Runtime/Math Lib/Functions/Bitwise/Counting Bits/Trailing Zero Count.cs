@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -39,6 +40,24 @@ namespace MaxMath
                     }
 
                     constexpr.ASSUME_LE_EPU8(result, 8);
+
+                    constexpr.ASSUME(result.Byte0  == math.tzcnt(a.Byte0));
+                    constexpr.ASSUME(result.Byte1  == math.tzcnt(a.Byte1));
+                    constexpr.ASSUME(result.Byte2  == math.tzcnt(a.Byte2));
+                    constexpr.ASSUME(result.Byte3  == math.tzcnt(a.Byte3));
+                    constexpr.ASSUME(result.Byte4  == math.tzcnt(a.Byte4));
+                    constexpr.ASSUME(result.Byte5  == math.tzcnt(a.Byte5));
+                    constexpr.ASSUME(result.Byte6  == math.tzcnt(a.Byte6));
+                    constexpr.ASSUME(result.Byte7  == math.tzcnt(a.Byte7));
+                    constexpr.ASSUME(result.Byte8  == math.tzcnt(a.Byte8));
+                    constexpr.ASSUME(result.Byte9  == math.tzcnt(a.Byte9));
+                    constexpr.ASSUME(result.Byte10 == math.tzcnt(a.Byte10));
+                    constexpr.ASSUME(result.Byte11 == math.tzcnt(a.Byte11));
+                    constexpr.ASSUME(result.Byte12 == math.tzcnt(a.Byte12));
+                    constexpr.ASSUME(result.Byte13 == math.tzcnt(a.Byte13));
+                    constexpr.ASSUME(result.Byte14 == math.tzcnt(a.Byte14));
+                    constexpr.ASSUME(result.Byte15 == math.tzcnt(a.Byte15));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -58,6 +77,40 @@ namespace MaxMath
                                                       Avx2.mm256_shuffle_epi8(SHUFFLE_MASK_HI, Avx2.mm256_and_si256(MM256_NIBBLE_MASK, Avx2.mm256_srli_epi16(a, 4))));
 
                     constexpr.ASSUME_LE_EPU8(result, 8);
+
+                    constexpr.ASSUME(result.Byte0  == math.tzcnt(a.Byte0));
+                    constexpr.ASSUME(result.Byte1  == math.tzcnt(a.Byte1));
+                    constexpr.ASSUME(result.Byte2  == math.tzcnt(a.Byte2));
+                    constexpr.ASSUME(result.Byte3  == math.tzcnt(a.Byte3));
+                    constexpr.ASSUME(result.Byte4  == math.tzcnt(a.Byte4));
+                    constexpr.ASSUME(result.Byte5  == math.tzcnt(a.Byte5));
+                    constexpr.ASSUME(result.Byte6  == math.tzcnt(a.Byte6));
+                    constexpr.ASSUME(result.Byte7  == math.tzcnt(a.Byte7));
+                    constexpr.ASSUME(result.Byte8  == math.tzcnt(a.Byte8));
+                    constexpr.ASSUME(result.Byte9  == math.tzcnt(a.Byte9));
+                    constexpr.ASSUME(result.Byte10 == math.tzcnt(a.Byte10));
+                    constexpr.ASSUME(result.Byte11 == math.tzcnt(a.Byte11));
+                    constexpr.ASSUME(result.Byte12 == math.tzcnt(a.Byte12));
+                    constexpr.ASSUME(result.Byte13 == math.tzcnt(a.Byte13));
+                    constexpr.ASSUME(result.Byte14 == math.tzcnt(a.Byte14));
+                    constexpr.ASSUME(result.Byte15 == math.tzcnt(a.Byte15));
+                    constexpr.ASSUME(result.Byte16 == math.tzcnt(a.Byte16));
+                    constexpr.ASSUME(result.Byte17 == math.tzcnt(a.Byte17));
+                    constexpr.ASSUME(result.Byte18 == math.tzcnt(a.Byte18));
+                    constexpr.ASSUME(result.Byte19 == math.tzcnt(a.Byte19));
+                    constexpr.ASSUME(result.Byte20 == math.tzcnt(a.Byte20));
+                    constexpr.ASSUME(result.Byte21 == math.tzcnt(a.Byte21));
+                    constexpr.ASSUME(result.Byte22 == math.tzcnt(a.Byte22));
+                    constexpr.ASSUME(result.Byte23 == math.tzcnt(a.Byte23));
+                    constexpr.ASSUME(result.Byte24 == math.tzcnt(a.Byte24));
+                    constexpr.ASSUME(result.Byte25 == math.tzcnt(a.Byte25));
+                    constexpr.ASSUME(result.Byte26 == math.tzcnt(a.Byte26));
+                    constexpr.ASSUME(result.Byte27 == math.tzcnt(a.Byte27));
+                    constexpr.ASSUME(result.Byte28 == math.tzcnt(a.Byte28));
+                    constexpr.ASSUME(result.Byte29 == math.tzcnt(a.Byte29));
+                    constexpr.ASSUME(result.Byte30 == math.tzcnt(a.Byte30));
+                    constexpr.ASSUME(result.Byte31 == math.tzcnt(a.Byte31));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -94,6 +147,16 @@ namespace MaxMath
                     }
 
                     constexpr.ASSUME_LE_EPU16(result, 16);
+
+                    constexpr.ASSUME(result.UShort0  == math.tzcnt(a.UShort0));
+                    constexpr.ASSUME(result.UShort1  == math.tzcnt(a.UShort1));
+                    constexpr.ASSUME(result.UShort2  == math.tzcnt(a.UShort2));
+                    constexpr.ASSUME(result.UShort3  == math.tzcnt(a.UShort3));
+                    constexpr.ASSUME(result.UShort4  == math.tzcnt(a.UShort4));
+                    constexpr.ASSUME(result.UShort5  == math.tzcnt(a.UShort5));
+                    constexpr.ASSUME(result.UShort6  == math.tzcnt(a.UShort6));
+                    constexpr.ASSUME(result.UShort7  == math.tzcnt(a.UShort7));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -115,6 +178,24 @@ namespace MaxMath
                     v256 result = Avx2.mm256_min_epu8(tzcnt_bytes, Avx2.mm256_srli_epi16(Avx2.mm256_add_epi8(tzcnt_bytes, mm256_set1_epi8(8)), 8));
 
                     constexpr.ASSUME_LE_EPU16(result, 16);
+
+                    constexpr.ASSUME(result.UShort0  == math.tzcnt(a.UShort0));
+                    constexpr.ASSUME(result.UShort1  == math.tzcnt(a.UShort1));
+                    constexpr.ASSUME(result.UShort2  == math.tzcnt(a.UShort2));
+                    constexpr.ASSUME(result.UShort3  == math.tzcnt(a.UShort3));
+                    constexpr.ASSUME(result.UShort4  == math.tzcnt(a.UShort4));
+                    constexpr.ASSUME(result.UShort5  == math.tzcnt(a.UShort5));
+                    constexpr.ASSUME(result.UShort6  == math.tzcnt(a.UShort6));
+                    constexpr.ASSUME(result.UShort7  == math.tzcnt(a.UShort7));
+                    constexpr.ASSUME(result.UShort8  == math.tzcnt(a.UShort8));
+                    constexpr.ASSUME(result.UShort9  == math.tzcnt(a.UShort9));
+                    constexpr.ASSUME(result.UShort10 == math.tzcnt(a.UShort10));
+                    constexpr.ASSUME(result.UShort11 == math.tzcnt(a.UShort11));
+                    constexpr.ASSUME(result.UShort12 == math.tzcnt(a.UShort12));
+                    constexpr.ASSUME(result.UShort13 == math.tzcnt(a.UShort13));
+                    constexpr.ASSUME(result.UShort14 == math.tzcnt(a.UShort14));
+                    constexpr.ASSUME(result.UShort15 == math.tzcnt(a.UShort15));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -142,6 +223,15 @@ namespace MaxMath
                     result = min_epu16(result, set1_epi32(32));
 
                     constexpr.ASSUME_LE_EPU32(result, 32);
+
+                    constexpr.ASSUME(result.UInt0  == math.tzcnt(a.UInt0));
+                    constexpr.ASSUME(result.UInt1  == math.tzcnt(a.UInt1));
+                    if (elements > 2)
+                    {
+                        constexpr.ASSUME(result.UInt2  == math.tzcnt(a.UInt2));
+                        constexpr.ASSUME(result.UInt3  == math.tzcnt(a.UInt3));
+                    }
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -159,6 +249,16 @@ namespace MaxMath
                     result = Avx2.mm256_min_epu16(result, mm256_set1_epi32(32));
 
                     constexpr.ASSUME_LE_EPU32(result, 32);
+
+                    constexpr.ASSUME(result.UInt0  == math.tzcnt(a.UInt0));
+                    constexpr.ASSUME(result.UInt1  == math.tzcnt(a.UInt1));
+                    constexpr.ASSUME(result.UInt2  == math.tzcnt(a.UInt2));
+                    constexpr.ASSUME(result.UInt3  == math.tzcnt(a.UInt3));
+                    constexpr.ASSUME(result.UInt4  == math.tzcnt(a.UInt4));
+                    constexpr.ASSUME(result.UInt5  == math.tzcnt(a.UInt5));
+                    constexpr.ASSUME(result.UInt6  == math.tzcnt(a.UInt6));
+                    constexpr.ASSUME(result.UInt7  == math.tzcnt(a.UInt7));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -173,6 +273,10 @@ namespace MaxMath
                     v128 result = popcnt_epi64(tzmsk_epi64(a));
 
                     constexpr.ASSUME_LE_EPU64(result, 64);
+
+                    constexpr.ASSUME(result.ULong0  == math.tzcnt(a.ULong0));
+                    constexpr.ASSUME(result.ULong1  == math.tzcnt(a.ULong1));
+
                     return result;
                 }
                 if (BurstArchitecture.IsSIMDSupported)
@@ -196,6 +300,12 @@ namespace MaxMath
                     v256 result = mm256_popcnt_epi64(mm256_tzmsk_epi64(a));
 
                     constexpr.ASSUME_LE_EPU64(result, 64);
+
+                    constexpr.ASSUME(result.ULong0  == math.tzcnt(a.ULong0));
+                    constexpr.ASSUME(result.ULong1  == math.tzcnt(a.ULong1));
+                    constexpr.ASSUME(result.ULong2  == math.tzcnt(a.ULong2));
+                    constexpr.ASSUME(result.ULong3  == math.tzcnt(a.ULong3));
+
                     return result;
                 }
                 else throw new IllegalInstructionException();
@@ -238,7 +348,7 @@ namespace MaxMath
             return (x == 0) ? (byte)8 : (byte)tzcnt((uint)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="byte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte2 tzcnt(byte2 x)
         {
@@ -252,7 +362,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="byte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte3 tzcnt(byte3 x)
         {
@@ -266,7 +376,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="byte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte4 tzcnt(byte4 x)
         {
@@ -280,7 +390,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="byte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte8 tzcnt(byte8 x)
         {
@@ -294,7 +404,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="byte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte16 tzcnt(byte16 x)
         {
@@ -308,7 +418,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.byte32"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="byte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte32 tzcnt(byte32 x)
         {
@@ -331,42 +441,42 @@ namespace MaxMath
             return tzcnt((byte)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte2 tzcnt(sbyte2 x)
         {
             return (sbyte2)tzcnt((byte2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte3 tzcnt(sbyte3 x)
         {
             return (sbyte3)tzcnt((byte3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte4 tzcnt(sbyte4 x)
         {
             return (sbyte4)tzcnt((byte4)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte8 tzcnt(sbyte8 x)
         {
             return (sbyte8)tzcnt((byte8)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte16 tzcnt(sbyte16 x)
         {
             return (sbyte16)tzcnt((byte16)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.sbyte32"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte32 tzcnt(sbyte32 x)
         {
@@ -384,7 +494,7 @@ namespace MaxMath
             return (x == 0) ? (byte)16 : tzcnt((uint)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="ushort2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort2 tzcnt(ushort2 x)
         {
@@ -398,7 +508,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="ushort3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort3 tzcnt(ushort3 x)
         {
@@ -412,7 +522,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="ushort4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort4 tzcnt(ushort4 x)
         {
@@ -426,7 +536,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="ushort8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort8 tzcnt(ushort8 x)
         {
@@ -440,7 +550,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ushort16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="ushort16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort16 tzcnt(ushort16 x)
         {
@@ -463,35 +573,35 @@ namespace MaxMath
             return tzcnt((ushort)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short2 tzcnt(short2 x)
         {
             return (short2)tzcnt((ushort2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short3 tzcnt(short3 x)
         {
             return (short3)tzcnt((ushort3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short4 tzcnt(short4 x)
         {
             return (short4)tzcnt((ushort4)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short8 tzcnt(short8 x)
         {
             return (short8)tzcnt((ushort8)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.short16"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short16 tzcnt(short16 x)
         {
@@ -507,7 +617,7 @@ namespace MaxMath
             return (byte)Unity.Mathematics.math.tzcnt(x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.uint2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="uint2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 tzcnt(uint2 x)
         {
@@ -521,7 +631,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.uint3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="uint3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 tzcnt(uint3 x)
         {
@@ -535,7 +645,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.uint4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="uint4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 tzcnt(uint4 x)
         {
@@ -549,7 +659,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.uint8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="uint8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 tzcnt(uint8 x)
         {
@@ -572,7 +682,7 @@ namespace MaxMath
             return (byte)Unity.Mathematics.math.tzcnt(x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.int2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int2 tzcnt(int2 x)
         {
@@ -586,7 +696,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.int3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int3 tzcnt(int3 x)
         {
@@ -600,7 +710,7 @@ namespace MaxMath
             }
         }
         
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.int4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int4 tzcnt(int4 x)
         {
@@ -614,7 +724,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="MaxMath.int8"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of an <see cref="int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int8 tzcnt(int8 x)
         {
@@ -630,7 +740,7 @@ namespace MaxMath
             return (byte)Unity.Mathematics.math.tzcnt(x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ulong2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="ulong2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong2 tzcnt(ulong2 x)
         {
@@ -644,7 +754,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ulong3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="ulong3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong3 tzcnt(ulong3 x)
         {
@@ -658,7 +768,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.ulong4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="ulong4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong4 tzcnt(ulong4 x)
         {
@@ -681,21 +791,21 @@ namespace MaxMath
             return (byte)Unity.Mathematics.math.tzcnt(x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.long2"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long2 tzcnt(long2 x)
         {
             return (long2)tzcnt((ulong2)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.long3"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long3 tzcnt(long3 x)
         {
             return (long3)tzcnt((ulong3)x);
         }
 
-        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="MaxMath.long4"/>.    </summary>
+        /// <summary>       Returns the componentwise number of trailing zeros in the binary representations of a <see cref="long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long4 tzcnt(long4 x)
         {

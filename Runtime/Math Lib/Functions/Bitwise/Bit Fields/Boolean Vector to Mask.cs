@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -9,7 +10,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0011)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool2 x)
@@ -26,7 +27,7 @@ VectorAssert.IsNotGreater<byte2, byte>(tobyte(x), 1, 2);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool3 x)
@@ -43,7 +44,7 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(x), 1, 3);
             }
         }
         
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_1111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool4 x)
@@ -51,7 +52,7 @@ VectorAssert.IsNotGreater<byte3, byte>(tobyte(x), 1, 3);
             return Unity.Mathematics.math.bitmask(x);
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool8 x)
@@ -68,7 +69,7 @@ VectorAssert.IsNotGreater<byte8, byte>(tobyte(x), 1, 8);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool16"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool16"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, ushort.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool16 x)
@@ -85,7 +86,7 @@ VectorAssert.IsNotGreater<byte16, byte>(tobyte(x), 1, 16);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool32"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool32"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(bool32 x)
         {
@@ -102,7 +103,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
         }
 
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0011)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask8x2 x)
@@ -117,7 +118,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask8x3 x)
@@ -132,7 +133,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
         
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_1111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask8x4 x)
@@ -147,7 +148,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask8x8 x)
@@ -162,7 +163,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool16"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool16"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, ushort.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask8x16 x)
@@ -177,7 +178,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool32"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool32"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask8x32 x)
         {
@@ -192,7 +193,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
         }
 
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0011)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask16x2 x)
@@ -200,7 +201,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             return bitmask((mask8x2)x);
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask16x3 x)
@@ -208,7 +209,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             return bitmask((mask8x3)x);
         }
         
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_1111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask16x4 x)
@@ -216,7 +217,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             return bitmask((mask8x4)x);
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask16x8 x)
@@ -231,7 +232,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool16"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool16"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, ushort.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask16x16 x)
@@ -247,7 +248,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
         }
 
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0011)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask32x2 x)
@@ -262,7 +263,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask32x3 x)
@@ -277,7 +278,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
         
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_1111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask32x4 x)
@@ -292,7 +293,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool8"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, byte.MaxValue)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask32x8 x)
@@ -308,7 +309,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
         }
 
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool2"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0011)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask64x2 x)
@@ -323,7 +324,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
 
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool3"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_0111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask64x3 x)
@@ -342,7 +343,7 @@ VectorAssert.IsNotGreater<byte32, byte>(tobyte(x), 1, 32);
             }
         }
         
-        ///<summary>        Returns a bitmask representation of a <see cref="MaxMath.bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
+        ///<summary>        Returns a bitmask representation of a <see cref="bool4"/>. Storing one 1 bit per component in LSB order, from lower to higher bits.      </summary>
         [return: AssumeRange(0, 0b0000_1111)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int bitmask(mask64x4 x)

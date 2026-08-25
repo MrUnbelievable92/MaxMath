@@ -73,7 +73,7 @@ namespace MaxMath.Tests
             else if (function.Signature.ReturnType.Value.IsVector)
             {
                 result += (function.Signature.ReturnType.Value.IsV256 ? "\tif (Avx2.IsAvx2Supported)\n"
-                                                                      : "\tif (ArchitectureInfo.IsSIMDSupported)\n")
+                                                                      : "\tif (BurstArchitecture.IsSIMDSupported)\n")
                          + "\t{\n"
                          + "\t\t\n"
                          + "\t}\n"

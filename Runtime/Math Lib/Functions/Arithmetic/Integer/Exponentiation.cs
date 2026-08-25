@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
 using Unity.Burst;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -21,7 +22,7 @@ namespace MaxMath
                     v128 ONE = set1_epi8(1);
 
                     y = blendv_si128(ONE, a, cmpeq_epi8(ONE, and_si128(b, ONE)));
-                    b = srli_epi8(b, 1);
+                    b = srli_epi8(b, 1, elements: elements);
 
                     if (Sse4_1.IsSse41Supported)
                     {
@@ -45,7 +46,7 @@ namespace MaxMath
                     a = square_epi8(a, elements);
                     v128 y_times_x = mullo_epi8(y, a);
                     y = blendv_si128(y, y_times_x, cmpeq_epi8(ONE, and_si128(ONE, b)));
-                    b = srli_epi8(b, 1);
+                    b = srli_epi8(b, 1, elements: elements);
                     doneMask = cmpeq_epi8(ZERO, b);
                     result = blendv_si128(result, y, doneMask);
                 }

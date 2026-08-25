@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -17,7 +18,7 @@ namespace MaxMath
                 {
                     if (constexpr.ALL_EQ_EPI8(b, 7, elements))
                     {
-                        return result == MaskType.One ? srli_epi8(a, 7) : srai_epi8(a, 7);
+                        return result == MaskType.One ? srli_epi8(a, 7, elements: elements) : srai_epi8(a, 7, elements: elements);
                     }
 
                     if (Arm.Neon.IsNeonSupported)

@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -7,7 +8,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Converts each value in a <see cref="MaxMath.double2"/> to its respective <see cref="ulong"/> representation.
+        /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="ulong"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0       </para>
@@ -33,7 +34,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.double3"/> to its respective <see cref="ulong"/> representation.
+        /// <summary>       Converts each value in a <see cref="double3"/> to its respective <see cref="ulong"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [<see cref="ulong.MinValue"/>, <see cref="long.MaxValue"/>]       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
@@ -53,7 +54,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.double4"/> to its respective <see cref="ulong"/> representation.
+        /// <summary>       Converts each value in a <see cref="double4"/> to its respective <see cref="ulong"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [<see cref="ulong.MinValue"/>, <see cref="long.MaxValue"/>]       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
@@ -76,7 +77,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.double2"/> to its respective <see cref="long"/> representation.
+        /// <summary>       Converts each value in a <see cref="double2"/> to its respective <see cref="long"/> representation.
         ///    <para>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
         ///    <para>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.NonZero"/> flag set returns undefined results for 0       </para>
         ///    <para>       A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Positive"/> flag set returns undefined results for negative input values       </para>
@@ -102,7 +103,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.double3"/> to its respective <see cref="long"/> representation.
+        /// <summary>       Converts each value in a <see cref="double3"/> to its respective <see cref="long"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [<see cref="long.MinValue"/>, <see cref="long.MaxValue"/>]       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
@@ -123,7 +124,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.double4"/> to its respective <see cref="long"/> representation.
+        /// <summary>       Converts each value in a <see cref="double4"/> to its respective <see cref="long"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [<see cref="long.MinValue"/>, <see cref="long.MaxValue"/>]       </para>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe1"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
@@ -147,7 +148,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong2"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="ulong2"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         /// </remarks>
@@ -172,7 +173,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong3"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="ulong3"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         /// </remarks>
@@ -197,7 +198,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.ulong4"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="ulong4"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [0, 2⁵²)       </para>
         /// </remarks>
@@ -223,7 +224,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.long2"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="long2"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
         /// </remarks>
@@ -248,7 +249,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.long3"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="long3"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
         /// </remarks>
@@ -273,7 +274,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Converts each value in a <see cref="MaxMath.long4"/> to its respective <see cref="double"/> representation.
+        /// <summary>       Converts each value in a <see cref="long4"/> to its respective <see cref="double"/> representation.
         /// <remarks>
         ///     <para>      A <see cref="Promise"/> '<paramref name="promise"/>' with its <see cref="Promise.Unsafe0"/> flag set returns undefined results for input values outside the interval [-2⁵¹, 2⁵¹]       </para>
         /// </remarks>

@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 namespace MaxMath
 {

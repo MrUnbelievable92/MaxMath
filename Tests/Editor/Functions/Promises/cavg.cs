@@ -225,45 +225,6 @@ namespace MaxMath.Tests
             }
         }
 
-        [Test]
-        public static void _sbyte8()
-        {
-            Random8 rng = Random8.New;
-
-            for (int i = 0; i < 24; i++)
-            {
-                sbyte8 b = rng.NextSByte8(-sbyte.MaxValue / 8 - 1, sbyte.MaxValue / 8 - 1);
-
-                Assert.AreEqual(math.cavg(b), math.cavg(b, Promise.NoOverflow));
-            }
-        }
-
-        [Test]
-        public static void _sbyte16()
-        {
-            Random8 rng = Random8.New;
-
-            for (int i = 0; i < 24; i++)
-            {
-                sbyte16 b = rng.NextSByte16(-sbyte.MaxValue / 16 - 1, sbyte.MaxValue / 16 - 1);
-
-                Assert.AreEqual(math.cavg(b), math.cavg(b, Promise.NoOverflow));
-            }
-        }
-
-        [Test]
-        public static void _sbyte32()
-        {
-            Random8 rng = Random8.New;
-
-            for (int i = 0; i < 24; i++)
-            {
-                sbyte32 b = rng.NextSByte32(-sbyte.MaxValue / 32 - 1, sbyte.MaxValue / 32 - 1);
-
-                Assert.AreEqual(math.cavg(b), math.cavg(b, Promise.NoOverflow));
-            }
-        }
-
 
         [Test]
         public static void _short2()

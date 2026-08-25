@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.Intrinsics.Xse;
@@ -84,33 +85,112 @@ namespace MaxMath
 			}
 		}
 
-
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask16x8(bool x0x8) => this = (mask16x8)x0x8;
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask16x8(mask16x2 x01, mask16x2 x23, mask16x2 x45, mask16x2 x67) => this = (v128)new ushort8((ushort2)(v128)x01, (ushort2)(v128)x23, (ushort2)(v128)x45, (ushort2)(v128)x67);
+		public mask16x8(mask16x2 x01, mask16x2 x23, mask16x2 x45, mask16x2 x67)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new ushort8((ushort2)(v128)x01, (ushort2)(v128)x23, (ushort2)(v128)x45, (ushort2)(v128)x67);
+			}
+			else
+			{
+				this = new bool8((bool2)x01, (bool2)x23, (bool2)x45, (bool2)x67);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask16x8(mask16x2 x01, mask16x3 x234, mask16x3 x567) => this = (v128)new ushort8((ushort2)(v128)x01, (ushort3)(v128)x234, (ushort3)(v128)x567);
+		public mask16x8(mask16x2 x01, mask16x3 x234, mask16x3 x567)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new ushort8((ushort2)(v128)x01, (ushort3)(v128)x234, (ushort3)(v128)x567);
+			}
+			else
+			{
+				this = new bool8((bool2)x01, (bool3)x234, (bool3)x567);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask16x8(mask16x3 x012, mask16x2 x34, mask16x3 x567) => this = (v128)new ushort8((ushort3)(v128)x012, (ushort2)(v128)x34, (ushort3)(v128)x567);
+		public mask16x8(mask16x3 x012, mask16x2 x34, mask16x3 x567)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new ushort8((ushort3)(v128)x012, (ushort2)(v128)x34, (ushort3)(v128)x567);
+			}
+			else
+			{
+				this = new bool8((bool3)x012, (bool2)x34, (bool3)x567);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask16x8(mask16x3 x012, mask16x3 x345, mask16x2 x67) => this = (v128)new ushort8((ushort3)(v128)x012, (ushort3)(v128)x345, (ushort2)(v128)x67);
+		public mask16x8(mask16x3 x012, mask16x3 x345, mask16x2 x67)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new ushort8((ushort3)(v128)x012, (ushort3)(v128)x345, (ushort2)(v128)x67);
+			}
+			else
+			{
+				this = new bool8((bool3)x012, (bool3)x345, (bool2)x67);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask16x8(mask16x4 x0123, mask16x2 x45, mask16x2 x67) => this = (v128)new ushort8((ushort4)(v128)x0123, (ushort2)(v128)x45, (ushort2)(v128)x67);
+		public mask16x8(mask16x4 x0123, mask16x2 x45, mask16x2 x67)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new ushort8((ushort4)(v128)x0123, (ushort2)(v128)x45, (ushort2)(v128)x67);
+			}
+			else
+			{
+				this = new bool8((bool4)x0123, (bool2)x45, (bool2)x67);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask16x8(mask16x2 x01, mask16x4 x2345, mask16x2 x67) => this = (v128)new ushort8((ushort2)(v128)x01, (ushort4)(v128)x2345, (ushort2)(v128)x67);
+		public mask16x8(mask16x2 x01, mask16x4 x2345, mask16x2 x67)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new ushort8((ushort2)(v128)x01, (ushort4)(v128)x2345, (ushort2)(v128)x67);
+			}
+			else
+			{
+				this = new bool8((bool2)x01, (bool4)x2345, (bool2)x67);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask16x8(mask16x2 x01, mask16x2 x23, mask16x4 x4567) => this = (v128)new ushort8((ushort2)(v128)x01, (ushort2)(v128)x23, (ushort4)(v128)x4567);
+		public mask16x8(mask16x2 x01, mask16x2 x23, mask16x4 x4567)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new ushort8((ushort2)(v128)x01, (ushort2)(v128)x23, (ushort4)(v128)x4567);
+			}
+			else
+			{
+				this = new bool8((bool2)x01, (bool2)x23, (bool4)x4567);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public mask16x8(mask16x4 x0123, mask16x4 x4567) => this = (v128)new ushort8((ushort4)(v128)x0123, (ushort4)(v128)x4567);
+		public mask16x8(mask16x4 x0123, mask16x4 x4567)
+		{
+			if (BurstArchitecture.IsSIMDSupported)
+			{
+				this = (v128)new ushort8((ushort4)(v128)x0123, (ushort4)(v128)x4567);
+			}
+			else
+			{
+				this = new bool8((bool4)x0123, (bool4)x4567);
+			}
+		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask16x8(bool8 v) => this = (mask16x8)v;

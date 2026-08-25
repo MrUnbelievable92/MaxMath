@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -18,7 +19,9 @@ namespace MaxMath.Intrinsics
 					v128 resultQuestionMark = sub_epi8(vector, DIV);
 
 					v128 result = blendv_si128(vector, resultQuestionMark, cmpge_epu8(vector, DIV, elements));
+
 					constexpr.ASSUME_LT_EPU8(result, divisor);
+					constexpr.ASSUME_REMAINDER_EPU8(result, vector, set1_epi8(divisor));
 					return result;
                 }
 
@@ -45,7 +48,9 @@ namespace MaxMath.Intrinsics
 					v256 resultQuestionMark = Avx2.mm256_sub_epi8(vector, DIV);
 
 					v256 result = Avx2.mm256_blendv_epi8(vector, resultQuestionMark, mm256_cmpge_epu8(vector, DIV));
+
 					constexpr.ASSUME_LT_EPU8(result, divisor);
+					constexpr.ASSUME_REMAINDER_EPU8(result, vector, mm256_set1_epi8(divisor));
 					return result;
                 }
 

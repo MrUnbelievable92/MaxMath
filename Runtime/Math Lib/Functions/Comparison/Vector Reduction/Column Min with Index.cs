@@ -8,7 +8,7 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort2"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="ushort2"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort2 x, out ushort min)
         {
@@ -34,7 +34,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort3"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="ushort3"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort3 x, out ushort min)
         {
@@ -64,7 +64,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort4"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="ushort4"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort4 x, out ushort min)
         {
@@ -98,7 +98,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the index of the minimum component of a <see cref="MaxMath.ushort8"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
+        /// <summary>       Returns the index of the minimum component of a <see cref="ushort8"/> with the minimum component as an <see langword="out"/> parameter.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cminpos(ushort8 x, out ushort min)
         {

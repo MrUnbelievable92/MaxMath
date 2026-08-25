@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -396,7 +397,7 @@ namespace MaxMath
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.byte2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.byte2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="byte2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="byte2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2 isinrange(byte2 x, byte2 min, byte2 max)
         {
@@ -410,7 +411,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.byte3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.byte3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="byte3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="byte3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3 isinrange(byte3 x, byte3 min, byte3 max)
         {
@@ -424,7 +425,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.byte4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.byte4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="byte4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="byte4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4 isinrange(byte4 x, byte4 min, byte4 max)
         {
@@ -438,7 +439,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.byte8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.byte8"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="byte8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="byte8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x8 isinrange(byte8 x, byte8 min, byte8 max)
         {
@@ -459,7 +460,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.byte16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.byte16"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool16"/> indicating for each component of a <see cref="byte16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="byte16"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x16 isinrange(byte16 x, byte16 min, byte16 max)
         {
@@ -488,7 +489,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool32"/> indicating for each component of a <see cref="MaxMath.byte32"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.byte32"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool32"/> indicating for each component of a <see cref="byte32"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="byte32"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x32 isinrange(byte32 x, byte32 min, byte32 max)
         {
@@ -510,7 +511,7 @@ namespace MaxMath
             return (byte)(x - min) <= (byte)(max - min);
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of an <see cref="MaxMath.sbyte2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.sbyte2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of an <see cref="sbyte2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="sbyte2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x2 isinrange(sbyte2 x, sbyte2 min, sbyte2 max)
         {
@@ -524,7 +525,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of an <see cref="MaxMath.sbyte3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.sbyte3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of an <see cref="sbyte3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="sbyte3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x3 isinrange(sbyte3 x, sbyte3 min, sbyte3 max)
         {
@@ -538,7 +539,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of an <see cref="MaxMath.sbyte4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.sbyte4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of an <see cref="sbyte4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="sbyte4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x4 isinrange(sbyte4 x, sbyte4 min, sbyte4 max)
         {
@@ -552,7 +553,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of an <see cref="MaxMath.sbyte8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.sbyte8"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of an <see cref="sbyte8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="sbyte8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x8 isinrange(sbyte8 x, sbyte8 min, sbyte8 max)
         {
@@ -573,7 +574,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool16"/> indicating for each component of an <see cref="MaxMath.sbyte16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.sbyte16"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool16"/> indicating for each component of an <see cref="sbyte16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="sbyte16"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x16 isinrange(sbyte16 x, sbyte16 min, sbyte16 max)
         {
@@ -602,7 +603,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool32"/> indicating for each component of an <see cref="MaxMath.sbyte32"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.sbyte32"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool32"/> indicating for each component of an <see cref="sbyte32"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="sbyte32"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask8x32 isinrange(sbyte32 x, sbyte32 min, sbyte32 max)
         {
@@ -624,7 +625,7 @@ namespace MaxMath
             return (ushort)(x - min) <= (ushort)(max - min);
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.short2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.short2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="short2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="short2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2 isinrange(short2 x, short2 min, short2 max)
         {
@@ -638,7 +639,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.short3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.short3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="short3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="short3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3 isinrange(short3 x, short3 min, short3 max)
         {
@@ -652,7 +653,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.short4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.short4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="short4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="short4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4 isinrange(short4 x, short4 min, short4 max)
         {
@@ -666,7 +667,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.short8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.short8"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="short8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="short8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x8 isinrange(short8 x, short8 min, short8 max)
         {
@@ -687,7 +688,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.short16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.short16"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool16"/> indicating for each component of a <see cref="short16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="short16"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x16 isinrange(short16 x, short16 min, short16 max)
         {
@@ -709,7 +710,7 @@ namespace MaxMath
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.ushort2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.ushort2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="ushort2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="ushort2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x2 isinrange(ushort2 x, ushort2 min, ushort2 max)
         {
@@ -723,7 +724,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.ushort3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.ushort3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="ushort3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="ushort3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x3 isinrange(ushort3 x, ushort3 min, ushort3 max)
         {
@@ -737,7 +738,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.ushort4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.ushort4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="ushort4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="ushort4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x4 isinrange(ushort4 x, ushort4 min, ushort4 max)
         {
@@ -751,7 +752,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.ushort8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.ushort8"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="ushort8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="ushort8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x8 isinrange(ushort8 x, ushort8 min, ushort8 max)
         {
@@ -772,7 +773,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.ushort16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.ushort16"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool16"/> indicating for each component of a <see cref="ushort16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="ushort16"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask16x16 isinrange(ushort16 x, ushort16 min, ushort16 max)
         {
@@ -794,7 +795,7 @@ namespace MaxMath
             return (uint)(x - min) <= (uint)(max - min);
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of an <see cref="MaxMath.int2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.int2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of an <see cref="int2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="int2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2 isinrange(int2 x, int2 min, int2 max)
         {
@@ -808,7 +809,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of an <see cref="MaxMath.int3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.int3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of an <see cref="int3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="int3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3 isinrange(int3 x, int3 min, int3 max)
         {
@@ -822,7 +823,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of an <see cref="MaxMath.int4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.int4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of an <see cref="int4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="int4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4 isinrange(int4 x, int4 min, int4 max)
         {
@@ -836,7 +837,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of an <see cref="MaxMath.int8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.int8"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of an <see cref="int8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="int8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x8 isinrange(int8 x, int8 min, int8 max)
         {
@@ -858,7 +859,7 @@ namespace MaxMath
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.uint2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.uint2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="uint2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="uint2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2 isinrange(uint2 x, uint2 min, uint2 max)
         {
@@ -872,7 +873,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.uint3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.uint3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="uint3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="uint3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3 isinrange(uint3 x, uint3 min, uint3 max)
         {
@@ -886,7 +887,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.uint4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.uint4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="uint4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="uint4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4 isinrange(uint4 x, uint4 min, uint4 max)
         {
@@ -900,7 +901,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.uint8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.uint8"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="uint8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="uint8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x8 isinrange(uint8 x, uint8 min, uint8 max)
         {
@@ -922,7 +923,7 @@ namespace MaxMath
             return (ulong)(x - min) <= (ulong)(max - min);
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.long2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.long2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="long2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="long2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2 isinrange(long2 x, long2 min, long2 max)
         {
@@ -936,7 +937,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.long3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.long3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="long3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="long3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3 isinrange(long3 x, long3 min, long3 max)
         {
@@ -950,7 +951,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.long4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.long4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="long4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="long4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4 isinrange(long4 x, long4 min, long4 max)
         {
@@ -972,7 +973,7 @@ namespace MaxMath
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.ulong2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.ulong2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="ulong2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="ulong2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2 isinrange(ulong2 x, ulong2 min, ulong2 max)
         {
@@ -986,7 +987,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.ulong3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.ulong3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="ulong3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="ulong3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3 isinrange(ulong3 x, ulong3 min, ulong3 max)
         {
@@ -1000,7 +1001,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.ulong4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.ulong4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="ulong4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="ulong4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4 isinrange(ulong4 x, ulong4 min, ulong4 max)
         {
@@ -1016,10 +1017,10 @@ namespace MaxMath
 
 
 
-        /// <summary>       Returns <see langword="true"/> if a <see cref="MaxMath.quarter"/> is within the interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter"/>s.
+        /// <summary>       Returns <see langword="true"/> if a <see cref="quarter"/> is within the interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quarter"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1028,10 +1029,10 @@ namespace MaxMath
             return x.IsGreaterThanOrEqualTo(min, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero)) & x.IsLessThanOrEqualTo(max, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.quarter2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter2"/>s.
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="quarter2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quarter2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1047,10 +1048,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.quarter3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter3"/>s.
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="quarter3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quarter3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1066,10 +1067,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.quarter4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter4"/>s.
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="quarter4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quarter4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1085,10 +1086,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.quarter8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter8"/>s.
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="quarter8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quarter8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1111,10 +1112,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.quarter16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter16"/>s.
+        /// <summary>       Returns a <see cref="bool16"/> indicating for each component of a <see cref="quarter16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quarter16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1145,10 +1146,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool32"/> indicating for each component of a <see cref="MaxMath.quarter32"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.quarter32"/>s.
+        /// <summary>       Returns a <see cref="bool32"/> indicating for each component of a <see cref="quarter32"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quarter32"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.MaxMath.quarter.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="quarter.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1165,10 +1166,10 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns <see langword="true"/> if a <see cref="MaxMath.half"/> is within the interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.half"/><see langword="sbyte"/>.
+        /// <summary>       Returns <see langword="true"/> if a <see cref="half"/> is within the interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="half"/><see langword="sbyte"/>.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1177,10 +1178,10 @@ namespace MaxMath
             return x.IsGreaterThanOrEqualTo(min, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero)) & x.IsLessThanOrEqualTo(max, neitherNaN: promises.Promises(Promise.Unsafe0), neitherZero: promises.Promises(Promise.NonZero));
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.half2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.half2"/>s.
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="half2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="half2"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1196,10 +1197,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.half3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.half3"/>s.
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="half3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="half3"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1215,10 +1216,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.half4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.half4"/>s.
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="half4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="half4"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1234,10 +1235,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.half8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.half8"/>s.
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="half8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="half8"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1260,10 +1261,10 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool16"/> indicating for each component of a <see cref="MaxMath.half16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.half16"/>s.
+        /// <summary>       Returns a <see cref="bool16"/> indicating for each component of a <see cref="half16"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="half16"/>s.
         /// <remarks>
         /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.NonZero"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is 0.       </para>
-        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="MaxMath.half.NaN"/>.       </para>
+        /// <para>      A <see cref="Promise"/> "<paramref name="promises"/>" with its <see cref="Promise.Unsafe0"/> flag set returns incorrect results if any <paramref name="x"/>, <paramref name="min"/> or <paramref name="max"/> is <see cref="half.NaN"/>.       </para>
         /// </remarks>
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1287,28 +1288,28 @@ namespace MaxMath
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.float2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.float2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="float2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="float2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x2 isinrange(float2 x, float2 min, float2 max)
         {
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.float3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.float3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="float3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="float3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x3 isinrange(float3 x, float3 min, float3 max)
         {
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.float4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.float4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="float4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="float4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x4 isinrange(float4 x, float4 min, float4 max)
         {
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool8"/> indicating for each component of a <see cref="MaxMath.float8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.float8"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool8"/> indicating for each component of a <see cref="float8"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="float8"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask32x8 isinrange(float8 x, float8 min, float8 max)
         {
@@ -1323,23 +1324,31 @@ namespace MaxMath
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool2"/> indicating for each component of a <see cref="MaxMath.double2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.double2"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool2"/> indicating for each component of a <see cref="double2"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="double2"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x2 isinrange(double2 x, double2 min, double2 max)
         {
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool3"/> indicating for each component of a <see cref="MaxMath.double3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.double3"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool3"/> indicating for each component of a <see cref="double3"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="double3"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x3 isinrange(double3 x, double3 min, double3 max)
         {
             return x >= min & x <= max;
         }
 
-        /// <summary>       Returns a <see cref="MaxMath.bool4"/> indicating for each component of a <see cref="MaxMath.double4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="MaxMath.double4"/>s.     </summary>
+        /// <summary>       Returns a <see cref="bool4"/> indicating for each component of a <see cref="double4"/> whether it is within the corresponding interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="double4"/>s.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static mask64x4 isinrange(double4 x, double4 min, double4 max)
+        {
+            return x >= min & x <= max;
+        }
+
+
+        /// <summary>       Returns <see langword="true"/> if a <see cref="quadruple"/> is within the interval [<paramref name="min"/>, <paramref name="max"/>], where <paramref name="x"/>, <paramref name="min"/> and <paramref name="max"/> are <see cref="quadruple"/>s.       </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool isinrange(quadruple x, quadruple min, quadruple max)
         {
             return x >= min & x <= max;
         }

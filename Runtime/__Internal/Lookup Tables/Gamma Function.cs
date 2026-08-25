@@ -34,7 +34,6 @@ namespace MaxMath
 			internal const double F64_SDEN11 = 66d;
 			internal const double F64_SDEN12 = 1d;
 
-
             internal const float a0  =  7.7215664089e-02f;
             internal const float a1  =  3.2246702909e-01f;
             internal const float a2  =  6.7352302372e-02f;
@@ -96,6 +95,68 @@ namespace MaxMath
             internal const float w4  = -5.9518753551e-04f;
             internal const float w5  =  8.3633989561e-04f;
             internal const float w6  = -1.6309292987e-03f;
+            
+            internal const double a0_DBL  =  7.72156649015328655494e-02;
+            internal const double a1_DBL  =  3.22467033424113591611e-01;
+            internal const double a2_DBL  =  6.73523010531292681824e-02;
+            internal const double a3_DBL  =  2.05808084325167332806e-02;
+            internal const double a4_DBL  =  7.38555086081402883957e-03;
+            internal const double a5_DBL  =  2.89051383673415629091e-03;
+            internal const double a6_DBL  =  1.19270763183362067845e-03;
+            internal const double a7_DBL  =  5.10069792153511336608e-04;
+            internal const double a8_DBL  =  2.20862790713908385557e-04;
+            internal const double a9_DBL  =  1.08011567247583939954e-04;
+            internal const double a10_DBL =  2.52144565451257326939e-05;
+            internal const double a11_DBL =  4.48640949618915160150e-05;
+            internal const double tc_DBL  =  1.46163214496836224576e+00;
+            internal const double tf_DBL  = -1.21486290535849611461e-01;
+            internal const double tt_DBL  = -3.63867699703950536541e-18;
+            internal const double t0_DBL  =  4.83836122723810047042e-01;
+            internal const double t1_DBL  = -1.47587722994593911752e-01;
+            internal const double t2_DBL  =  6.46249402391333854778e-02;
+            internal const double t3_DBL  = -3.27885410759859649565e-02;
+            internal const double t4_DBL  =  1.79706750811820387126e-02;
+            internal const double t5_DBL  = -1.03142241298341437450e-02;
+            internal const double t6_DBL  =  6.10053870246291332635e-03;
+            internal const double t7_DBL  = -3.68452016781138256760e-03;
+            internal const double t8_DBL  =  2.25964780900612472250e-03;
+            internal const double t9_DBL  = -1.40346469989232843813e-03;
+            internal const double t10_DBL =  8.81081882437654011382e-04;
+            internal const double t11_DBL = -5.38595305356740546715e-04;
+            internal const double t12_DBL =  3.15632070903625950361e-04;
+            internal const double t13_DBL = -3.12754168375120860518e-04;
+            internal const double t14_DBL =  3.35529192635519073543e-04;
+            internal const double u0_DBL  = -7.72156649015328655494e-02;
+            internal const double u1_DBL  =  6.32827064025093366517e-01;
+            internal const double u2_DBL  =  1.45492250137234768737e+00;
+            internal const double u3_DBL  =  9.77717527963372745603e-01;
+            internal const double u4_DBL  =  2.28963728064692451092e-01;
+            internal const double u5_DBL  =  1.33810918536787660377e-02;
+            internal const double v1_DBL  =  2.45597793713041134822e+00;
+            internal const double v2_DBL  =  2.12848976379893395361e+00;
+            internal const double v3_DBL  =  7.69285150456672783825e-01;
+            internal const double v4_DBL  =  1.04222645593369134254e-01;
+            internal const double v5_DBL  =  3.21709242282423911810e-03;
+            internal const double s0_DBL  = -7.72156649015328655494e-02;
+            internal const double s1_DBL  =  2.14982415960608852501e-01;
+            internal const double s2_DBL  =  3.25778796408930981787e-01;
+            internal const double s3_DBL  =  1.46350472652464452805e-01;
+            internal const double s4_DBL  =  2.66422703033638609560e-02;
+            internal const double s5_DBL  =  1.84028451407337715652e-03;
+            internal const double s6_DBL  =  3.19475326584100867617e-05;
+            internal const double r1_DBL  =  1.39200533467621045958e+00;
+            internal const double r2_DBL  =  7.21935547567138069525e-01;
+            internal const double r3_DBL  =  1.71933865632803078993e-01;
+            internal const double r4_DBL  =  1.86459191715652901344e-02;
+            internal const double r5_DBL  =  7.77942496381893596434e-04;
+            internal const double r6_DBL  =  7.32668430744625636189e-06;
+            internal const double w0_DBL  =  4.18938533204672725052e-01;
+            internal const double w1_DBL  =  8.33333333333329678849e-02;
+            internal const double w2_DBL  = -2.77777777728775536470e-03;
+            internal const double w3_DBL  =  7.93650558643019558500e-04;
+            internal const double w4_DBL  = -5.95187557450339963135e-04;
+            internal const double w5_DBL  =  8.36339918996282139126e-04;
+            internal const double w6_DBL  = -1.63092934096575273989e-03;
         }
     }
 }

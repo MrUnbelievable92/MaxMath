@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -445,7 +446,7 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.byte2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="byte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte2 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
@@ -462,7 +463,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.byte3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="byte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte3 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
@@ -479,7 +480,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.byte4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="byte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte4 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
@@ -496,7 +497,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.byte8"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="byte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte8 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
@@ -513,7 +514,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.byte16"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="byte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte16 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
@@ -530,7 +531,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.byte32"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="byte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(byte32 a, [NoAlias] out byte min, [NoAlias] out byte max)
         {
@@ -551,7 +552,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.sbyte2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="sbyte2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte2 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
@@ -568,7 +569,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.sbyte3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="sbyte3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte3 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
@@ -585,7 +586,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.sbyte4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="sbyte4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte4 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
@@ -602,7 +603,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.sbyte8"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="sbyte8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte8 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
@@ -619,7 +620,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.sbyte16"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="sbyte16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte16 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
@@ -636,7 +637,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.sbyte32"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="sbyte32"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(sbyte32 a, [NoAlias] out sbyte min, [NoAlias] out sbyte max)
         {
@@ -657,7 +658,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.ushort2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="ushort2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort2 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
@@ -674,7 +675,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.ushort3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="ushort3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort3 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
@@ -691,7 +692,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.ushort4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="ushort4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort4 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
@@ -708,7 +709,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.ushort8"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="ushort8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort8 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
@@ -725,7 +726,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.ushort16"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="ushort16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ushort16 a, [NoAlias] out ushort min, [NoAlias] out ushort max)
         {
@@ -746,7 +747,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.short2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="short2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short2 a, [NoAlias] out short min, [NoAlias] out short max)
         {
@@ -763,7 +764,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.short3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="short3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short3 a, [NoAlias] out short min, [NoAlias] out short max)
         {
@@ -780,7 +781,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.short4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="short4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short4 a, [NoAlias] out short min, [NoAlias] out short max)
         {
@@ -797,7 +798,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.short8"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="short8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short8 a, [NoAlias] out short min, [NoAlias] out short max)
         {
@@ -814,7 +815,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.short16"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="short16"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(short16 a, [NoAlias] out short min, [NoAlias] out short max)
         {
@@ -835,7 +836,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.int2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="int2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int2 a, [NoAlias] out int min, [NoAlias] out int max)
         {
@@ -852,7 +853,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.int3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="int3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int3 a, [NoAlias] out int min, [NoAlias] out int max)
         {
@@ -869,7 +870,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.int4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="int4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int4 a, [NoAlias] out int min, [NoAlias] out int max)
         {
@@ -886,7 +887,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="MaxMath.int8"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of an <see cref="int8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(int8 a, [NoAlias] out int min, [NoAlias] out int max)
         {
@@ -907,7 +908,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.uint2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="uint2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint2 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
@@ -924,7 +925,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.uint3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="uint3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint3 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
@@ -941,7 +942,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.uint4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="uint4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint4 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
@@ -958,7 +959,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.uint8"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="uint8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(uint8 a, [NoAlias] out uint min, [NoAlias] out uint max)
         {
@@ -979,7 +980,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.ulong2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="ulong2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ulong2 a, [NoAlias] out ulong min, [NoAlias] out ulong max)
         {
@@ -996,7 +997,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.ulong3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="ulong3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ulong3 a, [NoAlias] out ulong min, [NoAlias] out ulong max)
         {
@@ -1006,7 +1007,7 @@ namespace MaxMath
             max = math.max(maxLo, a.z);
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.ulong4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="ulong4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(ulong4 a, [NoAlias] out ulong min, [NoAlias] out ulong max)
         {
@@ -1027,7 +1028,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.long2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="long2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(long2 a, [NoAlias] out long min, [NoAlias] out long max)
         {
@@ -1044,7 +1045,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.long3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="long3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(long3 a, [NoAlias] out long min, [NoAlias] out long max)
         {
@@ -1054,7 +1055,7 @@ namespace MaxMath
             max = math.max(maxLo, a.z);
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.long4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="long4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(long4 a, [NoAlias] out long min, [NoAlias] out long max)
         {
@@ -1075,7 +1076,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.float2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="float2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float2 a, [NoAlias] out float min, [NoAlias] out float max)
         {
@@ -1092,7 +1093,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.float3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="float3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float3 a, [NoAlias] out float min, [NoAlias] out float max)
         {
@@ -1109,7 +1110,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.float4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="float4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float4 a, [NoAlias] out float min, [NoAlias] out float max)
         {
@@ -1126,7 +1127,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.float8"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="float8"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(float8 a, [NoAlias] out float min, [NoAlias] out float max)
         {
@@ -1147,7 +1148,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.double2"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="double2"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double2 a, [NoAlias] out double min, [NoAlias] out double max)
         {
@@ -1164,7 +1165,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.double3"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="double3"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double3 a, [NoAlias] out double min, [NoAlias] out double max)
         {
@@ -1174,7 +1175,7 @@ namespace MaxMath
             max = math.max(maxLo, a.z);
         }
 
-        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="MaxMath.double4"/>.    </summary>
+        /// <summary>       Returns the horizontal minimum '<paramref name="min"/>' and maximum '<paramref name="max"/>' of a <see cref="double4"/>.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void cminmax(double4 a, [NoAlias] out double min, [NoAlias] out double max)
         {

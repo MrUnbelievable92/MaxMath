@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.Intrinsics.Xse;
@@ -122,6 +123,7 @@ namespace MaxMath
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask8x16(mask8x8 x01234567, mask8x8 x8_9_10_11_12_13_14_15) => this = (v128)new byte16((byte8)(v128)x01234567, (byte8)(v128)x8_9_10_11_12_13_14_15);
+
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask8x16(bool16 v) => this = (mask8x16)v;

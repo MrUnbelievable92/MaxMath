@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static MaxMath.Intrinsics.Xse;
@@ -139,6 +140,72 @@ namespace MaxMath
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask8x32(mask8x16 v16_0, mask8x16 v16_1) => this = (v256)new byte32((byte16)(v128)v16_0, (byte16)(v128)v16_1);
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask8x32(bool16 v16_0, bool16 v16_1)
+			: this((mask8x16)v16_0, (mask8x16)v16_1)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask8x32(mask8x16 v16_0, bool16 v16_1)
+			: this(v16_0, (mask8x16)v16_1)
+		{
+
+		}
+		
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask8x32(bool16 v16_0, mask8x16 v16_1)
+			: this((mask8x16)v16_0, v16_1)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask8x32(mask16x16 v16_0, mask16x16 v16_1)
+		{
+			if (Avx2.IsAvx2Supported)
+			{
+				v256 lo = Avx2.mm256_permute2x128_si256(v16_0, v16_1, Sse.SHUFFLE(2, 2, 0, 0));
+				v256 hi = Avx2.mm256_permute2x128_si256(v16_0, v16_1, Sse.SHUFFLE(3, 3, 1, 1));
+
+				this = Avx2.mm256_packs_epi16(lo, hi);
+			}
+			else
+			{
+				this = new mask8x32((mask8x16)v16_0, (mask8x16)v16_1);
+			}
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask8x32(mask8x16 v16_0, mask16x16 v16_1)
+			: this(v16_0, (mask8x16)v16_1)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask8x32(mask16x16 v16_0, mask8x16 v16_1)
+			: this((mask8x16)v16_0, v16_1)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask8x32(bool16 v16_0, mask16x16 v16_1)
+			: this((mask8x16)v16_0, (mask8x16)v16_1)
+		{
+
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public mask8x32(mask16x16 v16_0, bool16 v16_1)
+			: this((mask8x16)v16_0, (mask8x16)v16_1)
+		{
+
+		}
+
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public mask8x32(bool32 v) => this = (mask8x32)v;

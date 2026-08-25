@@ -6,6 +6,7 @@
 
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.Arm.Neon;
 using static Unity.Burst.Intrinsics.X86;
@@ -454,7 +455,7 @@ namespace MaxMath.Intrinsics
 							case SHUFFLE_2131: return Sse2.shuffle_epi32(a, SHUFFLE_2131);
 							case SHUFFLE_2132: return Sse2.shuffle_epi32(a, SHUFFLE_2132);
 							case SHUFFLE_2133: return Sse2.shuffle_epi32(a, SHUFFLE_2133);
-							case SHUFFLE_2200: return Sse2.shuffle_epi32(a, SHUFFLE_2200);
+							case SHUFFLE_2200: { if (Sse3.IsSse3Supported) { return Sse3.moveldup_ps(a); } else { return Sse2.shuffle_epi32(a, SHUFFLE_2200); } };
 							case SHUFFLE_2201: return Sse2.shuffle_epi32(a, SHUFFLE_2201);
 							case SHUFFLE_2202: return Sse2.shuffle_epi32(a, SHUFFLE_2202);
 							case SHUFFLE_2203: return Sse2.shuffle_epi32(a, SHUFFLE_2203);
@@ -539,7 +540,7 @@ namespace MaxMath.Intrinsics
 							case SHUFFLE_3302: return Sse2.shuffle_epi32(a, SHUFFLE_3302);
 							case SHUFFLE_3303: return Sse2.shuffle_epi32(a, SHUFFLE_3303);
 							case SHUFFLE_3310: return Sse2.shuffle_epi32(a, SHUFFLE_3310);
-							case SHUFFLE_3311: return Sse2.shuffle_epi32(a, SHUFFLE_3311);
+							case SHUFFLE_3311: { if (Sse3.IsSse3Supported) { return Sse3.movehdup_ps(a); } else { return Sse2.shuffle_epi32(a, SHUFFLE_3311); } };
 							case SHUFFLE_3312: return Sse2.shuffle_epi32(a, SHUFFLE_3312);
 							case SHUFFLE_3313: return Sse2.shuffle_epi32(a, SHUFFLE_3313);
 							case SHUFFLE_3320: return Sse2.shuffle_epi32(a, SHUFFLE_3320);

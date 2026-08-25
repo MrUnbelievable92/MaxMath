@@ -3,8 +3,9 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
-using MaxMath.Intrinsics;
 using DevTools;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 using static MaxMath.math;
@@ -1476,6 +1477,78 @@ Assert.AreNotEqual(right, 0u);
             }
         }
 
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator + (uint lhs, uint8 rhs) => (uint8)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator - (uint lhs, uint8 rhs) => (uint8)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator / (uint lhs, uint8 rhs) => (uint8)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator % (uint lhs, uint8 rhs) => (uint8)lhs % rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator + (uint8 lhs, uint rhs) => lhs + (uint8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator - (uint8 lhs, uint rhs) => lhs - (uint8)rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator & (uint lhs, uint8 rhs) => (uint8)lhs & rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator | (uint lhs, uint8 rhs) => (uint8)lhs | rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator ^ (uint lhs, uint8 rhs) => (uint8)lhs ^ rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator & (uint8 lhs, uint rhs) => lhs & (uint8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator | (uint8 lhs, uint rhs) => lhs | (uint8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint8 operator ^ (uint8 lhs, uint rhs) => lhs ^ (uint8)rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (float lhs, uint8 rhs) => lhs + (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (float lhs, uint8 rhs) => lhs - (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (float lhs, uint8 rhs) => lhs * (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (float lhs, uint8 rhs) => lhs / (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (float lhs, uint8 rhs) => lhs % (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator + (uint8 lhs, float rhs) => (float8)lhs + rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator - (uint8 lhs, float rhs) => (float8)lhs - rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator * (uint8 lhs, float rhs) => (float8)lhs * rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator / (uint8 lhs, float rhs) => (float8)lhs / rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float8 operator % (uint8 lhs, float rhs) => (float8)lhs % rhs;
+
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint8 operator ++ (uint8 x)
@@ -1622,6 +1695,82 @@ Assert.AreNotEqual(right, 0u);
                 return new mask32x8(left.__x0 >= right.__x0, left.__x4 >= right.__x4);
             }
         }
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (uint lhs, uint8 rhs) => (uint8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (uint lhs, uint8 rhs) => (uint8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (uint lhs, uint8 rhs) => (uint8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (uint lhs, uint8 rhs) => (uint8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (uint lhs, uint8 rhs) => (uint8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (uint lhs, uint8 rhs) => (uint8)lhs >= rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (uint8 lhs, uint rhs) => lhs == (uint8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (uint8 lhs, uint rhs) => lhs != (uint8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (uint8 lhs, uint rhs) => lhs < (uint8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (uint8 lhs, uint rhs) => lhs > (uint8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (uint8 lhs, uint rhs) => lhs <= (uint8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (uint8 lhs, uint rhs) => lhs >= (uint8)rhs;
+
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (float lhs, uint8 rhs) => lhs == (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (float lhs, uint8 rhs) => lhs != (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (float lhs, uint8 rhs) => lhs < (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (float lhs, uint8 rhs) => lhs > (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (float lhs, uint8 rhs) => lhs <= (float8)rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (float lhs, uint8 rhs) => lhs >= (float8)rhs;
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator == (uint8 lhs, float rhs) => (float8)lhs == rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator != (uint8 lhs, float rhs) => (float8)lhs != rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator < (uint8 lhs, float rhs) => (float8)lhs < rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator > (uint8 lhs, float rhs) => (float8)lhs > rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator <= (uint8 lhs, float rhs) => (float8)lhs <= rhs;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static mask32x8 operator >= (uint8 lhs, float rhs) => (float8)lhs >= rhs;
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

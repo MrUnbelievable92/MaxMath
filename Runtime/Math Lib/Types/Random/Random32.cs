@@ -1,8 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using DevTools;
 using Unity.Burst.Intrinsics;
+using DevTools;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -164,7 +165,7 @@ Assert.AreNotEqual(i, uint.MaxValue);
             return (int)NextState() < 0;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.bool2"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool2"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool2 NextBool2()
         {
@@ -173,7 +174,7 @@ Assert.AreNotEqual(i, uint.MaxValue);
             return *(bool2*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.bool3"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool3"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool3 NextBool3()
         {
@@ -182,7 +183,7 @@ Assert.AreNotEqual(i, uint.MaxValue);
             return *(bool3*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.bool4"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool4"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool4 NextBool4()
         {
@@ -191,7 +192,7 @@ Assert.AreNotEqual(i, uint.MaxValue);
             return *(bool4*)&result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool8"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool8"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool8 NextBool8()
         {
@@ -202,7 +203,7 @@ Assert.AreNotEqual(i, uint.MaxValue);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool16"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool16"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool16 NextBool16()
         {
@@ -213,7 +214,7 @@ Assert.AreNotEqual(i, uint.MaxValue);
             return result;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.bool32"/>.     </summary>
+        /// <summary>       Returns a uniformly random <see cref="bool32"/>.     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool32 NextBool32()
         {
@@ -232,28 +233,28 @@ Assert.AreNotEqual(i, uint.MaxValue);
             return int.MinValue ^ (int)NextState();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.int2"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="int2"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int2 NextInt2()
         {
             return int.MinValue ^ (int2)NextState2();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.int3"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="int3"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int3 NextInt3()
         {
             return int.MinValue ^ (int3)NextState3();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.int4"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="int4"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int4 NextInt4()
         {
             return int.MinValue ^ (int4)NextState4();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.int8"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="int8"/> with all components in the interval [-2.147.483.647, 2.147.483.647].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int8 NextInt8()
         {
@@ -268,7 +269,7 @@ Assert.AreNotEqual(i, uint.MaxValue);
             return min + (int)((NextState() * (ulong)(max - min)) >> 32);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.int2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="int2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int2 NextInt2(int2 min, int2 max)
         {
@@ -288,7 +289,7 @@ VectorAssert.IsNotSmaller<int2, int>(max, min, 2);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.int3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="int3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int3 NextInt3(int3 min, int3 max)
         {
@@ -312,7 +313,7 @@ VectorAssert.IsNotSmaller<int3, int>(max, min, 3);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.int4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="int4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int4 NextInt4(int4 min, int4 max)
         {
@@ -336,7 +337,7 @@ VectorAssert.IsNotSmaller<int4, int>(max, min, 4);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.int8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="int8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int8 NextInt8(int8 min, int8 max)
         {
@@ -371,28 +372,28 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             return NextState() - 1;
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint2"/> with all components in the interval [0, 4.294.967.294].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint2"/> with all components in the interval [0, 4.294.967.294].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint2 NextUInt2()
         {
             return uint.MaxValue + NextState2();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint3"/> with all components in the interval [0, 4.294.967.294].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint3"/> with all components in the interval [0, 4.294.967.294].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3()
         {
             return uint.MaxValue + NextState3();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint4"/> with all components in the interval [0, 4.294.967.294].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint4"/> with all components in the interval [0, 4.294.967.294].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4()
         {
             return uint.MaxValue + NextState4();
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.uint8"/> with all components in the interval [0, 4.294.967.294].       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint8"/> with all components in the interval [0, 4.294.967.294].       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8 NextUInt8()
         {
@@ -407,7 +408,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             return (uint)((NextState() * (ulong)max) >> 32);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint2"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint2"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint2 NextUInt2(uint2 max)
         {
@@ -425,7 +426,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint3"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint3"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3(uint3 max)
         {
@@ -445,7 +446,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint4"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint4"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4(uint4 max)
         {
@@ -465,7 +466,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.uint8"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint8"/> with all components in the interval [0, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8 NextUInt8(uint8 max)
         {
@@ -496,7 +497,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             return min + (uint)((NextState() * (ulong)(max - min)) >> 32);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint2 NextUInt2(uint2 min, uint2 max)
         {
@@ -514,7 +515,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint3 NextUInt3(uint3 min, uint3 max)
         {
@@ -536,7 +537,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.uint4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint4 NextUInt4(uint4 min, uint4 max)
         {
@@ -558,7 +559,7 @@ VectorAssert.IsNotSmaller<int8, int>(max, min, 8);
             }
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.uint8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
+        /// <summary>       Returns a uniformly random <see cref="uint8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>).       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint8 NextUInt8(uint8 min, uint8 max)
         {
@@ -593,28 +594,28 @@ VectorAssert.IsNotSmaller<uint8, uint>(max, min, 8);
             return -1f + asfloat(asuint(1f) | (NextState() >> (F32_EXPONENT_BITS + 1)));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.float2"/> with all components in the interval [0, 1).     </summary>
+        /// <summary>       Returns a uniformly random <see cref="float2"/> with all components in the interval [0, 1).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float2 NextFloat2()
         {
             return -1f + asfloat(asuint(1f) | (NextState2() >> (F32_EXPONENT_BITS + 1)));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.float3"/> with all components in the interval [0, 1).     </summary>
+        /// <summary>       Returns a uniformly random <see cref="float3"/> with all components in the interval [0, 1).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float3 NextFloat3()
         {
             return -1f + asfloat(asuint(1f) | (NextState3() >> (F32_EXPONENT_BITS + 1)));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.float4"/> with all components in the interval [0, 1).     </summary>
+        /// <summary>       Returns a uniformly random <see cref="float4"/> with all components in the interval [0, 1).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float4 NextFloat4()
         {
             return -1f + asfloat(asuint(1f) | (NextState4() >> (F32_EXPONENT_BITS + 1)));
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.float8"/> with all components in the interval [0, 1).     </summary>
+        /// <summary>       Returns a uniformly random <see cref="float8"/> with all components in the interval [0, 1).     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8 NextFloat8()
         {
@@ -631,7 +632,7 @@ Assert.IsNotSmaller(max, min);
             return mad(NextFloat(), max - min, min);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.float2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
+        /// <summary>       Returns a uniformly random <see cref="float2"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float2 NextFloat2(float2 min, float2 max)
         {
@@ -640,7 +641,7 @@ VectorAssert.IsNotSmaller<float2, float>(max, min, 2);
             return mad(NextFloat2(), max - min, min);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.float3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
+        /// <summary>       Returns a uniformly random <see cref="float3"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float3 NextFloat3(float3 min, float3 max)
         {
@@ -649,7 +650,7 @@ VectorAssert.IsNotSmaller<float3, float>(max, min, 3);
             return mad(NextFloat3(), max - min, min);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="Unity.Mathematics.float4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
+        /// <summary>       Returns a uniformly random <see cref="float4"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float4 NextFloat4(float4 min, float4 max)
         {
@@ -658,7 +659,7 @@ VectorAssert.IsNotSmaller<float4, float>(max, min, 4);
             return mad(NextFloat4(), max - min, min);
         }
 
-        /// <summary>       Returns a uniformly random <see cref="MaxMath.float8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
+        /// <summary>       Returns a uniformly random <see cref="float8"/> with all components in the interval [<paramref name="min"/>, <paramref name="max"/>].     </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float8 NextFloat8(float8 min, float8 max)
         {

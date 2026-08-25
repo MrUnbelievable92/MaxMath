@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Unity.Burst;
 using Unity.Burst.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
@@ -39,13 +40,19 @@ namespace MaxMath
         internal const ulong DEPOSIT_MASK_64 = (1ul << (F64_BITS - 1)) | (((1ul << (BITS - 1)) - 1) << (F64_BITS - BITS - (F64_EXPONENT_BITS - EXPONENT_BITS)));
         
         
+    #if DEBUG
         [Obsolete("Zero is already defined. This property will be removed in a subsequent release.")]
+    #endif
         public static half zero => new half();
         
+    #if DEBUG
         [Obsolete("MaxValue is already a MaxMath.half. This property will be removed in a subsequent release.")]
+    #endif
         public static half MaxValueAsHalf => new half(MaxValue);
 
+    #if DEBUG
         [Obsolete("MinValue is already a MaxMath.half. This property will be removed in a subsequent release.")]
+    #endif
         public static half MinValueAsHalf => new half(MinValue);
 
 

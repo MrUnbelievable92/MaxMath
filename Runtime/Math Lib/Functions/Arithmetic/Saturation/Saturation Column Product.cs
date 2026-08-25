@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -8,21 +9,21 @@ namespace MaxMath
 {
     unsafe public static partial class math
     {
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte2"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="byte2"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte3"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="byte3"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte3 x)
         {
             return (byte)min(byte.MaxValue, x.x * x.y * x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte4"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="byte4"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte4 x)
         {
@@ -45,7 +46,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte8"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="byte8"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte8 x)
         {
@@ -71,7 +72,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte16"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="byte16"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte16 x)
         {
@@ -116,7 +117,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.byte32"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="byte32"/>, so that the product is clamped to <see cref="byte.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte cprodsaturated(byte32 x)
         {
@@ -170,7 +171,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.sbyte2"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="sbyte2"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte2 x)
         {
@@ -190,7 +191,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.sbyte3"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="sbyte3"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte3 x)
         {
@@ -214,7 +215,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.sbyte4"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="sbyte4"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte4 x)
         {
@@ -253,7 +254,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.sbyte8"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="sbyte8"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte8 x)
         {
@@ -299,7 +300,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.sbyte16"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="sbyte16"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte16 x)
         {
@@ -370,7 +371,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.sbyte32"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="sbyte32"/>, so that the product is clamped to <see cref="sbyte.MaxValue"/> if overflow occurs or <see cref="sbyte.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte cprodsaturated(sbyte32 x)
         {
@@ -465,7 +466,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.short2"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="short2"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short2 x)
         {
@@ -484,7 +485,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.short3"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="short3"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short3 x)
         {
@@ -507,7 +508,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.short4"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="short4"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short4 x)
         {
@@ -530,7 +531,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.short8"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="short8"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short8 x)
         {
@@ -557,7 +558,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.short16"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="short16"/>, so that the product is clamped to <see cref="short.MaxValue"/> if overflow occurs or <see cref="short.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short cprodsaturated(short16 x)
         {
@@ -610,7 +611,7 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.ushort2"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="ushort2"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort2 x)
         {
@@ -631,7 +632,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.ushort3"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="ushort3"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort3 x)
         {
@@ -657,7 +658,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.ushort4"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="ushort4"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort4 x)
         {
@@ -680,7 +681,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.ushort8"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="ushort8"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort8 x)
         {
@@ -706,7 +707,7 @@ namespace MaxMath
             }
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.ushort16"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="ushort16"/>, so that the product is clamped to <see cref="ushort.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort cprodsaturated(ushort16 x)
         {
@@ -758,28 +759,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.int2"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="int2"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprodsaturated(int2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.int3"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="int3"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprodsaturated(int3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.int4"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="int4"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprodsaturated(int4 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), mulsaturated(x.z, x.w));
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of an <see cref="MaxMath.int8"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of an <see cref="int8"/>, so that the product is clamped to <see cref="int.MaxValue"/> if overflow occurs or <see cref="int.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int cprodsaturated(int8 x)
         {
@@ -787,28 +788,28 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.uint2"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="uint2"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprodsaturated(uint2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.uint3"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="uint3"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprodsaturated(uint3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.uint4"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="uint4"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprodsaturated(uint4 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), mulsaturated(x.z, x.w));
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.uint8"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="uint8"/>, so that the product is clamped to <see cref="uint.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint cprodsaturated(uint8 x)
         {
@@ -816,21 +817,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.long2"/>, so that the product is clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="long2"/>, so that the product is clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprodsaturated(long2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.long3"/>, so that the product is clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="long3"/>, so that the product is clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprodsaturated(long3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.z), x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.long4"/>, so that the product is clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="long4"/>, so that the product is clamped to <see cref="long.MaxValue"/> if overflow occurs or <see cref="long.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long cprodsaturated(long4 x)
         {
@@ -838,21 +839,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.ulong2"/>, so that the product is clamped to <see cref="ulong.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="ulong2"/>, so that the product is clamped to <see cref="ulong.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprodsaturated(ulong2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.ulong3"/>, so that the product is clamped to <see cref="ulong.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="ulong3"/>, so that the product is clamped to <see cref="ulong.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprodsaturated(ulong3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.z), x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components of a <see cref="MaxMath.ulong4"/>, so that the product is clamped to <see cref="ulong.MaxValue"/> if overflow occurs.      </summary>
+        /// <summary>       Returns the saturated horizontal product of components of a <see cref="ulong4"/>, so that the product is clamped to <see cref="ulong.MaxValue"/> if overflow occurs.      </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong cprodsaturated(ulong4 x)
         {
@@ -860,21 +861,21 @@ namespace MaxMath
         }
 
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.float2"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="float2"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprodsaturated(float2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.float3"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="float3"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprodsaturated(float3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.float4"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="float4"/>, so that the product is clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprodsaturated(float4 x)
         {
@@ -883,7 +884,7 @@ namespace MaxMath
             return (float)clamp(_0.x * _0.y, float.MinValue, float.MaxValue);
         }
 
-        /// <summary>       Returns the saturated horizontal productof components ofa<see cref="MaxMath.float8"/>, so that the productis clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal productof components ofa<see cref="float8"/>, so that the productis clamped to <see cref="float.MaxValue"/> if overflow occurs or <see cref="float.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float cprodsaturated(float8 x)
         {
@@ -894,21 +895,21 @@ namespace MaxMath
         }
 
 
-        //// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.double2"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        //// <summary>       Returns the saturated horizontal product of components ofa<see cref="double2"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprodsaturated(double2 x)
         {
             return mulsaturated(x.x, x.y);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.double3"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="double3"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprodsaturated(double3 x)
         {
             return mulsaturated(mulsaturated(x.x, x.y), x.z);
         }
 
-        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="MaxMath.double4"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
+        /// <summary>       Returns the saturated horizontal product of components ofa<see cref="double4"/>, so that the product is clamped to <see cref="double.MaxValue"/> if overflow occurs or <see cref="double.MinValue"/> if underflow occurs.       </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double cprodsaturated(double4 x)
         {

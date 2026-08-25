@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
-using MaxMath.Intrinsics;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
+using MaxMath.Intrinsics;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -268,11 +269,11 @@ namespace MaxMath
 
     unsafe public static partial class math
     {
-        /// <summary>       Adds <paramref name="x"/> and <paramref name="y"/> and returns the result, which is clamped to <see cref="MaxMath.UInt128.MaxValue"/> if overflow occurs.    </summary>
+        /// <summary>       Adds <paramref name="x"/> and <paramref name="y"/> and returns the result, which is clamped to <see cref="UInt128.MaxValue"/> if overflow occurs.    </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt128 addsaturated(UInt128 x, UInt128 y)
         {
-            if (constexpr.IS_TRUE(x <= MaxMath.UInt128.MaxValue / 2 && y <= MaxMath.UInt128.MaxValue / 2))
+            if (constexpr.IS_TRUE(x <= UInt128.MaxValue / 2 && y <= UInt128.MaxValue / 2))
             {
                 return x + y;
             }
@@ -1134,6 +1135,14 @@ namespace MaxMath
         public static double4 addsaturated(double4 x, double4 y)
         {
             return clamp(x + y, double.MinValue, double.MaxValue);
+        }
+
+
+        /// <summary>       Adds <paramref name="x"/> and <paramref name="y"/> and returns the result, which is clamped to <see cref="quadruple.MaxValue"/> if overflow occurs or <see cref="quadruple.MinValue"/> if underflow occurs.    </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static quadruple addsaturated(quadruple x, quadruple y)
+        {
+            return clamp(x + y, quadruple.MinValue, quadruple.MaxValue);
         }
     }
 }

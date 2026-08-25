@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Unity.Burst.Intrinsics;
+using MaxMath.CompilerServices;
 
 using static Unity.Burst.Intrinsics.X86;
 
@@ -105,10 +106,11 @@ namespace MaxMath.Intrinsics
             if (Sse2.IsSse2Supported)
             {
                 v128 lo = cvtsi32_si128(a);
+                v128 result;
 
                 if (Ssse3.IsSsse3Supported)
                 {
-                    return shuffle_epi8(lo, setzero_si128());
+                    result = shuffle_epi8(lo, setzero_si128());
                 }
                 else
                 {
@@ -116,11 +118,15 @@ namespace MaxMath.Intrinsics
                     {
                         case 1:
                         {
-                            return lo;
+                            result = lo;
+
+                            break;
                         }
                         case 2:
                         {
-                            return unpacklo_epi8(lo, lo);
+                            result = unpacklo_epi8(lo, lo);
+
+                            break;
                         }
                         case 3:
                         case 4:
@@ -128,17 +134,24 @@ namespace MaxMath.Intrinsics
                         {
                             lo = unpacklo_epi8(lo, lo);
 
-                            return shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 0, 0));
+                            result = shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 0, 0));
+
+                            break;
                         }
                         default:
                         {
                             lo = unpacklo_epi8(lo, lo);
                             lo =  shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 0, 0));
 
-                            return unpacklo_epi64(lo, lo);
+                            result = unpacklo_epi64(lo, lo);
+
+                            break;
                         }
                     }
                 }
+
+                constexpr.ASSUME_EQ_EPU8(result, a, elements);
+                return result;
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -153,10 +166,11 @@ namespace MaxMath.Intrinsics
             if (Sse2.IsSse2Supported)
             {
                 v128 lo = cvtsi32_si128(a);
+                v128 result;
 
                 if (Ssse3.IsSsse3Supported)
                 {
-                    return shuffle_epi16(lo, setzero_si128());
+                    result = shuffle_epi16(lo, setzero_si128());
                 }
                 else
                 {
@@ -164,22 +178,30 @@ namespace MaxMath.Intrinsics
                     {
                         case 1:
                         {
-                            return lo;
+                            result = lo;
+
+                            break;
                         }
                         case 2:
                         case 3:
                         case 4:
                         {
-                            return shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 0, 0));
+                            result = shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 0, 0));
+
+                            break;
                         }
                         default:
                         {
                             lo = shufflelo_epi16(lo, Sse.SHUFFLE(0, 0, 0, 0));
-                            
-                            return unpacklo_epi64(lo, lo);
+                            result = unpacklo_epi64(lo, lo);
+
+                            break;
                         }
                     }
                 }
+
+                constexpr.ASSUME_EQ_EPU16(result, a, elements);
+                return result;
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -193,14 +215,19 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
+                v128 result;
+
                 if (elements == 1)
                 {
-                    return cvtsi32_si128(a);
+                    result = cvtsi32_si128(a);
                 }
                 else
                 {
-                    return shuffle_epi32(cvtsi32_si128(a), Sse.SHUFFLE(0, 0, 0, 0));
+                    result = shuffle_epi32(cvtsi32_si128(a), Sse.SHUFFLE(0, 0, 0, 0));
                 }
+
+                constexpr.ASSUME_EQ_EPU32(result, a, elements);
+                return result;
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -214,14 +241,19 @@ namespace MaxMath.Intrinsics
         {
             if (Sse2.IsSse2Supported)
             {
+                v128 result;
+
                 if (elements == 1)
                 {
-                    return cvtsi64x_si128(a);
+                    result = cvtsi64x_si128(a);
                 }
                 else
                 {
-                    return unpacklo_epi64(cvtsi64x_si128(a), cvtsi64x_si128(a));
+                    result = unpacklo_epi64(cvtsi64x_si128(a), cvtsi64x_si128(a));
                 }
+
+                constexpr.ASSUME_EQ_EPU64(result, a, elements);
+                return result;
             }
             else if (Arm.Neon.IsNeonSupported)
             {
@@ -229,8 +261,6 @@ namespace MaxMath.Intrinsics
             }
             else throw new IllegalInstructionException();
         }
-
-        
 
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
