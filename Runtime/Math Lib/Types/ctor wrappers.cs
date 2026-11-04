@@ -15985,6 +15985,7 @@ namespace MaxMath
 		public static Random8 Random8(byte seed) => new Random8(seed);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[System.Obsolete("This random number generator is less efficient than Random32 for producing 32-bit values, and less than half as efficient as Random64 for producing double-precision floating-point values. It exists only for compatibility during the transition from Unity.Mathematics to MaxMath; nevertheless, using the aforementioned random number generators is strongly advised.")]
 		public static Random Random(uint seed) => new Random(seed);
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
