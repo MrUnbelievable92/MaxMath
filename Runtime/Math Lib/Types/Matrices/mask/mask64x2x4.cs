@@ -6,7 +6,6 @@ using DevTools;
 #pragma warning disable CS0660
 namespace MaxMath
 {
-    [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     unsafe public ref struct mask64x2x4
     {
